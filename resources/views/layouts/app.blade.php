@@ -18,6 +18,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/yo.css') }}" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
 </head>
 <body>
     <div id="app">
@@ -72,9 +76,14 @@
             </div>
         </nav>
 
+        @include('menu.main')
+
         <main class="py-4">
             @yield('content')
         </main>
+
+        @include('menu.main')
+
     </div>
 </body>
 </html>

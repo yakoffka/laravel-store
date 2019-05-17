@@ -1,0 +1,34 @@
+
+
+/* main menu */
+.main_menu {
+    text-align: center;
+    margin: 1em 0;
+}
+.main_menu > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+/* /main menu */
+
+
+
+
+
+
+
+
+/* products */
+.product_card_bm {
+    margin-bottom: 2em;
+}
+.product_card_bm .card{
+    padding: 1em;
+    min-height: 5em;
+}
+/* /products */
