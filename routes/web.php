@@ -22,4 +22,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/products', 'ProductsController@index')->name('home');
+
+/* products*/
+Route::get('/products/destroy/{id}', 'ProductsController@destroy');
+Route::get('/products/create', 'ProductsController@create');
+Route::get('/products/{id}', 'ProductsController@show');
+Route::get('/products', 'ProductsController@index')->name('products');
+Route::post('/products', 'ProductsController@store');
+
