@@ -21,16 +21,16 @@ class ProductCommentsController extends Controller
      */
     public function store(Product $product) {
 
-        // $validator = Validator::make($request->all(), [
-        //     'product_id' => 'required|integer',
-        //     'user_id' => 'required|integer',
-        //     'guest_name' => 'nullable|string',
-        //     'comment_string' => 'required|string',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'guest_name' => 'nullable|string',
+            'comment_string' => 'required|string',
+        ]);
 
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $comment = Comment::create([
             'product_id' => $product->id,
@@ -46,6 +46,14 @@ class ProductCommentsController extends Controller
     public function update(Comment $comment) {
         // dd($comment);
         // dd(request()->all());
+        
+        $validator = Validator::make($request->all(), [
+            'comment_string' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $comment->update([
             'comment_string' => request('comment_string'),
