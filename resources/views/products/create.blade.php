@@ -15,7 +15,7 @@ Creating new product
 
         <div class="col-sm-12 product_card_bm">
             <div class="card">
-                <form method="POST" action="/products" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('productsStore') }}" enctype="multipart/form-data">
                     @csrf
 
                     <input type="hidden" name="added_by_user_id" value="0">

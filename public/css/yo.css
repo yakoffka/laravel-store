@@ -14,9 +14,9 @@ h2{
     color: #636b6f;
 }
 
-
-
-
+.row {
+    margin:1em 0;
+}
 
 
 
@@ -68,6 +68,11 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 
 
 /* products */
+
+.card .row.product_buttons .col-sm-4{
+    padding: 2%;
+}
+
 .product_card_bm {
     margin-bottom: 2em;
 }
@@ -78,9 +83,21 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 .product_card_bm .card h5{
     text-align:center;
 }
+.product_card_bm .card h5 a:hover {
+    color: #3490dc;
+    text-decoration: none;
+}
+
 .pagination {
     padding: 0 1em;
 }
+
+.row.product_buttons a.btn,
+.row.product_buttons form button
+{
+    width: 100%;
+}
+
 /* /products */
 
 
@@ -94,6 +111,73 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 .card img.img_lr {
     width:auto;
     max-height:280px;
+}
+
+.row.product_buttons .col-sm-4{
+    padding-left: 0;
+}
+.card .product_buttons a.btn,
+.card .product_buttons form button
+{
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.comment_str {
+    padding-top: .75rem;
+}
+.comment_header {
+    position: relative;
+    background-color: #e1e4e8;
+    margin: -.75rem -1.25rem 0;
+    padding: .75rem 1.25rem;
+}
+    .comment_header .comment_buttons {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: .26em 0;
+    }
+    .comment_header .comment_buttons button,
+    .comment_header .comment_buttons form,
+    .comment_header .comment_buttons .comment_num
+    {
+        float: left;
+        margin: 0 .25em;
+        /* background-color: #fff; */
+    }
+    .comment_header .comment_buttons form {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .comment_header .comment_buttons .comment_num {
+        padding: .375rem 0rem;
+        font-size: .9rem;
+        line-height: 1.6;
+    }
+    .comment_header .comment_buttons button{
+        background-color: #fff;
+    }
+        .comment_header .comment_buttons button.btn-outline-info:hover {
+            color: #212529;
+            background-color: #6cb2eb;
+            border-color: #6cb2eb;
+        }
+        .comment_header .comment_buttons button.btn-outline-danger:hover {
+            color: #fff;
+            background-color: #e3342f;
+            border-color: #e3342f;
+        }
+    form.collapse textarea {
+        margin-bottom: .25rem;
+    }
+
+.wrap_b_image {
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    padding:1em;
 }
 /* /product */
 

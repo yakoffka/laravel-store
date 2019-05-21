@@ -19,10 +19,11 @@ class CreateProductsTable extends Migration
             $table->string('manufacturer')->nullable();
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->charset('utf8'); // mimes:jpeg,bmp,png
             $table->integer('year_manufacture')->nullable();
             $table->float('price', 8, 2)->nullable();
-            $table->integer('added_by_user_id');
+            $table->unsignedInteger('added_by_user_id');
+            $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->timestamps();
         });
     }

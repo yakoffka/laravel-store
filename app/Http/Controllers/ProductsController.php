@@ -43,6 +43,16 @@ class ProductsController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Product $product)
+    {
+        return view('products.edit', compact('product'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,24 +89,16 @@ class ProductsController extends Controller
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
-        if ($request->file('image')) {
-            
-            $directory = 'public/images/products/' . $product->id;
-            Storage::makeDirectory($directory);
+        if (request()->file('image')) {
 
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
+            $product->image = $this->storeImage(request()->file('image'), $product->id);
 
-            Storage::putFileAs($directory, $file, $filename);
-
-            $product->image = $filename;
-
-            if (!$product->update()) {
+            if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
             }
-
         }
-        return redirect()->route('products');
+
+        return redirect()->route('productsShow', ['product' => $product->id]);
     }
 
     /**
@@ -106,63 +108,44 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required|max:255',
-    //         'manufacturer' => 'nullable|string',
-    //         'materials' => 'nullable|string',
-    //         'description' => 'nullable|string',
-    //         'image' => 'image',
-    //         'year_manufacture' => 'nullable|integer',
-    //         'price' => 'nullable|integer',
-    //         'added_by_user_id' => 'required|integer',
-    //     ]);
+    public function update(Product $product)
+    {
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required|max:255',
+            'manufacturer' => 'nullable|string',
+            'materials' => 'nullable|string',
+            'description' => 'nullable|string',
+            'image' => 'image',
+            'year_manufacture' => 'nullable|integer',
+            'price' => 'nullable|integer',
+            'edited_by_user_id' => 'required|integer',
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return back()->withErrors($validator)->withInput();
-    //     }
-        
-    //     $product = Product::find($id);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-    //     $product->name = $request->get('name');
-    //     $product->manufacturer = $request->get('manufacturer') ?? '';
-    //     $product->materials = $request->get('materials') ?? '';
-    //     $product->description = $request->get('description') ?? '';
-    //     $product->year_manufacture = $request->get('year_manufacture') ?? 0;
-    //     $product->price = $request->get('price') ?? 0;
-    //     $product->added_by_user_id = $request->get('added_by_user_id');        
+        $product->update([
+            'name' => request('name'),
+            'manufacturer' => request('manufacturer'),
+            'materials' => request('materials'),
+            'description' => request('description'),
+            'year_manufacture' => request('year_manufacture'),
+            'edited_by_user_id' => request('edited_by_user_id'),
+        ]);
 
-    //     if (!$product->update()) {
-    //         return back()->withErrors(['something wrong!'])->withInput();
-    //     }
 
-    //     if ($request->file('image')) {
+        if (request()->file('image')) {
 
-    //         $upload_folder = 'public/images/' . $product->id;
-    //         $upload_folder_ = __DIR__ . '/../../../storage/app/' . $upload_folder;
-            
-    //         // if (!mkdir($upload_folder_)){
-    //         //     // return back()->withErrors(['failed to create upload_folder'])->withInput();
-    //         // }
-    //         if (!is_dir($upload_folder_)) {
-    //             mkdir($upload_folder_);
-    //         }
+            $product->image = $this->storeImage(request()->file('image'), $product->id);
 
-    //         $file = $request->file('image');
-    //         $filename = $file->getClientOriginalName();
+            if (!$product->image or !$product->update()) {
+                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            }
+        }
 
-    //         Storage::putFileAs($upload_folder, $file, $filename);
-
-    //         $product->image = $filename;
-
-    //         if ($product->update()) {
-    //             return redirect()->route('products');
-    //         }    
-    //         return back()->withErrors(['something wrong!!'])->withInput();    
-    //     }
-    //     return redirect()->route('products');
-    // }
+        return redirect()->route('productsShow', ['product' => $product->id]);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -181,11 +164,32 @@ class ProductsController extends Controller
         }
 
         // destroy product comments
+        $product->comments()->delete();
 
         // destroy product
         $product->delete();
 
         return redirect()->route('products');
+    }
+
+    /**
+     * Store image product.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string $filename or false
+     */
+    private function storeImage($image, $product_id) {
+
+        $directory = 'public/images/products/' . $product_id;
+        $filename = $image->getClientOriginalName();
+
+        if (Storage::makeDirectory($directory)) {
+            if (Storage::putFileAs($directory, $image, $filename)) {
+                return $filename;
+            }
+        }
+
+        return FALSE;
     }
 
 }
