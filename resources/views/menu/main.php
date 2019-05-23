@@ -1,8 +1,22 @@
-                <div class="main_menu ">
-                    <a href="/products">Products</a>
-                    <a href="https://yakoffka.ru/laravel/laravel_online_storefront_01">Logs</a>
-                    <a href="/products/create">Create new product</a>
-                    <!-- <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a> -->
-                    <a href="https://github.com/yakoffka/kk">GitHub</a>
-                </div>
+
+        <div class="main_menu ">
+            <a href="/home">Home</a>
+            <a href="/products">Products</a>
+            <a href="https://yakoffka.ru/laravel/laravel_online_storefront_01">Logs</a>
+            <?php
+                if (Auth::user() and Auth::user()->can('create_products')) {
+                    echo '<a href="/products/create">New product</a>'."\n";
+                }
+            ?>
+            <?php
+                if (Auth::user() and Auth::user()->can('view_users')) {
+                    echo '<a href="/users">users</a>'."\n";
+                }
+            ?>
+            <?php
+                if (Auth::user() and Auth::user()->can('view_roles')) {
+                    echo '<a href="/roles">roles</a>'."\n";
+                }
+            ?>
+            <a href="https://github.com/yakoffka/kk">GitHub</a>
+        </div>

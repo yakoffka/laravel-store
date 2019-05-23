@@ -11,11 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-
         $this->call([
             ProductsTableSeeder::class,
             UsersTableSeeder::class,
+            // Zizaco/entrust
+            RolesTableSeeder::class,
+            PermissionsTableSeeder::class,
+            RoleUserTableSeeder::class,
+            PermissionRoleTableSeeder::class,
         ]);
     }
 }

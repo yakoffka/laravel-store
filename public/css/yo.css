@@ -113,15 +113,16 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
     max-height:280px;
 }
 
-.row.product_buttons .col-sm-4{
+.product_buttons .col-sm-4{
     padding-left: 0;
 }
-.card .product_buttons a.btn,
-.card .product_buttons form button
+.product_buttons a.btn,
+.product_buttons form button
 {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
+    margin: .25em 0;
 }
 
 .comment_str {
@@ -231,6 +232,27 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 /* /footer */
 
 
+
+
+
+
+
+/* users */ 
+.td.user_buttons button, .td.user_buttons form{
+    float: left;
+    margin: 0 .25em;
+    margin: 0 .25em;
+}
+
+table.blue_table{width:100%;}
+table.blue_table tr td{border:1px solid #ddd;font-size:16px;}
+table.blue_table tr{background-color:#fff;}
+table.blue_table tr:nth-child(odd){background-color:#f7f7f7;}
+table.blue_table tr td{padding:5px;text-align:center;}
+table.blue_table tr.center td{text-align:center;}
+table.blue_table tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:oblique;font-weight:400;text-align:center;}
+
+/* /users */
 
 
 

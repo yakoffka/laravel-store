@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 use App\Product;
 
 class ProductsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +33,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         return view('products.show', compact('product'));
     }
 
@@ -39,6 +44,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        abort_if ( !Auth::user()->can('create_products'), 403 );
         return view('products.create');
     }
 
@@ -49,18 +55,22 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
+        abort_if (!Auth::user()->can('edit_products'), 403);
         return view('products.edit', compact('product'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  request()
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Product $product)
     {
-        $validator = Validator::make($request->all(), [
+        // dd(request()->all());
+        abort_if ( Auth::user()->cannot('create_products'), 403 );
+
+        $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'manufacturer' => 'nullable|string',
             'materials' => 'nullable|string',
@@ -68,24 +78,21 @@ class ProductsController extends Controller
             'image' => 'image',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
-            'added_by_user_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
         
-        $product = new Product;
-
-        $product->name = $request->get('name');
-        $product->manufacturer = $request->get('manufacturer') ?? '';
-        $product->materials = $request->get('materials') ?? '';
-        $product->description = $request->get('description') ?? '';
-        $product->year_manufacture = $request->get('year_manufacture') ?? 0;
-        $product->price = $request->get('price') ?? 0;
-        $product->added_by_user_id = $request->get('added_by_user_id');        
-
-        if (!$product->save()) {
+        if (!$product = Product::create([
+            'name' => request('name'),
+            'manufacturer' => request('manufacturer') ?? '',
+            'materials' => request('materials') ?? '',
+            'description' => request('description') ?? '',
+            'year_manufacture' => request('year_manufacture') ?? 0,
+            'price' => request('price') ?? 0,
+            'added_by_user_id' => Auth::user()->id,            
+        ])) {
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
@@ -104,12 +111,14 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  request()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Product $product)
     {
+        abort_if ( Auth::user()->cannot('edit_products'), 403 );
+
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'manufacturer' => 'nullable|string',
@@ -118,7 +127,6 @@ class ProductsController extends Controller
             'image' => 'image',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
-            'edited_by_user_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -131,7 +139,7 @@ class ProductsController extends Controller
             'materials' => request('materials'),
             'description' => request('description'),
             'year_manufacture' => request('year_manufacture'),
-            'edited_by_user_id' => request('edited_by_user_id'),
+            'edited_by_user_id' => Auth::user()->id,
         ]);
 
 
@@ -153,9 +161,9 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
+        abort_if ( Auth::user()->cannot('delete_products'), 403 );
 
         // destroy product images
         if ($product->image) {
@@ -175,7 +183,7 @@ class ProductsController extends Controller
     /**
      * Store image product.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  request()
      * @return string $filename or false
      */
     private function storeImage($image, $product_id) {
@@ -189,7 +197,7 @@ class ProductsController extends Controller
             }
         }
 
-        return FALSE;
+        return false;
     }
 
 }

@@ -18,7 +18,9 @@ Creating new product
                 <form method="POST" action="{{ route('productsStore') }}" enctype="multipart/form-data">
                     @csrf
 
-                    <input type="hidden" name="added_by_user_id" value="0">
+                    @permission('create_products')
+                        <input type="hidden" name="added_by_user_id" value="{{ Auth::user()->id }}">
+                    @endpermission
 
                     <div class="form-group">
                         <!-- <input type="file" id="image" name="image" accept="image/png, image/jpeg, jpg, pdf"> -->
@@ -62,8 +64,6 @@ Creating new product
                 </form>
             </div>
         </div>
-
-
     </div>
 </div>
 @endsection

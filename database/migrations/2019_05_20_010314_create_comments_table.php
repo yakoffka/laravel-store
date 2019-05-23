@@ -13,14 +13,19 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
+        // Create table for storing comments
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('product_id');
-            $table->unsignedInteger('user_id')->nullable();
-            // ??? $table->foreign('user_id')->references('id')->on('users');
-            $table->string('guest_name')->nullable();
+            $table->unsignedInteger('user_id');
+            $table->string('user_name');
             $table->text('comment_string');
             $table->timestamps();
+
+            // $table->foreign('user_name')->references('name')->on('users')
+                // ->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('user_name')->references('name')->on('users')
+            //     ->onUpdate('cascade');
         });
     }
 

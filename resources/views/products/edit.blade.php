@@ -20,7 +20,7 @@ Creating new product
 
                     @method('PATCH')
 
-                    <input type="hidden" name="edited_by_user_id" value="0">
+                    <input type="hidden" name="edited_by_user_id" value="{{ Auth::user()->id }}">
 
                     @if($product->image)
 
@@ -86,8 +86,6 @@ Creating new product
                 </form>
             </div>
         </div>
-
-
     </div>
 </div>
 @endsection

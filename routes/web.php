@@ -11,8 +11,11 @@
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return redirect( route('products') );
 });
 
 /*
@@ -33,6 +36,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+
 /* products*/
 Route::get('/products', 'ProductsController@index')->name('products');
 Route::get('/products/create', 'ProductsController@create')->name('productsCreate');
@@ -52,4 +58,22 @@ Route::get('/comments/edit/{comment}', 'ProductCommentsController@edit');
 Route::patch('/comments/{comment}', 'ProductCommentsController@update');
 // Route::delete('/comments/destroy/{comment}', 'ProductCommentsController@destroy');
 Route::delete('/comments/{comment}', 'ProductCommentsController@destroy')->name('commentsDestroy');
+
+/* users*/
+Route::get('/users', 'UsersController@index')->name('users');
+// Route::get('/users/create', 'UsersController@create')->name('usersCreate');
+Route::get('/users/{user}', 'UsersController@show')->name('usersShow');
+// Route::post('/users', 'UsersController@store')->name('usersStore');
+Route::get('/users/edit/{user}', 'UsersController@edit')->name('usersEdit');
+Route::patch('/users/{user}', 'UsersController@update')->name('usersUpdate');
+Route::delete('/users/{user}', 'UsersController@destroy')->name('usersDestroy');
+
+/* roles*/
+Route::get('/roles', 'RolesController@index')->name('roles');
+Route::get('/roles/create', 'RolesController@create')->name('rolesCreate');
+Route::get('/roles/{role}', 'RolesController@show')->name('rolesShow');
+Route::post('/roles', 'RolesController@store')->name('rolesStore');
+Route::get('/roles/edit/{role}', 'RolesController@edit')->name('rolesEdit');
+Route::patch('/roles/{role}', 'RolesController@update')->name('rolesUpdate');
+Route::delete('/roles/{role}', 'RolesController@destroy')->name('rolesDestroy');
 

@@ -19,6 +19,35 @@ home
                     @endif
 
                     You are logged in!
+                    
+                    <!-- Zizaco -->
+                    @if ( Auth::user()->hasRole(['owner', 'admin']) )
+                        <p>read usage <a href="https://github.com/Zizaco/entrust#usage">Zizaco/entrust</a></p>
+                    @endif  
+                    
+                    @role('owner')
+                        <p>youre role is owner</p>
+                    @endrole
+
+                    @role('admin')
+                        <p>youre role is admin</p>
+                    @endrole
+
+                    @role('manager')
+                        <p>youre role is manager</p>
+                    @endrole
+
+                    @role('user')
+                        <p>youre role is user</p>
+                    @endrole
+                    <!-- /Zizaco -->
+
+                    <?php
+                        echo Auth::user()->roles->first()->name;
+                    ?>
+
+
+
                 </div>
             </div>
         </div>
