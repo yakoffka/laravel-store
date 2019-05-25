@@ -49,7 +49,7 @@ roles
 
                         еще {{ $role->perms()->pluck('display_name')->count() - 3 }} разрешений -->
 
-                        {{ $role->perms()->pluck('display_name')->count() }} разрешений
+                        {{ $role->perms()->pluck('display_name')->count() }}
                     
                     @else
                     -

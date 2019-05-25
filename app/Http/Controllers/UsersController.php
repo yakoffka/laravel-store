@@ -95,7 +95,15 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+
         abort_if ( !Auth::user()->can('edit_users'), 403 );
+        abort_if ( $user->roles->first()->id < Auth::user()->roles->first()->id, 403 );
+
+        // dont destroy last owner!
+        if ( $user->roles->first()->id === 1 and DB::table('role_user')->where('role_id', '=', 1)->get()->count() === 1 ) {
+            return back()->withErrors([$user->name . ' is last owner. dont destroy him!']);
+        }
+
         $user->delete();
         return redirect( route('users'));
     }

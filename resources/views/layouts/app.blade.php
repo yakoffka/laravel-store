@@ -81,7 +81,7 @@
         @if ($errors->any())
             <div class="container">              
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                    <strong>Holy guacamole!</strong> Something went wrong..
                     <ol>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
