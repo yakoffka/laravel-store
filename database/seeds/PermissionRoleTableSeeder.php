@@ -23,11 +23,12 @@ class PermissionRoleTableSeeder extends Seeder
                 if (
                     $role->id == 1
                     or 
-                    $role->id == 2 and !in_array($permission->id, [1, 2, 3, 5, 6, 7])
+                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7] )
                     or
-                    $role->id == 3 and ( $permission->id > 12 or in_array($permission->id, [4, 8, 9, 10, 12] ) )
+                    // $role->id == 3 and ( $permission->id > 12 or in_array( $permission->id, [4, 8, 9, 10, 12] ) )
+                    $role->id == 3 and ( $permission->id > 13 and !in_array( $permission->id, [15, 19] ) )
                     or
-                    in_array($permission->id, [9, 10, 16, 20])
+                    in_array( $permission->id, [16, 20] )
                 ) {
                     DB::table('permission_role')->insert([
                         'permission_id' => $permission->id,

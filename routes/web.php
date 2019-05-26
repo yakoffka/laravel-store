@@ -77,3 +77,7 @@ Route::get('/roles/edit/{role}', 'RolesController@edit')->name('rolesEdit');
 Route::patch('/roles/{role}', 'RolesController@update')->name('rolesUpdate');
 Route::delete('/roles/{role}', 'RolesController@destroy')->name('rolesDestroy');
 
+/* test RBAC */
+Route::get('/all_links', function () {
+    return view ('all_links');
+});

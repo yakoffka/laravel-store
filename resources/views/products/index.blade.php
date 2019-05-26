@@ -47,35 +47,81 @@ catalog
                         </span><br>
                     </p>
 
-                    <div class="row product_buttons">
+                    <div class="row product_buttons center">
 
-                        <div class="col-sm-4">
-                            <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
+                        @guest
 
-                        <div class="col-sm-4">
-                            <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                <i class="fas fa-pen-nib"></i>
-                            </a>
-                        </div>
+                            <div class="col-sm-6">
+                                <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i> view
+                                </a>
+                            </div>
+                                
+                            <div class="col-sm-6">
+                                <a href="#" class="btn btn-outline-success">
+                                    <i class="fas fa-shopping-cart"></i> buy now
+                                </a>
+                            </div>
 
-                        <div class="col-sm-4">
-                            <!-- form delete product -->
-                            <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
-                                @csrf
+                        @else
 
-                                @method('DELETE')
+                            @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
+                                <div class="col-sm-4">
+                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
 
-                                <button type="submit" class="btn btn-outline-danger">
-                                <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
+                                <div class="col-sm-4">
+                                    <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </a>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <!-- form delete product -->
+                                    <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
+                                        @csrf
+
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
+
+                                <div class="col-sm-6">
+                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </a>
+                                </div>
+                            @elseif ( Auth::user()->can( 'view_products' ) )
+
+                                <div class="col-sm-6">
+                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i> view
+                                    </a>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <a href="#" class="btn btn-outline-success">
+                                        <i class="fas fa-shopping-cart"></i> buy now
+                                    </a>
+                                </div>
+                                
+                            @endif
+
+                        @endguest
 
                     </div>
-                    
                 </div>
             </div>
         </div>

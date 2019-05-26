@@ -15,8 +15,9 @@ users
             <th>id</th>
             <th>img</th>
             <th>name</th>
-            <th>email</th>
-            <th>role</th>
+            <!-- <th>email</th> -->
+            <!-- <th>role</th> -->
+            <th>roles</th>
             <th>created_at</th>
             <th>updated_at</th>
             <th>actions</th>
@@ -29,10 +30,21 @@ users
             <td>{{ $user->id }}</td>
             <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
             <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->roles->first()->name }}</td>
+            <!-- <td>{{ $user->email }}</td> -->
+            <!-- <td>{{ $user->roles->first()->name }}</td> -->
+            <td>
+                @if($user->roles->count())
+                    {{-- {{ $user->roles->count() }}: --}}
+                    @foreach ($user->roles as $role)
+                        {{ $role->name }};
+                    @endforeach
+                @endif
+            </td>
+
             <td>{{ $user->created_at ?? '-' }}</td>
+
             <td>{{ $user->updated_at ?? '-' }}</td>
+
             <td>
                 <div class="td user_buttons row">
 
@@ -42,12 +54,15 @@ users
                         </a>
                     </div>
 
+                    @permission('edit_users')
                     <div class="col-sm-4">
                         <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                             <i class="fas fa-pen-nib"></i>
                         </a>
                     </div>
+                    @endpermission
 
+                    @permission('delete_users')
                     <div class="col-sm-4">
                         <form action="{{ route('usersDestroy', ['user' => $user->id]) }}" method='POST'>
                             @csrf
@@ -59,6 +74,7 @@ users
                             </button>
                         </form>
                     </div>
+                    @endpermission
 
                 </div>
             </td>

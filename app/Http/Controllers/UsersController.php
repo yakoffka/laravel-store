@@ -6,12 +6,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Role;
+use App\Permission;
 
 use App\User;
 
 class UsersController extends Controller
 {
     public function __construct() {
+        // $this->middleware(['auth', 'permission:view_users']);
         $this->middleware('auth');
     }
 
@@ -33,11 +36,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        abort_if ( Auth::user()->cannot('view_users'), 403 );
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id != $user->id , 403 );
+        $permissions = Permission::all();
+        return view('users.show', compact('user', 'permissions'));
     }
 
     /**
@@ -46,11 +49,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        abort_if ( !Auth::user()->can('edit_users'), 403 );
-        $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        abort_if ( !Auth::user()->can('edit_users') and Auth::user()->id !== $user->id, 403 );
+        $roles = Role::get();
+        $permissions = Permission::all();
+
+        return view('users.edit', compact('user', 'roles', 'permissions'));
     }
 
 
@@ -63,28 +68,68 @@ class UsersController extends Controller
      */
     public function update(User $user)
     {
-        abort_if ( !Auth::user()->can('edit_users'), 403 );
+        abort_if ( Auth::user()->cannot('edit_users') and Auth::user()->id !== $user->id, 403 );
 
         $validator = Validator::make (request()->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255', // |unique:users
-            'password' => 'required|string|min:6|max:255', // confirmed?
+            'role' => 'nullable|integer|max:255',
+            'take_role' => 'nullable|integer|max:255',
+            'password' => 'nullable|string|min:6|max:255',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        if ( !Hash::check(request('password'),$user->password )) {
-            return back()->withErrors(['failed password'])->withInput();
+        if ( ( request('role' ) or request( 'take_role' ) ) and Auth::user()->cannot('edit_roles') ) {
+            return back()->withErrors('you can not attach and take roles!')->withInput();
         }
 
-        $user->update([
-            'name' => request('name'),
-            'email' => request('email'),
-        ]);
+
+        if ( Auth::user()->can('edit_users') ) {
+
+            // update user without input password
+            $user->update([
+                'name' => request('name'),
+                'email' => request('email'),
+            ]);
+
+            // attach Role
+            if ( request('role' ) ) {
+                // !! проверить на уникальность! SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '5-2' for key 'PRIMARY' (SQL: insert into `role_user` (`role_id`, `user_id`) values (2, 5))
+                $user->attachRole(request('role'));
+            }
+
+            // take Role
+            if ( request( 'take_role' ) ) {
+                // dont delete last role!
+                if ( count(DB::table('role_user')->where('user_id', '=', $user->id)->get()) < 2 ) {
+                    return back()->withErrors(['You can not take the last role!']);
+                }
+
+                $take_role = DB::table('role_user')->where([
+                    ['user_id', '=', $user->id],
+                    ['role_id', '=', request('take_role')],
+                ])->delete();
+            }
+
+        } elseif ( Auth::user()->id === $user->id ) {
+            if ( !Hash::check(request('password'),$user->password )) {
+                return back()->withErrors(['failed password'])->withInput();
+            }
+    
+            $user->update([
+                'name' => request('name'),
+                'email' => request('email'),
+            ]);
+    
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
 
         return redirect( route('usersShow', ['user' => $user]));
+        // return redirect( route('users') );
     }
 
     /**
@@ -95,8 +140,8 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-
-        abort_if ( !Auth::user()->can('edit_users'), 403 );
+        // dd('destroy!');
+        abort_if ( !Auth::user()->can('delete_users'), 403 );
         abort_if ( $user->roles->first()->id < Auth::user()->roles->first()->id, 403 );
 
         // dont destroy last owner!

@@ -17,6 +17,25 @@ h2{
 .row {
     margin:1em 0;
 }
+.row.center {
+    justify-content: center;
+}
+
+
+
+
+
+
+
+a.btn h5 {
+    margin-bottom: 0;
+}
+
+.padding_left_0 {
+    padding-left: 0;
+}
+
+
 
 
 

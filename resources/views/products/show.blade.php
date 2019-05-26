@@ -19,7 +19,6 @@
             @else
             <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
             @endif
-
                 <div class="dummy"></div><div class="element"></div>
             </div>
         </div>
@@ -55,7 +54,7 @@
             @endpermission
 
 
-            <div class="product_buttons">
+            {{-- <div class="product_buttons">
 
                 <div class="col-sm-4">
                     <a href="#" class="btn btn-outline-primary">
@@ -91,6 +90,60 @@
                     </div>
 
                 @endpermission
+
+            </div> --}}
+
+            <div class="row product_buttons">
+
+                @guest
+
+                    <div class="col-sm-12 padding_left_0">
+                        <a href="#" class="btn btn-outline-success">
+                            <i class="fas fa-shopping-cart"></i> buy now
+                        </a>
+                    </div>
+
+                @else
+
+                    @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
+
+                        <div class="col-sm-6 padding_left_0">
+                            <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                <i class="fas fa-pen-nib"></i> edit
+                            </a>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <!-- form delete product -->
+                            <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
+                                @csrf
+
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-trash"></i> delete
+                                </button>
+                            </form>
+                        </div>
+                    @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
+
+                        <div class="col-sm-12 padding_left_0">
+                            <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                <i class="fas fa-pen-nib"></i> edit
+                            </a>
+                        </div>
+
+                    @elseif ( Auth::user()->can( 'view_products' ) )
+
+                        <div class="col-sm-12 padding_left_0">
+                            <a href="#" class="btn btn-outline-success">
+                                <i class="fas fa-shopping-cart"></i> buy now
+                            </a>
+                        </div>
+                        
+                    @endif
+
+                @endguest
 
             </div>
 

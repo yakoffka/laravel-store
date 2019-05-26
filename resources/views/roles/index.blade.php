@@ -8,17 +8,18 @@ roles
 <div class="container">
 
     <h1>List of roles</h1>
-    
+
+    <h5 class="blue">Parameters of the roles:</h5>
     <table class="blue_table">
         <tr>
             <th>#</th>
             <th>id</th>
-            <th>name</th>
+            <!-- <th>name</th> -->
             <th>display_name</th>
             <th>description</th>
             <th>permissions</th>
-            <!-- <th>created_at</th>
-            <th>updated_at</th> -->
+            <th>created_at</th>
+            <th>updated_at</th>
             <th>actions</th>
         </tr>
 
@@ -27,62 +28,86 @@ roles
             <tr>
                 <td>{{ $i+1 }}</td>
                 <td>{{ $role->id }}</td>
-                <td>{{ $role->name }}</td>
+                <!-- <td>{{ $role->name }}</td> -->
                 <td>{{ $role->display_name }}</td>
-                <td>{{ $role->description }}</td>
+                <td style="max-width: 350px;">{{ $role->description }}</td>
                 <td>
                     @if ($role->perms())
-                    
-                        <?php
-                            // var_dump($role->perms()->first()->display_name);
-                        ?>
-
-                        <!-- @foreach($role->perms()->pluck('display_name') as $j => $permission)
-                            
-                            @if( $j < 3 )
-                            {{ $permission }},
-                            @else
-                            
-                            @endif
-                            
-                        @endforeach
-
-                        еще {{ $role->perms()->pluck('display_name')->count() - 3 }} разрешений -->
-
                         {{ $role->perms()->pluck('display_name')->count() }}
-                    
                     @else
                     -
                     @endif
                 </td>
-                <!-- <td>{{ $role->created_at ?? '-' }}</td>
-                <td>{{ $role->updated_at ?? '-' }}</td> -->
+                <td>{{ $role->created_at ?? '-' }}</td>
+                <td>{{ $role->updated_at ?? '-' }}</td>
                 <td>
                     <div class="td role_buttons row">
 
-                        <div class="col-sm-4">
-                            <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
 
-                        <div class="col-sm-4">
-                            <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success">
-                                <i class="fas fa-pen-nib"></i>
-                            </a>
-                        </div>
+                        @if ( Auth::user()->can( ['view_roles', 'edit_roles', 'delete_roles'], true ) )
+                            <div class="col-sm-4">
+                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
 
-                        <div class="col-sm-4">
-                            <form action="{{ route('rolesDestroy', ['role' => $role->id]) }}" method='POST'>
-                                @csrf
+                            <div class="col-sm-4">
+                                @if ( $role->id < 5 )
+                                    <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                                @else
+                                    <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </a>
+                                @endif
+                            </div>
 
-                                @method('DELETE')
+                            <div class="col-sm-4">
+                                <form action="{{ route('rolesDestroy', ['role' => $role->id]) }}" method='POST'>
+                                    @csrf
 
-                                <button type="submit" class="btn btn-outline-danger">
-                                <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
+                                    @method('DELETE')
+
+                                    @if ( $role->id < 5 )
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                    @else
+                                        <button type="submit" class="btn btn-outline-danger">
+                                    @endif
+
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+
+                        @elseif ( Auth::user()->can( ['view_roles', 'edit_roles'], true ) )
+
+                            <div class="col-sm-4">
+                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-sm-4">
+                                @if ( $role->id < 5 )
+                                    <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                                @else
+                                    <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </a>
+                                @endif
+                            </div>
+
+
+                        @elseif ( Auth::user()->can( 'view_roles' ) )
+
+                            <div class="col-sm-4">
+                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+
+                        @endif
+
 
                     </div>
                 </td>
@@ -91,5 +116,40 @@ roles
         @endforeach
 
     </table>
+
+
+
+    @permission('create_roles')
+        <br><a href="{{ route('rolesCreate') }}" class="btn btn-outline-primary"><h5>create new roles</h5></a>
+    @endpermission
+
+
+    @permission('view_permissions')
+        <h1 class="blue">List of Permissions:</h1>
+        @foreach($arr_all_role_permissions as $name_role => $arr_role_permissions)
+            <div class="row"><h5 class="blue">Permissions of the roles '{{ $name_role }}':</h5></div>
+            <table class="blue_table">
+                <tr>
+                    <?php
+                        foreach($permissions as $i => $permission) {
+
+                            if ( empty( $permissions[$i-1] ) or $permissions[$i-1]['group'] !== $permission['group'] ) {
+                                echo '</tr><tr><td>group: <strong>' . $permission['group'] . '</strong>
+                                </td>';
+                            }
+                            echo '<td style="text-align: right;">' . $permission['name'] . ': </td>';
+                            if ( in_array($permission['id'], $arr_role_permissions) ) {
+                                echo '<td>1</td>';
+                            } else {
+                                echo '<td>0</td>';
+                            }
+                        }
+                    ?>
+                </tr>
+            </table><br>
+        @endforeach
+    @endpermission
+
+
 </div>
 @endsection

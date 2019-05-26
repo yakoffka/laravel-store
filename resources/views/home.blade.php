@@ -40,11 +40,15 @@ home
                     @role('user')
                         <p>youre role is user</p>
                     @endrole
-                    <!-- /Zizaco -->
 
                     <?php
                         echo Auth::user()->roles->first()->name;
                     ?>
+
+                    @permission('create_roles')
+                        <a href="{{ route('rolesCreate') }}">create new roles</a>
+                    @endpermission
+                    <!-- /Zizaco -->
 
 
 

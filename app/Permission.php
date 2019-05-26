@@ -15,4 +15,10 @@ class Permission extends EntrustPermission
     *  
     *  In general, it may be helpful to think of the last two attributes in the form of a sentence: "The permission display_name allows a user to description."
     */
+
+    // ???
+    // public function roles()
+    // {
+    //     return $this->belongsToMany('App\Role');
+    // }
 }

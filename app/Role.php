@@ -13,4 +13,26 @@ class Role extends EntrustRole
     *  display_name — Human readable name for the Role. Not necessarily unique and optional. For example: "User Administrator", "Project Owner", "Widget Co. Employee".
     *  description — A more detailed explanation of what the Role does. Also optional.
     */
+
+    /**
+    * The attributes that are mass assignable. yo
+    *
+    * @var array
+    */
+    protected $fillable = [
+        'name',
+        'display_name',
+        'description',
+    ];
+
+    /**
+    * Many-to-Many relations with the user model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }

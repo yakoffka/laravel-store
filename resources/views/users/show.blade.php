@@ -9,60 +9,94 @@ user
 
     <h1>show user {{ $user->name }}</h1>
     
-    <div>{{ $user->id }}</div>
-    <div><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></div>
-    <div>{{ $user->name }}</div>
-    <div>{{ $user->email }}</div>
-    <div>{{ $user->roles->first()->name }}</div>
-    <div>{{ $user->created_at ?? '-' }}</div>
-    <div>{{ $user->updated_at ?? '-' }}</div>
 
-    @permission(['edit_users', 'delete_users'], true)
+    <h5>{{ $user->name }} info:</h5>
+    <table class="blue_table">
+        <tr>
+            <th>id</th>
+            <th>img</th>
+            <th>name</th>
+            <th>email</th>
+            <th>roles</th>
+            <th>permissions</th>
+            <th>created_at</th>
+            <th>updated_at</th>
+            <th>actions</th>
+        </tr>
 
-        <div>
-            <div class="div user_buttons row">
+        <tr>
+            <td>{{ $user->id }}</td>
+            <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td>
+                @if($user->roles->count())
+                    {{ $user->roles->count() }}:
+                    @foreach ($user->roles as $role)
+                        {{ $role->name }};
+                    @endforeach
+                @endif
+            </td>
+            <td>
+                <?php
+                    $num_permissions = 0;
+                    foreach ($permissions as $permission) {
+                        if ( $user->can($permission->name) ) { $num_permissions++; }
+                    }
+                    echo $num_permissions;
+                ?>
+            </td>
+            <td>{{ $user->created_at ?? '-' }}</td>
+            <td>{{ $user->updated_at ?? '-' }}</td>
+            <td>
+                <div class="td user_buttons row center">
 
-                <div class="col-sm-6">
-                    <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
-                        <i class="fas fa-pen-nib"></i>
-                    </a>
+                    @permission('edit_users')
+                    
+                        <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                            <i class="fas fa-pen-nib"></i>
+                        </a>
+                    
+                    @endpermission
+
+
+                    @if ( Auth::user()->id == $user->id )
+                
+                        <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                            <i class="fas fa-pen-nib"></i>
+                        </a>
+
+                    @endif
+
+
+                    @permission('delete_users')
+                    
+                        <form action="{{ route('usersDestroy', ['user' => $user->id]) }}" method='POST'>
+                            @csrf
+
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-outline-danger">
+                            <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    
+                    @endpermission
+
                 </div>
+            </td>
+        </tr>
 
-                <div class="col-sm-6">
-                    <form action="{{ route('usersDestroy', ['user' => $user->id]) }}" method='POST'>
-                        @csrf
+    </table><br>
 
-                        @method('DELETE')
-
-                        <button type="submit" class="btn btn-outline-danger">
-                        <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-
-    @endpermission
-
-
-    <!-- @ permission('edit_users') -->
-    @if( Auth::user()->can('edit_users') and Auth::user()->cannot('delete_users'))
-
-        <div>
-            <div class="div user_buttons row">
-
-                <div class="col-sm-12">
-                    <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
-                        <i class="fas fa-pen-nib"></i>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
-    <!-- @ endpermission -->
-    @endif
+    <h5>{{ $user->name }} can:</h5>
+    <div class="">
+        <?php
+            foreach ($permissions as $permission) {
+                if ( $user->can($permission->name) ) { echo $permission->display_name . '; '; }
+            }
+        ?>
+    </div>
 
 
 </div>
