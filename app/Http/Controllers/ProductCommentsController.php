@@ -36,11 +36,13 @@ class ProductCommentsController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
+        // dd($comment_string);
         $comment = Comment::create([
             'product_id' => $product->id,
             'user_id' => Auth::user() ? Auth::user()->id : 0,
             'user_name' => Auth::user() ? Auth::user()->name : request('user_name'),
-            'comment_string' => request('comment_string'),
+            'comment_string' => $comment_string,
         ]);
 
         return redirect('/products/' . $product->id . '#comment_' . $comment->id);
@@ -57,8 +59,9 @@ class ProductCommentsController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
         $comment->update([
-            'comment_string' => request('comment_string'),
+            'comment_string' => $comment_string,
         ]);
 
         // return redirect()->route('productsShow', ['product' => $comment->product_id]);

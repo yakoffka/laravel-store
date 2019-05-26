@@ -215,7 +215,7 @@
 
                         </div>
 
-                        <div class="comment_str">{{$comment->comment_string}}</div>
+                        <div class="comment_str">{!! $comment->comment_string !!}</div>{{-- enable html entities!! --}}
                                 
                         <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
 
@@ -227,7 +227,8 @@
                                 @csrf
 
                                 <textarea id="comment_string_{{ $comment->id }}" name="comment_string" 
-                                    cols="30" rows="4" class="form-control card" placeholder="Add a comment">{{$comment->comment_string}}</textarea>
+                                    cols="30" rows="4" class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->comment_string); ?>
+                                </textarea>
                                 <button type="submit" class="btn btn-success">edit comment</button>
                             </form>
                         <?php } ?>
