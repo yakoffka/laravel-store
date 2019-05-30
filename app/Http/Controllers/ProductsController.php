@@ -24,6 +24,13 @@ class ProductsController extends Controller
     public function index() {
         $products = DB::table('products')->orderBy('id', 'desc')->simplePaginate(6);
         return view('products.index', compact('products'));
+
+        // $products = Product::all()->filter( function ($product) {
+        //     $byBass = substr_count($product->name, 'Bass');
+        //     return $byBass;
+        // });
+        // return view('products.index', compact('products'));
+
     }
 
     /**

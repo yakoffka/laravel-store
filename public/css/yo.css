@@ -145,7 +145,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 }
 
 .comment_str {
-    padding-top: .75rem;
+    padding: .5rem 0 .75rem;
 }
 .comment_header {
     position: relative;

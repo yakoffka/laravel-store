@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             PermissionRoleTableSeeder::class,
         ]);
+        factory(App\Comment::class, 250)->create();
     }
 }

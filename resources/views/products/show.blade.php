@@ -163,9 +163,10 @@
     <!-- comments -->
     <div class="row">
         <div class="col-md-12">
-            <h2>comments for {{ $product->name }}</h2>
 
             @if($product->comments->count())
+
+                <h2>comments for {{ $product->name }} ({{ $product->comments->count() }})</h2>
                 <ul class='content list-group'>
 
                 @foreach ($product->comments as $comment)
@@ -239,6 +240,8 @@
                 </ul>
 
             @else
+
+                <h2>comments for {{ $product->name }}</h2>
 
                 <p class="grey">no comments for this product.</p>
 
