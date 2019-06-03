@@ -128,8 +128,8 @@ class UsersController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        return redirect( route('usersShow', ['user' => $user]));
-        // return redirect( route('users') );
+        return redirect( route('users.show', ['user' => $user]));
+        // return redirect( route('users.index') );
     }
 
     /**
@@ -150,7 +150,7 @@ class UsersController extends Controller
         }
 
         $user->delete();
-        return redirect( route('users'));
+        return redirect( route('users.index'));
     }
 
 }

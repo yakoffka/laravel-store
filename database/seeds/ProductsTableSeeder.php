@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Category;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -12,16 +13,19 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         $arrManuf = ['Cort', 'Fernandes', 'Epiphone', 'Fender', ];
-        $arrType = ['Bass', 'Acoustic', 'Electric', ];
+        // $arrType = ['bass', 'acoustic', 'electric', ];
         $arrMaterial = ['Basswood', 'Maple', 'Birch', 'Cast iron', ];
         $a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $arr_categories = Category::all()->toArray();
 
         for ($i=0; $i<24; $i++) {
 
             $manufacturer = $arrManuf[rand(0, count($arrManuf)-1)];
+            // $type = $arrType[rand(0, count($arrType)-1)];
+            $category = $arr_categories[ rand(1, count($arr_categories)-1) ]; // no parent category with id == 1
             $name = $manufacturer
                 . ' '
-                . $arrType[rand(0, count($arrType)-1)] 
+                .  ucwords($category['name'])
                 . ' Guitar ' 
                 . $a[rand(0, strlen($a)-1)] 
                 . $a[rand(0, strlen($a)-1)] 
@@ -33,6 +37,8 @@ class ProductsTableSeeder extends Seeder
             DB::table('products')->insert([
                 'name' => $name,
                 'manufacturer' => $manufacturer,
+                'show' => rand(0, 5) ? 1 : 0,
+                'category_id' => $category['id'],
                 'materials' => $materials,
                 'description' => 'lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.',
                 'year_manufacture' => '2018',

@@ -81,7 +81,7 @@ class RolesController extends Controller
             }
         }
 
-        return redirect()->route('rolesShow', compact('role'));
+        return redirect()->route('roles.show', compact('role'));
     }
 
     /**
@@ -163,7 +163,7 @@ class RolesController extends Controller
             }
         }
 
-        return redirect()->route('rolesShow', compact('role'));
+        return redirect()->route('roles.show', compact('role'));
     }
 
     /**
@@ -180,7 +180,7 @@ class RolesController extends Controller
         }
         $role->forceDelete();
         // $role->delete();
-        return redirect()->route('roles');
+        return redirect()->route('roles.index');
     }
 
     /**

@@ -53,25 +53,26 @@ user
 
                     @permission('edit_users')
                     
-                        <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                        <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                             <i class="fas fa-pen-nib"></i>
                         </a>
+
+                    @else
+                    
+                        @if ( Auth::user()->id == $user->id )
+                    
+                            <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                                <i class="fas fa-pen-nib"></i>
+                            </a>
+
+                        @endif
                     
                     @endpermission
 
 
-                    @if ( Auth::user()->id == $user->id )
-                
-                        <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
-                            <i class="fas fa-pen-nib"></i>
-                        </a>
-
-                    @endif
-
-
                     @permission('delete_users')
                     
-                        <form action="{{ route('usersDestroy', ['user' => $user->id]) }}" method='POST'>
+                        <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method='POST'>
                             @csrf
 
                             @method('DELETE')

@@ -65,7 +65,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('usersShow', ['user' => Auth::user()->id]) }}">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

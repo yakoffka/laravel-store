@@ -48,6 +48,12 @@ class PermissionsTableSeeder extends Seeder
             /* 19 */ ['group' => 'products', 'name' => 'delete_products',  'display_name' => 'Delete Products',   'description' => 'Delete the Product', ],
             /* 20 */ ['group' => 'products', 'name' => 'view_products',    'display_name' => 'View Products',     'description'  => 'View the Product',  ],
             
+            // permissions for categories
+            /* 21 */ ['group' => 'categories', 'name' => 'create_categories',  'display_name' => 'Create Categories',   'description' => 'Create the Product', ],
+            /* 22 */ ['group' => 'categories', 'name' => 'edit_categories',    'display_name' => 'Edit Categories',     'description' => 'Edit the Product',   ],
+            /* 23 */ ['group' => 'categories', 'name' => 'delete_categories',  'display_name' => 'Delete Categories',   'description' => 'Delete the Product', ],
+            /* 24 */ ['group' => 'categories', 'name' => 'view_categories',    'display_name' => 'View Categories',     'description'  => 'View the Product',  ],
+            
         ];
  
         foreach ($permissions as $permission){

@@ -9,7 +9,7 @@ create role
 
     <h1>Create new role</h1>
 
-    <form method="POST" action="{{ route('rolesStore') }}">
+    <form method="POST" action="{{ route('roles.store') }}">
         @csrf
 
         <h5 class="blue">specify the parameters of the new role:</h5>

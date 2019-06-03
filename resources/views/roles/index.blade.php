@@ -46,7 +46,7 @@ roles
 
                         @if ( Auth::user()->can( ['view_roles', 'edit_roles', 'delete_roles'], true ) )
                             <div class="col-sm-4">
-                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
@@ -55,14 +55,14 @@ roles
                                 @if ( $role->id < 5 )
                                     <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                                 @else
-                                    <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 @endif
                             </div>
 
                             <div class="col-sm-4">
-                                <form action="{{ route('rolesDestroy', ['role' => $role->id]) }}" method='POST'>
+                                <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method='POST'>
                                     @csrf
 
                                     @method('DELETE')
@@ -82,7 +82,7 @@ roles
                         @elseif ( Auth::user()->can( ['view_roles', 'edit_roles'], true ) )
 
                             <div class="col-sm-4">
-                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
@@ -91,7 +91,7 @@ roles
                                 @if ( $role->id < 5 )
                                     <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                                 @else
-                                    <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 @endif
@@ -101,7 +101,7 @@ roles
                         @elseif ( Auth::user()->can( 'view_roles' ) )
 
                             <div class="col-sm-4">
-                                <a href="{{ route('rolesShow', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </div>
@@ -120,7 +120,7 @@ roles
 
 
     @permission('create_roles')
-        <br><a href="{{ route('rolesCreate') }}" class="btn btn-outline-primary"><h5>create new roles</h5></a>
+        <br><a href="{{ route('roles.create') }}" class="btn btn-outline-primary"><h5>create new roles</h5></a>
     @endpermission
 
 
@@ -137,7 +137,7 @@ roles
                                 echo '</tr><tr><td>group: <strong>' . $permission['group'] . '</strong>
                                 </td>';
                             }
-                            echo '<td style="text-align: right;">' . $permission['name'] . ': </td>';
+                            echo '<td style="text-align: right;">' . $permission['name'] . ' (id=' . $permission['id'] . ') : </td>';
                             if ( in_array($permission['id'], $arr_role_permissions) ) {
                                 echo '<td>1</td>';
                             } else {

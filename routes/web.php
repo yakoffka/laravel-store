@@ -15,7 +15,7 @@
 //     return view('welcome');
 // });
 Route::get('/', function () {
-    return redirect( route('products') );
+    return redirect( route('products.index') );
 });
 
 /*
@@ -40,44 +40,52 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* products*/
-Route::get('/products', 'ProductsController@index')->name('products');
-Route::get('/products/create', 'ProductsController@create')->name('productsCreate');
-Route::get('/products/{product}', 'ProductsController@show')->name('productsShow');
-Route::post('/products', 'ProductsController@store')->name('productsStore');
-Route::get('/products/edit/{product}', 'ProductsController@edit')->name('productsEdit');
-Route::patch('/products/{product}', 'ProductsController@update')->name('productsUpdate');
-Route::delete('/products/{product}', 'ProductsController@destroy')->name('productsDestroy');
+Route::get('/products', 'ProductsController@index')->name('products.index');
+Route::get('/products/create', 'ProductsController@create')->name('products.create');
+Route::get('/products/{product}', 'ProductsController@show')->name('products.show');
+Route::post('/products', 'ProductsController@store')->name('products.store');
+Route::get('/products/edit/{product}', 'ProductsController@edit')->name('products.edit');
+Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
+Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
 
 /* comments*/
 Route::get('/comments', 'ProductCommentsController@index');
 Route::get('/comments/create', 'ProductCommentsController@create');
 Route::get('/comments/{comment}', 'ProductCommentsController@show');
-// Route::post('/comments', 'ProductCommentsController@store');
 Route::post('/products/{product}/comments', 'ProductCommentsController@store');
 Route::get('/comments/edit/{comment}', 'ProductCommentsController@edit');
 Route::patch('/comments/{comment}', 'ProductCommentsController@update');
-// Route::delete('/comments/destroy/{comment}', 'ProductCommentsController@destroy');
-Route::delete('/comments/{comment}', 'ProductCommentsController@destroy')->name('commentsDestroy');
+Route::delete('/comments/{comment}', 'ProductCommentsController@destroy')->name('comments.destroy');
 
 /* users*/
-Route::get('/users', 'UsersController@index')->name('users');
-// Route::get('/users/create', 'UsersController@create')->name('usersCreate');
-Route::get('/users/{user}', 'UsersController@show')->name('usersShow');
-// Route::post('/users', 'UsersController@store')->name('usersStore');
-Route::get('/users/edit/{user}', 'UsersController@edit')->name('usersEdit');
-Route::patch('/users/{user}', 'UsersController@update')->name('usersUpdate');
-Route::delete('/users/{user}', 'UsersController@destroy')->name('usersDestroy');
+Route::get('/users', 'UsersController@index')->name('users.index');
+// Route::get('/users/create', 'UsersController@create')->name('users.create');
+Route::get('/users/{user}', 'UsersController@show')->name('users.show');
+// Route::post('/users', 'UsersController@store')->name('users.store');
+Route::get('/users/edit/{user}', 'UsersController@edit')->name('users.edit');
+Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
+Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
 
 /* roles*/
-Route::get('/roles', 'RolesController@index')->name('roles');
-Route::get('/roles/create', 'RolesController@create')->name('rolesCreate');
-Route::get('/roles/{role}', 'RolesController@show')->name('rolesShow');
-Route::post('/roles', 'RolesController@store')->name('rolesStore');
-Route::get('/roles/edit/{role}', 'RolesController@edit')->name('rolesEdit');
-Route::patch('/roles/{role}', 'RolesController@update')->name('rolesUpdate');
-Route::delete('/roles/{role}', 'RolesController@destroy')->name('rolesDestroy');
+Route::get('/roles', 'RolesController@index')->name('roles.index');
+Route::get('/roles/create', 'RolesController@create')->name('roles.create');
+Route::get('/roles/{role}', 'RolesController@show')->name('roles.show');
+Route::post('/roles', 'RolesController@store')->name('roles.store');
+Route::get('/roles/edit/{role}', 'RolesController@edit')->name('roles.edit');
+Route::patch('/roles/{role}', 'RolesController@update')->name('roles.update');
+Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy');
 
 /* test RBAC */
 Route::get('/all_links', function () {
     return view ('all_links');
 });
+
+/* categories*/
+// Route::get('/categories', 'CategoryController@index')->name('categories');
+// Route::get('/categories/create', 'CategoryController@create')->name('categoriesCreate');
+// Route::get('/categories/{category}', 'CategoryController@show')->name('categoriesShow');
+// Route::post('/categories', 'CategoryController@store')->name('categoriesStore');
+// Route::get('/categories/edit/{role}', 'CategoryController@edit')->name('categoriesEdit');
+// Route::patch('/categories/{role}', 'CategoryController@update')->name('categoriesUpdate');
+// Route::delete('/categories/{role}', 'CategoryController@destroy')->name('categoriesDestroy');
+Route::resource('categories', 'CategoryController');

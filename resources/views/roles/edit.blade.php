@@ -9,7 +9,7 @@ edit role
 
     <h1>Edit Role '{{ $role->name }}'</h1>
 
-    <form method="POST" action="{{ route('rolesUpdate', ['role' => $role->id]) }}">
+    <form method="POST" action="{{ route('roles.update', ['role' => $role->id]) }}">
         @csrf
 
         @method("PATCH")

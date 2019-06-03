@@ -55,7 +55,7 @@ show role
                     <i class="fas fa-pen-nib"></i> edit role
                 </button>
             @else
-                <a href="{{ route('rolesEdit', ['role' => $role->id]) }}" class="btn btn-outline-success col-sm-12">
+                <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success col-sm-12">
                     <i class="fas fa-pen-nib"></i> edit role
                 </a>
             @endif

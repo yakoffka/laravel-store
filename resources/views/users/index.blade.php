@@ -49,14 +49,14 @@ users
                 <div class="td user_buttons row">
 
                     <div class="col-sm-4">
-                        <a href="{{ route('usersShow', ['user' => $user->id]) }}" class="btn btn-outline-primary">
+                        <a href="{{ route('users.show', ['user' => $user->id]) }}" class="btn btn-outline-primary">
                             <i class="fas fa-eye"></i>
                         </a>
                     </div>
 
                     @permission('edit_users')
                     <div class="col-sm-4">
-                        <a href="{{ route('usersEdit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                        <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                             <i class="fas fa-pen-nib"></i>
                         </a>
                     </div>
@@ -64,7 +64,7 @@ users
 
                     @permission('delete_users')
                     <div class="col-sm-4">
-                        <form action="{{ route('usersDestroy', ['user' => $user->id]) }}" method='POST'>
+                        <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method='POST'>
                             @csrf
 
                             @method('DELETE')

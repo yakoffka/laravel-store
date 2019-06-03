@@ -15,12 +15,10 @@ Creating new product
 
         <div class="col-sm-12 product_card_bm">
             <div class="card">
-                <form method="POST" action="{{ route('productsUpdate', ['product' => $product->id]) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('products.update', ['product' => $product->id]) }}" enctype="multipart/form-data">
                     @csrf
 
                     @method('PATCH')
-
-                    <input type="hidden" name="edited_by_user_id" value="{{ Auth::user()->id }}">
 
                     @if($product->image)
 
@@ -28,7 +26,7 @@ Creating new product
                             <div class="dummy"></div><div class="element"></div>
                         </div>
 
-                        <div class="form-group"> заменить изображение
+                        <div class="form-group"> replace image
                             <input type="file" name="image" accept=".jpg, .jpeg, .png"
                                 value="{{ old('image') }}">
                         </div>
@@ -42,46 +40,72 @@ Creating new product
 
                     @endif
 
+                    
                     <div class="form-group">
-                        <!-- <label for="name">name</label> -->
+                        <label for="name">name</label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
                             value="{{ old('name') ?? $product->name }}" required>
                     </div>
 
+                    <div class="form-group">
+                        <label for="description">Add a comment</label>
+                        <textarea id="description" name="description" cols="30" rows="4" class="form-control"
+                            placeholder="description">{{ old('description') ?? $product->description }}</textarea>                       
+                    </div>
 
                     <div class="form-group">
-                        <!-- <label for="manufacturer">manufacturer</label> -->
+                        <label for="manufacturer">manufacturer</label>
                         <input type="text" id="manufacturer" name="manufacturer" class="form-control"
                             placeholder="manufacturer" value="{{ old('manufacturer') ?? $product->manufacturer }}">
                     </div>
 
                     <div class="form-group">
-                        <!-- <label for="materials">materials</label> -->
+                        <label for="materials">materials</label>
                         <input type="text" id="materials" name="materials" class="form-control"
                             placeholder="materials" value="{{ old('materials') ?? $product->materials }}">
                     </div>
 
                     <div class="form-group">
-                        <!-- <label for="year_manufacture">year_manufacture</label> -->
+                        <label for="year_manufacture">year_manufacture</label>
                         <input type="number" id="year_manufacture" name="year_manufacture" class="form-control"
                             placeholder="year_manufacture" value="{{ old('year_manufacture') ?? $product->year_manufacture }}">
                     </div>
 
                     <div class="form-group">
-                        <!-- <label for="price">price</label> -->
+                        <label for="price">price</label>
                         <input type="number" id="price" name="price" class="form-control" placeholder="price"
                             value="{{ old('price') ?? $product->price }}">
                     </div>
-
-                    <!-- <input type="hidden" name="added_by_user_id" value=""> -->
-
+    
                     <div class="form-group">
-                        <!-- <label for="description">Add a comment</label> -->
-                        <textarea id="description" name="description" cols="30" rows="10" class="form-control"
-                            placeholder="description">{{ old('description') ?? $product->description }}</textarea>                       
+                        <label for="description">visible product</label>
+                        <select name='show' id="show">
+                            <?php
+                                if ( $product->show ) {
+                                    echo '<option value="1" selected>show product</option><option value="0">do not show</option>';
+                                } else {
+                                    echo '<option value="1">show</option><option value="0" selected>hide product</option>';
+                                }
+                            ?>
+                        </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary form-control">edit  product!</button>
+                    <div class="form-group">
+                            <label for="description">parent category</label>
+                            <select name='category_id' id="category_id">
+                            <?php
+                                foreach ( $categories as $parent_category ) {
+                                    if ( $product->category_id == $parent_category->id ) {
+                                        echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
+                                    } else {
+                                        echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary form-control">edit product!</button>
 
                 </form>
             </div>

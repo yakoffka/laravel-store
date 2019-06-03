@@ -49,7 +49,7 @@ class ProductCommentsController extends Controller
     }
 
     public function update(Comment $comment) {
-        abort_if ( Auth::user()->cannot('edit_comments'), 403 );
+        abort_if ( Auth::user()->cannot('edit_comments') and Auth::user()->id !== $comment->user_id, 403 );
 
         $validator = Validator::make(request()->all(), [
             'comment_string' => 'required|string',
@@ -64,7 +64,7 @@ class ProductCommentsController extends Controller
             'comment_string' => $comment_string,
         ]);
 
-        // return redirect()->route('productsShow', ['product' => $comment->product_id]);
+        // return redirect()->route('products.show', ['product' => $comment->product_id]);
         return redirect('/products/' . $comment->product_id . '#comment_' . $comment->id);
     }
 
@@ -78,7 +78,7 @@ class ProductCommentsController extends Controller
     {
         abort_if ( Auth::user()->cannot('delete_comments'), 403 );
         $comment->delete();
-        return redirect()->route('productsShow', ['product' => $comment->product_id]);
+        return redirect()->route('products.show', ['product' => $comment->product_id]);
     }
 
 }

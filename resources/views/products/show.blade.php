@@ -7,7 +7,7 @@
 @section('content')
 <div class="container">
     
-    <h1>{{ $product->name }}</h1>
+    <h1 class="<?php if(!$product->show){echo 'hide';}?>">{{ $product->name }}</h1>
     
     <!-- product -->
     <div class="row">
@@ -26,10 +26,12 @@
         <div class="col-md-8">
             <h2>specification product</h2>
 
-            <span class="grey">manufacturer: </span>{{ $product->manufacturer }}<br>
-            <span class="grey">materials: </span>{{ $product->materials }}<br>
-            <span class="grey">year_manufacture: </span>{{ $product->year_manufacture }}<br>
-            <span class="grey">артикул: </span>{{ $product->id }}<br>
+            <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br>
+            <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
+            <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
+            <span class="grey">visible: </span>{{ $product->show }}<br>
+            <span class="grey">year_manufacture: </span>{{ $product->year_manufacture ?? '-' }}<br>
+            <span class="grey">vendor code (id): </span>{{ $product->id }}<br>
 
             @if($product->price)
                 <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
@@ -40,14 +42,14 @@
             @permission('edit_products')
 
                 <!-- created_at -->
-                <span class="grey">добавлен: </span>{{ $product->added_by_user_id }}<br>
-                <span class="grey">дата добавления: </span>{{ $product->created_at }}<br>
+                <span class="grey">added by: </span>{{ $product->creator->name }}<br>
+                <span class="grey">date added: </span>{{ $product->created_at }}<br>
 
                 @if($product->updated_at != $product->created_at)
 
                     <!-- updated_at -->
-                    <span class="grey">обновлен: </span>{{ $product->edited_by_user_id }}<br>
-                    <span class="grey">дата обновления: </span>{{ $product->updated_at }}<br>
+                    <span class="grey">updated by: </span>{{ $product->editor->name }}<br>
+                    <span class="grey">date updated: </span>{{ $product->updated_at }}<br>
 
                 @endif
 
@@ -66,7 +68,7 @@
                 @permission('edit_products')
 
                     <div class="col-sm-4">
-                        <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                        <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                             <i class="fas fa-pen-nib"></i> edit
                         </a>
                     </div>
@@ -78,7 +80,7 @@
 
                     <div class="col-sm-4">
                         <!-- form delete product -->
-                        <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
+                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
                             @csrf
 
                             @method('DELETE')
@@ -108,14 +110,14 @@
                     @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
 
                         <div class="col-sm-6 padding_left_0">
-                            <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                            <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                 <i class="fas fa-pen-nib"></i> edit
                             </a>
                         </div>
 
                         <div class="col-sm-6">
                             <!-- form delete product -->
-                            <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
+                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
                                 @csrf
 
                                 @method('DELETE')
@@ -125,10 +127,11 @@
                                 </button>
                             </form>
                         </div>
+                        
                     @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
 
                         <div class="col-sm-12 padding_left_0">
-                            <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                            <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                 <i class="fas fa-pen-nib"></i> edit
                             </a>
                         </div>
@@ -169,14 +172,14 @@
                 <h2>comments for {{ $product->name }} ({{ $product->comments->count() }})</h2>
                 <ul class='content list-group'>
 
-                @foreach ($product->comments as $comment)
+                @foreach ($product->comments as $num_comment => $comment)
                     <li class="list-group-item" id="comment_{{ $comment->id }}" >
                         <div class="comment_header">
 
                             @if($comment->user_id == 0)
                                 Guest {{ $comment->user_name }}
                             @else
-                                {{ $comment->user_name }}
+                                {{ $comment->creator->name }}
                             @endif
 
 
@@ -189,7 +192,7 @@
 
                             <div class="comment_buttons">
 
-                                <div class="comment_num">#{{ $comment->id }}</div>
+                                <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
 
                                 <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
 
@@ -204,7 +207,7 @@
 
                                 @permission('delete_comments')
                                 <!-- delete comment -->
-                                <form action="{{ route('commentsDestroy', ['comment' => $comment->id]) }}" method="POST">
+                                <form action="{{ route('comments.destroy', ['comment' => $comment->id]) }}" method="POST">
                                     @csrf
 
                                     @method('DELETE')

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-catalog
+All Products
 @endsection
 
 @section('content')
 <div class="container">
 
-    <h1>Products</h1>
+    <h1>All Products</h1>
 
     <div class="row">
 
@@ -18,12 +18,13 @@ catalog
 
         @foreach($products as $product)
 
+
         <div class="col-lg-4 product_card_bm">
             <div class="card">
 
-                <h5><a href="{{ route('productsShow', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
+                <h5 class="<?php if(!$product->show){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
 
-                <a href="{{ route('productsShow', ['product' => $product->id]) }}">
+                <a href="{{ route('products.show', ['product' => $product->id]) }}">
 
                     @if($product->image)
                     <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
@@ -44,7 +45,9 @@ catalog
                             @else
                                 priceless
                             @endif
-                        </span><br>
+                        </span>
+                        <?php if(!$product->show){echo '<span class="red">invisible</span>';}?>
+                        <br>
                     </p>
 
                     <div class="row product_buttons center">
@@ -52,7 +55,7 @@ catalog
                         @guest
 
                             <div class="col-sm-6">
-                                <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                     <i class="fas fa-eye"></i> view
                                 </a>
                             </div>
@@ -67,20 +70,20 @@ catalog
 
                             @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
                                 <div class="col-sm-4">
-                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <!-- form delete product -->
-                                    <form action="{{ route('productsDestroy', ['product' => $product->id]) }}" method='POST'>
+                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
                                         @csrf
 
                                         @method('DELETE')
@@ -93,20 +96,20 @@ catalog
                             @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
 
                                 <div class="col-sm-6">
-                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <a href="{{ route('productsEdit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 </div>
                             @elseif ( Auth::user()->can( 'view_products' ) )
 
                                 <div class="col-sm-6">
-                                    <a href="{{ route('productsShow', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-eye"></i> view
                                     </a>
                                 </div>

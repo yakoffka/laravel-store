@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Auth;
 
 use App\Product;
+use App\Category;
 
 class ProductsController extends Controller
 {
@@ -22,8 +23,8 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $products = DB::table('products')->orderBy('id', 'desc')->simplePaginate(6);
-        return view('products.index', compact('products'));
+        // $products = DB::table('products')->orderBy('id', 'desc')->simplePaginate(6);
+        // return view('products.index', compact('products'));
 
         // $products = Product::all()->filter( function ($product) {
         //     $byBass = substr_count($product->name, 'Bass');
@@ -31,6 +32,8 @@ class ProductsController extends Controller
         // });
         // return view('products.index', compact('products'));
 
+        $products = Product::paginate(6);
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -52,7 +55,8 @@ class ProductsController extends Controller
     public function create()
     {
         abort_if ( !Auth::user()->can('create_products'), 403 );
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -63,7 +67,8 @@ class ProductsController extends Controller
     public function edit(Product $product)
     {
         abort_if (!Auth::user()->can('edit_products'), 403);
-        return view('products.edit', compact('product'));
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -80,6 +85,8 @@ class ProductsController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'manufacturer' => 'nullable|string',
+            'category_id' => 'required|integer',
+            'show' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
             'image' => 'image',
@@ -94,6 +101,8 @@ class ProductsController extends Controller
         if (!$product = Product::create([
             'name' => request('name'),
             'manufacturer' => request('manufacturer') ?? '',
+            'category_id' => request('category_id'),
+            'show' => request('show'),
             'materials' => request('materials') ?? '',
             'description' => request('description') ?? '',
             'year_manufacture' => request('year_manufacture') ?? 0,
@@ -112,7 +121,7 @@ class ProductsController extends Controller
             }
         }
 
-        return redirect()->route('productsShow', ['product' => $product->id]);
+        return redirect()->route('products.show', ['product' => $product->id]);
     }
 
     /**
@@ -129,6 +138,8 @@ class ProductsController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'manufacturer' => 'nullable|string',
+            'category_id' => 'required|integer',
+            'show' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
             'image' => 'image',
@@ -143,9 +154,12 @@ class ProductsController extends Controller
         $product->update([
             'name' => request('name'),
             'manufacturer' => request('manufacturer'),
+            'category_id' => request('category_id'),
+            'show' => request('show'),
             'materials' => request('materials'),
             'description' => request('description'),
             'year_manufacture' => request('year_manufacture'),
+            'price' => request('price'),
             'edited_by_user_id' => Auth::user()->id,
         ]);
 
@@ -159,7 +173,7 @@ class ProductsController extends Controller
             }
         }
 
-        return redirect()->route('productsShow', ['product' => $product->id]);
+        return redirect()->route('products.show', ['product' => $product->id]);
     }
 
     /**
@@ -184,7 +198,7 @@ class ProductsController extends Controller
         // destroy product
         $product->delete();
 
-        return redirect()->route('products');
+        return redirect()->route('products.index');
     }
 
     /**

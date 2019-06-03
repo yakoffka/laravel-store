@@ -13,7 +13,7 @@ edit profile
     <h5>{{ $user->name }} info:</h5>
 
     <form method="POST" 
-        action="{{ route('usersUpdate', ['user' => $user->id]) }}" 
+        action="{{ route('users.update', ['user' => $user->id]) }}" 
         enctype="multipart/form-data">
 
         @csrf
