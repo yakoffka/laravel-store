@@ -24,9 +24,11 @@ class CategoriesTableSeeder extends Seeder
                 'name' => $category['name'],
                 'title' => $category['title'],
                 'description' => $category['description'] . ' lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.',
-                'show' => true,
+                'visible' => true,
                 'parent_id' => 1,
                 'added_by_user_id' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
 

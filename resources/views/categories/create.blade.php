@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-Creating new category
-@endsection
+@section('title', 'Creating new category')
 
 @section('content')
 <div class="container">
@@ -92,8 +90,8 @@ Creating new category
                     </div>
     
                     <div class="form-group">
-                        <label for="show">visible</label>
-                        <select name='show' id="show">
+                        <label for="visible">visible</label>
+                        <select name="visible" id="visible">
                             <option value="1">visible</option>
                             <option value="0">invisible</option>
                         </select>
@@ -101,7 +99,7 @@ Creating new category
 
                     <div class="form-group">
                             <label for="description">parent category</label>
-                            <select name='parent_id' id="parent_id">
+                            <select name="parent_id" id="parent_id">
                             <?php
                                 foreach ( $categories as $parent_category ) {
                                     echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';

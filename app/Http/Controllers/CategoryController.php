@@ -49,7 +49,7 @@ class CategoryController extends Controller
             'title'         => 'required|string|max:255|unique',
             'description'   => 'string|max:255',
             'image'         => 'image',
-            'show'          => 'required|boolean',
+            'visible'          => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ];
 
@@ -57,7 +57,7 @@ class CategoryController extends Controller
             'name'            => request('name'),
             'title'           => request('title'),
             'description'     => request('description'),
-            'show'            => request('show'),
+            'visible'            => request('visible'),
             'parent_id'       => request('parent_id'),
             'added_by_user_id' => Auth::user()->id,
         ]);
@@ -117,7 +117,7 @@ class CategoryController extends Controller
             'title'         => 'required|string|max:255',
             'description'   => 'string|max:255',
             'image'         => 'image',
-            'show'          => 'required|boolean',
+            'visible'          => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
@@ -125,7 +125,7 @@ class CategoryController extends Controller
             'name'              => request('name'),
             'title'             => request('title'),
             'description'       => request('description'),
-            'show'              => request('show'),
+            'visible'              => request('visible'),
             'parent_id'         => request('parent_id'),
             'edited_by_user_id' => Auth::user()->id,
         ]);

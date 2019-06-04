@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-show role
-@endsection
+@section('title', 'show role')
 
 @section('content')
 <div class="container">
@@ -10,7 +8,7 @@ show role
     <h1>Show Role '{{ $role->name }}'</h1>
 
 
-    <h5 class="blue">Parameters of the role '{{ $role->name }}':</h5>
+    <h2 class="blue">Parameters of the role '{{ $role->name }}':</h2>
 
     <div class="">
         <span class="grey">name:</span> {{ $role->name }}
@@ -26,7 +24,7 @@ show role
     <br>
 
 
-    <h5 class="blue">Permissions for role '{{ $role->name }}':</h5>
+    <h2 class="blue">Permissions for role '{{ $role->name }}':</h2>
     <table class="blue_table">
         <tr>
             <?php
@@ -64,7 +62,14 @@ show role
     @endpermission
 
 
-    <!-- <h5 class="blue">Users with role '{{ $role->name }}':</h5> -->
+    <h2 class="blue">Users with role '{{ $role->name }}':</h2>
+    @if($role->users->count())
+        @foreach($role->users as $user)
+            @if($loop->last){{ $loop->iteration }} '<strong>{{ $user->name }}</strong>'.
+            @else{{ $loop->iteration }} '<strong>{{ $user->name }}</strong>', 
+            @endif
+        @endforeach
+    @endif
 
 </div>
 @endsection

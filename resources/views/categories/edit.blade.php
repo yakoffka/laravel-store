@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-Edit Category {{ $category->title }}
-@endsection
+@section('title', "Edit Category $category->title")
 
 @section('content')
 <div class="container">
@@ -66,10 +64,10 @@ Edit Category {{ $category->title }}
                     </div>
     
                     <div class="form-group">
-                        <label for="show">visible</label>
-                        <select name='show' id="show">
+                        <label for="visible">visible</label>
+                        <select name="visible" id="visible">
                             <?php
-                                if ( $category->show ) {
+                                if ( $category->visible ) {
                                     echo '<option value="1" selected>visible category</option><option value="0">invisible</option>';
                                 } else {
                                     echo '<option value="1">visible</option><option value="0" selected>invisible</option>';
@@ -80,7 +78,7 @@ Edit Category {{ $category->title }}
 
                     <div class="form-group">
                             <label for="description">parent category</label>
-                            <select name='parent_id' id="parent_id">
+                            <select name="parent_id" id="parent_id">
                             <?php
                                 foreach ( $categories as $parent_category ) {
                                     if ( $category->parent_id == $parent_category->id ) {

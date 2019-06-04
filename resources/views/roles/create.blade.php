@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-create role
-@endsection
+@section('title', 'create role')
 
 @section('content')
 <div class="container">
@@ -13,20 +11,12 @@ create role
         @csrf
 
         <h5 class="blue">specify the parameters of the new role:</h5>
-        <div class="form-group">
-            <!-- <label for="name">name</label> -->
-            <input type="text" id="name" name="name" class="form-control" placeholder="Name" value="{{ old('name') ?? 'name_new_roles' }}" required>
-        </div>
+        
+        @input(['name' => 'name', 'value' => old('name'), 'required' => 'required'])
 
-        <div class="form-group">
-            <!-- <label for="display_name">display_name</label> -->
-            <input type="text" id="display_name" name="display_name" class="form-control" placeholder="display_name" value="{{ old('display_name') ?? 'Display Name New Roles' }}" required>
-        </div>
+        @input(['name' => 'display_name', 'value' => old('display_name'), 'required' => 'required'])
 
-        <div class="form-group">
-            <!-- <label for="description">description</label> -->
-            <input type="text" id="description" name="description" class="form-control" placeholder="description" value="{{ old('description') ?? 'Description New Roles' }}" required>
-        </div>
+        @input(['name' => 'description', 'value' => old('description'), 'required' => 'required'])
 
 
         <h5 class="blue">select permissions for new role:</h5>

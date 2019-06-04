@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-list of links
-@endsection
+@section('title', 'list of links')
 
 @section('content')
 <div class="container">

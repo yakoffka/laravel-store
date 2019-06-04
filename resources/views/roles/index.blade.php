@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-roles
-@endsection
+@section('title', 'roles')
 
 @section('content')
 <div class="container">
@@ -14,10 +12,11 @@ roles
         <tr>
             <th>#</th>
             <th>id</th>
-            <!-- <th>name</th> -->
+            <th>name</th>
             <th>display_name</th>
             <th>description</th>
             <th>permissions</th>
+            <th>users</th>
             <th>created_at</th>
             <th>updated_at</th>
             <th>actions</th>
@@ -28,9 +27,9 @@ roles
             <tr>
                 <td>{{ $i+1 }}</td>
                 <td>{{ $role->id }}</td>
-                <!-- <td>{{ $role->name }}</td> -->
+                <td>{{ $role->name }}</td>
                 <td>{{ $role->display_name }}</td>
-                <td style="max-width: 350px;">{{ $role->description }}</td>
+                <td style="max-width: 300px;">{{ $role->description }}</td>
                 <td>
                     @if ($role->perms())
                         {{ $role->perms()->pluck('display_name')->count() }}
@@ -38,6 +37,7 @@ roles
                     -
                     @endif
                 </td>
+                <td>{{ $role->users->count() }}</td>
                 <td>{{ $role->created_at ?? '-' }}</td>
                 <td>{{ $role->updated_at ?? '-' }}</td>
                 <td>
@@ -137,11 +137,11 @@ roles
                                 echo '</tr><tr><td>group: <strong>' . $permission['group'] . '</strong>
                                 </td>';
                             }
-                            echo '<td style="text-align: right;">' . $permission['name'] . ' (id=' . $permission['id'] . ') : </td>';
+                            // echo '<td style="text-align: right;">' . $permission['name'] . ' (id=' . $permission['id'] . ') : </td>';
                             if ( in_array($permission['id'], $arr_role_permissions) ) {
-                                echo '<td>1</td>';
+                                echo '<td style="text-align: right;"><strong>' . $permission['name'] . '</strong> (id=' . $permission['id'] . ') : </td><td>1</td>';
                             } else {
-                                echo '<td>0</td>';
+                                echo '<td style="text-align: right;">' . $permission['name'] . ' (id=' . $permission['id'] . ') : </td><td>0</td>';
                             }
                         }
                     ?>

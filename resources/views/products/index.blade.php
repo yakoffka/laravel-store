@@ -1,13 +1,21 @@
 @extends('layouts.app')
 
-@section('title')
-All Products
-@endsection
+@section('title', 'All Products')
+
+{{-- @section('sidebar')
+    @parent
+
+    <p>This is appended to the master sidebar.</p>
+@endsection --}}
 
 @section('content')
 <div class="container">
 
     <h1>All Products</h1>
+
+    {{-- @alert(['type' => 'primary', 'title' => 'Title Forbidden'])
+        <strong>Whoops!</strong> Something went wrong!
+    @endalert --}}
 
     <div class="row">
 
@@ -22,7 +30,7 @@ All Products
         <div class="col-lg-4 product_card_bm">
             <div class="card">
 
-                <h5 class="<?php if(!$product->show){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
+                <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
 
                 <a href="{{ route('products.show', ['product' => $product->id]) }}">
 
@@ -46,7 +54,7 @@ All Products
                                 priceless
                             @endif
                         </span>
-                        <?php if(!$product->show){echo '<span class="red">invisible</span>';}?>
+                        <?php if(!$product->visible){echo '<span class="red">invisible</span>';}?>
                         <br>
                     </p>
 
@@ -93,6 +101,7 @@ All Products
                                         </button>
                                     </form>
                                 </div>
+
                             @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
 
                                 <div class="col-sm-6">
@@ -106,6 +115,7 @@ All Products
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 </div>
+                                
                             @elseif ( Auth::user()->can( 'view_products' ) )
 
                                 <div class="col-sm-6">

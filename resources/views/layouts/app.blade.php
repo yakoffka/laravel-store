@@ -98,6 +98,11 @@
             </div>
         @endif
 
+        {{-- @section('sidebar')
+            This is the master sidebar.
+        @show --}}
+
+
         <main class="py-4">
             @yield('content')
         </main>

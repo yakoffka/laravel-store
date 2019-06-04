@@ -62,6 +62,8 @@ class PermissionsTableSeeder extends Seeder
                 'name' => $permission['name'],
                 'display_name' => $permission['display_name'],
                 'description' => $permission['description'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
     }

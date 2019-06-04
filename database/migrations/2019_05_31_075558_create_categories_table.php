@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('image')->nullable()->charset('utf8');
-            $table->boolean('show');
+            $table->boolean('visible');
             $table->unsignedInteger('parent_id');
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();

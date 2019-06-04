@@ -40,6 +40,8 @@ class RolesTableSeeder extends Seeder
                 'name' => $role['name'],
                 'display_name' => $role['display_name'],
                 'description' => $role['description'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
     }

@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('manufacturer')->nullable();
             $table->unsignedInteger('category_id');
-            $table->boolean('show');
+            $table->boolean('visible');
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable()->charset('utf8');

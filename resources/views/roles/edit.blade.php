@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-edit role
-@endsection
+@section('title', 'edit role')
 
 @section('content')
 <div class="container">
@@ -15,20 +13,12 @@ edit role
         @method("PATCH")
 
         <h5 class="blue">specify the parameters of the new role:</h5>
-        <div class="form-group">
-            <!-- <label for="name">name</label> -->
-            <input type="text" id="name" name="name" class="form-control" value="{{ old('name') ?? $role->name }}" required>
-        </div>
 
-        <div class="form-group">
-            <!-- <label for="display_name">display_name</label> -->
-            <input type="text" id="display_name" name="display_name" class="form-control" value="{{ old('display_name') ?? $role->display_name }}" required>
-        </div>
+        @input(['name' => 'name', 'value' => old('name') ?? $role->name, 'required' => 'required'])
 
-        <div class="form-group">
-            <!-- <label for="description">description</label> -->
-            <input type="text" id="description" name="description" class="form-control" value="{{ old('description') ?? $role->description }}" required>
-        </div>
+        @input(['name' => 'display_name', 'value' => old('display_name') ?? $role->display_name, 'required' => 'required'])
+
+        @input(['name' => 'description', 'value' => old('description') ?? $role->description, 'required' => 'required'])
 
 
         <h5 class="blue">select permissions for new role:</h5>

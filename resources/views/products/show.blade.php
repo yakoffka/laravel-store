@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
-@section('title')
-{{ $product->name }}
-@endsection
+@section('title', $product->name)
 
 @section('content')
 <div class="container">
     
-    <h1 class="<?php if(!$product->show){echo 'hide';}?>">{{ $product->name }}</h1>
+    <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
     
     <!-- product -->
     <div class="row">
@@ -15,10 +13,15 @@
         <div class="col-md-4 wrap_b_image">
 
             @if($product->image)
-            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+
+                <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+
             @else
-            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+
+                <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+
             @endif
+            
                 <div class="dummy"></div><div class="element"></div>
             </div>
         </div>
@@ -29,15 +32,21 @@
             <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br>
             <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
             <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
-            <span class="grey">visible: </span>{{ $product->show }}<br>
+            <span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
             <span class="grey">year_manufacture: </span>{{ $product->year_manufacture ?? '-' }}<br>
-            <span class="grey">vendor code (id): </span>{{ $product->id }}<br>
+            <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
+
 
             @if($product->price)
+
                 <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
+
             @else
+
                 <span class="grey">priceless</span><br>
+
             @endif
+
 
             @permission('edit_products')
 
@@ -55,45 +64,6 @@
 
             @endpermission
 
-
-            {{-- <div class="product_buttons">
-
-                <div class="col-sm-4">
-                    <a href="#" class="btn btn-outline-primary">
-                        <i class="fas fa-shopping-cart"></i> buy now
-                    </a>
-                </div>
-
-
-                @permission('edit_products')
-
-                    <div class="col-sm-4">
-                        <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                            <i class="fas fa-pen-nib"></i> edit
-                        </a>
-                    </div>
-
-                @endpermission
-
-
-                @permission('delete_products')
-
-                    <div class="col-sm-4">
-                        <!-- form delete product -->
-                        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
-                            @csrf
-
-                            @method('DELETE')
-
-                            <button type="submit" class="btn btn-outline-danger">
-                                <i class="fas fa-trash"></i> delete
-                            </button>
-                        </form>
-                    </div>
-
-                @endpermission
-
-            </div> --}}
 
             <div class="row product_buttons">
 
@@ -190,6 +160,12 @@
                                 wrote {{ $comment->created_at }} (edited: {{ $comment->updated_at }}):
                             @endif
 
+                            @auth
+                                @if($comment->creator->id == Auth::user()->id)
+                                <span class="blue">Your comment!</span>
+                                @endif
+                            @endauth
+
                             <div class="comment_buttons">
 
                                 <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
@@ -238,6 +214,7 @@
                         <?php } ?>
 
                     </li>
+
                 @endforeach
 
                 </ul>
@@ -265,12 +242,13 @@
                 @csrf
 
                 @auth
-                
                 @else
+
                     <div class="form-group">
                         <!-- <label for="user_name">Your name</label> -->
                         <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Your name" value="{{ old('user_name') }}" required>
                     </div>
+
                 @endauth
 
                 <div class="form-group">

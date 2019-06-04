@@ -1,15 +1,13 @@
 @extends('layouts.app')
 
-@section('title')
-{{ $category->title }}
-@endsection
+@section('title', $category->title)
 
 @section('content')
 <div class="container">
     
     <h1>Products in {{ $category->title }} category</h1>
     <div class="description">description: {{ $category->description }}</div>
-    <div class="description">visible: {{ $category->show }}</div>
+    <div class="description">visible: {{ $category->visible }}</div>
     <div class="description">parent category: {{ $category->parent->title }}</div>
     
     <!-- products -->
@@ -22,7 +20,7 @@
             <div class="col-lg-4 product_card_bm">
                 <div class="card">
 
-                    <h5 class="<?php if(!$product->show){echo 'hide';}?>">
+                    <h5 class="<?php if(!$product->visible){echo 'hide';}?>">
                         <a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a>
                     </h5>
 
@@ -47,7 +45,7 @@
                                 @else
                                     priceless
                                 @endif
-                                <?php if(!$product->show){echo '<span class="red">invisible</span>';}?>
+                                <?php if(!$product->visible){echo '<span class="red">invisible</span>';}?>
                             </span><br>
                         </p>
 

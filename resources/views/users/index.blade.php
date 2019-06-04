@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-users
-@endsection
+@section('title', 'users')
 
 @section('content')
 <div class="container">
@@ -15,8 +13,8 @@ users
             <th>id</th>
             <th>img</th>
             <th>name</th>
-            <!-- <th>email</th> -->
-            <!-- <th>role</th> -->
+            <th>email</th>
+            {{-- <th>role</th> --}}
             <th>roles</th>
             <th>created_at</th>
             <th>updated_at</th>
@@ -30,8 +28,8 @@ users
             <td>{{ $user->id }}</td>
             <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
             <td>{{ $user->name }}</td>
-            <!-- <td>{{ $user->email }}</td> -->
-            <!-- <td>{{ $user->roles->first()->name }}</td> -->
+            <td>{{ $user->email }}</td>
+            {{-- <td>{{ $user->roles->first()->name }}</td> --}}
             <td>
                 @if($user->roles->count())
                     {{-- {{ $user->roles->count() }}: --}}

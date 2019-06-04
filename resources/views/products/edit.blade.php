@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-Creating new product
-@endsection
+@section('title', 'Creating new product')
 
 @section('content')
 <div class="container">
@@ -26,73 +24,39 @@ Creating new product
                             <div class="dummy"></div><div class="element"></div>
                         </div>
 
-                        <div class="form-group"> replace image
-                            <input type="file" name="image" accept=".jpg, .jpeg, .png"
-                                value="{{ old('image') }}">
-                        </div>
-
                     @else
-
-                        <div class="form-group">
-                            <input type="file" name="image" accept=".jpg, .jpeg, .png"
-                                value="{{ old('image') }}">
-                        </div>
-
                     @endif
 
-                    
-                    <div class="form-group">
-                        <label for="name">name</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
-                            value="{{ old('name') ?? $product->name }}" required>
-                    </div>
+                    @inpImage(['value' => old('image')])
 
-                    <div class="form-group">
-                        <label for="description">Add a comment</label>
-                        <textarea id="description" name="description" cols="30" rows="4" class="form-control"
-                            placeholder="description">{{ old('description') ?? $product->description }}</textarea>                       
-                    </div>
+                    @input(['name' => 'name', 'value' => old('name') ?? $product->name, 'required' => 'required'])
 
-                    <div class="form-group">
-                        <label for="manufacturer">manufacturer</label>
-                        <input type="text" id="manufacturer" name="manufacturer" class="form-control"
-                            placeholder="manufacturer" value="{{ old('manufacturer') ?? $product->manufacturer }}">
-                    </div>
+                    @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
 
-                    <div class="form-group">
-                        <label for="materials">materials</label>
-                        <input type="text" id="materials" name="materials" class="form-control"
-                            placeholder="materials" value="{{ old('materials') ?? $product->materials }}">
-                    </div>
+                    @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer])
 
-                    <div class="form-group">
-                        <label for="year_manufacture">year_manufacture</label>
-                        <input type="number" id="year_manufacture" name="year_manufacture" class="form-control"
-                            placeholder="year_manufacture" value="{{ old('year_manufacture') ?? $product->year_manufacture }}">
-                    </div>
+                    @input(['name' => 'materials', 'value' => old('materials') ?? $product->materials])
 
-                    <div class="form-group">
-                        <label for="price">price</label>
-                        <input type="number" id="price" name="price" class="form-control" placeholder="price"
-                            value="{{ old('price') ?? $product->price }}">
-                    </div>
+                    @input(['name' => 'year_manufacture', 'type' => 'number', 'value' => old('year_manufacture') ?? $product->year_manufacture])
+
+                    @input(['name' => 'price', 'type' => 'number', 'value' => old('price') ?? $product->price])
     
                     <div class="form-group">
-                        <label for="description">visible product</label>
-                        <select name='show' id="show">
+                        <label for="visible">visible product</label>
+                        <select name="visible" id="visible">
                             <?php
-                                if ( $product->show ) {
-                                    echo '<option value="1" selected>show product</option><option value="0">do not show</option>';
+                                if ( $product->visible ) {
+                                    echo '<option value="1" selected>visible</option><option value="0">invisible</option>';
                                 } else {
-                                    echo '<option value="1">show</option><option value="0" selected>hide product</option>';
+                                    echo '<option value="1">visible</option><option value="0" selected>invisible</option>';
                                 }
                             ?>
                         </select>
                     </div>
 
                     <div class="form-group">
-                            <label for="description">parent category</label>
-                            <select name='category_id' id="category_id">
+                            <label for="category_id">parent category</label>
+                            <select name="category_id" id="category_id">
                             <?php
                                 foreach ( $categories as $parent_category ) {
                                     if ( $product->category_id == $parent_category->id ) {

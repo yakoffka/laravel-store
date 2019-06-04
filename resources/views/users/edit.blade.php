@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-edit profile
-@endsection
+@section('title', 'edit profile')
 
 @section('content')
 <div class="container">
@@ -61,7 +59,7 @@ edit profile
                 
                 @permission('edit_roles')
                 <td>
-                    <select name='role' id="role">
+                    <select name="role" id="role">
                         <option value="" selected>-</option>
                         <?php
                             foreach ( $roles as $role ) {
@@ -76,7 +74,7 @@ edit profile
                 </td>
 
                 <td>
-                    <select name='take_role' id="take_role">
+                    <select name="take_role" id="take_role">
                         <option value="" selected>-</option>
                         <?php
                             $num_roles = 0;
