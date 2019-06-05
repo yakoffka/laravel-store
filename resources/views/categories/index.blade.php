@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Categories')
+@section('title', 'Catalog')
 
 @section('content')
 <div class="container">
 
-    <h1>Categories</h1>
+    <h1>Catalog</h1>
 
     <div class="row">
 

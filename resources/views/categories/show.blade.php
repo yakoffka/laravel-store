@@ -13,9 +13,18 @@
     <!-- products -->
     <div class="row">
 
-        @if($category->products->count())
+        {{-- {{ dd($category )}} --}}
+        {{-- {{ dd($paginator->count()) }} --}}
 
-            @foreach($category->products as $product)
+        {{-- @if($category->products->count()) --}}
+        @if($paginator->count())
+
+            <!-- pagination block -->
+            @if($paginator->links())
+                <div class="row col-sm-12 pagination">{{ $paginator->links() }}</div>
+            @endif
+    
+            @foreach($paginator as $product)
 
             <div class="col-lg-4 product_card_bm">
                 <div class="card">
@@ -129,6 +138,11 @@
             </div>
 
             @endforeach
+
+            <!-- pagination block -->
+            @if($paginator->links())
+                <div class="row col-sm-12 pagination">{{ $paginator->links() }}</div>
+            @endif
 
         @else
 

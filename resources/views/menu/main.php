@@ -9,7 +9,7 @@
                 }
             ?> -->
             <?php
-                echo '<a href="/categories">Categories</a>'."\n";
+                echo '<a href="/categories">Catalog</a>'."\n";
             ?>
             <!-- <?php
                 if (Auth::user() and Auth::user()->can('view_users')) {

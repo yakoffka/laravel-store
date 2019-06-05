@@ -12,7 +12,7 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $categories = [
-            ['name' => 'main',          'title' => 'Products without category', 'description' => 'Parent category',],
+            ['name' => 'main',          'title' => 'Catalog', 'description' => 'Parent category',],
             ['name' => 'bass',          'title' => 'Bass Guitar', 'description' => 'Bass guitar description',],
             ['name' => 'electric',      'title' => 'Electric Guitar', 'description' => 'Electric guitar description',],
             ['name' => 'acoustic',      'title' => 'Acoustic Guitar', 'description' => 'Acoustic guitar description',],
