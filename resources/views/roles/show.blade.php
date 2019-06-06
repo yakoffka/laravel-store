@@ -19,7 +19,7 @@
             <th>users</th>
             <th>created</th>
             <th>updated</th>
-            <th class="actions">actions</th>
+            <th class="actions2">actions</th>
         </tr>
         <tr>
             <td>{{ $role->id }}</td>
@@ -36,13 +36,13 @@
             <td><a href="#users">{{ $role->users->count() }}</a></td>
             <td>{{ $role->created_at ?? '-' }}</td>
             <td>{{ $role->updated_at ?? '-' }}</td>
-            <td>
-                <div class="td role_buttons row">
+            <!--td>
+                {{-- <div class="td role_buttons row"> --}}
 
 
                     @if ( Auth::user()->can( ['edit_roles', 'delete_roles'], true ) )
 
-                        <div class="col-sm-6">
+                        {{-- <div class="col-sm-6"> --}}
                             @if ( $role->id < 5 )
                                 <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                             @else
@@ -50,10 +50,10 @@
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
                             @endif
-                        </div>
+                        {{-- </div> --}}
 
-                        <div class="col-sm-6">
-                            <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST">
+                        {{-- <div class="col-sm-6"> --}}
+                            <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
                                 @csrf
 
                                 @method("DELETE")
@@ -67,12 +67,12 @@
                                 <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-                        </div>
+                        {{-- </div> --}}
 
 
                     @elseif ( Auth::user()->can( ['edit_roles'], true ) )
 
-                        <div class="col-sm-12">
+                        {{-- <div class="col-sm-12"> --}}
                             @if ( $role->id < 5 )
                                 <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                             @else
@@ -80,14 +80,45 @@
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
                             @endif
-                        </div>
+                        {{-- </div> --}}
 
-                    @else
-                    -
+                    {{-- @else
+                    - --}}
                     @endif
 
 
-                </div>
+                {{-- </div> --}}
+            </td-->
+            <td>
+
+                @if ( Auth::user()->can('edit_roles') and $role->id > 4 )
+                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                        <i class="fas fa-pen-nib"></i>
+                    </a>
+                @else
+                    <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                @endif
+
+
+                @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
+                    <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
+                        @csrf
+
+                        @method("DELETE")
+
+                        @if ( $role->id < 5 )
+                            <button type="submit" class="btn btn-outline-secondary">
+                        @else
+                            <button type="submit" class="btn btn-outline-danger">
+                        @endif
+
+                        <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                @else
+                    <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button>
+                @endif
+
             </td>
         </tr>
 

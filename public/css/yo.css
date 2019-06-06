@@ -20,6 +20,12 @@ h2{
 
 
 
+a {
+    outline: none; /* Убираем границу вокруг ссылок  */
+}
+  
+
+
 
 .height2em {height: 2em;}
 .relative {position: relative;}
@@ -274,14 +280,21 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 
 
 /* users */ 
-table.blue_table tr th.actions {
-    min-width: 154px;
-    width: 154px;
+table.blue_table tr th.actions3 {
+    min-width: calc( 51px * 3 + 2px );
+    width: calc( 51px * 3 + 2px );
 }
-table.blue_table a.btn, table.blue_table form.del_btn{
+table.blue_table tr th.actions2 {
+    min-width: calc( 51px * 2 + 3px );
+    width: calc( 51px * 2 + 3px );
+}
+table.blue_table tr th.actions1 {
+    min-width: calc( 51px * 1 + 1px );
+    width: calc( 51px * 1 + 1px );
+}
+table.blue_table a.btn, table.blue_table td > button.btn, table.blue_table form.del_btn{
     float: left;
-    margin: 0 .25em;
-    margin: 0 .25em;
+    margin: .2em;
 }
 
 table.blue_table{width:100%;}
@@ -347,11 +360,11 @@ nav.navbar.navbar-dark a.navbar-brand {
     position: relative;
 }
 .navbar .main_menu {
-    top: 5px;
     margin-left: 120px;
+    /* top: 5px;
     transform: skew(0, -.75deg);
     transform-origin: bottom left;
-    font-style: oblique;
+    font-style: oblique; */
 }
 .footer .main_menu {
     top: 15px;
@@ -368,7 +381,10 @@ nav.navbar.navbar-dark a.navbar-brand {
     color: #77818d;
     padding: 0 20px;
     position: relative;
-    top: -30px;
+    top: -40px;
+    transform: skew(0, -1.5deg);
+    transform-origin: top right;
+    font-style: oblique;
 }
 
 
@@ -415,9 +431,12 @@ div.skew-bg {
     margin-top: 0px;
 }
 .footer .footer-octicon {color: #c6cbd1;}
-.footer a.footer-octicon {color: hsla(0,0%,100%,.75);}
+.footer a.footer-octicon {
+    color: hsla(0,0%,100%,.75);
+    top: -7px;
+    position: relative;
+}
 .footer a.footer-octicon:hover {color: hsla(0,0%,100%,.95);}
-
 /* fw-background */
 
 

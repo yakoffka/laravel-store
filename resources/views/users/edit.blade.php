@@ -7,8 +7,8 @@
 
     <h1>edit profile {{ $user->name }}</h1>
 
-    <img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px">    
-    <h5>{{ $user->name }} info:</h5>
+    
+    <h2>{{ $user->name }} info:</h2>
 
     <form method="POST" 
         action="{{ route('users.update', ['user' => $user->id]) }}" 
@@ -21,15 +21,14 @@
         <table class="blue_table">
         <tr>
                 <th>id</th>
+                <th>img</th>
                 <th>name</th>
                 <th>email</th>
                 <th>roles</th>
 
                 @permission('edit_roles')
-
                     <th>add role</th>
                     <th>take the role</th>
-
                 @endpermission
 
                 <th>created</th>
@@ -38,7 +37,7 @@
 
             <tr>
                 <td>{{ $user->id }}</td>
-                
+                <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
                 <td>
                     <input type="text" id="name" name="name" class="form-control" 
                     value="{{ old('name') ?? $user->name }}" required>
@@ -102,7 +101,7 @@
                 <td>{{ $user->updated_at ?? '-' }}</td>
             </tr>
 
-        </table><br>
+        </table><br><br><br>
 
         @permission('edit_users')
         @else
@@ -118,7 +117,7 @@
             <br><br><br>
         @endpermission
 
-        <button type="submit" class="btn btn-primary form-control">edit profile!</button><br>
+        <button type="submit" class="btn btn-primary form-control">edit profile!</button><br><br><br>
 
     </form>
 

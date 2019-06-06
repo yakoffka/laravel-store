@@ -4,6 +4,13 @@
     echo '<table class="blue_table"><tr>';
     foreach($permissions as $i => $permission) {
 
+        // if ( Auth::user() and Auth::user()->can('edit_roles')) {
+        //     $ip = ' (id=' . $permission['id'] . ')';
+        // } else {
+        //     $ip = '';
+        // }
+        $ip = '';
+
         if ( empty( $permissions[$i-1] ) or $permissions[$i-1]['group'] !== $permission['group'] ) {
             echo '</tr><tr><th>' . $permission['group'] . '</th>';
         }
@@ -16,9 +23,9 @@
                 or 
                 get_class($user) == 'App\Role' and $user->perms->contains('name', $permission['name'])
             ) {
-                echo '<strong>' . $permission['display_name'] . '</strong> (id=' . $permission['id'] . ') : </td><td><input type="checkbox" name="' . $permission['name'] . '" checked></td>';
+                echo '<strong>' . $permission['display_name'] . '</strong>' . $ip . ': </td><td><input type="checkbox" name="' . $permission['name'] . '" checked></td>';
             } else {
-                echo $permission['display_name'] . ' (id=' . $permission['id'] . ') : </td><td><input type="checkbox" name="' . $permission['name'] . '"></td>';
+                echo $permission['display_name'] . $ip . ': </td><td><input type="checkbox" name="' . $permission['name'] . '"></td>';
             }
 
         } elseif ( !empty($user) ) { // for index/show
@@ -27,13 +34,13 @@
                 or 
                 get_class($user) == 'App\Role' and $user->perms->contains('name', $permission['name'])
             ) {
-                echo '<strong>' . $permission['display_name'] . '</strong> (id=' . $permission['id'] . ') : </td><td><strong>1</strong></td>';
+                echo '<strong>' . $permission['display_name'] . '</strong>' . $ip . ': </td><td><strong>1</strong></td>';
             } else {
-                echo $permission['display_name'] . ' (id=' . $permission['id'] . ') : </td><td>0</td>';
+                echo $permission['display_name'] . $ip . ': </td><td>0</td>';
             }
 
         } else { // for create
-            echo $permission['display_name'] . ' (id=' . $permission['id'] . ') : </td><td><input type="checkbox" name="' . $permission['name'] . '"></td>';
+            echo $permission['display_name'] . $ip . ': </td><td><input type="checkbox" name="' . $permission['name'] . '"></td>';
         }
 
     }

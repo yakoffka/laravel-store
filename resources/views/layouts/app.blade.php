@@ -130,7 +130,7 @@
 
             <div class="container">
 
-                <div class="copy">© some_text</div>
+                <div class="copy">© Some_text</div>
 
                 <div class="row">
 

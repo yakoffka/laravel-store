@@ -19,7 +19,7 @@
             <th>users</th>
             <th>created</th>
             <th>updated</th>
-            <th class="actions">actions</th>
+            <th class="actions3">actions</th>
         </tr>
 
         @foreach($roles as $i=>$role)
@@ -41,75 +41,46 @@
                 <td>{{ $role->created_at ?? '-' }}</td>
                 <td>{{ $role->updated_at ?? '-' }}</td>
                 <td>
-                    <div class="td role_buttons row">
 
-                        @if ( Auth::user()->can( ['view_roles', 'edit_roles', 'delete_roles'], true ) )
-                            <div class="col-sm-4">
-                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </div>
-
-                            <div class="col-sm-4">
-                                @if ( $role->id < 5 )
-                                    <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
-                                @else
-                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
-                                        <i class="fas fa-pen-nib"></i>
-                                    </a>
-                                @endif
-                            </div>
-
-                            <div class="col-sm-4">
-                                <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST">
-                                    @csrf
-
-                                    @method("DELETE")
-
-                                    @if ( $role->id < 5 )
-                                        <button type="submit" class="btn btn-outline-secondary">
-                                    @else
-                                        <button type="submit" class="btn btn-outline-danger">
-                                    @endif
-
-                                    <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
+                    @if ( Auth::user()->can('view_roles') ) {{--это безумие!!!--}}
+                        <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    @else
+                        <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
+                    @endif
 
 
-                        @elseif ( Auth::user()->can( ['view_roles', 'edit_roles'], true ) )
-
-                            <div class="col-sm-4">
-                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </div>
-
-                            <div class="col-sm-4">
-                                @if ( $role->id < 5 )
-                                    <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
-                                @else
-                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
-                                        <i class="fas fa-pen-nib"></i>
-                                    </a>
-                                @endif
-                            </div>
+                    @if ( Auth::user()->can('edit_roles') and $role->id > 4 )
+                        <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                            <i class="fas fa-pen-nib"></i>
+                        </a>
+                    @else
+                        <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                    @endif
 
 
-                        @elseif ( Auth::user()->can( 'view_roles' ) )
+                    @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
+                        <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
+                            @csrf
 
-                            <div class="col-sm-4">
-                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </div>
+                            @method("DELETE")
 
-                        @endif
+                            @if ( $role->id < 5 )
+                                <button type="submit" class="btn btn-outline-secondary">
+                            @else
+                                <button type="submit" class="btn btn-outline-danger">
+                            @endif
 
+                            <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @else
+                        <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button>
+                    @endif
 
-                    </div>
                 </td>
+
             </tr>
 
         @endforeach

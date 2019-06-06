@@ -19,7 +19,7 @@
             <th>permissions</th>
             <th>created</th>
             <th>updated</th>
-            <th class="actions">actions</th>
+            <th class="actions2">actions</th>
         </tr>
 
         <tr>
@@ -27,13 +27,7 @@
             <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td><a href="#roles">
-                @if($user->roles->count())
-                    {{ $user->roles->count() }}
-                    {{-- @foreach ($user->roles as $role)
-                        {{ $role->name }};
-                    @endforeach --}}
-                @endif
+            <td><a href="#roles">{{ $user->roles->count() }}
             </a></td>
             <td><a href="#perms">
                 <?php
@@ -47,47 +41,34 @@
             <td>{{ $user->created_at ?? '-' }}</td>
             <td>{{ $user->updated_at ?? '-' }}</td>
             <td>
-                {{-- <div class="td user_buttons row center"> --}}
 
-                    @permission('edit_users')
-                    
+                @permission('edit_users')
+                    <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
+                        <i class="fas fa-pen-nib"></i>
+                    </a>
+                @else
+                    @if ( Auth::user()->id == $user->id )
                         <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                             <i class="fas fa-pen-nib"></i>
                         </a>
-
-                    @else
-                    
-                        @if ( Auth::user()->id == $user->id )
-                    
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
-                                <i class="fas fa-pen-nib"></i>
-                            </a>
-
-                        @else
-                            -
-                        @endif
-                    
-                    @endpermission
+                    @endif
+                @endpermission
 
 
-                    @permission('delete_users')
-                    
-                        <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
-                            @csrf
+                @permission('delete_users')
+                    <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
+                        @csrf
 
-                            @method("DELETE")
+                        @method("DELETE")
 
-                            <button type="submit" class="btn btn-outline-danger">
+                        <button type="submit" class="btn btn-outline-danger">
                             <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    
-                    @endpermission
+                        </button>
+                    </form>
+               @endpermission
 
-                {{-- </div> --}}
             </td>
         </tr>
-
     </table><br><br><br>
 
     
