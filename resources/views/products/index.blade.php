@@ -91,10 +91,10 @@
 
                                 <div class="col-sm-4">
                                     <!-- form delete product -->
-                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
+                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                         @csrf
 
-                                        @method('DELETE')
+                                        @method("DELETE")
 
                                         <button type="submit" class="btn btn-outline-danger">
                                         <i class="fas fa-trash"></i>

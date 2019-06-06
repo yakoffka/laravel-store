@@ -32,8 +32,8 @@
 
                 @endpermission
 
-                <th>created_at</th>
-                <th>updated_at</th>
+                <th>created</th>
+                <th>updated</th>
             </tr>
 
             <tr>
@@ -112,19 +112,15 @@
         </div>
         @endpermission
 
+        @permission('view_permissions')
+            <h2 id="perms">Permissions for {{ $user->name }}:</h2>
+            @tablePermissions(['permissions' => $permissions, 'user' => $user])
+            <br><br><br>
+        @endpermission
+
         <button type="submit" class="btn btn-primary form-control">edit profile!</button><br>
 
     </form>
-
-
-    <br><h5>{{ $user->name }} can:</h5>
-    <div class="">
-        <?php
-            foreach ($permissions as $permission) {
-                if ( $user->can($permission->name) ) { echo $permission->display_name . '; '; }
-            }
-        ?>
-    </div>
 
 </div>
 @endsection

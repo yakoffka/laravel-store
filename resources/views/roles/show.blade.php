@@ -9,67 +9,112 @@
 
 
     <h2 class="blue">Parameters of the role '{{ $role->name }}':</h2>
-
-    <div class="">
-        <span class="grey">name:</span> {{ $role->name }}
-    </div>
-
-    <div class="">
-        <span class="grey">display_name:</span> {{ $role->display_name }}
-    </div>
-
-    <div class="">
-        <span class="grey">description:</span> {{ $role->description }}
-    </div>
-    <br>
-
-
-    <h2 class="blue">Permissions for role '{{ $role->name }}':</h2>
     <table class="blue_table">
         <tr>
-            <?php
-                foreach($permissions as $i => $permission) {
-
-                    if ( empty( $permissions[$i-1] ) or $permissions[$i-1]['group'] !== $permission['group'] ) {
-                        echo '</tr><tr><td>group: <strong>' . $permission['group'] . '</strong>
-                        </td>';
-                    }
-                    echo '<td style="text-align: right;">' . $permission['name'] . ': </td>';
-                    if ( in_array($permission['id'], $arr_role_permissions) ) {
-                        echo '<td>1</td>';
-                    } else {
-                        echo '<td>0</td>';
-                    }
-                }
-            ?>
+            <th>id</th>
+            <th>name</th>
+            <th>display_name</th>
+            <th>description</th>
+            <th>permissions</th>
+            <th>users</th>
+            <th>created</th>
+            <th>updated</th>
+            <th class="actions">actions</th>
         </tr>
-    </table><br>
+        <tr>
+            <td>{{ $role->id }}</td>
+            <td>{{ $role->name }}</td>
+            <td>{{ $role->display_name }}</td>
+            <td style="max-width: 400px;">{{ $role->description }}</td>
+            <td><a href="#perms">
+                @if ($role->perms())
+                    {{ $role->perms()->pluck('display_name')->count() }}
+                @else
+                0
+                @endif
+            </a></td>
+            <td><a href="#users">{{ $role->users->count() }}</a></td>
+            <td>{{ $role->created_at ?? '-' }}</td>
+            <td>{{ $role->updated_at ?? '-' }}</td>
+            <td>
+                <div class="td role_buttons row">
 
-    @permission('edit_roles')
-    <div class="row">
-        
-            @if ( $role->id < 5 )
-                <button class="btn btn-outline-secondary col-sm-12">
-                    <i class="fas fa-pen-nib"></i> edit role
-                </button>
-            @else
-                <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success col-sm-12">
-                    <i class="fas fa-pen-nib"></i> edit role
-                </a>
-            @endif
-        
-    </div>
+
+                    @if ( Auth::user()->can( ['edit_roles', 'delete_roles'], true ) )
+
+                        <div class="col-sm-6">
+                            @if ( $role->id < 5 )
+                                <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                            @else
+                                <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                    <i class="fas fa-pen-nib"></i>
+                                </a>
+                            @endif
+                        </div>
+
+                        <div class="col-sm-6">
+                            <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST">
+                                @csrf
+
+                                @method("DELETE")
+
+                                @if ( $role->id < 5 )
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                @else
+                                    <button type="submit" class="btn btn-outline-danger">
+                                @endif
+
+                                <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+
+
+                    @elseif ( Auth::user()->can( ['edit_roles'], true ) )
+
+                        <div class="col-sm-12">
+                            @if ( $role->id < 5 )
+                                <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                            @else
+                                <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
+                                    <i class="fas fa-pen-nib"></i>
+                                </a>
+                            @endif
+                        </div>
+
+                    @else
+                    -
+                    @endif
+
+
+                </div>
+            </td>
+        </tr>
+
+
+    </table><br><br><br>
+
+
+    @permission('view_users')
+        <h2 class="blue" id="users">Users with role '{{ $role->name }}':</h2>
+        @if($role->users->count())
+            @foreach($role->users as $user)
+                @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
+                @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>, 
+                @endif
+            @endforeach
+        @else
+            no users for this role
+        @endif
+        <br><br><br>
     @endpermission
 
 
-    <h2 class="blue">Users with role '{{ $role->name }}':</h2>
-    @if($role->users->count())
-        @foreach($role->users as $user)
-            @if($loop->last){{ $loop->iteration }} '<strong>{{ $user->name }}</strong>'.
-            @else{{ $loop->iteration }} '<strong>{{ $user->name }}</strong>', 
-            @endif
-        @endforeach
-    @endif
+    @permission('view_permissions')
+        <h2 class="blue" id="perms">Permissions for role '{{ $role->name }}':</h2>
+        @tablePermissions(['permissions' => $permissions, 'user' => $role])
+        <br><br><br>
+    @endpermission
 
 </div>
 @endsection

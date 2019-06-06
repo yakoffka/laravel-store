@@ -87,10 +87,10 @@
 
                         <div class="col-sm-6">
                             <!-- form delete product -->
-                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method='POST'>
+                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                 @csrf
 
-                                @method('DELETE')
+                                @method("DELETE")
 
                                 <button type="submit" class="btn btn-outline-danger">
                                 <i class="fas fa-trash"></i> delete
@@ -186,7 +186,7 @@
                                 <form action="{{ route('comments.destroy', ['comment' => $comment->id]) }}" method="POST">
                                     @csrf
 
-                                    @method('DELETE')
+                                    @method("DELETE")
 
                                     <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                 </form>
@@ -206,9 +206,8 @@
                                 
                                 @csrf
 
-                                <textarea id="comment_string_{{ $comment->id }}" name="comment_string" 
-                                    cols="30" rows="4" class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->comment_string); ?>
-                                </textarea>
+                                <textarea id="comment_string_{{ $comment->id }}" name="comment_string" cols="30" rows="4" 
+                                    class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->comment_string); ?></textarea>
                                 <button type="submit" class="btn btn-success">edit comment</button>
                             </form>
                         <?php } ?>

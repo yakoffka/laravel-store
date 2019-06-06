@@ -16,9 +16,9 @@
             <a target="_blank" href="/products/1">show</a><br>
             <a target="_blank" href="/products/create">create</a><br>
             <a target="_blank" href="/products/edit/1">edit</a><br>
-            <form action="{{ route('products.destroy', ['product' => '1']) }}" method='POST'>
+            <form action="{{ route('products.destroy', ['product' => '1']) }}" method="POST">
                 @csrf
-                @method('DELETE')
+                @method("DELETE")
                 <button type="submit" class="btn btn-outline-danger">
                 <i class="fas fa-trash"></i>
                 </button>
@@ -31,9 +31,9 @@
             <a target="_blank" href="/users/1">show</a><br>
             <!-- <a target="_blank" href="/users/create">create</a><br> -->
             <a target="_blank" href="/users/edit/1">edit</a><br>
-            <form action="{{ route('users.destroy', ['product' => '1']) }}" method='POST'>
+            <form action="{{ route('users.destroy', ['product' => '1']) }}" method="POST">
                 @csrf
-                @method('DELETE')
+                @method("DELETE")
                 <button type="submit" class="btn btn-outline-danger">
                 <i class="fas fa-trash"></i>
                 </button>
@@ -46,9 +46,9 @@
             <a target="_blank" href="/roles/1">show</a><br>
             <a target="_blank" href="/roles/create">create</a><br>
             <a target="_blank" href="/roles/edit/1">edit</a><br>
-            <form action="{{ route('roles.destroy', ['product' => '1']) }}" method='POST'>
+            <form action="{{ route('roles.destroy', ['product' => '1']) }}" method="POST">
                 @csrf
-                @method('DELETE')
+                @method("DELETE")
                 <button type="submit" class="btn btn-outline-danger">
                 <i class="fas fa-trash"></i>
                 </button>

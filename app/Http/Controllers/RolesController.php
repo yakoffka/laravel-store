@@ -25,13 +25,13 @@ class RolesController extends Controller
         $roles = Role::all();
         $permissions = Permission::all()->toArray();
 
-        $arr_all_role_permissions = array();
-        foreach ($roles as $role) {
-            $arr_all_role_permissions[$role->name] = $this->getArrPermissionId($role);
-        }
+        // $arr_all_role_permissions = array();
+        // foreach ($roles as $role) {
+        //     $arr_all_role_permissions[$role->name] = $this->getArrPermissionId($role);
+        // }
         
 
-        return view('roles.index', compact('roles', 'permissions', 'arr_all_role_permissions'));
+        return view('roles.index', compact('roles', 'permissions'/*, 'arr_all_role_permissions'*/));
     }
 
     /**
@@ -94,10 +94,10 @@ class RolesController extends Controller
     {
         abort_if ( Auth::user()->cannot('view_roles'), 403 );
 
-        $arr_role_permissions = $this->getArrPermissionId($role);
+        // $arr_role_permissions = $this->getArrPermissionId($role);
         $permissions = Permission::all()->toArray();
 
-        return view('roles.show', compact('role', 'permissions', 'arr_role_permissions'));
+        return view('roles.show', compact('role', 'permissions'/*, 'arr_role_permissions'*/));
     }
 
     /**
@@ -110,10 +110,10 @@ class RolesController extends Controller
     {
         abort_if ( Auth::user()->cannot('edit_roles'), 403 );
 
-        $arr_role_permissions = $this->getArrPermissionId($role);
+        // $arr_role_permissions = $this->getArrPermissionId($role);
         $permissions = Permission::all()->toArray();
 
-        return view('roles.edit', compact('role', 'permissions', 'arr_role_permissions'));
+        return view('roles.edit', compact('role', 'permissions'/*, 'arr_role_permissions'*/));
     }
 
     /**
@@ -132,6 +132,7 @@ class RolesController extends Controller
         $arrToValidate['description'] = 'required|string|max:255';
 
         $permissions = Permission::all()->toArray();
+
         foreach ( $permissions as $permission ) {
             $arrToValidate[$permission['name']] = 'string|max:3';
         }
@@ -145,21 +146,33 @@ class RolesController extends Controller
         ]);
 
 
-        if ( $role and Auth::user()->can('edit_permissions') ) {
-            $arr_role_permissions = $this->getArrPermissionId($role);
+        if ( Auth::user()->can('edit_permissions') ) {
+            // $arr_role_permissions = $this->getArrPermissionId($role);
             foreach ( $permissions as $permission ) {
-                
+
+                // // attach Permission
+                // if ( request($permission['name']) == 'on' and !in_array($permission['id'], $arr_role_permissions) ) {
+                //     $role->attachPermission($permission['id']);
+                    
+                // // take Permission
+                // } elseif ( empty(request($permission['name'])) and in_array($permission['id'], $arr_role_permissions) ) {
+                //     $take_role = DB::table('permission_role')->where([
+                //         ['permission_id', '=', $permission['id']],
+                //         ['role_id', '=', $role->id],
+                //     ])->delete();
+                // }
                 // attach Permission
-                if ( request($permission['name']) == 'on' and !in_array($permission['id'], $arr_role_permissions) ) {
+                if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) ) {
                     $role->attachPermission($permission['id']);
                     
                 // take Permission
-                } elseif ( empty(request($permission['name'])) and in_array($permission['id'], $arr_role_permissions) ) {
+                } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) ) {
                     $take_role = DB::table('permission_role')->where([
                         ['permission_id', '=', $permission['id']],
                         ['role_id', '=', $role->id],
                     ])->delete();
                 }
+
             }
         }
 
@@ -183,19 +196,19 @@ class RolesController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Get permissions id
-     *
-     * @param  Role $role
-     * @return array $arr_role_permissions
-     */
-    private function getArrPermissionId (Role $role) {
+    // /**
+    //  * Get permissions id
+    //  *
+    //  * @param  Role $role
+    //  * @return array $arr_role_permissions
+    //  */
+    // private function getArrPermissionId (Role $role) {
 
-        $arr_role_permissions = array();
-        foreach ( DB::table('permission_role')->where('role_id', $role->id)->get() as $role_permission ) {
-            $arr_role_permissions[] = $role_permission->permission_id;
-        };
+    //     $arr_role_permissions = array();
+    //     foreach ( DB::table('permission_role')->where('role_id', $role->id)->get() as $role_permission ) {
+    //         $arr_role_permissions[] = $role_permission->permission_id;
+    //     };
 
-        return $arr_role_permissions;
-    }
+    //     return $arr_role_permissions;
+    // }
 }

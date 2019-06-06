@@ -32,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.textarea', 'textarea');
         Blade::include('includes.select', 'select');
         Blade::include('includes.inputImage', 'inpImage');
+        Blade::include('includes.tablePermissions', 'tablePermissions');
     }
 }

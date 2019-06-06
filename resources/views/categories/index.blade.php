@@ -72,10 +72,10 @@
                         <div class="col-sm-4">
                             <!-- form delete category -->
                             <form action="{{ route('categories.destroy', ['category' => $category->id]) }}"
-                                method='POST'>
+                                method="POST">
                                 @csrf
 
-                                @method('DELETE')
+                                @method("DELETE")
 
                                 <button type="submit" class="btn btn-outline-danger">
                                     <i class="fas fa-trash"></i>

@@ -173,6 +173,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         abort_if ( Auth::user()->cannot('delete_categories'), 403 );
+        if ( $category->id == 1 ) {
+            return back()->withErrors(['"' . $category->name . '" is basic category and can not be removed.']);
+        }
         
         if ( $category->products->count() ) {
             foreach ( $category->products as $product ) {
