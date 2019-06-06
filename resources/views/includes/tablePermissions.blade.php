@@ -4,12 +4,12 @@
     echo '<table class="blue_table"><tr>';
     foreach($permissions as $i => $permission) {
 
-        // if ( Auth::user() and Auth::user()->can('edit_roles')) {
-        //     $ip = ' (id=' . $permission['id'] . ')';
-        // } else {
-        //     $ip = '';
-        // }
-        $ip = '';
+        if ( Auth::user() and Auth::user()->can('edit_roles')) {
+            $ip = ' (id=' . $permission['id'] . ')';
+        } else {
+            $ip = '';
+        }
+        // $ip = '';
 
         if ( empty( $permissions[$i-1] ) or $permissions[$i-1]['group'] !== $permission['group'] ) {
             echo '</tr><tr><th>' . $permission['group'] . '</th>';

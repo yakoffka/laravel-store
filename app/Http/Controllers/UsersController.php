@@ -27,7 +27,8 @@ class UsersController extends Controller
     {
         abort_if ( Auth::user()->cannot('view_users'), 403 );
         $users = User::all();
-        return view('users.index', compact('users'));
+        $permissions = Permission::all();
+        return view('users.index', compact('users', 'permissions'));
     }
 
     /**
@@ -140,9 +141,8 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        // dd('destroy!');
-        abort_if ( !Auth::user()->can('delete_users'), 403 );
-        abort_if ( $user->roles->first()->id < Auth::user()->roles->first()->id, 403 );
+        $subordination = $this->subordination($user);
+        abort_if ( !Auth::user()->can('delete_users') or !$subordination, 403 );
 
         // dont destroy last owner!
         if ( $user->roles->first()->id === 1 and DB::table('role_user')->where('role_id', '=', 1)->get()->count() === 1 ) {
@@ -151,6 +151,28 @@ class UsersController extends Controller
 
         $user->delete();
         return redirect( route('users.index'));
+    }
+
+
+    /**
+     * Сhecks subordination.
+     *
+     * @param  User $user
+     * @return boolean
+     */
+    public function subordination(User $user)
+    {
+        $ranks_user      = $user->roles->pluck('rank')->toArray();
+        $ranks_auth_user = Auth::user()->roles->pluck('rank')->toArray();
+
+        $rank_user      = min($ranks_user);
+        $rank_auth_user = min($ranks_auth_user);
+
+        if ( $rank_user < $rank_auth_user ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

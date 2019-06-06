@@ -101,23 +101,24 @@
                 <td>{{ $user->updated_at ?? '-' }}</td>
             </tr>
 
-        </table><br><br><br>
+        </table>
 
         @permission('edit_users')
+            <br><br><br>
         @else
-        <div class="form-group">
-            <label for="name">password user</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-        </div>
+            <div class="form-group">
+                <label for="name">password user</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div><br><br><br>
         @endpermission
+
+        <button type="submit" class="btn btn-primary form-control">edit profile!</button><br><br><br>
 
         @permission('view_permissions')
             <h2 id="perms">Permissions for {{ $user->name }}:</h2>
             @tablePermissions(['permissions' => $permissions, 'user' => $user])
             <br><br><br>
         @endpermission
-
-        <button type="submit" class="btn btn-primary form-control">edit profile!</button><br><br><br>
 
     </form>
 

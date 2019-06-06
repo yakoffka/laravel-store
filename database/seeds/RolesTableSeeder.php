@@ -13,7 +13,7 @@ class RolesTableSeeder extends Seeder
     {
         $roles = [
             /*
-            *   ПОРЯДОК СЛЕДОВАНИЯ НЕ НАРУШАТЬ!
+            *   ПОРЯДОК СЛЕДОВАНИЯ НЕ НАРУШАТЬ! rank
             *  используется в database/seeds/PermissionRoleTableSeeder.php
             */
             [
@@ -35,11 +35,13 @@ class RolesTableSeeder extends Seeder
             ] 
         ];
  
-        foreach ($roles as $role){
+        foreach ($roles as $i => $role){
             DB::table('roles')->insert([
                 'name' => $role['name'],
                 'display_name' => $role['display_name'],
                 'description' => $role['description'],
+                'rank' => $i + 1,
+                'is_basic' => true,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);

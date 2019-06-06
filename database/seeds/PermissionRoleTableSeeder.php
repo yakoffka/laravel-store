@@ -22,16 +22,16 @@ class PermissionRoleTableSeeder extends Seeder
 
                 if (
                     // for owner
-                    $role->id == 1
+                    $role->id == 1 and !in_array( $permission->id, [5, 6, 7, 9] )
                     or 
                     // for admin
-                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7, 21, 22, 23] )
+                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7, 9] )
                     or
                     // for manager
-                    $role->id == 3 and ( $permission->id > 13 and !in_array( $permission->id, [15, 19, 21, 22, 23] ) )
+                    $role->id == 3 and in_array( $permission->id, [4, 8, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] )
                     or
                     // for user
-                    $role->id == 4 and in_array( $permission->id, [16, 20] )
+                    $role->id == 4 and in_array( $permission->id, [13, 16, 20, 24] )
                 ) {
                     DB::table('permission_role')->insert([
                         'permission_id' => $permission->id,
