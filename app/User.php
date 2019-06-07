@@ -5,11 +5,14 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait; // upd
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable, EntrustUserTrait; // upd
+    // use Notifiable, EntrustUserTrait;
+    use Notifiable, EntrustUserTrait;
+    use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +42,8 @@ class User extends Authenticatable
     ];
 
 
-    // ???
+    // protected $dates = ['deleted_at'];
+
     // public function roles()
     // {
     //     return $this->belongsToMany('App\Role');

@@ -79,7 +79,6 @@
             @else{{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>, 
             @endif
         @endforeach
-        <br><br><br>
     @endpermission
 
 

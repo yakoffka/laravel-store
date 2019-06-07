@@ -118,9 +118,9 @@
 
         <main class="py-4">
             
-            @alert(['type' => 'primary', 'title' => 'напоминание'])
+            {{-- @alert(['type' => 'primary', 'title' => 'напоминание'])
                 кнопки действий всем! тем, у кого нет соответствующих прав - добавить неактивные.
-            @endalert
+            @endalert --}}
 
             @yield('content')
 

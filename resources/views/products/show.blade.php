@@ -149,7 +149,7 @@
                             @if($comment->user_id == 0)
                                 Guest {{ $comment->user_name }}
                             @else
-                                {{ $comment->creator->name }}
+                                {{ $comment->creator ? $comment->creator->name : 'RIP' }}
                             @endif
 
 
@@ -161,7 +161,7 @@
                             @endif
 
                             @auth
-                                @if($comment->creator->id == Auth::user()->id)
+                                @if( $comment->creator and $comment->creator->id == Auth::user()->id )
                                 <span class="blue">Your comment!</span>
                                 @endif
                             @endauth
