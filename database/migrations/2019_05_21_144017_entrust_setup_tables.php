@@ -17,8 +17,6 @@ class EntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
-            $table->unsignedInteger('rank')->unique(); // yo
-            $table->boolean('is_basic')->nullable($value = false); // yo
             $table->timestamps();
         });
 

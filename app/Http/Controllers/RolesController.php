@@ -52,6 +52,8 @@ class RolesController extends Controller
         $arrToValidate['name'] = 'required|string|max:255|unique:roles';
         $arrToValidate['display_name'] = 'required|string|max:255|unique:roles';
         $arrToValidate['description'] = 'required|string|max:255';
+        $arrToValidate['rank'] = 'required|string|integer|unique:roles';
+        
 
         $permissions = Permission::all()->toArray();
         foreach ( $permissions as $permission ) {
@@ -60,12 +62,16 @@ class RolesController extends Controller
 
         $validator = request()->validate($arrToValidate);
 
+        // dd(request()->all());
+        // dd(request('rank'));
         $role = Role::create([
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
+            'rank' => request('rank'),
         ]);
 
+        // attach permissions
         if ( $role ) {
             foreach ( $permissions as $permission ) {
                 if ( request($permission['name']) == 'on' ) {
@@ -117,6 +123,7 @@ class RolesController extends Controller
         $arrToValidate['name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['display_name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['description'] = 'required|string|max:255';
+        $arrToValidate['rank'] = 'required|string|integer|unique:roles';
 
         $permissions = Permission::all()->toArray();
 
@@ -130,6 +137,7 @@ class RolesController extends Controller
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
+            'rank' => request('rank'),
         ]);
 
 

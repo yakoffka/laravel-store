@@ -20,6 +20,7 @@
 
         @input(['name' => 'description', 'value' => old('description') ?? $role->description, 'required' => 'required'])
 
+        @input(['name' => 'rank', 'type' => 'number', 'value' => old('rank') ?? $role->rank, 'required' => 'required'])
 
         <h5 class="blue">select permissions for new role:</h5>
         @tablePermissions(['permissions' => $permissions, 'user' => $role, 'edit' => true])

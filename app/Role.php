@@ -23,6 +23,8 @@ class Role extends EntrustRole
         'name',
         'display_name',
         'description',
+        'rank',
+        'user_id',
     ];
 
     /**

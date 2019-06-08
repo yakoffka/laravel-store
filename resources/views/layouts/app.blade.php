@@ -118,9 +118,9 @@
 
         <main class="py-4">
             
-            @alert(['type' => 'primary', 'title' => 'roles/create'])
+            {{-- @alert(['type' => 'primary', 'title' => 'roles/create'])
                 SQLSTATE[HY000]: General error: 1364 Field 'rank' doesn't have a default value.
-            @endalert
+            @endalert --}}
 
             @yield('content')
 

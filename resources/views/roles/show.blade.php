@@ -16,6 +16,7 @@
             <th>display_name</th>
             <th>description</th>
             <th>permissions</th>
+            <th>rank</th>
             <th>users</th>
             <th>created</th>
             <th>updated</th>
@@ -33,6 +34,7 @@
                 0
                 @endif
             </a></td>
+            <td>{{ $role->rank }}</td>
             <td><a href="#users">{{ $role->users->count() }}</a></td>
             <td>{{ $role->created_at ?? '-' }}</td>
             <td>{{ $role->updated_at ?? '-' }}</td>
