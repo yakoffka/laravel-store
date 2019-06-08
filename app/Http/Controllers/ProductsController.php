@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
+use App\Mail\ProductCreated;
 
 use App\Product;
 use App\Category;
@@ -120,6 +121,11 @@ class ProductsController extends Controller
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
             }
         }
+
+        // sending notification
+        \Mail::to('yagithub@mail.ru')->send(
+            new ProductCreated($product)
+        );
 
         return redirect()->route('products.show', ['product' => $product->id]);
     }

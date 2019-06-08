@@ -199,7 +199,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
         font-size: .9rem;
         line-height: 1.6;
     }
-    .comment_header .comment_buttons button{
+    /*.comment_header */.comment_buttons button{
         background-color: #fff;
     }
         .comment_header .comment_buttons button.btn-outline-info:hover {

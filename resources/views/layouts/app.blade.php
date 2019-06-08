@@ -118,9 +118,9 @@
 
         <main class="py-4">
             
-            {{-- @alert(['type' => 'primary', 'title' => 'напоминание'])
-                кнопки действий всем! тем, у кого нет соответствующих прав - добавить неактивные.
-            @endalert --}}
+            @alert(['type' => 'primary', 'title' => 'roles/create'])
+                SQLSTATE[HY000]: General error: 1364 Field 'rank' doesn't have a default value.
+            @endalert
 
             @yield('content')
 
