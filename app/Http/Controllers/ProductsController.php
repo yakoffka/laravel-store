@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\Mail\ProductCreated;
+use Session;
 
 use App\Product;
 use App\Category;
+use App\Cart;
 
 class ProductsController extends Controller
 {
@@ -225,6 +227,35 @@ class ProductsController extends Controller
         }
 
         return false;
+    }
+
+    /**
+     * Add to cart the specified resource.
+     *
+     * @param  Product $product
+     * @return 
+     */
+    public function addToCart(Product $product)
+    {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add($product);
+        session(['cart' => $cart]);
+
+        // return redirect()->route('products.index');
+        return back();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getCart()
+    {
+        $cart = Session::has('cart') ? Session::get('cart') : '';
+        return view('cart.index', compact('cart'));
     }
 
 }

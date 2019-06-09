@@ -19,6 +19,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/yo.css') }}" rel="stylesheet">
+    @role('manager')<link href="{{ asset('css/manager.css') }}" rel="stylesheet">@endrole
+    @role('admin')<link href="{{ asset('css/admin.css') }}" rel="stylesheet">@endrole
+    @role('owner')<link href="{{ asset('css/owner.css') }}" rel="stylesheet">@endrole
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
@@ -55,9 +58,18 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                            @role('user')
+                            <a href="{{ route('get-cart') }}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i> cart
+                                <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
+                            </a>
+                            @endrole
+
+
                         <!-- Authentication Links -->
                         @guest
-                        <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
@@ -68,7 +80,8 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->roles->first()->name }} {{ Auth::user()->name }}<span class="caret"></span>
+                                    {{-- {{ Auth::user()->roles->first()->name }} --}}
+                                    {{ Auth::user()->name }}<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -69,8 +69,8 @@
                             </div>
                                 
                             <div class="col-sm-6">
-                                <a href="#" class="btn btn-outline-success">
-                                    <i class="fas fa-shopping-cart"></i> buy now
+                                <a href="{{ route('products.addToCart', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                    <i class="fas fa-shopping-cart"></i> add to cart
                                 </a>
                             </div>
 
@@ -125,8 +125,8 @@
                                 </div>
                                 
                                 <div class="col-sm-6">
-                                    <a href="#" class="btn btn-outline-success">
-                                        <i class="fas fa-shopping-cart"></i> buy now
+                                    <a href="{{ route('products.addToCart', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-shopping-cart"></i> add to cart
                                     </a>
                                 </div>
                                 

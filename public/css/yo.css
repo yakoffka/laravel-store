@@ -253,7 +253,10 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 /* b_image */
 
 .dummy.perc50 {margin-top: 50%;}
-
+.cart_image.b_image {
+    width: 2em;
+    height: 2em;
+}
 
 
 /* footer */
