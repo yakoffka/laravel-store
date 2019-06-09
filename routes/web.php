@@ -47,9 +47,13 @@ Route::post('/products', 'ProductsController@store')->name('products.store');
 Route::get('/products/edit/{product}', 'ProductsController@edit')->name('products.edit');
 Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
+
+
 // cart
-Route::get('products/add-to-cart/{product}', 'ProductsController@addToCart')->name('products.addToCart');
-Route::get('get-cart', 'ProductsController@getCart')->name('get-cart');
+Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
+Route::get('cart', 'CartController@getCart')->name('cart.get');
+Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.change-item');
+Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
 
 /* comments*/
 Route::get('/comments', 'ProductCommentsController@index');
@@ -94,3 +98,4 @@ Route::get('/all_links', function () {
 Route::resource('categories', 'CategoryController');
 
 
+// order.save

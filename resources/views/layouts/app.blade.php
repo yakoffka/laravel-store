@@ -60,9 +60,9 @@
                     <ul class="navbar-nav ml-auto">
 
                             @role('user')
-                            <a href="{{ route('get-cart') }}" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i> cart
-                                <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
+                            <a href="{{ route('cart.get') }}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge badge-secondary">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
                             </a>
                             @endrole
 

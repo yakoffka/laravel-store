@@ -23,20 +23,66 @@ class Cart // extends Model
     {
         $storedItem = [
             'qty' => 0,
-            'price' => $item->price,
+            'amount' => 0,
             'item' => $item,
         ];
 
         if ( $this->items ) {
-            if ( array_key_exists('id', $this->items) ) {
+            if ( array_key_exists($item->id, $this->items) ) {
                 $storedItem = $this->items[$item->id];
             }
         }
 
-        $storedItem['qty']++;
-        $storedItem['price'] = $item->price * $storedItem['qty'];
+        $storedItem['qty'] ++;
+        $storedItem['amount'] = $item->price * $storedItem['qty'];
+
         $this->items[$item->id] = $storedItem;
-        $this->totalQty++;
+        $this->totalQty ++;
         $this->totalPrice += $item->price;
     }
+
+    public function remove($item)
+    {
+        $removedItem = [
+            'qty' => 0,
+            'amount' => 0,
+            'item' => $item,
+        ];
+
+        if ( $this->items ) {
+            if ( array_key_exists($item->id, $this->items) ) {
+                $removedItem = $this->items[$item->id];
+
+                $removedItem['amount'] = $item->price * $removedItem['qty'];
+
+                unset($this->items[$item->id]);
+                $this->totalQty -= $removedItem['qty'];
+                $this->totalPrice -= $removedItem['amount'];
+            }
+        }
+    }
+
+    public function change($item, $qty)
+    {
+        $changedItem = [
+            'qty' => 0,
+            'amount' => 0,
+            'item' => $item,
+        ];
+
+        if ( $this->items ) {
+            if ( array_key_exists($item->id, $this->items) ) {
+                $old_qty = $this->items[$item->id]['qty'];
+                $new_qty = $qty;
+
+                $changedItem['qty'] = $new_qty;
+                $changedItem['amount'] = $item->price * $changedItem['qty'];
+
+                $this->items[$item->id] = $changedItem;
+                $this->totalQty = $this->totalQty + $changedItem['qty'] - $old_qty;
+                $this->totalPrice = $this->totalPrice + $changedItem['amount'] - $item->price * $old_qty;
+            }
+        }
+    }
+    
 }
