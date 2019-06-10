@@ -120,17 +120,19 @@
                                     </a>
                                 </div>
                                 
-                            @endif
+                            @else
 
-                            <div class="col-sm-6">
-                                <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye"></i> view
-                                </a>
-                            </div>
-                            
-                            <div class="col-sm-6">
-                                @addToCart(['product_id' => $product->id])
-                            </div>
+                                <div class="col-sm-6">
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i> view
+                                    </a>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    @addToCart(['product_id' => $product->id])
+                                </div>
+
+                            @endif
 
                         @endguest
 

@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-secondary form-control" data-toggle="modal" data-target="#{{ $cssId }}">
-    {{-- <i class="fas fa-eye"></i> --}} прочитать
+    {{-- <i class="fas fa-eye"></i> --}} комментарий
 </button>
 
 <!-- Modal -->
@@ -13,7 +13,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ta_l">
         {{ $message }}
       </div>
       {{-- <div class="modal-footer">

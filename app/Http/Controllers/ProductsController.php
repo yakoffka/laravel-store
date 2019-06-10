@@ -25,7 +25,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate(config('custom.product_paginate'));
+        // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate(config('custom.products_paginate'));
         // return view('products.index', compact('products'));
 
         // $products = Product::all()->filter( function ($product) {
@@ -34,13 +34,13 @@ class ProductsController extends Controller
         // });
         // return view('products.index', compact('products'));
 
-        // $products = Product::paginate(config('custom.product_paginate'));
+        // $products = Product::paginate(config('custom.products_paginate'));
         // return view('products.index', compact('products'));
 
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::paginate(config('custom.product_paginate'));
+            $products = Product::paginate(config('custom.products_paginate'));
         } else {
-            $products = Product::where('visible', '=', 1)->paginate(config('custom.product_paginate'));
+            $products = Product::where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }
         return view('products.index', compact('products'));
 

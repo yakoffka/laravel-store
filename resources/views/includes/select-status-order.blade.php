@@ -2,7 +2,7 @@
     <!-- Button trigger modal -->
     <button
         type="button" 
-        class="btn btn-primary" 
+        class="btn btn-{{ $order->status->style ?? 'primary' }} form-control" 
         data-toggle="modal" 
         data-target="#select_status_order_{{ $order->id }}"
     >

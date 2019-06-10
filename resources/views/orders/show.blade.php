@@ -24,7 +24,7 @@
             <h2>customer: <span class="grey">{{ $order->customer->name }}</span></h2>
         @endpermission
 
-        <h2>status of order: <span class="grey">{{ $order->status->name }}</span></h2>
+        <h2>status of order: <span class="grey">{{ $order->status->description }}</span></h2>
 
         <div class="row">
 
@@ -39,6 +39,9 @@
                         <th>name</th>
                         <th>qty</th>
                         {{-- <th class="actions2">action</th> --}}
+                        @permission('edit_orders')
+                            <th>status</th>
+                        @endpermission
                         <th>price</th>
                         <th>amount</th>
                     </tr>
@@ -67,6 +70,14 @@
                         <td class="center no_fl">
                             {{ $order->cart->items[$i]['qty'] }}
                         </td>
+
+                        @permission('edit_orders')
+                            @selectStatusOrder([
+                                'statuses' => $statuses, 
+                                'order' => $order, 
+                            ])
+                        @endpermission
+
                         {{-- <td class="center no_fl"> --}}
                             {{-- <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                                 <i class="fas fa-pen-nib"></i>
@@ -88,7 +99,11 @@
                 @endforeach
 
                     <tr>
-                        <th colspan="5">total payment</th>
+                        @permission('edit_orders')
+                            <th colspan="6">total payment</th>
+                        @else
+                            <th colspan="5">total payment</th>
+                        @endpermission
                         <td>{{ $order->cart->total_payment }}</td>
                     </tr>
 

@@ -21,5 +21,5 @@
                     echo '<a href="/roles">Roles</a>'."\n";
                 }
             ?> -->
-            <a href="https://github.com/yakoffka/kk">GitHub</a>
+            <a href="https://github.com/yakoffka/kk" target="_blank">GitHub</a>
         </div>

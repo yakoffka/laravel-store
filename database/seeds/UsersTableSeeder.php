@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Owner Name',
+            'name' => 'Theodor',
             'email' => 'owner@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Admin Name',
+            'name' => 'Travlarnor',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Manager Name',
+            'name' => 'Lagshmivara',
             'email' => 'manager@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'User First Name',
+            'name' => 'Travlarnor I',
             'email' => 'user01@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'User Second Name',
+            'name' => 'Akaky Akakievich II',
             'email' => 'user02@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'User Third Name',
+            'name' => 'Ephim III',
             'email' => 'user03@gmail.com',
             'password' => bcrypt('111111'),
             'created_at' => date('Y-m-d H:i:s'),

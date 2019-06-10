@@ -55,7 +55,8 @@
                 @endpermission
 
 
-                @permission('delete_users')
+                @if( auth()->user()->can('delete_users') or Auth::user()->id == $user->id )
+                {{-- @permission('delete_users') --}}
                     <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
                         @csrf
 
@@ -65,7 +66,8 @@
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
-               @endpermission
+                @endif
+                {{-- @endpermission --}}
 
             </td>
         </tr>

@@ -12,15 +12,15 @@ class StatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['name' => 'pending payment',   'title' => 'title pending payment',   'description' => 'description pending payment',   ],
-            ['name' => 'processing',        'title' => 'title processing',        'description' => 'description processing',        ],
-            ['name' => 'on hold',           'title' => 'title on hold',           'description' => 'description on hold',           ],
-            ['name' => 'complited',         'title' => 'title complited',         'description' => 'description complited',         ],
-            ['name' => 'canceled',          'title' => 'title canceled',          'description' => 'description canceled',          ],
-            ['name' => 'refunded',          'title' => 'title refunded',          'description' => 'description refunded',          ],
-            ['name' => 'failed',            'title' => 'title failed',            'description' => 'description failed',            ],
-            ['name' => 'shipped',           'title' => 'title shipped',           'description' => 'description shipped',           ],
-            ['name' => 'test',              'title' => 'title test',              'description' => 'description test',              ],
+            ['name' => 'processing',        'title' => 'title processing',        'description' => 'description processing',      'style' => 'danger'   ],
+            ['name' => 'pending payment',   'title' => 'title pending payment',   'description' => 'description pending payment', 'style' => 'warning'  ],
+            ['name' => 'shipped',           'title' => 'title shipped',           'description' => 'description shipped',         'style' => 'primary'  ],
+            ['name' => 'complited',         'title' => 'title complited',         'description' => 'description complited',       'style' => 'success'  ],
+            ['name' => 'on hold',           'title' => 'title on hold',           'description' => 'description on hold',         'style' => 'danger'   ],
+            ['name' => 'canceled',          'title' => 'title canceled',          'description' => 'description canceled',        'style' => 'danger'   ],
+            ['name' => 'refunded',          'title' => 'title refunded',          'description' => 'description refunded',        'style' => 'danger'   ],
+            ['name' => 'failed',            'title' => 'title failed',            'description' => 'description failed',          'style' => 'danger'   ],
+            ['name' => 'test',              'title' => 'title test',              'description' => 'description test',            'style' => 'secondary'],
         ];
 
         foreach ($statuses as $status) {
@@ -28,6 +28,7 @@ class StatusesTableSeeder extends Seeder
                 'name'          => $status['name'],
                 'title'         => $status['title'],
                 'description'   => $status['description'],
+                'style'         => $status['style'],
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => date('Y-m-d H:i:s'),
             ]);    

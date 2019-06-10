@@ -92,7 +92,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->cart = unserialize($order->cart);
-        return view('orders.show', compact('order'));
+        $statuses = Status::all();
+        return view('orders.show', compact('order', 'statuses'));
     }
 
 

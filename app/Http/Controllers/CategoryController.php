@@ -20,7 +20,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $categories = Category::paginate(config('custom.product_paginate'));
+        $categories = Category::paginate(config('custom.products_paginate'));
         return view('categories.index', compact('categories'));
     }
 
@@ -88,9 +88,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category) {
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $paginator = Product::where('category_id', '=', $category->id)->paginate(config('custom.product_paginate'));
+            $paginator = Product::where('category_id', '=', $category->id)->paginate(config('custom.products_paginate'));
         } else {
-            $paginator = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.product_paginate'));
+            $paginator = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }
         
         return view('categories.show', compact('category', 'paginator'));
