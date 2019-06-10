@@ -93,10 +93,13 @@ Route::resource('categories', 'CategoryController');
 // cart
 Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
 Route::get('cart', 'CartController@show')->name('cart.show');
+Route::get('cart/confirmation', 'CartController@confirmation')->name('cart.confirmation')->middleware('auth');
 Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.change-item');
 Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
 
 // order.save
-Route::resource('orders', 'OrderController');
+Route::resource('orders', 'OrderController')->except(['edit']);
+// Route::resource('orders', 'OrderController')->except(['index']);
+// Route::get('/orders/{user?}', 'CategoryController@index')->name('orders.index');
 
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cart')
+@section('title', 'confirmation of an order')
 
 @section('content')
 <div class="container">
@@ -8,12 +8,14 @@
     @if( !empty($cart) and $cart->total_qty )
 
         <div class="row justify-content-center">
-            <h1>In youre cart {{ $cart->total_qty }} products</h1>
+            <h1>confirmation of an order</h1>
         </div>
 
         <div class="row">
 
             @if($cart->total_qty)
+
+            <h2>In youre cart {{ $cart->total_qty }} products</h2>
 
                 <table class="blue_table">
                     <tr>
@@ -80,38 +82,25 @@
             @endif
         </div>
 
-        @guest
-            @alert(['type' => 'primary', 'title' => 'Achtung!'])
-                Для оформления заказа необходима авторизация
-            @endalert 
-        @endguest
+        <form method="POST" action="{{ route('orders.store') }}">
 
-        <div class="row justify-content-center">
-            <div class="col-sm-6">
-                <a href="{{ route('products.index') }}" class="btn btn-success form-control">continue shopping</a>
+            @csrf
+
+            @textarea(['name' => 'comment', 'title' => 'комментарий к заказу', 'value' => old('description') ])
+
+            <h5 class="center">terms of use</h5>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 grey center">
+                    Оформляя заказ Вы подтверждаете свое согласие с Условиями пользования и Политикой конфиденциальности<br>
+                    Обращаем Ваше внимание, что окончательная стоимость заказа, а также количество услуг, товаров и подарков будут подтверждены после обработки заказа.
+                </div>
             </div>
-            <div class="col-sm-6">
-                <a href="{{ route('cart.confirmation') }}" class="btn btn-primary form-control">make an order</a>
-            </div>
-        </div>
+
+            <button type="submit" class="btn btn-primary form-control">confirm</button>
+
+        </form>
 
     @else
-
-        <div class="row justify-content-center">
-            <h1>Youre cart is empty</h1>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-sm-12">
-                <a href="{{ route('products.index') }}" class="btn btn-success form-control">shopping</a>
-            </div>
-       </div>
-
-        <div class="wrap_panda h300">
-            <div class="panda">
-                <img src="https://yakoffka.ru/src/img/links/panda-waving.png" alt="" srcset="">
-            </div>
-        </div>
 
     @endif
 

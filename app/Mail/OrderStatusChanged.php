@@ -7,20 +7,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductCreated extends Mailable
+class OrderStatusChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $product;
+    public $order;
+    public $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($order, $user)
     {
-        $this->product = $product;
+        $this->order = $order;
+        $this->user = $user;
     }
 
     /**
@@ -30,7 +32,6 @@ class ProductCreated extends Mailable
      */
     public function build()
     {
-        // from, subject, view, attach
-        return $this->markdown('mail.product-created')->subject('Создан товар ' . $this->product->name);
+        return $this->markdown('mail.order-status-changed')->subject('Изменение статуса заказа №' . $this->order->id);
     }
 }

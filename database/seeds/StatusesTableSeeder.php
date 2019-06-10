@@ -20,6 +20,7 @@ class StatusesTableSeeder extends Seeder
             ['name' => 'refunded',          'title' => 'title refunded',          'description' => 'description refunded',          ],
             ['name' => 'failed',            'title' => 'title failed',            'description' => 'description failed',            ],
             ['name' => 'shipped',           'title' => 'title shipped',           'description' => 'description shipped',           ],
+            ['name' => 'test',              'title' => 'title test',              'description' => 'description test',              ],
         ];
 
         foreach ($statuses as $status) {

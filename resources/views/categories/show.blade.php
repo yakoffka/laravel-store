@@ -69,14 +69,13 @@
                                 </div>
                                     
                                 <div class="col-sm-6">
-                                    <a href="#" class="btn btn-outline-success">
-                                        <i class="fas fa-shopping-cart"></i> buy now
-                                    </a>
+                                    @addToCart(['product_id' => $product->id])
                                 </div>
 
                             @else
 
-                                @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
+                                @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
+                                
                                     <div class="col-sm-4">
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                             <i class="fas fa-eye"></i>
@@ -101,7 +100,8 @@
                                             </button>
                                         </form>
                                     </div>
-                                @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
+
+                                @elseif ( Auth::user()->can('edit_products') )
 
                                     <div class="col-sm-6">
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
@@ -114,21 +114,18 @@
                                             <i class="fas fa-pen-nib"></i>
                                         </a>
                                     </div>
-                                @elseif ( Auth::user()->can( 'view_products' ) )
-
-                                    <div class="col-sm-6">
-                                        <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
-                                            <i class="fas fa-eye"></i> view
-                                        </a>
-                                    </div>
-                                    
-                                    <div class="col-sm-6">
-                                        <a href="#" class="btn btn-outline-success">
-                                            <i class="fas fa-shopping-cart"></i> buy now
-                                        </a>
-                                    </div>
                                     
                                 @endif
+
+                                <div class="col-sm-6">
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i> view
+                                    </a>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    @addToCart(['product_id' => $product->id])
+                                </div>
 
                             @endguest
 

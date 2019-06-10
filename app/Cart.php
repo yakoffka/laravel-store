@@ -7,8 +7,8 @@ namespace App;
 class Cart // extends Model
 {
     public $items = null;
-    public $totalQty = 0;
-    public $totalPrice = 0;
+    public $total_qty = 0;
+    public $total_payment = 0;
 
     /**
      *
@@ -18,8 +18,8 @@ class Cart // extends Model
     {
         if ( $oldCart ) {
             $this->items = $oldCart->items;
-            $this->totalQty = $oldCart->totalQty;
-            $this->totalPrice = $oldCart->totalPrice;
+            $this->total_qty = $oldCart->total_qty;
+            $this->total_payment = $oldCart->total_payment;
         }
     }
 
@@ -45,8 +45,8 @@ class Cart // extends Model
         $storedItem['amount'] = $item->price * $storedItem['qty'];
 
         $this->items[$item->id] = $storedItem;
-        $this->totalQty ++;
-        $this->totalPrice += $item->price;
+        $this->total_qty ++;
+        $this->total_payment += $item->price;
     }
 
     /**
@@ -68,8 +68,8 @@ class Cart // extends Model
                 $removedItem['amount'] = $item->price * $removedItem['qty'];
 
                 unset($this->items[$item->id]);
-                $this->totalQty -= $removedItem['qty'];
-                $this->totalPrice -= $removedItem['amount'];
+                $this->total_qty -= $removedItem['qty'];
+                $this->total_payment -= $removedItem['amount'];
             }
         }
     }
@@ -95,8 +95,8 @@ class Cart // extends Model
                 $changedItem['amount'] = $item->price * $changedItem['qty'];
 
                 $this->items[$item->id] = $changedItem;
-                $this->totalQty = $this->totalQty + $changedItem['qty'] - $old_qty;
-                $this->totalPrice = $this->totalPrice + $changedItem['amount'] - $item->price * $old_qty;
+                $this->total_qty = $this->total_qty + $changedItem['qty'] - $old_qty;
+                $this->total_payment = $this->total_payment + $changedItem['amount'] - $item->price * $old_qty;
             }
         }
     }

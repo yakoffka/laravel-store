@@ -5,126 +5,131 @@
 @section('content')
 <div class="container">
 
-    <h1>List of orders</h1>
+    {{-- {{dd($orders->count())}} --}}
+    @if( $orders->count() )
 
-    <h2 class="blue">Details orders:</h2>
+        <h1>List of orders</h1>
 
-    {{ dd($orders) }}
-    {{-- <table class="blue_table">
-        <tr>
-            <th>#</th>
-            <th>id</th>
-            <th>name</th>
-            <th>display_name</th>
-            <th>description</th>
-            <th>permissions</th>
-            <th>rank</th>
-            <th>users</th>
-            <th>created</th>
-            <th>updated</th>
-            <th class="actions3">actions</th>
-        </tr>
+        <h2 class="blue">Details orders:</h2>
 
-        @foreach($orders as $i=>$order)
 
+        <!-- pagination block -->
+        @if($orders->links())
+            <div class="row col-sm-12 pagination">{{ $orders->links() }}</div>
+        @endif
+
+
+        <table class="blue_table">
             <tr>
-                <td>{{ $i+1 }}</td>
-                <td>{{ $order->id }}</td>
-                <td>{{ $order->name }}</td>
-                <td>{{ $order->display_name }}</td>
-                <td style="max-width: 300px;">{{ $order->description }}</td>
-                <td><a href="#perms_{{ $order->name }}">
-                    @if ($order->perms())
-                        {{ $order->perms()->pluck('display_name')->count() }}
-                    @else
-                    0
-                    @endif
-                </a></td>
-                <td>{{ $order->rank }}</td>
-                <td><a href="#users_{{ $order->name }}">{{ $order->users->count() }}</a></td>
-                <td>{{ $order->created_at ?? '-' }}</td>
-                <td>{{ $order->updated_at ?? '-' }}</td>
-                <td>
-
-                    @if ( Auth::user()->can('view_orders') )
-                        <a href="{{ route('orders.show', ['order' => $order->id]) }}" class="btn btn-outline-primary">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    @else
-                        <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
-                    @endif
-
-
-                    @if ( Auth::user()->can('edit_orders') and $order->id > 4 )
-                        <a href="{{ route('orders.edit', ['order' => $order->id]) }}" class="btn btn-outline-success">
-                            <i class="fas fa-pen-nib"></i>
-                        </a>
-                    @else
-                        <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
-                    @endif
-
-
-                    @if ( Auth::user()->can('delete_orders') and $order->id > 4 )
-                        <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="POST" class="del_btn">
-                            @csrf
-
-                            @method("DELETE")
-
-                            @if ( $order->id < 5 )
-                                <button type="submit" class="btn btn-outline-secondary">
-                            @else
-                                <button type="submit" class="btn btn-outline-danger">
-                            @endif
-
-                            <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    @else
-                        <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button>
-                    @endif
-
-                </td>
-
+                <th>#</th>
+                <th>id</th>
+                <th>status</th>
+                @permission('view_orders')
+                    <th>user</th>
+                @endpermission
+                <th>total_qty</th>
+                <th>total_payment</th>
+                <th>updated</th>
+                <th>created</th>
+                <th>comment</th>
+                @if ( Auth::user()->can('delete_orders') )
+                    <th class="actions2">action</th>
+                @else
+                    <th class="actions1">action</th>
+                @endif
             </tr>
 
-        @endforeach
+            @foreach($orders as $i=>$order)
 
-    </table><br>
+                <tr>
+                    <td>{{ $i+1 }}</td>
+                    <td>{{ $order->id }}</td>
+                    @permission('edit_orders')
+                        @selectStatusOrder([
+                            'statuses' => $statuses, 
+                            'order' => $order, 
+                        ])
+                    @else
+                        <td>{{ $order->status->name ?? '-' }}</td>
+                    @endpermission
+                    @permission('view_orders')
+                        <td>
+                            {{-- показать ордера пользователя --}}
+                            <a href="{{ route('users.show', ['user' => $order->customer->id]) }}">{{ $order->customer->name }}</a>
+                        </td>
+                    @endpermission
+                    <td>{{ $order->total_qty ?? '-' }}</td>
+                    <td>{{ $order->total_payment ?? '-' }}</td>
+                    <td>{{ $order->updated_at ?? '-' }}</td>
+                    <td>{{ $order->created_at ?? '-' }}</td>
+                    <td>
+                        @if( $order->comment )
+                            @modalMessage([
+                                'cssId' => 'comm_' . $order->id,
+                                'title' => 'комментарий к заказу №' . $order->id,
+                                // 'title' => mb_substr($order->comment, 0, 20) . '...',
+                                'message' => $order->comment,
+                                ])
+                        @else
+                        -
+                        @endif
+                    </td>
+                    <td>
+
+                        @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->user_id )
+                            <a href="{{ route('orders.show', ['order' => $order->id]) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        @else
+                            <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
+                        @endif
 
 
+                        {{-- @if ( Auth::user()->can('edit_orders') )
+                            <a href="{{ route('orders.edit', ['order' => $order->id]) }}" class="btn btn-outline-success">
+                                <i class="fas fa-pen-nib"></i>
+                            </a>
+                        @else
+                            <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
+                        @endif --}}
 
-    @permission('create_orders')
-        <a href="{{ route('orders.create') }}" class="btn btn-outline-primary">create new orders</a><br><br><br>
-    @endpermission
 
+                        @if ( Auth::user()->can('delete_orders') )
+                            <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="POST" class="del_btn">
+                                @csrf
 
+                                @method("DELETE")
 
+                                @if ( $order->id < 5 )
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                @else
+                                    <button type="submit" class="btn btn-outline-danger">
+                                @endif
 
+                                <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        @else
+                            {{-- <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button> --}}
+                        @endif
 
-    @foreach($orders as $order)
-        
-        @permission('view_users')
-            <h2 class="blue" id="users_{{ $order->name }}">List of users for '{{ $order->name }}' order:</h2>
-            @if($order->users->count())
-                @foreach($order->users as $user)
-                    @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
-                    @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>, 
-                    @endif
-                @endforeach
-            @else
-                no users for this order
-            @endif
-            <br><br>
-        @endpermission
+                    </td>
+                </tr>
 
-        @permission('view_permissions')
-            <h2 class="blue" id="perms_{{ $order->name }}">Permissions of the '{{ $order->name }}' order:</h2>
-            @tablePermissions(['permissions' => $permissions, 'user' => $order])
-            <br><br><br>
-        @endpermission
+            @endforeach
 
-    @endforeach --}}
+        </table><br>
+    @else
 
+        <h1>Your list of orders is empty</h1>
+
+        <div class="wrap_panda">
+            <div class="panda">
+                <img src="https://yakoffka.ru/src/img/links/panda-waving.png" alt="" srcset="">
+            </div>
+        </div>
+    
+    @endif
 
 </div>
 @endsection

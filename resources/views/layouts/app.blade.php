@@ -59,12 +59,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        @role('user')
+                        {{-- @role('user') --}}
                         <a href="{{ route('cart.show') }}" class="nav-link">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="badge">{{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}</span>
                         </a>
-                        @endrole
+                        {{-- @endrole --}}
 
 
                         <!-- Authentication Links -->

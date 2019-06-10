@@ -35,9 +35,13 @@
                 <a href="{{ route('products.show', ['product' => $product->id]) }}">
 
                     @if($product->image)
-                    <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+                    
+                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+
                     @else
-                    <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+
+                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+                            
                     @endif
 
                         <div class="dummy"></div><div class="element"></div>
@@ -76,7 +80,7 @@
 
                         @else
 
-                            @if ( Auth::user()->can( ['view_products', 'edit_products', 'delete_products'], true ) )
+                            @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
                                 <div class="col-sm-4">
                                     <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-eye"></i>
@@ -102,7 +106,7 @@
                                     </form>
                                 </div>
 
-                            @elseif ( Auth::user()->can( ['view_products', 'edit_products'], true ) )
+                            @elseif ( Auth::user()->can('edit_products') )
 
                                 <div class="col-sm-6">
                                     <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
@@ -116,21 +120,17 @@
                                     </a>
                                 </div>
                                 
-                            @elseif ( Auth::user()->can( 'view_products' ) )
-
-                                <div class="col-sm-6">
-                                    <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
-                                        <i class="fas fa-eye"></i> view
-                                    </a>
-                                </div>
-                                
-                                <div class="col-sm-6">
-                                    <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                        <i class="fas fa-shopping-cart"></i> add to cart
-                                    </a>
-                                </div>
-                                
                             @endif
+
+                            <div class="col-sm-6">
+                                <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i> view
+                                </a>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                @addToCart(['product_id' => $product->id])
+                            </div>
 
                         @endguest
 

@@ -19,10 +19,20 @@ class CartController extends Controller
      */
     public function store(Cart $cart)
     {
-        // dd(cart);
-        abort_if ( Auth::user()->cannot('create_products'), 403 );
-
+        // abort_if ( Auth::user()->cannot('create_products'), 403 );
         return redirect()->route('products.show', ['product' => $product->id]);
+    }
+
+    /**
+     * 
+     *
+     * 
+     */
+    public function confirmation()
+    {
+        $cart = Session::has('cart') ? Session::get('cart') : '';
+        abort_if ( !$cart, 404 );
+        return view('cart.confirmation', compact('cart'));
     }
 
         /**
@@ -51,7 +61,6 @@ class CartController extends Controller
     public function show()
     {
         $cart = Session::has('cart') ? Session::get('cart') : '';
-        // abort_if ( !$cart, 404 );
         return view('cart.show', compact('cart'));
     }
 
@@ -68,7 +77,8 @@ class CartController extends Controller
         $cart->remove($product);
         session(['cart' => $cart]);
         $success = 'item is deleted from youre cart';
-        return view('cart.index', compact('cart', 'success'));
+        // return view('cart.index', compact('cart', 'success'));
+        return redirect()->route('cart.show'); // $success!!!
     }
 
     /**
@@ -88,7 +98,7 @@ class CartController extends Controller
 
         $cart->change($product, request('quantity'));
 
-        return view('cart.show', compact('cart'));
+        return redirect()->route('cart.show');
     }
 
 }

@@ -34,5 +34,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.inputImage', 'inpImage');
         Blade::include('includes.tablePermissions', 'tablePermissions');
         Blade::include('includes.modalChangeItem', 'modalChangeItem');
+        Blade::include('includes.addToCart', 'addToCart');
+        Blade::include('includes.select-status-order', 'selectStatusOrder');
+        Blade::include('includes.modal-message', 'modalMessage');
     }
 }

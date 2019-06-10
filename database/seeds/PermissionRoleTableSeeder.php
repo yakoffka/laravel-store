@@ -32,7 +32,7 @@ class PermissionRoleTableSeeder extends Seeder
                     $role->id == 3 and in_array( $permission->id, [4, 8, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28] )
                     
                     or // for user
-                    $role->id == 4 and in_array( $permission->id, [13, 16, 20, 24, 25] )
+                    $role->id == 4 and in_array( $permission->id, [13, 16, 24, 25] )
                     
                 ) {
                     DB::table('permission_role')->insert([

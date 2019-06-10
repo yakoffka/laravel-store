@@ -12,11 +12,13 @@ h2{
 
 .center{text-align:center;}
 .grey {color: #636b6f;}
+.grey .grey{color: #8e9aa0;}
+
 
 .center.no_fl .btn, .center.no_fl form.del_btn {float: none;}
 
-a {outline: none;} /* Убираем границу вокруг ссылок  */
-
+a, button {outline: none;} /* Убираем границу вокруг ссылок  */
+ 
   
 
 
@@ -277,6 +279,8 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 
 
 /* users */ 
+table.blue_table {margin-bottom: 1em;}
+
 table.blue_table tr th.actions3 {
     min-width: calc( 51px * 3 + 2px );
     width: calc( 51px * 3 + 2px );
@@ -301,7 +305,7 @@ table.blue_table tr:nth-child(odd){background-color:#f7f7f7;}
 table.blue_table tr td{padding:5px;text-align:center;}
 table.blue_table tr.center td{text-align:center;}
 table.blue_table tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:oblique;font-weight:400;text-align:center;}
-
+table.blue_table tr td.ta_l{text-align: left;}
 /* /users */
 
 
@@ -439,3 +443,9 @@ div.skew-bg {
 
 
 
+/* .comment_order{font-size: .5em;} */
+
+
+.wrap_panda {position:relative; /*width: 300px; */height: 400px;}
+.wrap_panda.h300 {position:relative; /*width: 300px; */height: 300px;}
+.panda {position: absolute; right: calc( 50% - 300px ); bottom: -55px; z-index: -1;}
