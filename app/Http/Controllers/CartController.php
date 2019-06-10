@@ -6,16 +6,31 @@ use Illuminate\Http\Request;
 use Session;
 use App\Product;
 use App\Cart;
+use App\Order;
 
 class CartController extends Controller
 {
 
     /**
-     * Add to cart the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  Product $product
-     * @return 
+     * @param  \Illuminate\Http\Request  request()
+     * @return \Illuminate\Http\Response
      */
+    public function store(Cart $cart)
+    {
+        // dd(cart);
+        abort_if ( Auth::user()->cannot('create_products'), 403 );
+
+        return redirect()->route('products.show', ['product' => $product->id]);
+    }
+
+        /**
+         * Add to cart the specified resource.
+         *
+         * @param  Product $product
+         * @return 
+         */
     public function addToCart(Product $product)
     {
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
@@ -33,11 +48,11 @@ class CartController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getCart()
+    public function show()
     {
         $cart = Session::has('cart') ? Session::get('cart') : '';
         // abort_if ( !$cart, 404 );
-        return view('cart.index', compact('cart'));
+        return view('cart.show', compact('cart'));
     }
 
     /**
@@ -52,7 +67,8 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->remove($product);
         session(['cart' => $cart]);
-        return view('cart.index', compact('cart'));
+        $success = 'item is deleted from youre cart';
+        return view('cart.index', compact('cart', 'success'));
     }
 
     /**
@@ -72,7 +88,7 @@ class CartController extends Controller
 
         $cart->change($product, request('quantity'));
 
-        return view('cart.index', compact('cart'));
+        return view('cart.show', compact('cart'));
     }
 
 }

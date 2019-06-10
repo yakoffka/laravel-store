@@ -124,10 +124,11 @@ class ProductsController extends Controller
         }
 
         // sending notification
-        \Mail::to('yagithub@mail.ru')->send(
+        \Mail::to(env('MAIL_ADMIN'))->send(
             new ProductCreated($product)
         );
 
+        dd($product);
         return redirect()->route('products.show', ['product' => $product->id]);
     }
 

@@ -10,7 +10,11 @@ class Cart // extends Model
     public $totalQty = 0;
     public $totalPrice = 0;
 
-    public function __construct($oldCart)
+    /**
+     *
+     * 
+     */
+    public function __construct( $oldCart = null )
     {
         if ( $oldCart ) {
             $this->items = $oldCart->items;
@@ -19,6 +23,10 @@ class Cart // extends Model
         }
     }
 
+    /**
+     *
+     * 
+     */
     public function add($item)
     {
         $storedItem = [
@@ -41,6 +49,10 @@ class Cart // extends Model
         $this->totalPrice += $item->price;
     }
 
+    /**
+     *
+     * 
+     */
     public function remove($item)
     {
         $removedItem = [
@@ -62,6 +74,10 @@ class Cart // extends Model
         }
     }
 
+    /**
+     *
+     * 
+     */
     public function change($item, $qty)
     {
         $changedItem = [

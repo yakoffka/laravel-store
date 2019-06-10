@@ -59,12 +59,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                            @role('user')
-                            <a href="{{ route('cart.get') }}" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span class="badge badge-secondary">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
-                            </a>
-                            @endrole
+                        @role('user')
+                        <a href="{{ route('cart.show') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge">{{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}</span>
+                        </a>
+                        @endrole
 
 
                         <!-- Authentication Links -->
@@ -77,7 +77,9 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+
                         @else
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{-- {{ Auth::user()->roles->first()->name }} --}}
@@ -85,19 +87,22 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
+
+                                    <a class="dropdown-item" href="{{ route('orders.index') }}">Orders</a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
                                 </div>
-
                             </li>
 
                         @endguest
@@ -134,6 +139,11 @@
             {{-- @alert(['type' => 'primary', 'title' => 'roles/create'])
                 SQLSTATE[HY000]: General error: 1364 Field 'rank' doesn't have a default value.
             @endalert --}}
+            @if( !empty($success))
+            @alert(['type' => 'primary', 'title' => 'success'])
+                {{ $success }}
+            @endalert
+            @endif
 
             @yield('content')
 

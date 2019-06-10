@@ -4,7 +4,7 @@
 Created new product {{ $product->name }}
 
 @component('mail::button', ['url' => route('products.show', ['product' => $product->id])])
-Button Text
+show
 @endcomponent
 
 Thanks,<br>

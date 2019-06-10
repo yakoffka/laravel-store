@@ -59,7 +59,7 @@
                         <textarea id="description" name="description" cols="30" rows="4" class="form-control" placeholder="description">{{ old('description') }}</textarea>                       
                     </div>
 
-                    <button type="submit" class="btn btn-primary form-control">Create new product!</button>
+                    <button type="submit" class="btn btn-primary">Create new product!</button>
 
                 </form> --}}
                 
@@ -109,7 +109,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary form-control">edit category!</button>
+                    <button type="submit" class="btn btn-primary">edit category!</button>
 
                 </form>
 

@@ -80,6 +80,15 @@
                     @endpermission
 
 
+                    @permission('view_orders')
+                        <h2 class="grey">Orders:</h2>
+                        <h5><a href="{{ route('orders.index') }}">List of orders</a></h5>
+                    @endpermission
+                    {{-- @permission('create_orders')
+                        <h5><a href="{{ route('orders.create') }}">Create new category</a></h5>
+                    @endpermission --}}
+
+
 
                 </div>
             </div>

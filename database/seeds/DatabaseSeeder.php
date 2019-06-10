@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             RoleUserTableSeeder::class,
             PermissionRoleTableSeeder::class,
+            StatusesTableSeeder::class,
         ]);
         factory(App\Comment::class, 250)->create();
     }

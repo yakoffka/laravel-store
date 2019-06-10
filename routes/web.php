@@ -48,13 +48,6 @@ Route::get('/products/edit/{product}', 'ProductsController@edit')->name('product
 Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
 
-
-// cart
-Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
-Route::get('cart', 'CartController@getCart')->name('cart.get');
-Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.change-item');
-Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
-
 /* comments*/
 Route::get('/comments', 'ProductCommentsController@index');
 Route::get('/comments/create', 'ProductCommentsController@create');
@@ -97,5 +90,13 @@ Route::get('/all_links', function () {
 // Route::delete('/categories/{role}', 'CategoryController@destroy')->name('categoriesDestroy');
 Route::resource('categories', 'CategoryController');
 
+// cart
+Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
+Route::get('cart', 'CartController@show')->name('cart.show');
+Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.change-item');
+Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
 
 // order.save
+Route::resource('orders', 'OrderController');
+
+

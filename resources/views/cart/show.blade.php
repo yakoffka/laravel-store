@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
 
-    @if($cart)
+    @if($cart and $cart->totalQty)
 
         <div class="row justify-content-center">
             <h1>In youre cart {{ $cart->totalQty }} products</h1>
@@ -94,10 +94,14 @@
 
         <div class="row justify-content-center">
             <div class="col-sm-6">
-                <a href="{{ route('products.index') }}" class="btn btn-success form-control">continue shopping</a>
+                <a href="{{ route('products.index') }}" class="btn btn-success">continue shopping</a>
             </div>
             <div class="col-sm-6">
-                <a href="{{-- route('order.save', ['user' => $user->id]) --}}" class="btn btn-primary form-control">make an order</a>
+                <form method="POST" action="{{ route('orders.index') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">make an order</button>
+                </form>
+    
             </div>
         </div>
 
@@ -114,7 +118,7 @@
 
         <div class="row justify-content-center">
             <div class="col-sm-6">
-                <a href="{{ route('products.index') }}" class="btn btn-success form-control">shopping</a>
+                <a href="{{ route('products.index') }}" class="btn btn-success">shopping</a>
             </div>
        </div>
 
