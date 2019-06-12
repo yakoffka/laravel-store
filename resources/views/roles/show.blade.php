@@ -103,7 +103,8 @@
 
 
                 @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
-                    <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
+                
+                    {{-- <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
                         @csrf
 
                         @method("DELETE")
@@ -116,7 +117,14 @@
 
                         <i class="fas fa-trash"></i>
                         </button>
-                    </form>
+                    </form> --}}
+                    @modalConfirmDestroy([
+                        'btn_class' => 'btn btn-outline-danger del_btn',
+                        'cssId' => 'delele_',
+                        'item' => $role,
+                        'action' => route('roles.destroy', ['role' => $role->id]),
+                    ])
+
                 @else
                     <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button>
                 @endif

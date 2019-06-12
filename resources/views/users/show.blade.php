@@ -57,7 +57,7 @@
 
                 @if( auth()->user()->can('delete_users') or Auth::user()->id == $user->id )
                 {{-- @permission('delete_users') --}}
-                    <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
+                    {{-- <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
                         @csrf
 
                         @method("DELETE")
@@ -65,8 +65,15 @@
                         <button type="submit" class="btn btn-outline-danger">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </form>
-                @endif
+                    </form> --}}
+                    @modalConfirmDestroy([
+                        'btn_class' => 'btn btn-outline-danger del_btn',
+                        'cssId' => 'delele_',
+                        'item' => $user,
+                        'action' => route('users.destroy', ['user' => $user->id]),
+                    ])
+
+                @endif                
                 {{-- @endpermission --}}
 
             </td>

@@ -84,7 +84,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <!-- form delete product -->
+                            {{-- <!-- form delete product -->
                             <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                 @csrf
 
@@ -93,7 +93,13 @@
                                 <button type="submit" class="btn btn-outline-danger">
                                 <i class="fas fa-trash"></i> delete
                                 </button>
-                            </form>
+                            </form> --}}
+                            @modalConfirmDestroy([
+                                'btn_class' => 'btn btn-outline-danger form-control',
+                                'cssId' => 'delele_',
+                                'item' => $product,
+                                'action' => route('products.destroy', ['product' => $product->id]), 
+                            ]) 
                         </div>
                         
                     @elseif ( Auth::user()->can('edit_products') )
@@ -104,11 +110,13 @@
                             </a>
                         </div>
                         
-                    @endif
+                    @else
 
-                    <div class="col-sm-12 padding_left_0">
-                        @addToCart(['product_id' => $product->id])
-                    </div>
+                        <div class="col-sm-12 padding_left_0">
+                            @addToCart(['product_id' => $product->id])
+                        </div>
+
+                    @endif
 
                 @endguest
 

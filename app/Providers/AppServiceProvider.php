@@ -37,5 +37,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.addToCart', 'addToCart');
         Blade::include('includes.select-status-order', 'selectStatusOrder');
         Blade::include('includes.modal-message', 'modalMessage');
+        Blade::include('includes.modal-confirm-destroy', 'modalConfirmDestroy');
     }
 }

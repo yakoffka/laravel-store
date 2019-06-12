@@ -95,7 +95,7 @@
 
 
                         @if ( Auth::user()->can('delete_orders') )
-                            <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="POST" class="del_btn">
+                            {{-- <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="POST" class="del_btn">
                                 @csrf
 
                                 @method("DELETE")
@@ -108,7 +108,15 @@
 
                                 <i class="fas fa-trash"></i>
                                 </button>
-                            </form>
+                            </form> --}}
+                            @modalConfirmDestroy([
+                                'btn_class' => 'btn btn-outline-danger del_btn',
+                                'cssId' => 'delele_',
+                                'item' => $order,
+                                'action' => route('orders.destroy', ['order' => $order->id]),
+                                'name_item' => 'order #' . $order->id, 
+                            ])
+    
                         @else
                             {{-- <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button> --}}
                         @endif

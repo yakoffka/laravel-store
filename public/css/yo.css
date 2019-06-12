@@ -156,6 +156,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
     padding-left: 0;
 }
 .product_buttons a.btn,
+.product_buttons button.btn,
 .product_buttons form button
 {
     width: 100%;
