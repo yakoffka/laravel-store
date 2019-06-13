@@ -29,7 +29,8 @@
         <div class="col-md-8">
             <h2>specification product</h2>
 
-            <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br>
+            {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
+            <span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>
             <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
             <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
             <span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>

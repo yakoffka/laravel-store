@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Category;
+use App\Manufacturer;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -12,31 +13,30 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        $arrManuf = ['Cort', 'Fernandes', 'Epiphone', 'Fender', ];
-        // $arrType = ['bass', 'acoustic', 'electric', ];
+        $manufacturers = Manufacturer::all();
         $arrMaterial = ['Basswood', 'Maple', 'Birch', 'Cast iron', ];
         $a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $arr_categories = Category::all()->toArray();
 
         for ($i=0; $i<24; $i++) {
 
-            $manufacturer = $arrManuf[rand(0, count($arrManuf)-1)];
-            // $type = $arrType[rand(0, count($arrType)-1)];
+            $manufacturer = $manufacturers->random();
             $category = $arr_categories[ rand(1, count($arr_categories)-1) ]; // no parent category with id == 1
-            $name = $manufacturer
+            $name = $category['title']
                 . ' '
-                .  ucwords($category['name'])
+                // .  ucwords($category['name'])
+                .  $manufacturer->title
                 . ' Guitar ' 
                 . $a[rand(0, strlen($a)-1)] 
                 . $a[rand(0, strlen($a)-1)] 
                 . '-' 
-                . rand(5, 215);
+                . rand(10, 215);
             $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
 
 
             DB::table('products')->insert([
                 'name' => $name,
-                'manufacturer' => $manufacturer,
+                'manufacturer_id' => $manufacturer->id,
                 'visible' => rand(0, 5) ? 1 : 0,
                 'category_id' => $category['id'],
                 'materials' => $materials,

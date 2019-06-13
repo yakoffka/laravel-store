@@ -29,6 +29,10 @@ class Product extends Model
         return $this->belongsTo(User::class, 'edited_by_user_id');
     }
 
+    public function manufacturer() {
+        return $this->belongsTo(Manufacturer::class);
+    }
+
     public function scopeFilter(Builder $builder, /*Request */$request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
         return (new ProductFilters($request))->add($filters)->filter($builder);
     }
