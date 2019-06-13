@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filters\Product\ProductFilters;
 
 class Product extends Model
 {
@@ -25,6 +27,10 @@ class Product extends Model
 
     public function editor() {
         return $this->belongsTo(User::class, 'edited_by_user_id');
+    }
+
+    public function scopeFilter(Builder $builder, /*Request */$request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
+        return (new ProductFilters($request))->add($filters)->filter($builder);
     }
     
 }

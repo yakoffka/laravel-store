@@ -12,6 +12,7 @@ use App\Mail\ProductCreated;
 use App\Product;
 use App\Category;
 use App\Cart;
+// use App\Filters\Product\ManufacturerFilter;
 
 class ProductsController extends Controller
 {
@@ -24,7 +25,7 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
         // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate(config('custom.products_paginate'));
         // return view('products.index', compact('products'));
 
@@ -37,14 +38,35 @@ class ProductsController extends Controller
         // $products = Product::paginate(config('custom.products_paginate'));
         // return view('products.index', compact('products'));
 
-        if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::paginate(config('custom.products_paginate'));
-        } else {
-            $products = Product::where('visible', '=', 1)->paginate(config('custom.products_paginate'));
-        }
+        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
+        //     $products = Product::latest()->paginate(config('custom.products_paginate'));
+        // } else {
+        //     $products = Product::latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        // }
+        // return view('products.index', compact('products'));
+
+        // add filters
+        // $products = Product::latest()->filter($this->filters())->paginate(config('custom.products_paginate'));
+        // return view('products.index', compact('products'));
+
+
+
+        // return Product::filter($request, $this->getFilters())->get();
+
+        $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
         return view('products.index', compact('products'));
 
     }
+
+
+    // protected function filters() {
+    //     // where('visible', '=', 1)
+    //     return [
+    //         'access' => Filter::class,
+    //     ];
+    // }
+
+
 
     /**
      * Display the specified resource.
@@ -234,5 +256,12 @@ class ProductsController extends Controller
         }
 
         return false;
+    }
+
+    protected function getFilters() 
+    {
+        return [
+            // 'manufacturer' => ManufacturerFilter::class,
+        ];
     }
 }
