@@ -51,21 +51,22 @@ class ProductsController extends Controller
 
 
 
-        // return Product::filter($request, $this->getFilters())->get();
+        foreach($request->query as $key => $val){
+            $appends[$key] = $val;
+        }
 
         $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
-        return view('products.index', compact('products'));
-
+        // $products = Product::with('category')->filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
+        // dd($products);
+        return view('products.index', compact('products', 'appends'));
     }
 
-
-    // protected function filters() {
-    //     // where('visible', '=', 1)
-    //     return [
-    //         'access' => Filter::class,
-    //     ];
-    // }
-
+    protected function getFilters() 
+    {
+        return [
+            // 'manufacturer' => ManufacturerFilter::class,
+        ];
+    }
 
 
     /**
@@ -258,10 +259,4 @@ class ProductsController extends Controller
         return false;
     }
 
-    protected function getFilters() 
-    {
-        return [
-            // 'manufacturer' => ManufacturerFilter::class,
-        ];
-    }
 }

@@ -20,7 +20,10 @@
     <div class="row">
 
         <!-- pagination block -->
-        @if($products->links())
+        {{-- @if($products->appends(['sort' => 'votes'])->links())
+            <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+        @endif --}}
+        @if($products->appends($appends)->links())
             <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
         @endif
 

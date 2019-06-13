@@ -7,15 +7,23 @@ use App\Filters\FilterAbstract;
 
 class VisibleFilter extends FilterAbstract
 {
+
+    public function mappings()
+    {
+        return [
+            'visible' => true,
+            'invisible' => false,
+        ];
+    }
+
     public function filter(Builder $builder, $value)
     {
-        $value = ($value === 'all' ? true : false);
+        $value = $this->resolveFilterValue($value);
 
-        if( $value ) {
-            return $builder->where('visible', $value);
-        } else {
+        if ( $value === null ) {
             return $builder;
         }
-        
+
+        return $builder->where('visible', $value);
     }
 }

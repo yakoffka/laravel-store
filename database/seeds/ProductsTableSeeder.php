@@ -26,7 +26,7 @@ class ProductsTableSeeder extends Seeder
                 . ' '
                 // .  ucwords($category['name'])
                 .  $manufacturer->title
-                . ' Guitar ' 
+                // . ' Guitar ' 
                 . $a[rand(0, strlen($a)-1)] 
                 . $a[rand(0, strlen($a)-1)] 
                 . '-' 

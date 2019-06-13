@@ -4,25 +4,24 @@ namespace App\Filters\Product;
 
 use Illuminate\Database\Eloquent\Builder;
 use App\Filters\FilterAbstract;
-use App\Product;
+use App\Manufacturer;
 
 class ManufacturerFilter extends FilterAbstract
 {
     public function filter(Builder $builder, $value)
     {
-        return $builder->where('manufacturer', $value);
-
-
-        // // $manufacturer = Product::toArray()->pluck('manufacturer');
-        // $manufacturer = Product::all()->data_get('manufacturer');
+        // return $builder->where('manufacturer', $value);
+        $manufacturer = Manufacturer::all()->firstWhere('name', '=', $value);
         // dd($manufacturer);
 
+        // return $builder->where('manufacturer_id', $manufacturer->id);
 
-        // if ( Arr::has($value) ) {
-        //     return $builder->where('manufacturer', $value);
+        if ($manufacturer) {
+            return $builder->where('manufacturer_id', $manufacturer->id);
         // } else {
-        //     return $builder;
-        // }
+        //     // return $builder;
+        //     return null;
+        }
         
     }
 }
