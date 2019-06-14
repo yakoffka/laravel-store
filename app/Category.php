@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Product;
 use App\Category;
-use App\Traits\HasChildren;
-use App\Traits\IsOrderable;
+use App\Traits\Category\{HasChildren, IsOrderable};
+
 
 class Category extends Model
 {
-    use HasChildren, IsOrderable;
-
     protected $guarded = [
         'id',
     ];
@@ -31,6 +29,6 @@ class Category extends Model
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }

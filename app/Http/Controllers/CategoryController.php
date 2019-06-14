@@ -7,6 +7,7 @@ use App\Category;
 use App\Product;
 use Illuminate\Support\Facades\Storage;
 use Auth;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -20,11 +21,11 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        // $categories = Category::paginate(config('custom.products_paginate'));
-        // return view('categories.index', compact('categories'));
+        $categories = Category::paginate(config('custom.products_paginate'));
+        return view('categories.index', compact('categories'));
         
-        $categories = Category::parents()->ordered()/*->get()*/->paginate(config('custom.products_paginate'));
-        return view('categories.index2', compact('categories'));
+        // $categories = Category::parents()->ordered()/*->get()*/->paginate(config('custom.products_paginate'));
+        // return view('categories.index2', compact('categories'));
     }
 
     /**
@@ -59,6 +60,7 @@ class CategoryController extends Controller
 
         $category = Category::create([
             'name'            => request('name'),
+            'slug'            => Str::slug(request('name'), '-'),
             'title'           => request('title'),
             'description'     => request('description'),
             'visible'            => request('visible'),
@@ -133,6 +135,7 @@ class CategoryController extends Controller
 
         $category->update([
             'name'              => request('name'),
+            'slug'            => Str::slug(request('name'), '-'),
             'title'             => request('title'),
             'description'       => request('description'),
             'visible'              => request('visible'),

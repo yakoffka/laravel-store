@@ -114,7 +114,7 @@
         <div class="height2em"></div>
 
         @if ($errors->any())
-            <div class="container">              
+            <div class="container">             
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Holy guacamole!</strong> Something went wrong..
                     <ol>
@@ -144,6 +144,8 @@
                 {{ $success }}
             @endalert
             @endif
+                            
+            @include('layouts.partials.nav')
 
             @yield('content')
 
