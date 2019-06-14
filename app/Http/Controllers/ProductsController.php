@@ -50,7 +50,7 @@ class ProductsController extends Controller
         // return view('products.index', compact('products'));
 
 
-
+        $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
         }

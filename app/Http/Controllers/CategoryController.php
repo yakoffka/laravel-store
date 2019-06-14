@@ -20,8 +20,11 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $categories = Category::paginate(config('custom.products_paginate'));
-        return view('categories.index', compact('categories'));
+        // $categories = Category::paginate(config('custom.products_paginate'));
+        // return view('categories.index', compact('categories'));
+        
+        $categories = Category::parents()->ordered()/*->get()*/->paginate(config('custom.products_paginate'));
+        return view('categories.index2', compact('categories'));
     }
 
     /**

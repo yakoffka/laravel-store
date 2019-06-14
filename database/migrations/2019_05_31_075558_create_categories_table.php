@@ -15,15 +15,19 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->unsignedInteger('sort_order')->default(0);
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('image')->nullable()->charset('utf8');
             $table->boolean('visible');
-            $table->unsignedInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('categories');
         });
     }
 
