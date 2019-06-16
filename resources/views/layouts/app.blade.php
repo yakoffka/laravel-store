@@ -144,10 +144,22 @@
                 {{ $success }}
             @endalert
             @endif
-                            
-            @include('layouts.partials.nav')
 
-            @yield('content')
+            <div class="container">
+                <div class="row">
+                <div class="col col-sm-1 p-0">
+
+                    @include('layouts.partials.nav')
+                    @include('layouts.partials.filter-manufacturer')
+
+                </div>
+                <div class="col col-sm-11">
+
+                    @yield('content')
+
+                </div>
+                </div>
+            </div>
 
         </main>
 

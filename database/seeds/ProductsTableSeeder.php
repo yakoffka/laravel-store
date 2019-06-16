@@ -21,7 +21,7 @@ class ProductsTableSeeder extends Seeder
         for ($i=0; $i<100; $i++) {
 
             $manufacturer = $manufacturers->random();
-            $category = $arr_categories[ rand(1, count($arr_categories)-1) ]; // no parent category with id == 1
+            $category = $arr_categories[ rand(0, count($arr_categories)-1) ]; // no parent category with id == 1
             $name = $category['title']
                 . ' '
                 // .  ucwords($category['name'])

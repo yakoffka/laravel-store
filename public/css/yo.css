@@ -452,3 +452,15 @@ div.skew-bg {
 .wrap_panda.h300 {position:relative; /*width: 300px; */height: 300px;}
 .panda {position: absolute; right: calc( 50% - 300px ); bottom: -55px; z-index: -1;}
 
+
+
+ul.navbar-nav {
+    margin-bottom: 1em;
+}
+ul#mainMenu {
+    margin-top: 3em;
+}
+ul#mainMenu ul {
+    padding-left: 10px;
+    list-style: none;
+}

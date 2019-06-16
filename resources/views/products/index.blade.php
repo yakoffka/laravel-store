@@ -9,7 +9,7 @@
 @endsection --}}
 
 @section('content')
-<div class="container">
+{{-- <div class="container"> --}}
 
     <h1>All Products</h1>
 
@@ -18,14 +18,6 @@
     @endalert --}}
 
     <div class="row">
-
-        <!-- pagination block -->
-        {{-- @if($products->appends(['sort' => 'votes'])->links())
-            <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
-        @endif --}}
-        @if($products->appends($appends)->links())
-            <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
-        @endif
 
         @foreach($products as $product)
 
@@ -155,10 +147,14 @@
         @endforeach
 
         <!-- pagination block -->
-        @if($products->links())
+        {{-- @if($products->links())
+            <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+        @endif --}}
+        @if($products->appends($appends)->links())
             <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
         @endif
 
+
     </div>
-</div>
+{{-- </div> --}}
 @endsection

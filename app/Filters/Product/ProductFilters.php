@@ -9,7 +9,7 @@ use App\Filters\FiltersAbstract;
 // use App\Filters\Product\AccessFilter;
 // use App\Filters\Product\ManufacturerFilter;
 
-use App\Filters\Product\{AccessFilter, ManufacturerFilter, VisibleFilter};
+use App\Filters\Product\{AccessFilter, ManufacturerFilter, VisibleFilter, CategoryFilter};
 
 class ProductFilters extends FiltersAbstract
 {
@@ -29,6 +29,7 @@ class ProductFilters extends FiltersAbstract
         // 'access' => AccessFilter::class,
         'manufacturer' => ManufacturerFilter::class,
         'visible' => VisibleFilter::class,
+        'category' => CategoryFilter::class,
         // 'category_id'
         // 'materials'
         // 'year_manufacture'

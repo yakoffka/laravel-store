@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Category;
-use App\Http\ViewComposer\NavigationComposer;
+use App\Http\ViewComposer\{NavigationComposer, FilterManufacturerComposer};
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -26,5 +26,6 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layouts.partials.nav', NavigationComposer::class);
+        view()->composer('layouts.partials.filter-manufacturer', FilterManufacturerComposer::class);
     }
 }
