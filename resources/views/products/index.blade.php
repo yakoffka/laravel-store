@@ -28,20 +28,13 @@
                 <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
 
                 <a href="{{ route('products.show', ['product' => $product->id]) }}">
-
                     @if($product->image)
-                    
-                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l.png);">
-
+                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
                     @else
-
                         <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);">
-                            
                     @endif
-
                         <div class="dummy"></div><div class="element"></div>
                     </div>
-
                 </a>
 
                 <div class="card-body">

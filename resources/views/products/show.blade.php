@@ -11,17 +11,11 @@
     <div class="row">
 
         <div class="col-md-4 wrap_b_image">
-
             @if($product->image)
-
-                <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l.png);">
-
+                <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
             @else
-
                 <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);">
-
             @endif
-            
                 <div class="dummy"></div><div class="element"></div>
             </div>
         </div>

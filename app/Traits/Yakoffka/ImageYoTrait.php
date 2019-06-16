@@ -98,6 +98,7 @@ trait ImageYoTrait
 
         // создаем пустое изображение
         $dst_image = imagecreatetruecolor($dstimage_w, $dstimage_h);
+        $color_fill  = imagecolorallocate($dst_image,255,255,255);
         imagefill($dst_image, 0, 0, $color_fill);
 
         // получаем ресурс исходного изображения
@@ -139,12 +140,29 @@ trait ImageYoTrait
             $src_image = $icfunc($path_watermark);
             imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
-            
+
+            // удаление артефактов GD, образующихся при наложении прозрачного фона
+            for($y=0; $y<($dstimage_h); ++$y) {
+                for($x=0; $x<($dstimage_w); ++$x) {
+                    $colorat = imagecolorat($dst_image, $x, $y);
+                    $r = ($colorat >> 16) & 0xFF;
+                    $g = ($colorat >> 8) & 0xFF;
+                    $b = $colorat & 0xFF;
+
+                    if (
+                        ($r == 252 && $g == 252 && $b == 252) || 
+                        ($r == 253 && $g == 253 && $b == 253) || 
+                        ($r == 254 && $g == 254 && $b ==254)
+                    ) {
+                        imagesetpixel($dst_image, $x, $y, $color_fill);
+                    }
+                }
+            }
         }
 
         // сохраняем превью
         // if(imagejpeg($dst_image,$path_resize_img,100)){
-        if ( !imagepng($dst_image, $path_dst_image) ) {
+        if ( !imagepng($dst_image, $path_dst_image,1) ) {
             // err
             $name_dst_image_without_ext = false;
         }
@@ -153,7 +171,6 @@ trait ImageYoTrait
         imagedestroy($dst_image);
         imagedestroy($src_image);
 
-        // dd('name_dst_image', $name_dst_image, 'dst_image', $dst_image, 'icfunc', $icfunc, '$image', $image, '$src_size', $src_size, '$color_fill', $color_fill);
         return $name_dst_image_without_ext;
 
 

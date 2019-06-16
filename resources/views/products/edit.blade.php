@@ -19,11 +19,9 @@
                     @method('PATCH')
 
                     @if($product->image)
-
-                        <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+                        <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
                             <div class="dummy"></div><div class="element"></div>
                         </div>
-
                     @else
                     @endif
 
@@ -33,7 +31,7 @@
 
                     @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
 
-                    @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer])
+                    @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title])
 
                     @input(['name' => 'materials', 'value' => old('materials') ?? $product->materials])
 
