@@ -14,7 +14,7 @@ use App\Category;
 use App\Cart;
 // use App\Filters\Product\ManufacturerFilter;
 use Intervention\Image\Facades\Image;
-use App\Traits\Yakoffka\ImageManipulationTrait; // Traits???
+use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 
 class ProductsController extends Controller
 {
@@ -151,7 +151,7 @@ class ProductsController extends Controller
         if (request()->file('image')) {
 
             // $product->image = $this->storeImage(request()->file('image'), $product->id);
-            $product->image = ImageManipulationTrait::saveImgSet(request()->file('image'), $product->id);
+            $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
 
             if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
@@ -209,7 +209,7 @@ class ProductsController extends Controller
         if (request()->file('image')) {
 
             // $product->image = $this->storeImage(request()->file('image'), $product->id);
-            $product->image = ImageManipulationTrait::saveImgSet(request()->file('image'), $product->id);
+            $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
 
             if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();

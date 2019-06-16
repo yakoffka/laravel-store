@@ -39,7 +39,7 @@
 
                     @if($product->image)
                     
-                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}});">
+                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l.png);">
 
                     @else
 

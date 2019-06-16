@@ -4,7 +4,7 @@ namespace App\Traits\Yakoffka;
 
 use Illuminate\Support\Str;
 
-trait ImageManipulationTrait
+trait ImageYoTrait
 {
 
     public static function saveImgSet($image, $product_id)
@@ -18,23 +18,24 @@ trait ImageManipulationTrait
 
         // создание изображений
         $res = true;
+        $name_dst_image = false;
 
         // large
         $size_preview = 'l';
-        if ( $res and config('imagemanipulation.is_' . $size_preview) ) {
-            $name_dst_image = ImageManipulationTrait::saveImg($image, $product_id, $size_preview);
+        if ( $res and config('imageyo.is_' . $size_preview) ) {
+            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
         }
 
         // medium
         $size_preview = 'm';
-        if ( $res and config('imagemanipulation.is_' . $size_preview) ) {
-            $name_dst_image = ImageManipulationTrait::saveImg($image, $product_id, $size_preview);
+        if ( $res and config('imageyo.is_' . $size_preview) ) {
+            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
         }
 
         // small
         $size_preview = 's';
-        if ( $res and config('imagemanipulation.is_' . $size_preview) ) {
-            $name_dst_image = ImageManipulationTrait::saveImg($image, $product_id, $size_preview);
+        if ( $res and config('imageyo.is_' . $size_preview) ) {
+            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
         }
 
         return $name_dst_image;
@@ -54,13 +55,13 @@ trait ImageManipulationTrait
 
 
         // получение параметров из конфигурационного файла
-        $dst_dir    = storage_path() . config('imagemanipulation.dirdst') . '/products/' . $product_id;
+        $dst_dir    = storage_path() . config('imageyo.dirdst') . '/products/' . $product_id;
         // $name_dst_image  = Str::random(10) . '_' . $src_name;
         $name_dst_image  = $name_dst_image_without_ext . '_' . $size_preview . '.png';
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
-        $color_fill = config('imagemanipulation.color_fill');
-        $dstimage_w = config('imagemanipulation.' . $size_preview . '_w');
-        $dstimage_h = config('imagemanipulation.' . $size_preview . '_h');
+        $color_fill = config('imageyo.color_fill');
+        $dstimage_w = config('imageyo.' . $size_preview . '_w');
+        $dstimage_h = config('imageyo.' . $size_preview . '_h');
 
         // создание директории при необходимости
         if ( !is_dir($dst_dir) ) {
@@ -102,8 +103,8 @@ trait ImageManipulationTrait
         $copy = imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
         // накладываем водяной знак
-        if ( config('imagemanipulation.is_' . $size_preview . '_watermark') ) {
-            $path_watermark = storage_path() . config('imagemanipulation.watermark');
+        if ( config('imageyo.is_' . $size_preview . '_watermark') ) {
+            $path_watermark = storage_path() . config('imageyo.watermark');
             $src_size = getimagesize($path_watermark);
             $src_w = $src_size[0];
             $src_h = $src_size[1];
