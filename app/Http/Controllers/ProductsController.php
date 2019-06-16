@@ -13,9 +13,12 @@ use App\Product;
 use App\Category;
 use App\Cart;
 // use App\Filters\Product\ManufacturerFilter;
+use Intervention\Image\Facades\Image;
+use App\Traits\Yakoffka\ImageManipulationTrait; // Traits???
 
 class ProductsController extends Controller
 {
+
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);
     }
@@ -133,7 +136,7 @@ class ProductsController extends Controller
         
         if (!$product = Product::create([
             'name' => request('name'),
-            'manufacturer' => request('manufacturer') ?? '',
+            // 'manufacturer' => request('manufacturer') ?? '',
             'category_id' => request('category_id'),
             'visible' => request('visible'),
             'materials' => request('materials') ?? '',
@@ -147,7 +150,8 @@ class ProductsController extends Controller
 
         if (request()->file('image')) {
 
-            $product->image = $this->storeImage(request()->file('image'), $product->id);
+            // $product->image = $this->storeImage(request()->file('image'), $product->id);
+            $product->image = ImageManipulationTrait::saveImgSet(request()->file('image'), $product->id);
 
             if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
@@ -191,7 +195,7 @@ class ProductsController extends Controller
 
         $product->update([
             'name' => request('name'),
-            'manufacturer' => request('manufacturer'),
+            // 'manufacturer' => request('manufacturer'), !!! manufacturer_id
             'category_id' => request('category_id'),
             'visible' => request('visible'),
             'materials' => request('materials'),
@@ -204,11 +208,13 @@ class ProductsController extends Controller
 
         if (request()->file('image')) {
 
-            $product->image = $this->storeImage(request()->file('image'), $product->id);
+            // $product->image = $this->storeImage(request()->file('image'), $product->id);
+            $product->image = ImageManipulationTrait::saveImgSet(request()->file('image'), $product->id);
 
             if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
             }
+
         }
 
         return redirect()->route('products.show', ['product' => $product->id]);
@@ -239,24 +245,24 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    /**
-     * Store image product.
-     *
-     * @param  \Illuminate\Http\Request  request()
-     * @return string $filename or false
-     */
-    private function storeImage($image, $product_id) {
+    // /**
+    //  * Store image product.
+    //  *
+    //  * @param  \Illuminate\Http\Request  request()
+    //  * @return string $filename or false
+    //  */
+    // private function storeImage($image, $product_id) {
 
-        $directory = 'public/images/products/' . $product_id;
-        $filename = $image->getClientOriginalName();
+    //     $directory = 'public/images/products/' . $product_id;
+    //     $filename = $image->getClientOriginalName();
 
-        if (Storage::makeDirectory($directory)) {
-            if (Storage::putFileAs($directory, $image, $filename)) {
-                return $filename;
-            }
-        }
+    //     if (Storage::makeDirectory($directory)) {
+    //         if (Storage::putFileAs($directory, $image, $filename)) {
+    //             return $filename;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
 }

@@ -18,7 +18,7 @@ class ProductsTableSeeder extends Seeder
         $a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $arr_categories = Category::all()->toArray();
 
-        for ($i=0; $i<24; $i++) {
+        for ($i=0; $i<100; $i++) {
 
             $manufacturer = $manufacturers->random();
             $category = $arr_categories[ rand(1, count($arr_categories)-1) ]; // no parent category with id == 1

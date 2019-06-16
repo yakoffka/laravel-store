@@ -32,7 +32,7 @@
                         <label for="manufacturer">manufacturer</label>
                         <input type="text" id="manufacturer" name="manufacturer" class="form-control" placeholder="manufacturer" value="{{ old('manufacturer') }}">
                     </div> --}}
-                    @input(['name' => 'manufacturer', 'value' => old('manufacturer')])
+                    {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer')]) !!! manufacturer_id --}}
 
                     {{-- <div class="form-group">
                         <label for="materials">materials</label>

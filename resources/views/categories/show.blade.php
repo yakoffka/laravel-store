@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="container">
-    
+
     <h1>Products in {{ $category->title }} category</h1>
     <div class="description">description: {{ $category->description }}</div>
     <div class="description">visible: {{ $category->visible }}</div>
-    <div class="description">parent category: {{ $category->parent->title }}</div>
+    <div class="description">parent category: {{ $category->parent ? $category->parent->title : 'none' }}</div>
     
     <!-- products -->
     <div class="row">
