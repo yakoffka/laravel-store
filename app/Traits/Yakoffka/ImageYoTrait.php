@@ -7,71 +7,88 @@ use Illuminate\Support\Str;
 trait ImageYoTrait
 {
 
-    public static function saveImgSet($image, $product_id)
+    public static function saveImgSet($image, $product_id, $rewatermark = false)
     {
-
         // dd(pathinfo($image));
+        // dd(pathinfo($image)['basename']);
+        // dd(getimagesize($image));
+        // dd($image);
         // проверяем загруженное изображение (размер, тип)
-        if( $image->clientExtension() !== $image->extension()){ // $image->error
-            return false;  
-        }
+        // if( $image->clientExtension() !== $image->extension()){ // $image->error
+        //     return false;  
+        // }
 
         // создание изображений
         $res = true;
         $name_dst_image = false;
 
-        // origin
-        $size_preview = 'origin';
-        if ( $res and config('imageyo.is_' . $size_preview)) {
-            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
+        foreach ( ['origin', 'l', 'm', 's'] as $type_preview ) {
+            if ( $res and config('imageyo.is_' . $type_preview) ) {
+                $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $rewatermark);
+            }
         }
 
+        // // origin
+        // $type_preview = 'origin';
+        // if ( $res and config('imageyo.is_' . $type_preview)) {
+        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
+        // }
 
-        // large
-        $size_preview = 'l';
-        if ( $res and config('imageyo.is_' . $size_preview) ) {
-            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
-        }
 
-        // medium
-        $size_preview = 'm';
-        if ( $res and config('imageyo.is_' . $size_preview) ) {
-            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
-        }
+        // // large
+        // $type_preview = 'l';
+        // if ( $res and config('imageyo.is_' . $type_preview) ) {
+        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
+        // }
 
-        // small
-        $size_preview = 's';
-        if ( $res and config('imageyo.is_' . $size_preview) ) {
-            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
-        }
+        // // medium
+        // $type_preview = 'm';
+        // if ( $res and config('imageyo.is_' . $type_preview) ) {
+        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
+        // }
 
+        // // small
+        // $type_preview = 's';
+        // if ( $res and config('imageyo.is_' . $type_preview) ) {
+        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $rewatermark);
+        // }
         return $name_dst_image;
     }
 
 
-    public static function saveImg($image, $product_id, $size_preview)
+    public static function saveImg($image, $product_id, $type_preview, $rewatermark)
     {
 
-        // получение параметров исходного (переданного) изображения
-        $src_name = $image->getClientOriginalName();
-        $name_dst_image_without_ext = str_replace( strrchr($src_name, '.'), '', $src_name);
-        $src_path = $image->path();
+        // получение параметров исходного (переданного) изображения        
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
+        if ( $rewatermark ) {
+            $src_img_name = pathinfo($image)['basename'];
+            $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
+            $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+            $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);
+        } else {
+            $src_img_name = $image->getClientOriginalName();
+            $src_path = $image->path();
+            $type = $image->extension(); //определяем тип файла
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+        }
+        
 
         // получение параметров из конфигурационного файла
-        if ( $size_preview === 'origin' ) {
+        if ( $type_preview === 'origin' ) {
             $dstimage_w = $src_w;
             $dstimage_h = $src_h;    
             $dst_dir    = storage_path() . config('imageyo.dirdst_origin') . '/products/' . $product_id;
         } else {
-            $dstimage_w = config('imageyo.' . $size_preview . '_w');
-            $dstimage_h = config('imageyo.' . $size_preview . '_h');
+            $dstimage_w = config('imageyo.' . $type_preview . '_w');
+            $dstimage_h = config('imageyo.' . $type_preview . '_h');
             $dst_dir    = storage_path() . config('imageyo.dirdst') . '/products/' . $product_id;
         }
 
-        $name_dst_image  = $name_dst_image_without_ext . '_' . $size_preview . '.png';
+        $name_dst_image  = $name_dst_image_without_ext . '_' . $type_preview . config('imageyo.res_ext');
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
         $color_fill = config('imageyo.color_fill');
 
@@ -86,7 +103,8 @@ trait ImageYoTrait
 
         //определение функции соответственно типу загруженного файла
         // $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
-        $type = $image->extension(); //определяем тип файла
+        // if ( $rewatermark )
+        // $type = $image->extension(); //определяем тип файла
         $icfunc = "imagecreatefrom".$type;
         if(!function_exists($icfunc)){//если нет такой функции - прекращаем работу скрипта
             // err
@@ -119,7 +137,7 @@ trait ImageYoTrait
         $copy = imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
         // накладываем водяной знак
-        if ( config('imageyo.' . $size_preview . '_is_watermark') ) {
+        if ( config('imageyo.' . $type_preview . '_is_watermark') ) {
             $path_watermark = storage_path() . config('imageyo.watermark');
             $src_size = getimagesize($path_watermark);
             $src_w = $src_size[0];

@@ -39,6 +39,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+
+Route::get('/products/getnewewnatermark', 'ProductsController@getNewewWatermark')->name('products.getnewewnatermark');
 /* products*/
 Route::get('/products', 'ProductsController@index')->name('products.index');
 Route::get('/products/create', 'ProductsController@create')->name('products.create');
@@ -47,6 +49,7 @@ Route::post('/products', 'ProductsController@store')->name('products.store');
 Route::get('/products/edit/{product}', 'ProductsController@edit')->name('products.edit');
 Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
+
 
 /* comments*/
 Route::get('/comments', 'ProductCommentsController@index');

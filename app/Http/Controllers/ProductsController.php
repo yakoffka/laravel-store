@@ -148,7 +148,7 @@ class ProductsController extends Controller
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
-        if (request()->file('image')) {
+        if ( request()->file('image') ) { // убрать лишнюю перезапись!
 
             // $product->image = $this->storeImage(request()->file('image'), $product->id);
             $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
@@ -206,7 +206,7 @@ class ProductsController extends Controller
         ]);
 
 
-        if (request()->file('image')) {
+        if (request()->file('image')) { // убрать лишнюю перезапись!
 
             // $product->image = $this->storeImage(request()->file('image'), $product->id);
             $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
@@ -217,7 +217,8 @@ class ProductsController extends Controller
 
         }
 
-        return redirect()->route('products.show', ['product' => $product->id]);
+        // return redirect()->route('products.show', ['product' => $product->id]);
+        return redirect()->route('products.index');
     }
 
     /**
@@ -264,5 +265,21 @@ class ProductsController extends Controller
 
     //     return false;
     // }
+
+
+    public function getNewewWatermark()
+    {
+        \Artisan::call('config:cache');
+
+        $products = Product::all()->where('image', '!=', null);
+        foreach ( $products as $product ) {
+            $image = storage_path() . config('imageyo.dirdst_origin') . '/products/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
+            // dd($image);
+            $product->image = ImageYoTrait::saveImgSet($image, $product->id, true);
+        }
+
+        return redirect()->route('products.index');
+
+    }
 
 }
