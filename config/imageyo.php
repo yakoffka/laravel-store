@@ -9,7 +9,7 @@ return [
     'dirdst_origin' => env('IMG_YO_DIR_DESTINATION_ORIGIN', '/app/uploads/images'),
     'color_fill'    => env('IMG_YO_FILLCOLOR', 0xffffff),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark.png'),
-    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta.png'),
+    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_laravel_30.png'),
     'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta_30.png'),
     'res_ext'           => env('IMG_YO_RES_EXT', '.png'), // only '.png'!!!
 

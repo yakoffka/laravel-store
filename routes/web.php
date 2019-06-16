@@ -40,7 +40,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-Route::get('/products/getnewewnatermark', 'ProductsController@getNewewWatermark')->name('products.getnewewnatermark');
+Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
 /* products*/
 Route::get('/products', 'ProductsController@index')->name('products.index');
 Route::get('/products/create', 'ProductsController@create')->name('products.create');

@@ -267,8 +267,10 @@ class ProductsController extends Controller
     // }
 
 
-    public function getNewewWatermark()
+    public function rewatermark()
     {
+        $start = microtime(true);
+
         \Artisan::call('config:cache');
 
         $products = Product::all()->where('image', '!=', null);
@@ -278,8 +280,11 @@ class ProductsController extends Controller
             $product->image = ImageYoTrait::saveImgSet($image, $product->id, true);
         }
 
-        return redirect()->route('products.index');
+        $time = microtime(true) - $start;
 
+        dd(__METHOD__ . " " . $time);
+        // return redirect()->route('products.index')->withErrors(['execute time: ' . $time]);
+        return redirect()->route('products.index');
     }
 
 }

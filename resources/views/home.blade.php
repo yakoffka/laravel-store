@@ -52,7 +52,8 @@
                         <h5><a href="{{ route('products.create') }}">Create new product</a></h5>
                     @endpermission
                     @permission('edit_products')
-                        <h5><a href="{{ route('products.getnewewnatermark') }}">Resave all image with new Watermark</a></h5>
+                        <h2 class="grey">Images:</h2>
+                        <h5><a href="{{ route('products.rewatermark') }}">Resave all image with new Watermark</a></h5>
                     @endpermission
                     
 

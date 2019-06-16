@@ -9,49 +9,22 @@ trait ImageYoTrait
 
     public static function saveImgSet($image, $product_id, $rewatermark = false)
     {
-        // dd(pathinfo($image));
-        // dd(pathinfo($image)['basename']);
-        // dd(getimagesize($image));
-        // dd($image);
-        // проверяем загруженное изображение (размер, тип)
-        // if( $image->clientExtension() !== $image->extension()){ // $image->error
-        //     return false;  
-        // }
-
         // создание изображений
         $res = true;
         $name_dst_image = false;
 
-        foreach ( ['origin', 'l', 'm', 's'] as $type_preview ) {
+        if ($rewatermark) {
+            $previews = ['l', 'm', 's'];
+        } else {
+            $previews = ['origin', 'l', 'm', 's'];
+        }
+
+        foreach ( $previews as $type_preview ) {
             if ( $res and config('imageyo.is_' . $type_preview) ) {
                 $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $rewatermark);
             }
         }
 
-        // // origin
-        // $type_preview = 'origin';
-        // if ( $res and config('imageyo.is_' . $type_preview)) {
-        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
-        // }
-
-
-        // // large
-        // $type_preview = 'l';
-        // if ( $res and config('imageyo.is_' . $type_preview) ) {
-        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
-        // }
-
-        // // medium
-        // $type_preview = 'm';
-        // if ( $res and config('imageyo.is_' . $type_preview) ) {
-        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview);
-        // }
-
-        // // small
-        // $type_preview = 's';
-        // if ( $res and config('imageyo.is_' . $type_preview) ) {
-        //     $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $rewatermark);
-        // }
         return $name_dst_image;
     }
 
@@ -102,9 +75,6 @@ trait ImageYoTrait
         }
 
         //определение функции соответственно типу загруженного файла
-        // $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
-        // if ( $rewatermark )
-        // $type = $image->extension(); //определяем тип файла
         $icfunc = "imagecreatefrom".$type;
         if(!function_exists($icfunc)){//если нет такой функции - прекращаем работу скрипта
             // err
@@ -127,14 +97,14 @@ trait ImageYoTrait
 
 
         // создаем пустое изображение
-        $dst_image=imagecreatetruecolor($dstimage_w, $dstimage_h);
-        imagefill($dst_image,0,0,$color_fill);
-    
+        $dst_image = imagecreatetruecolor($dstimage_w, $dstimage_h);
+        imagefill($dst_image, 0, 0, $color_fill);
+
         // получаем ресурс исходного изображения
         $src_image = $icfunc($src_path);
 
         // копируем на него преобразованное изображение с изменением размера
-        $copy = imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+        imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
         // накладываем водяной знак
         if ( config('imageyo.' . $type_preview . '_is_watermark') ) {
@@ -167,11 +137,10 @@ trait ImageYoTrait
 
             // получаем ресурс изображения водяного знака
             $src_image = $icfunc($path_watermark);
-            $copy = imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+            imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
             
         }
-
 
         // сохраняем превью
         // if(imagejpeg($dst_image,$path_resize_img,100)){
