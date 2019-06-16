@@ -16,12 +16,14 @@ class ProductsTableSeeder extends Seeder
         $manufacturers = Manufacturer::all();
         $arrMaterial = ['Basswood', 'Maple', 'Birch', 'Cast iron', ];
         $a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // $arr_categories = Category::all()->where('parent_id', '>', 0)->toArray();
         $arr_categories = Category::all()->toArray();
 
         for ($i=0; $i<100; $i++) {
 
             $manufacturer = $manufacturers->random();
-            $category = $arr_categories[ rand(0, count($arr_categories)-1) ]; // no parent category with id == 1
+            // $category = $arr_categories[ rand(0, count($arr_categories)-1) ]; // no parent category with id == 1
+            $category = $arr_categories[array_rand($arr_categories)];
             $name = $category['title']
                 . ' '
                 // .  ucwords($category['name'])

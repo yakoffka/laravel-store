@@ -20,6 +20,13 @@ trait ImageYoTrait
         $res = true;
         $name_dst_image = false;
 
+        // origin
+        $size_preview = 'origin';
+        if ( $res and config('imageyo.is_' . $size_preview)) {
+            $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $size_preview);
+        }
+
+
         // large
         $size_preview = 'l';
         if ( $res and config('imageyo.is_' . $size_preview) ) {
@@ -53,19 +60,28 @@ trait ImageYoTrait
         $src_w = $src_size[0];
         $src_h = $src_size[1];
 
-
         // получение параметров из конфигурационного файла
-        $dst_dir    = storage_path() . config('imageyo.dirdst') . '/products/' . $product_id;
-        // $name_dst_image  = Str::random(10) . '_' . $src_name;
+        if ( $size_preview === 'origin' ) {
+            $dstimage_w = $src_w;
+            $dstimage_h = $src_h;    
+            $dst_dir    = storage_path() . config('imageyo.dirdst_origin') . '/products/' . $product_id;
+        } else {
+            $dstimage_w = config('imageyo.' . $size_preview . '_w');
+            $dstimage_h = config('imageyo.' . $size_preview . '_h');
+            $dst_dir    = storage_path() . config('imageyo.dirdst') . '/products/' . $product_id;
+        }
+
         $name_dst_image  = $name_dst_image_without_ext . '_' . $size_preview . '.png';
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
         $color_fill = config('imageyo.color_fill');
-        $dstimage_w = config('imageyo.' . $size_preview . '_w');
-        $dstimage_h = config('imageyo.' . $size_preview . '_h');
+
 
         // создание директории при необходимости
         if ( !is_dir($dst_dir) ) {
-            mkdir($dst_dir, 0777, true);
+            if ( !mkdir($dst_dir, 0777, true) ) {
+                dd($dst_dir);
+                return false;
+            }
         }
 
         //определение функции соответственно типу загруженного файла
@@ -103,7 +119,7 @@ trait ImageYoTrait
         $copy = imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
         // накладываем водяной знак
-        if ( config('imageyo.is_' . $size_preview . '_watermark') ) {
+        if ( config('imageyo.' . $size_preview . '_is_watermark') ) {
             $path_watermark = storage_path() . config('imageyo.watermark');
             $src_size = getimagesize($path_watermark);
             $src_w = $src_size[0];

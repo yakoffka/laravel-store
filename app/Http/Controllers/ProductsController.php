@@ -57,7 +57,7 @@ class ProductsController extends Controller
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
         }
-// dd($appends);
+
         $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
         // $products = Product::with('category')->filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
         // dd($products);
