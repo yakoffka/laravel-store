@@ -54,11 +54,11 @@ trait ImageYoTrait
         if ( $type_preview === 'origin' ) {
             $dstimage_w = $src_w;
             $dstimage_h = $src_h;    
-            $dst_dir    = storage_path() . config('imageyo.dirdst_origin') . '/products/' . $product_id;
+            $dst_dir    = storage_path() . config('imageyo.dirdst_origin') . '/' . $product_id;
         } else {
             $dstimage_w = config('imageyo.' . $type_preview . '_w');
             $dstimage_h = config('imageyo.' . $type_preview . '_h');
-            $dst_dir    = storage_path() . config('imageyo.dirdst') . '/products/' . $product_id;
+            $dst_dir    = storage_path() . config('imageyo.dirdst') . '/' . $product_id;
         }
 
         $name_dst_image  = $name_dst_image_without_ext . '_' . $type_preview . config('imageyo.res_ext');
@@ -171,6 +171,7 @@ trait ImageYoTrait
         imagedestroy($dst_image);
         imagedestroy($src_image);
 
+        // dd(__METHOD__ . '/' . $name_dst_image_without_ext);
         return $name_dst_image_without_ext;
 
 
@@ -222,4 +223,50 @@ trait ImageYoTrait
     */
 
     }
+
+
+    public static function recursiveDelete ( string $patch )
+    {
+		$res=false;
+
+		if ( is_dir($patch) ) {
+			$scandir = scandir($patch);
+
+            foreach ( $scandir as $val ) {
+				if( $val!='.' and $val!='..' ) {
+                    $res = ImageYoTrait::recursiveDelete($patch."/".$val);
+                }
+            }
+            unset($val);
+
+			// if ( rmdir($patch) ) {
+            //     $res=true;
+            // } else {
+            //     $res=false;
+            // }
+			
+		} elseif ( is_file($patch) ) {
+
+            $patch_origin = str_replace(config('imageyo.dirdst'), config('imageyo.dirdst_origin'), $patch);
+            $patch_origin = str_replace(['_l.', '_m.', '_s.'], '_origin.', $patch_origin);
+            // return $patch_origin;
+            if ( is_file( $patch_origin ) ) {
+
+                if ( unlink($patch) ) {
+                    $res=true;
+                } else {
+                    $res=false;
+                }
+
+            } else {
+                dd('оригинальный файл отсутствует!' . $patch_origin);
+            }
+
+		} else {
+            $res=false;
+        }
+
+		return $res;
+	}
+
 }

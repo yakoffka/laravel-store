@@ -33,13 +33,9 @@
 
 
             @if($product->price)
-
                 <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
-
             @else
-
                 <span class="grey">priceless</span><br>
-
             @endif
 
 
@@ -52,7 +48,7 @@
                 @if($product->updated_at != $product->created_at)
 
                     <!-- updated_at -->
-                    <span class="grey">updated by: </span>{{ $product->editor->name }}<br>
+                    <span class="grey">updated by: </span>{{ $product->editor->name ?? '-' }}<br>
                     <span class="grey">date updated: </span>{{ $product->updated_at }}<br>
 
                 @endif

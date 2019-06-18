@@ -32,6 +32,7 @@ class OrderStatusChanged extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.order-status-changed')->subject('Изменение статуса заказа №' . $this->order->id);
+        return $this->markdown('mail.order-status-changed')
+            ->subject('Изменение статуса заказа №' . $this->order->id);
     }
 }

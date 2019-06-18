@@ -1,6 +1,6 @@
 @component('mail::message')
 <h2>Здраствуйте, {{ $user->name }}!</h2>
-Спасибо за оформление заказа на {{ env('APP_NAME') }}!<br>
+Спасибо за оформление заказа на {{ config('app.name') }}!<br>
 Ваш заказ #{{ $order->id }} принят {{ $order->created_at }}. 
 
 @component('mail::button', ['url' => route('orders.show', ['order' => $order->id])])

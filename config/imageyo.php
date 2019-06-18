@@ -5,13 +5,17 @@ return [
     /*
     *
     */
-    'dirdst'        => env('IMG_YO_DIR_DESTINATION', '/app/public/images'),
-    'dirdst_origin' => env('IMG_YO_DIR_DESTINATION_ORIGIN', '/app/uploads/images'),
+    'dirdst'        => env('IMG_YO_DIR_DESTINATION', '/app/public/images/products'),
+    'dirdst_origin' => env('IMG_YO_DIR_DESTINATION_ORIGIN', '/app/uploads/images/products'),
     'color_fill'    => env('IMG_YO_FILLCOLOR', 0xffffff),
+
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark.png'),
+    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_20.png'),
+    'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_10.png'),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_laravel_30.png'),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_laravel.png'),
-    'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta_30.png'),
+    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta_30.png'),
+
     'res_ext'       => env('IMG_YO_RES_EXT', '.png'), // only '.png'!!!
 
     'is_origin'          => env('IMG_YO_IS_ORIGIN', true),

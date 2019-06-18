@@ -31,6 +31,7 @@ class ProductCreated extends Mailable
     public function build()
     {
         // from, subject, view, attach
-        return $this->markdown('mail.product-created')->subject('Создан товар ' . $this->product->name);
+        return $this->markdown('mail.product-created')
+            ->subject('Создан товар ' . $this->product->name);
     }
 }

@@ -145,6 +145,16 @@
             @endalert
             @endif
 
+            @if( session('message'))
+                <div class="container">
+                    <div class="alert alert-success">
+                        <div class="alert-title">{{ session('message') }}</div>
+                    </div>
+                </div>
+            @endif
+
+            
+
             <div class="container">
                 <div class="row">
                 <div class="col col-sm-1 p-0">

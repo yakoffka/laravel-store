@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\Mail\ProductCreated;
+use Session;
+use Illuminate\Support\Facades\Log;
 
 use App\Product;
 use App\Category;
@@ -159,10 +161,11 @@ class ProductsController extends Controller
         }
 
         // sending notification
-        \Mail::to(env('MAIL_ADMIN'))->send(
+        \Mail::to(config('mail.from.address'))->send(
             new ProductCreated($product)
         );
 
+        session()->flash('message', 'products ' . $product->name . ' has been created');
         return redirect()->route('products.show', ['product' => $product->id]);
     }
 
@@ -267,24 +270,66 @@ class ProductsController extends Controller
     // }
 
 
-    public function rewatermark()
+    public function rewatermark(Request $request)
     {
         $start = microtime(true);
+        // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
+        // info(__line__ . ' has: ' . $request->session()->has('rewatermarks'));
 
-        \Artisan::call('config:cache');
+        // получение данных
+        if ( !$request->session()->has('rewatermarks') ) {
+            // info(__line__);
 
-        $products = Product::all()->where('image', '!=', null);
-        foreach ( $products as $product ) {
-            $image = storage_path() . config('imageyo.dirdst_origin') . '/products/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
-            // dd($image);
-            $product->image = ImageYoTrait::saveImgSet($image, $product->id, true);
+            // первая итерация
+            \Artisan::call('config:cache');
+            $rewatermarks = Product::all()->where('image', '!=', null)->pluck('id');
+
+            $request->session()->put('rewatermarks_start', $start);
+            // $request->session()->save();
+        } else {
+            $rewatermarks = $request->session()->get('rewatermarks', null);
+            // info(__line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
         }
 
-        $time = microtime(true) - $start;
+        // если полученная коллекция не пуста
+        if ( $rewatermarks->count() ) {
+            // info(__line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
 
-        dd(__METHOD__ . " " . $time);
-        // return redirect()->route('products.index')->withErrors(['execute time: ' . $time]);
-        return redirect()->route('products.index');
+            // вырезаем очередной id
+            $product_id = $rewatermarks->pop();
+            // info(__line__ . ' $product_id = ' . $product_id);
+
+            $request->session()->put('rewatermarks', $rewatermarks);
+            // $request->session()->save();
+
+            $product = Product::findOrFail($product_id); // find???
+            // dd($product);
+
+            // получаем имя оригинального файла (проверить на существование?)
+            $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
+            // и преобразуем
+            if ( !ImageYoTrait::saveImgSet($image, $product->id, true) ) {
+                return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
+            }
+            // info(__line__ . ' $product->image = ' . $product->image);
+
+            // если коллекция всё ещё не пуста, инициируем ещё одну итерацию
+            if ( $rewatermarks->count() ) {
+                // info(__line__ . " redirect()->route('products.rewatermark');");
+
+                return redirect()->route('products.rewatermark');
+            }
+        }
+        
+        $time = microtime(true) - $request->session()->get('rewatermarks_start', 0);
+
+        $request->session()->forget('rewatermarks');
+        $request->session()->forget('rewatermarks_start');
+        $request->session()->forget('rewatermarks_timing');
+        $request->session()->save();
+
+        return redirect()->route('products.index')->withErrors(['Complited. execute time: ' . $time]);
+        
     }
 
 }

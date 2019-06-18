@@ -71,8 +71,8 @@ class OrderController extends Controller
         ]);
 
         if ($order) {
-
-            \Mail::to([env('MAIL_ADMIN')/*, auth()->user()->email*/])->send(
+            // \Mail::to([config('mail.from.address')/*, auth()->user()->email*/])->send( // dd(env('MAIL_FROM_ADDRESS')) => null!!!
+            \Mail::to([config('mail.from.address')/*, auth()->user()->email*/])->send(
                 new OrderCreated($order)
             );
 
@@ -118,7 +118,7 @@ class OrderController extends Controller
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        \Mail::to([env('MAIL_ADMIN')/*, auth()->user()->email*/])->send(
+        \Mail::to([config('mail.from.address')/*, auth()->user()->email*/])->send(
             new OrderStatusChanged($order, $order->customer)
         );
 
