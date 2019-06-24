@@ -22,7 +22,7 @@
         @foreach($products as $product)
 
 
-        <div class="col-lg-4 product_card_bm">
+        <div class="col-lg-4 product_card_bm pr-0">
             <div class="card">
 
                 <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
@@ -62,7 +62,7 @@
                                 
                             <div class="col-sm-6">
                                 <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                    <i class="fas fa-shopping-cart"></i> add to cart
+                                    <i class="fas fa-shopping-cart"></i> to cart
                                 </a>
                             </div>
 

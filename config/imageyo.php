@@ -11,10 +11,10 @@ return [
 
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark.png'),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_20.png'),
-    'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_10.png'),
+    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_10.png'),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_laravel_30.png'),
     // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_laravel.png'),
-    // 'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta_30.png'),
+    'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_sparta_30.png'),
 
     'res_ext'       => env('IMG_YO_RES_EXT', '.png'), // only '.png'!!!
 

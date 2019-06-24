@@ -7,13 +7,13 @@ use Illuminate\Support\Str;
 trait ImageYoTrait
 {
 
-    public static function saveImgSet($image, $product_id, $rewatermark = false)
+    public static function saveImgSet($image, $product_id, $mode = false)
     {
         // создание изображений
         $res = true;
         $name_dst_image = false;
 
-        if ($rewatermark) {
+        if ( $mode === 'rewatermark' ) {
             $previews = ['l', 'm', 's'];
         } else {
             $previews = ['origin', 'l', 'm', 's'];
@@ -21,7 +21,7 @@ trait ImageYoTrait
 
         foreach ( $previews as $type_preview ) {
             if ( $res and config('imageyo.is_' . $type_preview) ) {
-                $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $rewatermark);
+                $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $mode);
             }
         }
 
@@ -29,16 +29,24 @@ trait ImageYoTrait
     }
 
 
-    public static function saveImg($image, $product_id, $type_preview, $rewatermark)
+    public static function saveImg($image, $product_id, $type_preview, $mode)
     {
 
         // получение параметров исходного (переданного) изображения        
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
-        if ( $rewatermark ) {
+        if ( $mode === 'rewatermark' ) {
             $src_img_name = pathinfo($image)['basename'];
             $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
+            // dd($src_path, $image);
+            $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+            $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);
+        } elseif ( $mode === 'seed' ) {
+            $src_img_name = pathinfo($image)['basename'];
+            // $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
+            $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
             $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);

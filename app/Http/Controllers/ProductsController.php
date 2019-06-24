@@ -307,8 +307,8 @@ class ProductsController extends Controller
 
             // получаем имя оригинального файла (проверить на существование?)
             $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
-            // и преобразуем
-            if ( !ImageYoTrait::saveImgSet($image, $product->id, true) ) {
+            // и преобразуем получаемый файл
+            if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
                 return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
             }
             // info(__line__ . ' $product->image = ' . $product->image);
@@ -328,7 +328,9 @@ class ProductsController extends Controller
         $request->session()->forget('rewatermarks_timing');
         $request->session()->save();
 
-        return redirect()->route('products.index')->withErrors(['Complited. execute time: ' . $time]);
+        session()->flash('message', 'Rewatermarks is complited. execute time: ' . $time);
+
+        return redirect()->route('products.index');
         
     }
 

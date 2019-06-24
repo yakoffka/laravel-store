@@ -163,7 +163,7 @@
                     @include('layouts.partials.filter-manufacturer')
 
                 </div>
-                <div class="col col-sm-11">
+                <div class="col col-sm-11 pr-0">
 
                     @yield('content')
 
