@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Creating new product')
+@section('title', 'Edit new product')
 
 @section('content')
 <div class="container">
@@ -31,7 +31,21 @@
 
                     @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
 
-                    @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title])
+                    {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title ?? '-']) --}}
+                    <div class="form-group">
+                        <label for="manufacturer_id">manufacturer</label>
+                        <select name="manufacturer_id" id="manufacturer_id">
+                        <?php
+                            foreach ( $manufacturers as $manufacturer ) {
+                                if ( $product->manufacturer_id == $manufacturer->id ) {
+                                    echo '<option value="' . $manufacturer->id . '" selected>' . $manufacturer->title . '</option>';
+                                } else {
+                                    echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
+                                }
+                            }
+                        ?>
+                        </select>
+                    </div>
 
                     @input(['name' => 'materials', 'value' => old('materials') ?? $product->materials])
 
@@ -53,17 +67,17 @@
                     </div>
 
                     <div class="form-group">
-                            <label for="category_id">parent category</label>
-                            <select name="category_id" id="category_id">
-                            <?php
-                                foreach ( $categories as $parent_category ) {
-                                    if ( $product->category_id == $parent_category->id ) {
-                                        echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
-                                    } else {
-                                        echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
-                                    }
+                        <label for="category_id">parent category</label>
+                        <select name="category_id" id="category_id">
+                        <?php
+                            foreach ( $categories as $parent_category ) {
+                                if ( $product->category_id == $parent_category->id ) {
+                                    echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
+                                } else {
+                                    echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
                                 }
-                            ?>
+                            }
+                        ?>
                         </select>
                     </div>
 

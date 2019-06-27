@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Product;
 use App\Category;
 use App\Cart;
+use App\Manufacturer;
 // use App\Filters\Product\ManufacturerFilter;
 use Intervention\Image\Facades\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
@@ -96,7 +97,8 @@ class ProductsController extends Controller
     {
         abort_if ( !Auth::user()->can('create_products'), 403 );
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $manufacturers = Manufacturer::all();
+        return view('products.create', compact('categories', 'manufacturers'));
     }
 
     /**
@@ -108,7 +110,8 @@ class ProductsController extends Controller
     {
         abort_if (!Auth::user()->can('edit_products'), 403);
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        $manufacturers = Manufacturer::all();
+        return view('products.edit', compact('product', 'categories', 'manufacturers'));
     }
 
     /**
@@ -124,7 +127,7 @@ class ProductsController extends Controller
 
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
-            'manufacturer' => 'nullable|string',
+            'manufacturer_id' => 'required|integer',
             'category_id' => 'required|integer',
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
@@ -140,7 +143,7 @@ class ProductsController extends Controller
         
         if (!$product = Product::create([
             'name' => request('name'),
-            // 'manufacturer' => request('manufacturer') ?? '',
+            'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
             'visible' => request('visible'),
             'materials' => request('materials') ?? '',
@@ -184,7 +187,7 @@ class ProductsController extends Controller
 
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
-            'manufacturer' => 'nullable|string',
+            'manufacturer_id' => 'required|integer',
             'category_id' => 'required|integer',
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
@@ -200,7 +203,7 @@ class ProductsController extends Controller
 
         $product->update([
             'name' => request('name'),
-            // 'manufacturer' => request('manufacturer'), !!! manufacturer_id
+            'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
             'visible' => request('visible'),
             'materials' => request('materials'),

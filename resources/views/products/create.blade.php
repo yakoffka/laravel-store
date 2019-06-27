@@ -38,6 +38,17 @@
                         <label for="materials">materials</label>
                         <input type="text" id="materials" name="materials" class="form-control" placeholder="materials" value="{{ old('materials') }}">
                     </div> --}}
+                    <div class="form-group">
+                        <label for="manufacturer_id">manufacturer</label>
+                        <select name="manufacturer_id" id="manufacturer_id">
+                        <?php
+                            foreach ( $manufacturers as $manufacturer ) {
+                                echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
+                            }
+                        ?>
+                        </select>
+                    </div>
+
                     @input(['name' => 'materials', 'value' => old('materials')])
 
                     {{-- <div class="form-group">
