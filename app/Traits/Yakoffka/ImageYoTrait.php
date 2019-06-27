@@ -3,6 +3,8 @@
 namespace App\Traits\Yakoffka;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 trait ImageYoTrait
 {
@@ -31,6 +33,11 @@ trait ImageYoTrait
 
     public static function saveImg($image, $product_id, $type_preview, $mode)
     {
+
+        if (!is_file($image)) {
+            Log::info('No such file ' . $image);
+            return false;
+        }
 
         // получение параметров исходного (переданного) изображения        
         $src_size = getimagesize($image);
@@ -118,6 +125,8 @@ trait ImageYoTrait
         // накладываем водяной знак
         if ( config('imageyo.' . $type_preview . '_is_watermark') ) {
             $path_watermark = storage_path() . config('imageyo.watermark');
+            // info("\n" . __method__ . ' path_watermark = ' . $path_watermark);
+
             $src_size = getimagesize($path_watermark);
             $src_w = $src_size[0];
             $src_h = $src_size[1];
