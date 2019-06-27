@@ -17,6 +17,8 @@ use App\Cart;
 // use App\Filters\Product\ManufacturerFilter;
 use Intervention\Image\Facades\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
+use App\Jobs\RewatermarkJob;
+// use Artisan;
 
 class ProductsController extends Controller
 {
@@ -270,7 +272,7 @@ class ProductsController extends Controller
     // }
 
 
-    public function rewatermark(Request $request)
+    public function _rewatermark(Request $request)
     {
         $start = microtime(true);
         // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
@@ -307,6 +309,7 @@ class ProductsController extends Controller
 
             // получаем имя оригинального файла (проверить на существование?)
             $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
+            
             // и преобразуем получаемый файл
             if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
                 return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
@@ -333,5 +336,30 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
         
     }
+
+
+    public function rewatermark()
+    {
+        \Artisan::call('config:cache');
+        // dd(\Artisan::output());
+        \Artisan::call('queue:restart');
+        // dd(\Artisan::output());
+
+        info("\n" . __method__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
+
+        $products = Product::all()->where('image', '!=', null);
+
+        foreach ($products as $product) {
+            // RewatermarkJob::dispatch($product->id);
+            $job = new RewatermarkJob($product->id);
+            dispatch($job);
+            // dispatch($job)->onQueue('rewatermark');
+        }
+
+        session()->flash('message', 'Jobs send in queue.');
+
+        return redirect()->route('products.index');
+    }
+
 
 }
