@@ -65,7 +65,6 @@ class ProductsController extends Controller
 
         $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
         // $products = Product::with('category')->filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
-        // dd($products);
         return view('products.index', compact('products', 'appends'));
     }
 
@@ -166,7 +165,8 @@ class ProductsController extends Controller
         }
 
         // sending notification
-        \Mail::to(config('mail.from.address'))->send(
+        // replace config('mail.mail_to_test') => auth()->user()->email
+        \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
             new ProductCreated($product)
         );
 
@@ -254,27 +254,6 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    // /**
-    //  * Store image product.
-    //  *
-    //  * @param  \Illuminate\Http\Request  request()
-    //  * @return string $filename or false
-    //  */
-    // private function storeImage($image, $product_id) {
-
-    //     $directory = 'public/images/products/' . $product_id;
-    //     $filename = $image->getClientOriginalName();
-
-    //     if (Storage::makeDirectory($directory)) {
-    //         if (Storage::putFileAs($directory, $image, $filename)) {
-    //             return $filename;
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
-
     public function _rewatermark(Request $request)
     {
         $start = microtime(true);
@@ -343,10 +322,10 @@ class ProductsController extends Controller
 
     public function rewatermark()
     {
-        \Artisan::call('config:cache');
-        // dd(\Artisan::output());
-        \Artisan::call('queue:restart');
-        // dd(\Artisan::output());
+        // \Artisan::call('config:cache');
+        // // dd(\Artisan::output());
+        // \Artisan::call('queue:restart');
+        // // dd(\Artisan::output());
 
         info("\n" . __method__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
 
@@ -359,7 +338,7 @@ class ProductsController extends Controller
             // dispatch($job)->onQueue('rewatermark');
         }
 
-        session()->flash('message', 'Jobs send in queue.');
+        session()->flash('message', $products->count() . ' Jobs send in queue to rewatermark.');
 
         return redirect()->route('products.index');
     }

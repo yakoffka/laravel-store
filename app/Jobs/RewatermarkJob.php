@@ -19,10 +19,6 @@ class RewatermarkJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 3;
-
-    // protected $image_name;
-    // protected $product_id;
-    // protected $product;
     protected $product_id;
 
     /**
@@ -30,13 +26,9 @@ class RewatermarkJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(/*$image_name, $product_id*/ /*Product $product*/ $product_id)
+    public function __construct($product_id)
     {
-        // $this->image_name =$image_name, $product_id $image_name;
-        // $this->product_id = $product_id;
-        // $this->product = $product;
         $this->product_id = $product_id;
-        // info(__method__ . '@' . __line__ . ' $this->product_id = ' . $this->product_id);
     }
 
     /**
@@ -46,14 +38,10 @@ class RewatermarkJob implements ShouldQueue
      */
     public function handle()
     {
-        info(__method__ . '@' . __line__ . ' $this->product_id = ' . $this->product_id);
-
         $product = Product::find($this->product_id);
-
         $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
 
         $name_img = ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark');
-        info(__method__ . '@' . __line__ . ' $name_img = ' . $name_img);
 
         if ( !$name_img ) {
             throw new Exception('не удалось преобразовать изображения для товара с $product->id = ' . $product->id);
