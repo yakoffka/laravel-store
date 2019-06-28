@@ -141,7 +141,9 @@ return [
     |
     |
     */
-    'mail_to_test' => env('MAIL_TO_TEST'),
-    'mail_bcc' => env('MAIL_BCC'),
+    'mail_info' => env('MAIL_INFO', 'hello@example.com'),
+    'name_info' => env('NAME_INFO', 'example'),
+    'mail_to_test' => env('MAIL_TO_TEST', 'hello@example.com'),
+    'mail_bcc' => env('MAIL_BCC', 'hello@example.com'),
 
 ];

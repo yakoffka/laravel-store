@@ -10,6 +10,7 @@ use Auth;
 use App\Mail\ProductCreated;
 use Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 use App\Product;
 use App\Category;
@@ -166,9 +167,22 @@ class ProductsController extends Controller
 
         // sending notification
         // replace config('mail.mail_to_test') => auth()->user()->email
-        \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
-            new ProductCreated($product)
-        );
+        // \Mail::to(config('mail.mail_to_test'))
+        //     ->bcc(config('mail.mail_bcc'))
+        //     ->send(
+        //         new ProductCreated($product)
+        //     );
+
+        // sending notification with queue
+        // \Mail::to(config('mail.mail_to_test'))
+        // ->bcc(config('mail.mail_bcc'))
+        // ->queue(new ProductCreated($product));
+
+        // sending notification later with queue
+        $when = Carbon::now()->addMinutes(1);
+        \Mail::to(config('mail.mail_to_test'))
+            ->bcc(config('mail.mail_bcc'))
+            ->later($when, new ProductCreated($product));
 
         session()->flash('message', 'products ' . $product->name . ' has been created');
         return redirect()->route('products.show', ['product' => $product->id]);

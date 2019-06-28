@@ -71,9 +71,15 @@ class OrderController extends Controller
         ]);
 
         if ($order) {
-            \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
-                new OrderCreated($order)
-            );
+            // \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
+            //     new OrderCreated($order)
+            // );
+            
+            // sending notification later with queue
+            $when = Carbon::now()->addMinutes(1);
+            \Mail::to(config('mail.mail_to_test'))
+                ->bcc(config('mail.mail_bcc'))
+                ->later($when, new OrderCreated($order));
 
             // return view('orders.show', compact('order'));
             return redirect()->route('orders.show', ['order' => $order->id]);
@@ -117,9 +123,18 @@ class OrderController extends Controller
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
-            new OrderStatusChanged($order, $order->customer)
-        );
+
+        // \Mail::to(config('mail.mail_to_test'))
+        //     ->bcc(config('mail.mail_bcc'))
+        //     ->send(
+        //     new OrderStatusChanged($order, $order->customer)
+        // );
+
+        // sending notification later with queue
+        $when = Carbon::now()->addMinutes(1);
+        \Mail::to(config('mail.mail_to_test'))
+            ->bcc(config('mail.mail_bcc'))
+            ->later($when, new OrderStatusChanged($order, $order->customer));
 
         // return redirect()->route('orders.show', ['order' => $order->id]);
         return back();
