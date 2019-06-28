@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,18 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+
+    /**
+     * Overriding the parent method to disable login without confirm email
+     */
+    public function authenticated(Request $request, $user)
+    {
+        if ($user->status !== User::STATUS_ACTIVE) {
+            $this->guard()->logout();
+            return back()->with('error', 'You need to confirm your account. Please check your email.');
+        }
+        return redirect()->intended($this->redirectPath());
     }
 }

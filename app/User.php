@@ -14,13 +14,18 @@ class User extends Authenticatable
     use Notifiable, EntrustUserTrait;
     use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    // const STATUS_DELETED = 9;
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'verify_token', 'status',
     ];
 
     /**

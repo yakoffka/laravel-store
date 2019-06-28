@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Auth;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductCreated extends Mailable
+class VerifyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $product;
+    public $user;
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($user)
     {
-        $this->product = $product;
+        $this->user = $user;
     }
 
     /**
@@ -30,10 +31,8 @@ class ProductCreated extends Mailable
      */
     public function build()
     {
-        // from, subject, view, attach
         return $this
-            ->markdown('mail.product-created')
-            ->from(config('mail.mail_info'), config('mail.name_info'))// ??
-            ->subject('Создан товар ' . $this->product->name);
+            ->markdown('emails.auth.verify')
+            ->subject('Signup Confirmation');
     }
 }

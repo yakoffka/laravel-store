@@ -32,6 +32,8 @@ class OrderCreated extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.order-created')->subject('Заказ №' . $this->order->id . ' принят в обработку');
+        return $this
+            ->markdown('mail.order-created')
+            ->subject('Заказ №' . $this->order->id . ' принят в обработку');
     }
 }
