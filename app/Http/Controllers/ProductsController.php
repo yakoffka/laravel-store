@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
-use App\Mail\ProductCreated;
+use App\Mail\Product\Created;
 use Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
@@ -182,7 +182,7 @@ class ProductsController extends Controller
         $when = Carbon::now()->addMinutes(1);
         \Mail::to(config('mail.mail_to_test'))
             ->bcc(config('mail.mail_bcc'))
-            ->later($when, new ProductCreated($product));
+            ->later($when, new Created($product));
 
         session()->flash('message', 'products ' . $product->name . ' has been created');
         return redirect()->route('products.show', ['product' => $product->id]);

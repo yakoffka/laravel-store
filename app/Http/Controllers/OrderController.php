@@ -7,9 +7,9 @@ use App\Order;
 use App\Cart;
 use App\Status;
 use Session;
-use App\Mail\OrderCreated;
-use App\Mail\OrderStatusChanged;
+use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class OrderController extends Controller
 {
@@ -79,7 +79,7 @@ class OrderController extends Controller
             $when = Carbon::now()->addMinutes(1);
             \Mail::to(config('mail.mail_to_test'))
                 ->bcc(config('mail.mail_bcc'))
-                ->later($when, new OrderCreated($order));
+                ->later($when, new Created($order));
 
             // return view('orders.show', compact('order'));
             return redirect()->route('orders.show', ['order' => $order->id]);
@@ -134,7 +134,7 @@ class OrderController extends Controller
         $when = Carbon::now()->addMinutes(1);
         \Mail::to(config('mail.mail_to_test'))
             ->bcc(config('mail.mail_bcc'))
-            ->later($when, new OrderStatusChanged($order, $order->customer));
+            ->later($when, new StatusChanged($order, $order->status->name, $order->customer));
 
         // return redirect()->route('orders.show', ['order' => $order->id]);
         return back();

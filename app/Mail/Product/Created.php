@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Product;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderStatusChanged extends Mailable
+class Created extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $order;
-    public $user;
+    public $product;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($order, $user)
+    public function __construct($product)
     {
-        $this->order = $order;
-        $this->user = $user;
+        $this->product = $product;
     }
 
     /**
@@ -32,8 +30,10 @@ class OrderStatusChanged extends Mailable
      */
     public function build()
     {
+        // from, subject, view, attach
         return $this
-            ->markdown('mail.order-status-changed')
-            ->subject('Изменение статуса заказа №' . $this->order->id);
+            ->markdown('emails.product.created')
+            ->from(config('mail.mail_info'), config('mail.name_info'))// ??
+            ->subject('Создан товар ' . $this->product->name);
     }
 }

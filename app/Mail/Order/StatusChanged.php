@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Order;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderCreated extends Mailable
+class StatusChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $order;
+    public $status;
     public $user;
 
     /**
@@ -19,10 +20,11 @@ class OrderCreated extends Mailable
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $status, $user)
     {
         $this->order = $order;
-        $this->user = auth()->user();
+        $this->status = $status;
+        $this->user = $user;
     }
 
     /**
@@ -33,7 +35,7 @@ class OrderCreated extends Mailable
     public function build()
     {
         return $this
-            ->markdown('mail.order-created')
-            ->subject('Заказ №' . $this->order->id . ' принят в обработку');
+            ->markdown('emails.order.status-changed')
+            ->subject('Изменение статуса заказа №' . $this->order->id);
     }
 }
