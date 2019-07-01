@@ -17,7 +17,7 @@ use App\Category;
 use App\Cart;
 use App\Manufacturer;
 // use App\Filters\Product\ManufacturerFilter;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 // use Artisan;
@@ -122,7 +122,11 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
-        // dd(request()->all());
+        dd(request()->all());
+        // dd(request()->file('image')->getClientOriginalName());
+        // $image = request()->file('image');
+        // dd($image);
+
         abort_if ( Auth::user()->cannot('create_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
@@ -132,7 +136,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
-            'image' => 'image',
+            // 'image' => 'image',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
         ]);
@@ -158,7 +162,18 @@ class ProductsController extends Controller
         if ( request()->file('image') ) { // убрать лишнюю перезапись!
 
             // $product->image = $this->storeImage(request()->file('image'), $product->id);
-            $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+            // $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+
+            $image_name = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+            $originalName = request()->file('image')->getClientOriginalName();
+
+            $image = Image::create([
+                'product_id' => $product->id,
+                'orig_name' => $originalName,
+                'slug' => Str::slug($originalName),
+                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName), // cut extention
+                'sort_order' => request('sort_order') ?? 9,
+            ]);
 
             if (!$product->image or !$product->update()) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();

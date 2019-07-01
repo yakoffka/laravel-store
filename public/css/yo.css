@@ -464,3 +464,8 @@ ul#mainMenu ul {
     padding-left: 10px;
     list-style: none;
 }
+
+
+
+.carousel-indicators li.active{background-color: #09c;}
+.carousel-indicators li{background-color: #ccc;}

@@ -37,4 +37,8 @@ class Product extends Model
         return (new ProductFilters($request))->add($filters)->filter($builder);
     }
     
+    public function images() {
+        return $this->hasMany(Image::class);
+    }
+
 }

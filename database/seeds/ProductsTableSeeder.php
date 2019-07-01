@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Category;
 use App\Manufacturer;
 use App\Product;
+use App\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 
 
@@ -38,12 +39,16 @@ class ProductsTableSeeder extends Seeder
                 . ' '
                 .  $manufacturer->title
                 . ' '
-                . $a[rand(0, strlen($a)-1)] 
-                . $a[rand(0, strlen($a)-1)] 
+                . $a[rand(0, strlen($a)-1)]
+                . $a[rand(0, strlen($a)-1)]
                 . '-' 
                 . rand(10, 215);
             $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
-            $image = $category['slug'];
+            $images = [
+                $category['slug'] . '_1',
+                $category['slug'] . '_2',
+                $category['slug'] . '_3',
+            ];
 
 
             // DB::table('products')->insert([
@@ -75,13 +80,25 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            $path_image  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
+            foreach($images as $image) {
+                $pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
+                $relpathname  = '/images/default/category/' . $image . config('imageyo.res_ext');
 
-            // dd($path_image);
-
-            if ( is_file($path_image)) {
-                $product->image = ImageYoTrait::saveImgSet($path_image, $product->id, 'seed');
-                $product->update();
+                // dd($pathname);
+    
+                if ( is_file($pathname)) {
+                    // $product->image = ImageYoTrait::saveImgSet($pathname, $product->id, 'seed');
+                    // $product->update();
+                    $image_name = ImageYoTrait::saveImgSet($pathname, $product->id, 'seed');
+                    $image = Image::create([
+                        'product_id' => $product->id,
+                        'pathname' => $relpathname,
+                        'name' => $image_name,
+                        'slug' => Str::slug($image_name),
+                        'alt' => 'seed',
+                        'orig_name' => 'seed',
+                    ]);
+                }
             }
             
         }

@@ -18,15 +18,20 @@
 
                     @method('PATCH')
 
-                    @if($product->image)
+                    {{-- @if($product->image)
                         <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
                             <div class="dummy"></div><div class="element"></div>
                         </div>
                     @else
-                    @endif
+                    @endif --}}
+                    @listImage(compact('product'))
 
-                    @inpImage(['value' => old('image')])
-
+                    {{-- @inpImage(['value' => old('image')]) --}}
+                    <div class="form-group">
+                            <label for="images">images</label>
+                            <input type="file" name="images[]" multiple>
+                        </div>
+    
                     @input(['name' => 'name', 'value' => old('name') ?? $product->name, 'required' => 'required'])
 
                     @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
