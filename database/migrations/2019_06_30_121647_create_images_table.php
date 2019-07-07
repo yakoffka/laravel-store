@@ -17,8 +17,9 @@ class CreateImagesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('product_id');
             $table->string('slug');
-            $table->string('pathname');
+            $table->string('path');
             $table->string('name');
+            $table->string('ext');
             $table->string('alt');
             $table->unsignedInteger('sort_order')->default(9);
             $table->string('orig_name');

@@ -1,18 +1,10 @@
-{{ <?php
-    $images = [
-        ['noimg', 'alt',],
-        ['noimg', 'alt',],
-        ['noimg', 'alt',],
-    ]
-?> }}
-
 <div class="row">
-    @foreach($images as $key => $image)
+    @foreach($product->images as $key => $img)
         <div 
             class="card-img-top b_image col-sm-2" 
-            style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});"
+            style="background-image: url({{ asset('storage') . $img->path . '/' . $img->name . '_l' . $img->ext }});"
         >
-            <div class="dummy"></div><div class="element"></div>
+            <div class="dummy"><h5>{{ $img->alt }}</h5></div><div class="element"></div>
         </div>
     @endforeach
 </div>

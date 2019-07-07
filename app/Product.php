@@ -11,7 +11,7 @@ class Product extends Model
     protected $guarded = [];
 
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
 
     // public function category() {
@@ -26,7 +26,10 @@ class Product extends Model
     }
 
     public function editor() {
-        return $this->belongsTo(User::class, 'edited_by_user_id');
+        // return $this->belongsTo(User::class, 'edited_by_user_id');
+        return $this->belongsTo(User::class, 'edited_by_user_id')->withDefault([
+            'name' => 'NO Author'
+        ]);;
     }
 
     public function manufacturer() {
@@ -38,7 +41,7 @@ class Product extends Model
     }
     
     public function images() {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->orderBy('sort_order');
     }
 
 }

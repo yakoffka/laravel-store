@@ -11,11 +11,13 @@ use App\Mail\Product\Created;
 use Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use Str;
 
 use App\Product;
 use App\Category;
 use App\Cart;
 use App\Manufacturer;
+use App\Image;
 // use App\Filters\Product\ManufacturerFilter;
 // use Intervention\Image\Facades\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
@@ -66,6 +68,9 @@ class ProductsController extends Controller
 
         $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
         // $products = Product::with('category')->filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
+        // dd(Image::min('sort_order'));
+        // $topimages = Image::all()->firstWhere('sort_order', Image::min('sort_order'));
+        // dd($topimages);
         return view('products.index', compact('products', 'appends'));
     }
 
@@ -122,7 +127,7 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
-        dd(request()->all());
+        // dd(request()->all());
         // dd(request()->file('image')->getClientOriginalName());
         // $image = request()->file('image');
         // dd($image);
@@ -159,26 +164,51 @@ class ProductsController extends Controller
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
-        if ( request()->file('image') ) { // убрать лишнюю перезапись!
 
-            // $product->image = $this->storeImage(request()->file('image'), $product->id);
-            // $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+        // if ( request()->file('image') ) { // убрать лишнюю перезапись!
 
-            $image_name = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
-            $originalName = request()->file('image')->getClientOriginalName();
+        //     // $product->image = $this->storeImage(request()->file('image'), $product->id);
+        //     // $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
 
-            $image = Image::create([
-                'product_id' => $product->id,
-                'orig_name' => $originalName,
-                'slug' => Str::slug($originalName),
-                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName), // cut extention
-                'sort_order' => request('sort_order') ?? 9,
-            ]);
+        //     $image_name = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+        //     $originalName = request()->file('image')->getClientOriginalName();
 
-            if (!$product->image or !$product->update()) {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        //     $image = Image::create([
+        //         'product_id' => $product->id,
+        //         'orig_name' => $originalName,
+        //         'slug' => Str::slug($originalName),
+        //         'alt' => str_replace( strrchr($originalName, '.'), '', $originalName), // cut extention
+        //         'sort_order' => request('sort_order') ?? 9,
+        //     ]);
+
+        //     if (!$product->image or !$product->update()) {
+        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        //     }
+        // }
+        // dd(request()->file('images'));
+        if ( count(request()->file('images')) ) { // проверить на изображение!!!
+            foreach(request()->file('images') as $image) {
+                // dd($image->getSize());
+                
+                // image re-creation
+                $image_name = ImageYoTrait::saveImgSet($image, $product->id);
+                $originalName = $image->getClientOriginalName();
+                $path  = '/images/products/' . $product->id;
+
+                // create record
+                $image = Image::create([
+                    'product_id' => $product->id,
+                    'slug' => $image_name,
+                    'path' => $path,
+                    'name' => $image_name,
+                    'ext' => config('imageyo.res_ext'),
+                    'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                    'sort_order' => rand(1, 9),
+                    'orig_name' => $originalName,
+                ]);
             }
         }
+
 
         // sending notification
         // replace config('mail.mail_to_test') => auth()->user()->email
@@ -221,7 +251,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
-            'image' => 'image',
+            // 'image' => 'image',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
         ]);
@@ -243,15 +273,37 @@ class ProductsController extends Controller
         ]);
 
 
-        if (request()->file('image')) { // убрать лишнюю перезапись!
+        // if (request()->file('image')) { // убрать лишнюю перезапись!
+        //
+        //     // $product->image = $this->storeImage(request()->file('image'), $product->id);
+        //     $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
+        //
+        //     if (!$product->image or !$product->update()) {
+        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        //     }
+        //
+        // }
+        if ( count(request()->file('images')) ) { // проверить на изображение!!!
+            foreach(request()->file('images') as $image) {
+                // dd($image->getSize());
+                
+                // image re-creation
+                $image_name = ImageYoTrait::saveImgSet($image, $product->id);
+                $originalName = $image->getClientOriginalName();
+                $path  = '/images/products/' . $product->id;
 
-            // $product->image = $this->storeImage(request()->file('image'), $product->id);
-            $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
-
-            if (!$product->image or !$product->update()) {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+                // create record
+                $image = Image::create([
+                    'product_id' => $product->id,
+                    'slug' => $image_name,
+                    'path' => $path,
+                    'name' => $image_name,
+                    'ext' => config('imageyo.res_ext'),
+                    'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                    'sort_order' => rand(1, 9),
+                    'orig_name' => $originalName,
+                ]);
             }
-
         }
 
         // return redirect()->route('products.show', ['product' => $product->id]);

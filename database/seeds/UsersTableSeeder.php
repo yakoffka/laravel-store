@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Theodor',
             'email' => 'owner@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -23,6 +24,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Travlarnor',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -31,6 +33,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Lagshmivara',
             'email' => 'manager@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -39,6 +42,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Travlarnor I',
             'email' => 'user01@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -47,6 +51,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Akaky Akakievich II',
             'email' => 'user02@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -55,6 +60,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Ephim III',
             'email' => 'user03@gmail.com',
             'password' => bcrypt('111111'),
+            'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

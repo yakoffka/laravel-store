@@ -31,7 +31,7 @@ class ProductsTableSeeder extends Seeder
 
         $arr_categories = $categories->toArray();
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<20; $i++) {
 
             $manufacturer = $manufacturers->random();
             $category = $arr_categories[array_rand($arr_categories)];
@@ -81,21 +81,21 @@ class ProductsTableSeeder extends Seeder
             ]);
 
             foreach($images as $image) {
-                $pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
-                $relpathname  = '/images/default/category/' . $image . config('imageyo.res_ext');
-
-                // dd($pathname);
+                $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
+                $path  = '/images/products/' . $product->id;
     
-                if ( is_file($pathname)) {
-                    // $product->image = ImageYoTrait::saveImgSet($pathname, $product->id, 'seed');
+                if ( is_file($def_pathname)) {
+                    // $product->image = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
                     // $product->update();
-                    $image_name = ImageYoTrait::saveImgSet($pathname, $product->id, 'seed');
+                    $image_name = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
                     $image = Image::create([
                         'product_id' => $product->id,
-                        'pathname' => $relpathname,
-                        'name' => $image_name,
                         'slug' => Str::slug($image_name),
+                        'path' => $path,
+                        'name' => $image_name,
+                        'ext' => config('imageyo.res_ext'),
                         'alt' => 'seed',
+                        'sort_order' => rand(1, 9),
                         'orig_name' => 'seed',
                     ]);
                 }

@@ -34,7 +34,7 @@ return [
 
     'is_s'          => env('IMG_YO_IS_SMALL', true),
     's_is_watermark'=> env('IMG_YO_SMALL_IS_WM', false),
-    's_w'           => env('IMG_YO_WSMALL', '80'),
-    's_h'           => env('IMG_YO_HSMALL', '80'),
+    's_w'           => env('IMG_YO_WSMALL', '180'),
+    's_h'           => env('IMG_YO_HSMALL', '180'),
 
 ];

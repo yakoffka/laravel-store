@@ -39,14 +39,13 @@ trait ImageYoTrait
             return false;
         }
 
-        // получение параметров исходного (переданного) изображения        
+        // получение параметров исходного (переданного) изображения в зависимости от режима (rewatermark, seed, false(create, update))
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
         if ( $mode === 'rewatermark' ) {
             $src_img_name = pathinfo($image)['basename'];
             $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
-            // dd($src_path, $image);
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
             $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);
@@ -56,13 +55,14 @@ trait ImageYoTrait
             $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
-            $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);
         } else {
             $src_img_name = $image->getClientOriginalName();
             $src_path = $image->path();
             $type = $image->extension(); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
         }
+        // преобразование имени в slug (и попутно в латиницу)
+        $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext);
         
 
         // получение параметров из конфигурационного файла
@@ -89,7 +89,7 @@ trait ImageYoTrait
             }
         }
 
-        //определение функции соответственно типу загруженного файла
+        //определение функции, соответствующей типу загруженного файла
         $icfunc = "imagecreatefrom".$type;
         if(!function_exists($icfunc)){//если нет такой функции - прекращаем работу скрипта
             // err

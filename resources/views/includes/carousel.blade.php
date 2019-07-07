@@ -19,13 +19,15 @@
         <div class="carousel-item">
             <img class="d-block w-100" src="{{ asset('storage') }}/images/default/noimg_l.png" alt="Third slide">
         </div> --}}
-        @foreach($product->images as $key => $image)
-        <div class="carousel-item{{ $key ? '' : ' active' }}">
-            <div class="card-img-top b_image" 
-                style="background-image: url({{ asset('storage') }}{{ $image->pathname }});">
-                <div class="dummy"></div><div class="element"></div>
+        @foreach($product->images as $key => $img)
+            <div class="carousel-item{{ $key ? '' : ' active' }}">
+                <div
+                    class="card-img-top b_image" 
+                    style="background-image: url({{ asset('storage') . $img->path . '/' . $img->name . '_l' . $img->ext }});"
+                    title="{{ $img->alt }}">
+                    <div class="dummy"></div><div class="element"></div>
+                </div>
             </div>
-        </div>
         @endforeach
     </div>
 
