@@ -46,6 +46,7 @@ trait ImageYoTrait
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
+        // $ext = getClientOriginalExtension($image)
 
         if ( $mode === 'rewatermark' ) {
             $src_img_name = pathinfo($image)['basename'];

@@ -141,7 +141,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
-            // 'image' => 'image',
+            'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
         ]);
@@ -186,9 +186,15 @@ class ProductsController extends Controller
         //     }
         // }
         // dd(request()->file('images'));
-        if ( count(request()->file('images')) ) { // проверить на изображение!!!
-            foreach(request()->file('images') as $image) {
-                // dd($image->getSize());
+        if ( count(request()->file('images')) ) {
+            foreach(request()->file('images') as $key => $image) {
+                
+                // // validation images
+                // // $validator = Validator::make(['image' => $image], [$key => 'required|image|mimes:jpeg,bmp,png']);
+                // $validator = Validator::make(
+                //     ['image' => $image],
+                //     [$key => 'required|image|mimetypes:image/png']
+                // );
                 
                 // image re-creation
                 $image_name = ImageYoTrait::saveImgSet($image, $product->id);
@@ -251,7 +257,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
-            // 'image' => 'image',
+            'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
         ]);
@@ -272,21 +278,9 @@ class ProductsController extends Controller
             'edited_by_user_id' => Auth::user()->id,
         ]);
 
-
-        // if (request()->file('image')) { // убрать лишнюю перезапись!
-        //
-        //     // $product->image = $this->storeImage(request()->file('image'), $product->id);
-        //     $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
-        //
-        //     if (!$product->image or !$product->update()) {
-        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
-        //     }
-        //
-        // }
         if ( count(request()->file('images')) ) { // проверить на изображение!!!
             foreach(request()->file('images') as $image) {
-                // dd($image->getSize());
-                
+
                 // image re-creation
                 $image_name = ImageYoTrait::saveImgSet($image, $product->id);
                 $originalName = $image->getClientOriginalName();
@@ -335,70 +329,70 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function _rewatermark(Request $request)
-    {
-        $start = microtime(true);
-        // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
-        // info(__method__ . '@' . __line__ . ' has: ' . $request->session()->has('rewatermarks'));
+    // public function _rewatermark(Request $request)
+    // {
+    //     $start = microtime(true);
+    //     // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
+    //     // info(__method__ . '@' . __line__ . ' has: ' . $request->session()->has('rewatermarks'));
 
-        // получение данных
-        if ( !$request->session()->has('rewatermarks') ) {
-            // info(__method__ . '@' . __line__);
+    //     // получение данных
+    //     if ( !$request->session()->has('rewatermarks') ) {
+    //         // info(__method__ . '@' . __line__);
 
-            // первая итерация
-            \Artisan::call('config:cache');
-            $rewatermarks = Product::all()->where('image', '!=', null)->pluck('id');
+    //         // первая итерация
+    //         \Artisan::call('config:cache');
+    //         $rewatermarks = Product::all()->where('image', '!=', null)->pluck('id');
 
-            $request->session()->put('rewatermarks_start', $start);
-            // $request->session()->save();
-        } else {
-            $rewatermarks = $request->session()->get('rewatermarks', null);
-            // info(__method__ . '@' . __line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
-        }
+    //         $request->session()->put('rewatermarks_start', $start);
+    //         // $request->session()->save();
+    //     } else {
+    //         $rewatermarks = $request->session()->get('rewatermarks', null);
+    //         // info(__method__ . '@' . __line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
+    //     }
 
-        // если полученная коллекция не пуста
-        if ( $rewatermarks->count() ) {
-            // info(__method__ . '@' . __line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
+    //     // если полученная коллекция не пуста
+    //     if ( $rewatermarks->count() ) {
+    //         // info(__method__ . '@' . __line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
 
-            // вырезаем очередной id
-            $product_id = $rewatermarks->pop();
-            // info(__method__ . '@' . __line__ . ' $product_id = ' . $product_id);
+    //         // вырезаем очередной id
+    //         $product_id = $rewatermarks->pop();
+    //         // info(__method__ . '@' . __line__ . ' $product_id = ' . $product_id);
 
-            $request->session()->put('rewatermarks', $rewatermarks);
-            // $request->session()->save();
+    //         $request->session()->put('rewatermarks', $rewatermarks);
+    //         // $request->session()->save();
 
-            $product = Product::findOrFail($product_id); // find???
-            // dd($product);
+    //         $product = Product::findOrFail($product_id); // find???
+    //         // dd($product);
 
-            // получаем имя оригинального файла (проверить на существование?)
-            $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
+    //         // получаем имя оригинального файла (проверить на существование?)
+    //         $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
             
-            // и преобразуем получаемый файл
-            if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
-                return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
-            }
-            // info(__method__ . '@' . __line__ . ' $product->image = ' . $product->image);
+    //         // и преобразуем получаемый файл
+    //         if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
+    //             return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
+    //         }
+    //         // info(__method__ . '@' . __line__ . ' $product->image = ' . $product->image);
 
-            // если коллекция всё ещё не пуста, инициируем ещё одну итерацию
-            if ( $rewatermarks->count() ) {
-                // info(__method__ . '@' . __line__ . " redirect()->route('products.rewatermark');");
+    //         // если коллекция всё ещё не пуста, инициируем ещё одну итерацию
+    //         if ( $rewatermarks->count() ) {
+    //             // info(__method__ . '@' . __line__ . " redirect()->route('products.rewatermark');");
 
-                return redirect()->route('products.rewatermark');
-            }
-        }
+    //             return redirect()->route('products.rewatermark');
+    //         }
+    //     }
         
-        $time = microtime(true) - $request->session()->get('rewatermarks_start', 0);
+    //     $time = microtime(true) - $request->session()->get('rewatermarks_start', 0);
 
-        $request->session()->forget('rewatermarks');
-        $request->session()->forget('rewatermarks_start');
-        $request->session()->forget('rewatermarks_timing');
-        $request->session()->save();
+    //     $request->session()->forget('rewatermarks');
+    //     $request->session()->forget('rewatermarks_start');
+    //     $request->session()->forget('rewatermarks_timing');
+    //     $request->session()->save();
 
-        session()->flash('message', 'Rewatermarks is complited. execute time: ' . $time);
+    //     session()->flash('message', 'Rewatermarks is complited. execute time: ' . $time);
 
-        return redirect()->route('products.index');
+    //     return redirect()->route('products.index');
         
-    }
+    // }
 
 
     public function rewatermark()
