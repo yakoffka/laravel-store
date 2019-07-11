@@ -12,22 +12,25 @@ trait ImageYoTrait
     public static function saveImgSet($image, $product_id, $mode = false)
     {
         // создание изображений
-        $res = true;
-        $name_dst_image = false;
+        $name_img = false;
 
         if ( $mode === 'rewatermark' ) {
-            $previews = ['l', 'm', 's'];
+            $previews = config('imageyo.rwm_previews');
         } else {
-            $previews = ['origin', 'l', 'm', 's'];
+            $previews = config('imageyo.previews');
         }
 
+        // info(__method__ . '@' . __line__ . ' $previews = ' . print_r($previews, true));
+        // info(__method__ . '@' . __line__ . ' $previews = ');
+        // info($previews);
+
         foreach ( $previews as $type_preview ) {
-            if ( $res and config('imageyo.is_' . $type_preview) ) {
-                $name_dst_image = ImageYoTrait::saveImg($image, $product_id, $type_preview, $mode);
+            if ( config('imageyo.is_' . $type_preview) ) {
+                $name_img = ImageYoTrait::saveImg($image, $product_id, $type_preview, $mode);
             }
         }
 
-        return $name_dst_image;
+        return $name_img;
     }
 
 
@@ -35,7 +38,7 @@ trait ImageYoTrait
     {
 
         if (!is_file($image)) {
-            Log::info('No such file ' . $image);
+            info(__method__ . '@' . __line__ . ' No such file ' . $image);
             return false;
         }
 
@@ -43,12 +46,14 @@ trait ImageYoTrait
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
+
         if ( $mode === 'rewatermark' ) {
             $src_img_name = pathinfo($image)['basename'];
             $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
-            $name_dst_image_without_ext = str_replace('_origin' , '', $name_dst_image_without_ext);
+            $name_dst_image_without_ext = str_replace('-origin' , '', $name_dst_image_without_ext);
+
         } elseif ( $mode === 'seed' ) {
             $src_img_name = pathinfo($image)['basename'];
             // $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
@@ -61,9 +66,10 @@ trait ImageYoTrait
             $type = $image->extension(); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
         }
+
         // преобразование имени в slug (и попутно в латиницу)
         $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext);
-        
+        // info(__method__ . '@' . __line__ . 'name_dst_image_without_ext = ' . $name_dst_image_without_ext);
 
         // получение параметров из конфигурационного файла
         if ( $type_preview === 'origin' ) {
@@ -76,7 +82,7 @@ trait ImageYoTrait
             $dst_dir    = storage_path() . config('imageyo.dirdst') . '/' . $product_id;
         }
 
-        $name_dst_image  = $name_dst_image_without_ext . '_' . $type_preview . config('imageyo.res_ext');
+        $name_dst_image  = $name_dst_image_without_ext . '-' . $type_preview . config('imageyo.res_ext');
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
         $color_fill = config('imageyo.color_fill');
 
@@ -179,9 +185,11 @@ trait ImageYoTrait
 
         // сохраняем превью
         // if(imagejpeg($dst_image,$path_resize_img,100)){
-        if ( !imagepng($dst_image, $path_dst_image,1) ) {
+        if ( !imagepng($dst_image, $path_dst_image, 1) ) {
             // err
             $name_dst_image_without_ext = false;
+        } else {
+            // info(__method__ . '@' . __line__ . "created $path_dst_image");
         }
 
         // Очищаем память после выполнения скрипта
@@ -242,48 +250,48 @@ trait ImageYoTrait
     }
 
 
-    public static function recursiveDelete ( string $patch )
-    {
-		$res=false;
+    // public static function recursiveDelete ( string $patch )
+    // {
+	// 	$res=false;
 
-		if ( is_dir($patch) ) {
-			$scandir = scandir($patch);
+	// 	if ( is_dir($patch) ) {
+	// 		$scandir = scandir($patch);
 
-            foreach ( $scandir as $val ) {
-				if( $val!='.' and $val!='..' ) {
-                    $res = ImageYoTrait::recursiveDelete($patch."/".$val);
-                }
-            }
-            unset($val);
+    //         foreach ( $scandir as $val ) {
+	// 			if( $val!='.' and $val!='..' ) {
+    //                 $res = ImageYoTrait::recursiveDelete($patch."/".$val);
+    //             }
+    //         }
+    //         unset($val);
 
-			// if ( rmdir($patch) ) {
-            //     $res=true;
-            // } else {
-            //     $res=false;
-            // }
+	// 		// if ( rmdir($patch) ) {
+    //         //     $res=true;
+    //         // } else {
+    //         //     $res=false;
+    //         // }
 			
-		} elseif ( is_file($patch) ) {
+	// 	} elseif ( is_file($patch) ) {
 
-            $patch_origin = str_replace(config('imageyo.dirdst'), config('imageyo.dirdst_origin'), $patch);
-            $patch_origin = str_replace(['_l.', '_m.', '_s.'], '_origin.', $patch_origin);
-            // return $patch_origin;
-            if ( is_file( $patch_origin ) ) {
+    //         $patch_origin = str_replace(config('imageyo.dirdst'), config('imageyo.dirdst_origin'), $patch);
+    //         $patch_origin = str_replace(['_l.', '_m.', '_s.'], '-origin.', $patch_origin);
+    //         // return $patch_origin;
+    //         if ( is_file( $patch_origin ) ) {
 
-                if ( unlink($patch) ) {
-                    $res=true;
-                } else {
-                    $res=false;
-                }
+    //             if ( unlink($patch) ) {
+    //                 $res=true;
+    //             } else {
+    //                 $res=false;
+    //             }
 
-            } else {
-                dd('оригинальный файл отсутствует!' . $patch_origin);
-            }
+    //         } else {
+    //             dd('оригинальный файл отсутствует!' . $patch_origin);
+    //         }
 
-		} else {
-            $res=false;
-        }
+	// 	} else {
+    //         $res=false;
+    //     }
 
-		return $res;
-	}
+	// 	return $res;
+	// }
 
 }

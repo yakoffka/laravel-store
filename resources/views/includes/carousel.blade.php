@@ -23,7 +23,9 @@
             <div class="carousel-item{{ $key ? '' : ' active' }}">
                 <div
                     class="card-img-top b_image" 
-                    style="background-image: url({{ asset('storage') . $img->path . '/' . $img->name . '_l' . $img->ext }});"
+                    style="background-image: url({{
+                        asset('storage') . $img->path . '/' . $img->name . '-l' . $img->ext
+                    }});"
                     title="{{ $img->alt }}">
                     <div class="dummy"></div><div class="element"></div>
                 </div>

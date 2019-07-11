@@ -339,11 +339,11 @@ class ProductsController extends Controller
     {
         $start = microtime(true);
         // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
-        // info(__line__ . ' has: ' . $request->session()->has('rewatermarks'));
+        // info(__method__ . '@' . __line__ . ' has: ' . $request->session()->has('rewatermarks'));
 
         // получение данных
         if ( !$request->session()->has('rewatermarks') ) {
-            // info(__line__);
+            // info(__method__ . '@' . __line__);
 
             // первая итерация
             \Artisan::call('config:cache');
@@ -353,16 +353,16 @@ class ProductsController extends Controller
             // $request->session()->save();
         } else {
             $rewatermarks = $request->session()->get('rewatermarks', null);
-            // info(__line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
+            // info(__method__ . '@' . __line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
         }
 
         // если полученная коллекция не пуста
         if ( $rewatermarks->count() ) {
-            // info(__line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
+            // info(__method__ . '@' . __line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
 
             // вырезаем очередной id
             $product_id = $rewatermarks->pop();
-            // info(__line__ . ' $product_id = ' . $product_id);
+            // info(__method__ . '@' . __line__ . ' $product_id = ' . $product_id);
 
             $request->session()->put('rewatermarks', $rewatermarks);
             // $request->session()->save();
@@ -377,11 +377,11 @@ class ProductsController extends Controller
             if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
                 return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
             }
-            // info(__line__ . ' $product->image = ' . $product->image);
+            // info(__method__ . '@' . __line__ . ' $product->image = ' . $product->image);
 
             // если коллекция всё ещё не пуста, инициируем ещё одну итерацию
             if ( $rewatermarks->count() ) {
-                // info(__line__ . " redirect()->route('products.rewatermark');");
+                // info(__method__ . '@' . __line__ . " redirect()->route('products.rewatermark');");
 
                 return redirect()->route('products.rewatermark');
             }
@@ -408,9 +408,10 @@ class ProductsController extends Controller
         // \Artisan::call('queue:restart');
         // // dd(\Artisan::output());
 
-        info("\n" . __method__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
+        info(__method__ . '@' . __line__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
 
-        $products = Product::all()->where('image', '!=', null);
+        // $products = Product::all()->where('image', '!=', null);
+        $products = Product::all();
 
         foreach ($products as $product) {
             // RewatermarkJob::dispatch($product->id);
@@ -419,9 +420,14 @@ class ProductsController extends Controller
             // dispatch($job)->onQueue('rewatermark');
         }
 
-        session()->flash('message', $products->count() . ' Jobs send in queue to rewatermark.');
+        session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
 
         return redirect()->route('products.index');
+    }
+
+    
+    public function deleteImage () {
+
     }
 
 

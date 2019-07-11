@@ -28,6 +28,7 @@ class RewatermarkJob implements ShouldQueue
      */
     public function __construct($product_id)
     {
+        // info(__method__ . '@' . __line__);
         $this->product_id = $product_id;
     }
 
@@ -38,13 +39,23 @@ class RewatermarkJob implements ShouldQueue
      */
     public function handle()
     {
+        // info(__method__ . '@' . __line__);
         $product = Product::find($this->product_id);
-        $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
 
-        $name_img = ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark');
+        $images = $product->images;
+        // info(__method__ . '@' . __line__ . '$images = ');
+        // info($images);
 
-        if ( !$name_img ) {
-            throw new Exception('не удалось преобразовать изображения для товара с $product->id = ' . $product->id);
+        foreach( $images as $image ) {
+            $path_image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $image->name . '-origin' . $image->ext;
+            // info(__method__ . '@' . __line__ . '$path_image = ' . $path_image);
+
+            $name_img = ImageYoTrait::saveImgSet($path_image, $product->id, 'rewatermark');
+            // info(__method__ . '@' . __line__ . '$name_img = ' . $name_img);
+
+            if ( !$name_img ) {
+                throw new Exception('не удалось преобразовать изображения для товара с $product->id = ' . $product->id);
+            }    
         }
     }
 

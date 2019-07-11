@@ -1,9 +1,10 @@
 
         <div class="main_menu ">
             <a href="/home">Home</a>
+            <a href="/clear">Clear</a>
             <a href="/products">Products</a>
             <!-- <a href="https://gitter.im/LaravelRUS/chat#" target="_blank">RusLaravelChat</a> -->
-            <a href="https://yakoffka.ru/laravel/laravel_online_storefront_01">Logs</a>
+            <!-- <a href="https://yakoffka.ru/laravel/laravel_online_storefront_01">Logs</a> -->
             <!-- <?php
                 if (Auth::user() and Auth::user()->can('create_products')) {
                     echo '<a href="/products/create">New Product</a>'."\n";

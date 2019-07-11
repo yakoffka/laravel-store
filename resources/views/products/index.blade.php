@@ -37,7 +37,7 @@
                         <div 
                             class="card-img-top b_image" 
                             style="background-image: url({{
-                                asset('storage') . $img->path . '/' . $img->name . '_m' . $img->ext
+                                asset('storage') . $img->path . '/' . $img->name . '-m' . $img->ext
                             }});"
                         >
                     @else

@@ -5,6 +5,20 @@ return [
     /*
     *
     */
+
+    'previews'      => [
+        'origin',
+        'l',
+        'm',
+        's',
+    ],
+
+    'rwm_previews'  => [
+        'l',
+        'm',
+        's',
+    ],
+
     'dirdst'        => env('IMG_YO_DIR_DESTINATION', '/app/public/images/products'),
     'dirdst_origin' => env('IMG_YO_DIR_DESTINATION_ORIGIN', '/app/uploads/images/products'),
     'color_fill'    => env('IMG_YO_FILLCOLOR', 0xffffff),

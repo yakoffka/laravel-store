@@ -28,7 +28,7 @@
 
                     {{-- @inpImage(['value' => old('image')]) --}}
                     <div class="form-group">
-                            <label for="images">images</label>
+                            <label for="images">Добавить изображения:</label><br>
                             <input type="file" name="images[]" multiple>
                         </div>
     

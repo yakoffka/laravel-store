@@ -8,6 +8,7 @@
     <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
     {{-- {{dd($product->images)}} --}}
     <!-- product -->
+
     <div class="row">
 
         <div class="col-md-4 wrap_b_image">

@@ -106,3 +106,10 @@ Route::resource('orders', 'OrderController')->except(['edit']);
 // Route::get('/orders/{user?}', 'CategoryController@index')->name('orders.index');
 
 
+Route::get('/clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+	Artisan::call('route:clear');
+    return config('imageyo.rwm_previews');
+});
