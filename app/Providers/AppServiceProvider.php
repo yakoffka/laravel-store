@@ -40,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.modal-confirm-destroy', 'modalConfirmDestroy');
         Blade::include('includes.carousel', 'carousel');
         Blade::include('includes.listImage', 'listImage');
+        Blade::include('includes.modalChangeImage', 'modalChangeImage');
     }
 }

@@ -9,7 +9,7 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="{{ $btn_class }}" data-toggle="modal" data-target="#{{ $cssId }}_{{ $item->id }}">
-    <i class="fas fa-trash"></i>
+  <i class="fas fa-trash"></i>
 </button>
 
 <!-- Modal -->
@@ -24,7 +24,7 @@
       </div>
       <div class="modal-body ta_l">
         <p>Запрошенная Вами операция требует подтверждения.</p>
-        <p>Вы действительно хотите удалить {{ $name_item ?? $item->name ?? 'это' }}?</p>
+        <p>Вы действительно хотите удалить {{ $type_item ?? 'продукт' }} '{{ $name_item ?? $item->name ?? '' }}'?</p>
 
       </div>
       <div class="modal-footer">

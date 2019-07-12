@@ -5,14 +5,15 @@
 @section('content')
 <div class="container">
 
-    <div class="row justify-content-center">
-        <h1>edit {{ $product->name }}</h1>
-    </div>
+    <h1>Edit product '{{ $product->name }}'</h1>
 
     <div class="row">
 
         <div class="col-sm-12 product_card_bm">
             <div class="card">
+
+                @listImage(compact('product'))
+
                 <form method="POST" action="{{ route('products.update', ['product' => $product->id]) }}" enctype="multipart/form-data">
                     @csrf
 
@@ -24,7 +25,6 @@
                         </div>
                     @else
                     @endif --}}
-                    @listImage(compact('product'))
 
                     {{-- @inpImage(['value' => old('image')]) --}}
                     <div class="form-group">

@@ -11,7 +11,7 @@ trait ImageYoTrait
 
     public static function saveImgSet($image, $product_id, $mode = false)
     {
-        // создание изображений
+        // info(__method__ . '@' . __line__;
         $name_img = false;
 
         if ( $mode === 'rewatermark' ) {
@@ -19,10 +19,6 @@ trait ImageYoTrait
         } else {
             $previews = config('imageyo.previews');
         }
-
-        // info(__method__ . '@' . __line__ . ' $previews = ' . print_r($previews, true));
-        // info(__method__ . '@' . __line__ . ' $previews = ');
-        // info($previews);
 
         foreach ( $previews as $type_preview ) {
             if ( config('imageyo.is_' . $type_preview) ) {
@@ -46,31 +42,28 @@ trait ImageYoTrait
         $src_size = getimagesize($image);
         $src_w = $src_size[0];
         $src_h = $src_size[1];
-        // $ext = getClientOriginalExtension($image)
 
         if ( $mode === 'rewatermark' ) {
             $src_img_name = pathinfo($image)['basename'];
             $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
-            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
             $name_dst_image_without_ext = str_replace('-origin' , '', $name_dst_image_without_ext);
 
         } elseif ( $mode === 'seed' ) {
             $src_img_name = pathinfo($image)['basename'];
-            // $src_path = pathinfo($image)['dirname'] . '/' . pathinfo($image)['basename'];
             $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
-            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
         } else {
             $src_img_name = $image->getClientOriginalName();
             $src_path = $image->path();
             $type = $image->extension(); //определяем тип файла
-            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name);
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
         }
 
         // преобразование имени в slug (и попутно в латиницу)
         $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext);
-        // info(__method__ . '@' . __line__ . 'name_dst_image_without_ext = ' . $name_dst_image_without_ext);
 
         // получение параметров из конфигурационного файла
         if ( $type_preview === 'origin' ) {
@@ -90,10 +83,7 @@ trait ImageYoTrait
 
         // создание директории при необходимости
         if ( !is_dir($dst_dir) ) {
-            if ( !mkdir($dst_dir, 0777, true) ) {
-                dd($dst_dir);
-                return false;
-            }
+            if ( !mkdir($dst_dir, 0777, true) ) {return false;}
         }
 
         //определение функции, соответствующей типу загруженного файла
@@ -107,7 +97,6 @@ trait ImageYoTrait
         $ratio_w = $dstimage_w / $src_w;
         $ratio_h = $dstimage_h / $src_h;
         $ratio = $ratio_w >= $ratio_h ? $ratio_h : $ratio_w;
-
 
         // получаем смещения
         $dst_w = round($src_w * $ratio);   // Результирующая ширина.
@@ -129,7 +118,7 @@ trait ImageYoTrait
         // копируем на него преобразованное изображение с изменением размера
         imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
-        // накладываем водяной знак
+        // накладываем, при необходимости, водяной знак
         if ( config('imageyo.' . $type_preview . '_is_watermark') ) {
             $path_watermark = storage_path() . config('imageyo.watermark');
             // info("\n" . __method__ . ' path_watermark = ' . $path_watermark);

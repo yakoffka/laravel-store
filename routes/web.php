@@ -106,6 +106,10 @@ Route::resource('orders', 'OrderController')->except(['edit']);
 // Route::get('/orders/{user?}', 'CategoryController@index')->name('orders.index');
 
 
+// images
+Route::delete('images/{image}', 'ImagesController@destroy')->name('images.destroy');
+Route::patch('images/{image}', 'ImagesController@update')->name('images.update');
+
 Route::get('/clear', function() {
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
