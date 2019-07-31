@@ -66,15 +66,14 @@ class ProductsController extends Controller
             $appends[$key] = $val;
         }
 
-        $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
-        // $products = Product::with('category')->filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
-        // dd(Image::min('sort_order'));
-        // $topimages = Image::all()->firstWhere('sort_order', Image::min('sort_order'));
-        // dd($topimages);
-        
-        // $thiscategories = Product::filter($request, $this->getFilters())->get('category_id');
-        // dd($products->total());
-        // dd($thiscategories);
+        // $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
+
+        // visible/invisible products where 'visible' == 0
+        if( Auth::user() and  Auth::user()->can(['view_products'])) {
+            $products = Product::filter($request, $this->getFilters())->latest()->paginate(config('custom.products_paginate'));
+        } else {
+            $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        }
         return view('products.index', compact('products', 'appends'));
     }
 
