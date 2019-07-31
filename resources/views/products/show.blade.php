@@ -19,7 +19,17 @@
             @endif
                 <div class="dummy"></div><div class="element"></div>
             </div> --}}
-            @carousel(compact('product'))
+
+            @if($product->images->count())
+                @carousel(compact('product'))
+            @else
+                <div 
+                    class="card-img-top b_image" 
+                    style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);"
+                >
+                    <div class="dummy"></div><div class="element"></div>
+                </div>
+            @endif
         </div>
 
         <div class="col-md-8">

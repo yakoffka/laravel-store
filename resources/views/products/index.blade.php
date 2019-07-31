@@ -64,8 +64,6 @@
                             $img = $product->images->first();
                         @endphp
 
-                        {{-- {{dd($img)}} --}}
-
                         <div 
                             class="card-img-top b_image" 
                             style="background-image: url({{
