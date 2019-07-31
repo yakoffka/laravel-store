@@ -189,7 +189,7 @@ class ProductsController extends Controller
         //     }
         // }
         // dd(request()->file('images'));
-        if ( count(request()->file('images')) ) {
+        if ( request()->file('images') and count(request()->file('images')) ) {
             foreach(request()->file('images') as $key => $image) {
                 
                 // // validation images
@@ -280,8 +280,10 @@ class ProductsController extends Controller
             'price' => request('price'),
             'edited_by_user_id' => Auth::user()->id,
         ]);
+        // dd(__METHOD__ . '@' . __LINE__);
 
-        if ( count(request()->file('images')) ) { // проверить на изображение!!!
+        if ( request()->file('images') and count(request()->file('images')) ) { // проверить на изображение!!!
+            dd(__METHOD__ . '@' . __LINE__);
             foreach(request()->file('images') as $image) {
 
                 // image re-creation
@@ -297,7 +299,7 @@ class ProductsController extends Controller
                     'name' => $image_name,
                     'ext' => config('imageyo.res_ext'),
                     'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                    'sort_order' => rand(1, 9),
+                    'sort_order' => 9,
                     'orig_name' => $originalName,
                 ]);
             }
