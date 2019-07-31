@@ -9,7 +9,7 @@
     </form>
 
 
-    @if ( !empty($appends))
+    @if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
         <br>
         <form class="formfilters" action="{{ route('products.index') }}">
             <button type="submit" class="btn btn-outline-danger form-control"><i class="fas fa-eraser"></i> cleare filter</button>

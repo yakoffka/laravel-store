@@ -1,6 +1,36 @@
 @extends('layouts.app')
 
-@section('title', 'All Products')
+@if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
+    @php
+        $title = 'Filters Products';
+        $mess_null = '';
+
+        if ( $products->total() == 0 ) {
+            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+        }
+    @endphp
+@elseif ( !empty($appends['category']) )
+    @php
+        $title = 'Category Products';
+        $mess_null = '';
+
+        if ( $products->total() == 0 ) {
+            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+        }
+    @endphp
+@else
+    @php
+        $title = 'All Products';
+        $mess_null = '';
+
+        if ( $products->total() == 0 ) {
+            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+        }
+    @endphp
+@endif
+
+
+@section('title', $title)
 
 {{-- @section('sidebar')
     @parent
@@ -11,13 +41,15 @@
 @section('content')
 {{-- <div class="container"> --}}
 
-    <h1>Products ({{ $products->total() }})</h1>
+    <h1>{{ $title }} ({{ $products->total() }})</h1>
 
     {{-- @alert(['type' => 'primary', 'title' => 'Title Forbidden'])
         <strong>Whoops!</strong> Something went wrong!
     @endalert --}}
 
     <div class="row">
+
+        {{ $mess_null }}
 
         @foreach($products as $product)
 
