@@ -13,7 +13,8 @@
                     data-target="#subnav-{{ $category->id }}"
                     aria-controls="subnav-{{ $category->id }}"
                     aria-expanded="false"
-                >{{ $category->title }} ({{ $category->products->count() }})</a>
+                {{-- >{{ $category->title }} ({{ $category->products->count() }})</a> --}}
+                >{{ $category->title }} ></a>
                 <ul class="navbar-collapse collapse"
                     id="subnav-{{ $category->id }}"
                     data-parent="#mainMenu"

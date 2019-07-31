@@ -164,6 +164,7 @@
                     {{-- </div> --}}
                         
                     @include('layouts.partials.nav')
+                    @include('layouts.partials.separator')
                     @include('layouts.partials.filters')
 
                 </div>
