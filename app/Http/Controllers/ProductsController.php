@@ -318,10 +318,20 @@ class ProductsController extends Controller
     {
         abort_if ( Auth::user()->cannot('delete_products'), 403 );
 
+        $products_name = $product->name;
+        $products_id = $product->id;
+
         // destroy product images
-        if ($product->image) {
-            $directory = 'public/images/products/' . $product->id;
-            Storage::deleteDirectory($directory);
+        if ($product->images) {
+
+            // delete public directory (converted images)
+            $directory_pub = 'public/images/products/' . $product->id;
+            Storage::deleteDirectory($directory_pub);
+
+            // delete uploads directory (original images)
+            $directory_upl = 'uploads/images/products/' . $product->id;
+            Storage::deleteDirectory($directory_upl);
+
         }
 
         // destroy product comments
@@ -329,6 +339,8 @@ class ProductsController extends Controller
 
         // destroy product
         $product->delete();
+
+        session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
 
         return redirect()->route('products.index');
     }
@@ -422,24 +434,5 @@ class ProductsController extends Controller
 
         return redirect()->route('products.index');
     }
-
-    // /*
-    // * заготовка для фильтра (куда бы её покласть?)
-    // *
-    // */
-    // public function filter (Request $request) {
-    //     // dd($request);
-
-    //     $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
-
-    //     $appends = [];
-    //     foreach($request->query as $key => $val){
-    //         $appends[$key] = $val;
-    //     }
-    //     return view('products.index', compact('products', 'appends'));
-    // }
-
-    
-
 
 }
