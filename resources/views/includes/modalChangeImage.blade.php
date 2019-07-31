@@ -20,12 +20,27 @@
 
           @method('PATCH')
 
-          @input([
-            'name' => 'sort_order', 
+          {{-- @input([
+            'lkjl'  => 'lkjlkjlkj',
+            'name'  => 'sort_order', 
             'label' => 'Change sort order for image "' . $img->name . '"', 
-            'type' => 'number', 
+            'type'  => 'number', 
             'value' => $img->sort_order,
-          ])          
+            'min'   => '1',
+            'max'   => '9',
+          ]) --}}
+          <div class="form-group">
+              <label for="sort_order">{{ 'Change sort order for image "' . $img->name . '"' }}</label>
+              <input 
+                  type="number" 
+                  id="sort_order" 
+                  name="sort_order" 
+                  class="form-control" 
+                  placeholder="sort_order" 
+                  value="{{ $img->sort_order }}"
+                  min="1" max="9"
+              >
+          </div>
 
           <button type="submit" class="btn btn-primary form-control">change order!</button>
 

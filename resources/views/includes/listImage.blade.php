@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-sm-5">
                 @modalConfirmDestroy([
-                    'btn_class' => 'btn btn-outline-danger form-control',
+                    'btn_class' => 'btn btn-outline-danger',
                     'cssId' => 'delele_',
                     'item' => $img,
                     'type_item' => 'изображение',

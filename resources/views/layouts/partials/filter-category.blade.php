@@ -1,7 +1,33 @@
-{{-- {{ dd($categories) }} --}}
-<h4>Categoryes</h4>
 
+<div class="greygrey">category filter</div>
 @if($categories->count())
+    <ul class="filter navbar-nav mr-auto">
+        @foreach( $categories as $category )
+            {{-- @if ($category->products->count()) --}}
+                <p class="filters">
+
+                    {{ $category->title }} {{-- ({{ $category->products->count() }}) --}}
+
+                    <input 
+                        type="checkbox" 
+                        name="categories[]" 
+                        value="{{ $category->id }}"
+                        
+                        @if ( !empty($appends['categories']) and in_array($category->id, $appends['categories']) )
+                            checked
+                        @endif
+                    >
+                </p>
+
+            {{-- @endif --}}
+        @endforeach
+    </ul>
+@endif
+
+
+
+{{-- 
+
 <ul class="navbar-nav mr-auto" id="mainMenu">
     @foreach($categories as $category)
         <li class="nav-item">
@@ -34,5 +60,6 @@
             @endif
         </li>
     @endforeach
-</ul>
-@endif
+</ul> --}}
+
+

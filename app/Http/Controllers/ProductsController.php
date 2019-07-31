@@ -28,7 +28,7 @@ class ProductsController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show', 'filter']);
     }
     
     /**
@@ -71,6 +71,10 @@ class ProductsController extends Controller
         // dd(Image::min('sort_order'));
         // $topimages = Image::all()->firstWhere('sort_order', Image::min('sort_order'));
         // dd($topimages);
+        
+        // $thiscategories = Product::filter($request, $this->getFilters())->get('category_id');
+        // dd($products->total());
+        // dd($thiscategories);
         return view('products.index', compact('products', 'appends'));
     }
 
@@ -419,10 +423,23 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    
-    public function deleteImage () {
+    // /*
+    // * заготовка для фильтра (куда бы её покласть?)
+    // *
+    // */
+    // public function filter (Request $request) {
+    //     // dd($request);
 
-    }
+    //     $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
+
+    //     $appends = [];
+    //     foreach($request->query as $key => $val){
+    //         $appends[$key] = $val;
+    //     }
+    //     return view('products.index', compact('products', 'appends'));
+    // }
+
+    
 
 
 }

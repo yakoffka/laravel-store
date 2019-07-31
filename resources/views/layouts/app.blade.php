@@ -157,13 +157,17 @@
 
             <div class="container">
                 <div class="row">
-                <div class="col col-sm-1 p-0">
+                <div class="col col-sm-2 p-0 aside">
 
+                    {{-- <div class="row justify-content-center"> --}}
+                        <h1>&nbsp;</h1>
+                    {{-- </div> --}}
+                        
                     @include('layouts.partials.nav')
-                    @include('layouts.partials.filter-manufacturer')
+                    @include('layouts.partials.filters')
 
                 </div>
-                <div class="col col-sm-11 pr-0">
+                <div class="col col-sm-10 pr-0">
 
                     @yield('content')
 

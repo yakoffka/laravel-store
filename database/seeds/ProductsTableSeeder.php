@@ -95,7 +95,8 @@ class ProductsTableSeeder extends Seeder
                         'name' => $image_name,
                         'ext' => config('imageyo.res_ext'),
                         'alt' => 'seed',
-                        'sort_order' => rand(1, 9),
+                        // 'sort_order' => rand(1, 9),
+                        'sort_order' => 9,
                         'orig_name' => 'seed',
                     ]);
                 }

@@ -8,5 +8,6 @@
         placeholder="{{ $name }}" 
         value="{{ $value }}" 
         {{ $required ?? '' }}
+        {{-- {{ $min ? 'min="' . $min . '"' : '' }}{{ $max ? 'max="' . $max . '"' : '' }} --}}
     >
 </div>

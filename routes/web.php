@@ -40,7 +40,6 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 
 
-Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
 /* products*/
 Route::get('/products', 'ProductsController@index')->name('products.index');
 Route::get('/products/create', 'ProductsController@create')->name('products.create');
@@ -49,6 +48,10 @@ Route::post('/products', 'ProductsController@store')->name('products.store');
 Route::get('/products/edit/{product}', 'ProductsController@edit')->name('products.edit');
 Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
+// filter
+// Route::get('products.filter', 'ProductsController@filter')->name('products.filter');
+// rewatermark
+Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
 
 
 /* comments*/
@@ -110,10 +113,15 @@ Route::resource('orders', 'OrderController')->except(['edit']);
 Route::delete('images/{image}', 'ImagesController@destroy')->name('images.destroy');
 Route::patch('images/{image}', 'ImagesController@update')->name('images.update');
 
+
+
+
 Route::get('/clear', function() {
     Artisan::call('cache:clear');
-    Artisan::call('config:cache');
+    // Artisan::call('config:cache');
+    Artisan::call('config:clear');
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
-    return config('imageyo.rwm_previews');
+    // return config('imageyo.rwm_previews');
+    return 'cleare complete';
 });

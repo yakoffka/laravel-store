@@ -1,14 +1,21 @@
+
+<div class="greygrey">manufacturer filter</div>
 @if($manufacturers->count())
-{{-- // slug!!!! --}}
-    <h4>filter</h4>
     <ul class="filter navbar-nav mr-auto">
         @foreach($manufacturers as $manufacturer)
-            <li>
-                <a href="/products?manufacturer={{ $manufacturer->name }}" class="nav-link">
-                    {{ $manufacturer->title }}
-                </a>
-            </li>
+            <p class="filters">
+                {{ $manufacturer->title }}
+                <input 
+                    type="checkbox" 
+                    name="manufacturers[]" 
+                    value="{{ $manufacturer->id }}"
+                    
+                    @if ( !empty($appends['manufacturers']) and in_array($manufacturer->id, $appends['manufacturers']) )
+                        checked
+                    @endif
+
+                >
+            </p>
         @endforeach
     </ul>
-
 @endif

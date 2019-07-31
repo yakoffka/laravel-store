@@ -10,14 +10,14 @@ class CategoryFilter extends FilterAbstract
 {
     public function filter(Builder $builder, $value)
     {
-        $category = Category::all()->firstWhere('slug', '=', $value);
-        // dd($category);
+        // dd($value);
 
-        // return $builder->where('slug', $category->id);
-
-        if ($category) {
-            return $builder->where('category_id', $category->id);
-        }
-        
+        // $category = Category::all()->firstWhere('slug', '=', $value);
+        // // dd($category);
+        // // return $builder->where('slug', $category->id);
+        // if ($category) {
+        //     return $builder->where('category_id', $category->id);
+        // }
+        return $builder->whereIn('category_id', $value);
     }
 }

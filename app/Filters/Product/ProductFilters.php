@@ -27,9 +27,9 @@ class ProductFilters extends FiltersAbstract
 
     protected $filters = [
         // 'access' => AccessFilter::class,
-        'manufacturer' => ManufacturerFilter::class,
-        'visible' => VisibleFilter::class,
-        'category' => CategoryFilter::class,
+        'manufacturers' => ManufacturerFilter::class,
+        // 'visible' => VisibleFilter::class,
+        'categories' => CategoryFilter::class,
         // 'category_id'
         // 'materials'
         // 'year_manufacture'

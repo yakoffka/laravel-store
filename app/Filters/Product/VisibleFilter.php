@@ -18,12 +18,23 @@ class VisibleFilter extends FilterAbstract
 
     public function filter(Builder $builder, $value)
     {
-        $value = $this->resolveFilterValue($value);
+        // $value = $this->resolveFilterValue($value);
+        // if ( $value === null ) {
+        //     return $builder;
+        // }
+        // return $builder->where('visible', $value);
 
-        if ( $value === null ) {
-            return $builder;
+
+
+        $value = $this->resolveFilterValue($value);
+        dd($value);
+
+        if ( Auth::user() and Auth::user()->can('create_products') ) {
+            return $builder->where('visible', true);
+        } else {
+            // return $builder->where('visible', false);
+            return null;
         }
 
-        return $builder->where('visible', $value);
     }
 }

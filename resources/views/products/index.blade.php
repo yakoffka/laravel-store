@@ -11,7 +11,7 @@
 @section('content')
 {{-- <div class="container"> --}}
 
-    <h1>All Products</h1>
+    <h1>Products ({{ $products->total() }})</h1>
 
     {{-- @alert(['type' => 'primary', 'title' => 'Title Forbidden'])
         <strong>Whoops!</strong> Something went wrong!

@@ -10,18 +10,7 @@ class ManufacturerFilter extends FilterAbstract
 {
     public function filter(Builder $builder, $value)
     {
-        // return $builder->where('manufacturer', $value);
-        $manufacturer = Manufacturer::all()->firstWhere('name', '=', $value);
-        // dd($manufacturer);
-
-        // return $builder->where('manufacturer_id', $manufacturer->id);
-
-        if ($manufacturer) {
-            return $builder->where('manufacturer_id', $manufacturer->id);
-        // } else {
-        //     // return $builder;
-        //     return null;
-        }
-        
+        // dd($value);
+        return $builder->whereIn('manufacturer_id', $value);
     }
 }

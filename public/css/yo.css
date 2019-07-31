@@ -12,7 +12,7 @@ h2{
 
 .center{text-align:center;}
 .grey {color: #636b6f;}
-.grey .grey{color: #8e9aa0;}
+.grey .grey, .greygrey{color: #8e9aa0;}
 .ta_l{text-align: left;}
 
 
@@ -32,7 +32,7 @@ a, button {outline: none;} /* Убираем границу вокруг ссы�
 
 
 .row {
-    margin:1em 0;
+    margin:0 0 1em 0;
 }
 .row.center {
     justify-content: center;
@@ -457,9 +457,12 @@ div.skew-bg {
 ul.navbar-nav {
     margin-bottom: 1em;
 }
-ul#mainMenu {
+/* ul#mainMenu {
     margin-top: 3em;
-}
+} */
+/* .aside {
+    margin-top: 3em;
+} */
 ul#mainMenu ul {
     padding-left: 10px;
     list-style: none;
@@ -469,3 +472,9 @@ ul#mainMenu ul {
 
 .carousel-indicators li.active{background-color: #09c;}
 .carousel-indicators li{background-color: #ccc;}
+
+
+.aside .nav-link, .aside p{
+    padding: .1rem;
+    margin: 0;
+}
