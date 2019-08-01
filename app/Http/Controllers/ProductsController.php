@@ -155,6 +155,7 @@ class ProductsController extends Controller
         
         if (!$product = Product::create([
             'name' => request('name'),
+            'slug' => Str::slug(request('name'), '-'),
             'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
             'visible' => request('visible'),
@@ -167,28 +168,6 @@ class ProductsController extends Controller
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
-
-        // if ( request()->file('image') ) { // убрать лишнюю перезапись!
-
-        //     // $product->image = $this->storeImage(request()->file('image'), $product->id);
-        //     // $product->image = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
-
-        //     $image_name = ImageYoTrait::saveImgSet(request()->file('image'), $product->id);
-        //     $originalName = request()->file('image')->getClientOriginalName();
-
-        //     $image = Image::create([
-        //         'product_id' => $product->id,
-        //         'orig_name' => $originalName,
-        //         'slug' => Str::slug($originalName),
-        //         'alt' => str_replace( strrchr($originalName, '.'), '', $originalName), // cut extention
-        //         'sort_order' => request('sort_order') ?? 9,
-        //     ]);
-
-        //     if (!$product->image or !$product->update()) {
-        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
-        //     }
-        // }
-        // dd(request()->file('images'));
         if ( request()->file('images') and count(request()->file('images')) ) {
             foreach(request()->file('images') as $key => $image) {
                 
@@ -207,7 +186,8 @@ class ProductsController extends Controller
                 // create record
                 $image = Image::create([
                     'product_id' => $product->id,
-                    'slug' => $image_name,
+                    // 'slug' => $image_name,
+                    'slug' => Str::slug($image_name, '-'),
                     'path' => $path,
                     'name' => $image_name,
                     'ext' => config('imageyo.res_ext'),
@@ -219,7 +199,7 @@ class ProductsController extends Controller
         }
 
 
-        // sending notification
+        // sending notification 1
         // replace config('mail.mail_to_test') => auth()->user()->email
         // \Mail::to(config('mail.mail_to_test'))
         //     ->bcc(config('mail.mail_bcc'))
@@ -227,12 +207,12 @@ class ProductsController extends Controller
         //         new ProductCreated($product)
         //     );
 
-        // sending notification with queue
+        // sending notification 2 with queue
         // \Mail::to(config('mail.mail_to_test'))
         // ->bcc(config('mail.mail_bcc'))
         // ->queue(new ProductCreated($product));
 
-        // sending notification later with queue
+        // sending notification 3 later with queue
         $when = Carbon::now()->addMinutes(1);
         \Mail::to(config('mail.mail_to_test'))
             ->bcc(config('mail.mail_bcc'))
@@ -241,6 +221,7 @@ class ProductsController extends Controller
         session()->flash('message', 'products ' . $product->name . ' has been created');
         return redirect()->route('products.show', ['product' => $product->id]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -271,6 +252,7 @@ class ProductsController extends Controller
 
         $product->update([
             'name' => request('name'),
+            'slug' => Str::slug(request('name'), '-'),
             'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
             'visible' => request('visible'),
@@ -294,7 +276,8 @@ class ProductsController extends Controller
                 // create record
                 $image = Image::create([
                     'product_id' => $product->id,
-                    'slug' => $image_name,
+                    // 'slug' => $image_name,
+                    'slug' => Str::slug($image_name, '-'),
                     'path' => $path,
                     'name' => $image_name,
                     'ext' => config('imageyo.res_ext'),
@@ -346,79 +329,9 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    // public function _rewatermark(Request $request)
-    // {
-    //     $start = microtime(true);
-    //     // info("\n\n\n".__line__ . ' ' . __METHOD__ . 'start');
-    //     // info(__method__ . '@' . __line__ . ' has: ' . $request->session()->has('rewatermarks'));
-
-    //     // получение данных
-    //     if ( !$request->session()->has('rewatermarks') ) {
-    //         // info(__method__ . '@' . __line__);
-
-    //         // первая итерация
-    //         \Artisan::call('config:cache');
-    //         $rewatermarks = Product::all()->where('image', '!=', null)->pluck('id');
-
-    //         $request->session()->put('rewatermarks_start', $start);
-    //         // $request->session()->save();
-    //     } else {
-    //         $rewatermarks = $request->session()->get('rewatermarks', null);
-    //         // info(__method__ . '@' . __line__  . ' $rewatermarks->count() = '. $rewatermarks ? $rewatermarks->count() : 'null');
-    //     }
-
-    //     // если полученная коллекция не пуста
-    //     if ( $rewatermarks->count() ) {
-    //         // info(__method__ . '@' . __line__ . ' $rewatermarks->count() = ' . $rewatermarks->count());
-
-    //         // вырезаем очередной id
-    //         $product_id = $rewatermarks->pop();
-    //         // info(__method__ . '@' . __line__ . ' $product_id = ' . $product_id);
-
-    //         $request->session()->put('rewatermarks', $rewatermarks);
-    //         // $request->session()->save();
-
-    //         $product = Product::findOrFail($product_id); // find???
-    //         // dd($product);
-
-    //         // получаем имя оригинального файла (проверить на существование?)
-    //         $image = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id . '/' . $product->image . '_origin' . config('imageyo.res_ext');
-            
-    //         // и преобразуем получаемый файл
-    //         if ( !ImageYoTrait::saveImgSet($image, $product->id, 'rewatermark') ) {
-    //             return redirect()->route('products.index')->withErrors(['Something wrong: ' . $product->name]);
-    //         }
-    //         // info(__method__ . '@' . __line__ . ' $product->image = ' . $product->image);
-
-    //         // если коллекция всё ещё не пуста, инициируем ещё одну итерацию
-    //         if ( $rewatermarks->count() ) {
-    //             // info(__method__ . '@' . __line__ . " redirect()->route('products.rewatermark');");
-
-    //             return redirect()->route('products.rewatermark');
-    //         }
-    //     }
-        
-    //     $time = microtime(true) - $request->session()->get('rewatermarks_start', 0);
-
-    //     $request->session()->forget('rewatermarks');
-    //     $request->session()->forget('rewatermarks_start');
-    //     $request->session()->forget('rewatermarks_timing');
-    //     $request->session()->save();
-
-    //     session()->flash('message', 'Rewatermarks is complited. execute time: ' . $time);
-
-    //     return redirect()->route('products.index');
-        
-    // }
-
 
     public function rewatermark()
     {
-        // \Artisan::call('config:cache');
-        // // dd(\Artisan::output());
-        // \Artisan::call('queue:restart');
-        // // dd(\Artisan::output());
-
         info(__method__ . '@' . __line__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
 
         // $products = Product::all()->where('image', '!=', null);
@@ -432,7 +345,6 @@ class ProductsController extends Controller
         }
 
         session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
-
         return redirect()->route('products.index');
     }
 

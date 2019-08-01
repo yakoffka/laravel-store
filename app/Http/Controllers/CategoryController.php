@@ -54,7 +54,7 @@ class CategoryController extends Controller
             'title'         => 'required|string|max:255|unique',
             'description'   => 'string|max:255',
             'image'         => 'image',
-            'visible'          => 'required|boolean',
+            'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ];
 
@@ -63,9 +63,9 @@ class CategoryController extends Controller
             'slug'            => Str::slug(request('name'), '-'),
             'title'           => request('title'),
             'description'     => request('description'),
-            'visible'            => request('visible'),
+            'visible'         => request('visible'),
             'parent_id'       => request('parent_id'),
-            'added_by_user_id' => Auth::user()->id,
+            'added_by_user_id'=> Auth::user()->id,
         ]);
 
         if ( request()->file('image') ) {
@@ -129,16 +129,16 @@ class CategoryController extends Controller
             'title'         => 'required|string|max:255',
             'description'   => 'string|max:255',
             'image'         => 'image',
-            'visible'          => 'required|boolean',
+            'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
         $category->update([
             'name'              => request('name'),
-            'slug'            => Str::slug(request('name'), '-'),
+            'slug'              => Str::slug(request('name'), '-'),
             'title'             => request('title'),
             'description'       => request('description'),
-            'visible'              => request('visible'),
+            'visible'           => request('visible'),
             'parent_id'         => request('parent_id'),
             'edited_by_user_id' => Auth::user()->id,
         ]);

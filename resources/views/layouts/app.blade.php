@@ -182,7 +182,7 @@
 
             @include('layouts.partials.separator')
 
-            <div class="grey">                
+            <div class="grey denial_responsibility">                
                 Администрация Сайта не несет ответственности за размещаемые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
             </div>
         </div>

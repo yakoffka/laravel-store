@@ -67,6 +67,7 @@ class ProductsTableSeeder extends Seeder
             // ]);
             $product = Product::create([
                 'name' => $name,
+                'slug' => Str::slug($name, '-'),
                 'manufacturer_id' => $manufacturer->id,
                 'visible' => rand(0, 5) ? 1 : 0,
                 'category_id' => $category['id'],
@@ -90,7 +91,7 @@ class ProductsTableSeeder extends Seeder
                     $image_name = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
                     $image = Image::create([
                         'product_id' => $product->id,
-                        'slug' => Str::slug($image_name),
+                        'slug' => Str::slug($image_name, '-'),
                         'path' => $path,
                         'name' => $image_name,
                         'ext' => config('imageyo.res_ext'),

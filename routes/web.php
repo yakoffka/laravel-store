@@ -118,10 +118,11 @@ Route::patch('images/{image}', 'ImagesController@update')->name('images.update')
 
 Route::get('/clear', function() {
     Artisan::call('cache:clear');
-    // Artisan::call('config:cache');
     Artisan::call('config:clear');
+    Artisan::call('config:cache');
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
+	Artisan::call('queue:restart');
     // return config('imageyo.rwm_previews');
     return 'cleare complete';
 });

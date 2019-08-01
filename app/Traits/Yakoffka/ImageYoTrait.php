@@ -63,7 +63,7 @@ trait ImageYoTrait
         }
 
         // преобразование имени в slug (и попутно в латиницу)
-        $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext);
+        $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext, '-');
 
         // получение параметров из конфигурационного файла
         if ( $type_preview === 'origin' ) {
