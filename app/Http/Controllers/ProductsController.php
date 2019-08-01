@@ -283,7 +283,7 @@ class ProductsController extends Controller
         // dd(__METHOD__ . '@' . __LINE__);
 
         if ( request()->file('images') and count(request()->file('images')) ) { // проверить на изображение!!!
-            dd(__METHOD__ . '@' . __LINE__);
+            // dd(__METHOD__ . '@' . __LINE__);
             foreach(request()->file('images') as $image) {
 
                 // image re-creation

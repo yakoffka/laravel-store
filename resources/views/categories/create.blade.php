@@ -109,7 +109,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">edit category!</button>
+                    <button type="submit" class="btn btn-primary">create category!</button>
 
                 </form>
 

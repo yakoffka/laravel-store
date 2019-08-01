@@ -6,7 +6,7 @@
     @foreach($categories as $category)
         <li class="nav-item">
             @if ($category->children->count())
-                <a href="/products?category={{ $category->slug }}"
+                <a href="/products?categories[]={{ $category->id }}"
                     class="nav-link"
                     id="hasSub-{{ $category->id }}"
                     data-toggle="collapse"
@@ -22,14 +22,14 @@
                 >
                     @foreach ($category->children as $subcategory)
                         <li>
-                            <a href="/products?category={{ $subcategory->slug }}" class="nav-link">
+                            <a href="/products?categories[]={{ $subcategory->id }}" class="nav-link">
                                 {{ $subcategory->title }} ({{ $subcategory->products->count() }})
                             </a>
                         </li>
                     @endforeach
                 </ul>
             @else
-                <a href="/products?category={{ $category->slug }}" class="nav-link">
+                <a href="/products?categories[]={{ $category->id }}" class="nav-link">
                     {{ $category->title }} ({{ $category->products->count() }})
                 </a>
             @endif

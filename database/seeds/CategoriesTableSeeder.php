@@ -17,22 +17,22 @@ class CategoriesTableSeeder extends Seeder
             ['name' => 'guitars',          'parent_id' => null  ],
             ['name' => 'keys',             'parent_id' => null  ],
             ['name' => 'drums',            'parent_id' => null  ],
-            // ['name' => 'lighting',         'parent_id' => null  ],
-            // ['name' => 'accessories',      'parent_id' => null  ],
+            ['name' => 'lighting',         'parent_id' => null  ],
+            ['name' => 'accessories',      'parent_id' => null  ],
 
             // subcategory
-            ['name' => 'bass',             'parent_id' => '1' ],
-            ['name' => 'electric',         'parent_id' => '1' ],
-            ['name' => 'acoustic',         'parent_id' => '1' ],
+            ['name' => 'bass guitars',             'parent_id' => '1' ],
+            ['name' => 'electric guitars',         'parent_id' => '1' ],
+            ['name' => 'acoustic guitars',         'parent_id' => '1' ],
             
             ['name' => 'acoustic pianos',  'parent_id' => '2' ],
             ['name' => 'grand pianos',     'parent_id' => '2' ],
             ['name' => 'digital pianos',   'parent_id' => '2' ],
             
-            // ['name' => 'strings',          'parent_id' => '5' ],
-            // ['name' => 'mediators',        'parent_id' => '5' ],
-            // ['name' => 'tools',            'parent_id' => '5' ],
-            // ['name' => 'notes',            'parent_id' => '5' ],
+            ['name' => 'strings',          'parent_id' => '5' ],
+            ['name' => 'mediators',        'parent_id' => '5' ],
+            ['name' => 'tools',            'parent_id' => '5' ],
+            ['name' => 'notes',            'parent_id' => '5' ],
         ];
 
         $key = 1;
