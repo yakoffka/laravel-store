@@ -415,6 +415,9 @@ div.skew-bg {
 
     z-index: -1;
     height: 50px;
+    /* height: 5em;
+    padding-top: 3em;
+    color: #77818d; */
 }
 .footer {
     border-top: 0px solid #e1e4e8 !important;

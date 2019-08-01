@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,
             StatusesTableSeeder::class,
         ]);
-        factory(App\Comment::class, config('custom.products_seed'))->create();
+        factory(App\Comment::class, (config('custom.products_seed') * 5) )->create();
     }
 }
