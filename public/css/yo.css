@@ -10,6 +10,23 @@ h2{
 }
 
 
+
+/* toTop */
+#toTop{
+    position:fixed;
+    bottom:1em;
+    right:1em;
+    cursor:pointer;
+    display:none;
+    color:#09f;
+    font-size:3em;
+}
+/* /toTop */
+
+
+
+
+
 .center{text-align:center;}
 .grey {color: #636b6f;}
 .grey .grey, .greygrey{color: #8e9aa0;}

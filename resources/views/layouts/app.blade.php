@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="https://kk.dragoon.pw/src/js/jquery-1.11.2.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -211,15 +212,20 @@
         </div>
     </div>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> --}}
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script> --}}
-    {{-- <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>')</script> --}}
-    {{-- <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="/docs/4.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script> --}}
-    {{-- <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js" crossorigin="anonymous"></script> --}}
-    {{-- <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script> --}}
-    {{-- <script src="https://getbootstrap.com/docs/4.0/assets/js/docs.min.js"></script> --}}
+    {{-- toTop --}}
+    {{-- <div id='toTop'><i class="fa fa-chevron-up"></i></div> --}}
+    <div id='toTop'><i class="fas fa-chevron-circle-up"></i></div>
 
+    <script type="text/javascript">
+		$(function(){
+			$(window).scroll(function(){
+				if($(this).scrollTop()!= 0){$('#toTop').fadeIn();
+				}else{$('#toTop').fadeOut();}
+			});
+			$('#toTop').click(function(){$('body,html').animate({scrollTop:0},800);});
+		});
+	</script>
+    {{-- toTop --}}
 
 </body>
 </html>
