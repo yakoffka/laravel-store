@@ -13,7 +13,6 @@
                     @if ( !empty($appends['manufacturers']) and in_array($manufacturer->id, $appends['manufacturers']) )
                         checked
                     @endif
-
                 >
             </p>
         @endforeach

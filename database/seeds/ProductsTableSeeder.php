@@ -31,7 +31,7 @@ class ProductsTableSeeder extends Seeder
 
         $arr_categories = $categories->toArray();
 
-        for ($i=0; $i<config('custom.products_seed'); $i++) {
+        for ($i=0; $i<config('custom.num_products_seed'); $i++) {
 
             $manufacturer = $manufacturers->random();
             $category = $arr_categories[array_rand($arr_categories)];

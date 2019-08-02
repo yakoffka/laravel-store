@@ -381,8 +381,8 @@ nav.navbar.navbar-dark a.navbar-brand {
 }
 .navbar .main_menu {
     margin-left: 120px;
-    /* top: 5px;
-    transform: skew(0, -.75deg);
+    top: -5px;
+    /* transform: skew(0, -.75deg);
     transform-origin: bottom left;
     font-style: oblique; */
 }

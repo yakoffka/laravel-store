@@ -3,5 +3,5 @@
     return [
         'products_paginate' => env('PRODUCTS_PAGINATE', 6),
         'orders_paginate' => env('ORDERS_PAGINATE', 20),
-        'products_seed' => env('products_seed', 100),
+        'num_products_seed' => env('NUM_PRODUCTS_SEED', 100),
     ];

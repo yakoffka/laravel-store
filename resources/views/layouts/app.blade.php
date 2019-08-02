@@ -213,7 +213,6 @@
     </div>
 
     {{-- toTop --}}
-    {{-- <div id='toTop'><i class="fa fa-chevron-up"></i></div> --}}
     <div id='toTop'><i class="fas fa-chevron-circle-up"></i></div>
 
     <script type="text/javascript">

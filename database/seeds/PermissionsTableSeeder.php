@@ -59,6 +59,12 @@ class PermissionsTableSeeder extends Seeder
             /* 26 */ ['group' => 'orders', 'name' => 'edit_orders',    'display_name' => 'Edit Orders',     'description' => 'Edit the Order',   ],
             /* 27 */ ['group' => 'orders', 'name' => 'delete_orders',  'display_name' => 'Delete Orders',   'description' => 'Delete the Order', ],
             /* 28 */ ['group' => 'orders', 'name' => 'view_orders',    'display_name' => 'View Orders',     'description' => 'View all (include invisible, alien and hide) Order',],
+
+            // permissions for settings
+            /* 25 */ ['group' => 'settings', 'name' => 'create_settings',  'display_name' => 'Create Settings',   'description' => 'Create the Setting', ],
+            /* 26 */ ['group' => 'settings', 'name' => 'edit_settings',    'display_name' => 'Edit Settings',     'description' => 'Edit the Setting',   ],
+            /* 27 */ ['group' => 'settings', 'name' => 'delete_settings',  'display_name' => 'Delete Settings',   'description' => 'Delete the Setting', ],
+            /* 28 */ ['group' => 'settings', 'name' => 'view_settings',    'display_name' => 'View Settings',     'description' => 'View Setting',],
             
         ];
  

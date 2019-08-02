@@ -13,7 +13,7 @@ $factory->define(Comment::class, function (Faker $faker) {
     $users = User::all();
 
     return [
-        'product_id' => rand(1, config('custom.products_seed')),
+        'product_id' => rand(1, config('custom.num_products_seed')),
         // 'user_id' => 0,
         // 'user_name' => $faker->name,
         'user_id' => rand(1, $users->count()),
