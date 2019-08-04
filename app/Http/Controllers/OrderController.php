@@ -74,14 +74,6 @@ class OrderController extends Controller
 
         if ($order) {
 
-            // // send email-notification
-            // $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
-            // if ( $email_new_order->value ) {
-            //     $when = Carbon::now()->addMinutes(1);
-            //     \Mail::to(config('mail.mail_to_test'))
-            //         ->bcc(config('mail.mail_bcc'))
-            //         ->later($when, new Created($order));
-            // }
             // send email-notification
             $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
             if ( $email_new_order->value ) {
@@ -101,7 +93,6 @@ class OrderController extends Controller
                     ->later($when, new Created($order));
             }
 
-            // return view('orders.show', compact('order'));
             return redirect()->route('orders.show', ['order' => $order->id]);
         }
 
