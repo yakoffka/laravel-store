@@ -27,5 +27,11 @@
                     echo '<a href="/roles">Roles</a>'."\n";
                 }
             ?> -->
+            <?php
+                if (Auth::user() and Auth::user()->can('view_settings')) {
+                    // echo '<a href="{{ route(\'settings.index\') }}">Settings</a>'."\n"; TODO!
+                    echo '<a href="/settings">Settings</a>'."\n";
+                }
+            ?>
             <a href="https://github.com/yakoffka/kk" target="_blank">GitHub</a>
         </div>
