@@ -55,23 +55,38 @@
                             @csrf
                             @method("PATCH")
 
-                            <select name="value" id="setting_{{ $setting->id }}">
+                            @if ($setting->type == 'select')
 
-                                @foreach($permissible_values as $permissible_value)
-                                    @php
-                                        if ($permissible_value[0] == $setting->value) {
-                                            $selected = ' selected';
+                                <select name="value" id="setting_{{ $setting->id }}">
+                                    @foreach($permissible_values as $permissible_value)
+                                        @php
+                                            if ($permissible_value[0] == $setting->value) {
+                                                $selected = ' selected';
+                                            } else {
+                                                $selected = '';
+                                            }
+                                        @endphp
+                                        <option 
+                                            value="{{ $permissible_value[0] }}" 
+                                            {{ $selected }}>{{ $permissible_value[1] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                            @elseif($setting->type == 'email')
+
+                                @php
+                                    $value = explode(', ', $setting->value);
+                                    for ( $i = 1; $i <= config('mail.max_quantity_add_bcc'); $i++ ) {
+                                        if ( count($value) >= $i ) {
+                                            echo '<input type="email" name="value_email' . $i . '" value="' . ($value[($i - 1)] ?? '') . '">';
                                         } else {
-                                            $selected = '';
+                                            echo '<input type="email" name="value_email' . $i . '" value="">';
                                         }
-                                    @endphp
-                                    <option 
-                                        value="{{ $permissible_value[0] }}" 
-                                        {{ $selected }}>{{ $permissible_value[1] }}
-                                    </option>
-                                @endforeach
+                                    }
+                                @endphp
 
-                            </select>
+                            @endif
 
                             <button type="submit"  class="btn btn-primary">применить</button>
                         </form>

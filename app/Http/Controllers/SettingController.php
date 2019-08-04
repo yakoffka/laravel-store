@@ -83,21 +83,32 @@ class SettingController extends Controller
     {
         abort_if ( !Auth::user()->can('edit_settings'), 403 );
 
-        // validator 1
-        // $validator = Validator::make(request()->all(), [
-        //     'value' => 'required|string',
-        // ]);
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
+        if ($setting->type == 'select') {
+            $validator = request()->validate([
+                'value' => 'required|string',
+            ]);
 
-        // validator 2
-        $validator = request()->validate([
-            'value' => 'required|string',
-        ]);
+            $value = request('value');
+    
+        } elseif($setting->type == 'email') {
+
+            $arr_bcc = [];
+            for ( $i = 1; $i <= config('mail.max_quantity_add_bcc'); $i++ ) {
+                $arr_validate['value_email' . $i] = 'nullable|email';
+                if ( request('value_email' . $i )) {
+                    $arr_bcc[] = request("value_email$i");
+                }
+            }
+            $validator = request()->validate($arr_validate);
+
+            $value = implode(', ', $arr_bcc);
+
+        } else {
+            return back()->withErrors('недопустимый тип пункта настроек');
+        }
 
         $setting->update([
-            'value' => request('value'),
+            'value' => $value,
         ]);
 
         return back();

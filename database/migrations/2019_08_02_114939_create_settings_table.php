@@ -20,8 +20,9 @@ class CreateSettingsTable extends Migration
             $table->string('description');
             $table->string('slug');
             $table->string('group');
-            $table->string('permissible_values');
-            $table->string('value');
+            $table->string('type');
+            $table->string('permissible_values', 600);
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

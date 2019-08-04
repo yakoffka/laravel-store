@@ -222,13 +222,23 @@ class ProductsController extends Controller
         // send email-notification
         $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
         if ( $email_new_product->value ) {
-            $when = Carbon::now()->addMinutes(1);
-            \Mail::to(config('mail.mail_to_test'))
-                ->bcc(config('mail.mail_bcc'))
-                ->later($when, new Created($product));
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+
+            // \Mail::to([Auth::user(), config('mail.mail_to_test')])
+            \Mail::to(Auth::user())
+            ->bcc($bcc)
+            ->later($when, new Created($product));
         }
 
-        session()->flash('message', 'products ' . $product->name . ' has been created');
+        session()->flash('message', 'New product "' . $product->name . '" has been created');
         return redirect()->route('products.show', ['product' => $product->id]);
     }
 

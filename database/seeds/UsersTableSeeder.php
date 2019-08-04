@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Theodor',
-            'email' => 'owner@gmail.com',
+            'email' => 'yagithub+owner@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Travlarnor',
-            'email' => 'admin@gmail.com',
+            'email' => 'yagithub+admin@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Lagshmivara',
-            'email' => 'manager@gmail.com',
+            'email' => 'yagithub+manager@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Travlarnor I',
-            'email' => 'user01@gmail.com',
+            'email' => 'yagithub+user01@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Akaky Akakievich II',
-            'email' => 'user02@gmail.com',
+            'email' => 'yagithub+user02@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -58,7 +58,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Ephim III',
-            'email' => 'user03@gmail.com',
+            'email' => 'yagithub+user03@mail.com',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),

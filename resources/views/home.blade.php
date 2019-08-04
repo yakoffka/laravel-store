@@ -23,6 +23,7 @@
                     
                     <!-- Zizaco -->
                     @if ( Auth::user()->hasRole(['owner', 'admin']) )
+                        <h2 class="grey">Readme:</h2>
                         <h2 class="grey">Zizaco:</h2>
                         <p>read usage <a href="https://github.com/Zizaco/entrust#usage">Zizaco/entrust</a></p>
                     @endif  
@@ -94,7 +95,7 @@
                     @endpermission --}}
 
                     @permission('view_settings')
-                        <h2 class="grey">Settings storage:</h2>
+                        <h2 class="grey">Settings:</h2>
                         <h5><a href="{{ route('settings.index') }}">List of settings</a></h5>
                         @permission('create_settings')
                             <h5><a href="{{ route('settings.create') }}">Create new settings</a></h5>

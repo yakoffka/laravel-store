@@ -30,10 +30,13 @@ class Created extends Mailable
      */
     public function build()
     {
+        $subject = 'Создан товар "' . $this->product->name . '"';
+
         // from, subject, view, attach
         return $this
             ->markdown('emails.product.created')
-            ->from(config('mail.mail_info'), config('mail.name_info'))// ??
-            ->subject('Создан товар ' . $this->product->name);
+            // ->from(config('mail.mail_info'), config('mail.name_info'))// ??
+            ->from(config('mail.mail_info'))
+            ->subject($subject);
     }
 }

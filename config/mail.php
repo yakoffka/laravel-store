@@ -144,6 +144,10 @@ return [
     'mail_info' => env('MAIL_INFO', 'hello@example.com'),
     'name_info' => env('NAME_INFO', 'example'),
     'mail_to_test' => env('MAIL_TO_TEST', 'hello@example.com'),
-    'mail_bcc' => env('MAIL_BCC', 'hello@example.com'),
+    'mail_bcc' => [
+        env('MAIL_BCC1', 'hello1@example.com'),
+        env('MAIL_BCC2', 'hello2@example.com')
+    ],
+    'max_quantity_add_bcc' => env('MAX_QUANTITY_ADD_BCC', 3),
 
 ];
