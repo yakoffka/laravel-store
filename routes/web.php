@@ -114,6 +114,8 @@ Route::delete('images/{image}', 'ImagesController@destroy')->name('images.destro
 Route::patch('images/{image}', 'ImagesController@update')->name('images.update');
 
 
+// settings
+Route::resource('settings', 'SettingController');
 
 
 Route::get('/clear', function() {

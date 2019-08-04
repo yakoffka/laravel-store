@@ -93,6 +93,19 @@
                         <h5><a href="{{ route('orders.create') }}">Create new category</a></h5>
                     @endpermission --}}
 
+                    @permission('view_settings')
+                        <h2 class="grey">Settings storage:</h2>
+                        <h5><a href="{{ route('settings.index') }}">List of settings</a></h5>
+                        @permission('create_settings')
+                            <h5><a href="{{ route('settings.create') }}">Create new settings</a></h5>
+                        @endpermission
+                        {{-- @permission('edit_settings')
+                            <h5><a href="{{ route('settings.edit') }}">List of settings</a></h5>
+                        @endpermission --}}
+                        {{-- @permission('delete_settings')
+                            <h5><a href="{{ route('settings.destroy') }}">List of settings</a></h5>
+                        @endpermission --}}
+                    @endpermission
 
 
                 </div>

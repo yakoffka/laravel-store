@@ -43,7 +43,7 @@
             <span class="grey">year_manufacture: </span>{{ $product->year_manufacture ?? '-' }}<br>
             <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
-
+            {{dd($product->price)}}
             @if($product->price)
                 <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
             @else

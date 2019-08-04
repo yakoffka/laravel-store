@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
             ProductsTableSeeder::class,
             UsersTableSeeder::class,
             // CategoryProductTableSeeder::class,
-            // Zizaco/entrust
-            RolesTableSeeder::class,
-            PermissionsTableSeeder::class,
-            RoleUserTableSeeder::class,
-            PermissionRoleTableSeeder::class,
-            StatusesTableSeeder::class,
+            RolesTableSeeder::class,            // for Zizaco/entrust
+            PermissionsTableSeeder::class,      // for Zizaco/entrust
+            RoleUserTableSeeder::class,         // for Zizaco/entrust
+            PermissionRoleTableSeeder::class,   // for Zizaco/entrust
+            StatusesTableSeeder::class,         // for confirmations email
+            SettingsTableSeeder::class,
         ]);
         factory(App\Comment::class, (config('custom.num_products_seed') * 5) )->create();
     }

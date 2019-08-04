@@ -83,7 +83,7 @@ class RegisterController extends Controller
         ]);
         
         if ( $user ) {
-            $user->attachRole(4);
+            $user->attachRole(4); // user role
 
             // sending email notification with queue
             \Mail::to($user->email)
@@ -103,8 +103,11 @@ class RegisterController extends Controller
         $this->validator(request()->all())->validate();
         event(new Registered($user = $this->create(request()->all())));
     
-        return redirect()->route('login')
-            ->with('success', 'Check your email and click on the link to verify.');
+        // return redirect()->route('login')
+        //     ->with('success', 'Check your email and click on the link to verify.');
+
+        session()->flash('message', 'Check your email and click on the link to verify.');
+        return redirect()->route('login');
     }
 
     public function verify($token)
@@ -120,7 +123,11 @@ class RegisterController extends Controller
 
         $user->save();
 
-        return redirect()->route('login')
-            ->with('success', 'Your e-mail is verified. You can now login.');
+        // return redirect()->route('login')
+        //     ->with('success', 'Your e-mail is verified. You can now login.');
+
+        session()->flash('message', 'Your e-mail is verified. You can now login.');
+
+        return redirect()->route('login');
     }
 }

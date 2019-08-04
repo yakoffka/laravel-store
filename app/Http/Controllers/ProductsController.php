@@ -12,6 +12,7 @@ use Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use Str;
+use App\Setting;
 
 use App\Product;
 use App\Category;
@@ -69,11 +70,31 @@ class ProductsController extends Controller
         // $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
 
         // visible/invisible products where 'visible' == 0
-        if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::filter($request, $this->getFilters())->latest()->paginate(config('custom.products_paginate'));
+        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
+        //     $products = Product::filter($request, $this->getFilters())->latest()->paginate(config('custom.products_paginate'));
+        // } else {
+        //     $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        // }
+
+        $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
+
+        if ( Auth::user() and  Auth::user()->can(['view_products'])) {
+            $products = Product::filter($request, $this->getFilters())
+                ->latest()
+                ->paginate(config('custom.products_paginate'));
+
+        } elseif ( $view_products_whitout_price->value ) {
+            $products = Product::filter($request, $this->getFilters())
+                ->latest()->where('visible', '=', 1)
+                ->paginate(config('custom.products_paginate'));
+
         } else {
-            $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+            $products = Product::filter($request, $this->getFilters())
+                ->latest()->where('visible', '=', 1)
+                ->where('price', '!=', 0)
+                ->paginate(config('custom.products_paginate'));
         }
+
         return view('products.index', compact('products', 'appends'));
     }
 
@@ -198,25 +219,14 @@ class ProductsController extends Controller
             }
         }
 
-
-        // sending notification 1
-        // replace config('mail.mail_to_test') => auth()->user()->email
-        // \Mail::to(config('mail.mail_to_test'))
-        //     ->bcc(config('mail.mail_bcc'))
-        //     ->send(
-        //         new ProductCreated($product)
-        //     );
-
-        // sending notification 2 with queue
-        // \Mail::to(config('mail.mail_to_test'))
-        // ->bcc(config('mail.mail_bcc'))
-        // ->queue(new ProductCreated($product));
-
-        // sending notification 3 later with queue
-        $when = Carbon::now()->addMinutes(1);
-        \Mail::to(config('mail.mail_to_test'))
-            ->bcc(config('mail.mail_bcc'))
-            ->later($when, new Created($product));
+        // send email-notification
+        $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
+        if ( $email_new_product->value ) {
+            $when = Carbon::now()->addMinutes(1);
+            \Mail::to(config('mail.mail_to_test'))
+                ->bcc(config('mail.mail_bcc'))
+                ->later($when, new Created($product));
+        }
 
         session()->flash('message', 'products ' . $product->name . ' has been created');
         return redirect()->route('products.show', ['product' => $product->id]);
@@ -286,6 +296,15 @@ class ProductsController extends Controller
                     'orig_name' => $originalName,
                 ]);
             }
+        }
+
+        // send email-notification
+        $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
+        if ( $email_update_product->value ) {
+            $when = Carbon::now()->addMinutes(1);
+            \Mail::to(config('mail.mail_to_test'))
+                ->bcc(config('mail.mail_bcc'))
+                ->later($when, new Created($product)); // TODO! Updated($product)
         }
 
         // return redirect()->route('products.show', ['product' => $product->id]);

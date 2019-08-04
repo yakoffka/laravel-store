@@ -10,6 +10,7 @@ use Session;
 use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
+use App\Setting;
 
 class OrderController extends Controller
 {
@@ -71,15 +72,15 @@ class OrderController extends Controller
         ]);
 
         if ($order) {
-            // \Mail::to(config('mail.mail_to_test'))->bcc(config('mail.mail_bcc'))->send(
-            //     new OrderCreated($order)
-            // );
-            
-            // sending notification later with queue
-            $when = Carbon::now()->addMinutes(1);
-            \Mail::to(config('mail.mail_to_test'))
-                ->bcc(config('mail.mail_bcc'))
-                ->later($when, new Created($order));
+
+            // send email-notification
+            $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
+            if ( $email_new_order->value ) {
+                $when = Carbon::now()->addMinutes(1);
+                \Mail::to(config('mail.mail_to_test'))
+                    ->bcc(config('mail.mail_bcc'))
+                    ->later($when, new Created($order));
+            }
 
             // return view('orders.show', compact('order'));
             return redirect()->route('orders.show', ['order' => $order->id]);
@@ -123,18 +124,14 @@ class OrderController extends Controller
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-
-        // \Mail::to(config('mail.mail_to_test'))
-        //     ->bcc(config('mail.mail_bcc'))
-        //     ->send(
-        //     new OrderStatusChanged($order, $order->customer)
-        // );
-
-        // sending notification later with queue
-        $when = Carbon::now()->addMinutes(1);
-        \Mail::to(config('mail.mail_to_test'))
-            ->bcc(config('mail.mail_bcc'))
-            ->later($when, new StatusChanged($order, $order->status->name, $order->customer));
+        // send email-notification
+        $email_update_order = Setting::all()->firstWhere('name', 'email_update_order');
+        if ( $email_update_order->value ) {
+            $when = Carbon::now()->addMinutes(1);
+            \Mail::to(config('mail.mail_to_test'))
+                ->bcc(config('mail.mail_bcc'))
+                ->later($when, new StatusChanged($order, $order->status->name, $order->customer));
+        }
 
         // return redirect()->route('orders.show', ['order' => $order->id]);
         return back();

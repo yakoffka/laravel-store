@@ -7,9 +7,13 @@
             <!-- <?php
                 if (Auth::user() and Auth::user()->can('create_products')) {
                     echo '<a href="/products/create">New Product</a>'."\n";
-                    echo '<a href="/clear">Clear</a>'."\n";
                 }
             ?> -->
+            <?php
+                if (Auth::user() and Auth::user()->can('create_products')) {
+                    echo '<a href="/clear">Clear</a>'."\n";
+                }
+            ?>
             <?php
                 // echo '<a href="/categories">Catalog</a>'."\n";
             ?>
