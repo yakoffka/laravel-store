@@ -297,6 +297,18 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 
 
 
+/* settings */ 
+select.on_select {
+    color: #09f;
+}
+/* /settings */ 
+
+
+
+
+
+
+
 /* users */ 
 table.blue_table {margin-bottom: 1em;}
 

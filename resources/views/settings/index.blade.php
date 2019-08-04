@@ -57,7 +57,7 @@
 
                             @if ($setting->type == 'select')
 
-                                <select name="value" id="setting_{{ $setting->id }}">
+                                <select name="value" id="setting_{{ $setting->id }}" class="{{ $setting->value ? 'on_select' : 'off_select' }}">
                                     @foreach($permissible_values as $permissible_value)
                                         @php
                                             if ($permissible_value[0] == $setting->value) {

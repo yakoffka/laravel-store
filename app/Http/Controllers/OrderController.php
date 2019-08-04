@@ -11,6 +11,7 @@ use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\Setting;
+use App\User;
 
 class OrderController extends Controller
 {
@@ -73,12 +74,30 @@ class OrderController extends Controller
 
         if ($order) {
 
+            // // send email-notification
+            // $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
+            // if ( $email_new_order->value ) {
+            //     $when = Carbon::now()->addMinutes(1);
+            //     \Mail::to(config('mail.mail_to_test'))
+            //         ->bcc(config('mail.mail_bcc'))
+            //         ->later($when, new Created($order));
+            // }
             // send email-notification
             $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
             if ( $email_new_order->value ) {
-                $when = Carbon::now()->addMinutes(1);
-                \Mail::to(config('mail.mail_to_test'))
-                    ->bcc(config('mail.mail_bcc'))
+
+                $user = auth()->user();
+                $bcc = config('mail.mail_bcc');
+                $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+                if ( $additional_email_bcc->value ) {
+                    $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+                }
+
+                $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+                $when = Carbon::now()->addMinutes($email_send_delay);
+
+                \Mail::to($user)
+                    ->bcc($bcc)
                     ->later($when, new Created($order));
             }
 
@@ -127,13 +146,22 @@ class OrderController extends Controller
         // send email-notification
         $email_update_order = Setting::all()->firstWhere('name', 'email_update_order');
         if ( $email_update_order->value ) {
-            $when = Carbon::now()->addMinutes(1);
-            \Mail::to(config('mail.mail_to_test'))
-                ->bcc(config('mail.mail_bcc'))
+
+            $user = $order->customer;
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+
+            \Mail::to($user)
+                ->bcc($bcc)
                 ->later($when, new StatusChanged($order, $order->status->name, $order->customer));
         }
 
-        // return redirect()->route('orders.show', ['order' => $order->id]);
         return back();
     }
 

@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Theodor',
-            'email' => 'yagithub+owner@mail.com',
+            'email' => 'yagithub+owner@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Travlarnor',
-            'email' => 'yagithub+admin@mail.com',
+            'email' => 'yagithub+admin@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Lagshmivara',
-            'email' => 'yagithub+manager@mail.com',
+            'email' => 'yagithub+manager@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Travlarnor I',
-            'email' => 'yagithub+user01@mail.com',
+            'email' => 'yagithub+user01@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Akaky Akakievich II',
-            'email' => 'yagithub+user02@mail.com',
+            'email' => 'yagithub+user02@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -58,7 +58,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Ephim III',
-            'email' => 'yagithub+user03@mail.com',
+            'email' => 'yagithub+user03@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
