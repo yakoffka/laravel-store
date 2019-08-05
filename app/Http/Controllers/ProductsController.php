@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
-use App\Mail\Product\Created;
+use App\Mail\Product\{Created, Updated};
 use Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
@@ -151,6 +151,17 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
+        dd(
+            config('mail.driver') . '; ' .
+            config('mail.host') . '; ' .
+            config('mail.port') . '; ' .
+            config('mail.from.name') . '; ' .
+            config('mail.from.address') . '; ' .
+            config('mail.encryption') . '; ' .
+            config('mail.username') . '; ' .
+            config('mail.password') . '; ' .
+            config('mail.sendmail')
+        );
         // dd(request()->all());
         // dd(request()->file('image')->getClientOriginalName());
         // $image = request()->file('image');
@@ -223,22 +234,23 @@ class ProductsController extends Controller
         $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
         if ( $email_new_product->value ) {
 
+            $user = Auth::user();
+
             $bcc = config('mail.mail_bcc');
             $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
             if ( $additional_email_bcc->value ) {
                 $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
             }
-
             $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
             $when = Carbon::now()->addMinutes($email_send_delay);
 
-            // \Mail::to([Auth::user(), config('mail.mail_to_test')])
-            \Mail::to(Auth::user())
-            ->bcc($bcc)
-            ->later($when, new Created($product));
+            \Mail::to($user)
+                ->bcc($bcc)
+                ->later($when, new Created($product, $user));
         }
 
         session()->flash('message', 'New product "' . $product->name . '" has been created');
+
         return redirect()->route('products.show', ['product' => $product->id]);
     }
 
@@ -308,16 +320,33 @@ class ProductsController extends Controller
             }
         }
 
+        // // send email-notification
+        // $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
+        // if ( $email_update_product->value ) {
+        //     $when = Carbon::now()->addMinutes(1);
+        //     \Mail::to(config('mail.mail_to_test'))
+        //         ->bcc(config('mail.mail_bcc'))
+        //         ->later($when, new Created($product)); // TODO! Updated($product)
+        // }
         // send email-notification
         $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
         if ( $email_update_product->value ) {
-            $when = Carbon::now()->addMinutes(1);
-            \Mail::to(config('mail.mail_to_test'))
-                ->bcc(config('mail.mail_bcc'))
-                ->later($when, new Created($product)); // TODO! Updated($product)
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+
+            \Mail::to(Auth::user())
+            ->bcc($bcc)
+            ->later($when, new Updated($product));
         }
 
-        // return redirect()->route('products.show', ['product' => $product->id]);
+        session()->flash('message', 'Product "' . $product->name . '" has been updated');
+
         return redirect()->route('products.index');
     }
 

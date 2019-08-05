@@ -41,23 +41,6 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 1,
             ],
             
-
-            // всегда включено! 
-            // [
-            //     'group' => 'emails',
-            //     'type' => 'select',
-            //     'name' => 'email_new_user',
-            //     'display_name' => 'email-уведомления при регистрации нового пользователя',
-            //     'description' => 'Управление отправкой email-уведомлений при регистрации нового пользователя',
-            //     'permissible_values' => [
-            //         [0, 'выключено'],
-            //         [1, 'включено'],
-            //     ],
-            //     'value' => 0,
-            //     'default_value' => 1,
-            // ],
-
-            
             [
                 'group' => 'emails',
                 'type' => 'select',

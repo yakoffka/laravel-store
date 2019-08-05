@@ -150,7 +150,7 @@ class OrderController extends Controller
 
             \Mail::to($user)
                 ->bcc($bcc)
-                ->later($when, new StatusChanged($order, $order->status->name, $order->customer));
+                ->later($when, new StatusChanged($order, $order->status->name, $user));
         }
 
         return back();
