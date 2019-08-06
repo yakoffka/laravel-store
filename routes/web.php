@@ -125,6 +125,6 @@ Route::get('/clear', function() {
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
 	Artisan::call('queue:restart');
-    // return config('imageyo.rwm_previews');
-    return 'cleare complete';
+    
+    return back();
 });

@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+
 class StatusChanged extends Mailable
 {
     use Queueable, SerializesModels;
@@ -34,8 +35,11 @@ class StatusChanged extends Mailable
      */
     public function build()
     {
-        return $this
-            ->markdown('emails.order.status-changed')
-            ->subject('Изменение статуса заказа №' . $this->order->id);
+        $markdown = 'emails.order.status-changed';
+        $subject = 'Изменение статуса заказа №' . $this->order->id;
+
+        return $this // markdown, from, subject, view, attach
+            ->markdown($markdown)
+            ->subject($subject);
     }
 }

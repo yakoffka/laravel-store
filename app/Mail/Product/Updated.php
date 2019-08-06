@@ -30,12 +30,11 @@ class Updated extends Mailable
      */
     public function build()
     {
+        $markdown = 'emails.product.updated';
         $subject = 'Отредактирован товар "' . $this->product->name . '"';
 
-        // from, subject, view, attach
-        return $this
-            ->markdown('emails.product.updated')
-            ->from(config('mail.mail_info'))
+        return $this // markdown, from, subject, view, attach
+            ->markdown($markdown)
             ->subject($subject);
     }
 }

@@ -151,17 +151,19 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
-        dd(
-            config('mail.driver') . '; ' .
-            config('mail.host') . '; ' .
-            config('mail.port') . '; ' .
-            config('mail.from.name') . '; ' .
-            config('mail.from.address') . '; ' .
-            config('mail.encryption') . '; ' .
-            config('mail.username') . '; ' .
-            config('mail.password') . '; ' .
-            config('mail.sendmail')
-        );
+        // dd(config('mail.name_info'));
+
+        // dd(
+        //     config('mail.driver') . '; ' .
+        //     config('mail.host') . '; ' .
+        //     config('mail.port') . '; ' .
+        //     config('mail.from.name') . '; ' .
+        //     config('mail.from.address') . '; ' .
+        //     config('mail.encryption') . '; ' .
+        //     config('mail.username') . '; ' .
+        //     config('mail.password') . '; ' .
+        //     config('mail.sendmail')
+        // );
         // dd(request()->all());
         // dd(request()->file('image')->getClientOriginalName());
         // $image = request()->file('image');
@@ -235,11 +237,11 @@ class ProductsController extends Controller
         if ( $email_new_product->value ) {
 
             $user = Auth::user();
-
             $bcc = config('mail.mail_bcc');
+
             $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
             if ( $additional_email_bcc->value ) {
-                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
             }
             $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
             $when = Carbon::now()->addMinutes($email_send_delay);
@@ -332,15 +334,18 @@ class ProductsController extends Controller
         $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
         if ( $email_update_product->value ) {
 
+            $user = Auth::user();
             $bcc = config('mail.mail_bcc');
+            
             $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
             if ( $additional_email_bcc->value ) {
-                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
             }
+
             $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
             $when = Carbon::now()->addMinutes($email_send_delay);
 
-            \Mail::to(Auth::user())
+            \Mail::to($user)
             ->bcc($bcc)
             ->later($when, new Updated($product));
         }

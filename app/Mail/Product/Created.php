@@ -8,8 +8,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 
-use Illuminate\Support\Facades\Log;
-
 class Created extends Mailable
 {
     use Queueable, SerializesModels;
@@ -35,20 +33,11 @@ class Created extends Mailable
      */
     public function build()
     {
+        $markdown = 'emails.product.created';
         $subject = 'Создан товар "' . $this->product->name . '"';
 
-        // from, subject, view, attach
-        return $this
-            ->markdown('emails.product.created')
-            ->from(config('mail.mail_info'))
-            // // ->text('emails.orders.shipped_plain');
-            // // второй способ передачи данных в шаблон:
-            // ->with([
-            //     'product' => $this->product,
-            //     'user' => $this->user,
-            //     'var' => 'jjhbjhbjhbj',
-            // ])
+        return $this // markdown, from, subject, view, attach
+            ->markdown($markdown)
             ->subject($subject);
-
     }
 }

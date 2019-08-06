@@ -82,7 +82,7 @@ class OrderController extends Controller
                 $bcc = config('mail.mail_bcc');
                 $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
                 if ( $additional_email_bcc->value ) {
-                    $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+                    $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
                 }
 
                 $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
@@ -135,6 +135,7 @@ class OrderController extends Controller
         }
 
         // send email-notification
+        // check setting
         $email_update_order = Setting::all()->firstWhere('name', 'email_update_order');
         if ( $email_update_order->value ) {
 
@@ -142,7 +143,7 @@ class OrderController extends Controller
             $bcc = config('mail.mail_bcc');
             $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
             if ( $additional_email_bcc->value ) {
-                $bcc = array_push( $bcc, explode(', ', $additional_email_bcc->value));
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
             }
 
             $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
