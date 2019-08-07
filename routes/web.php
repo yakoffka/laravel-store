@@ -121,10 +121,19 @@ Route::resource('settings', 'SettingController');
 Route::get('/clear', function() {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
-    Artisan::call('config:cache');
+    // Artisan::call('config:cache'); // erased session()->flash!
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
 	Artisan::call('queue:restart');
     
+    session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
+
     return back();
+    // return back([
+    //     'success' => 'lkjlkjlkj',
+    // ]);
+    // return back()->withSuccess('lkjlkj');
+    // return back()->with([
+    //     'success' => 'lkjlkjlkj',
+    // ]);
 });
