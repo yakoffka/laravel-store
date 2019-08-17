@@ -112,7 +112,7 @@
             </div>
         </nav>
 
-        <div class="height2em"></div>
+        {{-- <div class="height2em"></div> --}}
        
         @if ($errors->any())
             <div class="container">             
@@ -157,24 +157,7 @@
             
 
             <div class="container">
-                <div class="row">
-                    <div class="col col-sm-2 p-0 aside">
-
-                        {{-- <div class="row justify-content-center"> --}}
-                            <h1>&nbsp;</h1>
-                        {{-- </div> --}}
-                            
-                        @include('layouts.partials.nav')
-                        @include('layouts.partials.separator')
-                        @include('layouts.partials.filters')
-
-                    </div>
-                    <div class="col col-sm-10 pr-0">
-
-                        @yield('content')
-
-                    </div>
-                </div>
+                @yield('content')
             </div>
 
         </main>
