@@ -124,6 +124,7 @@ Route::get('/clear', function() {
     // Artisan::call('config:cache'); // erased session()->flash!
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
+	// Artisan::call('route:cache');
 	Artisan::call('queue:restart');
     
     session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');

@@ -15,6 +15,7 @@
 
         {{-- {{ dd($category )}} --}}
         {{-- {{ dd($paginator->count()) }} --}}
+        {{-- {{ Breadcrumbs::render('category', $category) }} --}}
 
         {{-- @if($category->products->count()) --}}
         @if($paginator->count())

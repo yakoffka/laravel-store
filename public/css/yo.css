@@ -527,3 +527,13 @@ ul#mainMenu ul {
 .setting_group {
     margin-top: 2em;
 }
+
+
+
+
+/* breadcrumbs */
+.container .breadcrumb {
+    background-color: inherit;
+    padding: .05rem;
+}
+/* /breadcrumbs */

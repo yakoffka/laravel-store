@@ -8,6 +8,7 @@
     <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
     {{-- {{dd($product->images)}} --}}
     <!-- product -->
+    {{ Breadcrumbs::render('product', $product) }}
 
     <div class="row">
 
