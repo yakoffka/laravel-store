@@ -18,6 +18,15 @@
             $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
         }
     @endphp
+@elseif ( !empty($category) )
+@php
+    $title = $category->name;
+    $mess_null = '';
+
+    if ( $products->total() == 0 ) {
+        $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+    }
+@endphp
 @else
     @php
         $title = 'All Products';

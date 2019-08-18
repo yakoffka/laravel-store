@@ -1,14 +1,12 @@
-{{-- {{ dd($categories) }} --}}
 <h4>Catalog</h4>
-
-{{-- {{ dd($categories) }} --}}
 
 @if($categories->count())
 <ul class="navbar-nav mr-auto" id="mainMenu">
     @foreach($categories as $category)
         <li class="nav-item">
             @if ($category->children->count())
-                <a href="/products?categories[]={{ $category->id }}"
+                {{-- <a href="/products?categories[]={{ $category->id }}" --}}
+                <a href="{{ route('categories.show', ['category' => $category->id]) }}"
                     class="nav-link"
                     id="hasSub-{{ $category->id }}"
                     data-toggle="collapse"
@@ -24,11 +22,13 @@
                 >
                     @foreach ($category->children as $subcategory)
                         <li>
-                            <a href="/products?categories[]={{ $subcategory->id }}" class="nav-link">
+                            <a href="{{ route('categories.show', ['category' => $category->id]) }}"
+                                class="nav-link">
                                 {{ $subcategory->title }} ({{ $subcategory->products->count() }})
                             </a>
                         </li>
                     @endforeach
+                    <li><a href="{{ route('categories.show', ['gategory' => $category->id]) }}">show all</a></li>
                 </ul>
             @else
                 <a href="/products?categories[]={{ $category->id }}" class="nav-link">

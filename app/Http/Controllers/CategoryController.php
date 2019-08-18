@@ -100,15 +100,34 @@ class CategoryController extends Controller
         // }
         // return view('categories.show', compact('category', 'paginator'));
 
-
+        
+        // get all product in all subcategory this category
+        $arr_children = $this->getAllChildren([$category->id], $category);
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::where('category_id', '=', $category->id)->paginate(config('custom.products_paginate'));
+            $products = Product::whereIn('category_id', $arr_children)->paginate(config('custom.products_paginate'));
         } else {
-            $products = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+            $products = Product::whereIn('category_id', $arr_children)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }
+
+        
+        // get appends
         $appends = [];
                 
-        return view('products.index', compact('products', 'appends'));
+        return view('products.index', compact('products', 'category', 'appends'));
+    }
+
+    private function getAllChildren($arr_children, $parent) {
+        $arr_subchildren = $parent->children->toArray();
+        foreach ( $arr_subchildren as $child ) {
+            if ( $child['id'] != 1 ) {
+                $arr_children[] = $child['id'];
+                $parent = Category::find($child['id']);
+                $arr_children = $this->getAllChildren($arr_children, $parent);
+            }
+        }
+
+        return $arr_children;
+
     }
 
     /**
