@@ -38,6 +38,8 @@ Breadcrumbs::for('catalog', function ($trail) {
     $trail->push('Catalog', route('products.index'));
 });
 
+// добавить подкатегории при наличии!
+
 // Catalog > [Categories]
 Breadcrumbs::for('categories', function ($trail, $category) {
     $trail->parent('catalog');

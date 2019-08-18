@@ -63,6 +63,7 @@
                             placeholder="description">{{ old('description') ?? $category->description }}</textarea>                       
                     </div>
     
+                    {{-- ??? --}}
                     <div class="form-group">
                         <label for="visible">visible</label>
                         <select name="visible" id="visible">
@@ -81,12 +82,22 @@
                             <select name="parent_id" id="parent_id">
                             <?php
                                 foreach ( $categories as $parent_category ) {
+                                    if ( $category->id == $parent_category ) {
+                                        // dont show this category!
+                                    }
                                     if ( $category->parent_id == $parent_category->id ) {
                                         echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
                                     } else {
                                         echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
                                     }
                                 }
+
+                                // if (!$parent_category) {
+                                //     echo '<option value="1" selected>cat</option>';
+                                // } else {
+                                //     echo '<option value="1">без родителя</option>';
+                                // }
+
                             ?>
                         </select>
                     </div>

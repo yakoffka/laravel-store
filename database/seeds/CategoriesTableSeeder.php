@@ -13,26 +13,29 @@ class CategoriesTableSeeder extends Seeder
     {
         $categories = [
             
+            // catalog
+            ['name' => 'catalog',          'parent_id' => 1  ],
+            
             // category
-            ['name' => 'guitars',          'parent_id' => null  ],
-            ['name' => 'keys',             'parent_id' => null  ],
-            ['name' => 'drums',            'parent_id' => null  ],
-            ['name' => 'lighting',         'parent_id' => null  ],
-            ['name' => 'accessories',      'parent_id' => null  ],
+            ['name' => 'guitars',          'parent_id' => 1  ],
+            ['name' => 'keys',             'parent_id' => 1  ],
+            ['name' => 'drums',            'parent_id' => 1  ],
+            ['name' => 'lighting',         'parent_id' => 1  ],
+            ['name' => 'accessories',      'parent_id' => 1  ],
 
             // subcategory
-            ['name' => 'bass guitars',             'parent_id' => '1' ],
-            ['name' => 'electric guitars',         'parent_id' => '1' ],
-            ['name' => 'acoustic guitars',         'parent_id' => '1' ],
+            ['name' => 'bass guitars',             'parent_id' => 2 ],
+            ['name' => 'electric guitars',         'parent_id' => 2 ],
+            ['name' => 'acoustic guitars',         'parent_id' => 2 ],
             
-            ['name' => 'acoustic pianos',  'parent_id' => '2' ],
-            ['name' => 'grand pianos',     'parent_id' => '2' ],
-            ['name' => 'digital pianos',   'parent_id' => '2' ],
+            ['name' => 'acoustic pianos',  'parent_id' => 3 ],
+            ['name' => 'grand pianos',     'parent_id' => 3 ],
+            ['name' => 'digital pianos',   'parent_id' => 3 ],
             
-            ['name' => 'strings',          'parent_id' => '5' ],
-            ['name' => 'mediators',        'parent_id' => '5' ],
-            ['name' => 'tools',            'parent_id' => '5' ],
-            ['name' => 'notes',            'parent_id' => '5' ],
+            ['name' => 'strings',          'parent_id' => 6 ],
+            ['name' => 'mediators',        'parent_id' => 6 ],
+            ['name' => 'tools',            'parent_id' => 6 ],
+            ['name' => 'notes',            'parent_id' => 6 ],
         ];
 
         $key = 1;

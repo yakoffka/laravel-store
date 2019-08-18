@@ -1,5 +1,7 @@
 {{-- {{ dd($categories) }} --}}
-<h4>Categories</h4>
+<h4>Catalog</h4>
+
+{{-- {{ dd($categories) }} --}}
 
 @if($categories->count())
 <ul class="navbar-nav mr-auto" id="mainMenu">

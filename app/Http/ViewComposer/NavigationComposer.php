@@ -10,7 +10,7 @@ class NavigationComposer
 
     public function compose (View $view)
     {
-        $categories = Category::all()->where('parent_id', '=', null)->sortBy('sort_order');
+        $categories = Category::all()->where('id', '<>', 1)->where('parent_id', '=', 1)->sortBy('sort_order');
         return $view->with('categories', $categories);
     }
 }

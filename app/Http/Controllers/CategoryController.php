@@ -21,7 +21,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $categories = Category::paginate(config('custom.products_paginate'));
+        // $categories = Category::paginate(config('custom.products_paginate'));
+        $categories = Category::where('id', '>', 1)->paginate(config('custom.products_paginate'));
         return view('categories.index', compact('categories'));
         
         // $categories = Category::parents()->ordered()/*->get()*/->paginate(config('custom.products_paginate'));
@@ -92,13 +93,22 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
+        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
+        //     $paginator = Product::where('category_id', '=', $category->id)->paginate(config('custom.products_paginate'));
+        // } else {
+        //     $paginator = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        // }
+        // return view('categories.show', compact('category', 'paginator'));
+
+
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $paginator = Product::where('category_id', '=', $category->id)->paginate(config('custom.products_paginate'));
+            $products = Product::where('category_id', '=', $category->id)->paginate(config('custom.products_paginate'));
         } else {
-            $paginator = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+            $products = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }
-        
-        return view('categories.show', compact('category', 'paginator'));
+        $appends = [];
+                
+        return view('products.index', compact('products', 'appends'));
     }
 
     /**
