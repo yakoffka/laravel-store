@@ -21,6 +21,7 @@
         <div class="col col-sm-10 pr-0">
             <div class="row">
 
+
                 <div class="col-md-4 wrap_b_image">
                     {{-- @if($product->image)
                         <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
@@ -42,7 +43,8 @@
                     @endif
                 </div>
 
-                <div class="col-md-8">
+
+                <div class="col-md-5">
                     <h2>specification product</h2>
 
                     {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
@@ -133,9 +135,14 @@
                         @endguest
 
                     </div>
-
-
                 </div>
+
+
+                <div class="col-md-3">
+                    {{-- информация о доставке --}}
+                </div>
+
+
             </div><br>
 
             <div class="row">

@@ -22,7 +22,7 @@
                 >
                     @foreach ($category->children as $subcategory)
                         <li>
-                            <a href="{{ route('categories.show', ['category' => $category->id]) }}"
+                            <a href="{{ route('categories.show', ['category' => $subcategory->id]) }}"
                                 class="nav-link">
                                 {{ $subcategory->title }} ({{ $subcategory->products->count() }})
                             </a>
