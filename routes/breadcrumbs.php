@@ -36,3 +36,10 @@ Breadcrumbs::for('product', function ($trail, $product) {
 
     $trail->push($product->name, route('products.show', ['product' => $product->id]));
 });
+
+
+// Catalog > [Search]
+Breadcrumbs::for('search', function ($trail) {
+    $trail->parent('catalog');
+    $trail->push('search', route('search'));
+});

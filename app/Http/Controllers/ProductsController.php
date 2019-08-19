@@ -29,7 +29,7 @@ class ProductsController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth')->except(['index', 'show', 'filter']);
+        $this->middleware('auth')->except(['index', 'show', 'filter', 'search']);
     }
     
     /**
@@ -409,6 +409,27 @@ class ProductsController extends Controller
 
         session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
         return redirect()->route('products.index');
+    }
+
+    public function search(Request $request) 
+    {
+        $validator = request()->validate([
+            'query' => 'required|string|min:3|max:100',
+        ]);
+
+        $query = request('query');
+
+        $products = Product::where('name', 'like', "%$query%")
+            ->orWhere('description', 'like', "%$query%")
+            ->paginate(15);
+
+        $appends = [];
+        foreach($request->query as $key => $val){
+            $appends[$key] = $val;
+        }
+
+
+        return view('search.result', compact('query', 'products', 'appends'));
     }
 
 }

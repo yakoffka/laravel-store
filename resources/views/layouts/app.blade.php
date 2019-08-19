@@ -52,24 +52,44 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
 
-                    </ul>
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto"></ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        {{-- @role('user') --}}
-                        <a href="{{ route('cart.show') }}" class="nav-link">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="badge">{{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}</span>
-                        </a>
-                        {{-- @endrole --}}
+                        {{-- search --}}
+                        <li class="nav-item">
+                            <form action="{{ route('search') }}" method="GET" role="search">
+                                <input 
+                                    style="width:100%; margin-top:5px; height:2em;" 
+                                    type="text" 
+                                    class="input-sm form-control" 
+                                    name="query" 
+                                    placeholder="Search products"
+                                    value="{{ $query ?? '' }}"
+                                >
+                                {{-- <i class="fa fa-search search-icon"></i> --}}
+                            </form>
+                        <li>
+                        {{-- search --}}
+
+                        {{-- cart --}}
+                        <li class="nav-item">
+                            <a href="{{ route('cart.show') }}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge">
+                                    {{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}
+                                </span>
+                            </a>
+                        <li>
+                        {{-- cart --}}
 
 
                         <!-- Authentication Links -->
                         @guest
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>

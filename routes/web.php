@@ -117,6 +117,9 @@ Route::patch('images/{image}', 'ImagesController@update')->name('images.update')
 // settings
 Route::resource('settings', 'SettingController');
 
+// search
+Route::get('search', 'ProductsController@search')->name('search');
+
 
 Route::get('/clear', function() {
     Artisan::call('cache:clear');

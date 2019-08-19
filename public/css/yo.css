@@ -107,7 +107,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 }
 .main_menu > a {
     color: #636b6f;
-    padding: 0 25px;
+    padding: 0 8px;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: .1rem;
