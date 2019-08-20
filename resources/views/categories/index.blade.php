@@ -3,6 +3,16 @@
 @section('title', 'Catalog')
 
 @section('content')
+
+    <div class="row">
+        <div class="col col-sm-9">
+            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
+
 <div class="container">
 
     <h1>Catalog</h1>
@@ -30,7 +40,7 @@
                         style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
                         @else
                         <div class="card-img-top b_image"
-                            style="background-image: url({{ asset('storage') }}/images/default/noimg.png);">
+                            style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
                             @endif
 
                             <div class="dummy perc50"></div>

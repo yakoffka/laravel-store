@@ -538,3 +538,52 @@ ul#mainMenu ul {
     margin-bottom: 0rem;
 }
 /* /breadcrumbs */
+
+
+
+
+/* searchform */
+button:focus {
+    outline: none;
+}
+
+.searchform * {box-sizing: border-box;}
+form.searchform  {
+  position: relative;
+  /* width: 300px; */
+  width: 100%;
+  margin: 0 auto;
+}
+.searchform input {
+  width: 100%;
+  height: 32px;
+  padding-left: 10px;
+  border: 1px solid #09c;
+  border-radius: 5px;
+  outline: none;
+  background: #fff;
+  color: #6c757d;
+}
+.searchform button {
+  position: absolute; 
+  top: 0;
+  right: 0px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #09c;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+}
+/* .searchform button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #F9F0DA;
+} */
+.searchform button i {
+    color: #fff;
+}
+/* searchform */
+
+

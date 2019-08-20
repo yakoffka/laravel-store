@@ -60,19 +60,18 @@
                     <ul class="navbar-nav ml-auto">
 
                         {{-- search --}}
-                        <li class="nav-item">
-                            <form action="{{ route('search') }}" method="GET" role="search">
+                        {{-- <li class="nav-item">
+                            <form class="search" action="{{ route('search') }}" method="GET" role="search">
                                 <input 
                                     style="width:100%; margin-top:5px; height:2em;" 
-                                    type="text" 
+                                    type="search" 
                                     class="input-sm form-control" 
                                     name="query" 
                                     placeholder="Search products"
                                     value="{{ $query ?? '' }}"
                                 >
-                                {{-- <i class="fa fa-search search-icon"></i> --}}
                             </form>
-                        <li>
+                        <li> --}}
                         {{-- search --}}
 
                         {{-- cart --}}
@@ -135,7 +134,7 @@
         {{-- <div class="height2em"></div> --}}
        
         @if ($errors->any())
-            <div class="container">             
+            <div class="container">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Holy guacamole!</strong> Something went wrong..
                     <ol>

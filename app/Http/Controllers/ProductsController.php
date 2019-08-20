@@ -3,31 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\Mail\Product\{Created, Updated};
-use Session;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use Str;
 use App\Setting;
-
 use App\Product;
 use App\Category;
-use App\Cart;
 use App\Manufacturer;
 use App\Image;
-// use App\Filters\Product\ManufacturerFilter;
-// use Intervention\Image\Facades\Image;
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
-// use Artisan;
 
 class ProductsController extends Controller
 {
-
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show', 'filter', 'search']);
     }
@@ -416,18 +407,13 @@ class ProductsController extends Controller
         $validator = request()->validate([
             'query' => 'required|string|min:3|max:100',
         ]);
-
         $query = request('query');
-
-        $products = Product::where('name', 'like', "%$query%")
-            ->orWhere('description', 'like', "%$query%")
+        $products = Product::search($query)
             ->paginate(15);
-
         $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
         }
-
 
         return view('search.result', compact('query', 'products', 'appends'));
     }

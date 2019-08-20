@@ -4,7 +4,14 @@
 
 @section('content')
 
-    {{ Breadcrumbs::render('search') }}
+    <div class="row">
+        <div class="col col-sm-9">
+            {{ Breadcrumbs::render('search') }}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
 
     <h1 class="">Search Result</h1>
 
@@ -45,14 +52,10 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('products.show', ['product' => $product->id]) }}">
-                                    {{ str_limit($product->description, 80) }}
-                                </a>
+                                {{ str_limit($product->description, 80) }}
                             </td>
                             <td>
-                                <a href="{{ route('products.show', ['product' => $product->id]) }}">
-                                    {{ $product->price }}
-                                </a>
+                                {{ $product->price }}
                             </td>
                             {{-- <td>
                                 <a href="{{ route('products.show', ['product' => $product->id]) }}">

@@ -3,6 +3,16 @@
 @section('title', $category->title)
 
 @section('content')
+
+    <div class="row">
+        <div class="col col-sm-9">
+            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
+
 <div class="container">
 
     <h1>Products in {{ $category->title }} category</h1>

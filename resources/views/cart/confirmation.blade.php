@@ -3,6 +3,16 @@
 @section('title', 'confirmation of an order')
 
 @section('content')
+
+    <div class="row">
+        <div class="col col-sm-9">
+            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
+
 <div class="container">
 
     @if( !empty($cart) and $cart->total_qty )

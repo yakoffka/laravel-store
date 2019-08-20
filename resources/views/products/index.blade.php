@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+
+{{-- title --}}
 @if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
     @php
         $title = 'Filters Products';
@@ -44,6 +46,18 @@
 
 @section('content')
 
+    <div class="row">
+        <div class="col col-sm-9">
+            @if ($category)
+                {{ Breadcrumbs::render('categories', $category) }}
+            @endif
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
+
+
     <h1>{{ $title }} ({{ $products->total() }})</h1>
 
     <div class="row">
@@ -83,7 +97,7 @@
                             @else
                                 <div 
                                     class="card-img-top b_image" 
-                                    style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);"
+                                    style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});"
                                 >
                             @endif
                                 <div class="dummy"></div><div class="element"></div>

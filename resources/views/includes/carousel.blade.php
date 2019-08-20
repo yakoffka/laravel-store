@@ -1,24 +1,12 @@
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     
     <ol class="carousel-indicators">
-        {{-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> --}}
         @foreach($product->images as $key => $image)
         <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key }}"{!! $key ? '' : ' class="active"' !!}></li>
         @endforeach
     </ol>
 
     <div class="carousel-inner">
-        {{-- <div class="carousel-item active">
-            <img class="d-block w-100" src="{{ asset('storage') }}/images/default/noimg_l.png" alt="First slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('storage') }}/images/default/noimg_l.png" alt="Second slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('storage') }}/images/default/noimg_l.png" alt="Third slide">
-        </div> --}}
         @foreach($product->images as $key => $img)
             <div class="carousel-item{{ $key ? '' : ' active' }}">
                 <div

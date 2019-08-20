@@ -4,7 +4,14 @@
 
 @section('content')
 
-    {{ Breadcrumbs::render('product', $product) }}
+    <div class="row">
+        <div class="col col-sm-9">
+            {{ Breadcrumbs::render('product', $product) }}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
 
     <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
 
@@ -23,20 +30,13 @@
 
 
                 <div class="col-md-4 wrap_b_image">
-                    {{-- @if($product->image)
-                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
-                    @else
-                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);">
-                    @endif
-                        <div class="dummy"></div><div class="element"></div>
-                    </div> --}}
 
                     @if($product->images->count())
                         @carousel(compact('product'))
                     @else
                         <div 
                             class="card-img-top b_image" 
-                            style="background-image: url({{ asset('storage') }}/images/default/noimg_l.png);"
+                            style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});"
                         >
                             <div class="dummy"></div><div class="element"></div>
                         </div>
