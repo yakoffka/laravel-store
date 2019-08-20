@@ -4,9 +4,9 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{ Breadcrumbs::render('product', $product) }}
+            {{ Breadcrumbs::render('products.show', $product) }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
             {{-- {{ Breadcrumbs::render('product', $product) }} --}}
         </div>
@@ -13,7 +13,7 @@
         </div>
     </div>
 
-<div class="container">
+{{-- <div class="container"> --}}
 
     <h1>Products in {{ $category->title }} category</h1>
     <div class="description">description: {{ $category->description }}</div>
@@ -161,5 +161,5 @@
     </div>
     <!-- /products -->
 
-</div>
+{{-- </div> --}}
 @endsection

@@ -61,10 +61,16 @@ class PermissionsTableSeeder extends Seeder
             /* 28 */ ['group' => 'orders', 'name' => 'view_orders',    'display_name' => 'View Orders',     'description' => 'View all (include invisible, alien and hide) Order',],
 
             // permissions for settings
-            /* 25 */ ['group' => 'settings', 'name' => 'create_settings',  'display_name' => 'Create Settings',   'description' => 'Create the Setting', ],
-            /* 26 */ ['group' => 'settings', 'name' => 'edit_settings',    'display_name' => 'Edit Settings',     'description' => 'Edit the Setting',   ],
-            /* 27 */ ['group' => 'settings', 'name' => 'delete_settings',  'display_name' => 'Delete Settings',   'description' => 'Delete the Setting', ],
-            /* 28 */ ['group' => 'settings', 'name' => 'view_settings',    'display_name' => 'View Settings',     'description' => 'View Setting',],
+            /* 29 */ ['group' => 'settings', 'name' => 'create_settings',  'display_name' => 'Create Settings',   'description' => 'Create the Setting', ],
+            /* 30 */ ['group' => 'settings', 'name' => 'edit_settings',    'display_name' => 'Edit Settings',     'description' => 'Edit the Setting',   ],
+            /* 31 */ ['group' => 'settings', 'name' => 'delete_settings',  'display_name' => 'Delete Settings',   'description' => 'Delete the Setting', ],
+            /* 32 */ ['group' => 'settings', 'name' => 'view_settings',    'display_name' => 'View Settings',     'description' => 'View Setting',],
+
+            // permissions to access admin panel
+            /* 33 */ ['group' => 'adminpanel', 'name' => 'create_adminpanel',  'display_name' => 'Create Adminpanel',   'description' => 'Create the Setting', ],
+            /* 34 */ ['group' => 'adminpanel', 'name' => 'edit_adminpanel',    'display_name' => 'Edit Adminpanel',     'description' => 'Edit the Setting',   ],
+            /* 35 */ ['group' => 'adminpanel', 'name' => 'delete_adminpanel',  'display_name' => 'Delete Adminpanel',   'description' => 'Delete the Setting', ],
+            /* 36 */ ['group' => 'adminpanel', 'name' => 'view_adminpanel',    'display_name' => 'View Adminpanel',     'description' => 'View Setting',],
             
         ];
  

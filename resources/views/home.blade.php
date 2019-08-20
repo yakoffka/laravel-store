@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
             {{-- {{ Breadcrumbs::render('product', $product) }} --}}
         </div>
@@ -13,11 +13,18 @@
         </div>
     </div>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">Dashboard <?php echo Auth::user()->roles->first()->name; ?></div>
+
+    <h1>Dashboard <?php echo Auth::user()->roles->first()->name; ?></h1>
+
+
+    <div class="row">
+
+        @include('layouts.partials.aside')
+
+        <div class="col col-sm-10 pr-0">
+
+            <!--div class="card">
+                <div class="card-header">Dashboard <?php echo Auth::user()->roles->first()->name; ?></div-->
 
                 <div class="card-body">
                     @if (session('status'))
@@ -30,97 +37,9 @@
                     @role('user')
                         <p>You are logged in!</p>
                     @endrole
-                    
-                    <!-- Zizaco -->
-                    @if ( Auth::user()->hasRole(['owner', 'admin']) )
-                        <h2 class="grey">Readme:</h2>
-                        <h2 class="grey">Zizaco:</h2>
-                        <p>read usage <a href="https://github.com/Zizaco/entrust#usage">Zizaco/entrust</a></p>
-                    @endif  
-                    {{-- @role('owner')
-                        <p>youre role is owner</p>
-                    @endrole
 
-                    @role('admin')
-                        <p>youre role is admin</p>
-                    @endrole
-
-                    @role('manager')
-                        <p>youre role is manager</p>
-                    @endrole
-
-                    @role('user')
-                        <p>youre role is user</p>
-                    @endrole --}}
-                    <!-- /Zizaco -->
-
-
-                    @permission('view_products')
-                        <h2 class="grey">Products:</h2>
-                        <h5><a href="{{ route('products.index') }}">List of products</a></h5>
-                    @endpermission
-                    @permission('create_products')
-                        <h5><a href="{{ route('products.create') }}">Create new product</a></h5>
-                    @endpermission
-                    @permission('edit_products')
-                        <h2 class="grey">Images:</h2>
-                        <h5><a href="{{ route('products.rewatermark') }}">Resave all image with new Watermark</a></h5>
-                    @endpermission
-                    
-
-
-                    @permission('view_roles')
-                        <h2 class="grey">Roles:</h2>
-                        <h5><a href="{{ route('roles.index') }}">List of roles</a></h5>
-                    @endpermission
-                    @permission('create_roles')
-                        <h5><a href="{{ route('roles.create') }}">Create new role</a></h5>
-                    @endpermission
-
-
-                    @permission('view_users')
-                        <h2 class="grey">Users:</h2>
-                        <h5><a href="{{ route('users.index') }}">List of users</a></h5>
-                    @endpermission
-                    {{-- @permission('create_users')
-                        <h5><a href="{{ route('users.create') }}">Create new user</a></h5>
-                    @endpermission --}}
-
-
-                    @permission('view_categories')
-                        <h2 class="grey">Categories:</h2>
-                        <h5><a href="{{ route('categories.index') }}">List of categories</a></h5>
-                    @endpermission
-                    @permission('create_categories')
-                        <h5><a href="{{ route('categories.create') }}">Create new category</a></h5>
-                    @endpermission
-
-
-                    @permission('view_orders')
-                        <h2 class="grey">Orders:</h2>
-                        <h5><a href="{{ route('orders.index') }}">List of orders</a></h5>
-                    @endpermission
-                    {{-- @permission('create_orders')
-                        <h5><a href="{{ route('orders.create') }}">Create new category</a></h5>
-                    @endpermission --}}
-
-                    @permission('view_settings')
-                        <h2 class="grey">Settings:</h2>
-                        <h5><a href="{{ route('settings.index') }}">List of settings</a></h5>
-                        @permission('create_settings')
-                            <h5><a href="{{ route('settings.create') }}">Create new settings</a></h5>
-                        @endpermission
-                        {{-- @permission('edit_settings')
-                            <h5><a href="{{ route('settings.edit') }}">List of settings</a></h5>
-                        @endpermission --}}
-                        {{-- @permission('delete_settings')
-                            <h5><a href="{{ route('settings.destroy') }}">List of settings</a></h5>
-                        @endpermission --}}
-                    @endpermission
-
-
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
             {{ Breadcrumbs::render('search') }}
         </div>
@@ -66,7 +66,8 @@
                 </table>
             @else
 
-                no products
+                <h5>К сожалению по поисковому запросу "{{ $query }}" не найдено ни одного товара.</h5>
+                <h5>Попробуйте уточнить запрос или воспользуйтесь <a href="{{ route('products.index') }}">каталогом</a>.</h5>
             
             @endif
 

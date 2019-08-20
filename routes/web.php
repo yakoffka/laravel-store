@@ -87,13 +87,6 @@ Route::get('/all_links', function () {
 });
 
 /* categories*/
-// Route::get('/categories', 'CategoryController@index')->name('categories');
-// Route::get('/categories/create', 'CategoryController@create')->name('categoriesCreate');
-// Route::get('/categories/{category}', 'CategoryController@show')->name('categoriesShow');
-// Route::post('/categories', 'CategoryController@store')->name('categoriesStore');
-// Route::get('/categories/edit/{role}', 'CategoryController@edit')->name('categoriesEdit');
-// Route::patch('/categories/{role}', 'CategoryController@update')->name('categoriesUpdate');
-// Route::delete('/categories/{role}', 'CategoryController@destroy')->name('categoriesDestroy');
 Route::resource('categories', 'CategoryController');
 
 // cart

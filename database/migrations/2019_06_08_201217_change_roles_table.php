@@ -15,7 +15,7 @@ class ChangeRolesTable extends Migration
     {
         // Adding in table for storing roles
         Schema::table('roles', function (Blueprint $table) {
-            $table->unsignedInteger('rank')->unique()->after('description');
+            $table->unsignedInteger('rank')->unique()->after('description'); // субординация ролей
             $table->boolean('is_basic')->default(false)->after('rank');
         });
     }

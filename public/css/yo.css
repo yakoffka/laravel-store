@@ -20,6 +20,7 @@ h2{
     display:none;
     color:#09f;
     font-size:3em;
+    opacity: .7;
 }
 /* /toTop */
 
@@ -506,7 +507,14 @@ ul#mainMenu ul {
 .carousel-indicators li{background-color: #ccc;}
 
 
-.aside .nav-link, .aside p{
+/* .aside .nav-link, .aside p{
+    padding: .1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} */
+.aside .formfilters p{
     padding: .1rem;
     margin: 0;
     display: flex;
@@ -547,39 +555,50 @@ button:focus {
     outline: none;
 }
 
+.searchform_breadcrumbs .col {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .searchform * {box-sizing: border-box;}
 form.searchform  {
-  position: relative;
-  /* width: 300px; */
-  width: 100%;
-  margin: 0 auto;
+    position: relative;
+    /* width: 300px; */
+    width: 100%;
+    margin: 0 auto;
 }
 .searchform input {
-  width: 100%;
-  height: 32px;
-  padding-left: 10px;
-  border: 1px solid #09c;
-  border-radius: 5px;
-  outline: none;
-  background: #fff;
-  color: #6c757d;
+    width: 100%;
+    height: 32px;
+    padding-left: 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    outline: none;
+    background: #fff;
+    color: #6c757d;
 }
 .searchform button {
-  position: absolute; 
-  top: 0;
-  right: 0px;
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: #09c;
-  border-radius: 0 3px 3px 0;
-  cursor: pointer;
+    position: absolute; 
+    top: 0;
+    right: 0px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #aaa;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+  }
+.searchform input:focus {
+    border: 1px solid #09f;
+}
+.searchform input:focus + button {
+    background: #09f;
 }
 /* .searchform button:before {
-  content: "\f002";
-  font-family: FontAwesome;
-  font-size: 16px;
-  color: #F9F0DA;
+    content: "\f002";
+    font-family: FontAwesome;
+    font-size: 16px;
+    color: #F9F0DA;
 } */
 .searchform button i {
     color: #fff;
@@ -587,3 +606,14 @@ form.searchform  {
 /* searchform */
 
 
+
+
+/* admin */
+.submenuitem {
+    padding-left: .5em;
+}
+
+.overflow_x_auto{
+    overflow-x: auto;
+}
+/* admin */

@@ -4,25 +4,28 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+            {{ Breadcrumbs::render('categories.create') }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')
         </div>
     </div>
 
-<div class="container">
 
-    <div class="row justify-content-center">
-        <h1>Creating new category</h1>
-    </div>
+    <h1>Creating new category</h1>
+
 
     <div class="row">
 
-        <div class="col-sm-12 product_card_bm">
-            <div class="card">
+
+        @include('layouts.partials.aside')
+
+
+        <div class="col col-sm-10 pr-0">
+
+            {{-- <div class="card"> --}}
 
                 {{-- <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                     @csrf
@@ -123,9 +126,7 @@
 
                 </form>
 
-
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
-</div>
 @endsection

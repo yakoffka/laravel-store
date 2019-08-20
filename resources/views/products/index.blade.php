@@ -46,10 +46,12 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            @if ($category)
+            @if ( !empty($category) )
                 {{ Breadcrumbs::render('categories', $category) }}
+            @else
+                {{ Breadcrumbs::render('catalog') }}
             @endif
         </div>
         <div class="col col-sm-3">

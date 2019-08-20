@@ -101,7 +101,15 @@
                         @else
 
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" 
+                                    class="nav-link dropdown-toggle" 
+                                    href="#" 
+                                    role="button" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true"
+                                    aria-expanded="false" 
+                                    v-pre
+                                >
                                     {{ Auth::user()->roles->first()->name }}
                                     {{ Auth::user()->name }}<span class="caret"></span>
                                 </a>
@@ -186,7 +194,7 @@
             @include('layouts.partials.separator')
 
             <div class="grey denial_responsibility">                
-                Администрация Сайта не несет ответственности за размещаемые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
+                Администрация Сайта не несет ответственности за размещённые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
             </div>
         </div>
 

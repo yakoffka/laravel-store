@@ -9,5 +9,13 @@
         value="{{ $value }}" 
         {{ $required ?? '' }}
         {{-- {{ $min ? 'min="' . $min . '"' : '' }}{{ $max ? 'max="' . $max . '"' : '' }} --}}
+        <?php
+            if ( !empty($min)) {
+                echo ' min="' . $min . '"';
+            }
+            if ( !empty($max)) {
+                echo ' max="' . $max . '"';
+            }
+        ?>
     >
 </div>

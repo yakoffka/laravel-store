@@ -4,16 +4,16 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+            {{ Breadcrumbs::render('orders_show', $order) }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')
         </div>
     </div>
 
-<div class="container">
+{{-- <div class="container"> --}}
 
     {{-- <div class="grey">
         <span class="grey">created:</span>  {{ $order->created_at }}
@@ -190,5 +190,5 @@
     @endif
 
 
-</div>
+{{-- </div> --}}
 @endsection

@@ -4,16 +4,15 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{-- {{ Breadcrumbs::render('product', $product) }} --}}
+            {{ Breadcrumbs::render('cart') }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')
         </div>
     </div>
 
-<div class="container">
 
     @if( !empty($cart) and $cart->total_qty )
 
@@ -114,6 +113,4 @@
 
     @endif
 
-
-</div>
 @endsection
