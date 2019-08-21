@@ -616,4 +616,9 @@ form.searchform  {
 .overflow_x_auto{
     overflow-x: auto;
 }
+
+.aside h4.grey {
+    margin-top: 1em;
+    margin-bottom: .2em;
+}
 /* admin */
