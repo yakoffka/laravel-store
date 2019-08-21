@@ -82,10 +82,10 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            foreach($images as $image) {
+            foreach($images as $j => $image) {
                 $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
                 $path  = '/images/products/' . $product->id;
-    
+
                 if ( is_file($def_pathname)) {
                     // $product->image = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
                     // $product->update();
@@ -102,6 +102,23 @@ class ProductsTableSeeder extends Seeder
                         'orig_name' => 'seed',
                     ]);
                 }
+
+                // progress
+                $all_items = config('custom.num_products_seed') * count($images);
+                $percent = 100 / $all_items;
+                $quantity = ( $i * count($images) + $j + 1 );
+                $progress = round($percent * $quantity, 2);
+                $str_progress = (string)$progress;
+                if (!strpos($str_progress, '.')) {
+                    $str_progress = $str_progress . '.00';
+                } elseif ( strpos($str_progress, '.') == 2 and strlen($str_progress) == 4 ) {
+                    $str_progress = str_pad($str_progress, 5, "0");
+                } else {
+                    $str_progress = str_pad($str_progress, 4, "0");
+                }
+                $str_progress = str_pad($str_progress, 5, "0", STR_PAD_LEFT);
+                echo '    image conversion: ' . $str_progress . "% completed\n";
+
             }
             
         }

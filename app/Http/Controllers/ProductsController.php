@@ -298,7 +298,7 @@ class ProductsController extends Controller
                 $originalName = $image->getClientOriginalName();
                 $path  = '/images/products/' . $product->id;
 
-                // create record
+                // create image record
                 $image = Image::create([
                     'product_id' => $product->id,
                     // 'slug' => $image_name,

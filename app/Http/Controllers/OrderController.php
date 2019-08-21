@@ -11,7 +11,7 @@ use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\Setting;
-use App\User;
+use App\Action;
 
 class OrderController extends Controller
 {
@@ -93,6 +93,22 @@ class OrderController extends Controller
                     ->later($when, new Created($order));
             }
 
+            // create action record
+            $action = Action::create([
+                'user_id' => auth()->user()->id,
+                'type' => 'order',
+                'type_id' => $order->id,
+                'action' => 'create',
+                'description' => 
+                    'Создание заказа №' 
+                    . str_pad($order->id, 5, "0", STR_PAD_LEFT) 
+                    . '. Заказчик: ' 
+                    . auth()->user()->name 
+                    . '.',
+                // 'old_value' => $product->id,
+                // 'new_value' => $product->id,
+            ]);
+
             return redirect()->route('orders.show', ['order' => $order->id]);
         }
 
@@ -109,7 +125,10 @@ class OrderController extends Controller
     {
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
-        return view('orders.show', compact('order', 'statuses'));
+        $actions = Action::where('type', 'order')->where('type_id', $order->id)->get();
+        // dd($actions);
+        
+        return view('orders.show', compact('order', 'statuses', 'actions'));
     }
 
 
@@ -127,6 +146,8 @@ class OrderController extends Controller
         $validator = Validator::make(request()->all(), [
             'status_id' => 'required|integer|max:9', // Status::all()->count()
         ]);
+
+        $old_status_id = $order->status_id;
 
         if (!$order->update([
             'status_id' => request('status_id'),
@@ -154,6 +175,20 @@ class OrderController extends Controller
                 ->later($when, new StatusChanged($order, $order->status->name, $user));
         }
 
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'order',
+            'type_id' => $order->id,
+            'action' => 'update',
+            'description' => 
+                'Изменение статуса заказа №' 
+                . str_pad($order->id, 5, "0", STR_PAD_LEFT) 
+                . ' на "' . $order->status->description . '".',
+            'old_value' => $old_status_id,
+            'new_value' => $order->id,
+        ]);
+
         return back();
     }
 
@@ -165,6 +200,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // soft delete?
     }
 }

@@ -39,8 +39,8 @@
                 @endpermission
                 <th>total_qty</th>
                 <th>total_payment</th>
-                <th>updated</th>
                 <th>created</th>
+                <th>updated</th>
                 <th>comment</th>
                 @if ( Auth::user()->can('delete_orders') )
                     <th class="actions2">action</th>
@@ -70,8 +70,8 @@
                     @endpermission
                     <td>{{ $order->total_qty ?? '-' }}</td>
                     <td>{{ $order->total_payment ?? '-' }}</td>
-                    <td>{{ $order->updated_at ?? '-' }}</td>
                     <td>{{ $order->created_at ?? '-' }}</td>
+                    <td>{{ $order->updated_at ?? '-' }}</td>
                     <td>
                         @if( $order->comment )
                             @modalMessage([

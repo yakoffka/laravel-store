@@ -46,6 +46,13 @@
             @endpermission
         </div>
 
+        {{-- <div class="detail_order">
+            <p>
+            <h2>Детали заказа:</h2>
+
+            </p>
+        </div> --}}
+
         <div class="row">
 
             @if($order->cart->total_qty)
@@ -175,9 +182,43 @@
     @endif
 
 
-    <h2>table history</h2>
+    @if($actions->count())
+        <h2>table history</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    {{-- <th>Тип</th> --}}
+                    <th>Дата</th>
+                    <th>Описание</th>
+                    @if ( Auth::user()->can('view_orders') )
+                        <th>Инициатор</th>
+                    @endif
+                    {{-- <th>Наличие</th> --}}
+                </tr>
+            </thead>
+            @foreach( $actions as $action )
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    {{-- <td>
+                        {{ $action->action }}
+                    </td> --}}
+                    <td>
+                        {{ $action->created_at }}
+                    </td>
+                    <td>
+                        {{ $action->description }}
+                    </td>
+                    @if ( Auth::user()->can('view_orders') )
+                        <td>
+                            {{ $action->getInitiator->name }}
+                        </td>
+                    @endif
+            @endforeach
+        </table>
+    @endif
 
-    <h2>chat</h2>
+    {{-- <h2>chat</h2>
 
     @if ( Auth::user()->can('delete_orders') )
     delete this order 
@@ -187,7 +228,7 @@
         'item' => $order,
         'action' => route('orders.destroy', ['order' => $order->id]),
     ])
-    @endif
+    @endif --}}
 
 
 {{-- </div> --}}
