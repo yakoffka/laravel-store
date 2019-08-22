@@ -126,7 +126,6 @@ class OrderController extends Controller
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
         $actions = Action::where('type', 'order')->where('type_id', $order->id)->get();
-        // dd($actions);
         
         return view('orders.show', compact('order', 'statuses', 'actions'));
     }

@@ -41,6 +41,8 @@ class UsersController extends Controller
     {
         abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id != $user->id , 403 );
         $permissions = Permission::all();
+        $actions = Action::where($user->id)->get();// last 50!
+
         return view('users.show', compact('user', 'permissions'));
     }
 

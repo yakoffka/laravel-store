@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'user')
+@section('title', 'actions user')
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{ Breadcrumbs::render('users.show', $user) }}
+            {{ Breadcrumbs::render('users.actions', $user) }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')
@@ -111,47 +111,6 @@
                 @tablePermissions(['permissions' => $permissions, 'user' => $user])
                 <br><br><br>
             @endpermission
-
-
-
-            {{-- Actions --}}
-            @if($actions->count())
-                <h2>table history</h2>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            {{-- <th>Тип</th> --}}
-                            <th>Дата</th>
-                            <th>Описание</th>
-                            @if ( Auth::user()->can('view_orders') )
-                                <th>Инициатор</th>
-                            @endif
-                            {{-- <th>Наличие</th> --}}
-                        </tr>
-                    </thead>
-                    @foreach( $actions as $action )
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            {{-- <td>
-                                {{ $action->action }}
-                            </td> --}}
-                            <td>
-                                {{ $action->created_at }}
-                            </td>
-                            <td>
-                                {{ $action->description }}
-                            </td>
-                            @if ( Auth::user()->can('view_orders') )
-                                <td>
-                                    {{ $action->getInitiator->name }}
-                                </td>
-                            @endif
-                    @endforeach
-                </table>
-            @endif
-            {{-- /Actions --}}
-
         </div>
     </div>
 

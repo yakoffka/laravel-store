@@ -20,10 +20,10 @@ class CreateActionsTable extends Migration
                 'category', 
                 'comment',
                 'image',
-                'manufacturer', 
-                'order', 
-                'product', 
-                'user', 
+                'manufacturer',
+                'order',
+                'product',
+                'user',
                 'setting',
             ]);
             $table->unsignedBigInteger('type_id');

@@ -107,7 +107,8 @@
             </table><br><br><br>
 
 
-
+            {{-- Permissions --}}
+            {{-- добавить условие для входа в цикл? --}}
             @foreach ( $users as $user ) 
             
                 @permission('view_roles')
@@ -127,6 +128,46 @@
                 @endpermission
 
             @endforeach
+            {{-- /Permissions --}}
+
+
+            {{-- Actions --}}
+            @if($actions->count())
+                <h2>table history</h2>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            {{-- <th>Тип</th> --}}
+                            <th>Дата</th>
+                            <th>Описание</th>
+                            @if ( Auth::user()->can('view_orders') )
+                                <th>Инициатор</th>
+                            @endif
+                            {{-- <th>Наличие</th> --}}
+                        </tr>
+                    </thead>
+                    @foreach( $actions as $action )
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            {{-- <td>
+                                {{ $action->action }}
+                            </td> --}}
+                            <td>
+                                {{ $action->created_at }}
+                            </td>
+                            <td>
+                                {{ $action->description }}
+                            </td>
+                            @if ( Auth::user()->can('view_orders') )
+                                <td>
+                                    {{ $action->getInitiator->name }}
+                                </td>
+                            @endif
+                    @endforeach
+                </table>
+            @endif
+            {{-- /Actions --}}
 
 
         </div>

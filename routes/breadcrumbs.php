@@ -117,12 +117,12 @@ Breadcrumbs::for('roles_edit', function ($trail, $role) {
 
 
 
-// Home > User
+// Home > Users
 Breadcrumbs::for('users.index', function ($trail) {
     $trail->parent('home');
     $trail->push('List Of Users', route('users.index'));
 });
-// Home > User
+// Home > Users > [User]
 Breadcrumbs::for('users.show', function ($trail, $user) {
     if (auth()->user()->id === $user->id) {
         $trail->parent('home');
@@ -132,11 +132,16 @@ Breadcrumbs::for('users.show', function ($trail, $user) {
         $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
     }
 });
-// Home > User
+// Home > Users > [User] > edit
 Breadcrumbs::for('users.edit', function ($trail, $user) {
     $trail->parent('users.show', $user);
     $trail->push('Edit', route('users.edit', $user));
 });
+// // Home > Users > [User] > actions
+// Breadcrumbs::for('users.actions', function ($trail, $user) {
+//     $trail->parent('users.show', $user);
+//     $trail->push('Actions', route('users.actions', $user));
+// });
 
 
 
