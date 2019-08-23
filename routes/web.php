@@ -45,7 +45,7 @@ Route::get('/products', 'ProductsController@index')->name('products.index');
 Route::get('/products/create', 'ProductsController@create')->name('products.create');
 Route::get('/products/{product}', 'ProductsController@show')->name('products.show');
 Route::post('/products', 'ProductsController@store')->name('products.store');
-Route::get('/products/edit/{product}', 'ProductsController@edit')->name('products.edit');
+Route::get('/products/{product}/edit', 'ProductsController@edit')->name('products.edit');
 Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
 Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
 // filter
@@ -81,10 +81,6 @@ Route::get('/roles/edit/{role}', 'RolesController@edit')->name('roles.edit');
 Route::patch('/roles/{role}', 'RolesController@update')->name('roles.update');
 Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy');
 
-/* test RBAC */
-Route::get('/all_links', function () {
-    return view ('all_links');
-});
 
 /* categories*/
 Route::resource('categories', 'CategoryController');
@@ -110,6 +106,36 @@ Route::patch('images/{image}', 'ImagesController@update')->name('images.update')
 // settings
 Route::resource('settings', 'SettingController');
 
+
+// actions
+    // categories
+    Route::get('actions/categories', 'ActionController@categories')->name('actions.categories');
+    Route::get('actions/categories/{category}', 'ActionController@category')->name('actions.category');
+    // comments
+    Route::get('actions/comments', 'ActionController@comments')->name('actions.comments');
+    Route::get('actions/comments/{comment}', 'ActionController@comment')->name('actions.comment');
+    // images
+    Route::get('actions/images', 'ActionController@images')->name('actions.images');
+    Route::get('actions/images/{image}', 'ActionController@image')->name('actions.image');
+    // manufacturers
+    Route::get('actions/manufacturers', 'ActionController@manufacturers')->name('actions.manufacturers');
+    Route::get('actions/manufacturers/{manufacturer}', 'ActionController@manufacturer')->name('actions.manufacturer');
+    // orders
+    Route::get('actions/orders', 'ActionController@orders')->name('actions.orders');
+    Route::get('actions/orders/{order}', 'ActionController@order')->name('actions.order');
+    // products
+    Route::get('actions/products', 'ActionController@products')->name('actions.products');
+    Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
+    // users
+    Route::get('actions/users', 'ActionController@users')->name('actions.users');
+    Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
+    // registrations
+    Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
+    // settings
+    Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
+    // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
+
+
 // search
 Route::get('search', 'ProductsController@search')->name('search');
 
@@ -121,16 +147,10 @@ Route::get('/clear', function() {
     Artisan::call('view:clear');
 	Artisan::call('route:clear');
 	// Artisan::call('route:cache');
-	Artisan::call('queue:restart');
+    Artisan::call('queue:restart');
     
     session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
-
+    
     return back();
-    // return back([
-    //     'success' => 'lkjlkjlkj',
-    // ]);
-    // return back()->withSuccess('lkjlkj');
-    // return back()->with([
-    //     'success' => 'lkjlkjlkj',
-    // ]);
-});
+
+})->name('clear');

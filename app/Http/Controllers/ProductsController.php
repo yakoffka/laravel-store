@@ -9,11 +9,7 @@ use Auth;
 use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
 use Str;
-use App\Setting;
-use App\Product;
-use App\Category;
-use App\Manufacturer;
-use App\Image;
+use App\{Action, Category, Image, Manufacturer, Product, Setting};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 
@@ -242,6 +238,24 @@ class ProductsController extends Controller
                 ->later($when, new Created($product, $user));
         }
 
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'product',
+            'type_id' => $product->id,
+            'action' => 'create',
+            'description' => 
+                'Создание товара ' 
+                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
+                . $product->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
+
         session()->flash('message', 'New product "' . $product->name . '" has been created');
 
         return redirect()->route('products.show', ['product' => $product->id]);
@@ -341,6 +355,23 @@ class ProductsController extends Controller
             ->later($when, new Updated($product));
         }
 
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'product',
+            'type_id' => $product->id,
+            'action' => 'update',
+            'description' => 
+                'Редактирование товара ' 
+                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
+                . $product->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
         session()->flash('message', 'Product "' . $product->name . '" has been updated');
 
         return redirect()->route('products.index');
@@ -378,6 +409,44 @@ class ProductsController extends Controller
         // destroy product
         $product->delete();
 
+        // ADD DELETE PRODUCT EMAIL!
+        // // send email-notification
+        // $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
+        // if ( $email_update_product->value ) {
+
+        //     $user = Auth::user();
+        //     $bcc = config('mail.mail_bcc');
+            
+        //     $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+        //     if ( $additional_email_bcc->value ) {
+        //         $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+        //     }
+
+        //     $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+        //     $when = Carbon::now()->addMinutes($email_send_delay);
+
+        //     \Mail::to($user)
+        //     ->bcc($bcc)
+        //     ->later($when, new Updated($product));
+        // }
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'product',
+            'type_id' => $product->id,
+            'action' => 'delete',
+            'description' => 
+                'Удаление товара ' 
+                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
+                . $product->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
         session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
 
         return redirect()->route('products.index');
@@ -407,9 +476,9 @@ class ProductsController extends Controller
         $validator = request()->validate([
             'query' => 'required|string|min:3|max:100',
         ]);
+
         $query = request('query');
-        $products = Product::search($query)
-            ->paginate(15);
+        $products = Product::search($query)->paginate(15);
         $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;

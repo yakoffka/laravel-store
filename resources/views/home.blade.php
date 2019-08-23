@@ -36,12 +36,21 @@
                     {{-- You are logged in! --}}
                     @role('owner')
                         
+    
+                        {{-- Actions --}}
+                        @if( $actions->count() )
+                            <h4 id="actions">Table last actions</h4>
+                            @include('layouts.partials.actions')
+                        @endif
+                        {{-- /Actions --}}
+
+
                         <h4>Task List</h4>
                         <ol>
                             <li class="complete"  >корзина</li>
                             <li class="incomplete">уведомления для пользователей (на сайте)</li>
                             <li class="complete"  >фильтры</li>
-                            <li class="incomplete">поиск</li>
+                            <li class="complete">поиск</li>
                             <li class="incomplete">подкатегории</li>
                             <li class="incomplete">сортировка (по цене по возрастанию/убыванию, в наличии/под заказ, etc)</li>
                             <li class="incomplete">добавить локализацию https://github.com/caouecs/Laravel-lang (?)</li>
@@ -53,7 +62,7 @@
                             <li class="complete"  >сохранить содержимое корзины незарегистрированоого пользователя после входа</li>
                             <li class="complete"  >поместить почту админа в скрытое поле (?)</li>
                             <li class="complete"  >прописать возможность добавления скрытого получателя почтовых уведомлений в настройках</li>
-                            <li class="incomplete">дописать историю заказа</li>
+                            <li class="incomplete active">дописать историю заказа</li>
                             <li class="incomplete">добавить всплывающие запросы подтверждения</li>
                             <li class="incomplete">изменить цвета статусов заказов</li>
                             <li class="complete"  >добавить 'slug' во все модели (?)</li>
@@ -80,9 +89,19 @@
                             <li class="incomplete">разобраться с порядком вывода продуктов</li>
                             <li class="complete"  >поправить хлебные крошки для категорий</li>
                             <li class="incomplete">добавить остальные хлебные крошки</li>
-                            <li class="incomplete">разобраться с полями: display_name, title, slug etc.</li>
+                            <li class="incomplete">разобраться с полями: display_name, title, slug etc. вывести общий знаменатель в дескрипшн события.</li>
                             <li class="incomplete">разобраться с полем rank при редактировании роли</li>
                             <li class="incomplete">добавить фильтр по материалам</li>
+                            <li class="incomplete">убраться в .env</li>
+                            <li class="incomplete">разбить информацию в админке по частям. слишком много всего.</li>
+                            <li class="incomplete">написать ежедневник</li>
+                            <li class="incomplete">ADD DELETE PRODUCT EMAIL!</li>
+                            <li class="incomplete">добавить в сетку col-md и прочие</li>
+                            <li class="incomplete">add email, session flash in CategoryController!</li>
+                            <li class="incomplete">разбить товары по чанкам</li>
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            
                         </ol>
 
                     @endrole

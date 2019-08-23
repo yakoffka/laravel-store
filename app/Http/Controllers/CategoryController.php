@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
-use App\Product;
+use App\{Action, Category, Product};
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use Illuminate\Support\Str;
@@ -22,11 +21,24 @@ class CategoryController extends Controller
      */
     public function index() {
         // $categories = Category::paginate(config('custom.products_paginate'));
-        $categories = Category::where('id', '>', 1)->paginate(config('custom.products_paginate'));
-        return view('categories.index', compact('categories'));
-        
-        // $categories = Category::parents()->ordered()/*->get()*/->paginate(config('custom.products_paginate'));
-        // return view('categories.index2', compact('categories'));
+        // $categories = Category::where('id', '>', 1)->paginate(config('custom.products_paginate'));
+        // return view('categories.index', compact('categories'));
+
+
+        // get all product
+        if( Auth::user() and  Auth::user()->can(['view_products'])) {
+            $products = Product::get()->paginate(config('custom.products_paginate'));
+        } else {
+            $products = Product::where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        }
+
+        $category = Category::find(1);
+
+        // get appends
+        $appends = [];
+
+        return view('products.index', compact('products', 'category', 'appends'));
+
     }
 
     /**
@@ -83,6 +95,26 @@ class CategoryController extends Controller
             }
         }
 
+        // add email!
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'category',
+            'type_id' => $category->id,
+            'action' => 'create',
+            'description' => 
+                'Создание категории ' 
+                . $category->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $category->id,
+            // 'new_value' => $category->id,
+        ]);
+
+        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully created.');
+
         return redirect()->route('categories.show', ['category' => $category->id]);
     }
 
@@ -108,7 +140,6 @@ class CategoryController extends Controller
         } else {
             $products = Product::whereIn('category_id', $arr_children)->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }
-
         
         // get appends
         $appends = [];
@@ -162,6 +193,7 @@ class CategoryController extends Controller
             'parent_id'     => 'required|integer|max:255',
         ]);
 
+        // добавить проверку успешности сохранения!
         $category->update([
             'name'              => request('name'),
             'slug'              => Str::slug(request('name'), '-'),
@@ -193,6 +225,26 @@ class CategoryController extends Controller
             }
         }
 
+        // add email!
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'category',
+            'type_id' => $category->id,
+            'action' => 'edit',
+            'description' => 
+                'Редактирование категории ' 
+                . $category->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $category->id,
+            // 'new_value' => $category->id,
+        ]);
+
+        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully edit.');
+
         return redirect()->route('categories.show', ['category' => $category->id]);
     }
 
@@ -218,6 +270,27 @@ class CategoryController extends Controller
         }
 
         $category->delete();
+
+        // add email!
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'category',
+            'type_id' => $category->id,
+            'action' => 'delete',
+            'description' => 
+                'Удаление категории ' 
+                . $category->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $category->id,
+            // 'new_value' => $category->id,
+        ]);
+
+        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully delete.');
+
         return redirect()->route('categories.index');
     }
 

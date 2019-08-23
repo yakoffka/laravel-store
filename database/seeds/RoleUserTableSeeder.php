@@ -16,11 +16,20 @@ class RoleUserTableSeeder extends Seeder
 
         foreach ($users as $user) {
 
-            if ($user->id == 1) {
+            // if ($user->id == 1) {
+            //     $role_id = 1;
+            // } elseif ($user->id == 2) {
+            //     $role_id = 2;
+            // } elseif ($user->id == 3) {
+            //     $role_id = 3;
+            // } else {
+            //     $role_id = 4;
+            // }
+            if ($user->id == 2) {
                 $role_id = 1;
-            } elseif ($user->id == 2) {
-                $role_id = 2;
             } elseif ($user->id == 3) {
+                $role_id = 2;
+            } elseif ($user->id == 4) {
                 $role_id = 3;
             } else {
                 $role_id = 4;

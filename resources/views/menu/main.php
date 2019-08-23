@@ -10,9 +10,9 @@
                 }
             ?> -->
             <?php
-                if (Auth::user() and Auth::user()->can('create_products')) {
-                    echo '<a href="/clear">CacheClear</a>'."\n";
-                }
+                // if (Auth::user() and Auth::user()->can('create_products')) {
+                //     echo '<a href="/clear">CacheClear</a>'."\n";
+                // }
             ?>
             <?php
                 // echo '<a href="/categories">Catalog</a>'."\n";

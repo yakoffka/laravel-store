@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Setting;
+use App\{Action, Setting};
 use Illuminate\Http\Request;
 use Auth;
 
@@ -107,12 +107,27 @@ class SettingController extends Controller
             return back()->withErrors('недопустимый тип пункта настроек');
         }
 
-        $setting->update([
-            'value' => $value,
+        // $setting->update([
+        //     'value' => $value,
+        // ]);
+        if ( !$setting->update(['value' => $value,]) ) {
+            return back()->withError(['something wrong. err' . __line__]);
+        }
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'setting',
+            'type_id' => $setting->id,
+            'action' => 'update',
+            'description' => 'Изменение настройки ' . $setting->name . '. Исполнитель: ' . auth()->user()->name . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
         ]);
 
+        session()->flash('message', 'Setting "' . $setting->name . '" was successfully changed.');
+
         return back();
-        return __method__;
     }
 
     /**

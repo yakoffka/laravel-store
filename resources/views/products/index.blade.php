@@ -49,7 +49,7 @@
     <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
             @if ( !empty($category) )
-                {{ Breadcrumbs::render('categories', $category) }}
+                {{ Breadcrumbs::render('categories.show', $category) }}
             @else
                 {{ Breadcrumbs::render('catalog') }}
             @endif
@@ -79,7 +79,7 @@
 
                 @foreach($products as $product)
 
-                <div class="col-lg-4 product_card_bm pr-0">
+                <div class="col-lg-4 col-md-6 product_card_bm pr-0">
                     <div class="card">
 
                         <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
@@ -131,26 +131,33 @@
                                         
                                     <div class="col-sm-6">
                                         <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                            <i class="fas fa-shopping-cart"></i> to cart
+                                            <i class="fas fa-cart-plus"></i> to cart
                                         </a>
                                     </div>
 
                                 @else
 
                                     @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3 p-1">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3 p-1">
                                             <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                                 <i class="fas fa-pen-nib"></i>
                                             </a>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3 p-1">
+                                            <a href="{{ route('actions.product', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                                <i class="fas fa-history"></i>
+                                            </a>
+                                        </div>
+                                        
+
+                                        <div class="col-sm-3 p-1">
                                             {{-- <!-- form delete product -->
                                             <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                                 @csrf

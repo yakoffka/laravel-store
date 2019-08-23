@@ -116,7 +116,8 @@
 
             {{-- Actions --}}
             @if($actions->count())
-                <h2>table history</h2>
+                <h2>table of last action {{ $user->name }}. View <a href="{{ route('actions.user', $user) }}">all action {{ $user->name }}</a>.</h2>
+
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>

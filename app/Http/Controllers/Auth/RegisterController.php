@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\{Action, User};
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -90,7 +90,18 @@ class RegisterController extends Controller
                 ->bcc(config('mail.mail_info'))
                 ->queue(new VerifyMail($user));
         }
-        
+
+        // create action record
+        $action = Action::create([
+            'user_id' => 1,
+            'type' => 'user',
+            'type_id' => 1,
+            'action' => 'create',
+            'description' => 'Регистрация пользователя ' . $user->name . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
         return $user;
     }
 
@@ -125,6 +136,18 @@ class RegisterController extends Controller
 
         // return redirect()->route('login')
         //     ->with('success', 'Your e-mail is verified. You can now login.');
+
+
+        // create action record
+        $action = Action::create([
+            'user_id' => $user->id,
+            'type' => 'user',
+            'type_id' => $user->id,
+            'action' => 'verify',
+            'description' => 'Верификация пользователя ' . $user->name . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
 
         session()->flash('message', 'Your e-mail is verified. You can now login.');
 

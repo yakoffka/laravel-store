@@ -6,7 +6,7 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{ Breadcrumbs::render('orders') }}
+            {{ Breadcrumbs::render('orders.index') }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')

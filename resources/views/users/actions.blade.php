@@ -84,6 +84,7 @@
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
+                                // 'type_item' => 'пользователя'
                                 'item' => $user,
                                 'action' => route('users.destroy', ['user' => $user->id]),
                             ])

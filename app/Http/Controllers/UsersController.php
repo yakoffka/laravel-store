@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Role;
-use App\Permission;
-
-use App\User;
+use App\{Action, Role, Permission,User};
 
 class UsersController extends Controller
 {
@@ -28,7 +25,10 @@ class UsersController extends Controller
         abort_if ( Auth::user()->cannot('view_users'), 403 );
         $users = User::all();
         $permissions = Permission::all();
-        return view('users.index', compact('users', 'permissions'));
+        // $actions = Action::all();
+        $actions = Action::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_actions'));// last 50!
+
+        return view('users.index', compact('users', 'permissions', 'actions'));
     }
 
     /**
@@ -41,9 +41,9 @@ class UsersController extends Controller
     {
         abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id != $user->id , 403 );
         $permissions = Permission::all();
-        $actions = Action::where($user->id)->get();// last 50!
+        $actions = Action::where('user_id', $user->id)->get();// last 50!
 
-        return view('users.show', compact('user', 'permissions'));
+        return view('users.show', compact('user', 'permissions', 'actions'));
     }
 
     /**
@@ -122,14 +122,40 @@ class UsersController extends Controller
                 return back()->withErrors(['failed password'])->withInput();
             }
     
-            $user->update([
-                'name' => request('name'),
-                'email' => request('email'),
-            ]);
-    
+            // $user->update([
+            //     'name' => request('name'),
+            //     'email' => request('email'),
+            // ]);
+            if ( !$user->update([
+                    'name' => request('name'),
+                    'email' => request('email'),
+            ]) ) {
+                return back()->withError(['something wrong. err' . __line__]);
+            }
+            
         } else {
             abort(403, 'Unauthorized action.');
         }
+
+        // add session flash!
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'user',
+            'type_id' => $user->id,
+            'action' => 'edit',
+            'description' => 
+                'Редактирование пользователя ' 
+                . $user->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
+        session()->flash('message', 'User "' . $user->name . '" with id=' . $user->id . ' was successfully edited.');
 
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
@@ -151,7 +177,31 @@ class UsersController extends Controller
             return back()->withErrors([$user->name . ' is last owner. dont destroy him!']);
         }
 
-        $user->delete();
+        // $user->delete();
+        if ( !$user->delete() ) {
+            return back()->withError(['something wrong. err' . __line__]);
+        }
+
+        // add session flash!
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'user',
+            'type_id' => $user->id,
+            'action' => 'delete',
+            'description' => 
+                'Удаление пользователя ' 
+                . $user->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name 
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
+        session()->flash('message', 'User "' . $user->name . '" with id=' . $user->id . ' was successfully deleted.');
+
         return redirect( route('users.index'));
     }
 

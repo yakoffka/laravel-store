@@ -30,7 +30,8 @@ class CreateActionsTable extends Migration
             $table->set('action', [ // SET equivalent column.
                 'create', 
                 'update', 
-                'delete', 
+                'delete',
+                'verify', 
             ]);
             $table->string('description', 200);
             $table->string('old_value')->nullable();

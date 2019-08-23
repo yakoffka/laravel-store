@@ -114,15 +114,15 @@
         </table>
 
         @permission('edit_users')
-            <br><br><br>
+            
         @else
             <div class="form-group">
                 <label for="name">password user</label>
                 <input type="password" id="password" name="password" class="form-control" required>
-            </div><br><br><br>
+            </div>
         @endpermission
 
-        <button type="submit" class="btn btn-primary">edit profile!</button><br><br><br>
+        <button type="submit" class="btn btn-primary form-group">edit profile!</button><br><br><br>
 
         @permission('view_permissions')
             <h2 id="perms">Permissions for {{ $user->name }}:</h2>

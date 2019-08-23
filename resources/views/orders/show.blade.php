@@ -6,7 +6,7 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col col-sm-9">
-            {{ Breadcrumbs::render('orders_show', $order) }}
+            {{ Breadcrumbs::render('orders.show', $order) }}
         </div>
         <div class="col col-sm-3">
             @include('layouts.partials.searchform')
@@ -78,9 +78,9 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>
                             @if($item['item']->image)
-                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}});">
+                                <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}});">
                             @else
-                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+                                <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
                             @endif
         
                                 <div class="dummy"></div><div class="element"></div>
@@ -159,6 +159,15 @@
             @endif
         </div>
 
+        
+        {{-- Actions --}}
+        @if( $actions->count() )
+            <h2 id="actions">History of order #{{ $order->id }}</h2>
+            @include('layouts.partials.actions')
+        @endif
+        {{-- /Actions --}}
+
+
     @else
 
         {{-- ??? --}}
@@ -179,43 +188,6 @@
             </div>
         </div>
 
-    @endif
-
-
-    @if($actions->count())
-        <h2>table history</h2>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>№</th>
-                    {{-- <th>Тип</th> --}}
-                    <th>Дата</th>
-                    <th>Описание</th>
-                    @if ( Auth::user()->can('view_orders') )
-                        <th>Инициатор</th>
-                    @endif
-                    {{-- <th>Наличие</th> --}}
-                </tr>
-            </thead>
-            @foreach( $actions as $action )
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    {{-- <td>
-                        {{ $action->action }}
-                    </td> --}}
-                    <td>
-                        {{ $action->created_at }}
-                    </td>
-                    <td>
-                        {{ $action->description }}
-                    </td>
-                    @if ( Auth::user()->can('view_orders') )
-                        <td>
-                            {{ $action->getInitiator->name }}
-                        </td>
-                    @endif
-            @endforeach
-        </table>
     @endif
 
     {{-- <h2>chat</h2>

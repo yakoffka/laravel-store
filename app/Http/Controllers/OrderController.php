@@ -72,7 +72,7 @@ class OrderController extends Controller
             // address, shipping
         ]);
 
-        if ($order) {
+        if ( $order ) {
 
             // send email-notification
             $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');

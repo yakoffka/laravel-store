@@ -64,13 +64,19 @@ class PermissionsTableSeeder extends Seeder
             /* 29 */ ['group' => 'settings', 'name' => 'create_settings',  'display_name' => 'Create Settings',   'description' => 'Create the Setting', ],
             /* 30 */ ['group' => 'settings', 'name' => 'edit_settings',    'display_name' => 'Edit Settings',     'description' => 'Edit the Setting',   ],
             /* 31 */ ['group' => 'settings', 'name' => 'delete_settings',  'display_name' => 'Delete Settings',   'description' => 'Delete the Setting', ],
-            /* 32 */ ['group' => 'settings', 'name' => 'view_settings',    'display_name' => 'View Settings',     'description' => 'View Setting',],
+            /* 32 */ ['group' => 'settings', 'name' => 'view_settings',    'display_name' => 'View Settings',     'description' => 'View Setting',       ],
 
             // permissions to access admin panel
-            /* 33 */ ['group' => 'adminpanel', 'name' => 'create_adminpanel',  'display_name' => 'Create Adminpanel',   'description' => 'Create the Setting', ],
-            /* 34 */ ['group' => 'adminpanel', 'name' => 'edit_adminpanel',    'display_name' => 'Edit Adminpanel',     'description' => 'Edit the Setting',   ],
-            /* 35 */ ['group' => 'adminpanel', 'name' => 'delete_adminpanel',  'display_name' => 'Delete Adminpanel',   'description' => 'Delete the Setting', ],
-            /* 36 */ ['group' => 'adminpanel', 'name' => 'view_adminpanel',    'display_name' => 'View Adminpanel',     'description' => 'View Setting',],
+            /* 33 */ ['group' => 'adminpanel', 'name' => 'create_adminpanel',  'display_name' => 'Create Adminpanel',   'description' => 'Create the Adminpanel', ],
+            /* 34 */ ['group' => 'adminpanel', 'name' => 'edit_adminpanel',    'display_name' => 'Edit Adminpanel',     'description' => 'Edit the Adminpanel',   ],
+            /* 35 */ ['group' => 'adminpanel', 'name' => 'delete_adminpanel',  'display_name' => 'Delete Adminpanel',   'description' => 'Delete the Adminpanel', ],
+            /* 36 */ ['group' => 'adminpanel', 'name' => 'view_adminpanel',    'display_name' => 'View Adminpanel',     'description' => 'View Adminpanel',       ],
+
+            // permissions to actions (history)
+            /* 33 */ ['group' => 'actions', 'name' => 'create_actions',  'display_name' => 'Create actions',   'description' => 'Create the Actions',],
+            /* 34 */ ['group' => 'actions', 'name' => 'edit_actions',    'display_name' => 'Edit actions',     'description' => 'Edit the Actions',  ],
+            /* 35 */ ['group' => 'actions', 'name' => 'delete_actions',  'display_name' => 'Delete actions',   'description' => 'Delete the Actions',],
+            /* 36 */ ['group' => 'actions', 'name' => 'view_actions',    'display_name' => 'View actions',     'description' => 'View Actions',      ],
             
         ];
  
