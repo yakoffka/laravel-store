@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'unregistered user',
             'email' => 'yagithub+unregistered@mail.ru',
             'password' => bcrypt('111111'),
-            'status' => 1,
+            'status' => 0,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
