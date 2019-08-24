@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Blade; //
+use Illuminate\Support\Facades\Blade;
+
+use Illuminate\Support\Facades\Schema; // https://laravel-news.com/laravel-5-4-key-too-long-error part 1/2
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.carousel', 'carousel');
         Blade::include('includes.listImage', 'listImage');
         Blade::include('includes.modalChangeImage', 'modalChangeImage');
+
+        Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
     }
 }
