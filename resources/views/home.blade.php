@@ -47,6 +47,7 @@
 
                         <h4>Task List</h4>
                         <ol>
+                            <li class="complete"  >залить сайт на сервер</li>
                             <li class="complete"  >корзина</li>
                             <li class="incomplete">уведомления для пользователей (на сайте)</li>
                             <li class="complete"  >фильтры</li>
