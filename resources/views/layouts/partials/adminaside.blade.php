@@ -10,7 +10,6 @@
         <div class="submenuitem">- <a target="_blank" href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md">laravel-best-practices</a></div>
     @endif
 {{-- /Readme --}} 
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDzP8iIQVNAFeubTuiDiQIk1yDHu4gGkm57Uc8yBROXVMt18bYfgdMec9e1WfTk9tyDtnYOzaBh+a0uumQxzkQmSMSzNZOPftXnLt6wOaB5AB6cJ9pDn5lCJeEFa0Gs4Ni0yt8Y7EOcq/wYumGxgOhK8VHmg6fHt17eTtzXEpqUoF9EDCXekCQwdKI5Fpuv5lQpmaKYxSadmhUNTiJFD3oyQcFfTlfY1ZKy2DeC9dKzdkZ/FgvKuJfhfKSl8mrpVVHnhSBwCgp+dl3LNtwrtLzAqYYqES9jsIaKHBymDvqh9p9+F+KrM2GeM5Wq3S1C/8WaAF0oJyuUuOQ2FtBYs9tZ yo@yo-Lenovo-G510
 
 
 {{-- Tools --}}

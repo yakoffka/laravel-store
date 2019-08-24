@@ -105,6 +105,19 @@
                             
                         </ol>
 
+
+
+                        <h4>After deploy</h4>
+                        <ol>
+                            <li class="incomplete"  >Cоздать ссылку на storage ('php artisan storage:link')</li>
+                            <li class="incomplete"  >Произвести запуск обработчика очереди ('php artisan queue:work'). Чтобы процесс queue:work выполнялся в фоне постоянно, используйте монитор процессов, такой как Supervisor, для проверки, что обработчик очереди не остановился.</li>
+                            <li class="incomplete"  >Установить и настроить Supervisor</li>
+                            {{-- <li class="complete"  >pppppp</li> --}}
+                            {{-- <li class="complete"  >pppppp</li> --}}
+                            {{-- <li class="complete"  >pppppp</li> --}}
+                            {{-- <li class="complete"  >pppppp</li> --}}
+                        </ol>
+
                     @endrole
 
                 {{-- </div>
