@@ -83,6 +83,11 @@ use App\Category;
         $trail->parent('products.show', $product);
         $trail->push('Edit Product', route('products.edit', ['product' => $product]));
     });
+    // Home > Catalog > [Categories] > [Product] > Copy Product
+    Breadcrumbs::for('products.copy', function ($trail, $product) {
+        $trail->parent('products.show', $product);
+        $trail->push('Copy Product', route('products.copy', ['product' => $product]));
+    });
 
 
 

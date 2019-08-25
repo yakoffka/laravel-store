@@ -131,6 +131,21 @@ class ProductsController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(Product $product)
+    {
+        abort_if (!Auth::user()->can('edit_products'), 403);
+        $categories = Category::all();
+        $manufacturers = Manufacturer::all();
+        session()->flash('message', 'When copying an item, you must change its name!');
+
+        return view('products.copy', compact('product', 'categories', 'manufacturers'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  request()
@@ -138,6 +153,7 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
+        // dd(request()->all());
         // dd(config('mail.name_info'));
 
         // dd(
@@ -168,12 +184,13 @@ class ProductsController extends Controller
             'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
+            'copy_img' => 'nullable|integer',
         ]);
-
+        
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        
+
         if (!$product = Product::create([
             'name' => request('name'),
             'slug' => Str::slug(request('name'), '-'),
@@ -184,7 +201,7 @@ class ProductsController extends Controller
             'description' => request('description') ?? '',
             'year_manufacture' => request('year_manufacture') ?? 0,
             'price' => request('price') ?? 0,
-            'added_by_user_id' => Auth::user()->id,            
+            'added_by_user_id' => Auth::user()->id,
         ])) {
             return back()->withErrors(['something wrong!'])->withInput();
         }
@@ -213,11 +230,85 @@ class ProductsController extends Controller
                     'name' => $image_name,
                     'ext' => config('imageyo.res_ext'),
                     'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                    'sort_order' => rand(1, 9),
+                    'sort_order' => 9,
                     'orig_name' => $originalName,
                 ]);
             }
         }
+
+
+        // copy all image and create records to images table
+        if ( request('copy_img') ) {
+            $images = Product::find(request('copy_img'))->images;
+            // dd($images);
+            if ( $images->count() ) {
+
+                // create dir to preview the image
+                $dst_dir = storage_path() . config('imageyo.dirdst') . '/' . $product->id;
+                if ( !is_dir($dst_dir) ) {
+                    if ( !mkdir($dst_dir, 0777, true) ) {
+                        return back()->withErrors(['error #' . __line__])->withInput();
+                    }
+                }
+                // create dir to copy the original image
+                $dst_dir_origin = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id;
+                if ( !is_dir($dst_dir_origin) ) {
+                    if ( !mkdir($dst_dir_origin, 0777, true) ) {
+                        return back()->withErrors(['error #' . __line__])->withInput();
+                    }
+                }
+
+                while ( $images->count() ) {
+
+                    $image = $images->shift();
+
+                    // array of preview
+                    foreach ( config('imageyo.previews') as $type_preview ) {
+                        if ( config('imageyo.is_' . $type_preview) ) {
+
+                            $rel_path = '/' . $image->name . '-' . $type_preview . $image->ext;
+
+                            if ( $type_preview == 'origin' ) {
+                                $source = storage_path() . config('imageyo.dirdst_origin') . '/' . $image->product_id . $rel_path;
+                                $dest = $dst_dir_origin . $rel_path;
+                            } else {
+                                $source = storage_path() . config('imageyo.dirdst') . '/' . $image->product_id . $rel_path;
+                                $dest = $dst_dir . $rel_path;    
+                            }
+                            // dd($source, $dest);
+
+
+                            if ( !is_file($source) ) {
+                                return back()->withErrors(['error #' . __line__ ])->withInput();
+                            }
+                            if ( !copy ($source , $dest) ) {
+                                return back()->withErrors(['error #' . __line__])->withInput();
+                            }
+                        }
+                    }
+
+                    // create records in the images table
+                    if ( !(Image::create([
+                        'product_id' => $product->id,
+                        'slug' => $image->slug,
+                        'path' => $image->path,
+                        'name' => $image->name,
+                        'ext'  => $image->ext,
+                        'alt'  => $image->alt,
+                        'sort_order' => 9,
+                        'orig_name' => $image->orig_name,
+                    ])) ) {
+                        return back()->withErrors(['error #' . __line__ ])->withInput();
+                    }
+                }
+            }
+
+            $donor = Product::find($image->product_id)->name;
+            $description_action = 'Копирование товара "' . $product->name . '" из донора "' . $donor . '". Исполнитель: ' . auth()->user()->name . '.';
+        } else {
+            $description_action = 'Создание товара "' . $product->name . '". Исполнитель: ' . auth()->user()->name . '.';
+        }
+
 
         // send email-notification
         $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
@@ -238,19 +329,14 @@ class ProductsController extends Controller
                 ->later($when, new Created($product, $user));
         }
 
+
         // create action record
         $action = Action::create([
             'user_id' => auth()->user()->id,
             'type' => 'product',
             'type_id' => $product->id,
             'action' => 'create',
-            'description' => 
-                'Создание товара ' 
-                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
-                . $product->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
+            'description' => $description_action,
             // 'old_value' => $product->id,
             // 'new_value' => $product->id,
         ]);

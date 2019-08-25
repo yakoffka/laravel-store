@@ -41,17 +41,18 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 
 /* products*/
-Route::get('/products', 'ProductsController@index')->name('products.index');
-Route::get('/products/create', 'ProductsController@create')->name('products.create');
-Route::get('/products/{product}', 'ProductsController@show')->name('products.show');
-Route::post('/products', 'ProductsController@store')->name('products.store');
-Route::get('/products/{product}/edit', 'ProductsController@edit')->name('products.edit');
-Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
-Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
-// filter
-// Route::get('products.filter', 'ProductsController@filter')->name('products.filter');
-// rewatermark
-Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
+    Route::get('/products', 'ProductsController@index')->name('products.index');
+    Route::get('/products/create', 'ProductsController@create')->name('products.create');
+    Route::get('/products/{product}', 'ProductsController@show')->name('products.show');
+    Route::post('/products', 'ProductsController@store')->name('products.store');
+    Route::get('/products/{product}/edit', 'ProductsController@edit')->name('products.edit');
+    Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
+    Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
+    // filter
+    // Route::get('products.filter', 'ProductsController@filter')->name('products.filter');
+    // rewatermark
+    Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
+    Route::get('/products/{product}/copy', 'ProductsController@copy')->name('products.copy');
 
 
 /* comments*/

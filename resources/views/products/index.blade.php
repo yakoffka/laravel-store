@@ -120,7 +120,7 @@
                                 @guest
 
                                     <div class="col-sm-6">
-                                        <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">
                                             <i class="fas fa-eye" title="view"></i>
                                         </a>
                                     </div>
@@ -135,7 +135,7 @@
 
                                     @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
                                         <div class="col-sm-3 p-1">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
@@ -177,7 +177,7 @@
                                     @elseif ( Auth::user()->can('edit_products') )
 
                                         <div class="col-sm-6 p-1">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
@@ -191,7 +191,7 @@
                                     @else
 
                                         <div class="col-sm-6 p-1">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                            <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i> view
                                             </a>
                                         </div>

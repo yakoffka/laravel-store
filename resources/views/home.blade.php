@@ -101,10 +101,19 @@
                             <li class="incomplete">убрать галерею товаров, если изображение одно</li>
                             <li class="incomplete">реализовать наличие у пользователя только одной роли!</li>
                             <li class="incomplete">добавить комментарии в историю</li>
-                            {{-- <li class="incomplete">лллллллл</li> --}}
-                            {{-- <li class="incomplete">лллллллл</li> --}}
-                            {{-- <li class="incomplete">лллллллл</li> --}}
-                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            <li class="incomplete">поправить переменные в тайтлах (@@section('title', 'Copy product {\{ $product->name }\}')
+                            <li class="incomplete">Стилизация радиокнопок и чекбоксов <a href="https://www.internet-technologies.ru/articles/stilizaciya-radioknopok-i-chekboksov-pri-pomoschi-css.html">при помощи CSS</a> </li>
+                            <li class="incomplete"><a href="http://shpargalkablog.ru/2013/08/checked.html">Я ознакомлен и принимаю условия договора</a> </li>
+                            <li class="incomplete">добавить в настройки пагинацию</li>
+                            <li class="incomplete">добавить проверку изменений при обновлении всего</li>
+                            <li class="incomplete">добавить в события конкретики (более полное описание изменений)</li>
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete active">лллллллл</li> --}}
                             

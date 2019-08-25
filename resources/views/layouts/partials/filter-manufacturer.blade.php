@@ -3,7 +3,7 @@
 @if($manufacturers->count())
     <ul class="filter navbar-nav mr-auto">
         @foreach($manufacturers as $manufacturer)
-            <p class="filters">
+            <label class="filters">
                 {{ $manufacturer->title }}
                 <input 
                     type="checkbox" 
@@ -14,7 +14,7 @@
                         checked
                     @endif
                 >
-            </p>
+            </label>
         @endforeach
     </ul>
 @endif

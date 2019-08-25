@@ -94,13 +94,13 @@
 
                             @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-4 p-1">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                        <i class="fas fa-pen-nib"></i> edit
+                                        <i class="fas fa-pen-nib"></i>
                                     </a>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-4 p-1">
                                     {{-- <!-- form delete product -->
                                     <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                         @csrf
@@ -117,6 +117,12 @@
                                         'item' => $product,
                                         'action' => route('products.destroy', ['product' => $product->id]), 
                                     ]) 
+                                </div>
+
+                                <div class="col-sm-4 p-1">
+                                    <a href="{{ route('products.copy', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-copy"></i>
+                                    </a>
                                 </div>
                                 
                             @elseif ( Auth::user()->can('edit_products') )

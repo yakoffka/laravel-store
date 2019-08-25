@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Edit product')
+@section('title', 'Copy product {{ $product->name }}')
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
-            {{ Breadcrumbs::render('products.edit', $product) }}
+            {{ Breadcrumbs::render('products.copy', $product) }}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
             @include('layouts.partials.searchform')
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Edit product '{{ $product->name }}'</h1>
+    <h1>Copy product '{{ $product->name }}'</h1>
 
 
     <div class="row">
@@ -26,11 +26,16 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
 
             @listImage(compact('product'))
+            <br>
 
-            <form method="POST" action="{{ route('products.update', ['product' => $product->id]) }}" enctype="multipart/form-data">
+
+            <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+
                 @csrf
 
-                @method('PATCH')
+                <label for="copy_img">Копировать изображения копируемого товара:
+                    <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
+                </label>
 
                 {{-- @if($product->image)
                     <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
@@ -45,7 +50,7 @@
                     <input type="file" name="images[]" multiple>
                 </div>
 
-                @input(['name' => 'name', 'value' => old('name') ?? $product->name, 'required' => 'required'])
+                @input(['name' => 'name', 'value' => old('name') ?? $product->name . '-copy', 'required' => 'required'])
 
                 @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
 
@@ -99,7 +104,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary form-control">edit product!</button>
+                <button type="submit" class="btn btn-primary form-control">copy product!</button>
 
             </form>
         </div>
