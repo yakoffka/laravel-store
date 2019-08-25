@@ -21,7 +21,7 @@
 
         @include('layouts.partials.aside')
 
-        <div class="col col-sm-10 pr-0">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
 
 
             <form method="POST" action="{{ route('roles.store') }}">

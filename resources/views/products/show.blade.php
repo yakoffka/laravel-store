@@ -18,14 +18,14 @@
     <div class="row">
 
         {{-- aside --}}
-        <div class="col col-sm-2 p-0 aside">    
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 p-0 aside">    
             @include('layouts.partials.nav')
             @include('layouts.partials.separator')
             @include('layouts.partials.filters')
         </div>
 
         {{-- content --}}
-        <div class="col col-sm-10 pr-0">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
             <div class="row">
 
 

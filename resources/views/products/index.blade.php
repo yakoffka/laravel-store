@@ -63,10 +63,7 @@
     <h1>{{ $title }} ({{ $products->total() }})</h1>
 
     <div class="row">
-
-            {{-- col-xs-12 col-sm-4 col-md-3 col-lg-2
-            col-xs-12 col-sm-8 col-md-9 col-lg-10 --}}
-            
+           
             
         {{-- aside --}}
         {{-- <div class="col col-sm-2 p-0 aside">     --}}
