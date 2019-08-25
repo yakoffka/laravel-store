@@ -28,8 +28,12 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
             <div class="row">
 
+                    {{-- col-xs-12 col-sm-6  col-md-5
+                    col-xs-12 col-sm-6  col-md-4
+                    col-xs-12 col-sm-12 col-md-3 --}}
 
-                <div class="col-md-4 wrap_b_image">
+                {{-- <div class="col-md-4 wrap_b_image"> --}}
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4 mb-2   wrap_b_image">
 
                     @if($product->images->count())
                         @carousel(compact('product'))
@@ -44,8 +48,9 @@
                 </div>
 
 
-                <div class="col-md-5">
-                    <h2>specification product</h2>
+                {{-- <div class="col-md-5"> --}}
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4   mb-2">
+                    {{-- <h2>specification product</h2> --}}
 
                     {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
                     <span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>
@@ -83,7 +88,7 @@
 
                         @guest
 
-                            <div class="col-sm-12 padding_left_0">
+                            <div class="col-sm-12">
                                 @addToCart(['product_id' => $product->id])
                             </div>
 
@@ -138,9 +143,19 @@
                 </div>
 
 
-                <div class="col-md-3">
-                    {{-- информация о доставке --}}
+                {{-- информация о доставке --}}
+                {{-- <div class="col-md-3 grey_bg shipping"> --}}
+                <div class="d-xs-none d-sm-none d-md-none col-lg-4   shipping">
+                {{-- <div class="col-lg-0 col-lg-0 col-lg-0 col-lg-3 mb-2 shipping"> --}}
+                    <h5><i class="fas fa-shipping-fast"></i> Оплата и доставка</h5>
+                    <p>По Ростову-на-Дону и Левенцовке - бесплатно при заказе от 5 000  &#8381;</p>
+                    <p>В регионы - бесплатно при заказе от 15 000  &#8381;</p>
+
+                    <h5><i class="fas fa-undo"></i> Гарантии и возврат</h5>
+                    <p>Возврат в течении 14 дней</p>
+                    <p>24 месяца гарантии производителя</p>
                 </div>
+                {{-- информация о доставке --}}
 
 
             </div><br>
