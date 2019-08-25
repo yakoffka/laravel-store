@@ -46,7 +46,7 @@
 
 
                         <h4>Task List</h4>
-                        <ol>
+                        <ol class="numlist">
                             <li class="complete"  >залить сайт на сервер</li>
                             <li class="complete"  >корзина</li>
                             <li class="incomplete">уведомления для пользователей (на сайте)</li>
@@ -106,16 +106,67 @@
                         </ol>
 
 
+                        <br>
+                        <br>
+                        <h4>Deploy</h4>
+                        <ol class="numlist">
+                            <li class="incomplete">Создать пользователя, сайт и базу данных</li>
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            <li class="incomplete"  >Добавить id_rsa.pub на github</li>
+                            <li class="incomplete"  >Клонировать репозитарий</li>
+                            <pre><code>
+~ git clone -b master git@github.com:yakoffka/laravel-store.git public_html
+                            </code></pre>
+                            <li class="incomplete"  >БЕЗ ПЕРЕЗАПИСИ скопировать поверх клонированных файлов локальные файлы (изображения, .env и прочие)</li>
+                            <li class="incomplete"  >Удалить лишнее (логи, )</li>
+                            <li class="incomplete"  >Изменить настройки в .env</li>
 
-                        <h4>After deploy</h4>
-                        <ol>
                             <li class="incomplete"  >Cоздать ссылку на storage ('php artisan storage:link')</li>
-                            <li class="incomplete"  >Произвести запуск обработчика очереди ('php artisan queue:work'). Чтобы процесс queue:work выполнялся в фоне постоянно, используйте монитор процессов, такой как Supervisor, для проверки, что обработчик очереди не остановился.</li>
-                            <li class="incomplete"  >Установить и настроить Supervisor</li>
-                            {{-- <li class="complete"  >pppppp</li> --}}
-                            {{-- <li class="complete"  >pppppp</li> --}}
-                            {{-- <li class="complete"  >pppppp</li> --}}
-                            {{-- <li class="complete"  >pppppp</li> --}}
+                            <li>Очереди:
+                                <ol class="numlist">
+                                    {{-- <li class="incomplete"  >Произвести запуск обработчика очереди ('php artisan queue:work'). Чтобы процесс queue:work выполнялся в фоне постоянно, используйте монитор процессов, такой как Supervisor, для проверки, что обработчик очереди не остановился.</li> --}}
+                                    <li class="incomplete"  >В файле .env: QUEUE_CONNECTION=sync заменить на QUEUE_CONNECTION=database</li>
+                                    <li class="incomplete"  >Установить и настроить Supervisor
+                                        <pre><code>
+# apt install supervisor
+                                        </code></pre>
+                                            Добавить конфигурационный файл: /etc/supervisor/conf.d/laravel_worker.conf
+                                        <pre><code>
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php {путь/к/файлу}/artisan queue:work database --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user={имя_пользователя}
+numprocs=8
+redirect_stderr=true
+stdout_logfile={путь/к/файлу}/storage/logs/worker.log
+                                        </code></pre>
+                                            Применить настройки
+                                        <pre><code>
+# nano /etc/supervisor/conf.d/laravel_worker.conf
+# sudo supervisorctl reread
+laravel-worker: available
+# sudo supervisorctl update
+laravel-worker: added process group
+# sudo supervisorctl start laravel-worker:*
+                                        </code></pre>
+                                    </li>
+                                    {{-- <li class="incomplete"  >pppppp</li> --}}
+                                </ol>
+                            </li>
+                            <li class="incomplete"  >Выполнить
+                                <pre><code>
+~ composer install
+~ php artisan migrate:refresh --seed
+                                </code></pre>
+                            </li>
+                            <li class="incomplete">voila</li>
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete"  >pppppp</li> --}}
                         </ol>
 
                     @endrole
