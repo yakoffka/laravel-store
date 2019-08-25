@@ -100,6 +100,11 @@
                             <li class="incomplete">добавить в сетку col-md и прочие</li>
                             <li class="incomplete">add email, session flash in CategoryController!</li>
                             <li class="incomplete">разбить товары по чанкам</li>
+                            <li class="incomplete">реализовать наличие у пользователя только одной роли!</li>
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
+                            {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             
