@@ -1,12 +1,27 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+@section('title', 'login')
 
+@section('content')
+
+    <div class="row searchform_breadcrumbs">
+        <div class="col col-sm-9">
+            {{ Breadcrumbs::render('login') }}
+        </div>
+        <div class="col col-sm-3">
+            @include('layouts.partials.searchform')
+        </div>
+    </div>
+
+
+    <h1>{{ __('Login') }}</h1>
+
+
+{{-- <div class="container"> --}}
+    <div class="row justify-content-center">
+        {{-- <div class="col-md-8">
+            <div class="card"> --}}
+                {{-- <div class="card-header">{{ __('Login') }}</div> --}}
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -66,8 +81,8 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            {{-- </div>
+        </div> --}}
     </div>
-</div>
+{{-- </div> --}}
 @endsection

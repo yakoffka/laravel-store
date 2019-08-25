@@ -10,6 +10,13 @@ use App\Category;
     });
 
 
+// Home > Login
+    Breadcrumbs::for('login', function ($trail) {
+        $trail->parent('home');
+        $trail->push('Login');
+    });
+
+
 // catalog
     // Home > Catalog       (categories.index)
     Breadcrumbs::for('catalog', function ($trail) {

@@ -571,8 +571,8 @@ form.searchform  {
     width: 100%;
     height: 32px;
     padding-left: 10px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
     outline: none;
     background: #fff;
     color: #6c757d;
