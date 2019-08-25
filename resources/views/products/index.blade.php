@@ -64,22 +64,28 @@
 
     <div class="row">
 
+            {{-- col-xs-12 col-sm-4 col-md-3 col-lg-2
+            col-xs-12 col-sm-8 col-md-9 col-lg-10 --}}
+            
+            
         {{-- aside --}}
-        <div class="col col-sm-2 p-0 aside">    
+        {{-- <div class="col col-sm-2 p-0 aside">     --}}
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 p-0 aside">    
             @include('layouts.partials.nav')
             @include('layouts.partials.separator')
             @include('layouts.partials.filters')
         </div>
 
         {{-- content --}}
-        <div class="col col-sm-10 pr-0">
+        {{-- <div class="col col-sm-10 pr-0"> --}}
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
             <div class="row">
 
                 {{ $mess_null }}
 
                 @foreach($products as $product)
 
-                <div class="col-lg-4 col-md-6 product_card_bm pr-0">
+                <div class="col-lg-4 col-md-6 product_card_bm">
                     <div class="card">
 
                         <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
@@ -106,8 +112,8 @@
                             </div>
                         </a>
 
-                        <div class="card-body">
-                            <p class="card-text col-sm-12">
+                        <div class="card-body p-1">
+                            <div class="card-text col-sm-12">
                                 <span class="grey">
                                     @if($product->price)
                                         price: {{ $product->price }} &#8381;
@@ -117,7 +123,7 @@
                                 </span>
                                 <?php if(!$product->visible){echo '<span class="red">invisible</span>';}?>
                                 <br>
-                            </p>
+                            </div>
 
                             <div class="row product_buttons center">
 
@@ -125,13 +131,13 @@
 
                                     <div class="col-sm-6">
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
-                                            <i class="fas fa-eye"></i> view
+                                            <i class="fas fa-eye" title="view"></i>
                                         </a>
                                     </div>
                                         
                                     <div class="col-sm-6">
                                         <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                            <i class="fas fa-cart-plus"></i> to cart
+                                            <i class="fas fa-cart-plus" title="to cart"></i> 
                                         </a>
                                     </div>
 
@@ -180,13 +186,13 @@
 
                                     @elseif ( Auth::user()->can('edit_products') )
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 p-1">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 p-1">
                                             <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                                 <i class="fas fa-pen-nib"></i>
                                             </a>
@@ -194,13 +200,13 @@
                                         
                                     @else
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 p-1">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                                 <i class="fas fa-eye"></i> view
                                             </a>
                                         </div>
                                         
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 p-1">
                                             @addToCart(['product_id' => $product->id])
                                         </div>
 

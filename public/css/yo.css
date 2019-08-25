@@ -49,9 +49,9 @@ a, button {outline: none;} /* Убираем границу вокруг ссы�
 
 
 
-.row {
+/* .row {
     margin:0 0 1em 0;
-}
+} */
 .row.center {
     justify-content: center;
 }
@@ -514,6 +514,7 @@ ul#mainMenu ul {
     align-items: center;
     justify-content: space-between;
 } */
+.aside .formfilters {margin: 0 0 1rem;}
 .aside .formfilters p{
     padding: .1rem;
     margin: 0;
