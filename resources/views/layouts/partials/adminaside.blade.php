@@ -16,6 +16,7 @@
     @role('owner')
         <h4 class="grey"><i class="fas fa-tools"></i> Tools:</h4>
         <div class="submenuitem">- <a target="_blank" href="/telescope">Telescope</a></div>
+        <div class="submenuitem">- <a target="_blank" href="/phpmyadmin">PMA</a></div>
         <div class="submenuitem">- <a target="_blank" href="http://adminer.local">Adminer</a></div>
         <div class="submenuitem">- <a href="{{ route('clear') }}">CacheClear</a></div>
     @endrole

@@ -5,11 +5,13 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        <div class="col col-sm-9">
+        {{-- <div class="col col-sm-9 breadcrumbs"> --}}
+        <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
             {{ Breadcrumbs::render('products.show', $product) }}
         </div>
-        <div class="col col-sm-3">
-            @include('layouts.partials.searchform')
+        {{-- <div class="col col-sm-3 searchform"> --}}
+        <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
+            <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
     </div>
 
@@ -17,14 +19,10 @@
 
     <div class="row">
 
-        {{-- aside --}}
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 p-0 aside">    
-            @include('layouts.partials.nav')
-            @include('layouts.partials.separator')
-            @include('layouts.partials.filters')
-        </div>
 
-        {{-- content --}}
+        @include('layouts.partials.aside')
+
+
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
             <div class="row">
 
@@ -33,7 +31,7 @@
                     col-xs-12 col-sm-12 col-md-3 --}}
 
                 {{-- <div class="col-md-4 wrap_b_image"> --}}
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4 mb-2   wrap_b_image">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 m-2 wrap_b_image">
 
                     @if($product->images->count())
                         @carousel(compact('product'))
@@ -49,7 +47,7 @@
 
 
                 {{-- <div class="col-md-5"> --}}
-                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4   mb-2">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
                     {{-- <h2>specification product</h2> --}}
 
                     {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
@@ -96,7 +94,7 @@
 
                             @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
 
-                                <div class="col-sm-6 padding_left_0">
+                                <div class="col-sm-6">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i> edit
                                     </a>

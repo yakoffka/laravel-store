@@ -32,7 +32,7 @@
 
         <div class="fw-background">{{-- from https://datatables.net/examples/basic_init/table_sorting.html --}}
             <div class="container relative">
-                <a class="logo" href="{{ url('/') }}">
+                <a class="logo d-none d-md-block" href="{{ url('/') }}">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                     <img src="/laravel_white.png" alt="logo">
                 </a>
             </div>
@@ -40,12 +40,32 @@
 
         <nav class="navbar navbar-expand-md navbar-dark">
             <div class="container">
+                
+                {{-- logo --}}
+                <div class="logo_mob d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- <img src="/laravel_white.png" width="40" height="40" alt="logo"> --}}
+                        <span class="logo_name">{{ config('app.name', 'Laravel') }}</span>
+                    </div>
+                    <div class="logo_mob d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        <img src="/laravel_white.png" width="40" height="40" alt="logo">
+                        {{-- <span class="logo_name">{{ config('app.name', 'Laravel') }}</span> --}}
+                    </div>
+                {{-- logo --}}
+
 
                 {{-- <a class="navbar-brand grey" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
 
-                @include('menu.main')
+                
+                {{-- main_menu --}}
+                <ul class="main_menu d-none d-md-block">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                    {{-- @include('menu.main') --}}
+                    <a href="/home">Home</a>
+                    <a href="/products">Catalog</a>
+                    <a href="https://github.com/yakoffka/kk" target="_blank">GitHub</a>        
+                </ul>
+                {{-- main_menu --}}
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -59,28 +79,30 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        {{-- search --}}
-                        {{-- <li class="nav-item">
-                            <form class="search" action="{{ route('search') }}" method="GET" role="search">
-                                <input 
-                                    style="width:100%; margin-top:5px; height:2em;" 
-                                    type="search" 
-                                    class="input-sm form-control" 
-                                    name="query" 
-                                    placeholder="Search products"
-                                    value="{{ $query ?? '' }}"
-                                >
-                            </form>
-                        <li> --}}
-                        {{-- search --}}
+                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                            <a class="nav-link" href="/home">Home</a>
+                        <li>
+
+                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                            <a class="nav-link" href="/products">Catalog</a>
+                        <li>
 
                         {{-- cart --}}
-                        <li class="nav-item">
+                        <li class="nav-item d-none d-md-block">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                             <a href="{{ route('cart.show') }}" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge">
                                     {{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}
                                 </span>
+                            </a>
+                        <li>
+                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                            <a href="{{ route('cart.show') }}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i> in youre cart
+                                <span class="badge">
+                                    {{ Session::has('cart') ? count(Session::get('cart')->items) : '' }}
+                                </span>
+                                products
                             </a>
                         <li>
                         {{-- cart --}}
@@ -134,8 +156,31 @@
                             </li>
 
                         @endguest
+
+                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                            <a class="nav-link" href="https://github.com/yakoffka/kk" target="_blank">GitHub</a>
+                        <li>
+
+                        {{-- search --}}
+                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                            {{-- <form class="search" action="{{ route('search') }}" method="GET" role="search">
+                                <input 
+                                    style="width:100%; margin-top:5px; height:2em;" 
+                                    type="search" 
+                                    class="input-sm form-control" 
+                                    name="query" 
+                                    placeholder="Search products"
+                                    value="{{ $query ?? '' }}"
+                                >
+                            </form> --}}
+                            @include('layouts.partials.searchform')
+                        <li>
+                        {{-- search --}}
+
                     </ul>
+
                 </div>
+
             </div>
         </nav>
 
