@@ -31,7 +31,7 @@
                     col-xs-12 col-sm-12 col-md-3 --}}
 
                 {{-- <div class="col-md-4 wrap_b_image"> --}}
-                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 m-2 wrap_b_image">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
 
                     @if($product->images->count())
                         @carousel(compact('product'))
@@ -141,19 +141,13 @@
                 </div>
 
 
-                {{-- информация о доставке --}}
-                {{-- <div class="col-md-3 grey_bg shipping"> --}}
-                <div class="d-xs-none d-sm-none d-md-none col-lg-4   shipping">
-                {{-- <div class="col-lg-0 col-lg-0 col-lg-0 col-lg-3 mb-2 shipping"> --}}
-                    <h5><i class="fas fa-shipping-fast"></i> Оплата и доставка</h5>
-                    <p>По Ростову-на-Дону и Левенцовке - бесплатно при заказе от 5 000  &#8381;</p>
-                    <p>В регионы - бесплатно при заказе от 15 000  &#8381;</p>
-
-                    <h5><i class="fas fa-undo"></i> Гарантии и возврат</h5>
-                    <p>Возврат в течении 14 дней</p>
-                    <p>24 месяца гарантии производителя</p>
+                {{-- информация о доставке на экранах lg --}}
+               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 mb-2 shipping">
+                    <div class="d-none d-lg-block">{{-- d-none d-lg-block - Скрыто на экранах меньше lg --}}
+                        @include('layouts.partials.shipping')
+                    </div>
                 </div>
-                {{-- информация о доставке --}}
+                {{-- /информация о доставке на экранах lg --}}
 
 
             </div><br>
@@ -164,7 +158,18 @@
                     <p>{{ $product->description }}</p>
                 </div>
             </div>
+
+
+            {{-- информация о доставке на экранах уже lg --}}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 mb-2 shipping">
+                <div class="d-lg-none .d-xl-block">{{-- d-none d-lg-block - Скрыт только на lg --}}
+                    @include('layouts.partials.shipping')
+                </div>
+            </div>
+            {{-- /информация о доставке на экранах lg --}}
+
             <!-- /product -->
+
 
 
             <!-- comments -->

@@ -241,15 +241,21 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
         margin-bottom: .25rem;
     }
 
-.wrap_b_image, .shipping {
+/* .wrap_b_image, .shipping { */
+.wrap_b_image {
     background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
     padding:1em;
 }
 
+
 .shipping {
     font-size: .7rem;
+    color:#636b6f;
+}
+.shipping p {
+    margin-bottom: .5rem;
 }
 /* /product */
 
@@ -397,8 +403,8 @@ div.fw-background a.logo img {
     color: #fff;
     font-size: 20px
 }
-/* nav.navbar.navbar-dark {background-color: hsla(0,0%,100%,0);} */
-nav.navbar.navbar-dark {
+nav.navbar.navbar-dark {background-color: hsla(0,0%,100%,0);}
+/* nav.navbar.navbar-dark {
     background-color: rgba(0, 0, 0, 0);
     background-position-x: 0%;
     background-position-y: 0%;
@@ -408,7 +414,22 @@ nav.navbar.navbar-dark {
     background-size: auto;
     background-origin: padding-box;
     background-clip: border-box;
+} */
+#navbarSupportedContent.navbar-collapse.collapse.show{
+    padding: 0 1em;
+    border-radius: 5px;
+    background-color:#09c;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: linear-gradient(to right, rgb(0, 153, 204), rgb(0, 153, 255));
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
 }
+
+
 .main_menu {margin: 0;}
 .main_menu > a {color: hsla(0,0%,100%,.75);}
 .main_menu > a:hover {color: hsla(0,0%,100%,.95);}
