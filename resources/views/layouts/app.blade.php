@@ -248,7 +248,7 @@
 
                 <div class="copy">© Some_text</div>
 
-                <div class="row">
+                <div class="row m-0">
 
                     {{-- @include('menu.main') --}}
                     <ul class="main_menu">

@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
         // get all product
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::get()->paginate(config('custom.products_paginate'));
+            $products = Product::paginate(config('custom.products_paginate'));
         } else {
             $products = Product::where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         }

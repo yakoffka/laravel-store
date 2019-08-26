@@ -107,7 +107,7 @@
                             <li class="incomplete">добавить в настройки пагинацию</li>
                             <li class="incomplete">добавить проверку изменений при обновлении всего</li>
                             <li class="incomplete">добавить в события конкретики (более полное описание изменений)</li>
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            <li class="incomplete">изменить roles.edit в соответствии со <a href="http://yapro.ru/web-master/php/checkbox-radio.html">значением поля</a> </li>
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}

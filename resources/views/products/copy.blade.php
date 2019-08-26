@@ -33,9 +33,14 @@
 
                 @csrf
 
-                <label for="copy_img">Копировать изображения копируемого товара:
+                {{-- <label for="copy_img">Копировать изображения копируемого товара:
                     <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
-                </label>
+                </label> --}}
+                <div class="boxes">
+                    <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
+                    <label for="copy_img">Копировать изображения копируемого товара</label>
+                </div>
+
 
                 {{-- @if($product->image)
                     <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
