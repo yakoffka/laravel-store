@@ -122,59 +122,67 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
 
 
 
-// Home > Roles
-Breadcrumbs::for('roles', function ($trail) {
-    $trail->parent('home');
-    $trail->push('Roles', route('roles.index'));
-});
-// Home > Roles > Role
-Breadcrumbs::for('role', function ($trail, $role) {
-    $trail->parent('roles');
-    $trail->push($role->display_name, route('roles.show', $role));
-});
-// Home > Roles > Create Role
-Breadcrumbs::for('roles.create', function ($trail) {
-    $trail->parent('roles');
-    $trail->push('Create Role');
-});
-// Home > Roles > Edit Role
-Breadcrumbs::for('roles.edit', function ($trail, $role) {
-    $trail->parent('role', $role);
-    $trail->push('Edit', route('roles.edit', $role));
-});
-
-
-
-// Home > Users
-Breadcrumbs::for('users.index', function ($trail) {
-    $trail->parent('home');
-    $trail->push('Users', route('users.index'));
-});
-// Home > Users > Registrations
-Breadcrumbs::for('users.registrations', function ($trail) {
-    $trail->parent('users.index');
-    $trail->push('Registrations Users', route('registrations.index'));
-});
-// Home > Users > [User]
-Breadcrumbs::for('users.show', function ($trail, $user) {
-    if ( auth()->user()->can('view_users') ) {
-        $trail->parent('users.index');
-        $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
-    } else {
+// Roles
+    // Home > Roles
+    Breadcrumbs::for('roles', function ($trail) {
         $trail->parent('home');
-        $trail->push('My Profile', route('users.show', $user));
-    }
-});
-// Home > Users > [User] > edit
-Breadcrumbs::for('users.edit', function ($trail, $user) {
-    $trail->parent('users.show', $user);
-    $trail->push('Edit', route('users.edit', $user));
-});
+        $trail->push('Roles', route('roles.index'));
+    });
+    // Home > Roles > Role
+    Breadcrumbs::for('role', function ($trail, $role) {
+        $trail->parent('roles');
+        $trail->push($role->display_name, route('roles.show', $role));
+    });
+    // Home > Roles > Create Role
+    Breadcrumbs::for('roles.create', function ($trail) {
+        $trail->parent('roles');
+        $trail->push('Create Role');
+    });
+    // Home > Roles > Edit Role
+    Breadcrumbs::for('roles.edit', function ($trail, $role) {
+        $trail->parent('role', $role);
+        $trail->push('Edit', route('roles.edit', $role));
+    });
+
+
+
+// Users
+    // Home > Users
+    Breadcrumbs::for('users.index', function ($trail) {
+        $trail->parent('home');
+        $trail->push('Users', route('users.index'));
+    });
+    // Home > Users > Registrations
+    Breadcrumbs::for('users.registrations', function ($trail) {
+        $trail->parent('users.index');
+        $trail->push('Registrations Users', route('registrations.index'));
+    });
+    // Home > Users > [User]
+    Breadcrumbs::for('users.show', function ($trail, $user) {
+        // if ( auth()->user()->can('view_users') ) {
+        //     $trail->parent('users.index');
+        //     $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
+        // } else {
+        //     $trail->parent('home');
+        //     $trail->push('My Profile', route('users.show', $user));
+        // }
+        if ( auth()->user()->id == $user->id ) {
+            $trail->parent('home');
+            $trail->push('My Profile', route('users.show', $user));
+        } elseif ( auth()->user()->can('view_users') ) {
+            $trail->parent('users.index');
+            $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
+        }
+    });
+    // Home > Users > [User] > edit
+    Breadcrumbs::for('users.edit', function ($trail, $user) {
+        $trail->parent('users.show', $user);
+        $trail->push('Edit', route('users.edit', $user));
+    });
 
 
 
 // Actions
-
     // users
     // Home > Users > Actions
     Breadcrumbs::for('actions.users', function ($trail) {
@@ -243,8 +251,36 @@ Breadcrumbs::for('users.edit', function ($trail, $user) {
 
 
 
-// Home > Settings
-Breadcrumbs::for('settings', function ($trail) {
-    $trail->parent('home');
-    $trail->push('Settings');
-});
+// Settings
+    // Home > Settings
+    Breadcrumbs::for('settings', function ($trail) {
+        $trail->parent('home');
+        $trail->push('Settings');
+    });
+
+    
+
+// Tasks and Directive
+    // Home > Users > [User] > Tasks
+    Breadcrumbs::for('tasks.index', function ($trail, $user) {
+        $trail->parent('users.show', $user);
+        $trail->push('Tasks', route('tasks.index', $user));
+    });
+    // Home > Users > [User] > Tasks > [Task]
+    Breadcrumbs::for('tasks.show', function ($trail, $task) {
+        $trail->parent('tasks.index', $task->getSlave);
+        $trail->push($task->title . '"', route('tasks.show', $task));
+    });
+    // Home > Users > [User] > Tasks > [Task] > Edit
+    Breadcrumbs::for('tasks.edit', function ($trail, $task) {
+        $trail->parent('tasks.show', $task);
+        $trail->push('Edit', route('tasks.edit', $task));
+    });
+
+    // Home > Users > [User] > Directives
+    Breadcrumbs::for('directives.index', function ($trail, $user) {
+        $trail->parent('users.show', $user);
+        $trail->push('Directives', route('directives.index', $user));
+    });
+
+

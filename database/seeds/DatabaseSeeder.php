@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategoriesTableSeeder::class,
             ManufacturersTableSeeder::class,
-            ProductsTableSeeder::class,
             UsersTableSeeder::class,
+            TasksTableSeeder::class,
+            ProductsTableSeeder::class,
             // CategoryProductTableSeeder::class,
             RolesTableSeeder::class,            // for Zizaco/entrust
             PermissionsTableSeeder::class,      // for Zizaco/entrust

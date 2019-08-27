@@ -559,6 +559,7 @@ class ProductsController extends Controller
 
     public function search(Request $request) 
     {
+        // ГДЕ ВАЛИДАЦИЯ???
         $validator = request()->validate([
             'query' => 'required|string|min:3|max:100',
         ]);

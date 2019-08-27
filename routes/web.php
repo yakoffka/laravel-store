@@ -141,6 +141,14 @@ Route::resource('settings', 'SettingController');
 Route::get('search', 'ProductsController@search')->name('search');
 
 
+// Tasks and Directive
+    // tasks
+    Route::resource('tasks', 'TaskController');
+    // directives
+    Route::get('users/alldirectives', 'TaskController@directives')->name('alldirectives.index');
+    Route::get('users/{user}/directives', 'TaskController@directives')->name('directives.index');
+
+
 Route::get('/clear', function() {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
@@ -149,6 +157,8 @@ Route::get('/clear', function() {
 	Artisan::call('route:clear');
 	// Artisan::call('route:cache');
     Artisan::call('queue:restart');
+
+    // composer dump-autoload
     
     session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
     

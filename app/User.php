@@ -59,8 +59,14 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function getActions () {
-        return $this->hasMany(Action::class);
-    }
+
+    // это не нужно? получать в контроллере через where?
+    // public function getActions () {
+    //     return $this->hasMany(Action::class);
+    // }
+
+    // public function getTask () {
+    //     return $this->hasMany(Task::class, )
+    // }
 
 }

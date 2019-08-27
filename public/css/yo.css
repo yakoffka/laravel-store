@@ -418,13 +418,16 @@ table.blue_table a.btn, table.blue_table td > button.btn, table.blue_table form.
 }
 
 table.blue_table{width:100%;}
-table.blue_table tr th, table.blue_table tr td{border:1px solid #ddd;font-size:16px;}
+table.blue_table tr, table.blue_table tr th, table.blue_table tr td{border:1px solid #ddd;font-size:16px;}
 table.blue_table tr{background-color:#fff;}
 table.blue_table tr:nth-child(odd){background-color:#f7f7f7;}
 table.blue_table tr td{padding:5px;text-align:center;}
 table.blue_table tr.center td{text-align:center;}
 table.blue_table tr th{padding:10px;background-color:#f7f7f7;color:#3490dc;font-style:oblique;font-weight:400;text-align:center;}
 table.blue_table tr td.ta_l{text-align: left;}
+table.blue_table tr td.row {
+    border: 0px solid #ddd;
+}
 /* /users */
 
 
@@ -726,7 +729,11 @@ form.searchform  {
 
 
 
+
+
+/*======================================================================================================*/
 /* admin */
+
 .submenuitem {
     padding-left: .5em;
 }
@@ -762,4 +769,11 @@ ol.numlist {
         content: counters(li,".") ". "; /* С помощью свойства content выводится номер пункта списка. counters() означает, что генерируемый текст представляет собой значения всех счетчиков с таким именем. Точка в кавычках добавляет разделяющую точку между цифрами, а точка с пробелом добавляется перед содержимым каждого пункта списка */
     }
 
+
+
+.modal-dialog {
+    margin: 5rem auto;
+}
+
 /* admin */
+/*======================================================================================================*/

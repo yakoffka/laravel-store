@@ -37,12 +37,14 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.tablePermissions', 'tablePermissions');
         Blade::include('includes.modalChangeItem', 'modalChangeItem');
         Blade::include('includes.addToCart', 'addToCart');
-        Blade::include('includes.select-status-order', 'selectStatusOrder');
+        Blade::include('includes.select-status-order', 'selectStatusOrder'); // depricated
+        Blade::include('includes.modal-select', 'modalSelect');
         Blade::include('includes.modal-message', 'modalMessage');
         Blade::include('includes.modal-confirm-destroy', 'modalConfirmDestroy');
         Blade::include('includes.carousel', 'carousel');
         Blade::include('includes.listImage', 'listImage');
         Blade::include('includes.modalChangeImage', 'modalChangeImage');
+        Blade::include('includes.modalForm', 'modalForm');
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
     }

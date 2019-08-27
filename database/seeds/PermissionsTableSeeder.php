@@ -77,6 +77,12 @@ class PermissionsTableSeeder extends Seeder
             /* 34 */ ['group' => 'actions', 'name' => 'edit_actions',    'display_name' => 'Edit actions',     'description' => 'Edit the Actions',  ],
             /* 35 */ ['group' => 'actions', 'name' => 'delete_actions',  'display_name' => 'Delete actions',   'description' => 'Delete the Actions',],
             /* 36 */ ['group' => 'actions', 'name' => 'view_actions',    'display_name' => 'View actions',     'description' => 'View Actions',      ],
+
+            // permissions to tasks
+            /* 37 */ ['group' => 'tasks', 'name' => 'create_tasks',  'display_name' => 'Create tasks',   'description' => 'Create the tasks',],
+            /* 38 */ ['group' => 'tasks', 'name' => 'edit_tasks',    'display_name' => 'Edit tasks',     'description' => 'Edit the tasks',  ],
+            /* 39 */ ['group' => 'tasks', 'name' => 'delete_tasks',  'display_name' => 'Delete tasks',   'description' => 'Delete the tasks',],
+            /* 40 */ ['group' => 'tasks', 'name' => 'view_tasks',    'display_name' => 'View tasks',     'description' => 'View tasks',      ],
             
         ];
  

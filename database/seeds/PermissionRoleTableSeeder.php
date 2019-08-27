@@ -26,7 +26,7 @@ class PermissionRoleTableSeeder extends Seeder
                     $role->id == 1 and !in_array( $permission->id, [5, 6, 7, 9, 33, 34, 35] )
                      
                     or // for admin
-                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7, 9, 29, 30, 31, 33, 34, 35] )
+                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7, 9, 29, 30, 31, 33, 34, 35, 37, 38, 39] )
                     
                     or // for manager
                     $role->id == 3 and in_array( $permission->id, [4, 8, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 36] )

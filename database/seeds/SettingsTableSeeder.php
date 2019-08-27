@@ -25,7 +25,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
 
             [
@@ -38,7 +38,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
             
             [
@@ -51,7 +51,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
             
             [
@@ -64,7 +64,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
             
             [

@@ -46,6 +46,7 @@
 
 
                         <h4>Task List</h4>
+
                         <ol class="numlist">
                             <li class="complete"  >залить сайт на сервер</li>
                             <li class="complete"  >корзина</li>
@@ -108,7 +109,7 @@
                             <li class="incomplete">добавить проверку изменений при обновлении всего</li>
                             <li class="incomplete">добавить в события конкретики (более полное описание изменений)</li>
                             <li class="incomplete">изменить roles.edit в соответствии со <a href="http://yapro.ru/web-master/php/checkbox-radio.html">значением поля</a> </li>
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
+                            <li class="incomplete">сравнение товаров!!!</li>
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
                             {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
