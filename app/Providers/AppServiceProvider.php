@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.listImage', 'listImage');
         Blade::include('includes.modalChangeImage', 'modalChangeImage');
         Blade::include('includes.modalForm', 'modalForm');
+        Blade::include('includes.modal-textarea', 'modalTextarea');
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
     }

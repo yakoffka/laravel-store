@@ -5,17 +5,19 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        {{-- <div class="col col-sm-9 breadcrumbs"> --}}
         <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
-            {{ Breadcrumbs::render('tasks.show', $task) }}
+            @if ( empty($directive) )
+                {{ Breadcrumbs::render('tasks.show', $task) }}
+            @else
+                {{ Breadcrumbs::render('directives.show', $task) }}
+            @endif
         </div>
-        {{-- <div class="col col-sm-3 searchform"> --}}
         <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
             <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
     </div>
 
-    <h1>Просмотр задачи №{{ $task->id }}</h1>
+    <h1>Просмотр @if ( empty($directive) ) задачи @else поручения @endif №{{ $task->id }}</h1>
 
     <div class="row">
 
@@ -29,59 +31,108 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h2>{{ $task->title }}</h2>
+                    <h2>#{{ $task->id }} {{ $task->title }}</h2>
                 </div>
 
                 <div class="card-body">
 
-                    <div class="card-title">Статус задачи: {{ $task->getStatus->display_name }}</div>
-                    <div class="card-title">Приоритет задачи: {{ $task->getPriority->display_name }}</div>
 
-                    {{-- <div class="row">
+                    
+                    <div class="card-title">
+                        Статус:
 
+
+                        {{-- Status --}}
                         @modalSelect([
                             'id' => $task->id,
-                            'item' => $task->getStatus, 
-                            'options' => $tasksstatuses, 
+                            'item' => $task->getStatus,
+                            'options' => $tasksstatuses,
                             'action' => route('tasks.update', ['task' => $task]),
                             'select_name' => 'tasksstatus_id',
                         ])
 
-                        @if (
-                            auth()->user()->can('edit_tasks')
-                            or auth()->user()->id == $task->getMaster->id
-                        )
+
+                        {{-- Priority --}}
+                        <br>
+                        Приоритет:
+                        @if ( empty($directive) )
                             @modalSelect([
                                 'id' => $task->id,
-                                'item' => $task->getPriority, 
-                                'options' => $taskspriorities, 
+                                'item' => $task->getPriority,
+                                'options' => $taskspriorities,
                                 'action' => route('tasks.update', ['task' => $task]),
                                 'select_name' => 'taskspriority_id',
                             ])
                         @else
-                            <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
-                                {{ $task->getPriority->title }}
-                            </button>
+                            <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
                         @endif
 
-                    </div> --}}
+                    </div>
 
-                    <h3 class="card-text">
-                        {{ $task->description }}
-                    </h3>
-                    <div class="card-title">Master: {{ $task->getMaster->name }}</div>
-                    <div class="card-title">Task created: {{ $task->created_at }}</div>
-                    <div class="card-title">Task updated: {{ $task->updated_at }}</div>
-                    {{-- <a href="#" class="btn btn-primary form-control">change?</a> --}}
+
+                    {{-- description --}}
+                    <div class="card-text description">
+                        {{-- <h4>Описание</h4> --}}
+                        <p>
+                            {!! $task->description !!}
+                        </p>
+                    </div>
+
+
+
+                    {{-- comment_slave --}}
+                    Комментарий исполнителя:
+                    @if ( empty($directive) )
+                        {{ str_limit($task->comment_slave ?? 'отсутствует', 30) }}
+                    @else
+                        @modalTextarea([
+                            'id' => $task->id,
+                            'textarea_name' => 'comment_slave',
+                            'textarea_display_name' => 'комментарий исполнителя',
+                            'value' => $task->comment_slave,
+                            'empty_value' => 'отсутствует',
+                            'action' => route('tasks.update', ['task' => $task]),
+                        ])
+                    @endif
+
+
+                    {{-- Master/Slave --}}
+                    <div class="card-title">
+
+                        Master: {{ $task->getMaster->name }}
+                        <br>
+                        Slave: {{ $task->getSlave->name }}
+
+                    </div>
+
+
+                    {{-- created/updated --}}
+                    <div class="card-footer text-muted bg_white">
+
+                        Task created: {{ $task->created_at }}
+
+                        @if( $task->created_at != $task->updated_at )
+                            <br>
+                            Task updated: {{ $task->updated_at }}
+                        @endif
+
+                    </div>
+
+                    {{-- <a href="#" class="btn btn-primary form-control">Изменить</a> --}}
+
                 </div>
             </div>
 
             <div class="row m-3">
-                <a href="{{ route('tasks.index', auth()->user()) }}">к списку задач</a>
+                @if ( empty($directive) )
+                    <a href="{{ route('tasks.index') }}">к списку задач</a>
+                @else
+                    <a href="{{ route('directives.index') }}">к списку поручений</a>
+                @endif
             </div>
 
         </div>
-        
+
     </div>
 
 @endsection

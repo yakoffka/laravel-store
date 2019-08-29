@@ -41,10 +41,7 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
             [
                 'title' => 'Исправить валидацию в контроллерах',
-                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее (см 
-    http://laravel.su/docs/5.0/validation#controller-validation
-    http://laravel.su/docs/5.4/Validation#available-validation-rules
-).',
+                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее. </p><p> http://laravel.su/docs/5.0/validation#controller-validation </p><p> http://laravel.su/docs/5.4/Validation#available-validation-rules.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
@@ -77,9 +74,37 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
+            [
+                'title' => 'Свернуть меню админки',
+                'description' => 'Слишком длинное меню получается. </p><p> Свернуть подпункты как подкатегории в меню каталога.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Уникальность наименования товара',
+                'description' => 'Разобраться, нужна-ли. Если да, то добавить валидацию в контроллер.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Добавить возможность вставки таблиц',
+                'description' => 'Добавить возможность вставки таблиц. Вставка исходного html-кода с последующей чисткой на стороне сервера.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Добавить отображение задач и поручений в виде карточек',
+                'description' => 'Добавить отображение задач и поручений в виде карточек.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
             // [
             //     'title' => 'rrrrrr',
-            //     'description' => 'Заменить маршруты вида "settings/edit/{setting}" на "settings/{setting}/edit".',
+            //     'description' => 'rrrrrrr.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 1,
             // ],

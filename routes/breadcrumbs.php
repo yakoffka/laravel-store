@@ -268,7 +268,7 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
     });
     // Home > Users > [User] > Tasks > [Task]
     Breadcrumbs::for('tasks.show', function ($trail, $task) {
-        $trail->parent('tasks.index', $task->getSlave);
+        $trail->parent('tasks.index', $task->getMaster);
         $trail->push('Task #' . $task->id, route('tasks.show', $task));
     });
     // Home > Users > [User] > Tasks > Create
@@ -287,11 +287,13 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
         $trail->parent('users.show', $user);
         $trail->push('Directives', route('directives.index', $user));
     });
-    // // Home > Users > [User] > Directives > [Directive]
-    // Breadcrumbs::for('tasks.show', function ($trail, $task) {
-    //     $trail->parent('tasks.index', $task->getSlave);
-    //     $trail->push($task->title . '"', route('tasks.show', $task));
-    // });
+    // Home > Users > [User] > Directives > [Directive]
+    Breadcrumbs::for('directives.show', function ($trail, $task) {
+        $trail->parent('directives.index', $task->getSlave);
+        $trail->push('Directive #' . $task->id, route('directives.show', $task));
+    });
+
+
 
 
 

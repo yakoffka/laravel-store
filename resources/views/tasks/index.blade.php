@@ -8,7 +8,11 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
-            {{ Breadcrumbs::render('tasks.index', auth()->user() ) }}
+            @if ( empty($directive) )
+                {{ Breadcrumbs::render('tasks.index',  auth()->user() ) }}
+            @else
+                {{ Breadcrumbs::render('directives.index',  auth()->user() ) }}
+            @endif
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
             @include('layouts.partials.searchform')
@@ -16,7 +20,7 @@
     </div>
 
 
-    <h1>My tasks ({{ $tasks->total() }})</h1>
+    <h1>Список @if ( empty($directive) ) задач для Вас @else поручений от Вас @endif ( {{ $tasks->total() }} )</h1>
 
 
     <div class="row">
@@ -30,7 +34,7 @@
            <div class="row">
 
 
-                <h2>task list (добавить отображение в виде карточек)</h2>
+                {{-- <h2>(добавить отображение в виде карточек)</h2> --}}
                 <table class="blue_table overflow_x_auto">
                     <tr>
                         <th>#</th>
@@ -41,7 +45,7 @@
                         {{-- <th>created</th>
                         <th>updated</th> --}}
                         {{-- <th>date/time</th> --}}
-                        <th>master</th>
+                        <th>@if( empty($directive) ) master @else slave @endif</th>
                         {{-- <th class="actions3">actions</th> --}}
                         <th class="actions2">actions</th>
                         {{-- <th>comment_slave</th> --}}
@@ -93,8 +97,11 @@
                             {{-- priority --}}
                             <td>
                                 @if (
-                                    auth()->user()->can('edit_tasks')
-                                    or auth()->user()->id == $task->getMaster->id
+                                    empty($directive)
+                                    and (
+                                        auth()->user()->can('edit_tasks')
+                                        or auth()->user()->id == $task->getMaster->id
+                                    )
                                 )
                                     @modalSelect([
                                         'id' => $task->id,
@@ -104,9 +111,10 @@
                                         'select_name' => 'taskspriority_id',
                                     ])
                                 @else
-                                    <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
+                                    <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
+                                    {{-- <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
                                         {{ $task->getPriority->title }}
-                                    </button>
+                                    </button> --}}
                                 @endif
                             </td>
 
@@ -123,7 +131,6 @@
                             </td>
 
                             {{-- actions --}}
-                            {{-- <td class="row align-items-center justify-content-center"> --}}
                             <td>
 
                                 {{-- delete task --}}
@@ -140,43 +147,22 @@
                                     ])
                                 @endif
 
-                                {{-- change comment --}}
-                                {{-- @if (
-                                    auth()->user()->can('edit_tasks')
-                                    or auth()->user()->id == $task->slave_user_id
-                                )
-                                    @modalForm([
-                                        'item' => $task,
-                                        'button_class' => 'primary align-self-center',
-                                        'modalCssId' => 'change_task_comment_' . $task->id,
-                                        'modal_title' => 'Комментарий исполнителя',
-                                        'text_button' => '<i class="fas fa-pen-nib"></i>',
-                                        'describe' => '',
-                                        'action' => route('tasks.update', ['task' => $task]),
-                                        // 'multipart' => ' enctype="multipart/form-data"',
-                                        'multipart' => '',
-                                        // 'method' => 'POST',
-                                        'method' => 'PATCH',
-                                        // 'method' => 'DELETE',
-                                        'submit_text' => 'применить',
-                                        'status' => true,
-                                        'comment_slave' => true,
-                                    ])
-                                @endif --}}
-
                                 {{-- view task --}}
-                                <a href="{{ route('tasks.show', $task) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                @if ( empty($directive) )
+                                    <a href="{{ route('tasks.show', $task) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                @else
+                                    <a href="{{ route('directives.show', $task) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                @endif
+
                             </td>
 
                             {{-- comment_slave --}}
-                            <!--<td>
-                                {{-- @modalForm([
-                                    'cssId' => 'change_task_comment_' . $task->id,
-                                    'text_button' => $task->comment_slave,
-                                    'title' => 'change items',
-                                    'qty' => $cart->items[$i]['qty'],
-                                    'product' => $item['item'],
-                                ]) --}}
+                            <!--td>
+
+                            @if ( empty($directive) )
+                            @else
+                            @endif
+
                                 @if (
                                     auth()->user()->can('edit_tasks')
                                     or auth()->user()->id == $task->slave_user_id
@@ -206,12 +192,16 @@
                         </tr>
                     @endforeach
 
-                    {{-- 'cssId' => 'description_' . $task->id,
-                    'title' => str_limit($task->description, 50),
-                    // 'title' => mb_substr($order->comment, 0, 20) . '...',
-                    'message' => $task->description, --}}
-
                 </table>
+
+
+                @if ( empty($directive) )
+                @else
+                    {{-- add new directive --}}
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary form-control pb-1">Поставить новую задачу</a>
+                    <div class="row col-sm-12 pb-2"></div>
+                    {{-- /add new directive --}}
+                @endif
 
 
                 <!-- pagination block -->

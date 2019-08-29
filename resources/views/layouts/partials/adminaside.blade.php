@@ -27,7 +27,7 @@
     @auth
         <h4 class="grey"><i class="fas fa-tasks"></i> Tasks:</h4>
         <div class="submenuitem">- <a href="{{ route('tasks.index') }}">my tasks</a></div>
-        <div class="submenuitem">- <a href="{{ route('directives.index', auth()->user()) }}">my directives</a></div>
+        <div class="submenuitem">- <a href="{{ route('directives.index') }}">my directives</a></div>
         {{-- @permission('view_tasks')
             <div class="submenuitem">- <a href="">all task</a></div>
             <div class="submenuitem">- <a href="">all directives</a></div>
@@ -123,3 +123,6 @@
         @endpermission
     @endpermission
 {{-- /History --}}
+
+
+

@@ -12,14 +12,10 @@
 
 
 <!-- Button trigger modal -->
-    {{-- <button type="button" class="btn btn-{{ $item->style ?? 'primary' }} form-control" data-toggle="modal" 
+    <button type="button" class="btn btn-{{ $item->style ?? 'primary' }} form-control" data-toggle="modal" 
         data-target="#select_{{ $select_name }}_{{ $id }}">
         {{ $item->title }}
-    </button> --}}
-    <span class="pointer text-{{ $item->style ?? 'primary' }}" data-toggle="modal" data-target="#select_{{ $select_name }}_{{ $id }}">
-        <i class="fas fa-pen-nib"></i>
-        {{ $item->title }}
-    </span>
+    </button>
 <!-- Button trigger modal -->
 <!-- Modal -->
     <div 
@@ -43,7 +39,7 @@
             <div class="modal-body">
                 {{-- <div class="describe">change item status</div> --}}
                 
-                <form class="ta_c" method="POST" action="{{ $action }}">
+                <form  method="POST" action="{{ $action }}">
 
                     @csrf
 

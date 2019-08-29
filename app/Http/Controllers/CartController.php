@@ -20,7 +20,7 @@ class CartController extends Controller
     public function store(Cart $cart)
     {
         // abort_if ( Auth::user()->cannot('create_products'), 403 );
-        return redirect()->route('products.show', ['product' => $product->id]);
+        return redirect()->route('products.index');
     }
 
     /**

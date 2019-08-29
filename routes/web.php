@@ -146,7 +146,8 @@ Route::get('search', 'ProductsController@search')->name('search');
     Route::resource('tasks', 'TaskController');
     // directives
     Route::get('users/alldirectives', 'TaskController@directives')->name('alldirectives.index');
-    Route::get('users/{user}/directives', 'TaskController@directives')->name('directives.index');
+    Route::get('directives', 'TaskController@directives')->name('directives.index');
+    Route::get('directives/{task}', 'TaskController@directive')->name('directives.show');
 
 
 Route::get('/clear', function() {
