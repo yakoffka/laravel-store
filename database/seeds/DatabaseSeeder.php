@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             ManufacturersTableSeeder::class,
             UsersTableSeeder::class,
             TasksTableSeeder::class,
+            TasksprioritiesTableSeeder::class,
+            TasksstatusesTableSeeder::class,
             ProductsTableSeeder::class,
             // CategoryProductTableSeeder::class,
             RolesTableSeeder::class,            // for Zizaco/entrust

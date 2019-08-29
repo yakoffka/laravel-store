@@ -31,6 +31,7 @@
                     <th>name</th>
                     <th>email</th>
                     <th>roles</th>
+                    <th>rank</th>
                     <th>permissions</th>
                     <th>created</th>
                     <th>updated</th>
@@ -46,6 +47,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td><a href="#roles_{{ $user->name }}">{{ $user->roles->count() }}</a></td>
+                    <td>{{ $user->roles->->roles }}</td>
                     <td><a href="#perms_{{ $user->name }}">
                         <?php
                             $num_permissions = 0;

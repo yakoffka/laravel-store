@@ -412,10 +412,10 @@ table.blue_table tr th.actions1 {
     min-width: calc( 51px * 1 + 1px );
     width: calc( 51px * 1 + 1px );
 }
-table.blue_table a.btn, table.blue_table td > button.btn, table.blue_table form.del_btn{
+/* table.blue_table a.btn, table.blue_table td > button.btn, table.blue_table form.del_btn{
     float: left;
     margin: .2em;
-}
+} */
 
 table.blue_table{width:100%;}
 table.blue_table tr, table.blue_table tr th, table.blue_table tr td{border:1px solid #ddd;font-size:16px;}

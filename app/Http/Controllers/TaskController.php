@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
+use App\{Task, Taskspriority, Tasksstatus, User};
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+// use Illuminate\Validation\Rule;
 use Str;
 
 class TaskController extends Controller
@@ -23,7 +23,9 @@ class TaskController extends Controller
     {
         $tasks = Task::where('slave_user_id', auth()->user()->id)->paginate();
         // $directives = Task::where('master_user_id', auth()->user()->id)->paginate();
-        return view('tasks.index', compact('tasks'));
+        $taskspriorities = Taskspriority::all();
+        $tasksstatuses = Tasksstatus::all();
+        return view('tasks.index', compact('tasks', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -33,8 +35,12 @@ class TaskController extends Controller
      */
     public function directives()
     {
+        abort_if ( auth()->user()->cannot('create_tasks'), 403 );
+
         $tasks = Task::where('master_user_id', auth()->user()->id)->paginate();
-        return view('tasks.directives', compact('tasks'));
+        $taskspriorities = Taskspriority::all();
+        $tasksstatuses = Tasksstatus::all();
+        return view('tasks.directives', compact('tasks', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -44,8 +50,11 @@ class TaskController extends Controller
      */
     public function create(Task $task)
     {
-        // $tasks = Task::where($task->id)->paginate();
-        // return view('tasks.index', compact('tasks'));
+        abort_if ( auth()->user()->cannot('create_tasks'), 403 );
+        $slaves = User::all();
+        $taskspriorities = Taskspriority::all();
+        $tasksstatuses = Tasksstatus::all();
+        return view('tasks.create', compact('slaves', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -58,43 +67,48 @@ class TaskController extends Controller
     {
         abort_if ( auth()->user()->cannot('create_tasks'), 403 );
 
+
         // array_column(config('task.statuses'), 'name')
         $this->validate($request, [
-            'master_user_id' => 'required|integer|exists:users,id',
+            // 'master_user_id' => 'required_unless:slave_user_id,integer|integer|exists:users,id',
+            // 'slave_user_id' => 'required_unless:master_user_id,integer|integer|exists:users,id',
             'slave_user_id' => 'required|integer|exists:users,id',
             'title' => 'string',
             'description' => 'required|string',
-            'status' => 'required|string|',
-                [
-                    'required',
-                    Rule::in(array_column(config('task.statuses'), 'name')),
-                ],
-            'priority' => 'required|string|',
-                [
-                    'required',
-                    Rule::in(array_column(config('task.priorities'), 'name')),
-                ],
+            // 'status' => 'required|string|',
+            // [
+            //     'required',
+            //     Rule::in(array_column(config('task.statuses'), 'name')),
+            // ],
+            // 'priority' => 'required|string|',
+            // [
+            //     'required',
+            //     Rule::in(array_column(config('task.priorities'), 'name')),
+            // ],
+            // 'tasksstatus_id' => 'exists:tasksstatuses,id',
+            'taskspriority_id' => 'exists:taskspriorities,id',
         ]);
 
 
         // уточнить ассоциацию присваивания (правая или левая)
-        if ( $task = Task::create([
-            'master_user_id' => $request->master_user_id,
+        if ( !$task = Task::create([
+            'master_user_id' => auth()->user()->id,
             'slave_user_id' => $request->slave_user_id,
             'title' => $request->title ?? Str::limit($request->description, 20),
-            'slug' => Str::slug($request->title, '-'),
+            'slug' => Str::slug($request->title ?? substr($request->title, 0, 20), '-'), // TODO unic!!!
             'description' => $request->description,
-            'status' => $request->status,
-            'priority' => $request->priority,
+            'tasksstatus_id' => 1, // TODO привязка к id
+            'taskspriority_id' => $request->taskspriority_id,
         ])) {
             return back()->withErrors(['something wrong! ERR #' . __line__]);
         }
+        // dd('dddd');
 
         $message = 'Task #' . $task->id . ' "' . $task->title . '" is create successfull';
 
         session()->flash('message', $message);
 
-        return redirect()->route('tasks.show', $task);
+        return redirect()->route('directives.index', auth()->user());
     }
 
     /**
@@ -105,8 +119,20 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $tasks = Task::where($task->id)->paginate();
-        return view('tasks.show', compact('tasks'));
+        abort_if ( 
+            auth()->user()->cannot('view_tasks') 
+            and 
+            (
+                $task->master_user_id != auth()->user()->id
+                or
+                $task->slave_user_id != auth()->user()->id // ???
+            ),
+        403 );
+
+        $taskspriorities = Taskspriority::all();
+        $tasksstatuses = Tasksstatus::all();
+
+        return view('tasks.show', compact('task', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -129,45 +155,45 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        // dd( $task->master_user_id, $task->slave_user_id, auth()->user()->id );
         abort_if ( 
             auth()->user()->cannot('edit_tasks') 
             and 
             (
                 $task->master_user_id != auth()->user()->id
-                or
+                and
                 $task->slave_user_id != auth()->user()->id
             ),
         403 );
 
 
         $this->validate($request, [
-            // 'value' => 'required|string',
-            // 'master_user_id' => 'required|integer|exists:users,id',
-            // 'slave_user_id' => 'required|integer|exists:users,id',
-            // 'title' => 'string',
-            // 'description' => 'required|string',
-            // 'status' => 'required|string|',
-            //     [
-            //         'required',
-            //         Rule::in(array_column(config('task.statuses'), 'name')),
-            //     ],
-            'status' => [
-                Rule::in(array_column(config('task.statuses'), 'name')),
-            ],
+
+            // 'status' => [
+            //     Rule::in(array_column(config('task.statuses'), 'name')),
+            // ],
             // 'priority' => 'required|string|',
-            //     [
-            //         'required',
-            //         Rule::in(array_column(config('task.priorities'), 'name')),
-            //     ],
+            // [
+            //     'required',
+            //     Rule::in(array_column(config('task.priorities'), 'name')),
+            // ],
+
+            'tasksstatus_id' => 'exists:tasksstatuses,id',
+            'taskspriority_id' => 'exists:taskspriorities,id',
+            
+            // 'tasksstatus_id' => 'exists:tasksstatuses',
+            // 'taskspriority_id' => 'exists:taskspriorities',
+            
             'comment_slave' => 'string',
         ]);
         // dd('hello, my frend!');
 
+        // dd($request->tasksstatus_id, $request->taskspriority_id, $request->comment_slave);
 
         // закрыть задачу может только тот, кто её открыл
         if ( 
-            !is_null( $request->status ) 
-            and $request->status == 'closed'
+            !is_null( $request->tasksstatus_id ) 
+            and $request->tasksstatus_id == '4' // TODO!!! привязка к id!!!
             and auth()->user()->id !== $task->master_user_id
         ) {
             return back()->withErrors(['закрыть задачу может только тот, кто её открыл'])->withInput();
@@ -177,7 +203,11 @@ class TaskController extends Controller
         // комментировать задачу может только исполнитель
         if ( 
             !is_null( $request->comment_slave ) 
-            and auth()->user()->id !== $task->slave_user_id
+            and (
+                auth()->user()->id !== $task->slave_user_id
+                and
+                auth()->user()->cannot('edit_tasks')
+            )
         ) {
             return back()->withErrors(['комментировать задачу может только исполнитель'])->withInput();
         }
@@ -195,8 +225,9 @@ class TaskController extends Controller
 
 
         if (!$task->update([
-            'status' => $request->status ?? $task->status,
-            'comment_slave' => $request->comment_slave ?? $task->comment_slave,
+            'tasksstatus_id' => $request->tasksstatus_id ?? $task->tasksstatus_id,          // изменить! перезаписать только при изменении!
+            'taskspriority_id' => $request->taskspriority_id ?? $task->taskspriority_id,    // изменить! перезаписать только при изменении!
+            'comment_slave' => $request->comment_slave ?? $task->comment_slave,             // изменить! перезаписать только при изменении!
         ])) {
             return back()->withErrors(['something wrong! ERR #' . __line__]);
         }
@@ -223,7 +254,7 @@ class TaskController extends Controller
             (
                 $task->master_user_id != auth()->user()->id
                 or
-                $task->slave_user_id != auth()->user()->id
+                $task->slave_user_id != auth()->user()->id // ???
             ),
         403 );
 
@@ -235,10 +266,11 @@ class TaskController extends Controller
 
         session()->flash('message', $message);
 
-        return redirect()->route('tasks.index');
+        return back();
     }
 
 
     // удаленные записи
     // $flight->trashed();
+
 }

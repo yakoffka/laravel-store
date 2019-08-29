@@ -15,28 +15,13 @@ class TasksTableSeeder extends Seeder
 
         // seeder tasks
         $count_users = User::count();
-        // $arr_status = [
-        //     'opened',
-        //     'done',
-        //     'prorogue',
-        //     'reopened',
-        //     'closed',
-        // ];
-        // $arr_priority = [
-        //     'important and urgent',
-        //     'not important and urgent',
-        //     'important and not urgent',
-        //     'not important and not urgent',
-        // ];
-        $statuses = array_column(config('task.statuses'), 'name');
-        $priorities = array_column(config('task.priorities'), 'name');
 
         $lorem = 'lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
 
         for ( $i = 1; $i < 25; $i++ ) {
 
-            $master = rand(1, $count_users) + 1;
-            $slave  = rand($master - 1, $count_users) + 1;
+            $master = rand(2, $count_users-1);
+            $slave  = rand($master, $count_users-1);
             $title = 'Title test task #' . $i;
 
             DB::table('tasks')->insert([
@@ -45,8 +30,8 @@ class TasksTableSeeder extends Seeder
                 'title' => $title,
                 'slug' => Str::slug($title, '-'),
                 'description' => 'Description for task #' . $i . '. ' . $lorem ,
-                'status' => $statuses[rand(0, count($statuses)-1)],
-                'priority' => $priorities[rand(0, count($priorities)-1)],
+                'tasksstatus_id' => rand(1, 5),
+                'taskspriority_id' => rand(1, 4),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -56,76 +41,79 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
             [
                 'title' => 'Исправить валидацию в контроллерах',
-                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее (см http://laravel.su/docs/5.0/validation#controller-validation).',
-                'status' => 'opened',
-                'priority' => 'important and not urgent',
+                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее (см 
+    http://laravel.su/docs/5.0/validation#controller-validation
+    http://laravel.su/docs/5.4/Validation#available-validation-rules
+).',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
             ],
 
             [
                 'title' => 'Учесть субординацию в постановке задач',
                 'description' => 'Учесть субординацию в постановке задач.',
-                'status' => 'opened',
-                'priority' => 'important and not urgent',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
             ],
 
             [
                 'title' => 'продумать модальную форму',
                 'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
-                'status' => 'opened',
-                'priority' => 'important and not urgent',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
             ],
 
             [
                 'title' => 'Заменить Status на OrderStatus',
                 'description' => 'Заменить Status на OrderStatus, StatusesTableSeeder на OrderStatusesTableSeeder, CreateStatusesTable на CreateOrderStatusesTable, etc.',
-                'status' => 'opened',
-                'priority' => 'important and not urgent',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Изменить обновление записи',
+                'description' => 'Делать изменение записи только при изменении.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
             ],
 
             // [
             //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'status' => 'opened',
-            //     'priority' => 'important and not urgent',
+            //     'description' => 'Заменить маршруты вида "settings/edit/{setting}" на "settings/{setting}/edit".',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
             // ],
 
             // [
             //     'title' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',
-            //     'status' => 'opened',
-            //     'priority' => 'important and not urgent',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
             // ],
 
             // [
             //     'title' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',
-            //     'status' => 'opened',
-            //     'priority' => 'important and not urgent',
-            // ],
-
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'status' => 'opened',
-            //     'priority' => 'important and not urgent',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
             // ],
 
         ];
 
-        foreach ( $arr_task_for_owner as $i => $task ) {
+// (`master_user_id`, `slave_user_id`, `title`, `slug`, `description`, `tasksstatus_id`, `taskspriority_id`, `created_at`, `updated_at`) values 
+// (2,  2,   Изменить обновление записи, title-test-task-4, Делать изменение записи только при изменении., opened, 1, 2019-08-28 16:45:26, 2019-08-28 16:45:26)
 
-            $master = rand(0, $count_users) + 1;
-            $slave  = rand(0, $master - 1 ) + 1;
-            $title = 'Title test task #' . $i;
+
+        foreach ( $arr_task_for_owner as $i => $task ) {
 
             DB::table('tasks')->insert([
                 'master_user_id' => 2,
                 'slave_user_id' => 2,
                 'title' => $task['title'] ?? Str::limit($task->description, 20),
-                'slug' => Str::slug($title, '-'),
+                'slug' => Str::slug($task['title'], '-'),
                 'description' => $task['description'],
-                'status' => $task['status'],
-                'priority' => $task['priority'],
+                'tasksstatus_id' => $task['tasksstatus_id'],
+                'taskspriority_id' => $task['taskspriority_id'],
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);

@@ -59,6 +59,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    // public function getRank() {
+    //     return $this->hasMany(Order::class);
+    // }
+
 
     // это не нужно? получать в контроллере через where?
     // public function getActions () {

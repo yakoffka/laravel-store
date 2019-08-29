@@ -217,7 +217,7 @@
             @endif
 
             @if( session('message'))
-                <div class="container">
+                <div class="container p-0">
                     <div class="alert alert-success">
                         <div class="alert-title">{{ session('message') }}</div>
                     </div>

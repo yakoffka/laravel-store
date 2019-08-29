@@ -1,79 +1,61 @@
 {{-- 
 
     @modalSelect([
-        'options' => array_column(config('task.statuses'), 'name'), 
-        'item' => $task, 
+        'id' => $task, // for 
+        'options' => $tasksstatuses, 
+        'item' => $task->getStatus, 
         'action' => route('tasks.update', ['task' => $task]),
-        'select_name' => 'status',
+        'select_name' => 'tasksstatus_id',
     ])
 
 --}}
 
 
-{{-- <!-- Button trigger modal --> --}}
-    <button type="button" class="btn btn-{{ $btn_class ?? 'primary' }} form-control" data-toggle="modal" 
-        data-target="#select_{{ $select_name }}_item_{{ $item->id }}">
-        {{ $item->{$select_name}->name ?? $item->{$select_name} }}
+<!-- Button trigger modal -->
+    <button type="button" class="btn btn-{{ $item->style ?? 'primary' }} form-control" data-toggle="modal" 
+        data-target="#select_{{ $select_name }}_{{ $id }}">
+        {{ $item->title }}
     </button>
-{{-- <!-- Button trigger modal --> --}}
-
-
-{{-- <!-- Modal --> --}}
+<!-- Button trigger modal -->
+<!-- Modal -->
     <div 
         class="modal fade" 
-        id="select_{{ $select_name }}_item_{{ $item->id }}" 
+        id="select_{{ $select_name }}_{{ $id }}" 
         tabindex="-1" 
         role="dialog" 
-        aria-labelledby="select_{{ $select_name }}_item_{{ $item->id }}Label" 
+        aria-labelledby="select_{{ $select_name }}_{{ $id }}Label" 
         aria-hidden="true"
     >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="select_{{ $select_name }}_item_{{ $item->id }}Label">
-                    change item {{ $select_name }}
+                <h5 class="modal-title" id="select_{{ $select_name }}_{{ $id }}Label">
+                    change item for #{{ $id }}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 {{-- <div class="describe">change item status</div> --}}
                 
-                <!-- form_{{ $select_name }} -->
-                <form 
-                    method="POST"
-                    {{-- action="{{ route('items.update', ['item' => $item->id]) }}"  --}}
-                    action="{{ $action }}" 
-                >
+                <form  method="POST" action="{{ $action }}">
+
                     @csrf
 
                     @method('PATCH')
                     
                     {{-- <select name="status_id" id="status_id"> --}}
-                    <select name="{{ $select_name }}" id="{{ $select_name }}_{{ $item->id }}">
-
+                    <select name="{{ $select_name }}" id="{{ $select_name }}_{{ $id }}">
                         <?php
                             // foreach ( $statuses as $status ) {
                             foreach ( $options as $option ) {
-
-                                // depricated
-                                // if( !empty($item->status->id) ) {
-                                //     $value = $item->status->id;
-                                //     $status_value = $status->id;
-                                //     $status_name = $status->name;
-                                // } else {
-                                //     $value = $item->status;
-                                //     $status_value = $status;
-                                //     $status_name = $status;
-                                // }
-
-
-
-                                if ( $item->{$select_name} == $option ) {
-                                    echo '<option value="' . $option . '" selected>' . $option . '</option>';
+                                if ( $item->display_name == $option->display_name ) {
+                                    echo '
+                                    <option value="' . $option->id . '" selected>' . $option->display_name . '</option>';
                                 } else {
-                                    echo '<option value="' . $option . '">' . $option . '</option>';
+                                    echo '
+                                    <option value="' . $option->id . '">' . $option->display_name . '</option>';
                                 }
                             }
                         ?>

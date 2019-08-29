@@ -7,5 +7,6 @@
         rows="{{ $rows ?? '3' }}"
         class="form-control"
         placeholder="{{ $title ?? $name }}"
+        {{ $required ?? '' }}
     >{{ $value }}</textarea>                       
 </div>

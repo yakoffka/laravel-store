@@ -14,9 +14,13 @@ return [
     'priorities' => [
         // 'name' => ['name' => 'name', 'title' => 'title'/*  , 'description' => 'description' */, 'style' => 'style'],
         '_i_u' => ['name' => '_i_u', 'title' => 'important and urgent'/*  , 'description' => 'description' */, 'style' => 'swatch-red'],
-        'ni_u' => ['name' => 'ni_u', 'title' => 'not important and urgent'/*  , 'description' => 'description' */, 'style' => 'orange'],
-        '_inu' => ['name' => '_inu', 'title' => 'important and not urgent'/*  , 'description' => 'description' */, 'style' => 'swatch-yellow'],
-        'ninu' => ['name' => 'ninu', 'title' => 'not important and not urgent'/*  , 'description' => 'description' */, 'style' => 'success'],
     ],
 
 ];
+
+
+// SQLSTATE[22007]: Invalid datetime format: 1366 
+// Incorrect integer value: 'reopened' for column 'tasksstatuses_id' at row 1 
+//     (SQL: insert into `tasks` (
+//         `master_user_id`, `slave_user_id`, `title`,             `slug`,             `description`,   `tasksstatuses_id`, `taskspriorities_id`, `created_at`, `updated_at`)
+//          5,                 5,              Title test task 1,   title-test-task-1, Description ,    reopened,           i_u,                  2019-08-27 12:01:41, 2019-08-27 12:01:41))
