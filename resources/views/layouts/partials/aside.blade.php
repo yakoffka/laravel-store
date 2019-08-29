@@ -4,10 +4,10 @@
                 @include('layouts.partials.adminaside')
                 {{-- @include('layouts.partials.separator') --}}
             @else
-                @include('layouts.partials.nav')
-                @include('layouts.partials.separator')
-                @include('layouts.partials.filters')
             @endpermission
+            @include('layouts.partials.nav')
+            @include('layouts.partials.separator')
+            @include('layouts.partials.filters')
         </div>
     </div>
 
