@@ -105,7 +105,7 @@ class TaskController extends Controller
             and 
             (
                 $task->master_user_id != auth()->user()->id
-                or
+                and
                 $task->slave_user_id != auth()->user()->id // ???
             ),
         403 );
