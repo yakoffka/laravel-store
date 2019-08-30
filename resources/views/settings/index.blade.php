@@ -9,10 +9,10 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
+        <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('settings') }}
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
+        <div class="col-xs-12 col-sm-12 col-md-3 searchform">
             @include('layouts.partials.searchform')
         </div>
     </div>
@@ -28,7 +28,7 @@
 
 
         {{-- content --}}
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             @if ($groups->count())
                 <h4>группы настроек</h4>
                 <ol>

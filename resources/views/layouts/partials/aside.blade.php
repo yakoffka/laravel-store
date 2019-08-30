@@ -1,4 +1,4 @@
-    <div class="col-xs-0 col-sm-4 col-md-3 col-lg-2 p-0 aside">
+    <div class="col-xs-0 col-sm-4 col-md-3 col-lg-2 aside">
         <div class="d-none d-sm-block">
             @permission('view_adminpanel')
                 @include('layouts.partials.adminaside')

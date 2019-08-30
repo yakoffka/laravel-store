@@ -6,11 +6,11 @@
 
     <div class="row searchform_breadcrumbs">
         {{-- <div class="col col-sm-9 breadcrumbs"> --}}
-        <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
+        <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('products.show', $product) }}
         </div>
         {{-- <div class="col col-sm-3 searchform"> --}}
-        <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
+        <div class="col-xs-12 col-sm-12 col-md-3 searchform">
             <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         @include('layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 pr-0">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             <div class="row">
 
                     {{-- col-xs-12 col-sm-6  col-md-5
@@ -94,13 +94,13 @@
 
                             @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
 
-                                <div class="col-sm-4 p-1">
+                                <div class="col-sm-4">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i>
                                     </a>
                                 </div>
 
-                                <div class="col-sm-4 p-1">
+                                <div class="col-sm-4">
                                     {{-- <!-- form delete product -->
                                     <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
                                         @csrf
@@ -119,7 +119,7 @@
                                     ]) 
                                 </div>
 
-                                <div class="col-sm-4 p-1">
+                                <div class="col-sm-4">
                                     <a href="{{ route('products.copy', ['product' => $product->id]) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-copy"></i>
                                     </a>

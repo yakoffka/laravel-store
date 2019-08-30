@@ -1,5 +1,5 @@
 
-    <h4>Filters</h4>
+    <h4 class="ta_c">фильтры</h4>
     <form class="formfilters" action="{{ route('products.index') }}">
 
         @include('layouts.partials.filter-manufacturer')
@@ -10,7 +10,6 @@
 
 
     @if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
-        <br>
         <form class="formfilters" action="{{ route('products.index') }}">
             <button type="submit" class="btn btn-outline-danger form-control"><i class="fas fa-eraser"></i> cleare filter</button>
         </form>

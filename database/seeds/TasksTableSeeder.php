@@ -77,7 +77,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Свернуть меню админки',
                 'description' => 'Слишком длинное меню получается. </p><p> Свернуть подпункты как подкатегории в меню каталога.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 1,
             ],
 
@@ -117,6 +117,41 @@ class TasksTableSeeder extends Seeder
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
+
+            [
+                'title' => 'Выпилить users.status',
+                'description' => 'К чёрту субординацию. никакого создания ролей после запуска магазина.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Обработать загрузку больших изображений',
+                'description' => 'Обработать загрузку больших изображений. На фронте и бэке. Поставить лимит.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Заменить dev на prod',
+                'description' => 'После окончания сменить значение APP_DEBUG в ".env".',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Удаление мусора',
+                'description' => 'Продумать удаление мусора при "migrate:refresh --seed".',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
 
             // [
             //     'title' => 'rrrrrr',

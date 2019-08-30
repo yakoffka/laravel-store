@@ -48,6 +48,7 @@ class ProductsTableSeeder extends Seeder
                 $category['slug'] . '_1',
                 $category['slug'] . '_2',
                 $category['slug'] . '_3',
+                $category['slug'] . '_4',
             ];
 
 
@@ -97,8 +98,8 @@ class ProductsTableSeeder extends Seeder
                         'name' => $image_name,
                         'ext' => config('imageyo.res_ext'),
                         'alt' => 'seed',
-                        // 'sort_order' => rand(1, 9),
-                        'sort_order' => 9,
+                        'sort_order' => rand(1, 9),
+                        // 'sort_order' => 9,
                         'orig_name' => 'seed',
                     ]);
                 }

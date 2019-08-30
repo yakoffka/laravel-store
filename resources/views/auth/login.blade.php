@@ -5,10 +5,10 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        <div class="col-xs-12 col-sm-12 col-md-9 p-0 breadcrumbs">
+        <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('login') }}
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 p-0 searchform">
+        <div class="col-xs-12 col-sm-12 col-md-3 searchform">
             @include('layouts.partials.searchform')
         </div>
     </div>

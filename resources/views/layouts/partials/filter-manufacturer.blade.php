@@ -1,20 +1,26 @@
 
-<div class="greygrey">manufacturer filter</div>
-@if($manufacturers->count())
-    <ul class="filter navbar-nav mr-auto">
+
+{{-- <div class="filter_block right_stylized_checkbox"> --}}
+<div class="filter_block left_stylized_checkbox">
+    <div class="filter_block_header">ПРОИЗВОДИТЕЛИ</div>
+    @if($manufacturers->count())
+
         @foreach($manufacturers as $manufacturer)
-            <label class="filters">
+            <input 
+                type="checkbox"
+                id="filter_manufacturers_{{ $manufacturer->id }}"
+                name="manufacturers[]" 
+                value="{{ $manufacturer->id }}"
+                
+                @if ( !empty($appends['manufacturers']) and in_array($manufacturer->id, $appends['manufacturers']) )
+                    checked
+                @endif
+            >
+            <label class="filters" for="filter_manufacturers_{{ $manufacturer->id }}">
                 {{ $manufacturer->title }}
-                <input 
-                    type="checkbox" 
-                    name="manufacturers[]" 
-                    value="{{ $manufacturer->id }}"
-                    
-                    @if ( !empty($appends['manufacturers']) and in_array($manufacturer->id, $appends['manufacturers']) )
-                        checked
-                    @endif
-                >
             </label>
+
         @endforeach
-    </ul>
-@endif
+
+    @endif
+</div>
