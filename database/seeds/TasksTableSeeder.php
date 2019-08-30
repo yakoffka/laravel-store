@@ -111,12 +111,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'ImageYoTrait',
+                'description' => 'Разберись, наконец, с этим трейтом.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

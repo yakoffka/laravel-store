@@ -842,5 +842,12 @@ ol.numlist {
     font-size: 1.2rem;
 }
 
+.admin_menu_block {
+    margin-bottom: .5rem;
+}
+.admin_menu_block h4.grey {
+    margin-bottom: 0 !important;
+}
+
 /* admin */
 /*======================================================================================================*/

@@ -246,7 +246,7 @@
 
             <div class="container">
 
-                <div class="copy">© Some_text</div>
+                <div class="copy">© Never trust yourself</div>
 
                 <div class="row m-0">
 
