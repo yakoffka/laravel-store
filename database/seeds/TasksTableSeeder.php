@@ -54,7 +54,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'продумать модальную форму',
+                'title' => 'Продумать модальную форму',
                 'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
@@ -97,10 +97,15 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Доработать TaskList',
-                'description' => '
-                Добавить отображение задач и поручений в виде карточек.
-                </p><p>Добавить историю.
-                </p><p>Добавить копирование.
+                'description' => 'Доработать TaskList:</p>
+                <ol>
+                    <li>Добавить отображение задач и поручений в виде карточек.
+                    </li><li>Добавить историю.
+                    </li><li>Добавить копирование.
+                    </li><li>Продумать смену статуса исполнителем (запрет закрытия, невозможность смены статуса при закрытой задаче, etc).
+                    </li><li>Добавить фильтрацию.
+                    </li>
+                </ol>
                 ',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,

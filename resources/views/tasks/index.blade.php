@@ -20,7 +20,7 @@
     </div>
 
 
-    <h1>Список @if ( empty($directive) ) задач для Вас @else поручений от Вас @endif ( {{ $tasks->total() }} )</h1>
+    <h1>Список @if ( empty($directive) ) задач для Вас @else отданных Вами поручений @endif ( {{ $tasks->total() }} )</h1>
 
 
     <div class="row">
@@ -45,7 +45,7 @@
                         {{-- <th>created</th>
                         <th>updated</th> --}}
                         {{-- <th>date/time</th> --}}
-                        <th>@if( empty($directive) ) master @else slave @endif</th>
+                        <th>@if( empty($directive) ) master @else кому @endif</th>
                         {{-- <th class="actions3">actions</th> --}}
                         <th class="actions2">actions</th>
                         {{-- <th>comment_slave</th> --}}
@@ -69,7 +69,7 @@
                             </td> --}}
 
                             {{-- status --}}
-                            <td>
+                            <td class="ta_l">
                                 {{-- @if (
                                     auth()->user()->can('edit_tasks')
                                     or auth()->user()->id == $task->getMaster->id
@@ -95,14 +95,20 @@
                             </td>
 
                             {{-- priority --}}
-                            <td>
-                                @if (
+                            <td class="ta_l">
+                                {{-- @if (
                                     empty($directive)
                                     and (
                                         auth()->user()->can('edit_tasks')
                                         or auth()->user()->id == $task->getMaster->id
                                     )
-                                )
+                                ) --}}
+                                @if ( empty($directive) )
+                                    <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
+                                    {{-- <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
+                                        {{ $task->getPriority->title }}
+                                    </button> --}}
+                                @else
                                     @modalSelect([
                                         'id' => $task->id,
                                         'item' => $task->getPriority, 
@@ -110,11 +116,6 @@
                                         'action' => route('tasks.update', ['task' => $task]),
                                         'select_name' => 'taskspriority_id',
                                     ])
-                                @else
-                                    <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
-                                    {{-- <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
-                                        {{ $task->getPriority->title }}
-                                    </button> --}}
                                 @endif
                             </td>
 
@@ -123,10 +124,18 @@
                             {{-- <td>{{ $task->created_at }}<br>{{ $task->updated_at }}</td> --}}
 
                             <td>
-                                @if ($task->getMaster->id == auth()->user()->id)
-                                    self
+                                @if ( empty($directive) )
+                                    @if ($task->getMaster->id == auth()->user()->id)
+                                        я
+                                    @else
+                                        {{ $task->getMaster->name }}
+                                    @endif
                                 @else
-                                    {{ $task->getMaster->name }}
+                                    @if ($task->getSlave->id == auth()->user()->id)
+                                        себе
+                                    @else
+                                        {{ $task->getSlave->name }}'у
+                                    @endif
                                 @endif
                             </td>
 
@@ -134,10 +143,13 @@
                             <td>
 
                                 {{-- delete task --}}
-                                @if (
+                                {{-- @if (
                                     auth()->user()->can('delete_tasks')
                                     or auth()->user()->id == $task->master_user_id
-                                )
+                                ) --}}
+                                @if ( empty($directive) )
+                                @else
+
                                     @modalConfirmDestroy([
                                         'btn_class' => 'btn btn-outline-danger align-self-center',
                                         'cssId' => 'delele_',
@@ -145,6 +157,7 @@
                                         'type_item' => 'задачу',
                                         'action' => route('tasks.destroy', $task), 
                                     ])
+                                    
                                 @endif
 
                                 {{-- view task --}}

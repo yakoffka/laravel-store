@@ -21,9 +21,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::where('slave_user_id', auth()->user()->id)->paginate();
-        $taskspriorities = Taskspriority::all();
         $tasksstatuses = Tasksstatus::all();
-        return view('tasks.index', compact('tasks', 'taskspriorities', 'tasksstatuses'));
+        return view('tasks.index', compact('tasks', 'tasksstatuses'));
     }
 
     /**
@@ -35,11 +34,12 @@ class TaskController extends Controller
     {
         abort_if ( auth()->user()->cannot('create_tasks'), 403 );
 
+        $directive = true;
+        $taskspriorities = Taskspriority::all();
         $tasks = Task::where('master_user_id', auth()->user()->id)->paginate();
         $tasksstatuses = Tasksstatus::all();
-        $directive = true;
 
-        return view('tasks.index', compact('directive', 'tasks', 'tasksstatuses'));
+        return view('tasks.index', compact('directive', 'tasks', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -110,10 +110,10 @@ class TaskController extends Controller
             ),
         403 );
 
-        $taskspriorities = Taskspriority::all();
+        // $taskspriorities = Taskspriority::all();
         $tasksstatuses = Tasksstatus::all();
 
-        return view('tasks.show', compact('task', 'taskspriorities', 'tasksstatuses'));
+        return view('tasks.show', compact('task', /*'taskspriorities', */'tasksstatuses'));
     }
 
     /**
@@ -134,10 +134,11 @@ class TaskController extends Controller
             ),
         403 );
 
-        $tasksstatuses = Tasksstatus::all();
         $directive = true;
+        $taskspriorities = Taskspriority::all();
+        $tasksstatuses = Tasksstatus::all();
 
-        return view('tasks.show', compact('directive', 'task', /*'taskspriorities', */'tasksstatuses'));
+        return view('tasks.show', compact('directive', 'task', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**

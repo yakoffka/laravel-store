@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <h1>Просмотр @if ( empty($directive) ) задачи @else поручения @endif №{{ $task->id }}</h1>
+    <h1>Просмотр @if ( empty($directive) ) порученной Вам задачи @else отданного Вами поручения @endif №{{ $task->id }}</h1>
 
     <div class="row">
 
@@ -39,10 +39,9 @@
 
                     
                     <div class="card-title">
-                        Статус:
-
 
                         {{-- Status --}}
+                        Статус:
                         @modalSelect([
                             'id' => $task->id,
                             'item' => $task->getStatus,
@@ -56,6 +55,8 @@
                         <br>
                         Приоритет:
                         @if ( empty($directive) )
+                            <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
+                        @else
                             @modalSelect([
                                 'id' => $task->id,
                                 'item' => $task->getPriority,
@@ -63,8 +64,6 @@
                                 'action' => route('tasks.update', ['task' => $task]),
                                 'select_name' => 'taskspriority_id',
                             ])
-                        @else
-                            <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
                         @endif
 
                     </div>
@@ -83,8 +82,6 @@
                     {{-- comment_slave --}}
                     Комментарий исполнителя:
                     @if ( empty($directive) )
-                        {{ str_limit($task->comment_slave ?? 'отсутствует', 30) }}
-                    @else
                         @modalTextarea([
                             'id' => $task->id,
                             'textarea_name' => 'comment_slave',
@@ -93,6 +90,8 @@
                             'empty_value' => 'отсутствует',
                             'action' => route('tasks.update', ['task' => $task]),
                         ])
+                    @else
+                        {{ str_limit($task->comment_slave ?? 'отсутствует', 30) }}
                     @endif
 
 

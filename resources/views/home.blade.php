@@ -45,7 +45,7 @@
                         {{-- /Actions --}}
 
 
-                        <h4>Task List</h4>
+                        {{-- <h4>Task List</h4>
 
                         <ol class="numlist">
                             <li class="complete"  >залить сайт на сервер</li>
@@ -85,8 +85,6 @@
                             <li class="incomplete">недопущение изменения статуса заказа без ознакомления с комментарием (с записью кто ознакомился)</li>
                             <li class="incomplete">удаление заказа (?)</li>
                             <li class="incomplete">изменить вид селектов в настройках</li>
-                            {{-- <li class="incomplete">хлебные крошки  https://github.com/davejamesmiller/laravel-breadcrumbs</li>
-                            <li class="incomplete">https://packagist.org/packages/davejamesmiller/laravel-breadcrumbs</li> --}}
                             <li class="incomplete">добавить валидацию изображений</li>
                             <li class="complete"  >поправить хлебные крошки для категорий</li>
                             <li class="complete">добавить остальные хлебные крошки</li>
@@ -110,19 +108,13 @@
                             <li class="incomplete">добавить в события конкретики (более полное описание изменений)</li>
                             <li class="incomplete">изменить roles.edit в соответствии со <a href="http://yapro.ru/web-master/php/checkbox-radio.html">значением поля</a> </li>
                             <li class="incomplete">сравнение товаров!!!</li>
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
-                            {{-- <li class="incomplete">rrrrrrrrrrrrrrr</li> --}}
-                            {{-- <li class="incomplete">лллллллл</li> --}}
-                            {{-- <li class="incomplete active">лллллллл</li> --}}
-                            
                         </ol>
 
 
                         <br>
-                        <br>
+                        <br> --}}
+
+
                         <h4>Deploy</h4>
                         <ol class="numlist">
                             <li class="incomplete">Создать пользователя, сайт и базу данных</li>

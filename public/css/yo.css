@@ -107,6 +107,7 @@ h2{
 .center{text-align:center;}
 .ta_l{text-align: left;}
 .ta_c{text-align: center;}
+.ta_j{text-align: justify;}
 
 
 .center.no_fl .btn, .center.no_fl form.del_btn {float: none;}
@@ -838,7 +839,7 @@ ol.numlist {
 
 
 .card-text.description {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 /* admin */
