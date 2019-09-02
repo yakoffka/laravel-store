@@ -14,9 +14,11 @@
     <script type="text/javascript" src="https://kk.dragoon.pw/src/js/jquery-1.11.2.min.js"></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
+    <link href="{{ asset('fonts/proxima-nova/style.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/yo.css') }}" rel="stylesheet">
@@ -59,8 +61,8 @@
                 </a> --}}
 
                 
-                {{-- main_menu --}}
-                <ul class="main_menu d-none d-md-block">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                {{-- main_menu --}}{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                <ul class="main_menu d-none d-md-block">
                     @include('menu.main')
                 </ul>
                 {{-- main_menu --}}
@@ -77,16 +79,19 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- d-md-none - Скрыто на экранах шире md --}}
+                        <li class="nav-item d-md-none">
                             <a class="nav-link" href="/home">Home</a>
                         <li>
 
-                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- d-md-none - Скрыто на экранах шире md --}}
+                        <li class="nav-item d-md-none">
                             <a class="nav-link" href="/products">Catalog</a>
                         <li>
 
                         {{-- cart --}}
-                        <li class="nav-item d-none d-md-block">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                        {{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                        <li class="nav-item d-none d-md-block">
                             <a href="{{ route('cart.show') }}" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge">
@@ -94,7 +99,8 @@
                                 </span>
                             </a>
                         <li>
-                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- d-md-none - Скрыто на экранах шире md --}}
+                        <li class="nav-item d-md-none">
                             <a href="{{ route('cart.show') }}" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i> in youre cart
                                 <span class="badge">
@@ -155,12 +161,13 @@
 
                         @endguest
 
-                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- d-md-none - Скрыто на экранах шире md --}}
+                        <li class="nav-item d-md-none">
                             <a class="nav-link" href="https://github.com/yakoffka/kk" target="_blank">GitHub</a>
                         <li>
 
-                        {{-- search --}}
-                        <li class="nav-item d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
+                        {{-- search --}}{{-- d-md-none - Скрыто на экранах шире md --}}
+                        <li class="nav-item d-md-none">
                             {{-- <form class="search" action="{{ route('search') }}" method="GET" role="search">
                                 <input 
                                     style="width:100%; margin-top:5px; height:2em;" 

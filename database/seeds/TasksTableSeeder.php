@@ -180,6 +180,13 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 3,
             ],
 
+            [
+                'title' => 'Перенести меню каталога',
+                'description' => 'Перенести меню каталога в главное меню.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 3,
+            ],
+
             // [
             //     'title' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',

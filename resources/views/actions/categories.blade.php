@@ -8,7 +8,7 @@
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('actions.categories') }}
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 searchform">
+        <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
         </div>
     </div>

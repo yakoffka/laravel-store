@@ -10,7 +10,7 @@
             {{ Breadcrumbs::render('products.show', $product) }}
         </div>
         {{-- <div class="col col-sm-3 searchform"> --}}
-        <div class="col-xs-12 col-sm-12 col-md-3 searchform">
+        <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
     </div>
