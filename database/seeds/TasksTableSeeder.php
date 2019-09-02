@@ -43,28 +43,28 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Исправить валидацию в контроллерах',
                 'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее. </p><p> http://laravel.su/docs/5.0/validation#controller-validation </p><p> http://laravel.su/docs/5.4/Validation#available-validation-rules.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
                 'title' => 'Учесть субординацию в постановке задач',
                 'description' => 'Учесть субординацию в постановке задач.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
                 'title' => 'Продумать модальную форму',
                 'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
                 'title' => 'Заменить Status на OrderStatus',
                 'description' => 'Заменить Status на OrderStatus, StatusesTableSeeder на OrderStatusesTableSeeder, CreateStatusesTable на CreateOrderStatusesTable, etc.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
@@ -108,14 +108,14 @@ class TasksTableSeeder extends Seeder
                 </ol>
                 ',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
                 'title' => 'ImageYoTrait',
                 'description' => 'Разберись, наконец, с этим трейтом.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
@@ -145,6 +145,69 @@ class TasksTableSeeder extends Seeder
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
+
+            [
+                'title' => 'Submit в Settings',
+                'description' => 'В Settings сделать submit по-умолчанию неактивным. Активировать только при смене соответствующего параметра.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Удалить rank',
+                'description' => 'Удалить rank из table roles. Субординацию соблюдать, опираясь на role.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
 
             // [
             //     'title' => 'rrrrrr',
