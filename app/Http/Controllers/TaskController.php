@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::where('slave_user_id', auth()->user()->id)->paginate();
+        $tasks = Task::where('slave_user_id', auth()->user()->id)->paginate(config('custom.tasks_paginate'));
         $tasksstatuses = Tasksstatus::all();
         return view('tasks.index', compact('tasks', 'tasksstatuses'));
     }
@@ -36,7 +36,7 @@ class TaskController extends Controller
 
         $directive = true;
         $taskspriorities = Taskspriority::all();
-        $tasks = Task::where('master_user_id', auth()->user()->id)->paginate();
+        $tasks = Task::where('master_user_id', auth()->user()->id)->paginate(config('custom.tasks_paginate'));
         $tasksstatuses = Tasksstatus::all();
 
         return view('tasks.index', compact('directive', 'tasks', 'taskspriorities', 'tasksstatuses'));

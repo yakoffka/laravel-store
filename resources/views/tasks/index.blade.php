@@ -20,7 +20,15 @@
     </div>
 
 
-    <h1>Список @if ( empty($directive) ) задач для Вас @else отданных Вами поручений @endif ( {{ $tasks->total() }} )</h1>
+    <h1>
+        Список 
+        @if ( empty($directive) )
+            задач для Вас 
+        @else
+            отданных Вами поручений 
+        @endif
+        ( {{ $tasks->total() }} )
+    </h1>
 
 
     <div class="row">
