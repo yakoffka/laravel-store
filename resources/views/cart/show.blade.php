@@ -60,10 +60,13 @@
                                 'title' => 'change items',
                                 'qty' => $cart->items[$i]['qty'],
                                 'product' => $item['item'],
+                                'min' => 1,
                             ])
                         </td>
                         <td class="center no_fl">
-                            <form action="{{ route('cart.delete-item', ['product' => $item['item']->id]) }}" method="POST" class="del_btn">
+
+                            {{-- <form action="{{ route('cart.delete-item', ['product' => $item['item']->id]) }}" method="POST" class="del_btn">
+
                                 @csrf
 
                                 @method("DELETE")
@@ -71,7 +74,16 @@
                                 <button type="submit" class="btn btn-outline-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </form>
+                            </form> --}}
+
+                            @modalConfirmDestroy([
+                                'btn_class' => 'btn btn-outline-danger form-control',
+                                'cssId' => 'delele_',
+                                'item' => $item['item'],
+                                'type_item' => 'товар',
+                                'action' => route('cart.delete-item', ['product' => $item['item']->id]), 
+                            ]) 
+
                         </td>
                         <td>{{ $item['item']->price }}</td>
                         <td>{{ $cart->items[$i]['amount'] }}</td>

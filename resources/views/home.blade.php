@@ -26,7 +26,7 @@
             <!--div class="card">
                 <div class="card-header">Dashboard <?php echo Auth::user()->roles->first()->name; ?></div-->
 
-                <div class="card-body">
+                {{-- <div class="card-body"> --}}
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -117,7 +117,7 @@
 
                         <h4>Deploy</h4>
                         <ol class="numlist">
-                            <li class="incomplete">Создать пользователя, сайт и базу данных</li>
+                            <li class="incomplete">Создать на сервере пользователя, сайт и базу данных</li>
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             <li class="incomplete"  >Добавить id_rsa.pub на github</li>
                             <li class="incomplete"  >Клонировать репозитарий</li>
@@ -180,7 +180,7 @@ laravel-worker: added process group
 
                 {{-- </div>
             </div> --}}
-        </div>
+        {{-- </div> --}}
     </div>
 </div>
 @endsection

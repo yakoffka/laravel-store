@@ -20,7 +20,7 @@ class TasksTableSeeder extends Seeder
 
         for ( $i = 1; $i < 25; $i++ ) {
 
-            $master = rand(2, $count_users-1);
+            $master = rand(3, $count_users-1);
             $slave  = rand($master, $count_users-1);
             $title = 'Title test task #' . $i;
 
@@ -76,9 +76,9 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Свернуть меню админки',
-                'description' => 'Слишком длинное меню получается. </p><p> Свернуть подпункты как подкатегории в меню каталога.',
-                'tasksstatus_id' => 2,
-                'taskspriority_id' => 1,
+                'description' => 'Свернуть подпункты как подкатегории в меню каталога.',
+                'tasksstatus_id' => 5,
+                'taskspriority_id' => 4,
             ],
 
             [
@@ -141,9 +141,9 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Удаление мусора',
-                'description' => 'Продумать удаление мусора при "migrate:refresh --seed".',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'description' => 'Продумать удаление каталогов с изображениями при "migrate:refresh --seed".',
+                'tasksstatus_id' => 5,
+                'taskspriority_id' => 3,
             ],
 
             [
@@ -160,19 +160,25 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 2,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Добавить подтверждение удаления товаров из корзины',
+                'description' => 'Добавить подтверждение удаления товаров из корзины. Затронуть файлы
+                <ul> 
+                    <li>resources/views/cart/confirmation.blade.php
+                    </li><li>resources/views/cart/show.blade.php
+                    </li>
+                </ul>
+                ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Редирект со страницы оформления заказа',
+                'description' => 'Продумать редирект со страницы оформления заказа при удалении последнего товара из корзины.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 3,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

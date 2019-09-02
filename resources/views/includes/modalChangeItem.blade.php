@@ -20,7 +20,7 @@
 
           @method('PATCH')
 
-          @input(['name' => 'quantity', 'type' => 'number', 'value' => $qty])          
+          @input(['name' => 'quantity', 'type' => 'number', 'value' => $qty, 'min' => $min])          
 
           <button type="submit" class="btn btn-primary form-control">change item!</button>
 

@@ -34,6 +34,7 @@
 
         <!-- form delete item -->
         <form action="{{ $action }}" method="POST" style="width: 100%">
+          
             @csrf
 
             @method("DELETE")
