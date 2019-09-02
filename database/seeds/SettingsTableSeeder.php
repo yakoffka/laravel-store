@@ -17,10 +17,10 @@ class SettingsTableSeeder extends Seeder
             // settings for emails
             [
                 'group' => 'emails',
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => 'email_new_order',
                 'display_name' => 'email-уведомления при создании заказа',
-                'description' => 'Управление отправкой email-уведомлений при создании нового заказа.',
+                'description' => 'Включить отправку email-уведомлений при создании нового заказа.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -30,10 +30,10 @@ class SettingsTableSeeder extends Seeder
 
             [
                 'group' => 'emails',
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => 'email_update_order',
                 'display_name' => 'email-уведомления при изменении заказа',
-                'description' => 'Управление отправкой email-уведомлений при изменении нового заказа.',
+                'description' => 'Включить отправку email-уведомлений при изменении нового заказа.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -43,10 +43,10 @@ class SettingsTableSeeder extends Seeder
             
             [
                 'group' => 'emails',
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => 'email_new_product',
                 'display_name' => 'email-уведомления при создании нового товара',
-                'description' => 'Управление отправкой email-уведомлений при создании нового товара.',
+                'description' => 'Включить отправку email-уведомлений при создании нового товара.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -56,10 +56,10 @@ class SettingsTableSeeder extends Seeder
             
             [
                 'group' => 'emails',
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => 'email_update_product',
                 'display_name' => 'email-уведомления при изменении товара',
-                'description' => 'Управление отправкой email-уведомлений при изменении товара.',
+                'description' => 'Включить отправку email-уведомлений при изменении товара.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -74,7 +74,7 @@ class SettingsTableSeeder extends Seeder
                 'display_name' => 'задержка отправки email-уведомлений',
                 'description' => 'Управление задержкой отправки email-уведомлений при изменении товара.',
                 'permissible_values' => [
-                    [0,  'немедленно'],
+                    [0,  'без задержки'],
                     [1,  '1 минута'],
                     [2,  '2 минуты'],
                     [3,  '3 минуты'],
@@ -99,10 +99,10 @@ class SettingsTableSeeder extends Seeder
             // settings for products
             [
                 'group' => 'products',
-                'type' => 'select',
+                'type' => 'checkbox',
                 'name' => 'view_products_whitout_price',
                 'display_name' => 'Показывать товары без цены',
-                'description' => 'Управление отображением товаров без цены пользователям.',
+                'description' => 'Показывать покупателям товары без цены.',
                 'permissible_values' => [
                     [0, 'не показывать'],
                     [1, 'показывать'],

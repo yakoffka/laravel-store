@@ -67,14 +67,52 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">{{ $j . '.' . $i }} {{ $setting->display_name }}</h5>
-                                <p class="card-text">
-                                    {{ $setting->description }}{{--  ({{ $setting->value }}) --}}
-                                </p>
-                                <form action="{{ route('settings.update', ['setting' => $setting->id]) }}" method="POST">
+                                {{-- <p class="card-text">
+                                    {{ $setting->description }}
+                                </p> --}}
+                                <form action="{{ route('settings.update', ['setting' => $setting->id]) }}" 
+                                    method="POST" class="row left_stylized_checkbox">
+
                                     @csrf
+
                                     @method("PATCH")
 
-                                    @if ($setting->type == 'select')
+                                    {{-- @if ($setting->type == 'select') --}}
+                                    @if ($setting->type == 'checkbox')
+
+                                        {{-- <select name="value" id="setting_{{ $setting->id }}" class="{{ $setting->value ? 'on_select' : 'off_select' }}">
+                                            @foreach($permissible_values as $permissible_value)
+                                                @php
+                                                    if ($permissible_value[0] == $setting->value) {
+                                                        $selected = ' selected';
+                                                    } else {
+                                                        $selected = '';
+                                                    }
+                                                @endphp
+                                                <option 
+                                                    value="{{ $permissible_value[0] }}" 
+                                                    {{ $selected }}>{{ $permissible_value[1] }}
+                                                </option>
+                                            @endforeach
+                                        </select> --}}
+
+                                        {{-- переделать --}}
+                                        <input 
+                                            type="checkbox"
+                                            id="setting_{{ $setting->id }}"
+                                            name="value" 
+                                            @if ( $setting->value )
+                                                {{-- value="0" --}}
+                                                checked
+                                            @else
+                                                {{-- value="1" --}}
+                                            @endif
+                                        >
+                                        <label class="" for="setting_{{ $setting->id }}">
+                                            {{ $setting->description }}
+                                        </label>
+
+                                    @elseif ($setting->type == 'select')
 
                                         <select name="value" id="setting_{{ $setting->id }}" class="{{ $setting->value ? 'on_select' : 'off_select' }}">
                                             @foreach($permissible_values as $permissible_value)
@@ -91,7 +129,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-
+                                        
                                     @elseif($setting->type == 'email')
 
                                         @php

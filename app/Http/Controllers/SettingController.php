@@ -82,13 +82,16 @@ class SettingController extends Controller
     public function update(Setting $setting)
     {
         abort_if ( !Auth::user()->can('edit_settings'), 403 );
+        // dd(request('value'));
 
         if ($setting->type == 'select') {
             $validator = request()->validate([
-                'value' => 'required|string',
+                // 'value' => 'required|string',
+                'value' => 'string',
             ]);
 
-            $value = request('value');
+            // $value = request('value');
+            $value = !empty(request('value')) ? 1 : 0;
     
         } elseif($setting->type == 'email') {
 
@@ -107,6 +110,7 @@ class SettingController extends Controller
             return back()->withErrors('недопустимый тип пункта настроек');
         }
 
+        // dd($value);
         // $setting->update([
         //     'value' => $value,
         // ]);
