@@ -12,7 +12,8 @@ class TasksstatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['name' => 'opened',    'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'style' => 'primary'],
+            ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'style' => 'primary'],
+            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'style' => 'primary'],
             ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'style' => 'success'],
             ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'style' => 'primary'],
             ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'style' => 'danger'],

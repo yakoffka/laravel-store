@@ -2,7 +2,7 @@
         <div class="d-none d-sm-block">
             @permission('view_adminpanel')
                 @include('layouts.partials.adminaside')
-                {{-- @include('layouts.partials.separator') --}}
+                @include('layouts.partials.separator')
             @else
             @endpermission
             @include('layouts.partials.nav')

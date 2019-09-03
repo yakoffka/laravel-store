@@ -58,11 +58,12 @@
                     <span class="grey">year_manufacture: </span>{{ $product->year_manufacture ?? '-' }}<br>
                     <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
-                    @if($product->price)
+                    {{-- @if($product->price)
                         <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
                     @else
-                        <span class="grey">priceless</span><br>
-                    @endif
+                        <span class="grey">цену уточняйте у менеджера</span><br>
+                    @endif --}}
+                    <span class="grey">цену уточняйте у менеджера</span><br>
 
 
                     @permission('edit_products')
@@ -158,12 +159,73 @@
 
             </div><br>
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <h2>description {{ $product->name }}</h2>
                     <p>{{ $product->description }}</p>
                 </div>
+            </div> --}}
+
+
+
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                        Описание {{ $product->name }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                        Характеристики
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                        Условия работы
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    {{ $product->description }}
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <h2 class="ta_c">Характеристики {{ $product->name }}</h2>
+                    <table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    
+
+                    <h2 class="ta_c">Условия работы и меры безопасности</h2>
+                    <p>Для производства текстильных строп чаще всего используют ленту на основе полиэстера (PES). Стропы из данного материала имеют ограничение на применение по температурному режиму - не допускается использование текстильных строп при температуре выше 100°С, минимальная температура для использования строп -80°С.</p>
+                    <p>При строповке груза и его подъеме рекомендуется избегать рывков и ударов/ При работе с максимальной нагрузкой допускается удлинение стропа не более 6%, вне зависимости от грузоподъемности.</p>
+                    <p>Для предохранения лент стропа от истирания они могут быть обшиты защитными оболочками, обеспечивающими дополнительную защиту лент, но не оказывающего влияния на разрывное усилие стропа. Строп может дополнительно комплектоваться защитными чехлами для транспортировки грузов с острой кромкой.</p>
+                    <p>При строповке груза со сложной геометрией необходимо учитывать расположение центра тяжести.</p>
+                    
+                    <h2 class="ta_c">Запрещается:</h2>
+                    <p>завязывать узлы и перекручивать стропы при эксплуатации</p>
+                    <p>работы в щелочных средах</p>
+                    <p>эксплуатация в средах с концентрацией пыли более 10мг/м<sup>3</sup></p>
+                    <p>использование стропов с поперечными порезами и разрывами</p>
+                    <p>ремонт эксплуатирующей организацией</p>
+
+                    <h2 class="ta_c">Стропы не допускаются к работе, если:</h2>
+                    <p>отсутствует маркировочная бирка</p>
+                    <p>загрязнение ленты нефтепродуктами, смолами, красками более 50%</p>
+                    <p>длина порезов или разрыва более 50мм, сумарная длина продольных порезов и разрывов более 10% от L1</p>
+                    <p>более трех сквозных отверстий (прокол, прожиг) диаметром более 10% от b или при расстоянии между ними менее 10% от b</p>
+                    <p>поверхностные обрывы и выпучивание нитей ленты длиной более 10% от b</p>
+                    <p>повреждение лент от воздействия химических веществ общей длиной более 10% от b или повреждения более 50мм</p>
+                    <p>отслоение края ленты или сшивки лент у петли на длине более 10% от L2</p>
+                    <p>местные расслоения в местах заделки краев ленты на длине более 20мм с разрывом трех и более строчек одного крайнего или двух и более внутренних швов</p>
+                    <p>местные расслоения лент на суммарной длине более 50мм с разрывом трех и более строчек одного крайнего или двух и более внутренних швов</p>
+                    <p>размочаливание или износ более 10% от ширины петель стропа</p>
+
+
+                </div>
             </div>
+
 
 
             {{-- информация о доставке на экранах уже lg --}}
@@ -174,7 +236,9 @@
             </div>
             {{-- /информация о доставке на экранах lg --}}
 
+
             <!-- /product -->
+            @include('layouts.partials.separator')
 
 
 
@@ -184,7 +248,7 @@
 
                     @if($product->comments->count())
 
-                        <h2>comments for {{ $product->name }} ({{ $product->comments->count() }})</h2>
+                        <h2>Комментарии к товару {{ $product->name }} ({{ $product->comments->count() }})</h2>
                         <ul class='content list-group'>
 
                         @foreach ($product->comments as $num_comment => $comment)
@@ -192,7 +256,7 @@
                                 <div class="comment_header">
 
                                     @if($comment->user_id == 0)
-                                        Guest {{ $comment->user_name }}
+                                        Гость {{ $comment->user_name }}
                                     @else
                                         {{ $comment->creator ? $comment->creator->name : 'RIP' }}
                                     @endif
@@ -200,14 +264,14 @@
 
                                     <!-- created_at/updated_at -->
                                     @if($comment->updated_at == $comment->created_at)
-                                        wrote {{ $comment->created_at }}:
+                                        опубликвано {{ $comment->created_at }}:
                                     @else
-                                        wrote {{ $comment->created_at }} (edited: {{ $comment->updated_at }}):
+                                        опубликвано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
                                     @endif
 
                                     @auth
                                         @if( $comment->creator and $comment->creator->id == Auth::user()->id )
-                                        <span class="blue">Your comment!</span>
+                                        <span class="blue">Ваш комментарий</span>
                                         @endif
                                     @endauth
 
@@ -253,7 +317,7 @@
 
                                         <textarea id="comment_string_{{ $comment->id }}" name="comment_string" cols="30" rows="4" 
                                             class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->comment_string); ?></textarea>
-                                        <button type="submit" class="btn btn-success">edit comment</button>
+                                        <button type="submit" class="btn btn-success">редактировать</button>
                                     </form>
                                 <?php } ?>
 
@@ -265,9 +329,8 @@
 
                     @else
 
-                        <h2>comments for {{ $product->name }}</h2>
-
-                        <p class="grey">no comments for this product.</p>
+                        <h2>Комментарии к товару {{ $product->name }}</h2>
+                        <p class="grey">Для этого товара нет комментариев</p>
 
                     @endif
 
@@ -280,7 +343,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <h2>leave your comment</h2>
+                    <h2>оставьте свой комментарий</h2>
 
                     <form method="POST" action="/products/{{ $product->id }}/comments">
                         @csrf
@@ -299,7 +362,7 @@
                             <!-- <label for="comment_string">Add a comment</label> -->
                             <textarea id="comment_string" name="comment_string" cols="30" rows="4" class="form-control" placeholder="Add a your comment" required>{{ old('comment_string') }}</textarea>                       
                         </div>
-                        <button type="submit" class="btn btn-primary">comment on</button>
+                        <button type="submit" class="btn btn-primary">отправить</button>
                     </form>
 
                 </div>

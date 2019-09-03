@@ -120,20 +120,17 @@ h1.hide, h1.hide a, h5.hide a {
 nav.navbar.navbar-dark {
     background-color: #3490dc;
 }
-a.navbar-brand.grey, .navbar-dark .navbar-nav .nav-link{
+a.navbar-brand.grey, .navbar-dark .navbar-nav .nav-link, .navbar-nav li.nav-item {
     /* color: rgba(0,0,0,.7); */
     color: hsla(0,0%,100%,.75);
     font-size: .9rem;
 }
-a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
+a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav li.nav-item:hover {
     /* color: rgba(0,0,0,.7); */
     color: hsla(0,0%,100%,.95);
     font-size: .9rem;
 }
 /* /app.blade */
-
-
-
 
 
 
@@ -153,6 +150,12 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
     text-decoration: none;
     text-transform: uppercase;
 }
+
+
+/* .dropdown-menu.dropdown-menu-right.show {
+    background-color:#3490dc;
+    background: linear-gradient(to right, #3490dc, #09f);
+} */
 /* /main menu */
 
 
@@ -285,6 +288,31 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover{
 .shipping p {
     margin-bottom: .5rem;
 }
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+
+
+
+#myTabContent {
+    margin: 1em 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.param{width:100%;}
+table.param tr td{border:1px solid #ddd;font-size:16px;}
+table.param tr{background-color:#fff;}
+table.param tr:nth-child(odd){background-color:#f7f7f7;}
+table.param tr td{padding:5px;text-align:center;}
+table.param tr.center td{text-align:center;}
+table.param tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:oblique;font-weight:400;}
 /* /product */
 
 
