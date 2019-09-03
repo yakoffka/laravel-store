@@ -38,6 +38,17 @@ class UsersTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
+        if ( !empty(env('NAME_MANAGER')) and !empty(env('MAIL_MANAGER')) and !empty(env('PASS_MANAGER')) ) {
+            DB::table('users')->insert([
+                'name' => env('NAME_MANAGER'),
+                'email' => env('MAIL_MANAGER'),
+                'password' => bcrypt( env('PASS_MANAGER') ),
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         DB::table('users')->insert([
             'name' => 'Lagshmivara',
             'email' => 'yagithub+manager@mail.ru',
