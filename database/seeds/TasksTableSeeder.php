@@ -187,47 +187,67 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 3,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Отображать в категориях подкатегории',
+                'description' => 'Вместо товаров на главной и в категориях отображать подкатегории (при их наличии) мозаикой.<br>
+                <a href="https://grmeh.ru/cat/stropy_remni/stropy_tekstilnye">пример</a></br> Ниже - контакты с картой.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Переделать структуру главного меню',
+                'description' => '
+                <ol>
+                    <li>главная</li>
+                    <li>контакты</li>
+                    <li>документация</li>
+                    <li>справочник</li>
+                    <li>каталог</li>
+                </ol>.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Убрать цены и корзину',
+                'description' => 'Убрать цены и корзину в настройки. По умолчанию отключить отображение. Регистрацию, наверное, тоже.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Удаление задач',
+                'description' => 'Добавить возможность удаления задачи из "resources/views/tasks/show.blade.php".',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Поля модели товар',
+                'description' => 'Привести поля товара и прочих моделей к виду (список пополнить):
+                <ol>
+                    <li>title: string - название</li>
+                    <li>slug: string - псевдоним для url</li>
+                    <li>published: bool - опубликована ли данная категория</li>
+                    <li>title: string - должно быть уникальным для каждой страницы и в нем не должно множество раз встречаться ключевые слова. Делайте заголовок красочным и лаконичным.</li>
+                    <li>description: text - описание</li>
+                    <li>keywords: string - ключевые слова</li>
+                    <li>amount: unsignedinteger - количество</li>
+                </ol>
+                <br>
+                Заменить все вхождения "visible" на "published".
+                ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Добавить в настройки отображение пустых категорий',
+                'description' => 'Добавить в настройки отображение пустых категорий. или не в настройки.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
 
             // [
             //     'title' => 'rrrrrr',
