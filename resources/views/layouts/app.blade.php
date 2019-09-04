@@ -89,53 +89,46 @@
                             <a class="nav-link" href="/products">Catalog</a>
                         <li> --}}
 
+
+
                         {{-- cart --}}
-                        {{-- d-none d-md-block - Скрыто на экранах меньше md --}}
-                        <li class="nav-item d-none d-md-block">
-                            <a href="{{ route('cart.show') }}" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span class="badge">
-                                    {{ Session::has('cart') and count(Session::get('cart')->items) ? count(Session::get('cart')->items) : '' }}
-                                </span>
-                            </a>
-                        <li>
+                        @if ( config('settings.display_cart') )
 
-                        {{-- d-md-none - Скрыто на экранах шире md --}}
-                        {{-- <li class="nav-item d-md-none">
-                            <a href="{{ route('cart.show') }}" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i> in youre cart
-                                <span class="badge">
-                                    {{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}
-                                </span>
-                                products
-                            </a>
-                        <li> --}}
-
-
-                        <li class="nav-item d-md-none">
-                            @if (Session::has('cart') and count(Session::get('cart')->items))
-
+                            {{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+                            <li class="nav-item d-none d-md-block">
                                 <a href="{{ route('cart.show') }}" class="nav-link">
                                     <i class="fas fa-shopping-cart"></i>
-                                    in youre cart {{ count(Session::get('cart')->items) }} products
+                                    <span class="badge">
+                                        {{ Session::has('cart') and count(Session::get('cart')->items) ? count(Session::get('cart')->items) : '' }}
+                                    </span>
                                 </a>
+                            <li>
 
-                            @else
-                                <i class="fas fa-shopping-cart"></i> youre cart is empty
-                            @endif
-
-                        <li>
-            
+                            {{-- d-md-none - Скрыто на экранах шире md --}}
+                            <li class="nav-item d-md-none">
+                                @if (Session::has('cart') and count(Session::get('cart')->items))
+                                    <a href="{{ route('cart.show') }}" class="nav-link">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        in youre cart {{ count(Session::get('cart')->items) }} products
+                                    </a>
+                                @else
+                                    <i class="fas fa-shopping-cart"></i> youre cart is empty
+                                @endif
+                            <li>
+                        @endif
                         {{-- cart --}}
 
 
-                        <!-- Authentication Links -->
+                        {{-- Authentication Links --}}
                         @guest
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
+                            @if (Route::has('register') and config('settings.display_login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+                            
+                            @if (Route::has('register') and config('settings.display_registration'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
@@ -175,8 +168,9 @@
 
                                 </div>
                             </li>
-
                         @endguest
+                        {{-- Authentication Links --}}
+
 
                         {{-- d-md-none - Скрыто на экранах шире md --}}
                         {{-- <li class="nav-item d-md-none">

@@ -125,11 +125,13 @@
                                         </a>
                                     </div>
                                         
-                                    <div class="col-sm-6">
-                                        <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                            <i class="fas fa-cart-plus" title="to cart"></i> 
-                                        </a>
-                                    </div>
+                                    @if ( config('settings.display_cart') )
+                                        <div class="col-sm-6">
+                                            <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                                <i class="fas fa-cart-plus" title="to cart"></i> 
+                                            </a>
+                                        </div>
+                                    @endif
 
                                 @else
 
@@ -196,9 +198,11 @@
                                             </a>
                                         </div>
                                         
-                                        <div class="col-sm-6 p-1">
-                                            @addToCart(['product_id' => $product->id])
-                                        </div>
+                                        @if ( config('settings.display_cart') )
+                                            <div class="col-sm-6 p-1">
+                                                @addToCart(['product_id' => $product->id])
+                                            </div>
+                                        @endif
 
                                     @endif
 

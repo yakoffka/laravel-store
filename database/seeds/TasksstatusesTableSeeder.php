@@ -13,9 +13,9 @@ class TasksstatusesTableSeeder extends Seeder
     {
         $statuses = [
             ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'style' => 'primary'],
-            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'style' => 'primary'],
+            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'style' => 'info'],
             ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'style' => 'success'],
-            ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'style' => 'primary'],
+            ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'style' => 'dark'],
             ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'style' => 'danger'],
             ['name' => 'closed',    'display_name' => 'закрыто',    'title' => 'закрыто',     'description' => 'description', 'style' => 'secondary'],
         ];

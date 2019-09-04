@@ -75,18 +75,15 @@ class OrderController extends Controller
         if ( $order ) {
 
             // send email-notification
-            $email_new_order = Setting::all()->firstWhere('name', 'email_new_order');
-            if ( $email_new_order->value ) {
+            if ( config('settings.email_new_order') ) {
 
                 $user = auth()->user();
                 $bcc = config('mail.mail_bcc');
-                $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-                if ( $additional_email_bcc->value ) {
-                    $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+                if ( config('settings.additional_email_bcc') ) {
+                    $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
                 }
 
-                $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-                $when = Carbon::now()->addMinutes($email_send_delay);
+                $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
 
                 \Mail::to($user)
                     ->bcc($bcc)
@@ -155,19 +152,16 @@ class OrderController extends Controller
         }
 
         // send email-notification
-        // check setting
-        $email_update_order = Setting::all()->firstWhere('name', 'email_update_order');
-        if ( $email_update_order->value ) {
+        if ( config('settings.email_update_order') ) {
 
             $user = $order->customer;
             $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+
+            if ( config('settings.additional_email_bcc') ) {
+                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
             }
 
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
+            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
 
             \Mail::to($user)
                 ->bcc($bcc)

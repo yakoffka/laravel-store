@@ -90,7 +90,7 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Добавить возможность вставки таблиц',
-                'description' => 'Добавить возможность вставки таблиц. Вставка исходного html-кода с последующей чисткой на стороне сервера.',
+                'description' => 'Добавить возможность вставки таблиц при создании и редактировании товаров. Вставка исходного html-кода с последующей чисткой на стороне сервера.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
@@ -147,9 +147,9 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Submit в Settings',
-                'description' => 'В Settings сделать submit по-умолчанию неактивным. Активировать только при смене соответствующего параметра.',
-                'tasksstatus_id' => 1,
+                'title' => 'Задисейбленный submit в Settings',
+                'description' => 'В Settings сделать submit по-умолчанию неактивным. Активировать только при смене соответствующего параметра. Доделать для email_send_delay и additional_email_bcc.',
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 1,
             ],
 
@@ -205,14 +205,14 @@ class TasksTableSeeder extends Seeder
                     <li>справочник</li>
                     <li>каталог</li>
                 </ol>.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 5,
+                'tasksstatus_id' => 6,
+                'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Убрать цены и корзину',
-                'description' => 'Убрать цены и корзину в настройки. По умолчанию отключить отображение. Регистрацию, наверное, тоже.',
-                'tasksstatus_id' => 1,
+                'title' => 'Убрать цены, корзину и login/register в настройки',
+                'description' => 'Убрать цены и корзину в настройки. По умолчанию отображение включить. Регистрацию, наверное, тоже.',
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -263,26 +263,26 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Изменить алгоритм подсчета стоимости корзины',
+                'description' => 'Изменить алгоритм подсчета стоимости корзины в зависимости от наличия цен на товары в корзине.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Разделить отображение и редактирование настроек',
+                'description' => 'Разделить отображение и редактирование настроек.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Вынести всплывающие сообщения в fixed block',
+                'description' => 'Вынести всплывающие сообщения в fixed block.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

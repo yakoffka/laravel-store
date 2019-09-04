@@ -9,7 +9,7 @@ use Auth;
 use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
 use Str;
-use App\{Action, Category, Image, Manufacturer, Product, Setting};
+use App\{Action, Category, Image, Manufacturer, Product};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 
@@ -63,14 +63,15 @@ class ProductsController extends Controller
         //     $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
         // }
 
-        $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
 
+        // $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
         if ( Auth::user() and  Auth::user()->can(['view_products'])) {
             $products = Product::filter($request, $this->getFilters())
                 ->latest()
                 ->paginate(config('custom.products_paginate'));
 
-        } elseif ( $view_products_whitout_price->value ) {
+        // } elseif ( $view_products_whitout_price->value ) {
+        } elseif ( config('settings.view_products_whitout_price') ) {
             $products = Product::filter($request, $this->getFilters())
                 ->latest()->where('visible', '=', 1)
                 ->paginate(config('custom.products_paginate'));
@@ -309,26 +310,28 @@ class ProductsController extends Controller
             $description_action = 'Создание товара "' . $product->name . '". Исполнитель: ' . auth()->user()->name . '.';
         }
 
-
         // send email-notification
-        $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
-        if ( $email_new_product->value ) {
+        // $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
+        // if ( $email_new_product->value ) {
+        if ( config('settings.email_new_product') ) {
 
             $user = Auth::user();
             $bcc = config('mail.mail_bcc');
 
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            // $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            // if ( $additional_email_bcc->value ) {
+            if ( config('settings.additional_email_bcc') ) {
+                // $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
             }
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
+            // $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            // $when = Carbon::now()->addMinutes($email_send_delay);
+            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
 
             \Mail::to($user)
                 ->bcc($bcc)
                 ->later($when, new Created($product, $user));
         }
-
 
         // create action record
         $action = Action::create([
@@ -340,7 +343,6 @@ class ProductsController extends Controller
             // 'old_value' => $product->id,
             // 'new_value' => $product->id,
         ]);
-
 
         session()->flash('message', 'New product "' . $product->name . '" has been created');
 
@@ -413,28 +415,18 @@ class ProductsController extends Controller
             }
         }
 
-        // // send email-notification
-        // $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
-        // if ( $email_update_product->value ) {
-        //     $when = Carbon::now()->addMinutes(1);
-        //     \Mail::to(config('mail.mail_to_test'))
-        //         ->bcc(config('mail.mail_bcc'))
-        //         ->later($when, new Created($product)); // TODO! Updated($product)
-        // }
+
         // send email-notification
-        $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
-        if ( $email_update_product->value ) {
+        if ( config('settings.email_update_product') ) {
 
             $user = Auth::user();
             $bcc = config('mail.mail_bcc');
             
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            if ( config('settings.additional_email_bcc') ) {
+                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
             }
 
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
+            $when = Carbon::now()->addMinutes( config('settings.email_send_delay') ); // TODO convert to int?
 
             \Mail::to($user)
             ->bcc($bcc)

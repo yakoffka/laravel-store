@@ -33,8 +33,8 @@
                 <h4>группы настроек</h4>
                 <ol>
                     {{-- {{dd(count($groups))}} --}}
-                    @foreach ($groups as $group)
-                        <li class=""><a href="#{{ $group }}">{{ $group }}</a>
+                    @foreach ($groups as $group => $name_group)
+                        <li class=""><a href="#{{ $group }}">{{ $name_group }}</a>
                     @endforeach
                 </ol>
             @endif
@@ -43,7 +43,7 @@
                 $j = 1;
             @endphp
 
-            @foreach ($groups as $group)
+            @foreach ($groups as $group => $name_group)
                 <div class="" id="{{ $group }}"></div>
                 <div class="card setting_group">
 
@@ -54,7 +54,7 @@
                         $i = 0;
                     @endphp
 
-                    <div class="card-header"><h3>{{ $j }} Настройки группы '{{ $group }}'</h3></div>
+                    <div class="card-header"><h3>{{ $j }} {{ $name_group }}</h3></div>
 
                     @foreach ($settings as $setting)
                     
@@ -65,7 +65,7 @@
                                 $permissible_values = unserialize($setting->permissible_values);
                             @endphp
 
-                            <div class="card-body">
+                            <div class="card-body" id="setting_{{ $setting->name }}">
                                 <h5 class="card-title">{{ $j . '.' . $i }} {{ $setting->display_name }}</h5>
                                 {{-- <p class="card-text">
                                     {{ $setting->description }}
@@ -100,21 +100,26 @@
                                         <input 
                                             type="checkbox"
                                             id="setting_{{ $setting->id }}"
-                                            name="value" 
+                                            class="mb-2"
+                                            name="value"
                                             @if ( $setting->value )
                                                 {{-- value="0" --}}
                                                 checked
+                                                onchange="document.getElementById('submit_{{ $setting->id }}').disabled = this.checked" 
                                             @else
                                                 {{-- value="1" --}}
+                                                onchange="document.getElementById('submit_{{ $setting->id }}').disabled = !this.checked" 
                                             @endif
                                         >
                                         <label class="" for="setting_{{ $setting->id }}">
                                             {{ $setting->description }}
                                         </label>
+                                        
+                                        <button type="submit" id="submit_{{ $setting->id }}" disabled class="btn btn-primary form-control mb-3">применить</button>
 
                                     @elseif ($setting->type == 'select')
 
-                                        <select name="value" id="setting_{{ $setting->id }}" class="{{ $setting->value ? 'on_select' : 'off_select' }}">
+                                        <select name="value" id="setting_{{ $setting->id }}" class="{{ $setting->value ? 'on_select' : 'off_select' }} mb-2">
                                             @foreach($permissible_values as $permissible_value)
                                                 @php
                                                     if ($permissible_value[0] == $setting->value) {
@@ -130,6 +135,8 @@
                                             @endforeach
                                         </select>
                                         
+                                        <button type="submit" id="submit_{{ $setting->id }}" class="btn btn-primary form-control mb-3">применить</button>
+    
                                     @elseif($setting->type == 'email')
 
                                         @php
@@ -137,16 +144,48 @@
                                             for ( $i = 1; $i <= config('mail.max_quantity_add_bcc'); $i++ ) {
                                                 if ( count($value) >= $i ) {
                                                     // echo '<input type="email" name="value_email' . $i . '" value="' . ($value[($i - 1)] ?? '') . '">';
-                                                    echo '<input type="email" name="value_email' . $i . '" value="' . ($value[($i - 1)] ? $value[($i - 1)] : '') . '">';
+                                                    echo '<input 
+                                                        type="email"
+                                                        class="col-md-12 col-lg-4 mb-2"
+                                                        name="value_email' . $i . '" 
+                                                        value="' . ($value[($i - 1)] ? $value[($i - 1)] : '') . '"
+                                                        >';
                                                 } else {
-                                                    echo '<input type="email" name="value_email' . $i . '" value="">';
+                                                    echo '<input 
+                                                        type="email"
+                                                        class="col-md-12 col-lg-4 mb-2"
+                                                        name="value_email' . $i . '" 
+                                                        value=""
+                                                        >';
                                                 }
                                             }
                                         @endphp
 
+                                        <button type="submit" id="submit_{{ $setting->id }}" class="btn btn-primary form-control mb-3">применить</button>
+
+                                    @elseif($setting->type == 'text')
+
+                                        {{-- @input(['name' => 'value', 'value' => old('title') ?? $setting->value, 'required' => 'required']) --}}
+                                        <input 
+                                            type="text" 
+                                            id="value" 
+                                            name="value" 
+                                            class="form-control mb-2" 
+                                            placeholder="value" 
+                                            value="{{ old('title') ?? $setting->value }}" 
+                                            required
+                                        >
+        
+                                        <button type="submit" id="submit_{{ $setting->id }}" class="btn btn-primary form-control mb-3">применить</button>
+
                                     @endif
 
-                                    <button type="submit"  class="btn btn-primary">применить</button>
+
+
+                                    
+
+
+
                                 </form>
                             </div>
 

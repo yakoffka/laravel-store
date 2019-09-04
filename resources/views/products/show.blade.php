@@ -63,7 +63,20 @@
                     @else
                         <span class="grey">цену уточняйте у менеджера</span><br>
                     @endif --}}
-                    <span class="grey">цену уточняйте у менеджера</span><br>
+                    
+                    {{-- @if ( config('settings.display_prices') )
+                        @if($product->price)
+                            <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
+                        @else
+                            <span class="grey">цену уточняйте у менеджера</span><br>
+                        @endif
+                    @endif --}}
+                    
+                    @if ( config('settings.display_prices') and $product->price)
+                        <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
+                    @else
+                        <span class="grey">{{ config('settings.priceless_text') }}</span><br>
+                    @endif
 
 
                     @permission('edit_products')
@@ -87,9 +100,11 @@
 
                         @guest
 
-                            <div class="col-sm-12">
-                                @addToCart(['product_id' => $product->id])
-                            </div>
+                            @if ( config('settings.display_cart') )
+                                <div class="col-sm-12">
+                                    @addToCart(['product_id' => $product->id])
+                                </div>
+                            @endif
 
                         @else
 
@@ -128,7 +143,7 @@
                                 
                             @elseif ( Auth::user()->can('edit_products') )
 
-                                <div class="col-sm-12 padding_left_0">
+                                <div class="col-sm-12">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                         <i class="fas fa-pen-nib"></i> edit
                                     </a>
@@ -136,9 +151,11 @@
                                 
                             @else
 
-                                <div class="col-sm-12 padding_left_0">
-                                    @addToCart(['product_id' => $product->id])
-                                </div>
+                                @if ( config('settings.display_cart') )
+                                    <div class="col-sm-12">
+                                        @addToCart(['product_id' => $product->id])
+                                    </div>
+                                @endif
 
                             @endif
 
