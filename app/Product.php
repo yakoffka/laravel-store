@@ -10,6 +10,8 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 class Product extends Model
 {
     use SearchableTrait;
+    
+    protected $guarded = [];
 
     /**
      * Searchable rules.
@@ -30,8 +32,11 @@ class Product extends Model
             'products.description' => 10,
         ],
     ];
-    
-    protected $guarded = [];
+
+    public function __construct()
+    {
+      $this->perPage = config('custom.products_paginate');
+    }
 
     public function comments() {
         // return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');

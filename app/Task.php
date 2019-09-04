@@ -12,6 +12,11 @@ class Task extends Model
     
     protected $guarded = [];
 
+
+    public function __construct()
+    {
+      $this->perPage = config('custom.tasks_paginate');
+    }
     
     public function getMaster () {
         return $this->belongsTo(User::class, 'master_user_id');

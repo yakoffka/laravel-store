@@ -25,7 +25,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate(config('custom.products_paginate'));
+        // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate();
         // return view('products.index', compact('products'));
 
         // $products = Product::all()->filter( function ($product) {
@@ -34,18 +34,18 @@ class ProductsController extends Controller
         // });
         // return view('products.index', compact('products'));
 
-        // $products = Product::paginate(config('custom.products_paginate'));
+        // $products = Product::paginate();
         // return view('products.index', compact('products'));
 
         // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $products = Product::latest()->paginate(config('custom.products_paginate'));
+        //     $products = Product::latest()->paginate();
         // } else {
-        //     $products = Product::latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        //     $products = Product::latest()->where('visible', '=', 1)->paginate();
         // }
         // return view('products.index', compact('products'));
 
         // add filters
-        // $products = Product::latest()->filter($this->filters())->paginate(config('custom.products_paginate'));
+        // $products = Product::latest()->filter($this->filters())->paginate();
         // return view('products.index', compact('products'));
 
 
@@ -54,13 +54,13 @@ class ProductsController extends Controller
             $appends[$key] = $val;
         }
 
-        // $products = Product::filter($request, $this->getFilters())->paginate(config('custom.products_paginate'));
+        // $products = Product::filter($request, $this->getFilters())->paginate();
 
         // visible/invisible products where 'visible' == 0
         // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $products = Product::filter($request, $this->getFilters())->latest()->paginate(config('custom.products_paginate'));
+        //     $products = Product::filter($request, $this->getFilters())->latest()->paginate();
         // } else {
-        //     $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate(config('custom.products_paginate'));
+        //     $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate();
         // }
 
 
@@ -68,19 +68,19 @@ class ProductsController extends Controller
         if ( Auth::user() and  Auth::user()->can(['view_products'])) {
             $products = Product::filter($request, $this->getFilters())
                 ->latest()
-                ->paginate(config('custom.products_paginate'));
+                ->paginate();
 
         // } elseif ( $view_products_whitout_price->value ) {
         } elseif ( config('settings.view_products_whitout_price') ) {
             $products = Product::filter($request, $this->getFilters())
                 ->latest()->where('visible', '=', 1)
-                ->paginate(config('custom.products_paginate'));
+                ->paginate();
 
         } else {
             $products = Product::filter($request, $this->getFilters())
                 ->latest()->where('visible', '=', 1)
                 ->where('price', '!=', 0)
-                ->paginate(config('custom.products_paginate'));
+                ->paginate();
         }
 
         return view('products.index', compact('products', 'appends'));

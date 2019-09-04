@@ -22,7 +22,7 @@ class ActionController extends Controller
     public function users()
     {
         $actions = Action::orderBy('created_at', 'desc')
-            ->paginate(config('custom.actions_paginate'));
+            ->paginate();
 
         return view('actions.users', compact('actions'));
     }
@@ -35,7 +35,7 @@ class ActionController extends Controller
     {
         $actions = Action::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
-            ->paginate(config('custom.actions_paginate'));
+            ->paginate();
 
         return view('actions.user', compact('user', 'actions'));
     }
@@ -48,14 +48,14 @@ class ActionController extends Controller
     public function orders()
     {
         // $actions = Action::orderBy('created_at', 'desc')
-        //     ->paginate(config('custom.actions_paginate'));
+        //     ->paginate();
         $actions = Action::orderBy('created_at', 'desc');
             
         if ( auth()->user()->cannot('view_orders') ) {
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.orders', compact('actions'));
     }
@@ -69,7 +69,7 @@ class ActionController extends Controller
         // $actions = Action::where('type', 'order')
         //     ->where('type_id', $order->id)
         //     ->orderBy('created_at', 'desc')
-        //     ->paginate(config('custom.actions_paginate'));
+        //     ->paginate();
 
         $actions = Action::where('type', 'order')
             ->where('type_id', $order->id)
@@ -79,7 +79,7 @@ class ActionController extends Controller
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.order', compact('order', 'actions'));
     }
@@ -97,7 +97,7 @@ class ActionController extends Controller
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.products', compact('actions'));
     }
@@ -116,7 +116,7 @@ class ActionController extends Controller
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.product', compact('product', 'actions'));
     }
@@ -134,7 +134,7 @@ class ActionController extends Controller
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.categories', compact('actions'));
     }
@@ -153,7 +153,7 @@ class ActionController extends Controller
             $actions = $actions->where('user_id', auth()->user()->id );
         }
 
-        $actions = $actions->paginate(config('custom.actions_paginate'));
+        $actions = $actions->paginate();
 
         return view('actions.category', compact('category', 'actions'));
     }
@@ -167,7 +167,7 @@ class ActionController extends Controller
     {
         $actions = Action::orderBy('created_at', 'desc')
             ->where('type', 'setting' )
-            ->paginate(config('custom.actions_paginate'));
+            ->paginate();
             
         return view('actions.categories', compact('actions'));
     }
@@ -182,7 +182,7 @@ class ActionController extends Controller
         $actions = Action::orderBy('created_at', 'desc')
             ->where('user_id', auth()->user()->id )
             ->where('type_id', 'user' )
-            ->paginate(config('custom.actions_paginate'));
+            ->paginate();
 
         return view('actions.categories', compact('actions'));
     }

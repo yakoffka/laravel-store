@@ -8,6 +8,11 @@ class Order extends Model
 {
     protected $guarded = [];
 
+    public function __construct()
+    {
+      $this->perPage = config('custom.orders_paginate');
+    }
+
     public function status() {
         return $this->belongsTo(Status::class);
     }

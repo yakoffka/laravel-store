@@ -259,7 +259,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'perPage in models',
                 'description' => 'protected $perPage = 25; // Да, вы можете переопределить число записей пагинации (по умолчанию 15) https://github.com/laravel/framework/blob/5.6/src/Illuminate/Database/Eloquent/Model.php',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 1,
             ],
 

@@ -27,10 +27,10 @@ class OrderController extends Controller
     public function index()
     {
         if ( auth()->user()->can('view_orders') ) {
-            $orders = Order::paginate(config('custom.orders_paginate'));
+            $orders = Order::paginate();
         } else {
             $orders = Order::where('user_id', '=', auth()->user()->id)
-                ->paginate(config('custom.orders_paginate'));
+                ->paginate();
         }
         // dd($orders);
 
