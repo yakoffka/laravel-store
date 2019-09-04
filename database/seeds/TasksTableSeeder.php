@@ -77,7 +77,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Свернуть меню админки',
                 'description' => 'Свернуть подпункты как подкатегории в меню каталога.',
-                'tasksstatus_id' => 5,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
@@ -142,7 +142,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Удаление мусора',
                 'description' => 'Продумать удаление каталогов с изображениями при "migrate:refresh --seed".',
-                'tasksstatus_id' => 5,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
@@ -206,7 +206,7 @@ class TasksTableSeeder extends Seeder
                     <li>каталог</li>
                 </ol>.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 5,
             ],
 
             [
@@ -248,6 +248,83 @@ class TasksTableSeeder extends Seeder
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
+
+            [
+                'title' => 'Uuid primaryKey',
+                'description' => 'Добавить в модель App\User <code>protected $primaryKey = \'uuid\';</code>.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'perPage in models',
+                'description' => 'protected $perPage = 25; // Да, вы можете переопределить число записей пагинации (по умолчанию 15) https://github.com/laravel/framework/blob/5.6/src/Illuminate/Database/Eloquent/Model.php',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
 
             // [
             //     'title' => 'rrrrrr',
