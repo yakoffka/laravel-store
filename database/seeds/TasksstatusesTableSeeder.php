@@ -12,12 +12,12 @@ class TasksstatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'style' => 'primary'],
-            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'style' => 'info'],
-            ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'style' => 'success'],
-            ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'style' => 'dark'],
-            ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'style' => 'danger'],
-            ['name' => 'closed',    'display_name' => 'закрыто',    'title' => 'закрыто',     'description' => 'description', 'style' => 'secondary'],
+            ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'class' => 'status_open'      ],
+            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'class' => 'status_in_work'   ],
+            ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'class' => 'status_done'      ],
+            ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'class' => 'status_prorogue'  ],
+            ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'class' => 'status_reopened'  ],
+            ['name' => 'closed',    'display_name' => 'закрыто',    'title' => 'закрыто',     'description' => 'description', 'class' => 'status_closed'    ],
         ];
 
         foreach ($statuses as $status) {
@@ -28,7 +28,7 @@ class TasksstatusesTableSeeder extends Seeder
                 'display_name' => $status['display_name'],
                 'description' => $status['description'],
                 'title' => $status['title'],
-                'style' => $status['style'],
+                'class' => $status['class'],
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ])) {

@@ -20,7 +20,7 @@ class CreateTasksstatusesTable extends Migration
             $table->string('display_name');
             $table->text('description')->nullable();
             $table->string('title');
-            $table->string('style');
+            $table->string('class');
             $table->timestamps();
         });
     }

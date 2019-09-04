@@ -60,7 +60,7 @@
                     </tr>
 
                     @foreach($tasks as $task)
-                        <tr>
+                        <tr class="{{ $task->getStatus->class }}">
                             <td>{{ $task->id }}</td>
                             {{-- <td>{{ $task->yyyy }}</td> --}}
                             <td class="ta_l">{{ $task->title }}</td>
@@ -112,7 +112,7 @@
                                     )
                                 ) --}}
                                 @if ( empty($directive) )
-                                    <span class="text-{{ $task->getPriority->style ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
+                                    <span class="{{ $task->getPriority->class ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
                                     {{-- <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
                                         {{ $task->getPriority->title }}
                                     </button> --}}

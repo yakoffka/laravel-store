@@ -284,12 +284,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 4,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Удаление категорий',
+                'description' => 'Добавить удаление категорий с перемещением находящихся в них подкатегорий и товаров на уровень выше.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

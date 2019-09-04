@@ -13,10 +13,10 @@ class TasksprioritiesTableSeeder extends Seeder
     public function run()
     {
         $priorities = [
-            ['name' => '_i_u', 'display_name' => 'важно и срочно',      'title' => 'важно и срочно',     'description' => 'description', 'style' => 'danger'],
-            ['name' => '_inu', 'display_name' => 'неважно, но срочно',  'title' => 'неважно, но срочно', 'description' => 'description', 'style' => 'success'],
-            ['name' => 'ni_u', 'display_name' => 'важно, но несрочно',  'title' => 'важно, но несрочно', 'description' => 'description', 'style' => 'success'],
-            ['name' => 'ninu', 'display_name' => 'неважно и несрочно',  'title' => 'неважно и несрочно', 'description' => 'description', 'style' => 'secondary'],
+            ['name' => '_i_u', 'display_name' => 'важно и срочно',      'title' => 'важно и срочно',     'description' => 'description', 'class' => 'priority__i_u'],
+            ['name' => '_inu', 'display_name' => 'неважно, но срочно',  'title' => 'неважно, но срочно', 'description' => 'description', 'class' => 'priority__inu'],
+            ['name' => 'ni_u', 'display_name' => 'важно, но несрочно',  'title' => 'важно, но несрочно', 'description' => 'description', 'class' => 'priority_ni_u'],
+            ['name' => 'ninu', 'display_name' => 'неважно и несрочно',  'title' => 'неважно и несрочно', 'description' => 'description', 'class' => 'priority_ninu'],
         ];
 
         foreach ($priorities as $priority) {
@@ -26,7 +26,7 @@ class TasksprioritiesTableSeeder extends Seeder
                 'display_name' => $priority['display_name'],
                 'description' => $priority['description'],
                 'title' => $priority['title'],
-                'style' => $priority['style'],
+                'class' => $priority['class'],
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ])) {

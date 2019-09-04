@@ -911,5 +911,19 @@ h5.grey {
     margin-bottom: 0 !important;
 }
 
+
+
+.priority__i_u { color: #d80c02; }
+.priority__inu { color: #d82802; }
+.priority_ni_u { color: #a85f01; }
+.priority_ninu { color: #888888; }
+
+
+.status_open        { color: #0a5831; }
+.status_in_work     { color: #3490dc; }
+.status_done        { color: #43553c; }
+.status_prorogue    { color: #554741; }
+.status_reopened    { color: #401400; }
+.status_closed      { color: #888888; }
 /* admin */
 /*======================================================================================================*/
