@@ -1,6 +1,8 @@
 <?php
 
     return [
+        // 'store_theme' => env('STORE_THEME', 'MUSIC'),
+        'store_theme' => env('STORE_THEME', 'SLINGS'),
         'products_paginate' => env('PRODUCTS_PAGINATE', 6),
         'orders_paginate' => env('ORDERS_PAGINATE', 20),
         'tasks_paginate' => env('TASKS_PAGINATE', 30),

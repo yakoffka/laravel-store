@@ -291,12 +291,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Добавить возможность сидирования магазинов различных тематик',
+                'description' => 'Добавить возможность сидирования магазинов различных тематик с управлением из .env.',
+                'tasksstatus_id' => 2,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

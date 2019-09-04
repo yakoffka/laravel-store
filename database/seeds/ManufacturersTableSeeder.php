@@ -11,13 +11,27 @@ class ManufacturersTableSeeder extends Seeder
      */
     public function run()
     {
-        $manufacturers = [
-            ['name' => 'noname',    'title' => 'NoName',    'description' => 'description for NoName',   ],
-            ['name' => 'cort',      'title' => 'Cort',      'description' => 'description for Cort',     ],
-            ['name' => 'fernandes', 'title' => 'Fernandes', 'description' => 'description for Fernandes',],
-            ['name' => 'epiphone',  'title' => 'Epiphone',  'description' => 'description for Epiphone', ],
-            ['name' => 'fender',    'title' => 'Fender',    'description' => 'description for Fender',   ],
-        ];
+        if ( config('custom.store_theme') == 'MUSIC' ) {
+
+            $manufacturers = [
+                ['name' => 'noname',    'title' => 'NoName',    'description' => 'description for NoName',   ],
+                ['name' => 'cort',      'title' => 'Cort',      'description' => 'description for Cort',     ],
+                ['name' => 'fernandes', 'title' => 'Fernandes', 'description' => 'description for Fernandes',],
+                ['name' => 'epiphone',  'title' => 'Epiphone',  'description' => 'description for Epiphone', ],
+                ['name' => 'fender',    'title' => 'Fender',    'description' => 'description for Fender',   ],
+            ];
+
+        } else {
+            
+            $manufacturers = [
+                ['name' => 'noname',    'title' => 'NoName',    'description' => 'description for NoName',           ],
+                ['name' => 'Еврокран',  'title' => 'Cort',      'description' => 'description for Еврокран',         ],
+                ['name' => 'ЮКЗ',       'title' => 'Fernandes', 'description' => 'Южный крановый завод «ЮКЗ»',       ],
+                ['name' => 'Гертек',    'title' => 'Гертек',    'description' => 'Казанский крановый завод «Гертек»',],
+                ['name' => 'ДКЗ',       'title' => 'ДКЗ',       'description' => 'Димитровградский крановый завод',  ],
+            ];
+        }
+
 
         foreach ( $manufacturers as $manufacturer ) {
             DB::table('manufacturers')->insert([

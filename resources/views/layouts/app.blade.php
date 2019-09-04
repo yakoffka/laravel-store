@@ -35,7 +35,9 @@
         <div class="fw-background">{{-- from https://datatables.net/examples/basic_init/table_sorting.html --}}
             <div class="container relative">
                 <a class="logo d-none d-md-block" href="{{ url('/') }}">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
-                    <img src="/laravel_white.png" alt="logo">
+                    {{-- <img src="/laravel_white.png" alt="logo"> --}}
+                    <img src="{{ asset('storage') }}/images/common/logo_{{ config('custom.store_theme') }}.png" alt="logo">
+                    
                 </a>
             </div>
         </div>

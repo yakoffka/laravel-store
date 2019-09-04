@@ -20,16 +20,8 @@ class ProductsTableSeeder extends Seeder
         $manufacturers = Manufacturer::all();
         $arrMaterial = ['Basswood', 'Maple', 'Birch', 'Cast iron', ];
         $a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        // $arr_categories = Category::all()->where('parent_id', '>', 0)->toArray();
-        $categories = Category::all();
+        $arr_categories = Category::all()->where('parent_id', '>', 1)->toArray();
 
-        foreach ( $categories as $key => $category ) {
-            if ( $category->children()->count() ) {
-                Arr::pull($categories, $key);
-            }
-        }
-
-        $arr_categories = $categories->toArray();
 
         for ($i=0; $i<config('custom.num_products_seed'); $i++) {
 
@@ -83,46 +75,48 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            foreach($images as $j => $image) {
-                $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
-                $path  = '/images/products/' . $product->id;
 
-                if ( is_file($def_pathname)) {
-                    // $product->image = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
-                    // $product->update();
-                    $image_name = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
-                    $image = Image::create([
-                        'product_id' => $product->id,
-                        'slug' => Str::slug($image_name, '-'),
-                        'path' => $path,
-                        'name' => $image_name,
-                        'ext' => config('imageyo.res_ext'),
-                        'alt' => 'seed',
-                        'sort_order' => rand(1, 9),
-                        // 'sort_order' => 9,
-                        'orig_name' => 'seed',
-                    ]);
+            // images
+            if ( config('custom.store_theme') == 'MUSIC' ) {
+
+                foreach($images as $j => $image) {
+                    $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
+                    $path  = '/images/products/' . $product->id;
+
+                    if ( is_file($def_pathname)) {
+                        // $product->image = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
+                        // $product->update();
+                        $image_name = ImageYoTrait::saveImgSet($def_pathname, $product->id, 'seed');
+                        $image = Image::create([
+                            'product_id' => $product->id,
+                            'slug' => Str::slug($image_name, '-'),
+                            'path' => $path,
+                            'name' => $image_name,
+                            'ext' => config('imageyo.res_ext'),
+                            'alt' => 'seed',
+                            'sort_order' => rand(1, 9),
+                            // 'sort_order' => 9,
+                            'orig_name' => 'seed',
+                        ]);
+                    }
+
+                    // progress
+                    $all_items = config('custom.num_products_seed') * count($images);
+                    $percent = 100 / $all_items;
+                    $quantity = ( $i * count($images) + $j + 1 );
+                    $progress = round($percent * $quantity, 2);
+                    $str_progress = (string)$progress;
+                    if (!strpos($str_progress, '.')) {
+                        $str_progress = $str_progress . '.00';
+                    } elseif ( strpos($str_progress, '.') == 2 and strlen($str_progress) == 4 ) {
+                        $str_progress = str_pad($str_progress, 5, "0");
+                    } else {
+                        $str_progress = str_pad($str_progress, 4, "0");
+                    }
+                    $str_progress = str_pad($str_progress, 5, "0", STR_PAD_LEFT);
+                    echo '    image conversion: ' . $str_progress . "% completed\n";
                 }
-
-                // progress
-                $all_items = config('custom.num_products_seed') * count($images);
-                $percent = 100 / $all_items;
-                $quantity = ( $i * count($images) + $j + 1 );
-                $progress = round($percent * $quantity, 2);
-                $str_progress = (string)$progress;
-                if (!strpos($str_progress, '.')) {
-                    $str_progress = $str_progress . '.00';
-                } elseif ( strpos($str_progress, '.') == 2 and strlen($str_progress) == 4 ) {
-                    $str_progress = str_pad($str_progress, 5, "0");
-                } else {
-                    $str_progress = str_pad($str_progress, 4, "0");
-                }
-                $str_progress = str_pad($str_progress, 5, "0", STR_PAD_LEFT);
-                echo '    image conversion: ' . $str_progress . "% completed\n";
-
             }
-            
         }
-
     }
 }
