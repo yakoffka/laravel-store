@@ -66,10 +66,12 @@
                             @endphp
 
                             <div class="card-body" id="setting_{{ $setting->name }}">
+
                                 <h5 class="card-title">{{ $j . '.' . $i }} {{ $setting->display_name }}</h5>
-                                {{-- <p class="card-text">
-                                    {{ $setting->description }}
-                                </p> --}}
+                                <p class="card-text">
+                                    {!! $setting->description !!}
+                                </p>
+
                                 <form action="{{ route('settings.update', ['setting' => $setting->id]) }}" 
                                     method="POST" class="row left_stylized_checkbox">
 
@@ -112,7 +114,7 @@
                                             @endif
                                         >
                                         <label class="" for="setting_{{ $setting->id }}">
-                                            {{ $setting->description }}
+                                            {{ $setting->display_name }}
                                         </label>
                                         
                                         <button type="submit" id="submit_{{ $setting->id }}" disabled class="btn btn-primary form-control mb-3">применить</button>

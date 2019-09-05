@@ -21,7 +21,9 @@ class CategoryController extends Controller
      */
     public function index() {
 
-        // get all product
+        if ( config('custom.display_subcategories'))
+
+        // get products
         if( Auth::user() and  Auth::user()->can(['view_products'])) {
             $products = Product::paginate();
         } else {

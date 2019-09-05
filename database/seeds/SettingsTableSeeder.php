@@ -21,7 +21,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'email_new_order',
                 'display_name' => 'email-уведомления при создании заказа',
-                'description' => 'Включить отправку email-уведомлений при создании нового заказа.',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при создании нового заказа.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -34,7 +34,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'email_update_order',
                 'display_name' => 'email-уведомления при изменении заказа',
-                'description' => 'Включить отправку email-уведомлений при изменении нового заказа.',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении нового заказа.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -47,7 +47,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'email_new_product',
                 'display_name' => 'email-уведомления при создании нового товара',
-                'description' => 'Включить отправку email-уведомлений при создании нового товара.',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при создании нового товара.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -60,7 +60,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'email_update_product',
                 'display_name' => 'email-уведомления при изменении товара',
-                'description' => 'Включить отправку email-уведомлений при изменении товара.',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении товара.',
                 'permissible_values' => [
                     [0, 'выключено'],
                     [1, 'включено'],
@@ -104,18 +104,28 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'view_products_whitout_price',
                 'display_name' => 'Показывать товары без цены',
-                'description' => 'Показывать покупателям товары без цены.',
+                'description' => 'Показывать покупателям товары без цены. При отключении данного пункта вместо цены на товар будет выводиться сообщение из следующего пункта.',
                 'permissible_values' => [
                     [0, 'не показывать'],
                     [1, 'показывать'],
                 ],
                 'default_value' => 1,
             ],
+            [
+                'group' => 'products',
+                'name_group' => 'Настройки отображения товаров',
+                'type' => 'text',
+                'name' => 'priceless_text',
+                'display_name' => 'Текст, выводимый при отсутствии цены на товар',
+                'description' => 'Укажите текст, выводимый при отсутствии цены на товар или при отключении отображения цен.',
+                'permissible_values' => [],
+                'default_value' => 'Цену на данный товар уточняйте у менеджера',
+            ],
 
         
-            // settings for carts_and_price
+            // display settrings
             [
-                'group' => 'carts_and_price',
+                'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
                 'type' => 'checkbox',
                 'name' => 'display_cart',
@@ -128,7 +138,7 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 1,
             ],
             [
-                'group' => 'carts_and_price',
+                'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
                 'type' => 'checkbox',
                 'name' => 'display_prices',
@@ -141,7 +151,7 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 1,
             ],
             [
-                'group' => 'carts_and_price',
+                'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
                 'type' => 'checkbox',
                 'name' => 'display_registration',
@@ -154,7 +164,7 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 0,
             ],
             [
-                'group' => 'carts_and_price',
+                'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
                 'type' => 'checkbox',
                 'name' => 'display_login',
@@ -167,17 +177,23 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 1,
             ],
             [
-                'group' => 'carts_and_price',
+                'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
-                'type' => 'text',
-                'name' => 'priceless_text',
-                'display_name' => 'Текст, выводимый при отсутствии цены на товар',
-                'description' => 'Укажите текст, выводимый при отсутствии цены на товар или при отключении отображения цен.',
-                'permissible_values' => [],
-                'default_value' => 'Цену на данный товар уточняйте у менеджера',
+                'type' => 'checkbox',
+                'name' => 'display_subcategories',
+                'display_name' => 'Отображать в категории подкатегории',
+                'description' => 'При включении данного пункта в категории будут отображаться подкатегории и товары непосредственно данной категории.
+                    </p><p>При отключении - только товары, причем как находящиеся в данной категории, так и товары дочерних подкатегорий.',
+                'permissible_values' => [
+                    [0, 'выключено'],
+                    [1, 'включено'],
+                ],
+                'default_value' => 1,
             ],
 
         ];
+
+
 
         foreach ($settings as $setting){
             DB::table('settings')->insert([
@@ -185,7 +201,7 @@ class SettingsTableSeeder extends Seeder
                 'name_group' => $setting['name_group'],
                 'display_name' => $setting['display_name'],
                 'description' => $setting['description'],
-                'slug' => Str::slug($setting['description'], '-'),
+                'slug' => Str::slug($setting['display_name'], '-'),
                 'group' => $setting['group'],
                 'type' => $setting['type'],
                 'permissible_values' => serialize($setting['permissible_values']),
