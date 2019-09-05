@@ -17,7 +17,7 @@
         {{ $item->title }}
     </button> --}}
     {{-- <span class="pointer text-{{ $item->style ?? 'primary' }}" data-toggle="modal" data-target="#select_{{ $select_name }}_{{ $id }}"> --}}
-    <span class="pointer {{ $item->class ?? '' }}" data-toggle="modal" data-target="#select_{{ $select_name }}_{{ $id }}">
+    <span class="pointer {{ $item->class ?? '' }} nowrap" data-toggle="modal" data-target="#select_{{ $select_name }}_{{ $id }}">
         <i class="fas fa-pen-nib"></i>
         {{ $item->title }}
     </span>

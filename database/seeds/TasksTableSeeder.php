@@ -259,7 +259,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'perPage in models',
                 'description' => 'protected $perPage = 25; // Да, вы можете переопределить число записей пагинации (по умолчанию 15) https://github.com/laravel/framework/blob/5.6/src/Illuminate/Database/Eloquent/Model.php',
-                'tasksstatus_id' => 2,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -301,16 +301,16 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Перенести сидирование изображений в отдельный класс',
                 'description' => 'В данный момент сидирование в таблицу "images" происходит в файле "ProductTableSeeder", что не есть комильфо. Исправить.',
-                'tasksstatus_id' => 4,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Добавить отображение фильтров в настройки',
+                'description' => 'Добавить в настройки возможность выбора отображения фильтров (не отображать, только категории, категории и подкатегории). часть элементов раскрывать по клику',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

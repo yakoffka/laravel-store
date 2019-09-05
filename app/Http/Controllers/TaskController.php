@@ -22,7 +22,8 @@ class TaskController extends Controller
     {
         $tasks = Task::where('slave_user_id', auth()->user()->id)
             // ->orderBy('id', 'desc') TODO
-            ->orderBy('taskspriority_id')
+            // ->orderBy('taskspriority_id')
+            ->orderBy('tasksstatus_id')
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
         return view('tasks.index', compact('tasks', 'tasksstatuses'));
@@ -41,7 +42,8 @@ class TaskController extends Controller
         $taskspriorities = Taskspriority::all();
         $tasks = Task::where('master_user_id', auth()->user()->id)
             // ->orderBy('id', 'desc') TODO
-            ->orderBy('taskspriority_id')
+            // ->orderBy('taskspriority_id')
+            ->orderBy('tasksstatus_id')
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
 

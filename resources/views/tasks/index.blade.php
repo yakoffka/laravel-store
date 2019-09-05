@@ -112,7 +112,7 @@
                                     )
                                 ) --}}
                                 @if ( empty($directive) )
-                                    <span class="{{ $task->getPriority->class ?? 'primary' }}">{{ $task->getPriority->display_name }}</span>
+                                    <span class="{{ $task->getPriority->class ?? 'primary' }} nowrap">{{ $task->getPriority->display_name }}</span>
                                     {{-- <button type="button" class="btn btn-{{ $task->getPriority->style ?? 'primary' }} form-control">
                                         {{ $task->getPriority->title }}
                                     </button> --}}
