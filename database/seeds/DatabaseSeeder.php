@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,   // for Zizaco/entrust
             StatusesTableSeeder::class,         // for confirmations email
             SettingsTableSeeder::class,
+            ImagesTableSeeder::class,
         ]);
         factory(App\Comment::class, (config('custom.num_products_seed') * 5) )->create();
     }

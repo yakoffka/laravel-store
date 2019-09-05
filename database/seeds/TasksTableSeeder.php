@@ -298,12 +298,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Перенести сидирование изображений в отдельный класс',
+                'description' => 'В данный момент сидирование в таблицу "images" происходит в файле "ProductTableSeeder", что не есть комильфо. Исправить.',
+                'tasksstatus_id' => 4,
+                'taskspriority_id' => 2,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

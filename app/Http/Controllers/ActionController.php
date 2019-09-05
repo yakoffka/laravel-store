@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\{Action, Product, User};
-use Illuminate\Http\Request;
 
 class ActionController extends Controller
 {
