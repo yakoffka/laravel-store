@@ -85,6 +85,8 @@ Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy')
 
 /* categories*/
 Route::resource('categories', 'CategoryController');
+// Route::get('/categories', 'CategoryController@index')->name('categories.index');
+// Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
 
 // cart
 Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
@@ -118,30 +120,30 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
     // actions
-        // categories
+        // categories actions
         Route::get('actions/categories', 'ActionController@categories')->name('actions.categories');
         Route::get('actions/categories/{category}', 'ActionController@category')->name('actions.category');
-        // comments
+        // comments actions
         Route::get('actions/comments', 'ActionController@comments')->name('actions.comments');
         Route::get('actions/comments/{comment}', 'ActionController@comment')->name('actions.comment');
-        // images
+        // images actions
         Route::get('actions/images', 'ActionController@images')->name('actions.images');
         Route::get('actions/images/{image}', 'ActionController@image')->name('actions.image');
-        // manufacturers
+        // manufacturers actions
         Route::get('actions/manufacturers', 'ActionController@manufacturers')->name('actions.manufacturers');
         Route::get('actions/manufacturers/{manufacturer}', 'ActionController@manufacturer')->name('actions.manufacturer');
-        // orders
+        // orders actions
         Route::get('actions/orders', 'ActionController@orders')->name('actions.orders');
         Route::get('actions/orders/{order}', 'ActionController@order')->name('actions.order');
-        // products
+        // products actions
         Route::get('actions/products', 'ActionController@products')->name('actions.products');
         Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
-        // users
+        // users actions
         Route::get('actions/users', 'ActionController@users')->name('actions.users');
         Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
-        // registrations
+        // registrations actions
         Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
-        // settings
+        // settings actions
         Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
         // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
 
@@ -155,8 +157,17 @@ Route::get('search', 'ProductsController@search')->name('search');
         Route::get('directives/{task}', 'TaskController@directive')->name('directives.show');
 
     
-    // categories
-        Route::get('admin/categories', 'CategoryController@list')->name('admin.listcategory');
+    // admin categories
+        // Route::get   ('admin/categories',                'CategoryController@adminIndex')->name('admin.categories.index'  )->middleware('auth');
+        // Route::get   ('admin/categories/create',         'CategoryController@create'    )->name('admin.categories.create' )->middleware('auth');
+        // Route::get   ('admin/categories/{$category}',    'CategoryController@adminShow' )->name('admin.categories.show'   )->middleware('auth');
+        // Route::post  ('admin/categories',                'CategoryController@store'     )->name('admin.categories.store'  )->middleware('auth');
+        // Route::get   ('admin/categories/edit/{category}','CategoryController@edit'      )->name('admin.categories.edit'   )->middleware('auth');
+        // Route::patch ('admin/categories/{category}',     'CategoryController@update'    )->name('admin.categories.update' )->middleware('auth');
+        // Route::delete('admin/categories/{category}',     'CategoryController@destroy'   )->name('admin.categories.destroy')->middleware('auth');
+
+        
+
 
 
     Route::get('/clear', function() {

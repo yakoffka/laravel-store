@@ -334,7 +334,8 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вёрстка: сверстать админку:
+                'title' => 'Вёрстка: сверстать админку',
+                'description' => 'сверстать главную страницу.:
                     <ol>
                         <li>admin.layout</li>
                         <li></li>
@@ -342,17 +343,16 @@ class TasksTableSeeder extends Seeder
                         <li></li>
                     </ol>
                 ',
-                'description' => 'сверстать главную страницу.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Вёрстка: видоизменить 404 etc',
+                'description' => 'видоизменить 404, 403, 500 etc.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

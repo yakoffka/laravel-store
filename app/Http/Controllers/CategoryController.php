@@ -50,15 +50,7 @@ class CategoryController extends Controller
             return view('products.index', compact('products', 'category', 'appends'));
         }
     }
-
     
-    public function list() {
-        $categories = Category::all();
-
-        return view('admin.categories.list', compact('categories'));
-    }
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -198,7 +190,6 @@ class CategoryController extends Controller
         }
 
         return $arr_children;
-
     }
 
     /**
@@ -210,7 +201,7 @@ class CategoryController extends Controller
     {
         abort_if (Auth::user()->cannot('edit_categories'), 403);
         $categories = Category::all();
-        return view('categories.edit', compact('category', 'categories'));
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -297,16 +288,39 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         abort_if ( Auth::user()->cannot('delete_categories'), 403 );
+
         if ( $category->id == 1 ) {
             return back()->withErrors(['"' . $category->name . '" is basic category and can not be removed.']);
         }
         
-        if ( $category->products->count() ) {
-            foreach ( $category->products as $product ) {
-                $product->update([
-                    'category_id' => 1,
-                ]);
-            }
+        if ( $category->countProducts() ) {
+
+            // // перемещение содержащихся в категории товаров в каталог
+            // foreach ( $category->products as $product ) {
+            //     $product->update([
+            //         'category_id' => 1,
+            //     ]);
+            // }
+
+            //  перемещение содержащихся в категории товаров во временную категорию
+
+            // запрет удаления категории
+            return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
+        }
+
+        if ( $category->countChildren() ) {
+
+            // // перемещение содержащихся в категории подкатегорий в каталог
+            // foreach ( $category->products as $product ) {
+            //     $product->update([
+            //         'category_id' => 1,
+            //     ]);
+            // }
+
+            //  перемещение содержащихся в категории подкатегорий во временную категорию
+
+            // запрет удаления категории
+            return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
         $category->delete();
@@ -333,5 +347,17 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index');
     }
+
+
+    public function adminIndex() {
+        $categories = Category::all();
+        return view('admin.categories.list', compact('categories'));
+    }
+
+    public function adminShow(Category $category) {
+        dd('kjhkj');
+        return view('admin.categories.show', compact('category'));
+    }
+
 
 }

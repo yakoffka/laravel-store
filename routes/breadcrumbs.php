@@ -26,9 +26,9 @@ use App\Category;
 
 // categories
     // Home > Catalog > Create Categories
-    Breadcrumbs::for('categories.create', function ($trail) {
+    Breadcrumbs::for('admin.categories.create', function ($trail) {
         $trail->parent('catalog');
-        $trail->push('Create Categories', route('categories.create'));
+        $trail->push('Create Categories', route('admin.categories.create'));
     });
     // Home > Catalog > [Categories]
     Breadcrumbs::for('categories.show', function ($trail, $category) {
