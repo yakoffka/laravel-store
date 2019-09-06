@@ -178,6 +178,22 @@ laravel-worker: added process group
 
                     @endrole
 
+
+                    {{-- You are logged in! --}}
+                    @role(['owner', 'manager'])
+                        <h4>избранное</h4>
+
+                        <ol>
+                            <li>Категория может содержать либо подкатегории, либо товары.</li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ol>
+                    @endrole
+
                 {{-- </div>
             </div> --}}
         {{-- </div> --}}

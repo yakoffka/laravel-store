@@ -15,29 +15,49 @@ class CategoryController extends Controller
     }
     
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource (parent categories). 
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
 
-        if ( config('custom.display_subcategories'))
-
-        // get products
-        if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::paginate();
-        } else {
-            $products = Product::where('visible', '=', 1)->paginate();
-        }
-
-        $category = Category::find(1);
-
-        // get appends
+        // get appends?
         $appends = [];
 
-        return view('products.index', compact('products', 'category', 'appends'));
+        // show subcategories and products only directly from catalog
+        if ( config('settings.display_subcategories') ) {
 
+            $categories = Category::all()->where('parent_id', '=', 1)->where('id', '>', 1);
+            // dd($categories);
+
+            $products = Product::all()->where('category_id', 1);
+            // dd($products);
+
+            return view('categories.index', compact('categories', 'products', 'appends'));
+
+        // show products in this category, including subcategory products
+        } else {
+
+            // get products
+            if( Auth::user() and  Auth::user()->can(['view_products'])) {
+                $products = Product::paginate();
+            } else {
+                $products = Product::where('visible', '=', 1)->paginate();
+            }
+
+            $category = Category::find(1);
+
+            return view('products.index', compact('products', 'category', 'appends'));
+        }
     }
+
+    
+    public function list() {
+        $categories = Category::all();
+
+        return view('admin.categories.list', compact('categories'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -123,26 +143,48 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
+        
+        // // get all product in all subcategory this category
+        // $arr_children = $this->getAllChildren([$category->id], $category);
         // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $paginator = Product::where('category_id', '=', $category->id)->paginate();
+        //     $products = Product::whereIn('category_id', $arr_children)->paginate();
         // } else {
-        //     $paginator = Product::where('category_id', '=', $category->id)->where('visible', '=', 1)->paginate();
+        //     $products = Product::whereIn('category_id', $arr_children)->where('visible', '=', 1)->paginate();
         // }
-        // return view('categories.show', compact('category', 'paginator'));
-
         
-        // get all product in all subcategory this category
-        $arr_children = $this->getAllChildren([$category->id], $category);
-        if( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::whereIn('category_id', $arr_children)->paginate();
-        } else {
-            $products = Product::whereIn('category_id', $arr_children)->where('visible', '=', 1)->paginate();
-        }
-        
-        // get appends
-        $appends = [];
+        // // get appends
+        // $appends = [];
                 
-        return view('products.index', compact('products', 'category', 'appends'));
+        // return view('products.index', compact('products', 'category', 'appends'));
+
+
+
+        // get appends?
+        $appends = [];
+
+        // show subcategories and products only directly from this category
+        if ( config('settings.display_subcategories') and $category->children->count() ) {
+
+            // добавить перенаправление при $category->id == 1?
+            $categories = Category::all()->where('parent_id', $category->id);
+            $products = Product::all()->where('category_id', $category->id);
+            return view('categories.index', compact('categories', 'category', 'products', 'appends'));
+
+
+        // show products in this category, including subcategory products
+        } else {
+
+            // get products
+            if( Auth::user() and Auth::user()->can(['view_products'])) {
+                $products = Product::where('category_id', $category->id)->paginate();
+            } else {
+                $products = Product::where('visible', '=', 1)->where('category_id', $category->id)->paginate();
+            }
+
+            //$category = Category::find(1);
+
+            return view('products.index', compact('products', 'category', 'appends'));
+        }
     }
 
     private function getAllChildren($arr_children, $parent) {

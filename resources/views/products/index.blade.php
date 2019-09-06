@@ -60,7 +60,8 @@
     </div>
 
 
-    <h1>{{ $title }} ({{ $products->total() }})</h1>
+    <h1>Категория "{{ $title }}"</h1>
+    <div class="grey ta_r">количество товаров в категории: {{ $products->total() }}</div>
 
     <div class="row">
            
@@ -78,7 +79,7 @@
                 <div class="col-lg-4 col-md-6 product_card_bm">
                     <div class="card">
 
-                        <h5 class="<?php if(!$product->visible){echo 'hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h5>
+                        <h2 class="product_card_h2<?php if(!$product->visible){echo ' hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h2>
 
                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                             @if($product->images->count())

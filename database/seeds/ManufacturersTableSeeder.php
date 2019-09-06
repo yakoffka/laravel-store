@@ -24,11 +24,11 @@ class ManufacturersTableSeeder extends Seeder
         } else {
             
             $manufacturers = [
-                ['name' => 'noname',    'title' => 'NoName',    'description' => 'description for NoName',           ],
-                ['name' => 'Еврокран',  'title' => 'Cort',      'description' => 'description for Еврокран',         ],
-                ['name' => 'ЮКЗ',       'title' => 'Fernandes', 'description' => 'Южный крановый завод «ЮКЗ»',       ],
-                ['name' => 'Гертек',    'title' => 'Гертек',    'description' => 'Казанский крановый завод «Гертек»',],
-                ['name' => 'ДКЗ',       'title' => 'ДКЗ',       'description' => 'Димитровградский крановый завод',  ],
+                ['name' => 'noname',    'title' => 'NoName',     'description' => 'description for NoName',           ],
+                ['name' => 'Еврокран',  'title' => 'Еврокран',   'description' => 'description for Еврокран',         ],
+                ['name' => 'ЮКЗ',       'title' => 'ЮКЗ',        'description' => 'Южный крановый завод «ЮКЗ»',       ],
+                ['name' => 'Гертек',    'title' => 'Гертек',     'description' => 'Казанский крановый завод «Гертек»',],
+                ['name' => 'ДКЗ',       'title' => 'ДКЗ',        'description' => 'Димитровградский крановый завод',  ],
             ];
         }
 

@@ -64,6 +64,7 @@ h2{
 
 .center{text-align:center;}
 .ta_l{text-align: left;}
+.ta_r{text-align: right;}
 .ta_c{text-align: center;}
 .ta_j{text-align: justify;}
 
@@ -199,6 +200,15 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 .row.product_buttons form button
 {
     width: 100%;
+}
+
+.product_card_h2 {
+    font-size: 1.125rem;
+    min-height: 3em;
+    text-align: center;
+}
+.product_card_h2 a{
+    text-decoration: none;
 }
 /* /products */
 
@@ -930,5 +940,29 @@ h5.grey {
 .status_prorogue    { color: #554741; }
 .status_reopened    { color: #401400; }
 .status_closed      { color: #888888; }
+
+
+
+    /* blue_table */
+    table.blue_table .verticalTableHeader {
+        writing-mode: vertical-rl;
+        letter-spacing: 1px;
+        padding: .5em auto;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        background-color: transparent;
+        position: relative;
+        left: -.5em;
+    }
+    table.blue_table tr.main_category {
+        color: #3490dc;
+    }
+    table.blue_table tr.gray {
+        color: #58636e;
+    }
+    /* blue_table */
+
 /* admin */
 /*======================================================================================================*/

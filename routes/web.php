@@ -104,65 +104,74 @@ Route::delete('images/{image}', 'ImagesController@destroy')->name('images.destro
 Route::patch('images/{image}', 'ImagesController@update')->name('images.update');
 
 
-// settings
-Route::resource('settings', 'SettingController');
-
-
-// actions
-    // categories
-    Route::get('actions/categories', 'ActionController@categories')->name('actions.categories');
-    Route::get('actions/categories/{category}', 'ActionController@category')->name('actions.category');
-    // comments
-    Route::get('actions/comments', 'ActionController@comments')->name('actions.comments');
-    Route::get('actions/comments/{comment}', 'ActionController@comment')->name('actions.comment');
-    // images
-    Route::get('actions/images', 'ActionController@images')->name('actions.images');
-    Route::get('actions/images/{image}', 'ActionController@image')->name('actions.image');
-    // manufacturers
-    Route::get('actions/manufacturers', 'ActionController@manufacturers')->name('actions.manufacturers');
-    Route::get('actions/manufacturers/{manufacturer}', 'ActionController@manufacturer')->name('actions.manufacturer');
-    // orders
-    Route::get('actions/orders', 'ActionController@orders')->name('actions.orders');
-    Route::get('actions/orders/{order}', 'ActionController@order')->name('actions.order');
-    // products
-    Route::get('actions/products', 'ActionController@products')->name('actions.products');
-    Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
-    // users
-    Route::get('actions/users', 'ActionController@users')->name('actions.users');
-    Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
-    // registrations
-    Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
-    // settings
-    Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
-    // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
-
-
 // search
 Route::get('search', 'ProductsController@search')->name('search');
 
 
-// Tasks and Directive
-    // tasks
-    Route::resource('tasks', 'TaskController');
-    // directives
-    Route::get('users/alldirectives', 'TaskController@directives')->name('alldirectives.index');
-    Route::get('directives', 'TaskController@directives')->name('directives.index');
-    Route::get('directives/{task}', 'TaskController@directive')->name('directives.show');
+
+///////////////////////////////////////////////////////////////////////////////
+//      admin panel
+///////////////////////////////////////////////////////////////////////////////
+
+    // settings
+    Route::resource('settings', 'SettingController');
 
 
-Route::get('/clear', function() {
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    // Artisan::call('config:cache'); // erased session()->flash!
-    Artisan::call('view:clear');
-	Artisan::call('route:clear');
-	// Artisan::call('route:cache');
-    Artisan::call('queue:restart');
+    // actions
+        // categories
+        Route::get('actions/categories', 'ActionController@categories')->name('actions.categories');
+        Route::get('actions/categories/{category}', 'ActionController@category')->name('actions.category');
+        // comments
+        Route::get('actions/comments', 'ActionController@comments')->name('actions.comments');
+        Route::get('actions/comments/{comment}', 'ActionController@comment')->name('actions.comment');
+        // images
+        Route::get('actions/images', 'ActionController@images')->name('actions.images');
+        Route::get('actions/images/{image}', 'ActionController@image')->name('actions.image');
+        // manufacturers
+        Route::get('actions/manufacturers', 'ActionController@manufacturers')->name('actions.manufacturers');
+        Route::get('actions/manufacturers/{manufacturer}', 'ActionController@manufacturer')->name('actions.manufacturer');
+        // orders
+        Route::get('actions/orders', 'ActionController@orders')->name('actions.orders');
+        Route::get('actions/orders/{order}', 'ActionController@order')->name('actions.order');
+        // products
+        Route::get('actions/products', 'ActionController@products')->name('actions.products');
+        Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
+        // users
+        Route::get('actions/users', 'ActionController@users')->name('actions.users');
+        Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
+        // registrations
+        Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
+        // settings
+        Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
+        // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
 
-    // composer dump-autoload
+
+    // Tasks and Directive
+        // tasks
+        Route::resource('tasks', 'TaskController');
+        // directives
+        Route::get('users/alldirectives', 'TaskController@directives')->name('alldirectives.index');
+        Route::get('directives', 'TaskController@directives')->name('directives.index');
+        Route::get('directives/{task}', 'TaskController@directive')->name('directives.show');
+
     
-    session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
-    
-    return back();
+    // categories
+        Route::get('admin/categories', 'CategoryController@list')->name('admin.listcategory');
 
-})->name('clear');
+
+    Route::get('/clear', function() {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        // Artisan::call('config:cache'); // erased session()->flash!
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        // Artisan::call('route:cache');
+        Artisan::call('queue:restart');
+
+        // composer dump-autoload
+        
+        session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
+        
+        return back();
+
+    })->name('clear');

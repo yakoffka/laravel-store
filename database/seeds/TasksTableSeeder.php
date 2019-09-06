@@ -312,19 +312,40 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'SEO: продумать дубли страниц',
+                'description' => 'Продумать дубли страниц: либо отключить, либо настроить canonical. Пример: /products и /categories',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'SEO: title, description, keywords',
+                'description' => 'Продумать формирование title, description, keywords для товаров и категорий.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Вёрстка: сверстать главную страницу',
+                'description' => 'сверстать главную страницу.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'Вёрстка: сверстать админку:
+                    <ol>
+                        <li>admin.layout</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ol>
+                ',
+                'description' => 'сверстать главную страницу.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

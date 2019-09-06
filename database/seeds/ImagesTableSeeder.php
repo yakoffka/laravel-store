@@ -66,5 +66,6 @@ class ImagesTableSeeder extends Seeder
                 }
             }
         }
+        echo "    exit from " . __method__ . ";\n";
     }
 }
