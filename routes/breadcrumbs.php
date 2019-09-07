@@ -26,9 +26,9 @@ use App\Category;
 
 // categories
     // Home > Catalog > Create Categories
-    Breadcrumbs::for('admin.categories.create', function ($trail) {
+    Breadcrumbs::for('categories.create', function ($trail) {
         $trail->parent('catalog');
-        $trail->push('Create Categories', route('admin.categories.create'));
+        $trail->push('Create Categories', route('categories.create'));
     });
     // Home > Catalog > [Categories]
     Breadcrumbs::for('categories.show', function ($trail, $category) {
@@ -295,5 +295,26 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
 
 
 
+    // Home > Categories
+    Breadcrumbs::for('categories.adminindex', function ($trail) {
+        $trail->parent('home');
+        $trail->push('Categories', route('categories.adminindex'));
+    });
+    // Home > Categories -> [Category]
+    Breadcrumbs::for('categories.adminshow', function ($trail, $category) {
+        $trail->parent('categories.adminindex');
+        // get all parents:
+        $arr_parents = [];
+        $parent = $category;
+        while ( $parent->id > 1 ) {
+            $arr_parents[] = $parent;
+            $parent = Category::find($parent->parent_id);
+        }
+        $arr_parents = array_reverse($arr_parents);
+        // get breadcrumbs for all parents:
+        foreach ( $arr_parents as $parent ) {
+            $trail->push($parent->title, route('categories.adminshow', $parent->id));
+        }
+    });
 
 

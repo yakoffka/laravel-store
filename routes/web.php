@@ -158,11 +158,11 @@ Route::get('search', 'ProductsController@search')->name('search');
 
     
     // admin categories
-        // Route::get   ('admin/categories',                'CategoryController@adminIndex')->name('admin.categories.index'  )->middleware('auth');
+        Route::get   ('admin/categories',                'CategoryController@adminIndex')->name('categories.adminindex'  )->middleware('auth');
         // Route::get   ('admin/categories/create',         'CategoryController@create'    )->name('admin.categories.create' )->middleware('auth');
-        // Route::get   ('admin/categories/{$category}',    'CategoryController@adminShow' )->name('admin.categories.show'   )->middleware('auth');
+        Route::get   ('admin/categories/{category}',    'CategoryController@adminShow' )->name('categories.adminshow'   );
         // Route::post  ('admin/categories',                'CategoryController@store'     )->name('admin.categories.store'  )->middleware('auth');
-        // Route::get   ('admin/categories/edit/{category}','CategoryController@edit'      )->name('admin.categories.edit'   )->middleware('auth');
+        // Route::get   ('admin/categories/edit/{category}','CategoryController@edit'      )->name('admin.categories.edit'   );
         // Route::patch ('admin/categories/{category}',     'CategoryController@update'    )->name('admin.categories.update' )->middleware('auth');
         // Route::delete('admin/categories/{category}',     'CategoryController@destroy'   )->name('admin.categories.destroy')->middleware('auth');
 

@@ -309,14 +309,14 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Добавить отображение фильтров в настройки',
                 'description' => 'Добавить в настройки возможность выбора отображения фильтров (не отображать, только категории, категории и подкатегории). часть элементов раскрывать по клику',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
                 'title' => 'SEO: продумать дубли страниц',
                 'description' => 'Продумать дубли страниц: либо отключить, либо настроить canonical. Пример: /products и /categories',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
@@ -330,7 +330,7 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Вёрстка: сверстать главную страницу',
                 'description' => 'сверстать главную страницу.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
@@ -344,15 +344,65 @@ class TasksTableSeeder extends Seeder
                     </ol>
                 ',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
                 'title' => 'Вёрстка: видоизменить 404 etc',
                 'description' => 'видоизменить 404, 403, 500 etc.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 4,
             ],
+
+            [
+                'title' => 'Model Product',
+                'description' => 'Добавить поля:
+                    <ol>
+                        <li>sort_order</li>
+                        <li>materials => material ??</li>
+                        <li></li>
+                        <li></li>
+                    </ol>
+
+                .',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Добавить групповые действия с товарами',
+                'description' => 'Добавить групповые действия с товарами.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
 
             // [
             //     'title' => 'rrrrrr',

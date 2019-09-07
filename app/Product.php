@@ -33,11 +33,12 @@ class Product extends Model
     
     protected $guarded = [];
 
-    public function __construct() {
-      $this->perPage = config('custom.products_paginate');
-    }
     // при раскомментировании __construct сидирование заканчивается ошибкой:
     // Illuminate\Database\QueryException  : SQLSTATE[HY000]: General error: 1364 Field 'name' doesn't have a default value (SQL: insert into `products` (`updated_at`, `created_at`) values (2019-09-05 00:58:39, 2019-09-05 00:58:39))
+    // SQLSTATE[HY000]: General error: 1364 Field 'name' doesn't have a default value (SQL: insert into `products` (`updated_at`, `created_at`) values (2019-09-07 12:19:38, 2019-09-07 12:19:38))
+    // public function __construct() {
+    //   $this->perPage = config('custom.products_paginate');
+    // }
 
     public function comments() {
         // return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');

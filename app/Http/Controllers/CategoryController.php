@@ -201,7 +201,7 @@ class CategoryController extends Controller
     {
         abort_if (Auth::user()->cannot('edit_categories'), 403);
         $categories = Category::all();
-        return view('admin.categories.edit', compact('category', 'categories'));
+        return view('categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -349,14 +349,19 @@ class CategoryController extends Controller
     }
 
 
+    
+    /**
+     * Display a listing of the resource (all categories) for admin side. 
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function adminIndex() {
         $categories = Category::all();
-        return view('admin.categories.list', compact('categories'));
+        return view('categories.adminindex', compact('categories'));
     }
 
     public function adminShow(Category $category) {
-        dd('kjhkj');
-        return view('admin.categories.show', compact('category'));
+        return view('categories.adminshow', compact('category'));
     }
 
 

@@ -87,9 +87,9 @@
     @permission('view_categories')
         <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseCategories" role="button" aria-expanded="false" aria-controls="collapseCategories"><i class="fas fa-folder"></i> Categories</span></h5>
         <div class="collapse" id="collapseCategories">
-            <div class="submenuitem">- <a href="{{ route('admin.categories.index') }}">List of categories</a></div>
+            <div class="submenuitem">- <a href="{{ route('categories.adminindex') }}">List of categories</a></div>
             @permission('create_categories')
-                <div class="submenuitem">- <a href="{{ route('admin.categories.create') }}">Create new category</a></div>
+                <div class="submenuitem">- <a href="{{ route('categories.create') }}">Create new category</a></div>
             @endpermission
         </div>
     @endpermission
