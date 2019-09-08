@@ -51,7 +51,7 @@ class CategoriesTableSeeder extends Seeder
 
                 // categories
                 ['parent_id' => 1, 'slug' => 'slings',          'name' => 'Стропы',],
-                ['parent_id' => 1, 'slug' => 'grips',           'name' => 'Системы крепления грузов',],
+                ['parent_id' => 1, 'slug' => 'grips',           'name' => 'СКГ',], // Системы крепления грузов
                 ['parent_id' => 1, 'slug' => 'components',      'name' => 'Комплектующие',],
                 ['parent_id' => 1, 'slug' => 'capture',         'name' => 'Захваты',],
                 ['parent_id' => 1, 'slug' => 'mounting_blocks', 'name' => 'Блоки монтажные',],
@@ -59,7 +59,7 @@ class CategoriesTableSeeder extends Seeder
                 ['parent_id' => 1, 'slug' => 'traverse',        'name' => 'Траверсы',],
                 ['parent_id' => 1, 'slug' => 'winch',           'name' => 'Лебедки',],
                 ['parent_id' => 1, 'slug' => 'hoists',          'name' => 'Тали',],
-                ['parent_id' => 1, 'slug' => 'mech_hoists',     'name' => 'Механизмы передвижения талей',],
+                ['parent_id' => 1, 'slug' => 'mech_hoists',     'name' => 'МПТ',], // Механизмы передвижения талей
 
 
                 // subcategories

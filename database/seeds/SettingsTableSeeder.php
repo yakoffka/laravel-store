@@ -191,6 +191,49 @@ class SettingsTableSeeder extends Seeder
                 'default_value' => 1,
             ],
 
+
+            // settings for filters
+            [
+                'group' => 'filters',
+                'name_group' => 'Настройки отображения фильтров',
+                'type' => 'checkbox',
+                'name' => 'filter_manufacturers',
+                'display_name' => 'Показывать фильтр производителей',
+                'description' => 'При отключении данного пункта фильтр производителей выводиться не будет.',
+                'permissible_values' => [
+                    [0, 'не показывать'],
+                    [1, 'показывать'],
+                ],
+                'default_value' => 1,
+            ],
+            [
+                'group' => 'filters',
+                'name_group' => 'Настройки отображения фильтров',
+                'type' => 'checkbox',
+                'name' => 'filter_categories',
+                'display_name' => 'Показывать фильтр категорий',
+                'description' => 'При отключении данного пункта фильтр категорий выводиться не будет.',
+                'permissible_values' => [
+                    [0, 'не показывать'],
+                    [1, 'показывать'],
+                ],
+                'default_value' => 1,
+            ],
+            [
+                'group' => 'filters',
+                'name_group' => 'Настройки отображения фильтров',
+                'type' => 'checkbox',
+                'name' => 'filter_subcategories',
+                'display_name' => 'Показывать в фильтре категорий подкатегории',
+                'description' => 'При отключении данного пункта в фильтре категорий будут выводиться только категории верхнего уровня.',
+                'permissible_values' => [
+                    [0, 'не показывать'],
+                    [1, 'показывать'],
+                ],
+                'default_value' => 0,
+            ],
+
+
         ];
 
 

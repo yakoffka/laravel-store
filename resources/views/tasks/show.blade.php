@@ -91,7 +91,8 @@
                             'action' => route('tasks.update', ['task' => $task]),
                         ])
                     @else
-                        {{ str_limit($task->comment_slave ?? 'отсутствует', 30) }}
+                        {{-- {{ str_limit($task->comment_slave ?? 'отсутствует', 30) }} --}}
+                        {{ $task->comment_slave ?? 'отсутствует' }}
                     @endif
 
 

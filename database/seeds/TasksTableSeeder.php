@@ -288,9 +288,10 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Удаление категорий',
-                'description' => 'Добавить удаление категорий с перемещением находящихся в них подкатегорий и товаров на уровень выше.',
-                'tasksstatus_id' => 1,
+                'description' => 'Добавить удаление категорий с перемещением нахоудаление категорий с перемещением находящихся в них подкатегорий и товаров на уровень выше.',
+                'tasksstatus_id' => 3,
                 'taskspriority_id' => 1,
+                'comment_slave' => 'пока запретил удаление непустых категорий. Обдумать: нужны-ли дальнейшие действия.'
             ],
 
             [
@@ -374,8 +375,9 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить групповые действия с товарами',
                 'description' => 'Добавить групповые действия с товарами.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 3,
                 'taskspriority_id' => 2,
+                'comment_slave' => 'верстка сделана. доделать реализацию на backend.',
             ],
 
             [
@@ -417,55 +419,6 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            [
-                'title' => '',
-                'description' => ':
-                    <ol>
-                        <li>;</li>
-                        <li>;</li>
-                        <li>;</li>
-                        <li>.</li>
-                    </ol>
-                    ',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
-            ],
-
-            [
-                'title' => 'rrrrrr',
-                'description' => 'rrrrrrr.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
-            ],
-
-            // [
-            //     'title' => '',
-            //     'description' => ':
-            //         <ol>
-            //             <li>;</li>
-            //             <li>;</li>
-            //             <li>;</li>
-            //             <li>.</li>
-            //         </ol>
-            //         ',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
-
-            // [
-            //     'title' => '',
-            //     'description' => ':
-            //         <ol>
-            //             <li>;</li>
-            //             <li>;</li>
-            //             <li>;</li>
-            //             <li>.</li>
-            //         </ol>
-            //         ',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
-
             // [
             //     'title' => '',
             //     'description' => ':
@@ -486,6 +439,55 @@ class TasksTableSeeder extends Seeder
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 1,
             // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            [
+                'title' => 'Перестал работать фильтр',
+                'description' => 'После смены концепции отображения (скорее всего) перестал работать фильтр. Поправить.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',
@@ -536,6 +538,7 @@ class TasksTableSeeder extends Seeder
                 'title' => $task['title'] ?? Str::limit($task->description, 20),
                 'slug' => Str::slug($task['title'], '-'),
                 'description' => $task['description'],
+                'comment_slave' => $task['comment_slave'] ?? '',
                 'tasksstatus_id' => $task['tasksstatus_id'],
                 'taskspriority_id' => $task['taskspriority_id'],
                 'created_at' => date('Y-m-d H:i:s'),
