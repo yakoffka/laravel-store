@@ -180,6 +180,55 @@ laravel-worker: added process group
 
 
                     {{-- You are logged in! --}}
+                    @role(['owner'])
+                        <h4>History</h4>
+
+                        <ol>
+
+                            <li>
+                                Установка <a href="https://github.com/Intervention/image">Intervention/image (стоит в зависимостях у UniSharp/laravel-filemanager
+                                    branch_name = 'intervention_image'
+
+                                <code>
+                                    composer diagnose
+                                    php composer require intervention/image
+                                </code>
+
+                                выдаёт ошибку нехватки памяти. <a href="https://deb.dragoon.pw:21013/list/server/">останавливаю все процессы сервера</a>
+
+
+                                <code>
+production@deb:~/web/prod.dragoon.pw/public_html$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:            996         646         175          34         174         184
+Swap:             0           0           0
+production@deb:~/web/prod.dragoon.pw/public_html$
+production@deb:~/web/prod.dragoon.pw/public_html$
+production@deb:~/web/prod.dragoon.pw/public_html$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:            996         295         516          11         184         557
+Swap:             0           0           0
+production@deb:~/web/prod.dragoon.pw/public_html$
+                                </code>
+                            </li>
+
+                            <li>
+                                Для интеграции wysiwyg-редактора выбрал 
+                                <a href="https://github.com/UniSharp/laravel-filemanager">UniSharp/laravel-filemanager</a>.
+                                Дальше надеюсь заменить ImageYoTrait на intervention/image, который стоит в зависимостях.
+
+                            </li>
+                            
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ol>
+                    @endrole
+
+
+                    {{-- You are logged in! --}}
                     @role(['owner', 'manager'])
                         <h4>Памятка по наполнению магазина</h4>
 
