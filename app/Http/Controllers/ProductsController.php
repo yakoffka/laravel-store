@@ -203,6 +203,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
+            'modification' => 'nullable|string',
             'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
@@ -211,6 +212,11 @@ class ProductsController extends Controller
         
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
+        }
+
+        // get string table of modification
+        if ( request('modification') ) {
+            dd(request('modification'));
         }
 
         if (!$product = Product::create([
@@ -389,6 +395,7 @@ class ProductsController extends Controller
             'visible' => 'required|boolean',
             'materials' => 'nullable|string',
             'description' => 'nullable|string',
+            'modification' => 'nullable|string',
             'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
@@ -397,6 +404,13 @@ class ProductsController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+
+
+        // get string table of modification
+        if ( request('modification') ) {
+            dd(request('modification'));
+        }
+
 
         $product->update([
             'name' => request('name'),

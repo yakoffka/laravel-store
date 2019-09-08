@@ -10,6 +10,8 @@
             <div class="submenuitem">- <a target="_blank" href="https://github.com/Zizaco/entrust#usage">Zizaco/entrust</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://packagist.org/packages/davejamesmiller/laravel-breadcrumbs#user-content-defining-breadcrumbs">Breadcrumbs</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/nicolaslopezj/searchable">Search</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://github.com/Intervention/image">Intervention/image</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://github.com/UniSharp/laravel-filemanager">UniSharp/lfm</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md">laravel-best-practices</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://si-dev.com/ru/blog/laravel-model-observers">laravel-model-observers</a></div>
         </div>

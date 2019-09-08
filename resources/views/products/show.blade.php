@@ -187,30 +187,44 @@
 
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
+
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                         Описание {{ $product->name }}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                        Характеристики
-                    </a>
-                </li>
+
+                {{-- modification --}}
+                @if ($product->modification)
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                            Характеристики
+                        </a>
+                    </li>
+                @endif
+                {{-- /modification --}}
+
                 <li class="nav-item">
                     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
                         Условия работы
                     </a>
                 </li>
+
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     {{ $product->description }}
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <h2 class="ta_c">Характеристики {{ $product->name }}</h2>
-                    <table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>
-                </div>
+
+                {{-- modification --}}
+                @if ($product->modification)
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <h2 class="ta_c">Характеристики {{ $product->name }}</h2>
+                        {!! $product->modification !!}
+                    </div>
+                @endif
+                {{-- /modification --}}
+
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     
 

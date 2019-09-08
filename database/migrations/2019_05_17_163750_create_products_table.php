@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->boolean('visible');
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
+            $table->text('modification')->nullable(); // modification table
             // $table->string('image')->nullable()->charset('utf8');
             $table->integer('year_manufacture')->nullable();
             $table->float('price', 8, 2)->nullable();

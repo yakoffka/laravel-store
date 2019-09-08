@@ -180,6 +180,33 @@ laravel-worker: added process group
 
 
                     {{-- You are logged in! --}}
+                    @role(['owner'])
+                        <h4>History</h4>
+
+                        <ol>
+
+                            <li>
+                                Установка <a href="https://github.com/Intervention/image">Intervention/image (стоит в зависимостях у UniSharp/laravel-filemanager
+                                    branch_name = 'intervention_image'
+                            </li>
+
+                            <li>
+                                Для интеграции wysiwyg-редактора выбрал 
+                                <a href="https://github.com/UniSharp/laravel-filemanager">UniSharp/laravel-filemanager</a>.
+                                Дальше надеюсь заменить ImageYoTrait на intervention/image, который стоит в зависимостях.
+
+                            </li>
+                            
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ol>
+                    @endrole
+
+
+                    {{-- You are logged in! --}}
                     @role(['owner', 'manager'])
                         <h4>Памятка по наполнению магазина</h4>
 
