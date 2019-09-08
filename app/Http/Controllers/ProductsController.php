@@ -86,6 +86,27 @@ class ProductsController extends Controller
         return view('products.index', compact('products', 'appends'));
     }
 
+    
+    /**
+     * Display a listing of the resource (all products) for admin side. 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex() {
+
+        $appends = [];
+        foreach(request()->query as $key => $val){
+            $appends[$key] = $val;
+        }
+        // $products = Product::all()->orderBy('category_id')->paginate(); // order!!
+        $products = Product::filter(request(), $this->getFilters())
+            ->orderBy('category_id')
+            ->paginate();
+
+        return view('products.adminindex', compact('products', 'appends'));
+    }
+
+
     protected function getFilters() 
     {
         return [
@@ -176,7 +197,7 @@ class ProductsController extends Controller
         abort_if ( Auth::user()->cannot('create_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:products,name',
             'manufacturer_id' => 'required|integer',
             'category_id' => 'required|integer',
             'visible' => 'required|boolean',

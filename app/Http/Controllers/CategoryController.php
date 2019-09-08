@@ -263,7 +263,7 @@ class CategoryController extends Controller
             'user_id' => auth()->user()->id,
             'type' => 'category',
             'type_id' => $category->id,
-            'action' => 'edit',
+            'action' => 'update',
             'description' => 
                 'Редактирование категории ' 
                 . $category->name
@@ -276,7 +276,8 @@ class CategoryController extends Controller
 
         session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully edit.');
 
-        return redirect()->route('categories.show', ['category' => $category->id]);
+        // return redirect()->route('categories.show', ['category' => $category->id]);
+        return back();
     }
 
     /**
@@ -364,5 +365,9 @@ class CategoryController extends Controller
         return view('categories.adminshow', compact('category'));
     }
 
+    public function massupdate(Category $category) {
+        dd(request()->all());
+        dd('эта функция пока не доступна');
+    }
 
 }

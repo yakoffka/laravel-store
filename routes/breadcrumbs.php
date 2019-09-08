@@ -89,8 +89,7 @@ use App\Category;
         $trail->push('Copy Product', route('products.copy', ['product' => $product]));
     });
 
-
-
+    
 // Home > Catalog > [Search]
 Breadcrumbs::for('search', function ($trail) {
     $trail->parent('catalog');
@@ -295,6 +294,7 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
 
 
 
+// admin side
     // Home > Categories
     Breadcrumbs::for('categories.adminindex', function ($trail) {
         $trail->parent('home');
@@ -315,6 +315,18 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
         foreach ( $arr_parents as $parent ) {
             $trail->push($parent->title, route('categories.adminshow', $parent->id));
         }
+    });
+
+
+    // Home > All Products
+    Breadcrumbs::for('products.adminindex', function ($trail) {
+        $trail->parent('home');
+        $trail->push('All Products', route('products.adminindex'));
+    });
+    // Home > All Products > [Product]
+    Breadcrumbs::for('products.adminshow', function ($trail, $product) {
+        $trail->parent('products.adminindex');
+        $trail->push('Product', route('products.adminshow', $product));
     });
 
 

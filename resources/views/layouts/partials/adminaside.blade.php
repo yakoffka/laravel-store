@@ -55,7 +55,7 @@
     @permission('view_products')
         <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseProducts" role="button" aria-expanded="false" aria-controls="collapseProducts"><i class="fas fa-boxes"></i> Products</span></h5>
         <div class="collapse" id="collapseProducts">
-            <div class="submenuitem">- <a href="{{ route('products.index') }}">List of products</a></div>
+            <div class="submenuitem">- <a href="{{ route('products.adminindex') }}">List of products</a></div>
             @permission('create_products')
                 <div class="submenuitem">- <a href="{{ route('products.create') }}">Create new product</a></div>
             @endpermission

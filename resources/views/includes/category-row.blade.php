@@ -1,6 +1,4 @@
 
-
-
     <tr class="{{ !$category->visible ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
         <td class="ta_l{{ $category->parent_id == 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>

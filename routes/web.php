@@ -41,18 +41,21 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 
 /* products*/
-    Route::get('/products', 'ProductsController@index')->name('products.index');
-    Route::get('/products/create', 'ProductsController@create')->name('products.create');
-    Route::get('/products/{product}', 'ProductsController@show')->name('products.show');
-    Route::post('/products', 'ProductsController@store')->name('products.store');
-    Route::get('/products/{product}/edit', 'ProductsController@edit')->name('products.edit');
-    Route::patch('/products/{product}', 'ProductsController@update')->name('products.update');
-    Route::delete('/products/{product}', 'ProductsController@destroy')->name('products.destroy');
+    Route::get      ('/products',               'ProductsController@index'      )->name('products.index');
+    Route::get      ('/products/create',        'ProductsController@create'     )->name('products.create');
+    Route::get      ('/products/{product}',     'ProductsController@show'       )->name('products.show');
+    Route::post     ('/products',               'ProductsController@store'      )->name('products.store');
+    Route::get      ('/products/{product}/edit','ProductsController@edit'       )->name('products.edit');
+    Route::patch    ('/products/{product}',     'ProductsController@update'     )->name('products.update');
+    Route::delete   ('/products/{product}',     'ProductsController@destroy'    )->name('products.destroy');
     // filter
     // Route::get('products.filter', 'ProductsController@filter')->name('products.filter');
     // rewatermark
-    Route::get('/products/rewatermark', 'ProductsController@rewatermark')->name('products.rewatermark');
-    Route::get('/products/{product}/copy', 'ProductsController@copy')->name('products.copy');
+    Route::get      ('/products/rewatermark',   'ProductsController@rewatermark')->name('products.rewatermark');
+    Route::get      ('/products/{product}/copy','ProductsController@copy'       )->name('products.copy');
+
+    Route::get      ('admin/products',          'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
+    // Route::get      ('admin/products/{product}','ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
 
 
 /* comments*/
@@ -84,9 +87,12 @@ Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy')
 
 
 /* categories*/
-Route::resource('categories', 'CategoryController');
-// Route::get('/categories', 'CategoryController@index')->name('categories.index');
-// Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
+    Route::resource('categories', 'CategoryController');
+    // Route::get('/categories', 'CategoryController@index')->name('categories.index');
+    // Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
+    Route::get   ('admin/categories',                       'CategoryController@adminIndex')->name('categories.adminindex'  )->middleware('auth');
+    Route::get   ('admin/categories/{category}',            'CategoryController@adminShow' )->name('categories.adminshow'   )->middleware('auth');
+    Route::patch ('admin/categories/{category}/massupdate', 'CategoryController@massupdate')->name('categories.massupdate'  )->middleware('auth');
 
 // cart
 Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');
@@ -155,19 +161,6 @@ Route::get('search', 'ProductsController@search')->name('search');
         Route::get('users/alldirectives', 'TaskController@directives')->name('alldirectives.index');
         Route::get('directives', 'TaskController@directives')->name('directives.index');
         Route::get('directives/{task}', 'TaskController@directive')->name('directives.show');
-
-    
-    // admin categories
-        Route::get   ('admin/categories',                'CategoryController@adminIndex')->name('categories.adminindex'  )->middleware('auth');
-        // Route::get   ('admin/categories/create',         'CategoryController@create'    )->name('admin.categories.create' )->middleware('auth');
-        Route::get   ('admin/categories/{category}',    'CategoryController@adminShow' )->name('categories.adminshow'   );
-        // Route::post  ('admin/categories',                'CategoryController@store'     )->name('admin.categories.store'  )->middleware('auth');
-        // Route::get   ('admin/categories/edit/{category}','CategoryController@edit'      )->name('admin.categories.edit'   );
-        // Route::patch ('admin/categories/{category}',     'CategoryController@update'    )->name('admin.categories.update' )->middleware('auth');
-        // Route::delete('admin/categories/{category}',     'CategoryController@destroy'   )->name('admin.categories.destroy')->middleware('auth');
-
-        
-
 
 
     Route::get('/clear', function() {

@@ -50,28 +50,28 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Учесть субординацию в постановке задач',
                 'description' => 'Учесть субординацию в постановке задач.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Продумать модальную форму',
                 'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 3,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Заменить Status на OrderStatus',
                 'description' => 'Заменить Status на OrderStatus, StatusesTableSeeder на OrderStatusesTableSeeder, CreateStatusesTable на CreateOrderStatusesTable, etc.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Изменить обновление записи',
                 'description' => 'Делать изменение записи только при изменении.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 4,
             ],
 
             [
@@ -85,12 +85,14 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Уникальность наименования товара',
                 'description' => 'Разобраться, нужна-ли. Если да, то добавить валидацию в контроллер.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Добавить возможность вставки таблиц',
-                'description' => 'Добавить возможность вставки таблиц при создании и редактировании товаров. Вставка исходного html-кода с последующей чисткой на стороне сервера.',
+                'description' => '
+                    Добавить возможность вставки таблиц при создании и редактировании товаров. Вставка исходного html-кода с последующей чисткой на стороне сервера.
+                    </p><p>Добавить поля в модель Product.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
@@ -108,35 +110,35 @@ class TasksTableSeeder extends Seeder
                 </ol>
                 ',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'ImageYoTrait',
                 'description' => 'Разберись, наконец, с этим трейтом.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Выпилить users.status',
                 'description' => 'К чёрту субординацию. никакого создания ролей после запуска магазина.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Обработать загрузку больших изображений',
                 'description' => 'Обработать загрузку больших изображений. На фронте и бэке. Поставить лимит.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
                 'title' => 'Заменить dev на prod',
                 'description' => 'После окончания сменить значение APP_DEBUG в ".env".',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 2,
             ],
 
             [
@@ -150,14 +152,14 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Задисейбленный submit в Settings',
                 'description' => 'В Settings сделать submit по-умолчанию неактивным. Активировать только при смене соответствующего параметра. Доделать для email_send_delay и additional_email_bcc.',
                 'tasksstatus_id' => 2,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
                 'title' => 'Удалить rank',
                 'description' => 'Удалить rank из table roles. Субординацию соблюдать, опираясь на role.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 3,
             ],
 
             [
@@ -170,7 +172,7 @@ class TasksTableSeeder extends Seeder
                 </ul>
                 ',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'taskspriority_id' => 3,
             ],
 
             [
@@ -191,7 +193,7 @@ class TasksTableSeeder extends Seeder
                 'title' => 'Отображать в категориях подкатегории',
                 'description' => 'Вместо товаров на главной и в категориях отображать подкатегории (при их наличии) мозаикой.<br>
                 <a href="https://grmeh.ru/cat/stropy_remni/stropy_tekstilnye">пример</a></br> Ниже - контакты с картой.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -294,7 +296,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить возможность сидирования магазинов различных тематик',
                 'description' => 'Добавить возможность сидирования магазинов различных тематик с управлением из .env.',
-                'tasksstatus_id' => 2,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -375,6 +377,115 @@ class TasksTableSeeder extends Seeder
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
+
+            [
+                'title' => 'Поправить шаблоны писем',
+                'description' => 'Поправить шаблоны писем.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
+
+            [
+                'title' => 'Доработать роуты',
+                'description' => '
+                    <ol>
+                        <li>отформатировать роуты;</li>
+                        <li>
+                            Добавить в необходимых случаях к роутам мидлвару:
+                            <code>->middleware(\'auth\')</code>;
+                        </li>
+                        <li>Заменить родительский роут для редактирования категорий;</li>
+                        <li>;</li>
+                        <li>.</li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
+
+            [
+                'title' => 'Вёрстка: чекбоксы',
+                'description' => 'Стилизовать чекбоксы в:
+                    <ol>
+                        <li>в пермишинах ролей;</li>
+                        <li>;</li>
+                        <li>;</li>
+                        <li>.</li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => '',
+                'description' => ':
+                    <ol>
+                        <li>;</li>
+                        <li>;</li>
+                        <li>;</li>
+                        <li>.</li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            [
+                'title' => 'rrrrrr',
+                'description' => 'rrrrrrr.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => ':
+            //         <ol>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>;</li>
+            //             <li>.</li>
+            //         </ol>
+            //         ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
+
+            // [
+            //     'title' => 'rrrrrr',
+            //     'description' => 'rrrrrrr.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 1,
+            // ],
 
             // [
             //     'title' => 'rrrrrr',

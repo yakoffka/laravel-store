@@ -20,7 +20,8 @@ class Action extends Model
      *
      * @var int
      */
-    protected $perPage = config('custom.actions_paginate');
+    // FatalErrorException (E_UNKNOWN) Constant expression contains invalid operations
+    // protected $perPage = config('custom.actions_paginate');
 
     // public function __construct()
     // {
