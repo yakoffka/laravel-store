@@ -12,12 +12,12 @@ class TasksstatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'class' => 'status_open'      ],
-            ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'class' => 'status_in_work'   ],
-            ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'class' => 'status_done'      ],
-            ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'class' => 'status_prorogue'  ],
-            ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'class' => 'status_reopened'  ],
-            ['name' => 'closed',    'display_name' => 'закрыто',    'title' => 'закрыто',     'description' => 'description', 'class' => 'status_closed'    ],
+            /* 1 */ ['name' => 'open',      'display_name' => 'открыто',    'title' => 'открыто',     'description' => 'description', 'class' => 'status_open'      ],
+            /* 2 */ ['name' => 'in_work',   'display_name' => 'в работе',   'title' => 'в работе',    'description' => 'description', 'class' => 'status_in_work'   ],
+            /* 3 */ ['name' => 'done',      'display_name' => 'сделано',    'title' => 'сделано',     'description' => 'description', 'class' => 'status_done'      ],
+            /* 4 */ ['name' => 'prorogue',  'display_name' => 'отложено',   'title' => 'отложено',    'description' => 'description', 'class' => 'status_prorogue'  ],
+            /* 5 */ ['name' => 'reopened',  'display_name' => 'переоткрыто','title' => 'переоткрыто', 'description' => 'description', 'class' => 'status_reopened'  ],
+            /* 6 */ ['name' => 'closed',    'display_name' => 'закрыто',    'title' => 'закрыто',     'description' => 'description', 'class' => 'status_closed'    ],
         ];
 
         foreach ($statuses as $status) {
