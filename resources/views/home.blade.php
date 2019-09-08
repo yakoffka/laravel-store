@@ -188,6 +188,7 @@ laravel-worker: added process group
                             <li>
                                 Установка <a href="https://github.com/Intervention/image">Intervention/image (стоит в зависимостях у UniSharp/laravel-filemanager
                                     branch_name = 'intervention_image'
+<<<<<<< HEAD
 
                                 <code>
                                     composer diagnose
@@ -210,6 +211,8 @@ Mem:            996         295         516          11         184         557
 Swap:             0           0           0
 production@deb:~/web/prod.dragoon.pw/public_html$
                                 </code>
+=======
+>>>>>>> 9bcb789704dfc4a05f60750766162f9b5584f854
                             </li>
 
                             <li>

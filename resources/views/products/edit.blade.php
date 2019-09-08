@@ -49,6 +49,9 @@
 
                 @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
 
+                {{ $product->modification }}
+                @textarea(['name' => 'modification', 'value' => old('modification') ?? $product->modification])                
+
                 {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title ?? '-']) --}}
                 <div class="form-group">
                     <label for="manufacturer_id">manufacturer</label>

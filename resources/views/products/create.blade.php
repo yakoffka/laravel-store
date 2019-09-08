@@ -106,6 +106,8 @@
                 </div> --}}
                 @textarea(['name' => 'description', 'value' => old('description')])
 
+                @textarea(['name' => 'modification', 'value' => old('modification')])                
+
                 <button type="submit" class="btn btn-primary form-control">Create new product!</button>
 
             </form>
