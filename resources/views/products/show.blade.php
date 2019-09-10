@@ -189,31 +189,36 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
 
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                        Описание {{ $product->name }}
+                    <a title="Описание {{ $product->name }}" class="nav-link active" id="home-tab" 
+                        data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                        Описание
                     </a>
                 </li>
 
                 {{-- modification --}}
                 @if ($product->modification)
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                            Характеристики
+                        <a title="Модификации {{ $product->name }}" class="nav-link" id="profile-tab" 
+                            data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                            Модификации
                         </a>
                     </li>
                 @endif
                 {{-- /modification --}}
 
+                {{-- working_conditions --}}
                 <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                    <a title="Условия работы {{ $product->name }}" class="nav-link" id="contact-tab" 
+                        data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
                         Условия работы
                     </a>
                 </li>
+                {{-- /working_conditions --}}
 
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    {{ $product->description }}
+                    {!! $product->description !!}
                 </div>
 
                 {{-- modification --}}

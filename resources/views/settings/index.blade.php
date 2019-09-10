@@ -136,7 +136,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        
+
                                         <button type="submit" id="submit_{{ $setting->id }}" class="btn btn-primary form-control mb-3">применить</button>
     
                                     @elseif($setting->type == 'email')
@@ -182,23 +182,13 @@
 
                                     @endif
 
-
-
-                                    
-
-
-
                                 </form>
                             </div>
-
                         @endif
-
                     @endforeach
                 </div>
             @endforeach
         </div>
         {{-- /content --}}
-
     </div>
-
 @endsection

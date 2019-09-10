@@ -26,6 +26,21 @@
     @role('admin')<link href="{{ asset('css/admin.css') }}" rel="stylesheet">@endrole
     @role('owner')<link href="{{ asset('css/owner.css') }}" rel="stylesheet">@endrole
 
+    {{-- wysiwyg --}}
+    @if (config('settings.wysiwyg') == 'ckeditor' )
+        <!-- ckeditor -->
+        <script src="{{ asset('wysiwyg/ckeditor/4.5.11/ckeditor.js') }}"></script>
+        <script src="{{ asset('wysiwyg/ckeditor/4.5.11/adapters/jquery.js') }}"></script>
+    @elseif (config('settings.wysiwyg') == 'summernote' )
+        <!-- summernote -->
+        <link href="{{ asset('wysiwyg/summernote/summernote.css') }}" rel="stylesheet">
+        <script src="{{ asset('wysiwyg/summernote/summernote.js') }}"></script>
+    @elseif (config('settings.wysiwyg') == 'tinymce' )
+        <!-- tinymce -->
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        {{-- <script src="{{ asset('wysiwyg/tinymce/4/tinymce.min.js') }}"></script> --}}
+    @endif
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
 </head>

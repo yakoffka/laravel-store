@@ -33,6 +33,9 @@
                         </div>
                     @endif
 
+                    
+
+
                     {{-- You are logged in! --}}
                     @role('owner')
                         
@@ -199,7 +202,19 @@ laravel-worker: added process group
                                 Для интеграции wysiwyg-редактора выбрал 
                                 <a href="https://github.com/UniSharp/laravel-filemanager">UniSharp/laravel-filemanager</a>.
                                 Дальше надеюсь заменить ImageYoTrait на intervention/image, который стоит в зависимостях.
-
+                                <a href="https://unisharp.github.io/laravel-filemanager/installation">installation</a>
+                                <code>
+                                    vagrant@homestead:~/projects/kk$ composer require unisharp/laravel-filemanager:~1.8
+                                    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_config
+                                    Copied File [/vendor/unisharp/laravel-filemanager/src/config/lfm.php] To [/config/lfm.php]
+                                    Publishing complete.
+                                    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_public
+                                    Copied Directory [/vendor/unisharp/laravel-filemanager/public] To [/public/vendor/laravel-filemanager]
+                                    Publishing complete.
+                                    vagrant@homestead:~/projects/kk$ 
+                                    php artisan route:clear
+                                    php artisan config:clear
+                                </code>
                             </li>
                             
                             <li></li>

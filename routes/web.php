@@ -179,3 +179,9 @@ Route::get('search', 'ProductsController@search')->name('search');
         return back();
 
     })->name('clear');
+
+
+
+Route::get('demo', function () {
+    return view('demo');
+});

@@ -121,6 +121,61 @@ class SettingsTableSeeder extends Seeder
                 'permissible_values' => [],
                 'default_value' => 'Цену на данный товар уточняйте у менеджера',
             ],
+            [
+                'group' => 'products',
+                'name_group' => 'Настройки отображения товаров',
+                'type' => 'select',
+                'name' => 'wysiwyg',
+                'display_name' => 'Текстовый редактор',
+                'description' => 'Выберите текстовый редактор для редактирования товара.',
+                'permissible_values' => [
+                    ['none', 'не использовать'],
+                    ['srccode', 'исходный код'],
+                    // ['summernote', 'текстовый редактор summernote'],
+                    // ['ckeditor', 'текстовый редактор ckeditor'],
+                    ['tinymce', 'текстовый редактор tinymce'],
+                ],
+                'default_value' => 0,
+            ],
+            [
+                'group' => 'products',
+                'name_group' => 'Настройки отображения товаров',
+                'type' => 'checkbox',
+                'name' => 'describe_wysiwyg',
+                'display_name' => 'Использовать текстовый редактор для редактирования описания товара',
+                'description' => 'Использовать текстовый редактор для редактирования описания товара.',
+                'permissible_values' => [
+                    [0, 'не использовать'],
+                    [1, 'использовать'],
+                ],
+                'default_value' => 1,
+            ],
+            [
+                'group' => 'products',
+                'name_group' => 'Настройки отображения товаров',
+                'type' => 'checkbox',
+                'name' => 'modification_wysiwyg',
+                'display_name' => 'Использовать текстовый редактор для редактирования модификаций товара',
+                'description' => 'Использовать текстовый редактор для редактирования модификаций товара.',
+                'permissible_values' => [
+                    [0, 'не использовать'],
+                    [1, 'использовать'],
+                ],
+                'default_value' => 1,
+            ],
+            [
+                'group' => 'products',
+                'name_group' => 'Настройки отображения товаров',
+                'type' => 'checkbox',
+                'name' => 'working_conditions',
+                'display_name' => 'Использовать текстовый редактор для редактирования условий работы товара',
+                'description' => 'Использовать текстовый редактор для редактирования условий работы товара.',
+                'permissible_values' => [
+                    [0, 'не использовать'],
+                    [1, 'использовать'],
+                ],
+                'default_value' => 1,
+            ],
 
         
             // display settrings

@@ -167,6 +167,7 @@ return [
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        // UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class, // * For Laravel 5.5 and up, skip to step 3. All service providers and facades are automatically discovered. https://unisharp.github.io/laravel-filemanager/installation
 
         /*
          * Application Service Providers...
