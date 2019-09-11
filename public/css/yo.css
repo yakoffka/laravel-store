@@ -576,6 +576,12 @@ select.on_select {
 
 
 /* users */ 
+.tabs table.param tr th, 
+.tabs table.param thead tr td,
+table.blue_table tr th, 
+table.blue_table thead tr td
+    {padding:10px;background-color:#f7f7f7;color:#09c;font-style:oblique;font-weight:400;}
+
 table.blue_table {margin-bottom: 3em;}
 
 table.blue_table tr th.actions3 {

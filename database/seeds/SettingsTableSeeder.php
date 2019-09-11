@@ -130,7 +130,7 @@ class SettingsTableSeeder extends Seeder
                 'description' => 'Выберите текстовый редактор для редактирования товара.',
                 'permissible_values' => [
                     ['none', 'не использовать'],
-                    ['srctablecode', 'исходный код таблицы'],
+                    ['srctablecode', 'исходный код таблицы (применяется только для поля "Модификации")'],
                     // ['summernote', 'текстовый редактор summernote'],
                     // ['ckeditor', 'текстовый редактор ckeditor'],
                     ['tinymce', 'текстовый редактор TinyMCE'],

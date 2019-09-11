@@ -215,10 +215,17 @@ class ProductsController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // get string table of modification
-        if ( request('modification') and config('settings.srctablecode') ) {
-            dd(request('modification'));
+
+        // get string table of modification srctablecode
+        if ( request('modification')  and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+            $dirty_modification = request('modification');
+            $clean_modification = $this->cleanTables($dirty_modification);
+            // dd($dirty_modification, $clean_modification);
+            $modification = $clean_modification;
+        } else {
+            $modification = request('modification') ?? '';
         }
+
 
         if (!$product = Product::create([
             'name' => request('name'),
@@ -228,7 +235,7 @@ class ProductsController extends Controller
             'visible' => request('visible'),
             'materials' => request('materials') ?? '',
             'description' => request('description') ?? '',
-            'modification' => request('modification') ?? '',
+            'modification' => $modification,
             'workingconditions' => request('workingconditions') ?? '',
             'year_manufacture' => request('year_manufacture') ?? 0,
             'price' => request('price') ?? 0,
@@ -410,9 +417,14 @@ class ProductsController extends Controller
         }
 
 
-        // get string table of modification
-        if ( request('modification')  and config('settings.srctablecode') ) {
-            dd(request('modification'));
+        // get string table of modification srctablecode
+        if ( request('modification')  and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+            $dirty_modification = request('modification');
+            $clean_modification = $this->cleanTables($dirty_modification);
+            // dd($dirty_modification, $clean_modification);
+            $modification = $clean_modification;
+        } else {
+            $modification = request('modification') ?? '';
         }
 
 
@@ -424,7 +436,7 @@ class ProductsController extends Controller
             'visible' => request('visible'),
             'materials' => request('materials'),
             'description' => request('description'),
-            'modification' => request('modification') ?? '',
+            'modification' => $modification,
             'workingconditions' => request('workingconditions') ?? '',
             'year_manufacture' => request('year_manufacture'),
             'price' => request('price'),
@@ -607,4 +619,64 @@ class ProductsController extends Controller
         return view('search.result', compact('query', 'products', 'appends'));
     }
 
+
+    /*
+    * Приватный метод очистки исходного украденного исходного кода таблиц
+    *
+    * Возвращает исходный код, очищенный от ненужных тегов, классов, стилей и др.
+    */
+    private function cleanTables (String $dirty_modification ): string {
+
+        // удаление ненужных тегов
+        $res = strip_tags($dirty_modification, '<table><thead><tbody><th><tr><td>');
+
+        // чистка нужных тегов от классов, стилей и атрибутов
+        $arr_replace = [
+            ["~<table[^>]*?>~u",    "<table class=\"blue_table\">"],
+            ["~<thead[^>]*?>~u",    "<thead>"],
+            ["~<tbody[^>]*?>~u",    "<tbody>"],
+            ["~<th[^e>]*?>~u",       "<th>"], // не зацепить <thead>!!
+            ["~<tr[^>]*?>~u",       "<tr>"],
+            ["~<td[^>]*?>~u",       "<td>"],
+            ["~>[\s]*~",              ">"],
+            ["~[\s]*>~",              ">"],
+            ["~<[\s]*~",              "<"],
+            ["~[\s]*<~",              "<"],
+        ];
+        foreach($arr_replace as $replace) {
+            $res = preg_replace( $replace[0], $replace[1], $res );
+        }
+
+        // удаление прочего мусора
+        $arr_delete = [
+            '&nbsp;',
+        ];
+        foreach($arr_delete as $delete) {
+            $res = str_replace( $delete, '', $res );
+        }
+
+        // опционально: если последним столбцом таблицы идет цена, то вырезаем весь столбец
+        if ( strpos($res,'<td>Цена</td></tr>') or strpos($res,'<th>Цена</th></tr>') ) {
+            $arr_replace = [
+                ["~<td>[^<]+?</td></tr>~u","</tr>"],
+                ["~<th>[^<]+?</th></tr>~u","</tr>"],
+            ];
+            foreach($arr_replace as $replace) {
+                $res = preg_replace( $replace[0], $replace[1], $res );
+            }
+        }
+
+        // опционально: удаление столбца <tr><td>Код товара</td>
+        if ( strpos($res,'<tr><td>Код товара</td>') or strpos($res,'<tr><th>Код товара</th>') ) {
+            $arr_replace = [
+                ["~<tr><td>[^<]+?</td>~u","<tr>"],
+                ["~<tr><th>[^<]+?</th>~u","<tr>"],
+            ];
+            foreach($arr_replace as $replace) {
+                $res = preg_replace( $replace[0], $replace[1], $res );
+            }
+        }
+
+        return $res;
+    }
 }

@@ -121,16 +121,16 @@
                     @elseif ( config('settings.wysiwyg') == 'tinymce' )
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'description', 'label' => 'Описание', 'value' => old('description')])
+                    @else
+                        @textarea(['name' => 'description', 'value' => old('description')])                
                     @endif
-                @else
-                    @textarea(['name' => 'description', 'value' => old('description')])                
                 @endif
                 {{-- /description --}}                  
 
 
                 {{-- modification --}}
                 {{ old('modification') }}
-                @if( config('settings.modification_wysiwyg'))
+                @if( config('settings.modification_wysiwyg') )
                     @if ( config('settings.wysiwyg') == 'ckeditor' )
                         @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'modification', 'value' => old('modification')])
                     @elseif ( config('settings.wysiwyg') == 'summernote' )
@@ -138,12 +138,12 @@
                     @elseif ( config('settings.wysiwyg') == 'tinymce' )
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'modification', 'label' => 'Модификации', 'value' => old('modification')])
+                    @else
+                        @textarea(['name' => 'modification', 'label' => 'Модификации (режим преобразования исходного кода)', 'value' => old('description')])                
                     @endif
-                @else
-                    @textarea(['name' => 'modification',  'value' => old('description')])                
                 @endif
                 {{-- /modification --}}                  
-
+                
 
                 {{-- workingconditions --}}
                 {{ old('workingconditions') }}
@@ -155,9 +155,9 @@
                     @elseif ( config('settings.wysiwyg') == 'tinymce' )
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'workingconditions', 'label' => 'Условия работы', 'value' => old('workingconditions')])
+                    @else
+                        @textarea(['name' => 'workingconditions',  'value' => old('description')])                
                     @endif
-                @else
-                    @textarea(['name' => 'workingconditions',  'value' => old('description')])                
                 @endif
                 {{-- /workingconditions --}}                  
 

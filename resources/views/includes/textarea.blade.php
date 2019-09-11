@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="{{ $name }}">{{ $title ?? $name }}</label>
+    <label for="{{ $name }}">{{ $label ?? $title ?? $name }}</label>
     <textarea
         id="{{ $name }}"
         name="{{ $name }}"
