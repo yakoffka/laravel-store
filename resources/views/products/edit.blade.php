@@ -134,20 +134,34 @@
                     </select>
                 </div>
 
+
+                {{-- parent category --}}
                 <div class="form-group">
-                    <label for="category_id">parent category</label>
+                    <label for="description">parent category</label>
                     <select name="category_id" id="category_id">
-                    <?php
-                        foreach ( $categories as $parent_category ) {
-                            if ( $product->category_id == $parent_category->id ) {
-                                echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
-                            } else {
-                                echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
-                            }
-                        }
-                    ?>
+                        @foreach ( $categories as $category )
+                            @if ( $category->id == 1 )
+                            @elseif ( $category->countChildren() )
+                                @foreach ( $categories as $subcategory )
+                                    @if ( $subcategory->parent_id == $category->id )
+                                        <option 
+                                            value="{{ $subcategory->id }}"
+                                            {{ $subcategory->id == $product->category_id ? ' selected' : ''}}
+                                        >
+                                            {{ $subcategory->parent->title }} > {{ $subcategory->title }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            @elseif ( !$category->countProducts() )
+                                <option 
+                                    value="{{ $category->id }}"
+                                    {{ $category->id == $product->category_id ? ' selected' : ''}}
+                                    >{{ $category->title }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
+                {{-- /parent category --}}
 
                 
                 <button type="submit" class="btn btn-primary form-control">edit product!</button>

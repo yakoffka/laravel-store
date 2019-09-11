@@ -89,16 +89,26 @@
                 </div> --}}
                 @select(['name' => 'visible', 'options' => [['value' => '1', 'title' => 'visible'], ['value' => '0', 'title' => 'invisible']]])
 
+
+                {{-- parent category --}}
                 <div class="form-group">
                     <label for="description">parent category</label>
                     <select name="category_id" id="category_id">
-                    <?php
-                        foreach ( $categories as $parent_category ) {
-                            echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
-                        }
-                    ?>
+                        @foreach ( $categories as $category )
+                            @if ( $category->id == 1 )
+                            @elseif ( $category->countChildren() )
+                                @foreach ( $categories as $subcategory )
+                                    @if ( $subcategory->parent_id == $category->id )
+                                        <option value="{{ $subcategory->id }}">{{ $subcategory->parent->title }} > {{ $subcategory->title }}</option>
+                                    @endif
+                                @endforeach
+                            @elseif ( !$category->countProducts() )
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
+                {{-- /parent category --}}
 
 
                 {{-- description --}}
