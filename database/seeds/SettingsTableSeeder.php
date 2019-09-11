@@ -130,10 +130,11 @@ class SettingsTableSeeder extends Seeder
                 'description' => 'Выберите текстовый редактор для редактирования товара.',
                 'permissible_values' => [
                     ['none', 'не использовать'],
-                    ['srccode', 'исходный код'],
+                    ['srctablecode', 'исходный код таблицы'],
                     // ['summernote', 'текстовый редактор summernote'],
                     // ['ckeditor', 'текстовый редактор ckeditor'],
-                    ['tinymce', 'текстовый редактор tinymce'],
+                    ['tinymce', 'текстовый редактор TinyMCE'],
+                    //['srccode', 'режим правки исходного кода (!)'],
                 ],
                 'default_value' => 0,
             ],
@@ -141,7 +142,7 @@ class SettingsTableSeeder extends Seeder
                 'group' => 'products',
                 'name_group' => 'Настройки отображения товаров',
                 'type' => 'checkbox',
-                'name' => 'describe_wysiwyg',
+                'name' => 'description_wysiwyg',
                 'display_name' => 'Использовать текстовый редактор для редактирования описания товара',
                 'description' => 'Использовать текстовый редактор для редактирования описания товара.',
                 'permissible_values' => [

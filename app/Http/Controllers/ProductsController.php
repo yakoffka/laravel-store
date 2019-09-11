@@ -215,7 +215,7 @@ class ProductsController extends Controller
         }
 
         // get string table of modification
-        if ( request('modification') ) {
+        if ( request('modification') and config('settings.srctablecode') ) {
             dd(request('modification'));
         }
 
@@ -227,6 +227,7 @@ class ProductsController extends Controller
             'visible' => request('visible'),
             'materials' => request('materials') ?? '',
             'description' => request('description') ?? '',
+            'modification' => request('modification') ?? '',
             'year_manufacture' => request('year_manufacture') ?? 0,
             'price' => request('price') ?? 0,
             'added_by_user_id' => Auth::user()->id,
@@ -407,7 +408,7 @@ class ProductsController extends Controller
 
 
         // get string table of modification
-        if ( request('modification') ) {
+        if ( request('modification')  and config('settings.srctablecode') ) {
             dd(request('modification'));
         }
 
@@ -420,6 +421,7 @@ class ProductsController extends Controller
             'visible' => request('visible'),
             'materials' => request('materials'),
             'description' => request('description'),
+            'modification' => request('modification') ?? '',
             'year_manufacture' => request('year_manufacture'),
             'price' => request('price'),
             'edited_by_user_id' => Auth::user()->id,
