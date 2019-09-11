@@ -144,7 +144,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'description_wysiwyg',
                 'display_name' => 'Использовать текстовый редактор для редактирования описания товара',
-                'description' => 'Использовать текстовый редактор для редактирования описания товара.',
+                'description' => 'Использовать текстовый редактор для редактирования поля "Описание".',
                 'permissible_values' => [
                     [0, 'не использовать'],
                     [1, 'использовать'],
@@ -157,7 +157,7 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'checkbox',
                 'name' => 'modification_wysiwyg',
                 'display_name' => 'Использовать текстовый редактор для редактирования модификаций товара',
-                'description' => 'Использовать текстовый редактор для редактирования модификаций товара.',
+                'description' => 'Использовать текстовый редактор для редактирования поля "Модификации".',
                 'permissible_values' => [
                     [0, 'не использовать'],
                     [1, 'использовать'],
@@ -168,9 +168,9 @@ class SettingsTableSeeder extends Seeder
                 'group' => 'products',
                 'name_group' => 'Настройки отображения товаров',
                 'type' => 'checkbox',
-                'name' => 'working_conditions',
+                'name' => 'workingconditions_wysiwyg',
                 'display_name' => 'Использовать текстовый редактор для редактирования условий работы товара',
-                'description' => 'Использовать текстовый редактор для редактирования условий работы товара.',
+                'description' => 'Использовать текстовый редактор для редактирования поля "Условия работы".',
                 'permissible_values' => [
                     [0, 'не использовать'],
                     [1, 'использовать'],

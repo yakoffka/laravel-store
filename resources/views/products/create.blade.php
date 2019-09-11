@@ -135,6 +135,23 @@
                 {{-- /modification --}}                  
 
 
+                {{-- workingconditions --}}
+                {{ old('workingconditions') }}
+                @if( config('settings.workingconditions_wysiwyg'))
+                    @if ( config('settings.wysiwyg') == 'ckeditor' )
+                        @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'workingconditions', 'value' => old('workingconditions')])
+                    @elseif ( config('settings.wysiwyg') == 'summernote' )
+                        @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'workingconditions', 'value' => old('workingconditions')])
+                    @elseif ( config('settings.wysiwyg') == 'tinymce' )
+                        @include('layouts.partials.wysiwyg.tinymce-textarea', 
+                            ['name' => 'workingconditions', 'label' => 'Условия работы', 'value' => old('workingconditions')])
+                    @endif
+                @else
+                    @textarea(['name' => 'workingconditions',  'value' => old('description')])                
+                @endif
+                {{-- /workingconditions --}}                  
+
+
                 <button type="submit" class="btn btn-primary form-control">Create new product!</button>
 
             </form>

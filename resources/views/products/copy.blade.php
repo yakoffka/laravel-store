@@ -57,7 +57,57 @@
 
                 @input(['name' => 'name', 'value' => old('name') ?? $product->name . '-copy', 'required' => 'required'])
 
-                @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])
+
+                {{-- description --}}
+                {{ $product->description }}
+                @if( config('settings.description_wysiwyg'))
+                    @if ( config('settings.wysiwyg') == 'ckeditor' )
+                        @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'description', 'value' => old('description') ?? $product->description])
+                    @elseif ( config('settings.wysiwyg') == 'summernote' )
+                        @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'description', 'value' => old('description') ?? $product->description])
+                    @elseif ( config('settings.wysiwyg') == 'tinymce' )
+                        @include('layouts.partials.wysiwyg.tinymce-textarea', 
+                            ['name' => 'description', 'label' => 'Описание', 'value' => old('description') ?? $product->description])
+                    @endif
+                @else
+                    @textarea(['name' => 'description', 'value' => old('description') ?? $product->description])                
+                @endif
+                {{-- /description --}}                  
+
+
+                {{-- modification --}}
+                {{ $product->modification }}
+                @if( config('settings.modification_wysiwyg'))
+                    @if ( config('settings.wysiwyg') == 'ckeditor' )
+                        @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'modification', 'value' => old('modification') ?? $product->modification])
+                    @elseif ( config('settings.wysiwyg') == 'summernote' )
+                        @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'modification', 'value' => old('modification') ?? $product->modification])
+                    @elseif ( config('settings.wysiwyg') == 'tinymce' )
+                        @include('layouts.partials.wysiwyg.tinymce-textarea', 
+                            ['name' => 'modification', 'label' => 'Модификации', 'value' => old('modification') ?? $product->modification])
+                    @endif
+                @else
+                    @textarea(['name' => 'modification', 'value' => old('modification') ?? $product->modification])                
+                @endif
+                {{-- /modification --}}                  
+
+
+                {{-- workingconditions --}}
+                {{ $product->workingconditions }}
+                @if( config('settings.workingconditions_wysiwyg'))
+                    @if ( config('settings.wysiwyg') == 'ckeditor' )
+                        @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'workingconditions', 'value' => old('workingconditions') ?? $product->workingconditions])
+                    @elseif ( config('settings.wysiwyg') == 'summernote' )
+                        @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'workingconditions', 'value' => old('workingconditions') ?? $product->workingconditions])
+                    @elseif ( config('settings.wysiwyg') == 'tinymce' )
+                        @include('layouts.partials.wysiwyg.tinymce-textarea', 
+                            ['name' => 'workingconditions', 'label' => 'Условия работы', 'value' => old('workingconditions') ?? $product->workingconditions])
+                    @endif
+                @else
+                    @textarea(['name' => 'workingconditions', 'value' => old('workingconditions') ?? $product->workingconditions])                
+                @endif
+                {{-- /workingconditions --}}                  
+
 
                 {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title ?? '-']) --}}
                 <div class="form-group">

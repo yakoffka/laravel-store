@@ -434,12 +434,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Настройки п. 3.5 Отображать в категории подкатегории',
+                'description' => 'Разобраться и поправить описание (и поведение приложения) п. 3.5 Отображать в категории подкатегории.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => '',
