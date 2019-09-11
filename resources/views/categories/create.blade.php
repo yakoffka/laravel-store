@@ -110,16 +110,23 @@
                         </select>
                     </div>
 
+
+                    {{-- parent category --}}
                     <div class="form-group">
-                            <label for="description">parent category</label>
-                            <select name="parent_id" id="parent_id">
-                            <?php
-                                foreach ( $categories as $parent_category ) {
-                                    echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
-                                }
-                            ?>
+                        <label for="description">parent category</label>
+                        <select name="category_id" id="category_id">
+                            @foreach ( $categories as $parent_category )
+                                {{-- @if ( $parent_category->id == 1 ) --}}
+                                @if ( $parent_category->parent_id == 1 and !$parent_category->countProducts() )
+                                    <option 
+                                        value="{{ $parent_category->id }}"
+                                        {{-- {{ $parent_category->id == $category->parent_category ? ' selected' : ''}} --}}
+                                        >{!! $parent_category->id == 1 ? '' : '&nbsp;>&nbsp;' !!}{{ $parent_category->title }}</option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
+                    {{-- /parent category --}}
 
 
                     <button type="submit" class="btn btn-primary">create category!</button>

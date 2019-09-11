@@ -88,30 +88,23 @@
                     </select>
                 </div>
 
+
+                {{-- parent category --}}
                 <div class="form-group">
-                        <label for="description">parent category</label>
-                        <select name="parent_id" id="parent_id">
-                        <?php
-                            foreach ( $categories as $parent_category ) {
-                                if ( $category->id == $parent_category->id ) {
-                                    // dont show this category!
-                                }
-                                if ( $category->parent_id == $parent_category->id ) {
-                                    echo '<option value="' . $parent_category->id . '" selected>' . $parent_category->title . '</option>';
-                                } else {
-                                    echo '<option value="' . $parent_category->id . '">' . $parent_category->title . '</option>';
-                                }
-                            }
-
-                            // if (!$parent_category) {
-                            //     echo '<option value="1" selected>cat</option>';
-                            // } else {
-                            //     echo '<option value="1">без родителя</option>';
-                            // }
-
-                        ?>
+                    <label for="description">parent category</label>
+                    <select name="category_id" id="category_id">
+                        @foreach ( $categories as $parent_category )
+                            @if ( $parent_category->id == 1 )
+                            @elseif ( !$parent_category->countProducts() )
+                                <option 
+                                    value="{{ $parent_category->id }}"
+                                    {{-- {{ $parent_category->id == $category->parent_category ? ' selected' : ''}} --}}
+                                    >{{ $parent_category->title }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
+                {{-- /parent category --}}
 
 
                 <button type="submit" class="btn btn-primary form-control">edit category!</button>
