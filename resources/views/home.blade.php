@@ -171,8 +171,8 @@ laravel-worker: added process group
 ~ php artisan migrate:refresh --seed
                                 </code></pre>
                             </li>
+                            <li class="incomplete">Добавить в .gitignore '/config/settings.php'</li>
                             <li class="incomplete">voila</li>
-                            {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
                             {{-- <li class="incomplete">лллллллл</li> --}}
