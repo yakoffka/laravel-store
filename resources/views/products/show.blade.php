@@ -178,51 +178,62 @@
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-                <li class="nav-item">
-                    <a title="Описание {{ $product->name }}" class="nav-link active" id="home-tab" 
-                        data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                        Описание
-                    </a>
-                </li>
+
+                @if ($product->description)
+                    <li class="nav-item">
+                        <a title="Описание {{ $product->name }}" class="nav-link active" id="home-tab" 
+                            data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                            Описание
+                        </a>
+                    </li>
+                @endif
 
                 @if ($product->modification)
                     <li class="nav-item">
-                        <a title="Модификации {{ $product->name }}" class="nav-link" id="profile-tab" 
+                        <a title="Модификации {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
                             data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                             Модификации
                         </a>
                     </li>
                 @endif
 
-                <li class="nav-item">
-                    <a title="Условия работы {{ $product->name }}" class="nav-link" id="contact-tab" 
-                        data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                        Условия работы
-                    </a>
-                </li>
+                @if ($product->workingconditions)
+                    <li class="nav-item">
+                        <a title="Условия работы {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
+                            data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                            Условия работы
+                        </a>
+                    </li>
+                @endif
 
             </ul>
             
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    {!! $product->description !!}
-                </div>
+
+                {{-- description --}}
+                @if ($product->description)
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        {!! $product->description !!}
+                    </div>
+                @endif
+                {{-- /description --}}
 
                 {{-- modification --}}
                 @if ($product->modification)
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <h2 class="ta_c">Характеристики {{ $product->name }}</h2>
+                    <div class="tab-pane fade{{ !$product->description ? ' show active' : '' }}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <h2 class="ta_c">Модификации {{ $product->name }}</h2>
                         {!! $product->modification !!}
                     </div>
                 @endif
                 {{-- /modification --}}
 
-
                 {{-- workingconditions --}}
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <h2 class="ta_c">Условия работы и меры безопасности</h2>
-                    {!! $product->workingconditions !!}
-                </div>
+                @if ($product->workingconditions)
+                    <div class="tab-pane fade{{ (!$product->description and !$product->modification) ? ' show active' : '' }}" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <h2 class="ta_c">Условия работы и меры безопасности</h2>
+                        {!! $product->workingconditions !!}
+                    </div>
+                @endif
                 {{-- /workingconditions --}}
 
             </div>
