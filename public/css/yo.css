@@ -315,12 +315,6 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     margin-bottom: .5rem;
 }
 
-.carousel-control-next-icon, .carousel-control-prev-icon {
-    background-color: #ccc;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-}
-
 
 
 

@@ -12,8 +12,9 @@
             <div class="submenuitem">- <a target="_blank" href="https://github.com/nicolaslopezj/searchable">Search</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/Intervention/image">Intervention/image</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/UniSharp/laravel-filemanager">UniSharp/lfm</a></div>
-            <div class="submenuitem">- <a target="_blank" href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md">laravel-best-practices</a></div>
-            <div class="submenuitem">- <a target="_blank" href="https://si-dev.com/ru/blog/laravel-model-observers">laravel-model-observers</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md">best-practices</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://si-dev.com/ru/blog/laravel-model-observers">model-observers</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://www.youtube.com/watch?v=oc1_DHfL89k&list=PL55RiY5tL51qUXDyBqx0mKVOhLNFwwxvH&index=2">look me up</a></div>
         </div>
     @endif
 </div>

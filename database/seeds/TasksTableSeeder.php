@@ -53,12 +53,12 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 4,
             ],
 
-            [
-                'title' => 'Продумать модальную форму',
-                'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 4,
-            ],
+            // [
+            //     'title' => 'Продумать модальную форму',
+            //     'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 4,
+            // ],
 
             [
                 'title' => 'Заменить Status на OrderStatus',
@@ -81,48 +81,41 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 4,
             ],
 
-            [
-                'title' => 'Уникальность наименования товара',
-                'description' => 'Разобраться, нужна-ли. Если да, то добавить валидацию в контроллер.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 4,
-            ],
+            // [
+            //     'title' => 'Уникальность наименования товара',
+            //     'description' => 'Разобраться, нужна-ли. Если да, то добавить валидацию в контроллер.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 4,
+            // ],
 
             [
                 'title' => 'Добавить возможность вставки таблиц',
                 'description' => '
                     Добавить возможность вставки таблиц при создании и редактировании товаров. Вставка исходного html-кода с последующей чисткой на стороне сервера.
                     </p><p>Добавить поля в модель Product.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
-            [
-                'title' => 'Доработать TaskList',
-                'description' => 'Доработать TaskList:</p>
-                <ol>
-                    <li>Добавить отображение задач и поручений в виде карточек.
-                    </li><li>Добавить историю.
-                    </li><li>Добавить копирование.
-                    </li><li>Продумать смену статуса исполнителем (запрет закрытия, невозможность смены статуса при закрытой задаче, etc).
-                    </li><li>Добавить фильтрацию.
-                    </li>
-                </ol>
-                ',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 4,
-            ],
+            // [
+            //     'title' => 'Доработать TaskList',
+            //     'description' => 'Доработать TaskList:</p>
+            //     <ol>
+            //         <li>Добавить отображение задач и поручений в виде карточек.
+            //         </li><li>Добавить историю.
+            //         </li><li>Добавить копирование.
+            //         </li><li>Продумать смену статуса исполнителем (запрет закрытия, невозможность смены статуса при закрытой задаче, etc).
+            //         </li><li>Добавить фильтрацию.
+            //         </li>
+            //     </ol>
+            //     ',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 4,
+            // ],
 
             [
                 'title' => 'ImageYoTrait',
                 'description' => 'Разберись, наконец, с этим трейтом.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 4,
-            ],
-
-            [
-                'title' => 'Выпилить users.status',
-                'description' => 'К чёрту субординацию. никакого создания ролей после запуска магазина.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
@@ -221,7 +214,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Удаление задач',
                 'description' => 'Добавить возможность удаления задачи из "resources/views/tasks/show.blade.php".',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -290,7 +283,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Удаление категорий',
                 'description' => 'Добавить удаление категорий с перемещением нахоудаление категорий с перемещением находящихся в них подкатегорий и товаров на уровень выше.',
-                'tasksstatus_id' => 3,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
                 'comment_slave' => 'пока запретил удаление непустых категорий. Обдумать: нужны-ли дальнейшие действия.'
             ],
@@ -312,7 +305,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить отображение фильтров в настройки',
                 'description' => 'Добавить в настройки возможность выбора отображения фильтров (не отображать, только категории, категории и подкатегории). часть элементов раскрывать по клику',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -422,7 +415,7 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Выбор категории при создании/редактировании товара',
-                'description' => ':
+                'description' => 'Изменить выбор категории при создании/редактировании товара:
                     <ol>
                         <li>запретить ввод корневой директории (содержащей подкатегории);</li>
                         <li>соответственно запретить ввод категории, содержащей товары для выбора её в качестве корневой категории для подкатегорий;</li>
@@ -430,14 +423,14 @@ class TasksTableSeeder extends Seeder
                         <li>родительские категории сделать неактивными (а лучше в селекте: категория->подкатегория).</li>
                     </ol>
                     ',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
                 'title' => 'Настройки п. 3.5 Отображать в категории подкатегории',
                 'description' => 'Разобраться и поправить описание (и поведение приложения) п. 3.5 Отображать в категории подкатегории.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
