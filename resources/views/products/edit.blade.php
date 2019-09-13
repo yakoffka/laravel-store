@@ -49,7 +49,7 @@
 
 
                 {{-- description --}}
-                {{ $product->description }}
+                {!! $product->description !!}
                 @if( config('settings.description_wysiwyg'))
                     @if ( config('settings.wysiwyg') == 'ckeditor' )
                         @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'description', 'value' => old('description') ?? $product->description])
@@ -66,7 +66,7 @@
 
 
                 {{-- modification --}}
-                {{ $product->modification }}
+                {!! $product->modification !!}
                 @if( config('settings.modification_wysiwyg'))
                     @if ( config('settings.wysiwyg') == 'ckeditor' )
                         @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'modification', 'value' => old('modification') ?? $product->modification])
@@ -75,6 +75,8 @@
                     @elseif ( config('settings.wysiwyg') == 'tinymce' )
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'modification', 'label' => 'Модификации', 'value' => old('modification') ?? $product->modification])
+                    @elseif ( config('settings.wysiwyg') == 'srctablecode' )
+                        @textarea(['name' => 'modification', 'label' => 'Модификации (режим преобразования исходного кода)', 'value' => old('description') ?? $product->modification])                
                     @endif
                 @else
                     @textarea(['name' => 'modification', 'value' => old('modification') ?? $product->modification])                
@@ -83,7 +85,7 @@
 
 
                 {{-- workingconditions --}}
-                {{ $product->workingconditions }}
+                {!! $product->workingconditions !!}
                 @if( config('settings.workingconditions_wysiwyg'))
                     @if ( config('settings.wysiwyg') == 'ckeditor' )
                         @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'workingconditions', 'value' => old('workingconditions') ?? $product->workingconditions])

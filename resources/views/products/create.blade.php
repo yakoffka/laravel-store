@@ -138,9 +138,11 @@
                     @elseif ( config('settings.wysiwyg') == 'tinymce' )
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'modification', 'label' => 'Модификации', 'value' => old('modification')])
-                    @else
-                        @textarea(['name' => 'modification', 'label' => 'Модификации (режим преобразования исходного кода)', 'value' => old('description')])                
+                    @elseif ( config('settings.wysiwyg') == 'srctablecode' )
+                        @textarea(['name' => 'modification', 'label' => 'Модификации (режим преобразования исходного кода)', 'value' => old('modification')])                
                     @endif
+                @else
+                    @textarea(['name' => 'modification', 'value' => old('modification')])                
                 @endif
                 {{-- /modification --}}                  
                 
@@ -156,7 +158,7 @@
                         @include('layouts.partials.wysiwyg.tinymce-textarea', 
                             ['name' => 'workingconditions', 'label' => 'Условия работы', 'value' => old('workingconditions')])
                     @else
-                        @textarea(['name' => 'workingconditions',  'value' => old('description')])                
+                        @textarea(['name' => 'workingconditions',  'value' => old('workingconditions')])                
                     @endif
                 @endif
                 {{-- /workingconditions --}}                  

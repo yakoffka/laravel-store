@@ -188,7 +188,7 @@ class ProductsController extends Controller
         if ( request('modification') and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
             $clean_modification = $this->cleanTables($dirty_modification);
-            dd($dirty_modification, $clean_modification);
+            // dd($dirty_modification, $clean_modification);
             $modification = $clean_modification;
         } else {
             $modification = request('modification') ?? '';
@@ -598,18 +598,22 @@ class ProductsController extends Controller
         // удаление ненужных тегов
         $res = strip_tags($dirty_modification, '<table><caption><thead><tbody><th><tr><td>');
 
-        // чистка нужных тегов от классов, стилей и атрибутов
         $arr_replace = [
-            ["~<table[^>]*?>~u",    "<table class=\"blue_table\">"],
-            ["~<thead[^>]*?>~u",    "<thead>"],
-            ["~<tbody[^>]*?>~u",    "<tbody>"],
-            ["~<th[^e>]*?>~u",       "<th>"], // не зацепить <thead>!!
-            ["~<tr[^>]*?>~u",       "<tr>"],
-            ["~<td[^>]*?>~u",       "<td>"],
-            ["~>[\s]*~",              ">"],
-            ["~[\s]*>~",              ">"],
-            ["~<[\s]*~",              "<"],
-            ["~[\s]*<~",              "<"],
+            ["~</table>.*?<table[^>]*?>~u",         "REPLACE_THIS"],                    // если таблиц несколько
+            ["~.*?<table[^>]*?>~u",     "<table class=\"blue_table\">"],                // обрезка до таблицы
+            ["~</table>.*?~u",          "</table>"],                                    // обрезка после таблицы
+            ["~<caption[^>]*?>~u",      "<caption>"],                                   // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<thead[^>]*?>~u",        "<thead>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<tbody[^>]*?>~u",        "<tbody>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<th[\s]{1}[^>]*?>~u",    "<th>"],                                        // не зацепить <thead>!!
+            ["~<tr[^>]*?>~u",           "<tr>"],
+            ["~<td[^>]*?>~u",           "<td>"],
+            ["~>[\s]*~",                ">"],
+            ["~[\s]*>~",                ">"],
+            ["~<[\s]*~",                "<"],
+            ["~[\s]*<~",                "<"],
+            ["~REPLACE_THIS~u",         "</table>\n<table class=\"blue_table\">"],
+
         ];
         foreach($arr_replace as $replace) {
             $res = preg_replace( $replace[0], $replace[1], $res );
