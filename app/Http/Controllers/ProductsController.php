@@ -25,65 +25,40 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        // $products = DB::table('products')->orderBy('id', 'desc')->simplepaginate();
-        // return view('products.index', compact('products'));
 
-        // $products = Product::all()->filter( function ($product) {
-        //     $byBass = substr_count($product->name, 'Bass');
-        //     return $byBass;
-        // });
-        // return view('products.index', compact('products'));
-
-        // $products = Product::paginate();
-        // return view('products.index', compact('products'));
-
-        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $products = Product::latest()->paginate();
-        // } else {
-        //     $products = Product::latest()->where('visible', '=', 1)->paginate();
-        // }
-        // return view('products.index', compact('products'));
-
-        // add filters
-        // $products = Product::latest()->filter($this->filters())->paginate();
-        // return view('products.index', compact('products'));
-
-
+        // save query string for pagination
         $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
         }
 
-        // $products = Product::filter($request, $this->getFilters())->paginate();
+        // // $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
+        // if ( Auth::user() and  Auth::user()->can(['view_products'])) {
+        //     $products = Product::filter($request, $this->getFilters())
+        //         ->latest()
+        //         ->paginate();
 
-        // visible/invisible products where 'visible' == 0
-        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $products = Product::filter($request, $this->getFilters())->latest()->paginate();
+        // // } elseif ( $view_products_whitout_price->value ) {
+        // } elseif ( config('settings.view_products_whitout_price') ) {
+        //     $products = Product::filter($request, $this->getFilters())
+        //         ->latest()->where('visible', '=', 1)
+        //         ->paginate();
+
         // } else {
-        //     $products = Product::filter($request, $this->getFilters())->latest()->where('visible', '=', 1)->paginate();
+        //     $products = Product::filter($request, $this->getFilters())
+        //         ->latest()->where('visible', '=', 1)
+        //         ->where('price', '!=', 0)
+        //         ->paginate();
         // }
-
-
-        // $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
-        if ( Auth::user() and  Auth::user()->can(['view_products'])) {
-            $products = Product::filter($request, $this->getFilters())
-                ->latest()
-                ->paginate();
-
-        // } elseif ( $view_products_whitout_price->value ) {
-        } elseif ( config('settings.view_products_whitout_price') ) {
-            $products = Product::filter($request, $this->getFilters())
-                ->latest()->where('visible', '=', 1)
-                ->paginate();
-
-        } else {
-            $products = Product::filter($request, $this->getFilters())
-                ->latest()->where('visible', '=', 1)
-                ->where('price', '!=', 0)
-                ->paginate();
-        }
-
+        $products = Product::filter($request, $this->getFilters())
+            ->latest()
+            ->paginate();
         return view('products.index', compact('products', 'appends'));
+    }
+
+    protected function getFilters() 
+    {
+        return [];
     }
 
     
@@ -106,13 +81,6 @@ class ProductsController extends Controller
         return view('products.adminindex', compact('products', 'appends'));
     }
 
-
-    protected function getFilters() 
-    {
-        return [
-            // 'manufacturer' => ManufacturerFilter::class,
-        ];
-    }
 
 
     /**
@@ -217,10 +185,10 @@ class ProductsController extends Controller
 
 
         // get string table of modification srctablecode
-        if ( request('modification')  and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
             $clean_modification = $this->cleanTables($dirty_modification);
-            // dd($dirty_modification, $clean_modification);
+            dd($dirty_modification, $clean_modification);
             $modification = $clean_modification;
         } else {
             $modification = request('modification') ?? '';
@@ -418,7 +386,7 @@ class ProductsController extends Controller
 
 
         // get string table of modification srctablecode
-        if ( request('modification')  and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
             $clean_modification = $this->cleanTables($dirty_modification);
             // dd($dirty_modification, $clean_modification);
@@ -628,7 +596,7 @@ class ProductsController extends Controller
     private function cleanTables (String $dirty_modification ): string {
 
         // удаление ненужных тегов
-        $res = strip_tags($dirty_modification, '<table><thead><tbody><th><tr><td>');
+        $res = strip_tags($dirty_modification, '<table><caption><thead><tbody><th><tr><td>');
 
         // чистка нужных тегов от классов, стилей и атрибутов
         $arr_replace = [

@@ -356,6 +356,13 @@ table.param tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:ob
     /* line-height: 50%; */
 }
 
+/* label.filters.main_category {
+    font-weight: 400;
+} */
+.left_stylized_checkbox label.filters.subcategory {
+    color: #64819e;
+    padding-left: 2em;
+}
 
 
 

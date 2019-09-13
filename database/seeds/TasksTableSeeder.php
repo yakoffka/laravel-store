@@ -479,16 +479,16 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Перестал работать фильтр',
                 'description' => 'После смены концепции отображения (скорее всего) перестал работать фильтр. Поправить.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Количество просмотров товара',
+                'description' => 'Добавить в модель Product количество просмотров.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

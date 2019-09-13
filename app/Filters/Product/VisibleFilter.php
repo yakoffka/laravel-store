@@ -8,6 +8,12 @@ use App\Filters\FilterAbstract;
 class VisibleFilter extends FilterAbstract
 {
 
+    /**
+     * Mappings for database values.
+     *
+     * @return array
+     *
+     */
     public function mappings()
     {
         return [
@@ -16,20 +22,21 @@ class VisibleFilter extends FilterAbstract
         ];
     }
 
+    /**
+     * Filter by visible
+     * 
+     * @param string $value
+     * 
+     * @return Illuminate\Database\Eloquent\Builder
+     * 
+     */
     public function filter(Builder $builder, $value)
     {
-        // $value = $this->resolveFilterValue($value);
-        // if ( $value === null ) {
-        //     return $builder;
-        // }
-        // return $builder->where('visible', $value);
-
-
 
         $value = $this->resolveFilterValue($value);
-        dd($value);
+        // dd($value);
 
-        if ( Auth::user() and Auth::user()->can('create_products') ) {
+        if ( auth()->user() and auth()->user()->can('create_products') ) {
             return $builder->where('visible', true);
         } else {
             // return $builder->where('visible', false);

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
@@ -67,7 +68,7 @@ class Product extends Model
         return $this->belongsTo(Manufacturer::class);
     }
 
-    public function scopeFilter(Builder $builder, /*Request */$request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
+    public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
         return (new ProductFilters($request))->add($filters)->filter($builder);
     }
     

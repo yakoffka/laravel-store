@@ -179,6 +179,19 @@ laravel-worker: added process group
                             {{-- <li class="incomplete"  >pppppp</li> --}}
                         </ol>
 
+
+
+                        <h4>Create filters</h4>
+                        {{-- https://coursehunters.net/course/filtry-v-laravel --}}
+                        <ol class="numlist">
+                            <li class="incomplete">В модели создаём метод scopeFilter, возвращающий новый экземпляр класса ProductFilters (не забыть прописать use App\Filters\Product\ProductFilters;)</li>
+                            <li class="incomplete">Создаём директории app/Filters; app/Filters/Product, а в ней - класс app/Filters/Product/ProductFilters.php</li>
+                            <li class="incomplete">Выносим свойство $request и методы __construct() и filters() в абстрактный класс app/Filters/FiltersAbstract.php (и, собственно, создаём его)</li>
+                            <li class="incomplete">Добавляем свойство protected $filters = []; в FiltersAbstract</li>
+                            <li class="incomplete"></li>
+                            <li class="incomplete"></li>
+                            <li class="incomplete"></li>
+                        </ol>
                     @endrole
 
 
