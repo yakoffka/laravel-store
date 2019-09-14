@@ -129,14 +129,18 @@ h1.hide, h1.hide a, h5.hide a {
 
 
 
-
+@media (max-width: 767.98px) {
+    nav.navbar.navbar-dark {
+        background: linear-gradient(to right, #3490dc, #09f);
+        /* background: #882200; */
+    }
+     
+}
 
 
 
 /* /app.blade */
-nav.navbar.navbar-dark {
-    background-color: #3490dc;
-}
+
 a.navbar-brand.grey, .navbar-dark .navbar-nav .nav-link, .navbar-nav li.nav-item {
     /* color: rgba(0,0,0,.7); */
     color: hsla(0,0%,100%,.75);
