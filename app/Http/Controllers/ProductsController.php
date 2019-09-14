@@ -548,7 +548,8 @@ class ProductsController extends Controller
 
         session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
 
-        return redirect()->route('products.index');
+        // return redirect()->route('products.index');
+        return back();
     }
 
 

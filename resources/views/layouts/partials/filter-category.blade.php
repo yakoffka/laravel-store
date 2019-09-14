@@ -35,6 +35,12 @@
         @endforeach --}}
         @foreach( $categories as $category )
 
+            {{-- hide empty categories --}}
+            @if ( !config('settings.show_empty_category') and !$category->countProducts() and !$category->countChildren() )
+                @continue
+            @endif
+            {{-- /hide empty categories --}}
+
             {{-- catalog --}}
             @if ( $category->id == 1 )
 
@@ -50,11 +56,18 @@
                     @endif
                 >
                 <label class="filters main_category" for="filter_categories_{{ $category->id }}" 
-                    onClick="check_{{ $category->id }}(this.form,['total_{{ $category->id }}'].checked)">
-                    {{ $category->title }}
+                    onClick="check_{{ $category->id }}(this.form,['total_{{ $category->id }}'].checked)"
+                    title="{{ $category->title }}"
+                >
+                    {{ $category->name }}
                 </label>
 
                 @foreach ( $categories as $i => $subcategory )
+                    {{-- hide empty subcategory --}}
+                    @if ( !config('settings.show_empty_category') and !$subcategory->countProducts() and !$subcategory->countChildren() )
+                        @continue
+                    @endif
+                    {{-- /hide empty subcategory --}}
                     @if ( $subcategory->parent_id == $category->id )
                         @php
                             if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
@@ -76,8 +89,11 @@
                                     checked
                                 @endif
                             >
-                            <label class="filters subcategory" for="filter_categories_{{ $subcategory->id }}">
-                                {{ $subcategory->title }}
+                            <label class="filters subcategory" 
+                                for="filter_categories_{{ $subcategory->id }}"
+                                title="{{ $subcategory->title }}"
+                            >
+                                {{ $subcategory->name }}
                             </label>
                         @endif
                     @endif
@@ -94,8 +110,11 @@
                         checked
                     @endif
                 >
-                <label class="filters main_category" for="filter_categories_{{ $category->id }}">
-                    {{ $category->title }}
+                <label class="filters main_category" 
+                    for="filter_categories_{{ $category->id }}"
+                    title="{{ $category->title }}"
+                >
+                    {{ $category->name }}
                 </label>
             @endif
         @endforeach

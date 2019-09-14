@@ -346,7 +346,8 @@ class CategoryController extends Controller
 
         session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully delete.');
 
-        return redirect()->route('categories.index');
+        // return redirect()->route('categories.index');
+        return back();
     }
 
 

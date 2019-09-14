@@ -20,7 +20,7 @@
 
     <h1>
         @if ( !empty($category) and $category->id > 1 )
-            Категория "{{ $category->name }}"
+            Категория "{{ $category->title }}"
         @else
             Каталог
         @endif
@@ -41,6 +41,12 @@
             @foreach($categories as $category)
                 {{-- @if($category->id != 1) --}}
                 {{-- @if( $category->products->count() ) --}}
+
+                {{-- hide empty categories --}}
+                @if ( !config('settings.show_empty_category') and !$category->countProducts() and !$category->countChildren() )
+                    @continue
+                @endif
+                {{-- /hide empty categories --}}
 
                 <div class="col-lg-4 col-md-6 product_card_bm">
                     <div class="card">

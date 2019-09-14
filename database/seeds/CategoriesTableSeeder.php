@@ -51,15 +51,15 @@ class CategoriesTableSeeder extends Seeder
 
                 // categories
                 ['parent_id' => 1, 'slug' => 'slings',          'name' => 'Стропы',],
-                ['parent_id' => 1, 'slug' => 'grips',           'name' => 'СКГ',], // Системы крепления грузов
+                ['parent_id' => 1, 'slug' => 'grips',           'name' => 'СКГ',                'title' => 'Системы крепления грузов'       ],
                 ['parent_id' => 1, 'slug' => 'components',      'name' => 'Комплектующие',],
                 ['parent_id' => 1, 'slug' => 'capture',         'name' => 'Захваты',],
-                ['parent_id' => 1, 'slug' => 'mounting_blocks', 'name' => 'Блоки монтажные',],
+                ['parent_id' => 1, 'slug' => 'mounting_blocks', 'name' => 'БМ',    'title' => 'Блоки монтажные',               ],
                 ['parent_id' => 1, 'slug' => 'jacks',           'name' => 'Домкраты',],
                 ['parent_id' => 1, 'slug' => 'traverse',        'name' => 'Траверсы',],
                 ['parent_id' => 1, 'slug' => 'winch',           'name' => 'Лебедки',],
                 ['parent_id' => 1, 'slug' => 'hoists',          'name' => 'Тали',],
-                ['parent_id' => 1, 'slug' => 'mech_hoists',     'name' => 'МПТ',], // Механизмы передвижения талей
+                ['parent_id' => 1, 'slug' => 'mech_hoists',     'name' => 'МПТ',                'title' => 'Механизмы передвижения талей'   ],
 
 
                 // subcategories
@@ -142,7 +142,7 @@ class CategoriesTableSeeder extends Seeder
                 'name' => $category['name'],
                 'slug' => $category['slug'] ?? Str::slug($category['name'], '-'),
                 'sort_order' => $category['parent_id'] ? 0 : $key++,
-                'title' => ucwords($category['name']),
+                'title' => $category['title'] ?? ucwords($category['name']),
                 'description' => 'Description ' . ucwords($category['name']),
                 'visible' => true,
                 'parent_id' => $category['parent_id'],

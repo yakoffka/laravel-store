@@ -96,18 +96,23 @@
 
                 </table>
                 {{-- /table products --}}
-            @endif
 
-            выполнить с выделенными товарами
-            <form id="products_{{ $category->id }}_massupdate" action="{{ route('categories.massupdate', $category) }}" method="POST">
-                @csrf
-                @method("PATCH")
-                {{-- <button type="submit">mass</button> --}}
-                <input type="submit" name="action" value="delete">
-                <input type="submit" name="action" value="replace">
-                <input type="submit" name="action" value="invisible">
-                <input type="submit" name="action" value="visible">
-            </form>
+                {{-- massupdate --}}
+                выполнить с выделенными товарами
+                <form id="products_{{ $category->id }}_massupdate" action="{{ route('categories.massupdate', $category) }}" method="POST">
+                    @csrf
+                    @method("PATCH")
+                    {{-- <button type="submit">mass</button> --}}
+                    <input type="submit" name="action" value="delete">
+                    <input type="submit" name="action" value="replace">
+                    <input type="submit" name="action" value="invisible">
+                    <input type="submit" name="action" value="visible">
+                </form>
+                {{-- /massupdate --}}
+
+            @elseif ( !$category->countProducts() and !$category->countChildren() )
+                <h2>Категория пуста</h2>                
+            @endif
 
         </div>
     </div>
