@@ -40,7 +40,7 @@
 
             {{-- parent categories --}}
             @elseif ( $category->countChildren() ) 
-                <input type="checkbox" name="total_{{ $category->id }}" value="1" 
+                <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1" 
                     onClick="check_{{ $category->id }}(this.form,this.checked)"
                     id="filter_categories_{{ $category->id }}"
                     @if ( !empty($appends['total_' . $category->id]) )
@@ -58,16 +58,19 @@
                     @if ( $subcategory->parent_id == $category->id )
                         @php
                             if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
-                                $inputs = ''; $oForms = '';
+                                // $inputs = '';
+                                $oForms = '';
                             }
-                            $inputs .= '<input type="checkbox" name="categories[' . $subcategory->id . ']" value="' . $subcategory->id . '">';
+                            // $inputs .= '<input type="checkbox" name="categories[' . $subcategory->id . ']" value="' . $subcategory->id . '">';
                             $oForms .= 'oForm[\'categories[' . $subcategory->id . ']\'].checked = checked;';
                             $parent_category_id = $category->id;
                         @endphp
 
                         {{-- subcategory --}}
                         @if ( config('settings.filter_subcategories') )
-                            <input type="checkbox" name="categories[]" value="{{ $subcategory->id }}"
+                            <input class="filters subcategory" type="checkbox" 
+                                name="categories[{{ $subcategory->id }}]" 
+                                value="{{ $subcategory->id }}"
                                 id="filter_categories_{{ $subcategory->id }}"
                                 @if ( !empty($appends['categories']) and in_array($subcategory->id, $appends['categories']) )
                                     checked
@@ -77,15 +80,11 @@
                                 {{ $subcategory->title }}
                             </label>
                         @endif
-
                     @endif
-
                 @endforeach
 
-                <div id="group_{{ $category->id }}">{!! $inputs !!}</div>
+                {{-- <div id="group_{{ $category->id }}">{!! $inputs !!}</div> --}}
                 <script type="text/javascript">function check_{{ $category->id }}(oForm,checked){{!! $oForms !!}}</script>
-
-
 
             {{-- categories without subcategory --}}
             @elseif ( $category->parent_id == 1 )
@@ -100,6 +99,5 @@
                 </label>
             @endif
         @endforeach
-
     @endif
 </div>

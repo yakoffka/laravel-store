@@ -659,7 +659,7 @@ div.fw-background a.logo img {
     color: #fff;
     font-size: 20px
 }
-nav.navbar.navbar-dark {background-color: hsla(0,0%,100%,0);}
+/* nav.navbar.navbar-dark {background-color: hsla(0,0%,100%,0);} */
 /* nav.navbar.navbar-dark {
     background-color: rgba(0, 0, 0, 0);
     background-position-x: 0%;
