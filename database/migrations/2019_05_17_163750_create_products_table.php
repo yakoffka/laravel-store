@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
             $table->float('price', 8, 2)->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
+            $table->unsignedInteger('views');                           // кол-во просмотров товара
             $table->timestamps();
         });
     }

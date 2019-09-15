@@ -240,7 +240,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить в настройки отображение пустых категорий',
                 'description' => 'Добавить в настройки отображение пустых категорий. или не в настройки.',
-                'tasksstatus_id' => 2,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
@@ -486,7 +486,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Количество просмотров товара',
                 'description' => 'Добавить в модель Product количество просмотров.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 

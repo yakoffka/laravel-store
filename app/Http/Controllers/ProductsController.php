@@ -91,6 +91,9 @@ class ProductsController extends Controller
      */
     public function show($id) {
         $product = Product::findOrFail($id);
+        if ( !Auth::user() or Auth::user()->hasRole('user') ) {
+            $product->increment('views');
+        }
         return view('products.show', compact('product'));
     }
 

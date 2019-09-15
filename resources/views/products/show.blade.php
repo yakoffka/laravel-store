@@ -84,6 +84,7 @@
                         <!-- created_at -->
                         <span class="grey">added by: </span>{{ $product->creator->name }}<br>
                         <span class="grey">date added: </span>{{ $product->created_at }}<br>
+                        <span class="grey">просмотров: </span>{{ $product->views }}<br>
 
                         @if($product->updated_at != $product->created_at)
 
