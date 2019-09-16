@@ -63,16 +63,16 @@ class CategoriesTableSeeder extends Seeder
 
 
                 // subcategories
-                ['parent_id' => 2, 'slug' => 'textile_tape',        'name' => 'Текстильные ленточные стропы',],
-                ['parent_id' => 2, 'slug' => 'round_strand',        'name' => 'Круглопрядные стропы',],
-                ['parent_id' => 2, 'slug' => 'chain_slings',        'name' => 'Цепные стропы',],
-                ['parent_id' => 2, 'slug' => 'rope',                'name' => 'Канатные стропы',],
-                ['parent_id' => 2, 'slug' => 'leveler_blocks',      'name' => 'Стропы с уравнительными блоками',],
-                ['parent_id' => 2, 'slug' => 'mounting_soft_towels','name' => 'Мягкие монтажные полотенца',],
+                ['parent_id' => 2, 'slug' => 'textile_tape',        'name' => 'ТЛС',                    'title' => 'Текстильные ленточные стропы',],
+                ['parent_id' => 2, 'slug' => 'round_strand',        'name' => 'КС',                     'title' => 'Круглопрядные стропы',],
+                ['parent_id' => 2, 'slug' => 'chain_slings',        'name' => 'ЦС',                     'title' => 'Цепные стропы',],
+                ['parent_id' => 2, 'slug' => 'rope',                'name' => 'КаС',                    'title' => 'Канатные стропы',],
+                ['parent_id' => 2, 'slug' => 'leveler_blocks',      'name' => 'СУБ',                    'title' => 'Стропы с уравнительными блоками',],
+                ['parent_id' => 2, 'slug' => 'mounting_soft_towels','name' => 'ММП',                    'title' => 'Мягкие монтажные полотенца',],
 
-                ['parent_id' => 3, 'slug' => 'ratchet',             'name' => 'Рэтчеты (Цепные стяжки)',],
-                ['parent_id' => 3, 'slug' => 'tie_down_straps',     'name' => 'Стяжные ремни',],
-                ['parent_id' => 3, 'slug' => 'tie_down_straps_ring','name' => 'Стяжные ремни кольцевые',],
+                ['parent_id' => 3, 'slug' => 'ratchet',             'name' => 'Рэтчеты',                'title' => '(Цепные стяжки)',],
+                ['parent_id' => 3, 'slug' => 'tie_down_straps',     'name' => 'Стяжные ремни',          'title' => 'Круглопрядные стропы',],
+                ['parent_id' => 3, 'slug' => 'tie_down_straps_ring','name' => 'СРК',                    'title' => 'Стяжные ремни кольцевые',],
                 ['parent_id' => 3, 'slug' => 'turnbuckle',          'name' => 'Талрепы',],
 
                 ['parent_id' => 4, 'slug' => 'chain',       'name' => 'Цепи',],

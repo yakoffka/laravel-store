@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.modal-textarea', 'modalTextarea');
         Blade::include('includes.category-row', 'categoryRow');
         Blade::include('includes.product-row', 'productRow');
+        Blade::include('includes.grid-category', 'gridCategory');
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
     }

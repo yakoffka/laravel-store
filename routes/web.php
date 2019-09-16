@@ -15,7 +15,7 @@
 //     return view('welcome');
 // });
 Route::get('/', function () {
-    return redirect( route('products.index') );
+    return redirect( route('home') );
 });
 
 /*

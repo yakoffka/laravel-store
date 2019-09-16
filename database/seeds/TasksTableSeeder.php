@@ -331,6 +331,24 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
+                'title' => 'Вёрстка: яндекс сервисы',
+                'description' => 'регистрация почты плюс:
+                    <ol>
+                        <li>регистрация карт</li>
+                        <li>доп. регистрация домена на почту</li>
+                        <li>добавление я.карты</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 2,
+                'taskspriority_id' => 3,
+            ],
+
+            [
                 'title' => 'Вёрстка: сверстать админку',
                 'description' => 'сверстать главную страницу.:
                     <ol>

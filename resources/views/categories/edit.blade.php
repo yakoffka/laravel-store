@@ -92,13 +92,13 @@
                 {{-- parent category --}}
                 <div class="form-group">
                     <label for="description">parent category</label>
-                    <select name="category_id" id="category_id">
+                    <select name="parent_id" id="parent_id">
                         @foreach ( $categories as $parent_category )
                             @if ( $parent_category->id == 1 )
                             @elseif ( !$parent_category->countProducts() )
                                 <option 
                                     value="{{ $parent_category->id }}"
-                                    {{-- {{ $parent_category->id == $category->parent_category ? ' selected' : ''}} --}}
+                                    {{ $parent_category->id == $category->parent_id ? ' selected' : ''}}
                                     >{{ $parent_category->title }}</option>
                             @endif
                         @endforeach
