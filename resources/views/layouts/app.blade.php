@@ -9,6 +9,14 @@
 
     <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
 
+    {{-- css for UniSharp/Filemanager --}}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    {{-- script for UniSharp/Filemanager --}}
+    <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script type="text/javascript" src="https://kk.dragoon.pw/src/js/jquery-1.11.2.min.js"></script>

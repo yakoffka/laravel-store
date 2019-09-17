@@ -1142,7 +1142,7 @@ h5.grey {
 }
 
 
-.attention-block__text {
+.attention_block_text {
     border-top: 1px solid #43a6dd;
     border-bottom: 1px solid #43a6dd;
     border-right: 1px solid #43a6dd;
@@ -1155,7 +1155,7 @@ h5.grey {
     font-style: italic;
     color: #43a6dd;
 }
-.attention-block__text::before {
+.attention_block_text::before {
     content: '';
     display: inline-block;
     width: 1px;
@@ -1166,7 +1166,7 @@ h5.grey {
     top: 0.1px;
 }
 
-.attention-block__text::after {
+.attention_block_text::after {
 
     content: '';
     display: inline-block;
@@ -1179,7 +1179,7 @@ h5.grey {
 
 }
 
-.attention-block__icon {
+.attention_block_icon {
     display: block;
     position: absolute;
     margin-top: 1rem;

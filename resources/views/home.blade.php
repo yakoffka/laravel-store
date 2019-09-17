@@ -28,9 +28,9 @@
                 <img src="https://prod.dragoon.pw/storage/images/common/s/s2.png" alt="">
                 <div class="container">
                     <div class="carousel-caption text-left">
-                        <h1>Example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <h1>ООО «Канат-Комплект»</h1>
+                        <p>крупнейший дистрибьютер грузоподъемного оборудования в Ростове-на-Дону, Батайске, Азове, Краснодаре.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#catalog" role="button">грузоподъемное оборудование собственного производства</a></p>
                     </div>
                 </div>
             </div>
@@ -81,21 +81,23 @@
 
 
     {{-- attention --}}
+    <div class="row m-4"></div>
     <div class="row">
-            <div class="attention-block__text col-lg-8 offset-lg-2 col-xs-12">
-                <div class="attention-block__icon"></div>
-                В ассортименте представлены товары от ведущих производителей. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов.
-            </div>
+        <div class="attention_block_text col-lg-8 offset-lg-2 col-xs-12">
+            <div class="attention_block_icon"></div>
+            В ассортименте представлены товары от ведущих производителей. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов.
         </div>
-        {{-- attention --}}
+    </div>
+    <div class="row m-4"></div>
+    {{-- attention --}}
     
 
 
 
     {{-- catalog --}}
-    <h2>наша продукция</h2>
+    <h2 id="catalog">наша продукция</h2>
         
-    <div class="row" id="catalog">
+    <div class="row">
 
         @foreach($categories as $category)
 
@@ -114,12 +116,14 @@
 
 
     {{-- attention --}}
+    <div class="row m-4"></div>
     <div class="row">
-        <div class="attention-block__text col-lg-8 offset-lg-2 col-xs-12">
-            <div class="attention-block__icon"></div>
+        <div class="attention_block_text col-lg-8 offset-lg-2 col-xs-12">
+            <div class="attention_block_icon"></div>
             В ассортименте представлены товары от ведущих производителей. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов. Качество продукции подтверждается наличием паспорта и всех необходимых сертификатов.
         </div>
     </div>
+    <div class="row m-4"></div>
     {{-- attention --}}
 
 

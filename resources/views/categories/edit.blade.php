@@ -32,6 +32,84 @@
 
                 @if($category->image)
 
+
+                
+
+
+                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+              
+
+                <h2>Standalone Image Button</h2>
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                      <i class="fa fa-picture-o"></i> Choose
+                    </a>
+                  </span>
+                  <input id="thumbnail" class="form-control" type="text" name="filepath">
+                </div>
+                <img id="holder" style="margin-top:15px;max-height:100px;">
+        
+
+                {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> --}}
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+                <script>
+                 var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
+                </script>
+              
+
+
+              <script>
+                    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/lfm.js')) !!}
+                  </script>
+                  <script>
+                    $('#lfm').filemanager('image', {prefix: route_prefix});
+                    $('#lfm2').filemanager('file', {prefix: route_prefix});
+                  </script>
+                
+                <script>
+                        $(document).ready(function(){
+                    
+                          // Define function to open filemanager window
+                          var lfm = function(options, cb) {
+                              var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+                              window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
+                              window.SetUrl = cb;
+                          };
+                    
+                          // // Define LFM summernote button
+                          // var LFMButton = function(context) {
+                          //     var ui = $.summernote.ui;
+                          //     var button = ui.button({
+                          //         contents: '<i class="note-icon-picture"></i> ',
+                          //         tooltip: 'Insert image with filemanager',
+                          //         click: function() {
+                    
+                          //             lfm({type: 'image', prefix: '/laravel-filemanager'}, function(url, path) {
+                          //                 context.invoke('insertImage', url);
+                          //             });
+                    
+                          //         }
+                          //     });
+                          //     return button.render();
+                          // };
+                    
+                          // // Initialize summernote with LFM button in the popover button group
+                          // // Please note that you can add this button to any other button group you'd like
+                          // $('#summernote-editor').summernote({
+                          //     toolbar: [
+                          //         ['popovers', ['lfm']],
+                          //     ],
+                          //     buttons: {
+                          //         lfm: LFMButton
+                          //     }
+                          // })
+                        });
+                      </script>
+                    
+
+
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
@@ -94,8 +172,9 @@
                     <label for="description">parent category</label>
                     <select name="parent_id" id="parent_id">
                         @foreach ( $categories as $parent_category )
-                            @if ( $parent_category->id == 1 )
-                            @elseif ( !$parent_category->countProducts() )
+                            {{-- @if ( $parent_category->id == 1 )
+                            @elseif ( !$parent_category->countProducts() ) --}}
+                            @if ( !$parent_category->countProducts() )
                                 <option 
                                     value="{{ $parent_category->id }}"
                                     {{ $parent_category->id == $category->parent_id ? ' selected' : ''}}

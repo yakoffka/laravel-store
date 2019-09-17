@@ -182,6 +182,9 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
 
-Route::get('demo-unisharp', function () {
-    return view('demo-unisharp');
-})->middleware('auth');
+    Route::get('demo-unisharp', function () {
+        return view('demo-unisharp');
+    })->middleware('auth');
+    Route::get('demo2', function () {
+        return view('demo2');
+    })->middleware('auth');

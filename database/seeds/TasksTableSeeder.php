@@ -508,12 +508,14 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 1,
             ],
 
-            // [
-            //     'title' => 'rrrrrr',
-            //     'description' => 'rrrrrrr.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 1,
-            // ],
+            [
+                'title' => 'Добавить атрибуты товаров',
+                'description' => 'Добавить атрибуты товаров как в
+                <a href="https://s-sd.ru/blog_studio_design/animarovannaya_sortirovka_blokov_s_pomowyu_isotope/">примере</a>
+                 .',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 1,
+            ],
 
             // [
             //     'title' => 'rrrrrr',

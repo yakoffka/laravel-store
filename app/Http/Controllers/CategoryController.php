@@ -238,6 +238,7 @@ class CategoryController extends Controller
         if ( request()->file('image') ) {
 
             $image = request()->file('image');
+            // dd($image);
             $directory = 'public/images/categories/' . $category->id;
             $filename = $image->getClientOriginalName();
     
