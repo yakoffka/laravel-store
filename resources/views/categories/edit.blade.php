@@ -30,84 +30,69 @@
 
                 @method('PATCH')
 
-                @if($category->image)
 
 
-                
-
-
-                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-              
-
-                <h2>Standalone Image Button</h2>
+                {{-- Standalone Image Button --}}
+                <h2 class="mt-4">Standalone Image Button</h2>
                 <div class="input-group">
-                  <span class="input-group-btn">
-                    <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                      <i class="fa fa-picture-o"></i> Choose
-                    </a>
-                  </span>
-                  <input id="thumbnail" class="form-control" type="text" name="filepath">
+                    <span class="input-group-btn">
+                        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                            <i class="far fa-image"></i> Выберите
+                        </a>
+                    </span>
+                    <input id="thumbnail" class="form-control" type="text" name="filepath">
                 </div>
-                <img id="holder" style="margin-top:15px;max-height:100px;">
-        
+                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
 
-                {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> --}}
-                <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
                 <script>
-                 var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
+                    var route_prefix = "{{ url(config('lfm.url_prefix')) }}";
                 </script>
-              
-
-
-              <script>
-                    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/lfm.js')) !!}
-                  </script>
-                  <script>
-                    $('#lfm').filemanager('image', {prefix: route_prefix});
-                    $('#lfm2').filemanager('file', {prefix: route_prefix});
-                  </script>
-                
                 <script>
-                        $(document).ready(function(){
-                    
-                          // Define function to open filemanager window
-                          var lfm = function(options, cb) {
-                              var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
-                              window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
-                              window.SetUrl = cb;
-                          };
-                    
-                          // // Define LFM summernote button
-                          // var LFMButton = function(context) {
-                          //     var ui = $.summernote.ui;
-                          //     var button = ui.button({
-                          //         contents: '<i class="note-icon-picture"></i> ',
-                          //         tooltip: 'Insert image with filemanager',
-                          //         click: function() {
-                    
-                          //             lfm({type: 'image', prefix: '/laravel-filemanager'}, function(url, path) {
-                          //                 context.invoke('insertImage', url);
-                          //             });
-                    
-                          //         }
-                          //     });
-                          //     return button.render();
-                          // };
-                    
-                          // // Initialize summernote with LFM button in the popover button group
-                          // // Please note that you can add this button to any other button group you'd like
-                          // $('#summernote-editor').summernote({
-                          //     toolbar: [
-                          //         ['popovers', ['lfm']],
-                          //     ],
-                          //     buttons: {
-                          //         lfm: LFMButton
-                          //     }
-                          // })
-                        });
-                      </script>
-                    
+                    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+                </script>
+                {{-- <script src="{{ asset('vendor/lfm/js/stand-alone-button.js') }}"></script> --}}
+
+                <script>
+                    $('#lfm').filemanager('image', {prefix: route_prefix});
+                    // $('#lfm2').filemanager('file', {prefix: route_prefix});
+                </script>
+                <style>
+                    .popover {
+                        top: auto;
+                        left: auto;
+                    }
+                </style>
+                {{-- <script>
+                    $(document).ready(function(){
+                        // Define function to open filemanager window
+                        var lfm = function(options, cb) {
+                            var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+                            window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
+                            window.SetUrl = cb;
+                        };
+                    });
+                </script> --}}
+                {{-- change prefix --}}
+                <script>
+                    $(document).ready(function(){
+                        // Define function to open filemanager window
+                        var lfm = function(options, cb) {
+                            var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+                            // var route_prefix = "{{ url(config('lfm.url_prefix')) }}";
+                            window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
+                            window.SetUrl = cb;
+                        };
+                    });
+                </script>
+                {{-- Standalone Image Button --}}
+
+
+
+
+
+
+                @if($category->image)                    
 
 
                 <div class="row">

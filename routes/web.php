@@ -183,8 +183,9 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
     Route::get('demo-unisharp', function () {
-        return view('demo-unisharp');
+        return view('vendor.laravel-filemanager.demo');
     })->middleware('auth');
-    Route::get('demo2', function () {
-        return view('demo2');
-    })->middleware('auth');
+    // Route::get('demo2', function () {
+    //     // return view('demo2');
+    //     return view('vendor.laravel-filemanager.demo2');
+    // })->middleware('auth');

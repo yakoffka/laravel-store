@@ -9,21 +9,13 @@
 
     <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
 
-    {{-- css for UniSharp/Filemanager --}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-    {{-- script for UniSharp/Filemanager --}}
-    <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script type="text/javascript" src="https://kk.dragoon.pw/src/js/jquery-1.11.2.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  
     <!-- Fonts -->
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
-    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('fonts/proxima-nova/style.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
@@ -89,7 +81,8 @@
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
 </head>
 <body>
-    <div id="app">        
+    {{-- <div id="app"> смотри resources/js/app.js закомментировал, тк не нашел лучшего решения для работы unisharp laravel-filemanager --}}
+    <div id="app_">
 
         <div class="fw-background">{{-- from https://datatables.net/examples/basic_init/table_sorting.html --}}
             <div class="container relative">

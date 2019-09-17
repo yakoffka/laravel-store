@@ -1035,6 +1035,15 @@ h5.grey {
         padding-left: 2em;
     }
 
+
+
+/* #lfm .far {
+    font-size: 1.3rem;
+} */
+.input-group .form-control:not(:last-child), .input-group-addon:not(:last-child), .input-group-btn:not(:first-child) > .btn-group:not(:last-child) > .btn, .input-group-btn:not(:first-child) > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:not(:last-child) > .btn, .input-group-btn:not(:last-child) > .btn-group > .btn, .input-group-btn:not(:last-child) > .dropdown-toggle {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
 /* admin */
 /*======================================================================================================*/
 

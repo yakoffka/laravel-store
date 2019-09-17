@@ -215,6 +215,7 @@ class CategoryController extends Controller
     {
         abort_if( Auth::user()->cannot('edit_categories'), 403);
 
+        dd(request('filepath'));
         $validator = request()->validate([
             'name'          => 'required|string|max:255',
             'title'         => 'required|string|max:255',

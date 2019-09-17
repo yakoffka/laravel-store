@@ -15,7 +15,7 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "nicolaslopezj/searchable": "^1.11",
-        "unisharp/laravel-filemanager": "~1.8"
+        "unisharp/laravel-filemanager": "v2.0.0-alpha8"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
