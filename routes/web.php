@@ -182,6 +182,11 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
 
+
+    Route::group(['prefix' => 'lfm', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+
     Route::get('demo-unisharp', function () {
         return view('vendor.laravel-filemanager.demo');
     })->middleware('auth');

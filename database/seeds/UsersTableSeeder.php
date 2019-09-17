@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'unregistered user',
             'email' => 'yagithub+unregistered@mail.ru',
             'password' => bcrypt('111111'),
@@ -21,6 +23,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Theodor',
             'email' => 'yagithub+owner@mail.ru',
             'password' => bcrypt('111111'),
@@ -30,6 +33,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Travlarnor',
             'email' => 'yagithub+admin@mail.ru',
             'password' => bcrypt('111111'),
@@ -40,6 +44,7 @@ class UsersTableSeeder extends Seeder
 
         if ( !empty(env('NAME_MANAGER')) and !empty(env('MAIL_MANAGER')) and !empty(env('PASS_MANAGER')) ) {
             DB::table('users')->insert([
+                'uuid' => Str::uuid(),
                 'name' => env('NAME_MANAGER'),
                 'email' => env('MAIL_MANAGER'),
                 'password' => bcrypt( env('PASS_MANAGER') ),
@@ -50,6 +55,7 @@ class UsersTableSeeder extends Seeder
         }
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Lagshmivara',
             'email' => 'yagithub+manager@mail.ru',
             'password' => bcrypt('111111'),
@@ -59,6 +65,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Travlarnor I',
             'email' => 'yagithub+user01@mail.ru',
             'password' => bcrypt('111111'),
@@ -68,6 +75,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Akaky Akakievich II',
             'email' => 'yagithub+user02@mail.ru',
             'password' => bcrypt('111111'),
@@ -77,6 +85,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'name' => 'Ephim III',
             'email' => 'yagithub+user03@mail.ru',
             'password' => bcrypt('111111'),

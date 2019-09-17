@@ -36,7 +36,8 @@ return [
 
     'allow_multi_user'         => true,
 
-    'allow_share_folder'       => true,
+    'allow_share_folder'       => false,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -49,16 +50,18 @@ return [
     // Then you can rewrite userField function in App\Handler\ConfigHandler class
     // And set 'user_field' to App\Handler\ConfigHandler::class
     // Ex: The private folder of user will be named as the user id.
-    'user_folder_name'         => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,
+    // 'user_folder_name'         => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,
+    // yo
+    'user_field'               => 'uuid',
+    'user_folder_name'         => App\Handlers\LfmConfigHandler::class,
 
-    // 'shared_folder_name'       => 'shares',
     'shared_folder_name'       => 'shares',
 
     'thumb_folder_name'        => 'thumbs',
 
     'folder_categories'        => [
         'file'  => [
-            'folder_name'  => 'files',
+            'folder_name'  => 'lfm_files',
             'startup_view' => 'grid',
             'max_size'     => 50000, // size in KB
             'valid_mime'   => [
@@ -67,10 +70,13 @@ return [
                 'image/png',
                 'image/gif',
                 'image/svg+xml',
+                // yo
+                'application/pdf',
+                'text/plain',
             ],
         ],
         'image' => [
-            'folder_name'  => 'photos',
+            'folder_name'  => 'lfm_img',
             'startup_view' => 'list',
             // 'max_size'     => 50000, // size in KB
             'max_size'     => 1000, // size in KB
@@ -80,8 +86,9 @@ return [
                 'image/png',
                 'image/gif',
                 'image/svg+xml',
-                'application/pdf',
-                'text/plain',
+                // yo
+                // 'application/pdf',
+                // 'text/plain',
             ],
         ],
     ],

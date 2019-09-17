@@ -4,10 +4,10 @@
     type = type || 'file';
 
     this.on('click', function(e) {
-      var route_prefix = (options && options.prefix) ? options.prefix : '/lfm';
+      var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
       var target_input = $('#' + $(this).data('input'));
       var target_preview = $('#' + $(this).data('preview'));
-      window.open(route_prefix + '?type=' + type, 'FileManager', 'width=1100,height=600');
+      window.open(route_prefix + '?type=' + type, 'FileManager', 'width=900,height=600');
       window.SetUrl = function (items) {
         var file_path = items.map(function (item) {
           return item.url;
