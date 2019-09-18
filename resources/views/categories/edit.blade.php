@@ -33,7 +33,7 @@
 
 
                 {{-- Standalone Image Button --}}
-                @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath')])
+                @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
                 {{-- Standalone Image Button --}}
 
 

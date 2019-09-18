@@ -25,8 +25,10 @@ return [
     'prefix' => 'lfm',
 
 
-    // // Use relative paths (without domain)
+    // Use relative paths (without domain)
+    // https://github.com/UniSharp/laravel-filemanager/pull/479/commits/fa5e8c0bf96dcbb2722558e67e4089631d971a07#diff-3ffb81a50a64a75933f34bff06414f66
     // 'relative_paths'           => false,
+    'relative_paths'           => true,
 
     /*
     |--------------------------------------------------------------------------

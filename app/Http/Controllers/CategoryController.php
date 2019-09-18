@@ -215,7 +215,6 @@ class CategoryController extends Controller
     {
         abort_if( Auth::user()->cannot('edit_categories'), 403);
 
-        dd(request('filepath'));
         $validator = request()->validate([
             'name'          => 'required|string|max:255',
             'title'         => 'required|string|max:255',
@@ -236,26 +235,81 @@ class CategoryController extends Controller
             'edited_by_user_id' => Auth::user()->id,
         ]);
 
-        if ( request()->file('image') ) {
+        // if ( request()->file('image') ) {
+        //     $image = request()->file('image');
+        //     $directory = 'public/images/categories/' . $category->id;
+        //     $filename = $image->getClientOriginalName();
+        //     if ( !Storage::makeDirectory($directory)
+        //         or !Storage::putFileAs($directory, $image, $filename )
+        //         or !$category->update(['image' => $filename])
+        //     ) {
+        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        //     }
+        // }
+        if ( request('imagepath') ) {
 
-            $image = request()->file('image');
-            // dd($image);
-            $directory = 'public/images/categories/' . $category->id;
-            $filename = $image->getClientOriginalName();
-    
-            // if ( Storage::makeDirectory($directory) ) {
-            //     if ( Storage::putFileAs($directory, $image, $filename )) {
-            //         if ( $category->update('image' => $filename )) {
-            //             return redirect()->route('category.show', ['category' => $category->id]);
-            //         }
+            $dst_dir = storage_path() . config('imageyo.rel_path_category_img') . '/' . $category->id;
+
+            dd(config('lfm.relative_paths'), request('imagepath'));
+
+            dd(storage_path(), request('imagepath'), config('imageyo.rel_path_category_img'), $dst_dir);
+
+            // if ( !is_dir($dst_dir) ) {
+            //     if ( !mkdir($dst_dir, 0777, true) ) {
+            //         return back()->withErrors(['error #' . __line__])->withInput();
             //     }
             // }
-            if ( !Storage::makeDirectory($directory)
-                or !Storage::putFileAs($directory, $image, $filename )
-                or !$category->update(['image' => $filename])
-            ) {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
-            }
+            // // create dir to copy the original image
+            // $dst_dir_origin = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id;
+            // if ( !is_dir($dst_dir_origin) ) {
+            //     if ( !mkdir($dst_dir_origin, 0777, true) ) {
+            //         return back()->withErrors(['error #' . __line__])->withInput();
+            //     }
+            // }
+
+            // while ( $images->count() ) {
+
+            //     $image = $images->shift();
+
+            //     // array of preview
+            //     foreach ( config('imageyo.previews') as $type_preview ) {
+            //         if ( config('imageyo.is_' . $type_preview) ) {
+
+            //             $rel_path = '/' . $image->name . '-' . $type_preview . $image->ext;
+
+            //             if ( $type_preview == 'origin' ) {
+            //                 $source = storage_path() . config('imageyo.dirdst_origin') . '/' . $image->product_id . $rel_path;
+            //                 $dest = $dst_dir_origin . $rel_path;
+            //             } else {
+            //                 $source = storage_path() . config('imageyo.dirdst') . '/' . $image->product_id . $rel_path;
+            //                 $dest = $dst_dir . $rel_path;    
+            //             }
+            //             // dd($source, $dest);
+
+
+            //             if ( !is_file($source) ) {
+            //                 return back()->withErrors(['error #' . __line__ ])->withInput();
+            //             }
+            //             if ( !copy ($source , $dest) ) {
+            //                 return back()->withErrors(['error #' . __line__])->withInput();
+            //             }
+            //         }
+            //     }
+
+            //     // create records in the images table
+            //     if ( !(Image::create([
+            //         'product_id' => $product->id,
+            //         'slug' => $image->slug,
+            //         'path' => $image->path,
+            //         'name' => $image->name,
+            //         'ext'  => $image->ext,
+            //         'alt'  => $image->alt,
+            //         'sort_order' => 9,
+            //         'orig_name' => $image->orig_name,
+            //     ])) ) {
+            //         return back()->withErrors(['error #' . __line__ ])->withInput();
+            //     }
+            // }
         }
 
         // add email!

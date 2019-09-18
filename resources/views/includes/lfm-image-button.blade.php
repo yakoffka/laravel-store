@@ -1,6 +1,6 @@
 {{-- 
 
-    @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath')])
+    @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
 
 --}}
 <h2 class="mt-4">Standalone Image Button</h2>
@@ -10,7 +10,7 @@
             <i class="far fa-image"></i> Выберите
         </a>
     </span>
-    <input id="thumbnail" class="form-control" type="text" name="filepath">
+    <input id="thumbnail" class="form-control" type="text" name="{{ $name }}" value="{{ $value }}">
 </div>
 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
 

@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <!-- Chrome, Firefox OS and Opera -->
-  <meta name="theme-color" content="#333844">
+  <meta name="theme-color" content="#0099cc">
   <!-- Windows Phone -->
-  <meta name="msapplication-navbutton-color" content="#333844">
+  <meta name="msapplication-navbutton-color" content="#0099cc">
   <!-- iOS Safari -->
-  <meta name="apple-mobile-web-app-status-bar-style" content="#333844">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#0099cc">
 
   <title>{{ trans('laravel-filemanager::lfm.title-page') }}</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('vendor/laravel-filemanager/img/72px color.png') }}">

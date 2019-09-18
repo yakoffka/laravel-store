@@ -1,7 +1,7 @@
 /* General */
 
 a {
-  color: #333844;
+  color: #0099cc; /* yo 333844*/
   text-decoration: none !important;
   cursor: pointer;
 }
@@ -11,11 +11,11 @@ a {
 }
 
 #nav, #nav .dropdown-menu, .bg-main {
-  background-color: #333844;
+  background-color: #0099cc; /* yo 333844*/
 }
 
 #nav .dropdown-menu > a:hover {
-  color: #333844;
+  color: #0099cc; /* yo 333844*/
 }
 
 #actions {
@@ -88,7 +88,7 @@ a {
 
 #empty {
   height: 60vh;
-  color: #333844;
+  color: #0099cc; /* yo 333844*/
 }
 
 #empty:not(.d-none) {
@@ -184,7 +184,7 @@ a {
 .nav-pills > li.active > a, .nav-pills > li:hover > a {
   background-color: #ddd;
   border-radius: 0;
-  color: #333844;
+  color: #0099cc; /* yo 333844*/
 }
 
 /* Items */
@@ -248,7 +248,7 @@ a {
 }
 
 .square > i {
-  color: #333844;
+  color: #0099cc; /* yo 333844*/
 }
 .grid .square > i {
   padding: 20px;
@@ -318,7 +318,7 @@ time {
 
 .fab-wrapper .fab-button {
   position: relative;
-  background-color: #333844;
+  background-color: #0099cc; /* yo 333844*/
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
