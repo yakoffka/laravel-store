@@ -371,8 +371,8 @@ class CategoryController extends Controller
     }
 
     public function massupdate(Category $category) {
-        dd(request()->all());
-        dd('эта функция пока не доступна');
+        // dd(request()->all());
+        return 'эта функция пока не доступна';
     }
 
 

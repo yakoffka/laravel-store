@@ -123,7 +123,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Обработать загрузку больших изображений',
                 'description' => 'Обработать загрузку больших изображений. На фронте и бэке. Поставить лимит.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 

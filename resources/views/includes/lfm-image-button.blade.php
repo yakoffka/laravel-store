@@ -4,6 +4,19 @@
 
 --}}
 <h2 class="mt-4">Добавить изображение</h2>
+<p>
+    Вы можете добавить изображение, размером не более {{ config('lfm.folder_categories.image.max_size') }}Kb.
+    Допустимые форматы:
+    @foreach ( config('lfm.folder_categories.image.valid_mime') as $format )
+        
+        @if ($loop->last)
+            {{ $format }}.
+        @else
+            {{ $format }},
+        @endif
+
+    @endforeach
+</p>
 <div class="input-group">
     <span class="input-group-btn">
         <a id="{{ $id }}" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
