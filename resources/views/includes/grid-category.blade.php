@@ -1,7 +1,7 @@
 <div class="col-lg-4 col-md-6 product_card_bm">
     <div class="category grid">
         
-        <div class="title_green"><h3 title="{{ $category->title }}">{{ $category->name }}</h3></div>
+        {{-- <div class="title_green"><h3 title="{{ $category->title }}">{{ $category->name }}</h3></div> --}}
 
         <div class="block_number block_number_right">
             @if ($category->countProducts())
@@ -22,12 +22,13 @@
                     style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
             @endif
 
-                <div class="dummy perc50"></div>
+                {{-- <div class="dummy perc50"></div> --}}
+                <div class="dummy perc80"></div>
                 <div class="element"></div>
             </div>
         </a>
 
-        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn">Подробнее</a>
+        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }}</a>
         
     </div>
     

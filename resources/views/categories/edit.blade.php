@@ -32,38 +32,34 @@
 
 
 
-                {{-- Standalone Image Button --}}
-                @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
-                {{-- Standalone Image Button --}}
-
-
-
-
-
 
                 @if($category->image)                    
 
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
-                            <div class="dummy"></div><div class="element"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
+                                <div class="dummy"></div><div class="element"></div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-8">
-                    <div class="form-group"> replace image
-                        <input type="file" name="image" accept=".jpg, .jpeg, .png"
-                            value="{{ old('image') }}">
+                        <div class="col-sm-8">
+                            {{-- Standalone Image Button --}}
+                            @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
+                            {{-- Standalone Image Button --}}
+                        </div>
                     </div>
 
                 @else
 
+                    {{-- Standalone Image Button --}}
+                    @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
+                    {{-- Standalone Image Button --}}
+
                     <div class="col-sm-12">
-                    <div class="form-group"> add image
+                    {{-- <div class="form-group"> add image
                         <input type="file" name="image" accept=".jpg, .jpeg, .png"
                             value="{{ old('image') }}">
-                    </div>
+                    </div> --}}
 
                 @endif
                 

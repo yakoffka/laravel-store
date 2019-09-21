@@ -79,10 +79,13 @@
                 <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <input type="file" name="image" accept=".jpg, .jpeg, .png"
                             value="{{ old('image') }}">
-                    </div>
+                    </div> --}}
+                    {{-- Standalone Image Button --}}
+                    @lfmImageButton(['id' => 'lfm_category_create', 'name' => 'imagepath', 'value' => old('imagepath') ?? ''])
+                    {{-- Standalone Image Button --}}
                     
                     <div class="form-group">
                         <label for="name">name</label>
@@ -114,7 +117,7 @@
                     {{-- parent category --}}
                     <div class="form-group">
                         <label for="description">parent category</label>
-                        <select name="category_id" id="category_id">
+                        <select name="parent_id" id="parent_id">
                             @foreach ( $categories as $parent_category )
                                 {{-- @if ( $parent_category->id == 1 ) --}}
                                 @if ( $parent_category->parent_id == 1 and !$parent_category->countProducts() )

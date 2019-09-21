@@ -3,7 +3,7 @@
     @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
 
 --}}
-<h2 class="mt-4">Standalone Image Button</h2>
+<h2 class="mt-4">Добавить изображение</h2>
 <div class="input-group">
     <span class="input-group-btn">
         <a id="{{ $id }}" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">

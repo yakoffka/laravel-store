@@ -81,7 +81,7 @@ return [
             'folder_name'  => 'lfm_img',
             'startup_view' => 'list',
             // 'max_size'     => 50000, // size in KB
-            'max_size'     => 1000, // size in KB
+            'max_size'     => 5000, // size in KB
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',

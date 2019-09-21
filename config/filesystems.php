@@ -66,9 +66,9 @@ return [
 
         'lfm' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('app/public'),   // = config('filesystems.disks.public.root') (!)
             // 'url' => env('APP_URL').'/storage',
-            'url' => '/storage',
+            'url' => '/storage',                    // relative url
             'visibility' => 'public',
         ],
     ],

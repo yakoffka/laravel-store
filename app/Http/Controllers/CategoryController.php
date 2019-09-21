@@ -76,11 +76,12 @@ class CategoryController extends Controller
             'name'          => 'required|string|max:255|unique',
             'title'         => 'required|string|max:255|unique',
             'description'   => 'string|max:255',
-            'image'         => 'image',
+            'imagepath'     => 'string',
             'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ];
 
+        // dd(request()->all());
         $category = Category::create([
             'name'            => request('name'),
             'slug'            => Str::slug(request('name'), '-'),
@@ -91,16 +92,21 @@ class CategoryController extends Controller
             'added_by_user_id'=> Auth::user()->id,
         ]);
 
-        if ( request()->file('image') ) {
+        // if ( request()->file('image') ) {
 
-            $image = request()->file('image');
-            $directory = 'public/images/categories/' . $category->id;
-            $filename = $image->getClientOriginalName();
+        //     $image = request()->file('image');
+        //     $directory = 'public/images/categories/' . $category->id;
+        //     $filename = $image->getClientOriginalName();
     
-            if ( !Storage::makeDirectory($directory)
-                or !Storage::putFileAs($directory, $image, $filename )
-                or !$category->update(['image' => $filename])
-            ) {
+        //     if ( !Storage::makeDirectory($directory)
+        //         or !Storage::putFileAs($directory, $image, $filename )
+        //         or !$category->update(['image' => $filename])
+        //     ) {
+        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        //     }
+        // }
+        if ( request('imagepath') ) {
+            if ( !$this->attachImage($category, request('imagepath')) ) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
             }
         }
@@ -219,7 +225,8 @@ class CategoryController extends Controller
             'name'          => 'required|string|max:255',
             'title'         => 'required|string|max:255',
             'description'   => 'string|max:255',
-            'image'         => 'image',
+            // 'image'         => 'image',
+            'imagepath'     => 'string',
             'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ]);
@@ -247,69 +254,9 @@ class CategoryController extends Controller
         //     }
         // }
         if ( request('imagepath') ) {
-
-            $dst_dir = storage_path() . config('imageyo.rel_path_category_img') . '/' . $category->id;
-
-            dd(config('lfm.relative_paths'), request('imagepath'));
-
-            dd(storage_path(), request('imagepath'), config('imageyo.rel_path_category_img'), $dst_dir);
-
-            // if ( !is_dir($dst_dir) ) {
-            //     if ( !mkdir($dst_dir, 0777, true) ) {
-            //         return back()->withErrors(['error #' . __line__])->withInput();
-            //     }
-            // }
-            // // create dir to copy the original image
-            // $dst_dir_origin = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id;
-            // if ( !is_dir($dst_dir_origin) ) {
-            //     if ( !mkdir($dst_dir_origin, 0777, true) ) {
-            //         return back()->withErrors(['error #' . __line__])->withInput();
-            //     }
-            // }
-
-            // while ( $images->count() ) {
-
-            //     $image = $images->shift();
-
-            //     // array of preview
-            //     foreach ( config('imageyo.previews') as $type_preview ) {
-            //         if ( config('imageyo.is_' . $type_preview) ) {
-
-            //             $rel_path = '/' . $image->name . '-' . $type_preview . $image->ext;
-
-            //             if ( $type_preview == 'origin' ) {
-            //                 $source = storage_path() . config('imageyo.dirdst_origin') . '/' . $image->product_id . $rel_path;
-            //                 $dest = $dst_dir_origin . $rel_path;
-            //             } else {
-            //                 $source = storage_path() . config('imageyo.dirdst') . '/' . $image->product_id . $rel_path;
-            //                 $dest = $dst_dir . $rel_path;    
-            //             }
-            //             // dd($source, $dest);
-
-
-            //             if ( !is_file($source) ) {
-            //                 return back()->withErrors(['error #' . __line__ ])->withInput();
-            //             }
-            //             if ( !copy ($source , $dest) ) {
-            //                 return back()->withErrors(['error #' . __line__])->withInput();
-            //             }
-            //         }
-            //     }
-
-            //     // create records in the images table
-            //     if ( !(Image::create([
-            //         'product_id' => $product->id,
-            //         'slug' => $image->slug,
-            //         'path' => $image->path,
-            //         'name' => $image->name,
-            //         'ext'  => $image->ext,
-            //         'alt'  => $image->alt,
-            //         'sort_order' => 9,
-            //         'orig_name' => $image->orig_name,
-            //     ])) ) {
-            //         return back()->withErrors(['error #' . __line__ ])->withInput();
-            //     }
-            // }
+            if ( !$this->attachImage($category, request('imagepath')) ) {
+                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            }
         }
 
         // add email!
@@ -427,4 +374,45 @@ class CategoryController extends Controller
         dd('эта функция пока не доступна');
     }
 
+
+    /**
+     * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
+     * и обновляет запись в базе данных. 
+     *
+     * @return  boolean
+     */
+    private function attachImage (Category $category, $imagepath) {
+        // костыль... не совсем разобрался с тонкостями Filesystem
+        $src = str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+        $dst_dir = 'images/categories/' . $category->id;
+        $basename = basename($src);
+        $dst = $dst_dir . '/' . $basename;
+
+        // проверка на существование исходного файла. так как config('filesystems.disks.lfm.root') === config('filesystems.disks.public.root'), использую не 'Storage::disk(config('lfm.disk'))->exists($src)', а 'Storage::disk('public')->exists($src)'
+        if ( !Storage::disk('public')->exists($src) ) {
+            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        }
+
+        // удаление всех файлов из директории назначения
+        $arr_files = Storage::disk('public')->files($dst_dir);
+        if ( $arr_files ) {
+            if ( $arr_files = Storage::disk('public')->delete($arr_files) ) {
+                // dd("all files in dir $dst_dir has been deleted");
+            } else {
+                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            }
+        }
+
+        // копирование файла
+        if ( !Storage::disk('public')->copy($src, $dst) ) {
+            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        }
+
+        // update $category
+        if ( !$category->update(['image' => $basename]) ) {
+            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        }
+
+        return true;
+    }
 }
