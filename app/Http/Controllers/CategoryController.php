@@ -72,16 +72,17 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         abort_if( Auth::user()->cannot('create_categories'), 403);
-        $arrToValidate = [
-            'name'          => 'required|string|max:255|unique',
-            'title'         => 'required|string|max:255|unique',
-            'description'   => 'string|max:255',
-            'imagepath'     => 'string',
+        // dd(request()->all());
+
+        $validator = request()->validate([
+            'name'          => 'required|string|max:255',
+            'title'         => 'required|string|max:255',
+            'description'   => 'nullable|string|max:255',
+            'imagepath'     => 'nullable|string',
             'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
-        ];
+        ]);
 
-        // dd(request()->all());
         $category = Category::create([
             'name'            => request('name'),
             'slug'            => Str::slug(request('name'), '-'),
@@ -220,13 +221,13 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         abort_if( Auth::user()->cannot('edit_categories'), 403);
+        // dd(request()->all());
 
         $validator = request()->validate([
             'name'          => 'required|string|max:255',
             'title'         => 'required|string|max:255',
-            'description'   => 'string|max:255',
-            // 'image'         => 'image',
-            'imagepath'     => 'string',
+            'description'   => 'nullable|string|max:255',
+            'imagepath'     => 'nullable|string',
             'visible'       => 'required|boolean',
             'parent_id'     => 'required|integer|max:255',
         ]);
