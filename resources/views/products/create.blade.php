@@ -33,10 +33,12 @@
                     <input type="file" name="image" accept=".jpg, .jpeg, .png" value="{{ old('image') }}">
                 </div> --}}
                 {{-- @inpImage(['value' => old('image')]) --}}
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="images">images</label>
                     <input type="file" name="images[]" multiple>
-                </div>
+                </div> --}}
+                @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
+
 
                 {{-- <div class="form-group">
                     <label for="name">name</label>

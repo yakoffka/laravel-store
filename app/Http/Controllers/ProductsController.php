@@ -146,25 +146,6 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
-        // dd(request()->all());
-        // dd(config('mail.name_info'));
-
-        // dd(
-        //     config('mail.driver') . '; ' .
-        //     config('mail.host') . '; ' .
-        //     config('mail.port') . '; ' .
-        //     config('mail.from.name') . '; ' .
-        //     config('mail.from.address') . '; ' .
-        //     config('mail.encryption') . '; ' .
-        //     config('mail.username') . '; ' .
-        //     config('mail.password') . '; ' .
-        //     config('mail.sendmail')
-        // );
-        // dd(request()->all());
-        // dd(request()->file('image')->getClientOriginalName());
-        // $image = request()->file('image');
-        // dd($image);
-
         abort_if ( Auth::user()->cannot('create_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
@@ -176,7 +157,8 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'modification' => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
+            // 'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
+            'imagespath'     => 'nullable|string',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
             'copy_img' => 'nullable|integer',
@@ -211,39 +193,43 @@ class ProductsController extends Controller
             'year_manufacture' => request('year_manufacture') ?? 0,
             'price' => request('price') ?? 0,
             'added_by_user_id' => Auth::user()->id,
+            'views' => 0,
         ])) {
             return back()->withErrors(['something wrong!'])->withInput();
         }
 
-        if ( request()->file('images') and count(request()->file('images')) ) {
-            foreach(request()->file('images') as $key => $image) {
+        // if ( request()->file('images') and count(request()->file('images')) ) {
+        //     foreach(request()->file('images') as $key => $image) {
                 
-                // // validation images
-                // // $validator = Validator::make(['image' => $image], [$key => 'required|image|mimes:jpeg,bmp,png']);
-                // $validator = Validator::make(
-                //     ['image' => $image],
-                //     [$key => 'required|image|mimetypes:image/png']
-                // );
+        //         // // validation images
+        //         // // $validator = Validator::make(['image' => $image], [$key => 'required|image|mimes:jpeg,bmp,png']);
+        //         // $validator = Validator::make(
+        //         //     ['image' => $image],
+        //         //     [$key => 'required|image|mimetypes:image/png']
+        //         // );
                 
-                // image re-creation
-                $image_name = ImageYoTrait::saveImgSet($image, $product->id);
-                $originalName = $image->getClientOriginalName();
-                $path  = '/images/products/' . $product->id;
+        //         // image re-creation
+        //         $image_name = ImageYoTrait::saveImgSet($image, $product->id);
+        //         $originalName = $image->getClientOriginalName();
+        //         $path  = '/images/products/' . $product->id;
 
-                // create record
-                $image = Image::create([
-                    'product_id' => $product->id,
-                    // 'slug' => $image_name,
-                    'slug' => Str::slug($image_name, '-'),
-                    'path' => $path,
-                    'name' => $image_name,
-                    'ext' => config('imageyo.res_ext'),
-                    'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                    'sort_order' => 9,
-                    'orig_name' => $originalName,
-                ]);
-            }
-        }
+        //         // create record
+        //         $image = Image::create([
+        //             'product_id' => $product->id,
+        //             // 'slug' => $image_name,
+        //             'slug' => Str::slug($image_name, '-'),
+        //             'path' => $path,
+        //             'name' => $image_name,
+        //             'ext' => config('imageyo.res_ext'),
+        //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+        //             'sort_order' => 9,
+        //             'orig_name' => $originalName,
+        //         ]);
+        //     }
+        // }
+
+
+        $this->attachImages($product->id, request('imagespath'));
 
 
         // copy all image and create records to images table
@@ -378,7 +364,8 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'modification' => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
+            // 'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
+            'imagespath'     => 'nullable|string',
             'year_manufacture' => 'nullable|integer',
             'price' => 'nullable|integer',
         ]);
@@ -413,32 +400,32 @@ class ProductsController extends Controller
             'price' => request('price'),
             'edited_by_user_id' => Auth::user()->id,
         ]);
-        // dd(__METHOD__ . '@' . __LINE__);
 
-        if ( request()->file('images') and count(request()->file('images')) ) { // проверить на изображение!!!
-            // dd(__METHOD__ . '@' . __LINE__);
-            foreach(request()->file('images') as $image) {
 
-                // image re-creation
-                $image_name = ImageYoTrait::saveImgSet($image, $product->id);
-                $originalName = $image->getClientOriginalName();
-                $path  = '/images/products/' . $product->id;
+        // if ( request()->file('images') and count(request()->file('images')) ) { // проверить на изображение!!!
+        //     // dd(__METHOD__ . '@' . __LINE__);
+        //     foreach(request()->file('images') as $image) {
 
-                // create image record
-                $image = Image::create([
-                    'product_id' => $product->id,
-                    // 'slug' => $image_name,
-                    'slug' => Str::slug($image_name, '-'),
-                    'path' => $path,
-                    'name' => $image_name,
-                    'ext' => config('imageyo.res_ext'),
-                    'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                    'sort_order' => 9,
-                    'orig_name' => $originalName,
-                ]);
-            }
-        }
+        //         // image re-creation
+        //         $image_name = ImageYoTrait::saveImgSet($image, $product->id);
+        //         $originalName = $image->getClientOriginalName();
+        //         $path  = '/images/products/' . $product->id;
 
+        //         // create image record
+        //         $image = Image::create([
+        //             'product_id' => $product->id,
+        //             // 'slug' => $image_name,
+        //             'slug' => Str::slug($image_name, '-'),
+        //             'path' => $path,
+        //             'name' => $image_name,
+        //             'ext' => config('imageyo.res_ext'),
+        //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+        //             'sort_order' => 9,
+        //             'orig_name' => $originalName,
+        //         ]);
+        //     }
+        // }
+        $this->attachImages($product->id, request('imagespath'));
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
@@ -655,4 +642,49 @@ class ProductsController extends Controller
 
         return $res;
     }
+
+
+    /**
+     * Приватный метод добавления изображений товара
+     * 
+     * Принимает строку с path файлов изображений, разделёнными запятой
+     * Создает, при необходимости директорию для хранения изображений товара,
+     *  и копирует в неё комплект превью с наложением водяных знаков.
+     * Добавляет запись о каждом изображении в таблицу images
+     *
+     * Возвращает void
+     */
+    private function attachImages (int $product_id, string $imagespath = NULL)
+    {
+
+        if ( empty($imagespath) ) {
+            return true;
+        }
+
+        $imagepaths = explode(',', $imagespath);
+
+        foreach( $imagepaths as $imagepath) {
+
+            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+
+            // image re-creation
+            $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
+            $originalName = basename($image_name);
+            $path  = '/images/products/' . $product_id;
+
+            // create record
+            $image = Image::create([
+                'product_id' => $product_id,
+                // 'slug' => $image_name,
+                'slug' => Str::slug($image_name, '-'),
+                'path' => $path,
+                'name' => $image_name,
+                'ext' => config('imageyo.res_ext'),
+                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                'sort_order' => 9,
+                'orig_name' => $originalName,
+            ]);
+        }
+    }
+    
 }

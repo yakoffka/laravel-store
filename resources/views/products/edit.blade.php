@@ -40,10 +40,12 @@
                 @endif --}}
 
                 {{-- @inpImage(['value' => old('image')]) --}}
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="images">Добавить изображения:</label><br>
                     <input type="file" name="images[]" multiple>
-                </div>
+                </div> --}}
+                @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
+
 
                 @input(['name' => 'name', 'value' => old('name') ?? $product->name, 'required' => 'required'])
 

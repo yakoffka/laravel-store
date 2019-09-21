@@ -55,6 +55,13 @@ trait ImageYoTrait
             $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
+
+        } elseif ( $mode === 'lfm-mode' ) {
+            $src_img_name = pathinfo($image)['basename'];
+            $src_path = $image;
+            $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
+            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
+            
         } else {
             $src_img_name = $image->getClientOriginalName();
             $src_path = $image->path();

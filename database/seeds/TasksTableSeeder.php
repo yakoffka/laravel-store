@@ -41,7 +41,7 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
             [
                 'title' => 'Исправить валидацию в контроллерах',
-                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее. </p><p> http://laravel.su/docs/5.0/validation#controller-validation </p><p> http://laravel.su/docs/5.4/Validation#available-validation-rules.',
+                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее. </p><p> http://laravel.su/docs/5.0/validation#controller-validation </p><p> http://laravel.su/docs/5.4/Validation#available-validation-rules, </p><p>https://laravel.com/docs/6.x/validation#available-validation-rules.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
