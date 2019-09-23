@@ -170,7 +170,7 @@ class ProductsController extends Controller
 
 
         // get string table of modification srctablecode
-        if ( request('modification') and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
             $clean_modification = $this->cleanTables($dirty_modification);
             // dd($dirty_modification, $clean_modification);
@@ -376,7 +376,7 @@ class ProductsController extends Controller
 
 
         // get string table of modification srctablecode
-        if ( request('modification') and config('settings.modification_wysiwyg') and config('settings.wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
             $clean_modification = $this->cleanTables($dirty_modification);
             // dd($dirty_modification, $clean_modification);

@@ -26,18 +26,34 @@
     @role('admin')<link href="{{ asset('css/admin.css') }}" rel="stylesheet">@endrole
     @role('owner')<link href="{{ asset('css/owner.css') }}" rel="stylesheet">@endrole
 
+
     {{-- wysiwyg --}}
-    @if (config('settings.wysiwyg') == 'ckeditor' )
-        <!-- ckeditor -->
-        {{-- <script src="{{ asset('wysiwyg/ckeditor/4.5.11/ckeditor.js') }}"></script> --}}
-        {{-- <script src="{{ asset('wysiwyg/ckeditor/4.5.11/adapters/jquery.js') }}"></script> --}}
-    @elseif (config('settings.wysiwyg') == 'summernote' )
-        <!-- summernote -->
+    @if (
+        config('settings.description_wysiwyg') == 'ckeditor' or
+        config('settings.modification_wysiwyg') == 'ckeditor' or
+        config('settings.workingconditions_wysiwyg') == 'ckeditor'
+    )
+        <script src="{{ asset('wysiwyg/ckeditor/4.5.11/ckeditor.js') }}"></script>
+        <script src="{{ asset('wysiwyg/ckeditor/4.5.11/adapters/jquery.js') }}"></script>
+    @endif
+
+    {{-- summernote --}}
+    @if (
+        config('settings.description_wysiwyg') == 'summernote' or
+        config('settings.modification_wysiwyg') == 'summernote' or
+        config('settings.workingconditions_wysiwyg') == 'summernote'
+    )
         <link href="{{ asset('wysiwyg/summernote/summernote.css') }}" rel="stylesheet">
         <script src="{{ asset('wysiwyg/summernote/summernote.js') }}"></script>
-    @elseif (config('settings.wysiwyg') == 'tinymce' )
-        <!-- tinymce -->
-        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    @endif
+
+    {{-- tinymce --}}
+    @if (
+        config('settings.description_wysiwyg') == 'tinymce' or
+        config('settings.modification_wysiwyg') == 'tinymce' or
+        config('settings.workingconditions_wysiwyg') == 'tinymce'
+    )
+       <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>
             var editor_config = {
                 path_absolute : "/",
@@ -76,6 +92,7 @@
         </script>
         {{-- <script src="{{ asset('wysiwyg/tinymce/4/tinymce.min.js') }}"></script> --}}
     @endif
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
