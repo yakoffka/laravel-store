@@ -1198,6 +1198,18 @@ h5.grey {
     width: 44px;
     background: url("/storage/images/common/icons/info.svg") no-repeat;
 }
+
+.h1 i.blue {
+    opacity: .7;
+    color: #69b1de;
+    padding-top: 2em;
+    transition: all 0.5s ease-out 0s;
+}
+
+.h1 i.blue:hover {
+    opacity: 1;
+
+}
 /* /category */
 /*======================================================================================================*/
 

@@ -26,6 +26,7 @@ class HomeController extends Controller
     {
         // $actions = Action::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_actions'));// last 50!
         $categories = Category::all()->where('parent_id', '=', 1)->where('id', '>', 1);
-        return view('home', compact('categories'));
+        $videobackground = true;
+        return view('home', compact('categories', 'videobackground'));
     }
 }
