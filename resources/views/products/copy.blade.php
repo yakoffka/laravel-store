@@ -36,7 +36,7 @@
                 {{-- <label for="copy_img">Копировать изображения копируемого товара:
                     <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
                 </label> --}}
-                <div class="boxes">
+                <div class="boxes left_stylized_checkbox">
                     <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
                     <label for="copy_img">Копировать изображения копируемого товара</label>
                 </div>
