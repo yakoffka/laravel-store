@@ -169,8 +169,6 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        // $subordination = $this->subordination($user);
-        // abort_if ( !Auth::user()->can('delete_users') or !$subordination, 403 );
         abort_if ( !Auth::user()->can('delete_users'), 403 );
 
         // dont destroy last owner!
