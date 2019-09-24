@@ -151,6 +151,13 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Удалить rank',
                 'description' => 'Удалить rank из table roles. Субординацию соблюдать, опираясь на role.',
+                'tasksstatus_id' => 6,
+                'taskspriority_id' => 3,
+            ],
+
+            [
+                'title' => 'Поправить фильтр категорий',
+                'description' => 'Фильтр категорий некорректно работает при отключенной опции "Показывать в фильтре категорий подкатегории".',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 3,
             ],

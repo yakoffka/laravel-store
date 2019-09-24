@@ -68,7 +68,7 @@ class ProductsTableSeeder extends Seeder
                 'modification' => $modification,
                 'year_manufacture' => '2018',
                 'price' => rand(20000,32000),
-                'added_by_user_id' => 1,
+                'added_by_user_id' => 2,
                 'views' => 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

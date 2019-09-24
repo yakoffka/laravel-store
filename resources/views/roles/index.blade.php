@@ -32,7 +32,6 @@
                     <th>display_name</th>
                     <th>description</th>
                     <th>permissions</th>
-                    <th>rank</th>
                     <th>users</th>
                     <th>created</th>
                     <th>updated</th>
@@ -51,10 +50,9 @@
                             @if ($role->perms())
                                 {{ $role->perms()->pluck('display_name')->count() }}
                             @else
-                            0
+                                0
                             @endif
                         </a></td>
-                        <td>{{ $role->rank }}</td>
                         <td><a href="#users_{{ $role->name }}">{{ $role->users->count() }}</a></td>
                         <td>{{ $role->created_at ?? '-' }}</td>
                         <td>{{ $role->updated_at ?? '-' }}</td>
@@ -79,20 +77,6 @@
 
 
                             @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
-                                {{-- <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
-                                    @csrf
-
-                                    @method("DELETE")
-
-                                    @if ( $role->id < 5 )
-                                        <button type="submit" class="btn btn-outline-secondary">
-                                    @else
-                                        <button type="submit" class="btn btn-outline-danger">
-                                    @endif
-
-                                    <i class="fas fa-trash"></i>
-                                    </button>
-                                </form> --}}
                                 @modalConfirmDestroy([
                                     'btn_class' => 'btn btn-outline-danger del_btn',
                                     'cssId' => 'delele_',
