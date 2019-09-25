@@ -37,6 +37,7 @@
                         <th class="verticalTableHeader ta_c">id род. категории</th>
                         <th class="verticalTableHeader ta_c">sort order</th>
                         <th class="verticalTableHeader ta_c">видимость</th>
+                        <th class="verticalTableHeader ta_c">изображение</th>
                         <th class="verticalTableHeader ta_c">кол. товаров</th>
                         <th class="verticalTableHeader ta_c">кол. подкатегорий</th>
                         <th class="actions3">actions</th>

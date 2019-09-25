@@ -1,46 +1,41 @@
 @extends('layouts.app')
 
 
-{{-- title --}}
-@if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
-    @php
-        $title = 'Filters Products';
-        $mess_null = '';
+{{-- title and description --}}
+    {{-- filters --}}
+    @if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
+        @php
+            $h1 = 'Фильтрация товаров';
+            $title = 'Фильтрация товаров';
+            if ( $products->total() == 0 ) {
+                $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+            }
+        @endphp
 
-        if ( $products->total() == 0 ) {
-            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
-        }
-    @endphp
-@elseif ( !empty($appends['category']) )
-    @php
-        $title = 'Category Products';
-        $mess_null = '';
+    {{-- $category --}}
+    @elseif ( !empty($category) )
+        @php
+            $h1 = "Категория '$category->name'";
+            $title = $category->name . config('custom.category_title_append');
+            if ( $products->total() == 0 ) {
+                $mess_null = 'в данной категории ещё нет товаров';
+            }
+            $description = $category->name . config('custom.category_description_append') . ' Страница ' . $products->currentPage() . ' из ' . $products->lastPage();
+        @endphp
 
-        if ( $products->total() == 0 ) {
-            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
-        }
-    @endphp
-@elseif ( !empty($category) )
-    @php
-        $title = $category->name . config('custom.category_title_append') ?? config('app.name', 'Laravel');
-        $mess_null = '';
+    {{-- catalog all --}}
+    @else
+        @php
+            $h1 = "Каталог товаров";
+            $title = 'Каталог товаров' . config('custom.category_description_append') . ' Страница ' . $products->currentPage() . ' из ' . $products->lastPage();;
+            $mess_null = '';
 
-        if ( $products->total() == 0 ) {
-            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
-        }
-
-        $description = $category->name . config('custom.category_description_append') ?? config('app.name', 'Laravel')
-    @endphp
-@else
-    @php
-        $title = 'All Products';
-        $mess_null = '';
-
-        if ( $products->total() == 0 ) {
-            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
-        }
-    @endphp
-@endif
+            if ( $products->total() == 0 ) {
+                $mess_null = 'в данной категории ещё нет товаров';
+            }
+        @endphp
+    @endif
+{{-- title and description --}}
 
 
 @section('title', $title)
@@ -63,8 +58,8 @@
     </div>
 
 
-    <h1>Категория "{{ $title }}"</h1>
-    <div class="grey ta_r">количество товаров в категории: {{ $products->total() }}</div>
+    <h1>Категория "{{ $h1 }}"</h1>
+    <div class="grey ta_r">всего товаров: {{ $products->total() }}</div>
 
     <div class="row">
            
@@ -75,7 +70,7 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
            <div class="row">
 
-                {{ $mess_null }}
+                {{ $mess_null ?? '' }}
 
                 @foreach($products as $product)
 

@@ -2,7 +2,7 @@
 
 @if ( !empty($category) and $category->id > 1 )
     @section('title', $category->name . config('custom.category_title_append'))
-    @section('description', $category->name . config('custom.category_description_append'))
+    @section('description', 'lkjlkjl'.$category->name . config('custom.category_description_append'))
 @else
     @section('title', 'Каталог - ' . config('custom.main_title_append'))
     @section('description', 'Каталог - ' . config('custom.main_description'))

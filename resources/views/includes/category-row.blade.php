@@ -14,6 +14,19 @@
             @endif
         </td>
 
+        <td>
+            @if($category->image)
+                <div class="card-img-top b_image"
+                    style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
+            @else
+                <div class="card-img-top b_image"
+                    style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
+            @endif
+                <div class="dummy perc100"></div>
+                <div class="element"></div>
+            </div>
+        </td>
+
         <td>{{ $category->countProducts() }}</td>
         <td>{{ $category->countChildren() }}</td>
 
