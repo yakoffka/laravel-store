@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1></h1>
+    {{-- <h1></h1> --}}
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
