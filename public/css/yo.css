@@ -38,6 +38,9 @@ h2{
 }
 
 
+.invisible {
+    display: none;
+}
 
 /* видимый мерцающий индикатор в поле ввода */
 input,
@@ -513,6 +516,10 @@ table.param tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:ob
 /* single_stylized_checkbox */
 
 
+.left_stylized_checkbox input[type="checkbox"].invisible + label.invisible {
+    display: none;
+}
+
 
 
 
@@ -851,6 +858,10 @@ ul#mainMenu ul {
     margin-top: 2em;
 }
 
+
+.aside .navbar-nav li.nav-item a.nav-link{
+    padding: 0;
+}
 
 
 /* breadcrumbs */

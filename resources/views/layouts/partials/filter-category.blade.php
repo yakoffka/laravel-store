@@ -2,37 +2,6 @@
 <div class="filter_block left_stylized_checkbox">
     <div class="filter_block_header">КАТЕГОРИИ</div>
     @if($categories->count())
-
-{{--    @foreach( $categories as $category )
-
-            @if ( !config('settings.filter_subcategories') and $category->parent_id == 1 )
-            
-                <!-- only category -->
-                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                    id="filter_categories_{{ $category->id }}"
-                    @if ( !empty($appends['categories']) and in_array($category->id, $appends['categories']) )
-                        checked
-                    @endif
-                >
-                <label class="filters" for="filter_categories_{{ $category->id }}">
-                    {{ $category->title }}
-                </label>
-
-            @elseif ( config('settings.filter_subcategories') )
-
-                <!-- all: category and subcategory -->
-                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                    id="filter_categories_{{ $category->id }}"
-                    @if ( !empty($appends['categories']) and in_array($category->id, $appends['categories']) )
-                        checked
-                    @endif
-                >
-                <label class="filters" for="filter_categories_{{ $category->id }}">
-                    {{ $category->title }}
-                </label>
-
-            @endif
-        @endforeach --}}
         @foreach( $categories as $category )
 
             {{-- hide empty categories --}}
@@ -67,7 +36,7 @@
                     @if ( !config('settings.show_empty_category') and !$subcategory->countProducts() and !$subcategory->countChildren() )
                         @continue
                     @endif
-                    {{-- /hide empty subcategory --}}
+
                     @if ( $subcategory->parent_id == $category->id )
                         @php
                             if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
@@ -80,22 +49,24 @@
                         @endphp
 
                         {{-- subcategory --}}
-                        @if ( config('settings.filter_subcategories') )
-                            <input class="filters subcategory" type="checkbox" 
-                                name="categories[{{ $subcategory->id }}]" 
-                                value="{{ $subcategory->id }}"
-                                id="filter_categories_{{ $subcategory->id }}"
-                                @if ( !empty($appends['categories']) and in_array($subcategory->id, $appends['categories']) )
-                                    checked
-                                @endif
-                            >
-                            <label class="filters subcategory" 
-                                for="filter_categories_{{ $subcategory->id }}"
-                                title="{{ $subcategory->title }}"
-                            >
-                                {{ $subcategory->name }}
-                            </label>
-                        @endif
+                        <input 
+                            class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}" 
+                            type="checkbox" 
+                            name="categories[{{ $subcategory->id }}]" 
+                            value="{{ $subcategory->id }}"
+                            id="filter_categories_{{ $subcategory->id }}"
+                            @if ( !empty($appends['categories']) and in_array($subcategory->id, $appends['categories']) )
+                                checked
+                            @endif
+                        >
+                        <label 
+                            class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}" 
+                            for="filter_categories_{{ $subcategory->id }}"
+                            title="{{ $subcategory->title }}"
+                        >
+                            {{ $subcategory->name }}
+                        </label>
+
                     @endif
                 @endforeach
 

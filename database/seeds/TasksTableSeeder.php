@@ -158,7 +158,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Поправить фильтр категорий',
                 'description' => 'Фильтр категорий некорректно работает при отключенной опции "Показывать в фильтре категорий подкатегории".',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
