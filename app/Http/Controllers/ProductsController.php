@@ -463,7 +463,8 @@ class ProductsController extends Controller
 
         session()->flash('message', 'Product "' . $product->name . '" has been updated');
 
-        return redirect()->route('products.index');
+        // return redirect()->route('products.index');
+        return redirect()->route('products.show', $product->id);
     }
 
     /**

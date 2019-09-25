@@ -3,7 +3,7 @@
     @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
 
 --}}
-<h2 class="mt-4">Добавить изображение</h2>
+<h3 class="blue">Добавить изображение</h3>
 <p>
     Вы можете добавить изображение, размером не более {{ config('lfm.folder_categories.image.max_size') }}Kb.
     Допустимые форматы:

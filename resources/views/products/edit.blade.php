@@ -53,7 +53,6 @@
 
 
                 {{-- description --}}
-                {!! old('description') ?? $product->description !!}
                 @if ( config('settings.description_wysiwyg') == 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'description', 'label' => 'Описание (редактор ckeditor)', 'value' => old('description') ?? $product->description])
                 @elseif ( config('settings.description_wysiwyg') == 'summernote' )
@@ -67,7 +66,6 @@
 
 
                 {{-- modification --}}
-                {!! old('modification') ?? $product->modification !!}
                 @if ( config('settings.modification_wysiwyg') == 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор ckeditor)', 'value' => old('modification') ?? $product->modification])
                 @elseif ( config('settings.modification_wysiwyg') == 'summernote' )
@@ -83,7 +81,6 @@
                 
 
                 {{-- workingconditions --}}
-                {!! old('workingconditions') ?? $product->workingconditions !!}
                 @if ( config('settings.workingconditions_wysiwyg') == 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'workingconditions', 'label' => 'Условия работы (редактор ckeditor)', 'value' => old('workingconditions') ?? $product->workingconditions])
                 @elseif ( config('settings.workingconditions_wysiwyg') == 'summernote' )
