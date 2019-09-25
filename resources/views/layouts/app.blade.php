@@ -7,7 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
+    {{-- <title>@yield('title') {{ config('custom.product_title_append') }}</title> --}}
+    <title>@yield('title')</title>
+
+    <meta name="description" content="@yield('description')"/>
 
     <!-- Scripts -->
     <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>

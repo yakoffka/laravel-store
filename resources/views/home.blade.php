@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'домашняя страница')
+@section('title', config('custom.main_title_append'))
+
+@section('description', config('custom.main_description'))
 
 @section('content')
 

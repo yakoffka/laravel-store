@@ -254,7 +254,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Uuid primaryKey',
                 'description' => 'Добавить в модель App\User <code>protected $primaryKey = \'uuid\';</code>.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
@@ -326,8 +326,9 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'SEO: title, description, keywords',
                 'description' => 'Продумать формирование title, description, keywords для товаров и категорий.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 1,
+                'comment_slave' => 'добавлены тайтлы в товары и категории.',
             ],
 
             [

@@ -21,14 +21,16 @@
         }
     @endphp
 @elseif ( !empty($category) )
-@php
-    $title = $category->name;
-    $mess_null = '';
+    @php
+        $title = $category->name . config('custom.category_title_append') ?? config('app.name', 'Laravel');
+        $mess_null = '';
 
-    if ( $products->total() == 0 ) {
-        $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
-    }
-@endphp
+        if ( $products->total() == 0 ) {
+            $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
+        }
+
+        $description = $category->name . config('custom.category_description_append') ?? config('app.name', 'Laravel')
+    @endphp
 @else
     @php
         $title = 'All Products';
@@ -43,6 +45,7 @@
 
 @section('title', $title)
 
+@section('description', $description ?? config('custom.category_description_append'))
 
 @section('content')
 

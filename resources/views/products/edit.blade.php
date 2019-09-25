@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Edit product')
+@section('title', 'редактирование товара ' . $product->name )
+
+@section('description', 'редактирование товара ' . $product->name . config('custom.product_description_append'))
 
 @section('content')
 

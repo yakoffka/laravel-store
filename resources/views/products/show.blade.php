@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', $product->name)
+@section('title', $product->name . config('custom.product_title_append'))
+
+@section('description', $product->name . config('custom.product_description_append'))
 
 @section('content')
 
