@@ -298,7 +298,7 @@
 
 
         {{-- videobackground --}}
-        @if(!empty($videobackground) and false)
+        @if(!empty($videobackground))
             <style>
                 header {
                     position: relative;
@@ -343,8 +343,7 @@
             
                 @media (pointer: coarse) and (hover: none) {
                     header {
-                        /* background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll; */
-                        background: url("{{ asset('videos/futaj.png') }}") black no-repeat center center scroll;
+                        background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
                     }
                     header video {
                         display: none;
