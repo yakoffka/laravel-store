@@ -56,6 +56,7 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
     Route::get      ('admin/products',          'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
     // Route::get      ('admin/products/{product}','ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
+    Route::post    ('admin/products/massupdate', 'ProductsController@massupdate')->name('products.massupdate'  )->middleware('auth');
 
 
 /* comments*/
@@ -92,7 +93,6 @@ Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy')
     // Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
     Route::get   ('admin/categories',                       'CategoryController@adminIndex')->name('categories.adminindex'  )->middleware('auth');
     Route::get   ('admin/categories/{category}',            'CategoryController@adminShow' )->name('categories.adminshow'   )->middleware('auth');
-    Route::patch ('admin/categories/{category}/massupdate', 'CategoryController@massupdate')->name('categories.massupdate'  )->middleware('auth');
 
 // cart
 Route::get('cart/add/{product}', 'CartController@addToCart')->name('cart.add-item');

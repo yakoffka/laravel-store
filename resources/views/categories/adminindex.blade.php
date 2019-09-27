@@ -34,12 +34,12 @@
                     <tr>
                         <th>id</th>
                         <th>наименование</th>
-                        <th class="verticalTableHeader ta_c">id род. категории</th>
-                        <th class="verticalTableHeader ta_c">sort order</th>
-                        <th class="verticalTableHeader ta_c">видимость</th>
+                        <th width="30" class="verticalTableHeader ta_c">id род. категории</th>
+                        <th width="30" class="verticalTableHeader ta_c">sort order</th>
+                        <th width="30" class="verticalTableHeader ta_c">видимость</th>
                         <th class="verticalTableHeader ta_c">изображение</th>
-                        <th class="verticalTableHeader ta_c">кол. товаров</th>
-                        <th class="verticalTableHeader ta_c">кол. подкатегорий</th>
+                        <th width="30" class="verticalTableHeader ta_c">кол. подкатегорий</th>
+                        <th width="30" class="verticalTableHeader ta_c">кол. товаров</th>
                         <th class="actions3">actions</th>
                     </tr>
 

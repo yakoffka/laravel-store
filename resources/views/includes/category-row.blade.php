@@ -27,8 +27,8 @@
             </div>
         </td>
 
-        <td>{{ $category->countProducts() }}</td>
         <td>{{ $category->countChildren() }}</td>
+        <td>{{ $category->countProducts() }}</td>
 
         {{-- actions --}}
         <td>

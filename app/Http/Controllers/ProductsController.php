@@ -33,7 +33,7 @@ class ProductsController extends Controller
         }
 
         // // $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
-        // if ( Auth::user() and  Auth::user()->can(['view_products'])) {
+        // if ( auth()->user() and  auth()->user()->can(['view_products'])) {
         //     $products = Product::filter($request, $this->getFilters())
         //         ->latest()
         //         ->paginate();
@@ -77,8 +77,9 @@ class ProductsController extends Controller
         $products = Product::filter(request(), $this->getFilters())
             ->orderBy('category_id')
             ->paginate();
+        $categories = Category::all();
 
-        return view('products.adminindex', compact('products', 'appends'));
+        return view('products.adminindex', compact('appends', 'categories', 'products'));
     }
 
 
@@ -91,7 +92,7 @@ class ProductsController extends Controller
      */
     public function show($id) {
         $product = Product::findOrFail($id);
-        if ( !Auth::user() or Auth::user()->hasRole('user') ) {
+        if ( !auth()->user() or auth()->user()->hasRole('user') ) {
             $product->increment('views');
         }
         return view('products.show', compact('product'));
@@ -104,7 +105,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        abort_if ( !Auth::user()->can('create_products'), 403 );
+        abort_if ( !auth()->user()->can('create_products'), 403 );
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
         return view('products.create', compact('categories', 'manufacturers'));
@@ -117,7 +118,7 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        abort_if (!Auth::user()->can('edit_products'), 403);
+        abort_if (!auth()->user()->can('edit_products'), 403);
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
         return view('products.edit', compact('product', 'categories', 'manufacturers'));
@@ -130,7 +131,7 @@ class ProductsController extends Controller
      */
     public function copy(Product $product)
     {
-        abort_if (!Auth::user()->can('edit_products'), 403);
+        abort_if (!auth()->user()->can('edit_products'), 403);
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
         session()->flash('message', 'When copying an item, you must change its name!');
@@ -146,7 +147,7 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
-        abort_if ( Auth::user()->cannot('create_products'), 403 );
+        abort_if ( auth()->user()->cannot('create_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255|unique:products,name',
@@ -192,7 +193,7 @@ class ProductsController extends Controller
             'workingconditions' => request('workingconditions') ?? '',
             'year_manufacture' => request('year_manufacture') ?? 0,
             'price' => request('price') ?? 0,
-            'added_by_user_id' => Auth::user()->id,
+            'added_by_user_id' => auth()->user()->id,
             'views' => 0,
         ])) {
             return back()->withErrors(['something wrong!'])->withInput();
@@ -309,7 +310,7 @@ class ProductsController extends Controller
         // if ( $email_new_product->value ) {
         if ( config('settings.email_new_product') ) {
 
-            $user = Auth::user();
+            $user = auth()->user();
             $bcc = config('mail.mail_bcc');
 
             // $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
@@ -353,7 +354,7 @@ class ProductsController extends Controller
      */
     public function update(Product $product)
     {
-        abort_if ( Auth::user()->cannot('edit_products'), 403 );
+        abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
@@ -398,7 +399,7 @@ class ProductsController extends Controller
             'workingconditions' => request('workingconditions') ?? '',
             'year_manufacture' => request('year_manufacture'),
             'price' => request('price'),
-            'edited_by_user_id' => Auth::user()->id,
+            'edited_by_user_id' => auth()->user()->id,
         ]);
 
 
@@ -430,7 +431,7 @@ class ProductsController extends Controller
         // send email-notification
         if ( config('settings.email_update_product') ) {
 
-            $user = Auth::user();
+            $user = auth()->user();
             $bcc = config('mail.mail_bcc');
             
             if ( config('settings.additional_email_bcc') ) {
@@ -475,7 +476,7 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        abort_if ( Auth::user()->cannot('delete_products'), 403 );
+        abort_if ( auth()->user()->cannot('delete_products'), 403 );
 
         $products_name = $product->name;
         $products_id = $product->id;
@@ -504,7 +505,7 @@ class ProductsController extends Controller
         // $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
         // if ( $email_update_product->value ) {
 
-        //     $user = Auth::user();
+        //     $user = auth()->user();
         //     $bcc = config('mail.mail_bcc');
             
         //     $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
@@ -564,7 +565,6 @@ class ProductsController extends Controller
 
     public function search(Request $request) 
     {
-        // ГДЕ ВАЛИДАЦИЯ???
         $validator = request()->validate([
             'query' => 'required|string|min:3|max:100',
         ]);
@@ -686,6 +686,81 @@ class ProductsController extends Controller
                 'orig_name' => $originalName,
             ]);
         }
+    }
+
+
+    public function massupdate() {
+        abort_if ( auth()->user()->cannot('edit_products'), 403 );
+        // dd(request()->all());
+
+        request()->validate([
+            'action' => 'required|string|in:delete,replace,invisible,visible',
+            'products' => 'required|array',
+            'category_id' => 'nullable|string',
+        ]);
+
+        if ( !count(request('products')) ) {
+            return back()->withErrors(['Не выбран ни один товар!'])->withInput();
+        }
+
+        $products = Product::find(request('products'));
+        if ( !$products->count() ) {
+            return back()->withErrors(['Выбранные товары не существуют!'])->withInput();
+        }
+
+        // delete
+        if (request('action') == 'delete') {
+            abort_if ( auth()->user()->cannot('delete_products'), 403 );
+            $products->each(function ($product) {
+                if (!$this->destroy($product)) { $err = true; }
+            });
+
+        // replace
+        } elseif (request('action') == 'replace') {
+            $products->each(function ($product) {
+                if (
+                    $product->update([
+                        'category_id' => request('category_id'),
+                        'edited_by_user_id' => auth()->user()->id,
+                    ])
+                ) { $err = true; }
+            });
+
+        // invisible
+        } elseif (request('action') == 'invisible') {
+            $products->each(function ($product) {
+                if (
+                    $product->update([
+                        'visible' => false,
+                        'edited_by_user_id' => auth()->user()->id,
+                    ])
+                ) { $err = true; }
+            });
+
+        // visible
+        } elseif (request('action') == 'visible') {
+            $products->each(function ($product) {
+                if (
+                    $product->update([
+                        'visible' => true,
+                        'edited_by_user_id' => auth()->user()->id,
+                    ])
+                ) { $err = true; }
+            });
+
+        // unknown action
+        } else {
+            return back()->withErrors(['Выбранной операции не существует!'])->withInput();
+        }
+
+
+        if ( !empty($err) ) {
+            $mess = 'Операция не удалась или удалась неполностью.';
+        } else {
+            $mess = 'Операция прошла успешно.';                
+        }
+    
+        return back();
     }
     
 }

@@ -50,6 +50,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.product-row', 'productRow');
         Blade::include('includes.grid-category', 'gridCategory');
         Blade::include('includes.lfm-image-button', 'lfmImageButton');
+        Blade::include('includes.form-products-massupdate', 'formProductsMassupdate');
+        Blade::include('includes.action-products-massupdate', 'actionProductsMassupdate');
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
     }

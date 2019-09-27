@@ -1,11 +1,9 @@
-
 <tr class="{{ $product->visible ? '' : 'gray'}}">
     <td class="ta_c left_stylized_checkbox">
         <input 
-            {{-- form="products_{{ $product->category_id }}_massupdate"  --}}
-            form="products_{{ $category->id ?? '1' }}_massupdate" 
+            form="products_massupdate" 
             type="checkbox" 
-            name="product[]" 
+            name="products[{{ $product->id }}]" 
             value="{{ $product->id }}" 
             id="product_checkbox_{{ $product->id }}"
         >
@@ -24,8 +22,10 @@
     
     {{-- <td class="ta_c">{{ $product->category_id }}</td> --}}
     @if ( !empty($category) )
-        <td class="ta_c">{{ $product->category_id }}</td>
+        <td class="ta_c" title="{{ $product->category->title }}">{{ $product->category_id }}</td>
     @endif
+
+    <td>{{ $product->images->count() }}</td>
 
     {{-- <td>{{ $product->materials }}</td> --}}
     {{-- <td>{{ $product->description }}</td> --}}
@@ -62,16 +62,4 @@
 
     </td>
     {{-- /actions --}}
-
-    {{-- <td class="single_stylized_checkbox" width="30px">
-        <input 
-            form="products_{{ $product->category_id }}_massupdate" 
-            type="checkbox" 
-            name="product[]" 
-            value="{{ $product->id }}" 
-            id="product_checkbox_{{ $product->id }}"
-        >
-        <label class="empty_label" for="product_checkbox_{{ $product->id }}"></label>
-    </td> --}}
-
 </tr>

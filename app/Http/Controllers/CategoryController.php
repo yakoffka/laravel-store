@@ -367,12 +367,8 @@ class CategoryController extends Controller
     }
 
     public function adminShow(Category $category) {
-        return view('categories.adminshow', compact('category'));
-    }
-
-    public function massupdate(Category $category) {
-        // dd(request()->all());
-        return 'эта функция пока не доступна';
+        $categories = Category::all();
+        return view('categories.adminshow', compact('categories', 'category'));
     }
 
 

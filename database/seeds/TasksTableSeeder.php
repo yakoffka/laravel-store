@@ -47,8 +47,15 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Учесть субординацию в постановке задач',
-                'description' => 'Учесть субординацию в постановке задач.',
+                'title' => 'Кастомизировать ошибки валидации',
+                'description' => 'Кастомизировать ошибки валидации (<a href="http://laravel.su/docs/5.4/Validation#form-request-validation" target="_blank" rel="noopener noreferrer">читать здесь</a>).',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Проверить видимость товара',
+                'description' => 'Проверить видимость товара перед выводом в products.show.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],

@@ -70,12 +70,31 @@
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        <th width="30">id</th>
+                        {{-- <th width="30">id</th> --}}
+                        <th class="ta_c left_stylized_checkbox">
+                            <input 
+                                form="products_massupdate" 
+                                type="checkbox" 
+                                name="check_total" 
+                                value="" 
+                                id="checkbox_total"
+                                onClick="check_all_products(this.form,this.checked)"
+                            >
+                            <label class="empty_label" for="checkbox_total"
+                                onClick="check_all_products(this.form,['check_total'].checked)"
+                            >
+                                id
+                            </label>
+                            @php
+                                $oForms = '';
+                            @endphp
+                        </th>
                         <th>name</th>
                         {{-- <th>slug</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
                         <th class="verticalTableHeader ta_c">visible</th>
-                        {{-- <th class="verticalTableHeader ta_c">category_id</th> --}}
+                        <th width="30" class="verticalTableHeader ta_c">category_id</th>
+                        <th width="30" class="verticalTableHeader ta_c">изображений</th>
                         {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
                         {{-- <th>description</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">year_manufacture</th> --}}
@@ -92,22 +111,21 @@
 
                     @foreach ( $category->products as $product )
                         @productRow(['product' =>  $product,])
+                        @php
+                            $oForms .= 'oForm[\'products[' . $product->id . ']\'].checked = checked;';
+                        @endphp
                     @endforeach
+
+                    <script type="text/javascript">
+                        function check_all_products(oForm,checked){{!! $oForms !!}}
+                    </script>
+
 
                 </table>
                 {{-- /table products --}}
 
                 {{-- massupdate --}}
-                выполнить с выделенными товарами
-                <form id="products_{{ $category->id }}_massupdate" action="{{ route('categories.massupdate', $category) }}" method="POST">
-                    @csrf
-                    @method("PATCH")
-                    {{-- <button type="submit">mass</button> --}}
-                    <input type="submit" name="action" value="delete">
-                    <input type="submit" name="action" value="replace">
-                    <input type="submit" name="action" value="invisible">
-                    <input type="submit" name="action" value="visible">
-                </form>
+                @formProductsMassupdate
                 {{-- /massupdate --}}
 
             @elseif ( !$category->countProducts() and !$category->countChildren() )
