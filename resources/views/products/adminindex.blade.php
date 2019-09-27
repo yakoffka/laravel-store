@@ -46,22 +46,22 @@
                             $oForms = '';
                         @endphp
                     </th>
-                    <th>name</th>
+                    <th>наименование</th>
                     {{-- <th>slug</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                    <th width="30" class="verticalTableHeader ta_c">visible</th>
-                    <th width="30" class="verticalTableHeader ta_c">category_id</th>
+                    <th width="30" class="verticalTableHeader ta_c">видимость</th>
+                    <th width="30" class="verticalTableHeader ta_c">категория</th>
                     <th width="30" class="verticalTableHeader ta_c">изображений</th>
                     {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
                     {{-- <th>description</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">year_manufacture</th> --}}
-                    <th>price</th>
+                    <th>цена</th>
                     {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">images</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
-                    <th class="actions3">actions</th>
+                    <th class="actions3">действия</th>
                     {{-- <th>p</th> --}}
 
                 </tr>

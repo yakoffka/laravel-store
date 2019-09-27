@@ -188,9 +188,9 @@ laravel-worker: added process group
                             <li class="incomplete">Создаём директории app/Filters; app/Filters/Product, а в ней - класс app/Filters/Product/ProductFilters.php</li>
                             <li class="incomplete">Выносим свойство $request и методы __construct() и filters() в абстрактный класс app/Filters/FiltersAbstract.php (и, собственно, создаём его)</li>
                             <li class="incomplete">Добавляем свойство protected $filters = []; в FiltersAbstract</li>
+                            {{-- <li class="incomplete"></li>
                             <li class="incomplete"></li>
-                            <li class="incomplete"></li>
-                            <li class="incomplete"></li>
+                            <li class="incomplete"></li> --}}
                         </ol>
                     @endrole
 
@@ -199,26 +199,30 @@ laravel-worker: added process group
                     @role(['owner'])
 
 
+                    <h4>Регистрация в yandex</h4>
 
+                    <code>
+                        <pre>
+    2019.09.15
 
-                    2019.09.15
+    https://passport.yandex.ru/registration?from=mail&origin=hostroot_homer_auth_L_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F&process_uuid=4c0ed96b-9625-4508-a768-3d8c7392e00c
+    Регистрация rope-kit@yandex.ru
+        Имя Канат
+        Фамилия Комплект
+        Придумайте логин    rope-kit
+        Придумайте пароль   kjhil7f5
+        У меня нет телефона
+        Фамилия вашего любимого музыканта rthetherthsdgf
+        Ваш аккаунт готов!
 
-                    https://passport.yandex.ru/registration?from=mail&origin=hostroot_homer_auth_L_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F&process_uuid=4c0ed96b-9625-4508-a768-3d8c7392e00c
-                    Регистрация rope-kit@yandex.ru
-                        Имя Канат
-                        Фамилия Комплект
-                        Придумайте логин    rope-kit
-                        Придумайте пароль   kjhil7f5
-                        У меня нет телефона
-                        Фамилия вашего любимого музыканта rthetherthsdgf
-                        Ваш аккаунт готов!
-
-                    https://developer.tech.yandex.ru/
-                    Подключить API
-                        Добавить ключ
-                        Название ключа yandexmapkey
-                            yandexmapkey
-                            4d24c871-78b4-4844-8088-0b919c191b85
+    https://developer.tech.yandex.ru/
+    Подключить API
+        Добавить ключ
+        Название ключа yandexmapkey
+            yandexmapkey
+            4d24c871-78b4-4844-8088-0b919c191b85
+                        </pre>
+                    </code>
 
 
 
@@ -242,24 +246,26 @@ laravel-worker: added process group
                                 Дальше надеюсь заменить ImageYoTrait на intervention/image, который стоит в зависимостях.
                                 <a href="https://unisharp.github.io/laravel-filemanager/installation">installation</a>
                                 <code>
-                                    vagrant@homestead:~/projects/kk$ composer require unisharp/laravel-filemanager:~1.8
-                                    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_config
-                                    Copied File [/vendor/unisharp/laravel-filemanager/src/config/lfm.php] To [/config/lfm.php]
-                                    Publishing complete.
-                                    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_public
-                                    Copied Directory [/vendor/unisharp/laravel-filemanager/public] To [/public/vendor/laravel-filemanager]
-                                    Publishing complete.
-                                    vagrant@homestead:~/projects/kk$ 
-                                    php artisan route:clear
-                                    php artisan config:clear
+                                    <pre>
+    vagrant@homestead:~/projects/kk$ composer require unisharp/laravel-filemanager:~1.8
+    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_config
+    Copied File [/vendor/unisharp/laravel-filemanager/src/config/lfm.php] To [/config/lfm.php]
+    Publishing complete.
+    vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_public
+    Copied Directory [/vendor/unisharp/laravel-filemanager/public] To [/public/vendor/laravel-filemanager]
+    Publishing complete.
+    vagrant@homestead:~/projects/kk$ 
+    php artisan route:clear
+    php artisan config:clear
+                                    </pre>
                                 </code>
                             </li>
                             
+                            {{-- <li></li>
                             <li></li>
                             <li></li>
                             <li></li>
-                            <li></li>
-                            <li></li>
+                            <li></li> --}}
                         </ol>
                     @endrole
 
@@ -272,10 +278,10 @@ laravel-worker: added process group
                             <li>Категория может содержать либо подкатегории, либо товары.</li>
                             <li>Каждый товар или категория должны иметь уникальное имя</li>
                             <li>Категория верхнего уровня (корневая директория) может содержать либо подкатегории, либо товары. Подкатегория (категория второго уровня) может содержать ТОЛЬКО товары.</li>
+                            {{-- <li></li>
                             <li></li>
                             <li></li>
-                            <li></li>
-                            <li></li>
+                            <li></li> --}}
                         </ol>
                     @endrole
 

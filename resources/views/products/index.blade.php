@@ -15,7 +15,7 @@
     {{-- $category --}}
     @elseif ( !empty($category) )
         @php
-            $h1 = "Категория '$category->name'";
+            $h1 = "Категория '$category->title'";
             $title = $category->name . config('custom.category_title_append');
             if ( $products->total() == 0 ) {
                 $mess_null = 'в данной категории ещё нет товаров';

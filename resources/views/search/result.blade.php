@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <h1 class="">Search Result</h1>
+    <h1 class="">Поиск товаров</h1>
 
     <div class="row">
 
@@ -33,7 +33,7 @@
 
             @if ($products->total())
 
-                <p>{{ $products->total() }} result for '{{ $query }}'</p>
+                <p>Найдено {{ $products->total() }} результатов для запроса '{{ $query }}'</p>
 
                 <table class="table table-bordered table-striped">
                     <thead>
