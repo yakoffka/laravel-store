@@ -297,17 +297,7 @@
         @show --}}
 
 
-
-
-
-
-
-
-
-
-
-
-
+        {{-- videobackground --}}
         @if(!empty($videobackground) and false)
             <style>
                 header {
@@ -423,24 +413,8 @@
             </header> --}}
         @else
         @endif
-        
-        
-        
-        
-        
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
+        {{-- /videobackground --}}
+ 
         <main class="py-4">
 
             {{-- @alert(['type' => 'primary', 'title' => 'roles/create'])
@@ -458,8 +432,6 @@
                     </div>
                 </div>
             @endif
-
-            
 
             <div class="container">
                 @yield('content')

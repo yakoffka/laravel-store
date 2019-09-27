@@ -187,7 +187,9 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 
 
 
-
+#myCarousel {
+    padding-top: 1em;
+}
 
 
 

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'result search')
+@section('title', 'Результаты поиска по запросу: ' . $query)
+
+@section('description', 'Поиск товаров. ' . config('custom.main_description'))
 
 @section('content')
 

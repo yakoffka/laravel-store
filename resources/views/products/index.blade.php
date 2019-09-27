@@ -58,7 +58,7 @@
     </div>
 
 
-    <h1>Категория "{{ $h1 }}"</h1>
+    <h1>{{ $h1 }}</h1>
     <div class="grey ta_r">всего товаров: {{ $products->total() }}</div>
 
     <div class="row">
