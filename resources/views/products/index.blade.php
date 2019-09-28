@@ -23,6 +23,19 @@
             $description = $category->name . config('custom.category_description_append') . ' Страница ' . $products->currentPage() . ' из ' . $products->lastPage();
         @endphp
 
+    {{-- search --}}
+    @elseif ( !empty($query) )
+        @php
+            $h1 = 'Результаты поиска по запросу: ' . '\'' . $query . '\'';
+            $title = 'Найдено ' . $products->total() . ' товаров по запросу: ' . $query;
+            // $description = 'Результаты поиска по запросу: ' . $query . '. Найдено ' . $products->total() . ' результатов.' . $products->total() > $products->count() ? 'Страница ' . $products->currentPage() . ' из ' . $products->lastPage() : '';
+            $description = 'Результаты поиска по запросу: ' . $query . '. Найдено ' . $products->total() . ' результатов.' . 'Страница ' . $products->currentPage() . ' из ' . $products->lastPage();
+            if ( $products->total() == 0 ) {
+                $h1 = 'По запросу: ' . $query . 'не найдено ни одного товара';
+                $mess_null = 'Сожалеем, но ничего не найдено. Исправьте запрос и попробуйте еще раз.';
+            }
+        @endphp
+
     {{-- catalog all --}}
     @else
         @php

@@ -56,6 +56,7 @@ class ProductsTableSeeder extends Seeder
                 . rand(10, 215);
             $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
             $modification = !rand(0, 1) ? '' : '<table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>';
+            $description = 'Description for product "' . $name . '". Lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
 
             DB::table('products')->insert([
                 'name' => $name,
@@ -64,7 +65,7 @@ class ProductsTableSeeder extends Seeder
                 'visible' => rand(0, 5) ? 1 : 0,
                 'category_id' => $category['id'],
                 'materials' => $materials,
-                'description' => 'Description for product "' . $name . '". Lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.',
+                'description' => $description,
                 'modification' => $modification,
                 'year_manufacture' => '2018',
                 'price' => rand(20000,32000),

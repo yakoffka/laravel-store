@@ -54,7 +54,8 @@
                                 </a>
                             </td>
                             <td>
-                                {{ str_limit($product->description, 80) }}
+                                {{-- {{ str_limit($product->description, 80) }} --}}
+                                {{ $product->short_description }}
                             </td>
                             <td>
                                 {{ $product->price }}

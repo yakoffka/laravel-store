@@ -156,7 +156,7 @@ class SettingsTableSeeder extends Seeder
                     ['tinymce', 'текстовый редактор TinyMCE'],
                     //['srccode', 'режим правки исходного кода (!)'],
                 ],
-                'default_value' => 0,
+                'default_value' => 'tinymce',
             ],
             [
                 'group' => 'wysiwyg',
@@ -173,7 +173,7 @@ class SettingsTableSeeder extends Seeder
                     ['tinymce', 'текстовый редактор TinyMCE'],
                     //['srccode', 'режим правки исходного кода (!)'],
                 ],
-                'default_value' => 0,
+                'default_value' => 'srctablecode',
             ],
             [
                 'group' => 'wysiwyg',
@@ -190,7 +190,7 @@ class SettingsTableSeeder extends Seeder
                     ['tinymce', 'текстовый редактор TinyMCE'],
                     //['srccode', 'режим правки исходного кода (!)'],
                 ],
-                'default_value' => 0,
+                'default_value' => 'tinymce',
             ],
 
         

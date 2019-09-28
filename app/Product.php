@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Str;
 
 class Product extends Model
 {
@@ -74,6 +75,15 @@ class Product extends Model
     
     public function images() {
         return $this->hasMany(Image::class)->orderBy('sort_order');
+    }
+
+    /**
+     * Accessor
+     * in blade using snake-case: $product->short_description!!!
+     */
+    public function getShortDescriptionAttribute()
+    {
+        return Str::limit(strip_tags($this->description), 80);
     }
 
 }

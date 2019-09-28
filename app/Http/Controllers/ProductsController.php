@@ -578,7 +578,8 @@ class ProductsController extends Controller
             $appends[$key] = $val;
         }
 
-        return view('search.result', compact('query', 'products', 'appends'));
+        // return view('search.result', compact('query', 'products', 'appends'));
+        return view('products.index', compact('query', 'products', 'appends'));
     }
 
 
