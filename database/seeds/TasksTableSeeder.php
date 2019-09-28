@@ -63,7 +63,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Проверить видимость товара',
                 'description' => 'Проверить видимость товара перед выводом в products.show.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
