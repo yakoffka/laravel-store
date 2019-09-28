@@ -51,8 +51,9 @@ class ProductsController extends Controller
         //         ->paginate();
         // }
         $products = Product::where('visible', '=', 1)
+            ->orderBy('price')
             ->filter($request, $this->getFilters())
-            ->latest()
+            // ->latest()
             ->paginate();
         return view('products.index', compact('products', 'appends'));
     }

@@ -39,9 +39,31 @@ class TasksTableSeeder extends Seeder
 
         // task for owner
         $arr_task_for_owner = [
+
+            // [
+            //     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
+
             [
-                'title' => 'Исправить валидацию в контроллерах',
-                'description' => 'Добавить required_with, exists, unique:table,column,except,idColumn, sometimes и прочее. </p><p> http://laravel.su/docs/5.0/validation#controller-validation </p><p> http://laravel.su/docs/5.4/Validation#available-validation-rules, </p><p>https://laravel.com/docs/6.x/validation#available-validation-rules.',
+                'title' => 'Изменить вид товара',
+                'description' => 'Сделать одинаковое отображение для персонала и клиентов.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Добавить избранное',
+                'description' => 'аналогично корзине, только без количества и стоимости.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Сортировка по цене',
+                'description' => 'Сделать по-умолчанию сортировку товаров по цене.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
@@ -56,7 +78,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Кастомизировать ошибки валидации',
                 'description' => 'Кастомизировать ошибки валидации (<a href="http://laravel.su/docs/5.4/Validation#form-request-validation" target="_blank" rel="noopener noreferrer">читать здесь</a>).',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
