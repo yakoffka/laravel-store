@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->unsignedInteger('sort_order')->default(0);
+            $table->unsignedInteger('sort_order')->default(5);
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('image')->nullable()->charset('utf8');

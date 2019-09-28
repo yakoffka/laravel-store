@@ -31,31 +31,22 @@
                 @method('PATCH')
 
                 {{-- image --}}
-                @if($category->image)                    
                     <div class="row">
                         <div class="col-sm-3">
-                            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
+                            <div class="card-img-top b_image" style="background-image: url(
+                                @if($category->image)                    
+                                    {{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}}
+                                @else
+                                    {{ asset('storage') }}{{ config('imageyo.default_img') }}
+                                @endif
+                                );">
                                 <div class="dummy"></div><div class="element"></div>
                             </div>
                         </div>
-
                         <div class="col-sm-9">
                             @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
                         </div>
                     </div>
-                @else
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
-                                <div class="dummy"></div><div class="element"></div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-9">
-                            @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
-                        </div>
-                    </div>
-                @endif
                 {{-- /image --}}
                 
 

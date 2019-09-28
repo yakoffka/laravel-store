@@ -57,7 +57,7 @@
                     <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
                     <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
                     <span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
-                    <span class="grey">year_manufacture: </span>{{ $product->year_manufacture ?? '-' }}<br>
+                    <span class="grey">date_manufactured: </span>{{ $product->date_manufactured ?? '-' }}<br>
                     <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
                     {{-- @if($product->price)

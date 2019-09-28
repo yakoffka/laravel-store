@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Создание нового товара')
+@section('title', 'Создание товара')
 
 @section('content')
 
@@ -14,12 +14,12 @@
     </div>
 
 
-    <h1>Creating new product</h1>
+    <h1>Создание товара</h1>
 
 
     <div class="row">
 
-    
+
         @include('layouts.partials.aside')
 
 
@@ -29,89 +29,35 @@
                 
                 @csrf
 
-                {{-- <div class="form-group">
-                    <input type="file" name="image" accept=".jpg, .jpeg, .png" value="{{ old('image') }}">
-                </div> --}}
-                {{-- @inpImage(['value' => old('image')]) --}}
-                {{-- <div class="form-group">
-                    <label for="images">images</label>
-                    <input type="file" name="images[]" multiple>
-                </div> --}}
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
 
+                @input(['name' => 'name', 'label' => __('name'), 'value' => old('name'), 'required' => 'required'])
 
-                {{-- <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Name Product" value="{{ old('name') }}" required>
-                </div> --}}
-                {{-- @inpName(['value' => old('name')]) --}}
-                @input(['name' => 'name', 'value' => old('name'), 'required' => 'required'])
-
-                {{-- <div class="form-group">
-                    <label for="manufacturer">manufacturer</label>
-                    <input type="text" id="manufacturer" name="manufacturer" class="form-control" placeholder="manufacturer" value="{{ old('manufacturer') }}">
-                </div> --}}
-                {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer')]) !!! manufacturer_id --}}
-
-                {{-- <div class="form-group">
-                    <label for="materials">materials</label>
-                    <input type="text" id="materials" name="materials" class="form-control" placeholder="materials" value="{{ old('materials') }}">
-                </div> --}}
-                <div class="form-group">
-                    <label for="manufacturer_id">manufacturer</label>
-                    <select name="manufacturer_id" id="manufacturer_id">
-                    <?php
-                        foreach ( $manufacturers as $manufacturer ) {
-                            echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
-                        }
-                    ?>
-                    </select>
+                {{-- manufacturer, materials, date_manufactured, price --}}
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="manufacturer_id">{{ __('manufacturer') }}</label><br>
+                            <select name="manufacturer_id" id="manufacturer_id">
+                            <?php
+                                foreach ( $manufacturers as $manufacturer ) {
+                                    echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
+                                }
+                            ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'materials', 'label' => __('materials'), 'value' => old('materials')])
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'date_manufactured', 'label' => __('date_manufactured'), 'type' => 'date', 'value' => old('date_manufactured')])
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'price', 'type' => 'number', 'label' => __('price'), 'value' => old('price')])
+                    </div>
                 </div>
-
-                @input(['name' => 'materials', 'value' => old('materials')])
-
-                {{-- <div class="form-group">
-                    <label for="year_manufacture">year_manufacture</label>
-                    <input type="number" id="year_manufacture" name="year_manufacture" class="form-control"  placeholder="year_manufacture" value="{{ old('year_manufacture') }}">
-                </div> --}}
-                @input(['name' => 'year_manufacture', 'type' => 'number', 'value' => old('year_manufacture')])
-
-                {{-- <div class="form-group">
-                    <label for="price">price</label>
-                    <input type="number" id="price" name="price" class="form-control" placeholder="price" value="{{ old('price') }}">
-                </div> --}}
-                @input(['name' => 'price', 'type' => 'number', 'value' => old('price')])
-
-                {{-- <div class="form-group">
-                    <label for="description">visible product</label>
-                    <select name="visible" id="visible">
-                        <option value="1" selected>visible</option>
-                        <option value="0">invisible</option>
-                    </select>
-                </div> --}}
-                @select(['name' => 'visible', 'options' => [['value' => '1', 'title' => 'visible'], ['value' => '0', 'title' => 'invisible']]])
-
-
-                {{-- parent category --}}
-                <div class="form-group">
-                    <label for="description">parent category</label>
-                    <select name="category_id" id="category_id">
-                        @foreach ( $categories as $category )
-                            @if ( $category->id == 1 )
-                            @elseif ( $category->countChildren() )
-                                @foreach ( $categories as $subcategory )
-                                    @if ( $subcategory->parent_id == $category->id )
-                                        <option value="{{ $subcategory->id }}">{{ $subcategory->parent->title }} > {{ $subcategory->title }}</option>
-                                    @endif
-                                @endforeach
-                            @elseif ( !$category->countProducts() )
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                {{-- /parent category --}}
-
+                {{-- manufacturer, materials, date_manufactured, price --}}
 
                 {{-- description --}}
                 {{ old('description') }}
@@ -154,10 +100,55 @@
                 @else
                     @textarea(['name' => 'workingconditions', 'label' => 'Условия работы (обычный режим)',  'value' => old('workingconditions')])
                 @endif
-                {{-- /workingconditions --}}                  
+                {{-- /workingconditions --}}
 
 
-                <button type="submit" class="btn btn-primary form-control">Create new product!</button>
+                <div class="row">
+                    {{-- sort_order --}}
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="sort_order">{{ __('sort_order') }}</label>
+                            <select name="sort_order" id="sort_order">
+                                @for ( $i = 0; $i < 10; $i++ )
+                                    @if ( 5 == $i )
+                                        <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    {{-- sort_order --}}
+
+                    {{-- parent category --}}
+                    <div class="col-12 col-md-7">
+                        <div class="form-group">
+                            <label for="description">{{ __('category') }}</label>
+                            <select name="category_id" id="category_id">
+                                @foreach ( $categories as $category )
+                                    @if ( $category->countProducts() )
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->parent->name }} > {{ $category->title }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    {{-- /parent category --}}
+
+                    {{-- visible --}}
+                    <div class="form-group col-12 col-md-2">
+                        <div class="right_stylized_checkbox">
+                            <input type="checkbox" id="visible" name="visible" checked>
+                            <label for="visible">{{ __('visible') }}</label>
+                        </div>
+                    </div>
+                    {{-- /visible --}}
+                </div>
+
+                <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
 
             </form>
         </div>

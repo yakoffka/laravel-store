@@ -29,7 +29,7 @@
 
     {{-- <td>{{ $product->materials }}</td> --}}
     {{-- <td>{{ $product->description }}</td> --}}
-    {{-- <td class="ta_c">{{ $product->year_manufacture }}</td> --}}
+    {{-- <td class="ta_c">{{ $product->date_manufactured }}</td> --}}
     <td>{{ $product->price }}</td>
     {{-- <td class="ta_c">{{ $product->added_by_user_id }}</td> --}}
     {{-- <td class="ta_c">{{ $product->created_at }}</td>

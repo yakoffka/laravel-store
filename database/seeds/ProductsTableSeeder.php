@@ -46,7 +46,7 @@ class ProductsTableSeeder extends Seeder
 
             $manufacturer = $manufacturers->random();
             $category = $arr_categories[array_rand($arr_categories)];
-            $name = $category['title']
+            $name = $category['name']
                 . ' '
                 .  $manufacturer->title
                 . ' '
@@ -67,8 +67,8 @@ class ProductsTableSeeder extends Seeder
                 'materials' => $materials,
                 'description' => $description,
                 'modification' => $modification,
-                'year_manufacture' => '2018',
-                'price' => rand(20000,32000),
+                'date_manufactured' => date('Y-m-d'),
+                'price' => rand(1000,35000),
                 'added_by_user_id' => 2,
                 'views' => 0,
                 'created_at' => date('Y-m-d H:i:s'),

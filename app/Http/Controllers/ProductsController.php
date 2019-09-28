@@ -149,22 +149,22 @@ class ProductsController extends Controller
      */
     public function store(Product $product)
     {
+        // dd(request()->all());
         abort_if ( auth()->user()->cannot('create_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
-            'name' => 'required|max:255|unique:products,name',
-            'manufacturer_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'visible' => 'required|boolean',
-            'materials' => 'nullable|string',
-            'description' => 'nullable|string',
-            'modification' => 'nullable|string',
+            'name'              => 'required|max:255|unique:products,name',
+            'manufacturer_id'   => 'required|integer',
+            'category_id'       => 'required|integer',
+            'visible'           => 'nullable|string|in:on',
+            'materials'         => 'nullable|string',
+            'description'       => 'nullable|string',
+            'modification'      => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            // 'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
-            'imagespath'     => 'nullable|string',
-            'year_manufacture' => 'nullable|integer',
-            'price' => 'nullable|integer',
-            'copy_img' => 'nullable|integer',
+            'imagespath'        => 'nullable|string',
+            'date_manufactured' => 'nullable|string|min:10|max:10',
+            'price'             => 'nullable|integer',
+            'copy_img'          => 'nullable|integer',
         ]);
         
         if ($validator->fails()) {
@@ -188,12 +188,12 @@ class ProductsController extends Controller
             'slug' => Str::slug(request('name'), '-'),
             'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
-            'visible' => request('visible'),
+            'visible' => request('visible') ? 1 : 0,
             'materials' => request('materials') ?? '',
             'description' => request('description') ?? '',
             'modification' => $modification,
             'workingconditions' => request('workingconditions') ?? '',
-            'year_manufacture' => request('year_manufacture') ?? 0,
+            'date_manufactured' => request('date_manufactured') ?? '',
             'price' => request('price') ?? 0,
             'added_by_user_id' => auth()->user()->id,
             'views' => 0,
@@ -359,18 +359,17 @@ class ProductsController extends Controller
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
         $validator = Validator::make(request()->all(), [
-            'name' => 'required|max:255',
-            'manufacturer_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'visible' => 'required|boolean',
-            'materials' => 'nullable|string',
-            'description' => 'nullable|string',
-            'modification' => 'nullable|string',
+            'name'              => 'required|max:255',
+            'manufacturer_id'   => 'required|integer',
+            'category_id'       => 'required|integer',
+            'visible'           => 'nullable|string|in:on',
+            'materials'         => 'nullable|string',
+            'description'       => 'nullable|string',
+            'modification'      => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            // 'images.*' => 'bail|image|mimetypes:image/png,image/jpeg,image/bmp',
-            'imagespath'     => 'nullable|string',
-            'year_manufacture' => 'nullable|integer',
-            'price' => 'nullable|integer',
+            'imagespath'        => 'nullable|string',
+            'date_manufactured' => 'nullable|string|min:10|max:10',
+            'price'             => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -394,12 +393,12 @@ class ProductsController extends Controller
             'slug' => Str::slug(request('name'), '-'),
             'manufacturer_id' => request('manufacturer_id'),
             'category_id' => request('category_id'),
-            'visible' => request('visible'),
+            'visible' => request('visible') ? 1 : 0,
             'materials' => request('materials'),
             'description' => request('description'),
             'modification' => $modification,
             'workingconditions' => request('workingconditions') ?? '',
-            'year_manufacture' => request('year_manufacture'),
+            'date_manufactured' => request('date_manufactured') ?? '',
             'price' => request('price'),
             'edited_by_user_id' => auth()->user()->id,
         ]);

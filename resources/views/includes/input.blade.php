@@ -1,11 +1,11 @@
 <div class="form-group">
-    <label for="{{ $name }}">{{ $label ?? $name }}</label>
+    <label for="{{ $name }}">{{ $label ?? $name }} {{ !empty($required) ? '*' : '' }}</label>
     <input 
         type="{{ $type ?? 'text' }}" 
         id="{{ $name }}" 
         name="{{ $name }}" 
         class="form-control" 
-        placeholder="{{ $name }}" 
+        placeholder="{{ $label ?? $name }}" 
         value="{{ $value }}" 
         {{ $required ?? '' }}
         {{-- {{ $min ? 'min="' . $min . '"' : '' }}{{ $max ? 'max="' . $max . '"' : '' }} --}}

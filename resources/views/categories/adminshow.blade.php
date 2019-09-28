@@ -97,7 +97,7 @@
                         <th width="30" class="verticalTableHeader ta_c">изображений</th>
                         {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
                         {{-- <th>description</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">year_manufacture</th> --}}
+                        {{-- <th class="verticalTableHeader ta_c">date_manufactured</th> --}}
                         <th>price</th>
                         {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}

@@ -77,7 +77,7 @@
 
                 @input(['name' => 'materials', 'value' => old('materials') ?? $product->materials])
 
-                @input(['name' => 'year_manufacture', 'type' => 'number', 'value' => old('year_manufacture') ?? $product->year_manufacture])
+                @input(['name' => 'date_manufactured', 'type' => 'number', 'value' => old('date_manufactured') ?? $product->date_manufactured])
 
                 @input(['name' => 'price', 'type' => 'number', 'value' => old('price') ?? $product->price])
 

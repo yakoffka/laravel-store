@@ -12,7 +12,7 @@ class AccessFilter extends FilterAbstract
     //     'category_id'
     //     'visible'
     //     'materials'
-    //     'year_manufacture'
+    //     'date_manufactured'
     //     'price'
     //     'added_by_user_id'
     //     'edited_by_user_id'

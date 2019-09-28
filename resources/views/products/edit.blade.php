@@ -16,7 +16,7 @@
     </div>
 
 
-    <h1>Edit product '{{ $product->name }}'</h1>
+    <h1>Редактирование товара '{{ $product->name }}'</h1>
 
 
     <div class="row">
@@ -34,23 +34,39 @@
 
                 @method('PATCH')
 
-                {{-- @if($product->image)
-                    <div class="card-img-top b_image col-sm-4" style="background-image: url({{ asset('storage') }}/images/products/{{$product->id}}/{{$product->image}}_l{{ config('imageyo.res_ext') }});">
-                        <div class="dummy"></div><div class="element"></div>
-                    </div>
-                @else
-                @endif --}}
-
-                {{-- @inpImage(['value' => old('image')]) --}}
-                {{-- <div class="form-group">
-                    <label for="images">Добавить изображения:</label><br>
-                    <input type="file" name="images[]" multiple>
-                </div> --}}
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
-
 
                 @input(['name' => 'name', 'value' => old('name') ?? $product->name, 'required' => 'required'])
 
+                {{-- manufacturer, materials, date_manufactured, price --}}
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="manufacturer_id">{{ __('manufacturer') }}</label><br>
+                            <select name="manufacturer_id" id="manufacturer_id">
+                            <?php
+                                foreach ( $manufacturers as $manufacturer ) {
+                                    if ( $product->manufacturer_id == $manufacturer->id ) {
+                                        echo '<option value="' . $manufacturer->id . '" selected>' . $manufacturer->title . '</option>';
+                                    } else {
+                                        echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
+                                    }
+                                }
+                            ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'materials', 'label' => __('materials'), 'value' => old('materials') ?? $product->materials])
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'date_manufactured', 'label' => __('date_manufactured'), 'type' => 'date', 'value' => old('date_manufactured') ?? $product->date_manufactured])
+                    </div>
+                    <div class="col-12 col-md-3">
+                        @input(['name' => 'price', 'type' => 'number', 'label' => __('price'), 'value' => old('price') ?? $product->price])
+                    </div>
+                </div>
+                {{-- manufacturer, materials, date_manufactured, price --}}
 
                 {{-- description --}}
                 @if ( config('settings.description_wysiwyg') == 'ckeditor' )
@@ -93,75 +109,63 @@
                 {{-- /workingconditions --}}                  
 
 
-                {{-- @input(['name' => 'manufacturer', 'value' => old('manufacturer') ?? $product->manufacturer->title ?? '-']) --}}
-                <div class="form-group">
-                    <label for="manufacturer_id">manufacturer</label>
-                    <select name="manufacturer_id" id="manufacturer_id">
-                    <?php
-                        foreach ( $manufacturers as $manufacturer ) {
-                            if ( $product->manufacturer_id == $manufacturer->id ) {
-                                echo '<option value="' . $manufacturer->id . '" selected>' . $manufacturer->title . '</option>';
-                            } else {
-                                echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
-                            }
-                        }
-                    ?>
-                    </select>
-                </div>
+                <div class="row">
+                    {{-- sort_order --}}
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="sort_order">{{ __('sort_order') }}</label>
+                            <select name="sort_order" id="sort_order">
+                                @for ( $i = 0; $i < 10; $i++ )
+                                    @if ( $product->sort_order == $i )
+                                        <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    {{-- sort_order --}}
 
-                @input(['name' => 'materials', 'value' => old('materials') ?? $product->materials])
-
-                @input(['name' => 'year_manufacture', 'type' => 'number', 'value' => old('year_manufacture') ?? $product->year_manufacture])
-
-                @input(['name' => 'price', 'type' => 'number', 'value' => old('price') ?? $product->price])
-
-                <div class="form-group">
-                    <label for="visible">visible product</label>
-                    <select name="visible" id="visible">
-                        <?php
-                            if ( $product->visible ) {
-                                echo '<option value="1" selected>visible</option><option value="0">invisible</option>';
-                            } else {
-                                echo '<option value="1">visible</option><option value="0" selected>invisible</option>';
-                            }
-                        ?>
-                    </select>
-                </div>
-
-
-                {{-- parent category --}}
-                <div class="form-group">
-                    <label for="description">parent category</label>
-                    <select name="category_id" id="category_id">
-                        @foreach ( $categories as $category )
-                            @if ( $category->id == 1 )
-                            @elseif ( $category->countChildren() )
-                                @foreach ( $categories as $subcategory )
-                                    @if ( $subcategory->parent_id == $category->id )
-                                        <option 
-                                            value="{{ $subcategory->id }}"
-                                            {{ $subcategory->id == $product->category_id ? ' selected' : ''}}
+                    {{-- parent category --}}
+                    <div class="col-12 col-md-7">
+                        <div class="form-group">
+                            <label for="description">{{ __('category') }}</label>
+                            <select name="category_id" id="category_id">
+                                @foreach ( $categories as $category )
+                                    @if ( $category->countProducts() )
+                                        <option value="{{ $category->id }}"
+                                            @if ( $product->category_id == $category->id )
+                                                selected
+                                            @endif
                                         >
-                                            {{ $subcategory->parent->title }} > {{ $subcategory->title }}
+                                            {{ $category->parent->name }} > {{ $category->title }}
                                         </option>
                                     @endif
                                 @endforeach
-                            @elseif ( !$category->countProducts() )
-                                <option 
-                                    value="{{ $category->id }}"
-                                    {{ $category->id == $product->category_id ? ' selected' : ''}}
-                                    >{{ $category->title }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                            </select>
+                        </div>
+                    </div>
+                    {{-- /parent category --}}
+
+                    {{-- visible --}}
+                    <div class="form-group col-12 col-md-2">
+                        <div class="right_stylized_checkbox">
+                            <input type="checkbox" id="visible" name="visible"
+                                @if ( $product->visible )
+                                    checked
+                                @endif
+                            >
+                            <label for="visible">{{ __('visible') }}</label>
+                        </div>
+                    </div>
+                    {{-- /visible --}}
                 </div>
-                {{-- /parent category --}}
 
                 
-                <button type="submit" class="btn btn-primary form-control">edit product!</button>
+                <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
 
             </form>
         </div>
     </div>
-{{-- </div> --}}
 @endsection

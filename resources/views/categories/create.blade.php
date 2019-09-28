@@ -106,7 +106,7 @@
                     {{-- /parent category --}}
 
                     {{-- visible --}}
-                    <div class="form-group right_stylized_checkbox">
+                    <div class="form-group right_stylized_checkbox col-12 col-md-4">
                         <input type="checkbox" id="visible" name="visible" checked>
                         <label for="visible">{{ __('visible') }}</label>
                     </div>

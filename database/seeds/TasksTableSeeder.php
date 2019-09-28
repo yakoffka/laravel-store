@@ -64,7 +64,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить сортировку категорий',
                 'description' => 'Добавить поле в модель категорий.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -474,7 +474,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить групповые действия с товарами',
                 'description' => 'Добавить групповые действия с товарами.',
-                'tasksstatus_id' => 3,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
                 'comment_slave' => 'верстка сделана. доделать реализацию на backend.',
             ],

@@ -16,7 +16,7 @@ class ProductFilters extends FiltersAbstract
         'categories' => CategoryFilter::class,
         // 'category_id'
         // 'materials'
-        // 'year_manufacture'
+        // 'date_manufactured'
         // 'price'
         // 'added_by_user_id'
         // 'edited_by_user_id'

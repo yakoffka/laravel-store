@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('slug')->unique();
+            $table->unsignedInteger('sort_order')->default(5);
             $table->unsignedInteger('manufacturer_id')->nullable();
             $table->unsignedInteger('category_id');
             $table->boolean('visible')->default(true);
@@ -24,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->text('modification')->nullable();                   // modification table
             $table->text('workingconditions')->nullable();
-            $table->integer('year_manufacture')->nullable();
+            $table->string('date_manufactured', 10)->nullable();
             $table->float('price', 8, 2)->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
