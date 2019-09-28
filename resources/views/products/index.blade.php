@@ -228,11 +228,14 @@
                 @endforeach
 
                 <!-- pagination block -->
-                {{-- @if($products->links())
-                    <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
-                @endif --}}
-                @if($products->appends($appends)->links())
-                    <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+                @if ( empty($appends) )
+                    @if($products->links())
+                        <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+                    @endif
+                @else
+                    @if($products->appends($appends)->links())
+                        <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+                    @endif
                 @endif
 
 

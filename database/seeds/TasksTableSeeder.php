@@ -48,6 +48,27 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'Поправить description в фильтрах товаров',
+                'description' => 'Поправить description в фильтрах товаров.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Проверить вывод истории',
+                'description' => 'Проверить вывод истории для различных категорий. Добавить события для занесения в историю.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Добавить сортировку категорий',
+                'description' => 'Добавить поле в модель категорий.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
                 'title' => 'Реализовать управление производителями',
                 'description' => 'добавить контроллер и виды.',
                 'tasksstatus_id' => 1,
@@ -110,8 +131,6 @@ class TasksTableSeeder extends Seeder
                 'taskspriority_id' => 4,
                 'comment_slave' => 'Решено добавлением в модель Product аксессора getShortDescriptionAttribute. upd: Переделано. Результаты поиска выведены в productions.index. Аксессор пригодится в видах отображения товаров (сетка, список или таблица).'
             ],
-
-            // add getShortDescriptionAttribute accessor for product model; transferring the output of search results to productions.index
 
             // [
             //     'title' => 'Продумать модальную форму',

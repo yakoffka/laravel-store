@@ -141,7 +141,7 @@ class CategoriesTableSeeder extends Seeder
             DB::table('categories')->insert([
                 'name' => $category['name'],
                 'slug' => $category['slug'] ?? Str::slug($category['name'], '-'),
-                'sort_order' => $category['parent_id'] ? 0 : $key++,
+                'sort_order' => 5,
                 'title' => $category['title'] ?? ucwords($category['name']),
                 'description' => 'Description ' . ucwords($category['name']),
                 'visible' => true,

@@ -13,7 +13,8 @@ class CategoryController extends Controller
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);
     }
-    
+
+
     /**
      * Display a listing of the resource (parent categories). 
      *
@@ -21,33 +22,37 @@ class CategoryController extends Controller
      */
     public function index() {
 
-        // get appends?
-        $appends = [];
-
         // show subcategories and products only directly from catalog
         if ( config('settings.display_subcategories') ) {
 
-            $categories = Category::all()->where('parent_id', '=', 1)->where('id', '>', 1);
+            $categories = Category::all()
+                ->where('parent_id', '=', 1)
+                ->where('id', '>', 1)
+                ->sortBy('sort_order');
             // dd($categories);
 
-            $products = Product::all()->where('category_id', 1);
+            $products = Product::all()
+                ->where('category_id', 1);
+                // ->sortBy('sort_order');
             // dd($products);
 
-            return view('categories.index', compact('categories', 'products', 'appends'));
+            return view('categories.index', compact('categories', 'products'));
 
-        // show products in this category, including subcategory products
+        // show products in this category
         } else {
 
             // get products
             if( Auth::user() and  Auth::user()->can(['view_products'])) {
+                // $products = Product::sortBy('sort_order')->paginate();
                 $products = Product::paginate();
             } else {
+                // $products = Product::sortBy('sort_order')->where('visible', '=', 1)->paginate();
                 $products = Product::where('visible', '=', 1)->paginate();
             }
 
             $category = Category::find(1);
 
-            return view('products.index', compact('products', 'category', 'appends'));
+            return view('products.index', compact('products', 'category'));
         }
     }
     
@@ -79,7 +84,7 @@ class CategoryController extends Controller
             'title'         => 'required|string|max:255',
             'description'   => 'nullable|string|max:255',
             'imagepath'     => 'nullable|string',
-            'visible'       => 'required|boolean',
+            'visible'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
@@ -88,24 +93,11 @@ class CategoryController extends Controller
             'slug'            => Str::slug(request('name'), '-'),
             'title'           => request('title'),
             'description'     => request('description'),
-            'visible'         => request('visible'),
+            'visible'           => request('visible') ? 1 : 0,
             'parent_id'       => request('parent_id'),
             'added_by_user_id'=> Auth::user()->id,
         ]);
 
-        // if ( request()->file('image') ) {
-
-        //     $image = request()->file('image');
-        //     $directory = 'public/images/categories/' . $category->id;
-        //     $filename = $image->getClientOriginalName();
-    
-        //     if ( !Storage::makeDirectory($directory)
-        //         or !Storage::putFileAs($directory, $image, $filename )
-        //         or !$category->update(['image' => $filename])
-        //     ) {
-        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
-        //     }
-        // }
         if ( request('imagepath') ) {
             if ( !$this->attachImage($category, request('imagepath')) ) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
@@ -142,35 +134,17 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
-        
-        // // get all product in all subcategory this category
-        // $arr_children = $this->getAllChildren([$category->id], $category);
-        // if( Auth::user() and  Auth::user()->can(['view_products'])) {
-        //     $products = Product::whereIn('category_id', $arr_children)->paginate();
-        // } else {
-        //     $products = Product::whereIn('category_id', $arr_children)->where('visible', '=', 1)->paginate();
-        // }
-        
-        // // get appends
-        // $appends = [];
-                
-        // return view('products.index', compact('products', 'category', 'appends'));
 
-
-
-        // get appends?
-        $appends = [];
-
-        // show subcategories and products only directly from this category
+        // show subcategories from this category
         if ( config('settings.display_subcategories') and $category->children->count() ) {
 
             // добавить перенаправление при $category->id == 1?
-            $categories = Category::all()->where('parent_id', $category->id);
+            $categories = Category::all()->where('parent_id', $category->id)->sortBy('sort_order');
             $products = Product::all()->where('category_id', $category->id);
-            return view('categories.index', compact('categories', 'category', 'products', 'appends'));
+            return view('categories.index', compact('categories', 'category', 'products'));
 
 
-        // show products in this category, including subcategory products
+        // show products in this category
         } else {
 
             // get products
@@ -180,9 +154,7 @@ class CategoryController extends Controller
                 $products = Product::where('visible', '=', 1)->where('category_id', $category->id)->paginate();
             }
 
-            //$category = Category::find(1);
-
-            return view('products.index', compact('products', 'category', 'appends'));
+            return view('products.index', compact('products', 'category'));
         }
     }
 
@@ -225,10 +197,11 @@ class CategoryController extends Controller
 
         $validator = request()->validate([
             'name'          => 'required|string|max:255',
+            'sort_order'    => 'required|string|max:1',
             'title'         => 'required|string|max:255',
             'description'   => 'nullable|string|max:255',
             'imagepath'     => 'nullable|string',
-            'visible'       => 'required|boolean',
+            'visible'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
@@ -236,24 +209,14 @@ class CategoryController extends Controller
         $category->update([
             'name'              => request('name'),
             'slug'              => Str::slug(request('name'), '-'),
+            'sort_order'        => request('sort_order'),
             'title'             => request('title'),
             'description'       => request('description'),
-            'visible'           => request('visible'),
+            'visible'           => request('visible') ? 1 : 0,
             'parent_id'         => request('parent_id'),
             'edited_by_user_id' => Auth::user()->id,
         ]);
 
-        // if ( request()->file('image') ) {
-        //     $image = request()->file('image');
-        //     $directory = 'public/images/categories/' . $category->id;
-        //     $filename = $image->getClientOriginalName();
-        //     if ( !Storage::makeDirectory($directory)
-        //         or !Storage::putFileAs($directory, $image, $filename )
-        //         or !$category->update(['image' => $filename])
-        //     ) {
-        //         return back()->withErrors(['something wrong. err' . __line__])->withInput();
-        //     }
-        // }
         if ( request('imagepath') ) {
             if ( !$this->attachImage($category, request('imagepath')) ) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
@@ -280,8 +243,8 @@ class CategoryController extends Controller
 
         session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully edit.');
 
-        // return redirect()->route('categories.show', ['category' => $category->id]);
-        return back();
+        return redirect()->route('categories.adminshow', ['category' => $category->id]);
+        // return back();
     }
 
     /**

@@ -35,7 +35,7 @@
                         <th>id</th>
                         <th>наименование</th>
                         <th width="30" class="verticalTableHeader ta_c">id род. категории</th>
-                        <th width="30" class="verticalTableHeader ta_c">sort order</th>
+                        <th width="30" class="verticalTableHeader ta_c">{{ __('sort_order') }}</th>
                         <th width="30" class="verticalTableHeader ta_c">видимость</th>
                         <th class="verticalTableHeader ta_c">изображение</th>
                         <th width="30" class="verticalTableHeader ta_c">кол. подкатегорий</th>

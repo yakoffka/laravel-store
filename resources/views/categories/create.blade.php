@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Creating new category')
+@section('title', "Создание категории")
 
 @section('content')
 
@@ -14,129 +14,108 @@
     </div>
 
 
-    <h1>Creating new category</h1>
+    <h1>Создание категории</h1>
 
 
     <div class="row">
 
-
+        
         @include('layouts.partials.aside')
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-
-            {{-- <div class="card"> --}}
-
-                {{-- <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
-                    @csrf
-
-                    <div class="form-group">
-                        <!-- <input type="file" id="image" name="image" accept="image/png, image/jpeg, jpg, pdf"> -->
-                        <input type="file" name="image" accept=".jpg, .jpeg, .png" value="{{ old('image') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="name">name</label> -->
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Name Category" value="{{ old('name') }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="manufacturer">manufacturer</label> -->
-                        <input type="text" id="manufacturer" name="manufacturer" class="form-control" placeholder="manufacturer" value="{{ old('manufacturer') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="materials">materials</label> -->
-                        <input type="text" id="materials" name="materials" class="form-control" placeholder="materials" value="{{ old('materials') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="type">category_id</label> -->
-                        <input type="text" id="category_id" name="category_id" class="form-control" placeholder="category_id" value="{{ old('category_id') }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="year_manufacture">year_manufacture</label> -->
-                        <input type="number" id="year_manufacture" name="year_manufacture" class="form-control"  placeholder="year_manufacture" value="{{ old('year_manufacture') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <!-- <label for="price">price</label> -->
-                        <input type="number" id="price" name="price" class="form-control" placeholder="price" value="{{ old('price') }}">
-                    </div>
-
-                    <!-- <input type="hidden" name="added_by_user_id" value=""> -->
-
-                    <div class="form-group">
-                        <!-- <label for="description">Add a comment</label> -->
-                        <textarea id="description" name="description" cols="30" rows="4" class="form-control" placeholder="description">{{ old('description') }}</textarea>                       
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Create new product!</button>
-
-                </form> --}}
                 
-                <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
-                    @csrf
+            <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                @csrf
 
-                    {{-- <div class="form-group">
-                        <input type="file" name="image" accept=".jpg, .jpeg, .png"
-                            value="{{ old('image') }}">
-                    </div> --}}
-                    {{-- Standalone Image Button --}}
-                    @lfmImageButton(['id' => 'lfm_category_create', 'name' => 'imagepath', 'value' => old('imagepath') ?? ''])
-                    {{-- Standalone Image Button --}}
-                    
-                    <div class="form-group">
-                        <label for="name">name</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Name Category"
-                            value="{{ old('name') }}" required>
+                {{-- image --}}
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
+                            <div class="dummy"></div><div class="element"></div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="title">title</label>
-                        <input type="text" id="title" name="title" class="form-control" placeholder="Title Category"
-                            value="{{ old('title') }}" required>
+                    <div class="col-sm-9">
+                        @lfmImageButton(['id' => 'lfm_category_new', 'name' => 'imagepath', 'value' => old('imagepath')])
                     </div>
+                </div>
+                {{-- /image --}}
+                
 
-                    <div class="form-group">
-                        <label for="description">description</label>
-                        <textarea id="description" name="description" cols="30" rows="4" class="form-control"
-                            placeholder="description">{{ old('description') }}</textarea>                       
+                <div class="row">
+                    {{-- name --}}
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="name">{{ __('name') }}</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
+                                value="{{ old('name') }}" required>
+                        </div>
                     </div>
-    
-                    <div class="form-group">
-                        <label for="visible">visible</label>
-                        <select name="visible" id="visible">
-                            <option value="1">visible</option>
-                            <option value="0">invisible</option>
-                        </select>
-                    </div>
+                    {{-- /name --}}
 
+                    {{-- title --}}
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="title">{{ __('title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="Name Product"
+                                value="{{ old('title') }}" required>
+                        </div>
+                    </div>
+                    {{-- /title --}}
+                </div>
+
+                <div class="form-group">
+                    <label for="description">{{ __('description') }}</label>
+                    <textarea id="description" name="description" cols="30" rows="4" class="form-control"
+                        placeholder="description">{{ old('description') }}</textarea>                       
+                </div>
+
+
+                <div class="row">
+                    {{-- sort_order --}}
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="sort_order">{{ __('sort_order') }}</label>
+                            <select name="sort_order" id="sort_order">
+                                @for ( $i = 0; $i < 10; $i++ )
+                                    @if ( 5 == $i )
+                                        <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    {{-- sort_order --}}
 
                     {{-- parent category --}}
-                    <div class="form-group">
-                        <label for="description">parent category</label>
-                        <select name="parent_id" id="parent_id">
-                            @foreach ( $categories as $parent_category )
-                                {{-- @if ( $parent_category->id == 1 ) --}}
-                                @if ( $parent_category->parent_id == 1 and !$parent_category->countProducts() )
-                                    <option 
-                                        value="{{ $parent_category->id }}"
-                                        {{-- {{ $parent_category->id == $category->parent_category ? ' selected' : ''}} --}}
-                                        >{!! $parent_category->id == 1 ? '' : '&nbsp;>&nbsp;' !!}{{ $parent_category->title }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                    <div class="col-12 col-md-5">
+                        <div class="form-group">
+                            <label for="description">{{ __('category') }}</label>
+                            <select name="parent_id" id="parent_id">
+                                @foreach ( $categories as $parent_category )
+                                    @if ( !$parent_category->countProducts() )
+                                        <option value="{{ $parent_category->id }}">{{ $parent_category->title }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     {{-- /parent category --}}
 
+                    {{-- visible --}}
+                    <div class="form-group right_stylized_checkbox">
+                        <input type="checkbox" id="visible" name="visible" checked>
+                        <label for="visible">{{ __('visible') }}</label>
+                    </div>
+                    {{-- /visible --}}
+                </div>
 
-                    <button type="submit" class="btn btn-primary">create category!</button>
+                <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
 
-                </form>
-
-            {{-- </div> --}}
+            </form>
         </div>
     </div>
 @endsection

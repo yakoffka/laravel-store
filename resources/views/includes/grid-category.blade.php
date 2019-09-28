@@ -28,7 +28,7 @@
             </div>
         </a>
 
-        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }}</a>
+        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }} {{ $category->sort_order }}</a>
         
     </div>
     

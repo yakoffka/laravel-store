@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Edit Category $category->title")
+@section('title', "Редактирование категории $category->title")
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>edit '{{ $category->title }}' category</h1>
+    <h1>Редактирование категории '{{ $category->title }}'</h1>
 
 
     <div class="row">
@@ -30,95 +30,114 @@
 
                 @method('PATCH')
 
-
-
-
+                {{-- image --}}
                 @if($category->image)                    
-
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
                                 <div class="dummy"></div><div class="element"></div>
                             </div>
                         </div>
 
-                        <div class="col-sm-8">
-                            {{-- Standalone Image Button --}}
+                        <div class="col-sm-9">
                             @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
-                            {{-- Standalone Image Button --}}
                         </div>
                     </div>
-
                 @else
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card-img-top b_image" style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
+                                <div class="dummy"></div><div class="element"></div>
+                            </div>
+                        </div>
 
-                    {{-- Standalone Image Button --}}
-                    @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
-                    {{-- Standalone Image Button --}}
-
-                    <div class="col-sm-12">
-                    {{-- <div class="form-group"> add image
-                        <input type="file" name="image" accept=".jpg, .jpeg, .png"
-                            value="{{ old('image') }}">
-                    </div> --}}
-
+                        <div class="col-sm-9">
+                            @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
+                        </div>
+                    </div>
                 @endif
+                {{-- /image --}}
                 
 
-                <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
-                        value="{{ old('name') ?? $category->name }}" required>
+                <div class="row">
+                    {{-- name --}}
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="name">{{ __('name') }}</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
+                                value="{{ old('name') ?? $category->name }}" required>
+                        </div>
+                    </div>
+                    {{-- /name --}}
+
+                    {{-- title --}}
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="title">{{ __('title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="Name Product"
+                                value="{{ old('title') ?? $category->title }}" required>
+                        </div>
+                    </div>
+                    {{-- /title --}}
                 </div>
 
                 <div class="form-group">
-                    <label for="title">title</label>
-                    <input type="text" id="title" name="title" class="form-control" placeholder="Name Product"
-                        value="{{ old('title') ?? $category->title }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">description</label>
+                    <label for="description">{{ __('description') }}</label>
                     <textarea id="description" name="description" cols="30" rows="4" class="form-control"
                         placeholder="description">{{ old('description') ?? $category->description }}</textarea>                       
                 </div>
 
-                {{-- ??? --}}
-                <div class="form-group">
-                    <label for="visible">visible</label>
-                    <select name="visible" id="visible">
-                        <?php
-                            if ( $category->visible ) {
-                                echo '<option value="1" selected>visible category</option><option value="0">invisible</option>';
-                            } else {
-                                echo '<option value="1">visible</option><option value="0" selected>invisible</option>';
-                            }
-                        ?>
-                    </select>
-                </div>
 
+                <div class="row">
+                    {{-- sort_order --}}
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="sort_order">{{ __('sort_order') }}</label>
+                            <select name="sort_order" id="sort_order">
+                                @for ( $i = 0; $i < 10; $i++ )
+                                    @if ( $category->sort_order == $i )
+                                        <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    {{-- sort_order --}}
 
-                {{-- parent category --}}
-                <div class="form-group">
-                    <label for="description">parent category</label>
-                    <select name="parent_id" id="parent_id">
-                        @foreach ( $categories as $parent_category )
-                            {{-- @if ( $parent_category->id == 1 )
-                            @elseif ( !$parent_category->countProducts() ) --}}
-                            @if ( !$parent_category->countProducts() )
-                                <option 
-                                    value="{{ $parent_category->id }}"
-                                    {{ $parent_category->id == $category->parent_id ? ' selected' : ''}}
-                                    >{{ $parent_category->title }}</option>
+                    {{-- parent category --}}
+                    <div class="col-12 col-md-5">
+                        <div class="form-group">
+                            <label for="description">{{ __('category') }}</label>
+                            <select name="parent_id" id="parent_id">
+                                @foreach ( $categories as $parent_category )
+                                    @if ( !$parent_category->countProducts() )
+                                        <option 
+                                            value="{{ $parent_category->id }}"
+                                            {{ $parent_category->id == $category->parent_id ? ' selected' : ''}}
+                                            >{{ $parent_category->title }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    {{-- /parent category --}}
+
+                    {{-- visible --}}
+                    <div class="form-group right_stylized_checkbox">
+                        <input type="checkbox" id="visible" name="visible"
+                            @if($category->visible)
+                                checked
                             @endif
-                        @endforeach
-                    </select>
+                        >
+                        <label for="visible">{{ __('visible') }}</label>
+                    </div>
+                    {{-- /visible --}}
                 </div>
-                {{-- /parent category --}}
 
+                <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
 
-                <button type="submit" class="btn btn-primary form-control">edit category!</button>
-
-            </div>
             </form>
         </div>
     </div>

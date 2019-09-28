@@ -5,8 +5,8 @@
 --}}
 <h3 class="blue">Добавить изображение</h3>
 <p>
-    Вы можете добавить изображение, размером не более {{ config('lfm.folder_categories.image.max_size') }}Kb.
-    Допустимые форматы:
+    Вы можете добавить изображение, размером не более {{ config('lfm.folder_categories.image.max_size') }}Kb.<br>
+    Допустимые форматы:<br>
     @foreach ( config('lfm.folder_categories.image.valid_mime') as $format )
         
         @if ($loop->last)
