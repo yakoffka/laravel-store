@@ -85,5 +85,36 @@ class Product extends Model
     {
         return Str::limit(strip_tags($this->description), 80);
     }
+    
+    /**
+     * Accessor возвращает видимость родительской категории товара
+     * in controller using snake-case: $category->parent_visible!!!
+     */
+    public function getCategoryVisibleAttribute()
+    {
+        return $this->belongsTo(Category::class, 'category_id')->get()->max('visible');
+    }
+    
+    /**
+     * Accessor возвращает видимость дедовской категории товара
+     * in controller using snake-case: $category->parent_visible!!!
+     */
+    public function getParentCategoryVisibleAttribute()
+    {
+        return $this->belongsTo(Category::class, 'category_id')->get()->max('parent_visible');
+    }
+
+
+    /**
+     * Increment number of views.
+     *
+     * @param  Product $product
+     * @return void
+     */
+    public function incrementViews() {
+        if ( !auth()->user() or auth()->user()->hasRole('user') ) {
+            $this->increment('views');
+        }
+    }
 
 }

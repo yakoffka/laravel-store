@@ -44,6 +44,6 @@ class Category extends Model
      */
     public function getParentVisibleAttribute()
     {
-        return $parent = $this->belongsTo(Category::class, 'parent_id')->get()->max('visible');
+        return $this->belongsTo(Category::class, 'parent_id')->get()->max('visible');
     }
 }

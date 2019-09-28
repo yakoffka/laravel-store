@@ -32,29 +32,18 @@ class ProductsController extends Controller
             $appends[$key] = $val;
         }
 
-        // // $view_products_whitout_price = Setting::all()->firstWhere('name', 'view_products_whitout_price');
-        // if ( auth()->user() and  auth()->user()->can(['view_products'])) {
-        //     $products = Product::filter($request, $this->getFilters())
-        //         ->latest()
-        //         ->paginate();
-
-        // // } elseif ( $view_products_whitout_price->value ) {
-        // } elseif ( config('settings.view_products_whitout_price') ) {
-        //     $products = Product::filter($request, $this->getFilters())
-        //         ->latest()->where('visible', '=', 1)
-        //         ->paginate();
-
-        // } else {
-        //     $products = Product::filter($request, $this->getFilters())
-        //         ->latest()->where('visible', '=', 1)
-        //         ->where('price', '!=', 0)
-        //         ->paginate();
-        // }
         $products = Product::where('visible', '=', 1)
             ->orderBy('price')
             ->filter($request, $this->getFilters())
             // ->latest()
             ->paginate();
+        // $products = Product::where('visible', '=', 1)
+        //     ->orderBy('price')
+        //     ->filter($request, $this->getFilters())
+        //     ->get()
+        //     ->where('category_visible', '=', true) // getCategoryVisibleAttribute
+        //     // ->paginate() resolve issue: https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
+        //     ;
         return view('products.index', compact('products', 'appends'));
     }
 
@@ -92,11 +81,10 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        $product = Product::findOrFail($id);
-        if ( !auth()->user() or auth()->user()->hasRole('user') ) {
-            $product->increment('views');
-        }
+    public function show(Product $product) {
+        dd( $product->visible, $product->category_visible, $product->parent_category_visible);
+        abort_if( !$product->visible or !$product->category_visible or !$product->parent_category_visible, 404);
+        $product->incrementViews();
         return view('products.show', compact('product'));
     }
 
