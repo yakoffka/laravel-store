@@ -37,4 +37,13 @@ class Category extends Model
     {
         return $this->hasMany(Product::class)->count();
     }
+
+    /**
+     * Accessor
+     * in controller using snake-case: $category->parent_visible!!!
+     */
+    public function getParentVisibleAttribute()
+    {
+        return $parent = $this->belongsTo(Category::class, 'parent_id')->get()->max('visible');
+    }
 }

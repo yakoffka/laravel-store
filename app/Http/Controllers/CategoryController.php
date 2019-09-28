@@ -27,6 +27,8 @@ class CategoryController extends Controller
 
             $categories = Category::all()
                 ->where('parent_id', '=', 1)
+                ->where('visible', '=', true)
+                ->where('parent_visible', '=', true) // getParentVisibleAttribute
                 ->where('id', '>', 1)
                 ->sortBy('sort_order');
             // dd($categories);
@@ -134,12 +136,22 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
+        abort_if( !$category->visible or !$category->parent_visible, 404);
+
+        // перенаправление при $category->id == 1
+        if ( $category->id == 1 ) {
+            return redirect()->route('categories.index');
+        }
 
         // show subcategories from this category
         if ( config('settings.display_subcategories') and $category->children->count() ) {
 
-            // добавить перенаправление при $category->id == 1?
-            $categories = Category::all()->where('parent_id', $category->id)->sortBy('sort_order');
+            $categories = Category::all()
+                ->where('parent_id', $category->id)
+                ->where('visible', '=', true)
+                ->where('parent_visible', '=', true) // getParentVisibleAttribute
+                ->sortBy('sort_order');
+
             $products = Product::all()->where('category_id', $category->id);
             return view('categories.index', compact('categories', 'category', 'products'));
 

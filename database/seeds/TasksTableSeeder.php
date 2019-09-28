@@ -48,6 +48,13 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'Accessor getParentVisibleAttribute',
+                'description' => 'Попытаться улучшить метод getParentVisibleAttribute в модели Category.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
+
+            [
                 'title' => 'Поправить description в фильтрах товаров',
                 'description' => 'Поправить description в фильтрах товаров.',
                 'tasksstatus_id' => 1,
