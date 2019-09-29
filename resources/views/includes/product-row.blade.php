@@ -1,4 +1,4 @@
-<tr class="{{ $product->visible ? '' : 'gray'}}">
+<tr class="{{ (!$product->visible or !$product->depricated_parent_visible or !$product->depricated_grandparent_visible) ? 'gray' : ''}}">
     <td class="ta_c left_stylized_checkbox">
         <input 
             form="products_massupdate" 
@@ -31,9 +31,9 @@
         @endif
     </td>
 
-    {{-- depricated_grand_parent_category_visible --}}
+    {{-- depricated_grandparent_visible --}}
     <td class="ta_c" width="30px">
-        @if ( $product->depricated_grand_parent_category_visible )
+        @if ( $product->depricated_grandparent_visible )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>

@@ -1,5 +1,5 @@
 
-    <tr class="{{ !$category->visible ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
+    <tr class="{{ (!$category->visible or !$category->depricated_parent_visible) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
         <td class="ta_l{{ $category->parent_id == 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
         <td>{{ $category->parent->id ?? '-' }}</td>
@@ -54,7 +54,7 @@
             {{-- delete --}}
             @if ( $category->countProducts() or $category->countChildren() )
                 <button type="button" 
-                    class="btn btn-outline-second align-self-center" 
+                    class="btn btn-outline-secondary align-self-center" 
                     title="Категория {{ $category->name }} не может быть удалена, пока в ней находятся товары или подкатегории."
                 >
                     <i class="fas fa-trash"></i>
