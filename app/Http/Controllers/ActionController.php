@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Action, Product, User};
+use App\{Action, Product, User, Order};
 
 class ActionController extends Controller
 {
@@ -16,6 +16,27 @@ class ActionController extends Controller
 
     /**
      * Display a listing of the action all users.
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        abort_if ( auth()->user()->cannot('view_actions'), 403 );
+        $actions = Action::orderBy('created_at', 'desc')->paginate();
+        return view('actions.index', compact('actions'));
+    }
+    /**
+     * Display a listing of the action all users.
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Action $action)
+    {
+        abort_if ( auth()->user()->cannot('view_actions'), 403 );
+        return view('actions.show', compact('action'));
+    }
+
+
+    /**
+     * Display a listing of the action users (type === user).
      * @return \Illuminate\Http\Response
      */
     public function users()
@@ -35,7 +56,7 @@ class ActionController extends Controller
      */
     public function user(User $user)
     {
-        abort_if ( auth()->user()->cannot('view_users') or auth()->user()->id != $user->id, 403 );
+        abort_if ( auth()->user()->cannot('view_users') and auth()->user()->id != $user->id, 403 );
 
         $actions = Action::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
@@ -67,9 +88,9 @@ class ActionController extends Controller
      * @param  \App\order  $order
      * @return \Illuminate\Http\Response
      */
-    public function order(order $order)
+    public function order(Order $order)
     {
-        abort_if ( auth()->user()->cannot('view_orders') or auth()->user()->id != $order->user_id, 403 );
+        abort_if ( auth()->user()->cannot('view_orders') and auth()->user()->id != $order->user_id, 403 );
 
         $actions = Action::where('type', 'order')
             ->where('type_id', $order->id)
@@ -91,9 +112,11 @@ class ActionController extends Controller
      */
     public function products()
     {
+        dd('products');
         abort_if ( auth()->user()->cannot('view_products'), 403 );
 
-        $actions = Action::orderBy('created_at', 'desc')
+        $actions = Action::where('type', 'product')
+            ->orderBy('created_at', 'desc')
             ->paginate();
 
         return view('actions.products', compact('actions'));

@@ -48,37 +48,58 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'Поправить количество товаров в корзине',
+                'description' => 'Поправить количество товаров в корзине, отображаемое в шапке сайта.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Переадресация после редактирования',
+                'description' => 'После редактирования переадресовывать на админпросмотр списка вещи.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Permission в ProductController',
+                'description' => 'Расставить разрешения в ProductController.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Restore SoftDeleted users',
+                'description' => 'Restore SoftDeleted users.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 4,
+            ],
+
+            [
                 'title' => 'Accessor in filters',
                 'description' => 'Реализовать использование отношений в фильтрах.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Добавить виджеты',
                 'description' => 'Рассмотреть целесообразность применения пакета <a href="https://github.com/arrilot/laravel-widgets">arrilot/laravel-widgets</a>.',
                 'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [
                 'title' => 'Accessor getParentVisibleAttribute',
-                'description' => 'Попытаться улучшить метод getParentVisibleAttribute в модели Category.',
+                'description' => 'Попытаться улучшить метод getParentVisibleAttribute в модели Category (max(\'visible\')).',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Поправить description в фильтрах товаров',
-                'description' => 'Поправить description в фильтрах товаров.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
-            ],
-
-            [
                 'title' => 'Проверить вывод истории',
                 'description' => 'Проверить вывод истории для различных категорий. Добавить события для занесения в историю.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -169,7 +190,7 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Изменить обновление записи',
-                'description' => 'Делать изменение записи только при изменении.',
+                'description' => 'Делать изменение записи только при изменении. См. <a href="https://laravel.demiart.ru/10-skrytyh-fishek-laravel-eloquent/">п.п. 9, 10</a>',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
@@ -426,9 +447,9 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'SEO: title, description, keywords',
                 'description' => 'Продумать формирование title, description, keywords для товаров и категорий.',
-                'tasksstatus_id' => 2,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
-                'comment_slave' => 'добавлены тайтлы в товары и категории.',
+                'comment_slave' => 'добавлены тайтлы и дескрипшны в товары и категории (включая поиск и фильтры).',
             ],
 
             [

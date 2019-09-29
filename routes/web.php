@@ -145,13 +145,16 @@ Route::get('search', 'ProductsController@search')->name('search');
         Route::get('actions/products', 'ActionController@products')->name('actions.products');
         Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
         // users actions
-        Route::get('actions/users', 'ActionController@users')->name('actions.users');
+        // Route::get('actions/users', 'ActionController@users')->name('actions.users');
         Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
         // registrations actions
         Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
         // settings actions
         Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
         // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
+        // all 
+        Route::get('actions', 'ActionController@index')->name('actions.index');
+        Route::get('actions/{action}', 'ActionController@show')->name('actions.show');
 
 
     // Tasks and Directive

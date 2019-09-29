@@ -127,7 +127,7 @@ Breadcrumbs::for('orders.index', function ($trail) {
 Breadcrumbs::for('orders.show', function ($trail, $order) {
     $trail->parent('orders.index');
     // $trail->push('Order #' . $order->id);
-    $trail->push('Заказ #' . $order->id);
+    $trail->push('Заказ #' . $order->id, route('orders.show', $order));
 });
 
 
@@ -266,10 +266,10 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
         // $trail->push('Actions orders', route('actions.orders'));
         $trail->push('История заказов', route('actions.orders'));
     });
-    // Home > Catalog > orders > [order] > Actions
+    // Home > Catalog > Orders > [Order] > Actions
     Breadcrumbs::for('actions.order', function ($trail, $order) {
         $trail->parent('orders.show', $order);
-        $trail->push($order->name, route('actions.order', $order));
+        $trail->push('History', route('actions.order', $order));
     });
 
 
