@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Arr;
 use Str;
 use App\{Action, Category, Image, Manufacturer, Product};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
@@ -26,25 +27,48 @@ class ProductsController extends Controller
      */
     public function index(Request $request) {
 
+        // this method only for filters!
+        if ( !$request->query->count() ){
+            return redirect()->route('categories.index');
+        }
+
         // save query string for pagination
         $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
         }
 
-        $products = Product::where('visible', '=', 1)
-            ->orderBy('price')
-            ->filter($request, $this->getFilters())
-            // ->latest()
-            ->paginate();
+        // // inject parameter in $request query
+        // $request->merge(['key' => 'value']);
+        // dd($request->query);
+
+
+        // original
+        // $products = Product::where('visible', '=', 1)
+        //     ->orderBy('price')
+        //     ->filter($request, $this->getFilters())
+        //     ->paginate();
+
+        // Method Illuminate\Database\Eloquent\Collection::paginate does not exist.
+        // resolve issue: https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
         // $products = Product::where('visible', '=', 1)
         //     ->orderBy('price')
         //     ->filter($request, $this->getFilters())
         //     ->get()
         //     ->where('category_visible', '=', true) // getCategoryVisibleAttribute
-        //     // ->paginate() resolve issue: https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
+        //     ->paginate()
         //     ;
+
+        $products = Product::where('visible', '=', 1)
+            ->orderBy('price')
+            ->filter($request, $this->getFilters())
+            // ->where('category_visible', '=', true) // getCategoryVisibleAttribute
+            ->paginate()
+            ;
+
         return view('products.index', compact('products', 'appends'));
+
+        // return redirect()->route('categories.index');
     }
 
     protected function getFilters() 
@@ -82,7 +106,6 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product) {
-        dd( $product->visible, $product->category_visible, $product->parent_category_visible);
         abort_if( !$product->visible or !$product->category_visible or !$product->parent_category_visible, 404);
         $product->incrementViews();
         return view('products.show', compact('product'));

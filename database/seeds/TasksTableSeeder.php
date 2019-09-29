@@ -41,11 +41,25 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
 
             // [
+            //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
+
+            // [
             //     'title' => '',
             //     'description' => '.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
+
+            [
+                'title' => 'Добавить виджеты',
+                'description' => 'Рассмотреть целесообразность применения пакета <a href="https://github.com/arrilot/laravel-widgets">arrilot/laravel-widgets</a>.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'Accessor getParentVisibleAttribute',
