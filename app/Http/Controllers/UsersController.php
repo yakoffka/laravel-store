@@ -144,7 +144,7 @@ class UsersController extends Controller
             'user_id' => auth()->user()->id,
             'type' => 'user',
             'type_id' => $user->id,
-            'action' => 'edit',
+            'action' => 'update',
             'description' => 
                 'Редактирование пользователя ' 
                 . $user->name
