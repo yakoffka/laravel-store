@@ -60,6 +60,8 @@ class ProductsController extends Controller
         //     ;
 
         $products = Product::where('visible', '=', 1)
+            ->where('depricated_grandparent_visible', '=', 1)
+            ->where('depricated_parent_visible', '=', 1)
             ->orderBy('price')
             ->filter($request, $this->getFilters())
             // ->where('category_visible', '=', true) // getCategoryVisibleAttribute

@@ -5,9 +5,18 @@
         <td>{{ $category->parent->id ?? '-' }}</td>
         <td>{{ $category->sort_order }}</td>
 
-        {{-- <td>{{ $category->visible }}</td> --}}
+        {{-- visible --}}
         <td>
             @if ( $category->visible )
+                <i class="far fa-eye"></i>
+            @else
+                <i class="far fa-eye-slash"></i>
+            @endif
+        </td>
+
+        {{-- depricated_parent_visible --}}
+        <td>
+            @if ( $category->depricated_parent_visible )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>

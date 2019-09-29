@@ -25,6 +25,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
+            $table->boolean('depricated_parent_visible')->default(true);
             $table->timestamps();
 
             $table->foreign('parent_id')->references('id')->on('categories');

@@ -12,8 +12,28 @@
     <td class="ta_l">{{ $product->name }}</td>
     {{-- <td>{{ $product->slug }}</td> --}}
     {{-- <td class="ta_c">{{ $product->manufacturer_id }}</td> --}}
+
+    {{-- visible --}}
     <td class="ta_c" width="30px">
         @if ( $product->visible )
+            <i class="far fa-eye"></i>
+        @else
+            <i class="far fa-eye-slash"></i>
+        @endif
+    </td>
+
+    {{-- depricated_parent_visible --}}
+    <td class="ta_c" width="30px">
+        @if ( $product->depricated_parent_visible )
+            <i class="far fa-eye"></i>
+        @else
+            <i class="far fa-eye-slash"></i>
+        @endif
+    </td>
+
+    {{-- depricated_grand_parent_category_visible --}}
+    <td class="ta_c" width="30px">
+        @if ( $product->depricated_grand_parent_category_visible )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>

@@ -235,6 +235,40 @@ class CategoryController extends Controller
             }
         }
 
+        // WORKAROUND #1 depricated_parent_visible
+        if ( array_key_exists('visible', $category->getChanges()) ) {
+
+            if ( $category->children->count() ) {
+                $category->children->each(function ($children_category, $key) {
+                    $children_category->update([
+                        'depricated_parent_visible' => request('visible') ? true : false,
+                        'edited_by_user_id' => Auth::user()->id,
+                    ]);
+
+                    if ( $children_category->products->count() ) {
+                        $children_category->products->each(function ($product, $key) {
+                            $product->update([
+                                'depricated_grandparent_visible' => request('visible') ? true : false,
+                                'edited_by_user_id' => Auth::user()->id,
+                            ]);
+                        });
+                    }
+
+                });
+
+            } elseif ( $category->products->count() ) {
+                $category->products->each(function ($product, $key) {
+                    $product->update([
+                        'depricated_parent_visible' => request('visible') ? true : false,
+                        'edited_by_user_id' => Auth::user()->id,
+                    ]);
+                });
+            }
+            $category->push();
+        }
+        // /WORKAROUND #1 depricated_parent_visible
+
+
         // add email!
 
         // create action record
@@ -255,7 +289,8 @@ class CategoryController extends Controller
 
         session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully edit.');
 
-        return redirect()->route('categories.adminshow', ['category' => $category->id]);
+        // return redirect()->route('categories.adminshow', ['category' => $category->id]);
+        return redirect()->route('categories.adminindex');
         // return back();
     }
 

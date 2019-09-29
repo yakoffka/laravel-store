@@ -41,18 +41,18 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
 
             // [
-            //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa     'title' => '',
-            //     'description' => '.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 2,
-            // ],
-
-            // [
             //     'title' => '',
             //     'description' => '.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
+
+            [
+                'title' => 'Accessor in filters',
+                'description' => 'Реализовать использование отношений в фильтрах.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'Добавить виджеты',

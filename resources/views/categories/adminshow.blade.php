@@ -52,6 +52,7 @@
                         <th class="verticalTableHeader ta_c">id род. категории</th>
                         <th class="verticalTableHeader ta_c">sort order</th>
                         <th class="verticalTableHeader ta_c">видимость</th>
+                        <th class="verticalTableHeader ta_c">видимость родителя</th>
                         <th class="verticalTableHeader ta_c">кол. товаров</th>
                         <th class="verticalTableHeader ta_c">кол. подкатегорий</th>
                         <th class="actions3">actions</th>
@@ -92,7 +93,9 @@
                         <th>name</th>
                         {{-- <th>slug</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                        <th class="verticalTableHeader ta_c">visible</th>
+                        <th class="verticalTableHeader ta_c">видимость</th>
+                        <th class="verticalTableHeader ta_c">видимость родителя</th>
+                        <th class="verticalTableHeader ta_c">видимость прародителя</th>
                         <th width="30" class="verticalTableHeader ta_c">category_id</th>
                         <th width="30" class="verticalTableHeader ta_c">изображений</th>
                         {{-- <th class="verticalTableHeader ta_c">materials</th> --}}

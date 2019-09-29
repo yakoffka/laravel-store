@@ -30,6 +30,8 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->unsignedInteger('views');                           // кол-во просмотров товара
+            $table->boolean('depricated_parent_visible')->default(true);
+            $table->boolean('depricated_grandparent_visible')->default(true);
             $table->timestamps();
         });
     }
