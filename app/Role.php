@@ -23,7 +23,8 @@ class Role extends EntrustRole
         'name',
         'display_name',
         'description',
-        'user_id',
+        'added_by_user_id',
+        'edited_by_user_id',
     ];
 
     /**
@@ -34,6 +35,24 @@ class Role extends EntrustRole
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+    * Many-to-One relations with the user model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    */
+    public function creator() {
+        return $this->belongsTo(User::class, 'added_by_user_id');
+    }
+
+    /**
+    * Many-to-One relations with the user model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    */
+    public function editor() {
+        return $this->belongsTo(User::class, 'edited_by_user_id');
     }
 
 }

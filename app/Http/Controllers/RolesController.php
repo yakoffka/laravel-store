@@ -21,7 +21,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        abort_if ( Auth::user()->cannot('view_roles'), 403 );
+        abort_if ( auth()->user()->cannot('view_roles'), 403 );
         $roles = Role::all();
         $permissions = Permission::all()->toArray();
         return view('roles.index', compact('roles', 'permissions'));
@@ -34,10 +34,11 @@ class RolesController extends Controller
      */
     public function create()
     {
-        abort_if ( Auth::user()->cannot('create_roles'), 403 );
+        abort_if ( auth()->user()->cannot('create_roles'), 403 );
         $permissions = Permission::all()->toArray();
         return view('roles.create', compact('permissions'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -47,12 +48,11 @@ class RolesController extends Controller
      */
     public function store(Role $role)
     {
-        abort_if ( Auth::user()->cannot('create_roles'), 403 );
+        abort_if ( auth()->user()->cannot('create_roles'), 403 );
 
         $arrToValidate['name'] = 'required|string|max:255|unique:roles';
         $arrToValidate['display_name'] = 'required|string|max:255|unique:roles';
         $arrToValidate['description'] = 'required|string|max:255';
-        $arrToValidate['rank'] = 'required|string|integer|unique:roles';
         
 
         $permissions = Permission::all()->toArray();
@@ -68,17 +68,54 @@ class RolesController extends Controller
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
-            'rank' => request('rank'),
+            'added_by_user_id' => auth()->user()->id,
         ]);
 
+        
+        if ($role) {
+            $mess = 'Роль ' . $role->name . ' создана успешно.';
+        } else {
+            return back()->withErrors(['error #' . __line__ ])->withInput();
+        }
+        
+
         // attach permissions
-        if ( $role ) {
+        if ( auth()->user()->can('edit_roles') ) {
+            $attach_roles = [];
+
             foreach ( $permissions as $permission ) {
-                if ( request($permission['name']) == 'on' ) {
+                if (
+                    request($permission['name']) == 'on' 
+                    and !$role->perms->contains('name', $permission['name']) 
+                    and auth()->user()->can($permission['name']) 
+                ) {
                     $role->attachPermission($permission['id']);
+                    $attach_roles[] = $permission['name'];
                 }
             }
+
+            $mess .= $attach_roles ? ' Роли присвоены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '';
         }
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'role',
+            'type_id' => $role->id,
+            'action' => 'create',
+            'description' => 
+                'Создание роли ' 
+                . $role->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name
+                . '. '
+                . $mess
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
+        session()->flash('message', $mess);
 
         return redirect()->route('roles.show', compact('role'));
     }
@@ -91,7 +128,7 @@ class RolesController extends Controller
      */
     public function show(Role $role)
     {
-        abort_if ( Auth::user()->cannot('view_roles'), 403 );
+        abort_if ( auth()->user()->cannot('view_roles'), 403 );
         $permissions = Permission::all()->toArray();
         return view('roles.show', compact('role', 'permissions'));
     }
@@ -104,7 +141,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        abort_if ( Auth::user()->cannot('edit_roles'), 403 );
+        abort_if ( auth()->user()->cannot('edit_roles'), 403 );
         $permissions = Permission::all()->toArray();
         return view('roles.edit', compact('role', 'permissions'));
     }
@@ -118,12 +155,11 @@ class RolesController extends Controller
      */
     public function update(Role $role)
     {
-        abort_if ( Auth::user()->cannot('edit_roles'), 403 );
+        abort_if ( auth()->user()->cannot('edit_roles'), 403 );
 
         $arrToValidate['name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['display_name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['description'] = 'required|string|max:255';
-        // $arrToValidate['rank'] = 'required|string|integer|unique:roles';
 
         $permissions = Permission::all()->toArray();
 
@@ -133,24 +169,30 @@ class RolesController extends Controller
 
         $validator = request()->validate($arrToValidate);
 
-        $role->update([
+        $update = $role->update([
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
-            // 'rank' => request('rank'),
+            'edited_by_user_id' => auth()->user()->id,
         ]);
 
-        $mess = '';
+        
+        if ($update) {
+            $mess = 'Роль ' . $role->name . ' успешно обновлена.';
+        } else {
+            return back()->withErrors(['error #' . __line__ ])->withInput();
+        }
 
-        if ( Auth::user()->can('edit_permissions') ) {
-            $mess_attach = $mess_take = [];
+
+        if ( auth()->user()->can('edit_roles') ) {
+            $attach_roles = $take_roles = [];
             foreach ( $permissions as $permission ) {
 
                 // attach Permission
                 if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $role->attachPermission($permission['id']);
 
-                    $mess_attach[] = $permission['name'];
+                    $attach_roles[] = $permission['name'];
                     
                 // take Permission
                 } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
@@ -159,10 +201,10 @@ class RolesController extends Controller
                         ['role_id', '=', $role->id],
                     ])->delete();
 
-                    $mess_take[] = $permission['name'];
+                    $take_roles[] = $permission['name'];
                 }
             }
-            $mess = ($mess_attach ? " Добавлены разрешения: " . implode(', ', $mess_attach) . '.' : '') . ($mess_take ? " Удалены разрешения: " . implode(', ', $mess_take) . '.' : '');
+            $mess .= ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
         }
 
         // create action record
@@ -183,7 +225,7 @@ class RolesController extends Controller
             // 'new_value' => $product->id,
         ]);
 
-        session()->flash('message', 'Role "' . $role->name . '" has been updated. ' . $mess);
+        session()->flash('message', $mess);
 
         return redirect()->route('roles.show', compact('role'));
     }
@@ -196,7 +238,7 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
-        abort_if ( Auth::user()->cannot('delete_roles'), 403 );
+        abort_if ( auth()->user()->cannot('delete_roles'), 403 );
 
         if ( $role->id < 5  ) {
             return back()->withErrors(['"' . $role->name . '" is basic role and can not be removed.']);

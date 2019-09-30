@@ -12,106 +12,29 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'unregistered user',
-            'email' => 'yagithub+unregistered@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 0,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        $users = [
+            ['name' => 'System',                                    'email' => str_replace('@', '+system@', config('custom.mail_owner')),       'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'Owner'.config('custom.name_owner'),         'email' => str_replace('@', '+owner@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'Developer'.config('custom.name_devel'),     'email' => str_replace('@', '+developer@', config('custom.mail_devel')),    'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'Admin'.config('custom.name_owner'),         'email' => str_replace('@', '+admin@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'Cmanager'.config('custom.name_owner'),      'email' => str_replace('@', '+cmanager@', config('custom.mail_owner')),     'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'Smanager'.config('custom.name_owner'),      'email' => str_replace('@', '+smanager@', config('custom.mail_owner')),     'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'Unregistered'.config('custom.name_owner'),  'email' => str_replace('@', '+unregistered@', config('custom.mail_owner')), 'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User1'.config('custom.name_owner'),         'email' => str_replace('@', '+user1@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User2'.config('custom.name_owner'),         'email' => str_replace('@', '+user2@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User3'.config('custom.name_owner'),         'email' => str_replace('@', '+user3@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+        ];
 
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Ivan',
-            'email' => 'yagithub+owner@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Theodor',
-            'email' => 'yagithub+developer@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Travlarnor',
-            'email' => 'yagithub+admin@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        if ( !empty(env('NAME_MANAGER')) and !empty(env('MAIL_MANAGER')) and !empty(env('PASS_MANAGER')) ) {
+        foreach ( $users as $user ) {
             DB::table('users')->insert([
                 'uuid' => Str::uuid(),
-                'name' => env('NAME_MANAGER'),
-                'email' => env('MAIL_MANAGER'),
-                'password' => bcrypt( env('PASS_MANAGER') ),
-                'status' => 1,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]);
-        } else {
-            DB::table('users')->insert([
-                'uuid' => Str::uuid(),
-                'name' => 'Olga',
-                'email' => 'yagithub+cmanager@mail.ru',
-                'password' => bcrypt('111111'),
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => $user['passw'],
                 'status' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Igor',
-            'email' => 'yagithub+smanager@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Travlarnor I',
-            'email' => 'yagithub+user01@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Akaky Akakievich II',
-            'email' => 'yagithub+user02@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'name' => 'Ephim III',
-            'email' => 'yagithub+user03@mail.ru',
-            'password' => bcrypt('111111'),
-            'status' => 1,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
     }
 }

@@ -139,11 +139,10 @@
             {{-- Actions --}}
             @if( $actions->count() )
                 <h2 id="actions">table history (last {{ config('custom.num_last_actions') }} actions)</h2>
-                also <a href="{{ route('actions.users') }}">see</a> all history.
+                also <a href="{{-- {{ route('actions.users') }} --}}">see</a> all history.
                 @include('layouts.partials.actions')
             @endif
             {{-- /Actions --}}
-
 
         </div>
     </div>

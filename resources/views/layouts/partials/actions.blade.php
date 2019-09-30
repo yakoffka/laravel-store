@@ -1,4 +1,4 @@
-                <table class="table table-bordered table-striped">
+                <table class="table blue_table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>№</th>
@@ -6,7 +6,7 @@
                             <th>Дата</th>
                             <th>Описание</th>
                             @if ( Auth::user()->can('view_orders') )
-                                <th>Инициатор</th>
+                                <th>Исполнитель</th>
                             @endif
                             {{-- <th>Наличие</th> --}}
                         </tr>
@@ -21,7 +21,7 @@
                                 {{-- {{ $action->created_at }} --}}
                                 <span title="{{ $action->created_at }}">{{ substr($action->created_at, 0, 10) }}</span>
                             </td>
-                            <td>
+                            <td class="description">
                                 {{-- {{ $action->description }} --}}
                                 {{-- <span title="{{ $action->description }}">{{ str_limit($action->description, 50) }}</span> --}}
                                 <span title="{{ $action->description }}">{{ $action->description }}</span>

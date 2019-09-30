@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use App\{User, Role};
 
 class RoleUserTableSeeder extends Seeder
 {
@@ -15,35 +15,20 @@ class RoleUserTableSeeder extends Seeder
         $users = User::all();
 
         foreach ($users as $user) {
+            
+            $role_user = preg_replace('~^[^+]+\+~', '', preg_replace('~@.+$~', '', $user->email));
 
-            // if ($user->id == 1) {
-            //     $role_id = 1;
-            // } elseif ($user->id == 2) {
-            //     $role_id = 2;
-            // } elseif ($user->id == 3) {
-            //     $role_id = 3;
-            // } else {
-            //     $role_id = 4;
-            // }
-            if ($user->id == 2) {
-                $role_id = 1;
-            } elseif ($user->id == 3) {
-                $role_id = 2;
-            } elseif ($user->id == 4) {
-                $role_id = 3;
-            } elseif ($user->id == 5) {
-                $role_id = 4;
-            } elseif ($user->id == 6) {
-                $role_id = 5;
-            } else {
-                $role_id = 6;
+            $role = Role::where('name', $role_user)->first();
+            if ( !$role ) {
+                $role = Role::where('name', 'user')->first();
             }
 
             DB::table('role_user')->insert([
                 'user_id' => $user->id,
-                'role_id' => $role_id,
+                'role_id' => $role->id,
             ]);
 
+            unset($role);
         }
     }
 }

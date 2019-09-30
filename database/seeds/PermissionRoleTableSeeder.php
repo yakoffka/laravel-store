@@ -16,6 +16,32 @@ class PermissionRoleTableSeeder extends Seeder
         $roles = Role::all();
         $permissions = Permission::all();
         $arr_perm = [
+            'system' => [
+                /* roles */         0,0,0,0,
+                /* permissions */   0,0,0,0,
+                /* users */         0,0,0,0,
+                /* comments */      0,0,0,0,
+                /* products */      0,0,0,0,
+                /* categories */    0,0,0,0,
+                /* orders */        0,0,0,0,
+                /* settings */      0,0,0,0,
+                /* adminpanel */    0,0,0,0,
+                /* actions */       0,0,0,0,
+                /* tasks */         0,0,0,0,
+            ],
+            'unregistered' => [
+                /* roles */         0,0,0,0,
+                /* permissions */   0,0,0,0,
+                /* users */         0,0,0,0,
+                /* comments */      0,0,0,0,
+                /* products */      0,0,0,0,
+                /* categories */    0,0,0,0,
+                /* orders */        0,0,0,0,
+                /* settings */      0,0,0,0,
+                /* adminpanel */    0,0,0,0,
+                /* actions */       0,0,0,0,
+                /* tasks */         0,0,0,0,
+            ],
             'owner' => [
                 /* roles */         1,1,1,1,
                 /* permissions */   0,0,0,1,

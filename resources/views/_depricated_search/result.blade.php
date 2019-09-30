@@ -53,7 +53,7 @@
                                     {{ $product->name }}
                                 </a>
                             </td>
-                            <td>
+                            <td class="description">
                                 {{-- {{ str_limit($product->description, 80) }} --}}
                                 {{ $product->short_description }}
                             </td>

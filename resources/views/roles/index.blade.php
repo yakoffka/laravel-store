@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'roles')
+@section('title', 'роли')
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>List of roles</h1>
+    <h1>Список ролей</h1>
 
 
     <div class="row">
@@ -23,16 +23,18 @@
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
-            <h2 class="blue">Parameters of the roles:</h2>
+            <h2 class="blue">Таблица ролей:</h2>
             <table class="blue_table">
                 <tr>
                     {{-- <th>#</th> --}}
                     <th>id</th>
-                    <th>name</th>
+                    {{-- <th>name</th> --}}
                     <th>display_name</th>
                     <th>description</th>
-                    <th>permissions</th>
-                    <th>users</th>
+                    <th width="30" class="verticalTableHeader ta_c">num_permissions</th>
+                    <th width="30" class="verticalTableHeader ta_c">num_users</th>
+                    <th width="30" class="verticalTableHeader ta_c">creator</th>
+                    <th width="30" class="verticalTableHeader ta_c">editor</th>
                     {{-- <th>created</th> --}}
                     {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>
@@ -43,9 +45,9 @@
                     <tr>
                         {{-- <td>{{ $i+1 }}</td> --}}
                         <td>{{ $role->id }}</td>
-                        <td>{{ $role->name }}</td>
+                        {{-- <td>{{ $role->name }}</td> --}}
                         <td>{{ $role->display_name }}</td>
-                        <td style="max-width: 300px;">{{ $role->description }}</td>
+                        <td class="description" style="max-width: 300px;">{{ $role->description }}</td>
                         <td><a href="#perms_{{ $role->name }}">
                             @if ($role->perms())
                                 {{ $role->perms()->pluck('display_name')->count() }}
@@ -54,20 +56,18 @@
                             @endif
                         </a></td>
                         <td><a href="#users_{{ $role->name }}">{{ $role->users->count() }}</a></td>
+                        <td title="{{ $role->creator->name }}">{{ $role->creator->id }}</td>
+                        <td title="{{ $role->editor->name ?? '' }}">{{ $role->editor->id ?? '-' }}</td>
                         {{-- <td>{{ $role->created_at ?? '-' }}</td> --}}
                         {{-- <td>{{ $role->updated_at ?? '-' }}</td> --}}
+
+                        {{-- actions --}}
                         <td>
+                            <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
 
-                            @if ( Auth::user()->can('view_roles') ) {{--это безумие!!!--}}
-                                <a href="{{ route('roles.show', ['role' => $role->id]) }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            @else
-                                <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
-                            @endif
-
-
-                            @if ( Auth::user()->can('edit_roles') and $role->id > 4 )
+                            @if ( Auth::user()->can('edit_roles') and $role->creator->id > 1 )
                                 <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
@@ -76,7 +76,7 @@
                             @endif
 
 
-                            @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
+                            @if ( Auth::user()->can('delete_roles') and $role->creator->id > 1 )
                                 @modalConfirmDestroy([
                                     'btn_class' => 'btn btn-outline-danger del_btn',
                                     'cssId' => 'delele_',

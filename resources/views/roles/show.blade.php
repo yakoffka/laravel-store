@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Show Role '{{ $role->name }}'</h1>
+    <h1>Просмотр роли '{{ $role->name }}'</h1>
 
 
     <div class="row">
@@ -40,7 +40,7 @@
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->display_name }}</td>
-                    <td style="max-width: 400px;">{{ $role->description }}</td>
+                    <td class="description" style="max-width: 400px;">{{ $role->description }}</td>
                     <td><a href="#perms">
                         @if ($role->perms())
                             {{ $role->perms()->pluck('display_name')->count() }}
@@ -150,7 +150,7 @@
 
 
             @permission('view_users')
-                <h2 class="blue" id="users">Users with role '{{ $role->name }}':</h2>
+                <h2 class="blue" id="users">Пользователи, наделённые ролью '{{ $role->name }}':</h2>
                 @if($role->users->count())
                     @foreach($role->users as $user)
                         @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
@@ -158,14 +158,14 @@
                         @endif
                     @endforeach
                 @else
-                    no users for this role
+                    нет пользователей, наделённых данной ролью.
                 @endif
                 <br><br><br>
             @endpermission
 
 
             @permission('view_permissions')
-                <h2 class="blue" id="perms">Permissions for role '{{ $role->name }}':</h2>
+                <h2 class="blue" id="perms">Разрешения для роли '{{ $role->name }}':</h2>
                 @tablePermissions(['permissions' => $permissions, 'user' => $role])
                 <br><br><br>
             @endpermission

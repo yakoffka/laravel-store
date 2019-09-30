@@ -630,6 +630,9 @@ table.blue_table tr td.ta_l{text-align: left;}
 table.blue_table tr td.row {
     border: 0px solid #ddd;
 }
+
+table.blue_table td.description {text-align: left;}
+
 /* /users */
 
 

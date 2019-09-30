@@ -48,6 +48,13 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'Аватар',
+                'description' => 'Добавить аватары для пользователей.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
                 'title' => 'Добавить пользователя System',
                 'description' => 'Добавить пользователя System с божественными привилегиями. Создать от его имени базовые роли, пользователей и разрешения, которые не смогут удалить смертные.',
                 'tasksstatus_id' => 1,

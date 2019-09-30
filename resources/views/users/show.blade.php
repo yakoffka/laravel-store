@@ -126,7 +126,7 @@
                             <th>Дата</th>
                             <th>Описание</th>
                             @if ( Auth::user()->can('view_orders') )
-                                <th>Инициатор</th>
+                                <th>Исполнитель</th>
                             @endif
                             {{-- <th>Наличие</th> --}}
                         </tr>
@@ -140,7 +140,7 @@
                             <td>
                                 {{ $action->created_at }}
                             </td>
-                            <td>
+                            <td class="description">
                                 {{ $action->description }}
                             </td>
                             @if ( Auth::user()->can('view_orders') )

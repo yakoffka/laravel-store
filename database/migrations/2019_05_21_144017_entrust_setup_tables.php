@@ -17,6 +17,8 @@ class EntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->bigInteger('added_by_user_id')->unsigned(); // add yo. creator of role
+            $table->bigInteger('edited_by_user_id')->unsigned()->nullable(); // add yo.
             $table->timestamps();
         });
 
