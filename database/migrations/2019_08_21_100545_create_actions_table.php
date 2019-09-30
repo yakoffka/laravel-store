@@ -23,6 +23,7 @@ class CreateActionsTable extends Migration
                 'manufacturer',
                 'order',
                 'product',
+                'role',
                 'user',
                 'setting',
             ]);
@@ -33,7 +34,7 @@ class CreateActionsTable extends Migration
                 'delete',
                 'verify', 
             ]);
-            $table->string('description', 200);
+            $table->text('description');
             $table->string('old_value')->nullable();
             $table->string('new_value')->nullable();
             $table->timestamps();

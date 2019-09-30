@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Role;
+use App\{Role, Action};
 use App\Permission;
 use Illuminate\Support\Facades\DB;
 
@@ -123,7 +123,7 @@ class RolesController extends Controller
         $arrToValidate['name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['display_name'] = 'required|string|max:255'; // |unique:roles
         $arrToValidate['description'] = 'required|string|max:255';
-        $arrToValidate['rank'] = 'required|string|integer|unique:roles';
+        // $arrToValidate['rank'] = 'required|string|integer|unique:roles';
 
         $permissions = Permission::all()->toArray();
 
@@ -137,16 +137,20 @@ class RolesController extends Controller
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
-            'rank' => request('rank'),
+            // 'rank' => request('rank'),
         ]);
 
+        $mess = '';
 
         if ( Auth::user()->can('edit_permissions') ) {
+            $mess_attach = $mess_take = [];
             foreach ( $permissions as $permission ) {
 
                 // attach Permission
                 if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) ) {
                     $role->attachPermission($permission['id']);
+
+                    $mess_attach[] = $permission['name'];
                     
                 // take Permission
                 } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) ) {
@@ -154,10 +158,32 @@ class RolesController extends Controller
                         ['permission_id', '=', $permission['id']],
                         ['role_id', '=', $role->id],
                     ])->delete();
-                }
 
+                    $mess_take[] = $permission['name'];
+                }
             }
+            $mess = ($mess_attach ? " Добавлены разрешения: " . implode(', ', $mess_attach) . '.' : '') . ($mess_take ? " Удалены разрешения: " . implode(', ', $mess_take) . '.' : '');
         }
+
+        // create action record
+        $action = Action::create([
+            'user_id' => auth()->user()->id,
+            'type' => 'role',
+            'type_id' => $role->id,
+            'action' => 'update',
+            'description' => 
+                'Редактирование роли ' 
+                . $role->name
+                . '. Исполнитель: ' 
+                . auth()->user()->name
+                . '. '
+                . $mess
+                . '.',
+            // 'old_value' => $product->id,
+            // 'new_value' => $product->id,
+        ]);
+
+        session()->flash('message', 'Role "' . $role->name . '" has been updated. ' . $mess);
 
         return redirect()->route('roles.show', compact('role'));
     }
