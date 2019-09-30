@@ -48,9 +48,9 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
-                'title' => 'Запрет добавления разрешений',
-                'description' => 'Запретить добавление разрешений, отсутствующих у пользователя.',
-                'tasksstatus_id' => 1,
+                'title' => 'Запрет изменения разрешений',
+                'description' => 'Запретить изменение разрешений, отсутствующих у пользователя.',
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 

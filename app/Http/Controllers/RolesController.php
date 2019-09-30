@@ -147,13 +147,13 @@ class RolesController extends Controller
             foreach ( $permissions as $permission ) {
 
                 // attach Permission
-                if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) ) {
+                if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $role->attachPermission($permission['id']);
 
                     $mess_attach[] = $permission['name'];
                     
                 // take Permission
-                } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) ) {
+                } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $take_role = DB::table('permission_role')->where([
                         ['permission_id', '=', $permission['id']],
                         ['role_id', '=', $role->id],
