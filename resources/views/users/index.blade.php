@@ -32,8 +32,8 @@
                     <th>email</th>
                     <th>roles</th>
                     <th>permissions</th>
-                    <th>created</th>
-                    <th>updated</th>
+                    {{-- <th>created</th> --}}
+                    {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>
                 </tr>
 
@@ -45,7 +45,12 @@
                     <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><a href="#roles_{{ $user->name }}">{{ $user->roles->count() }}</a></td>
+                    {{-- <td><a href="#roles_{{ $user->name }}">{{ $user->roles->count() }}</a></td> --}}
+                    <td><a href="#roles_{{ $user->name }}">
+                        @foreach( $user->roles as $role )
+                            {{ $role->display_name }};
+                        @endforeach
+                    </a></td>
                     <td><a href="#perms_{{ $user->name }}">
                         <?php
                             $num_permissions = 0;
@@ -55,8 +60,8 @@
                             echo $num_permissions;
                         ?>
                     </a></td>
-                    <td>{{ $user->created_at ?? '-' }}</td>
-                    <td>{{ $user->updated_at ?? '-' }}</td>
+                    {{-- <td>{{ $user->created_at ?? '-' }}</td> --}}
+                    {{-- <td>{{ $user->updated_at ?? '-' }}</td> --}}
                     <td>
 
                         @permission('view_users')

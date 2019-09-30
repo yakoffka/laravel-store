@@ -184,7 +184,7 @@
                 <div class="submenuitem">- <a href="{{ route('actions.settings') }}">Настроек</a></div>
             @endpermission
             @permission('view_users')
-                {{-- <div class="submenuitem">- <a href="{{ route('actions.index') }}">Полная</a></div> --}}
+                <div class="submenuitem">- <a href="{{ route('actions.index') }}">Полная</a></div>
             @endpermission
         </div>
     @endpermission

@@ -26,22 +26,22 @@
             <h2 class="blue">Parameters of the roles:</h2>
             <table class="blue_table">
                 <tr>
-                    <th>#</th>
+                    {{-- <th>#</th> --}}
                     <th>id</th>
                     <th>name</th>
                     <th>display_name</th>
                     <th>description</th>
                     <th>permissions</th>
                     <th>users</th>
-                    <th>created</th>
-                    <th>updated</th>
+                    {{-- <th>created</th> --}}
+                    {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>
                 </tr>
 
                 @foreach($roles as $i=>$role)
 
                     <tr>
-                        <td>{{ $i+1 }}</td>
+                        {{-- <td>{{ $i+1 }}</td> --}}
                         <td>{{ $role->id }}</td>
                         <td>{{ $role->name }}</td>
                         <td>{{ $role->display_name }}</td>
@@ -54,8 +54,8 @@
                             @endif
                         </a></td>
                         <td><a href="#users_{{ $role->name }}">{{ $role->users->count() }}</a></td>
-                        <td>{{ $role->created_at ?? '-' }}</td>
-                        <td>{{ $role->updated_at ?? '-' }}</td>
+                        {{-- <td>{{ $role->created_at ?? '-' }}</td> --}}
+                        {{-- <td>{{ $role->updated_at ?? '-' }}</td> --}}
                         <td>
 
                             @if ( Auth::user()->can('view_roles') ) {{--это безумие!!!--}}
@@ -96,14 +96,14 @@
 
 
             @permission('create_roles')
-                <a href="{{ route('roles.create') }}" class="btn btn-outline-primary">create new roles</a><br><br><br>
+                <a href="{{ route('roles.create') }}" class="btn btn-outline-primary form-control">{{__('create_new_roles')}}</a><br><br><br>
             @endpermission
 
 
             @foreach($roles as $role)
                 
                 @permission('view_users')
-                    <h2 class="blue" id="users_{{ $role->name }}">List of users for '{{ $role->name }}' role:</h2>
+                    <h2 class="blue" id="users_{{ $role->name }}">Список пользователей, имеющих роль '{{ $role->name }}':</h2>
                     @if($role->users->count())
                         @foreach($role->users as $user)
                             @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
@@ -111,13 +111,13 @@
                             @endif
                         @endforeach
                     @else
-                        no users for this role
+                        Нет пользователей с этой ролью.
                     @endif
                     <br><br>
                 @endpermission
 
                 @permission('view_permissions')
-                    <h2 class="blue" id="perms_{{ $role->name }}">Permissions of the '{{ $role->name }}' role:</h2>
+                    <h2 class="blue" id="perms_{{ $role->name }}">Разрешения для роли '{{ $role->name }}':</h2>
                     @tablePermissions(['permissions' => $permissions, 'user' => $role])
                     <br><br><br>
                 @endpermission

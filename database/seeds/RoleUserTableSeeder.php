@@ -31,8 +31,12 @@ class RoleUserTableSeeder extends Seeder
                 $role_id = 2;
             } elseif ($user->id == 4) {
                 $role_id = 3;
-            } else {
+            } elseif ($user->id == 5) {
                 $role_id = 4;
+            } elseif ($user->id == 6) {
+                $role_id = 5;
+            } else {
+                $role_id = 6;
             }
 
             DB::table('role_user')->insert([

@@ -23,7 +23,8 @@
                             </td>
                             <td>
                                 {{-- {{ $action->description }} --}}
-                                <span title="{{ $action->description }}">{{ str_limit($action->description, 50) }}</span>
+                                {{-- <span title="{{ $action->description }}">{{ str_limit($action->description, 50) }}</span> --}}
+                                <span title="{{ $action->description }}">{{ $action->description }}</span>
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>

@@ -24,8 +24,18 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'uuid' => Str::uuid(),
-            'name' => 'Theodor',
+            'name' => 'Ivan',
             'email' => 'yagithub+owner@mail.ru',
+            'password' => bcrypt('111111'),
+            'status' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'name' => 'Theodor',
+            'email' => 'yagithub+developer@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
@@ -52,12 +62,22 @@ class UsersTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
+        } else {
+            DB::table('users')->insert([
+                'uuid' => Str::uuid(),
+                'name' => 'Olga',
+                'email' => 'yagithub+cmanager@mail.ru',
+                'password' => bcrypt('111111'),
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
         }
 
         DB::table('users')->insert([
             'uuid' => Str::uuid(),
-            'name' => 'Lagshmivara',
-            'email' => 'yagithub+manager@mail.ru',
+            'name' => 'Igor',
+            'email' => 'yagithub+smanager@mail.ru',
             'password' => bcrypt('111111'),
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),

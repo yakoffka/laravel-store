@@ -53,6 +53,20 @@
   "Whoops, something went wrong on our servers.": "Упс, на наших серверах что-то пошло не так.",
 
 
+  "roles": "роли",
+  "permissions": "разрешения",
+  "users": "пользователи",
+  "comments": "комментарии",
+  "products": "товары",
+  "categories": "категории",
+  "orders": "заказы",
+  "settings": "настройки",
+  "adminpanel": "панель магазина",
+  "actions": "история",
+  "tasks": "задачи",
+  "create_new_roles": "создать новую роль",
+
+
   "apply": "применить",
   "edit": "редактирование",
   "Edit": "Редактирование",

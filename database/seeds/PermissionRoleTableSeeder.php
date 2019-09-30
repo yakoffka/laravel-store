@@ -15,33 +15,96 @@ class PermissionRoleTableSeeder extends Seeder
     {
         $roles = Role::all();
         $permissions = Permission::all();
+        $arr_perm = [
+            'owner' => [
+                /* roles */         1,1,1,1,
+                /* permissions */   0,0,0,1,
+                /* users */         0,1,1,1,
+                /* comments */      1,1,1,1,
+                /* products */      1,1,1,1,
+                /* categories */    1,1,1,1,
+                /* orders */        1,1,1,1,
+                /* settings */      0,1,0,1,
+                /* adminpanel */    0,0,0,1,
+                /* actions */       0,0,0,1,
+                /* tasks */         1,1,1,1,
+            ],
+            'developer' => [
+                /* roles */         1,1,1,1,
+                /* permissions */   0,0,0,1,
+                /* users */         0,1,1,1,
+                /* comments */      1,1,1,1,
+                /* products */      1,1,1,1,
+                /* categories */    1,1,1,1,
+                /* orders */        1,1,1,1,
+                /* settings */      0,1,0,1,
+                /* adminpanel */    0,0,0,1,
+                /* actions */       0,0,0,1,
+                /* tasks */         1,1,1,1,
+            ],
+            'admin' => [
+                /* roles */         0,0,0,1,
+                /* permissions */   0,0,0,1,
+                /* users */         0,1,1,1,
+                /* comments */      1,1,1,1,
+                /* products */      1,1,1,1,
+                /* categories */    1,1,1,1,
+                /* orders */        1,1,1,1,
+                /* settings */      0,1,0,1,
+                /* adminpanel */    0,0,0,1,
+                /* actions */       0,0,0,1,
+                /* tasks */         1,1,1,1,
+            ],
+            'cmanager' => [
+                /* roles */         0,0,0,0,
+                /* permissions */   0,0,0,0,
+                /* users */         0,0,0,0,
+                /* comments */      0,0,0,0,
+                /* products */      1,1,1,1,
+                /* categories */    1,1,1,1,
+                /* orders */        0,0,0,1,
+                /* settings */      0,1,0,1,
+                /* adminpanel */    0,0,0,1,
+                /* actions */       0,0,0,1,
+                /* tasks */         1,0,0,1,
+            ],
+            'smanager' => [
+                /* roles */         0,0,0,0,
+                /* permissions */   0,0,0,0,
+                /* users */         0,0,0,0,
+                /* comments */      0,0,0,0,
+                /* products */      0,0,0,1,
+                /* categories */    0,0,0,0,
+                /* orders */        0,1,1,1,
+                /* settings */      0,0,0,0,
+                /* adminpanel */    0,0,0,1,
+                /* actions */       0,0,0,1,
+                /* tasks */         1,0,0,1,
+            ],
+            'user' => [
+                /* roles */         0,0,0,0,
+                /* permissions */   0,0,0,0,
+                /* users */         0,0,0,0,
+                /* comments */      0,0,0,0,
+                /* products */      0,0,0,0,
+                /* categories */    0,0,0,0,
+                /* orders */        1,0,0,0,
+                /* settings */      0,0,0,0,
+                /* adminpanel */    0,0,0,0,
+                /* actions */       0,0,0,0,
+                /* tasks */         0,0,0,0,
+            ],
+        ];
 
         foreach ($roles as $role) {
-
             foreach ($permissions as $permission) {
-
-                if (
-
-                    // for owner
-                    $role->id == 1 and !in_array( $permission->id, [5, 6, 7, 9, 33, 34, 35] )
-                     
-                    or // for admin
-                    $role->id == 2 and !in_array( $permission->id, [1, 2, 3, 5, 6, 7, 9, 29, 30, 31, 33, 34, 35, 37, 38, 39] )
-                    
-                    or // for manager
-                    $role->id == 3 and in_array( $permission->id, [4, 8, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 36] )
-                    
-                    or // for user
-                    $role->id == 4 and in_array( $permission->id, [13, 16, 24, 25] )
-                    
-                ) {
+                if ( $arr_perm[$role->name][$permission->id - 1] ) {
                     DB::table('permission_role')->insert([
                         'permission_id' => $permission->id,
                         'role_id' => $role->id,
                     ]);
-                }        
+                }
             }
-
         }
 
     }
