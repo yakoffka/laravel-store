@@ -48,6 +48,13 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'Заменить мягкое сравнение на жесткое',
+                'description' => 'Заменить мягкое сравнение на жесткое везде, где позволяет протокол.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
                 'title' => 'Добавить сравнение товаров',
                 'description' => 'Добавить сравнение товаров.',
                 'tasksstatus_id' => 1,

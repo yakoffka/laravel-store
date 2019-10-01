@@ -35,8 +35,15 @@
                 {{-- <div class="col-md-4 wrap_b_image"> --}}
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
 
-                    @if($product->images->count())
+                    @if ( $product->images->count() > 1 )
                         @carousel(compact('product'))
+                    @elseif ( $product->images->count() === 1)
+                        <div 
+                            class="card-img-top b_image" 
+                            style="background-image: url({{ asset('storage') . $product->images->first()->path . '/' . $product->images->first()->name . '-l' . $product->images->first()->ext }});"
+                        >
+                            <div class="dummy"></div><div class="element"></div>
+                        </div>
                     @else
                         <div 
                             class="card-img-top b_image" 
