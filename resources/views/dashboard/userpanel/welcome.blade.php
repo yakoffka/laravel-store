@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('layouts.app')
 
 @section('title', 'home')
 
@@ -19,7 +19,7 @@
 
     <div class="row">
 
-        @include('dashboard.layouts.partials.aside')
+        @include('layouts.partials.aside')
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
