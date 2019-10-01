@@ -67,7 +67,7 @@ class CategoryController extends Controller
     {
         abort_if( Auth::user()->cannot('create_categories'), 403);
         $categories = Category::all();
-        return view('categories.create', compact('categories'));
+        return view('dashboard.adminpanel.categories.create', compact('categories'));
     }
 
     /**
@@ -192,7 +192,7 @@ class CategoryController extends Controller
     {
         abort_if (Auth::user()->cannot('edit_categories'), 403);
         $categories = Category::all();
-        return view('categories.edit', compact('category', 'categories'));
+        return view('dashboard.adminpanel.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -373,12 +373,12 @@ class CategoryController extends Controller
      */
     public function adminIndex() {
         $categories = Category::all();
-        return view('categories.adminindex', compact('categories'));
+        return view('dashboard.adminpanel.categories.adminindex', compact('categories'));
     }
 
     public function adminShow(Category $category) {
         $categories = Category::all();
-        return view('categories.adminshow', compact('categories', 'category'));
+        return view('dashboard.adminpanel.categories.adminshow', compact('categories', 'category'));
     }
 
 

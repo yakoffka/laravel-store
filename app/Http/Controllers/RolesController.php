@@ -24,7 +24,7 @@ class RolesController extends Controller
         abort_if ( auth()->user()->cannot('view_roles'), 403 );
         $roles = Role::all();
         $permissions = Permission::all()->toArray();
-        return view('roles.index', compact('roles', 'permissions'));
+        return view('dashboard.adminpanel.roles.index', compact('roles', 'permissions'));
     }
 
     /**
@@ -36,7 +36,7 @@ class RolesController extends Controller
     {
         abort_if ( auth()->user()->cannot('create_roles'), 403 );
         $permissions = Permission::all()->toArray();
-        return view('roles.create', compact('permissions'));
+        return view('dashboard.adminpanel.roles.create', compact('permissions'));
     }
 
 
@@ -130,7 +130,7 @@ class RolesController extends Controller
     {
         abort_if ( auth()->user()->cannot('view_roles'), 403 );
         $permissions = Permission::all()->toArray();
-        return view('roles.show', compact('role', 'permissions'));
+        return view('dashboard.adminpanel.roles.show', compact('role', 'permissions'));
     }
 
     /**
@@ -143,7 +143,7 @@ class RolesController extends Controller
     {
         abort_if ( auth()->user()->cannot('edit_roles'), 403 );
         $permissions = Permission::all()->toArray();
-        return view('roles.edit', compact('role', 'permissions'));
+        return view('dashboard.adminpanel.roles.edit', compact('role', 'permissions'));
     }
 
     /**

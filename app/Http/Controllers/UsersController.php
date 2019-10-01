@@ -28,7 +28,7 @@ class UsersController extends Controller
         // $actions = Action::all();
         $actions = Action::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_actions'));// last 50!
 
-        return view('users.index', compact('users', 'permissions', 'actions'));
+        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'actions'));
     }
 
     /**
@@ -43,7 +43,7 @@ class UsersController extends Controller
         $permissions = Permission::all();
         $actions = Action::where('user_id', $user->id)->get();// last 50!
 
-        return view('users.show', compact('user', 'permissions', 'actions'));
+        return view('dashboard.adminpanel.users.show', compact('user', 'permissions', 'actions'));
     }
 
     /**
@@ -58,7 +58,7 @@ class UsersController extends Controller
         $roles = Role::get();
         $permissions = Permission::all();
 
-        return view('users.edit', compact('user', 'roles', 'permissions'));
+        return view('dashboard.adminpanel.users.edit', compact('user', 'roles', 'permissions'));
     }
 
 

@@ -122,7 +122,7 @@
             </div>
         @endpermission
 
-        <button type="submit" class="btn btn-primary form-group">edit profile!</button><br><br><br>
+        <button type="submit" class="btn btn-primary form-control">{{ __('edit_profile') }}</button><br><br><br>
 
         @permission('view_permissions')
             <h2 id="perms">Permissions for {{ $user->name }}:</h2>

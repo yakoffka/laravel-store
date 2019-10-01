@@ -43,7 +43,7 @@ class OrderController extends Controller
 
         $statuses = Status::all();
         
-        return view('orders.index', compact('orders', 'statuses'));
+        return view('dashboard.orders.index', compact('orders', 'statuses'));
     }
 
     /**
@@ -124,7 +124,7 @@ class OrderController extends Controller
         $statuses = Status::all();
         $actions = Action::where('type', 'order')->where('type_id', $order->id)->get();
         
-        return view('orders.show', compact('order', 'statuses', 'actions'));
+        return view('dashboard.orders.show', compact('order', 'statuses', 'actions'));
     }
 
 

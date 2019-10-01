@@ -60,7 +60,8 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
     Route::get      ('admin/products',          'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
     // Route::get      ('admin/products/{product}','ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
-    Route::post    ('admin/products/massupdate', 'ProductsController@massupdate')->name('products.massupdate'  )->middleware('auth');
+    Route::get      ('admin/products/{product}','ProductsController@show'       )->name('products.adminshow'   )->middleware('auth');
+    Route::post     ('admin/products/massupdate', 'ProductsController@massupdate')->name('products.massupdate'  )->middleware('auth');
 
 
 /* comments*/
@@ -193,11 +194,3 @@ Route::get('search', 'ProductsController@search')->name('search');
     Route::group(['prefix' => 'lfm', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
-
-    Route::get('demo-unisharp', function () {
-        return view('vendor.laravel-filemanager.demo');
-    })->middleware('auth');
-    // Route::get('demo2', function () {
-    //     // return view('demo2');
-    //     return view('vendor.laravel-filemanager.demo2');
-    // })->middleware('auth');

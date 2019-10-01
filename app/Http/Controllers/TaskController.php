@@ -26,7 +26,7 @@ class TaskController extends Controller
             ->orderBy('tasksstatus_id')
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
-        return view('tasks.index', compact('tasks', 'tasksstatuses'));
+        return view('dashboard.adminpanel.tasks.index', compact('tasks', 'tasksstatuses'));
     }
 
     /**
@@ -47,7 +47,7 @@ class TaskController extends Controller
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
 
-        return view('tasks.index', compact('directive', 'tasks', 'taskspriorities', 'tasksstatuses'));
+        return view('dashboard.adminpanel.tasks.index', compact('directive', 'tasks', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -61,7 +61,7 @@ class TaskController extends Controller
         $slaves = User::where('id', '>', 1)->get();
         $taskspriorities = Taskspriority::all();
         $tasksstatuses = Tasksstatus::all();
-        return view('tasks.create', compact('slaves', 'taskspriorities', 'tasksstatuses'));
+        return view('dashboard.adminpanel.tasks.create', compact('slaves', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**
@@ -121,7 +121,7 @@ class TaskController extends Controller
         // $taskspriorities = Taskspriority::all();
         $tasksstatuses = Tasksstatus::all();
 
-        return view('tasks.show', compact('task', /*'taskspriorities', */'tasksstatuses'));
+        return view('dashboard.adminpanel.tasks.show', compact('task', /*'taskspriorities', */'tasksstatuses'));
     }
 
     /**
@@ -146,7 +146,7 @@ class TaskController extends Controller
         $taskspriorities = Taskspriority::all();
         $tasksstatuses = Tasksstatus::all();
 
-        return view('tasks.show', compact('directive', 'task', 'taskspriorities', 'tasksstatuses'));
+        return view('dashboard.adminpanel.tasks.show', compact('directive', 'task', 'taskspriorities', 'tasksstatuses'));
     }
 
     /**

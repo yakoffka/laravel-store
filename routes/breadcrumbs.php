@@ -10,6 +10,7 @@ use App\Category;
     });
 
 
+
 // Home > Login
     Breadcrumbs::for('login', function ($trail) {
         $trail->parent('home');
@@ -18,36 +19,24 @@ use App\Category;
     });
 
 
+
 // catalog
     // Home > Catalog
     Breadcrumbs::for('catalog', function ($trail) {
         $trail->parent('home');
-        // $trail->push('Catalog', route('categories.index'));
         $trail->push('Каталог', route('categories.index'));
     });
 
+
+
 // categories
-    // Home > Catalog > [Categories]
+    // Home > Catalog > [Category]
     Breadcrumbs::for('categories.show', function ($trail, $category) {
-        // $trail->parent('catalog');
-        // // get all parents:
-        // $arr_parents = [];
-        // $parent = $product;
-        // while ( $parent->id > 1 ) {
-        //     $arr_parents[] = $parent;
-        //     $parent = Product::find($parent->parent_id);
-        // }
-        // $arr_parents = array_reverse($arr_parents);
-        // // get breadcrumbs for all parents:
-        // foreach ( $arr_parents as $parent ) {
-        //     $trail->push($parent->title, route('categories.show', $parent->id));
-        // }
         $trail->parent('catalog');
         // get all parents:
         $arr_parents = [];
         $parent = $category;
         while ( $parent->id > 1 ) {
-            // dd($parent->id);
             $arr_parents[] = $parent;
             $parent = Category::find($parent->parent_id);
         }
@@ -57,93 +46,239 @@ use App\Category;
             $trail->push($parent->title, route('categories.show', $parent->id));
         }
     });
-    // Home > Catalog > [Categories] > Edit
-    Breadcrumbs::for('categories.edit', function ($trail, $category) {
-        $trail->parent('categories.show', $category);
-        // $trail->push('Edit', route('categories.edit', $category));
-        $trail->push('Редактирование', route('categories.edit', $category));
-    });
+
 
 
 // products
-    // Home > Catalog > Create Product
-    Breadcrumbs::for('products.create', function ($trail) {
-        $trail->parent('catalog');
-        // $trail->push('Create Product', route('products.create'));
-        $trail->push('Создание товара', route('products.create'));
-    });
-    // Home > Catalog > [Categories] > [Product]
+    // Home > Catalog > [Category] > [Product]
     Breadcrumbs::for('products.show', function ($trail, $product) {
         $trail->parent('categories.show', $product->category);
         $trail->push($product->name, route('products.show', ['product' => $product->id]));
     });
-    // Home > Catalog > [Categories] > [Product] > Edit Product
-    Breadcrumbs::for('products.edit', function ($trail, $product) {
-        $trail->parent('products.show', $product);
-        // $trail->push('Edit Product', route('products.edit', ['product' => $product]));
-        $trail->push(__('Edit'), route('products.edit', ['product' => $product]));
-    });
-    // Home > Catalog > [Categories] > [Product] > Copy Product
-    Breadcrumbs::for('products.copy', function ($trail, $product) {
-        $trail->parent('products.show', $product);
-        // $trail->push('Copy Product', route('products.copy', ['product' => $product]));
-        $trail->push('Копирование товара', route('products.copy', ['product' => $product]));
-    });
 
-    
-// Home > Catalog > [Search]
-Breadcrumbs::for('search', function ($trail) {
-    $trail->parent('catalog');
-    $trail->push('Результаты поиска', route('search'));
-});
+
+
+// search
+    // Home > Catalog > [Search]
+    Breadcrumbs::for('search', function ($trail) {
+        $trail->parent('catalog');
+        $trail->push('Результаты поиска', route('search'));
+    });
 
 
 
 // Home > Cart
-Breadcrumbs::for('cart', function ($trail) {
+    Breadcrumbs::for('cart', function ($trail) {
+        $trail->parent('home');
+        // $trail->push('Cart');
+        $trail->push('Корзина');
+    });
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//          Dashboard
+////////////////////////////////////////////////////////////////////////////////
+
+
+// Home > Dashboard
+Breadcrumbs::for('dashboard', function ($trail) {
     $trail->parent('home');
-    // $trail->push('Cart');
-    $trail->push('Корзина');
+    $trail->push(__('Dashboard'), route('dashboard'));
 });
 
 
 
-// Home > Orders
-Breadcrumbs::for('orders.index', function ($trail) {
-    $trail->parent('home');
-    // $trail->push('Orders', route('orders.index'));
-    $trail->push('Заказы', route('orders.index'));
-});
+// categories
+    // Home > Dashboard > Categories
+    Breadcrumbs::for('categories.adminindex', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push('Категории', route('categories.adminindex'));
+    });
+    
+    // Home > Dashboard > Categories > [Category]
+    Breadcrumbs::for('categories.adminshow', function ($trail, $category) {
+        $trail->parent('categories.adminindex');
+        // get all parents:
+        $arr_parents = [];
+        $parent = $category;
+        while ( $parent->id > 1 ) {
+            $arr_parents[] = $parent;
+            $parent = Category::find($parent->parent_id);
+        }
+        $arr_parents = array_reverse($arr_parents);
+        // get breadcrumbs for all parents:
+        foreach ( $arr_parents as $parent ) {
+            $trail->push($parent->title, route('categories.adminshow', $parent->id));
+        }
+    });
+    // Home > Dashboard > Categories > Create Categories
+    Breadcrumbs::for('categories.create', function ($trail) {
+        $trail->parent('categories.adminindex');
+        $trail->push('Создание категории', route('categories.create'));
+    });
+    // Home > Dashboard > Categories > [Category] > Edit
+    Breadcrumbs::for('categories.edit', function ($trail, $category) {
+        $trail->parent('categories.adminshow', $category);
+        $trail->push('Редактирование', route('categories.edit', $category));
+    });
 
 
-// Home > Orders > Order
-Breadcrumbs::for('orders.show', function ($trail, $order) {
-    $trail->parent('orders.index');
-    // $trail->push('Order #' . $order->id);
-    $trail->push('Заказ #' . $order->id, route('orders.show', $order));
-});
+
+// products
+    // Home > Dashboard > Products
+    Breadcrumbs::for('products.adminindex', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push('Товары', route('products.adminindex'));
+    });
+
+    // Home > Dashboard > Categories > [Category] > [Product]
+    Breadcrumbs::for('products.adminshow', function ($trail, $product) {
+        $trail->parent('categories.adminshow', $product->category);
+        $trail->push('Товар', route('products.adminshow', $product));
+    });
+    // Home > Dashboard > Products > Create Product
+    Breadcrumbs::for('products.create', function ($trail) {
+        $trail->parent('catalog');
+        $trail->push('Создание товара', route('products.create'));
+    });
+    // Home > Dashboard > Products > [Product] > Edit Product
+    Breadcrumbs::for('products.edit', function ($trail, $product) {
+        $trail->parent('products.adminshow', $product);
+        $trail->push(__('Edit'), route('products.edit', ['product' => $product]));
+    });
+    // Home > Dashboard > Products > [Product] > Copy Product
+    Breadcrumbs::for('products.copy', function ($trail, $product) {
+        $trail->parent('products.adminshow', $product);
+        $trail->push('Копирование товара', route('products.copy', ['product' => $product]));
+    });
+
+
+
+// Tasks and Directive
+    // Home > Users > [User] > Tasks  /  Home > Dashboard > Tasks
+    Breadcrumbs::for('tasks.index', function ($trail, $user) {
+        if ( auth()->user()->id === $user->id ) {
+            $trail->parent('dashboard');
+        } else {
+            $trail->parent('users.show', $user);
+        }
+        $trail->push('Мои задачи', route('tasks.index', $user));
+    });
+    // Home > Users > [User] > Tasks > [Task]  /  Home > Dashboard > Tasks > [Task]
+    Breadcrumbs::for('tasks.show', function ($trail, $task) {
+        $trail->parent('tasks.index', $task->getMaster);
+        $trail->push('Задача #' . $task->id, route('tasks.show', $task));
+    });
+    // Home > Users > [User] > Tasks > Create
+    Breadcrumbs::for('tasks.create', function ($trail, $user) {
+        $trail->parent('tasks.index', $user);
+        $trail->push('Создание поручения', route('tasks.create'));
+    });
+    // Home > Users > [User] > Tasks > [Task] > Edit
+    Breadcrumbs::for('tasks.edit', function ($trail, $task) {
+        $trail->parent('tasks.show', $task);
+        $trail->push('Редактирование', route('tasks.edit', $task));
+    });
+
+    // Home > Users > [User] > Directives
+    Breadcrumbs::for('directives.index', function ($trail, $user) {
+        if ( auth()->user()->id === $user->id ) {
+            $trail->parent('dashboard');
+        } else {
+            $trail->parent('users.show', $user);
+        }
+        $trail->push('Мои поручения', route('directives.index', $user));
+    });
+    // Home > Users > [User] > Directives > [Directive]
+    Breadcrumbs::for('directives.show', function ($trail, $task) {
+        $trail->parent('directives.index', $task->getSlave);
+        $trail->push('Поручение #' . $task->id, route('directives.show', $task));
+    });
+
+
+
+// Orders
+    // Home > Dashboard > Orders
+    Breadcrumbs::for('orders.index', function ($trail) {
+        $trail->parent('dashboard');
+        if ( auth()->user()->can('view_orders') ) {
+            $trail->push('Заказы', route('orders.index'));
+        } else {
+            $trail->push('Мои заказы', route('orders.index'));
+        }
+    });
+    // Home > Dashboard > Orders > [Order]
+    Breadcrumbs::for('orders.show', function ($trail, $order) {
+        $trail->parent('orders.index');
+        // $trail->push('Order #' . $order->id);
+        $trail->push('Заказ #' . $order->id, route('orders.show', $order));
+    });
+
+
+
+// Users
+    // Home > Dashboard > Users
+    Breadcrumbs::for('users.index', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push('Пользователи', route('users.index'));
+    });
+    // WHAT???
+    // // Home > Dashboard > Users > Registrations
+    // Breadcrumbs::for('users.registrations', function ($trail) {
+    //     $trail->parent('users.index');
+    //     // $trail->push('Registrations Users', route('registrations.index'));
+    //     $trail->push('Registrations Users', route('registrations.index'));
+    // });
+    // Home > Dashboard > Users > [User]
+    Breadcrumbs::for('users.show', function ($trail, $user) {
+        if ( auth()->user()->id == $user->id ) {
+            $trail->parent('dashboard');
+            $trail->push('Мой профиль', route('users.show', $user));
+        } elseif ( auth()->user()->can('view_users') ) {
+            $trail->parent('users.index');
+            $trail->push('Профиль "' . $user->name . '"', route('users.show', $user));
+        }
+    });
+    // Home > Dashboard > Users > [User] > edit
+    Breadcrumbs::for('users.edit', function ($trail, $user) {
+        $trail->parent('users.show', $user);
+        $trail->push('Редактирование', route('users.edit', $user));
+    });
+
+
+// Settings
+    // Home > Dashboard > Settings
+    Breadcrumbs::for('settings.index', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push('Настройки', route('settings.index'));
+    });
 
 
 
 // Roles
-    // Home > Roles
+    // Home > Dashboard > Roles
     Breadcrumbs::for('roles', function ($trail) {
-        $trail->parent('home');
+        $trail->parent('dashboard');
         // $trail->push('Roles', route('roles.index'));
         $trail->push('Роли', route('roles.index'));
     });
-    // Home > Roles > Role
+    // Home > Dashboard > Roles > [Role]
     Breadcrumbs::for('role', function ($trail, $role) {
         $trail->parent('roles');
         $trail->push($role->display_name, route('roles.show', $role));
     });
-    // Home > Roles > Create Role
+    // Home > Dashboard > Roles > [Role] > Create Role
     Breadcrumbs::for('roles.create', function ($trail) {
         $trail->parent('roles');
         // $trail->push('Create Role');
         $trail->push('Создание роли');
     });
-    // Home > Roles > Edit Role
+    // Home > Dashboard > Roles > [Role] > Edit Role
     Breadcrumbs::for('roles.edit', function ($trail, $role) {
         $trail->parent('role', $role);
         // $trail->push('Edit', route('roles.edit', $role));
@@ -152,56 +287,16 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
 
 
 
-// Users
-    // Home > Users
-    Breadcrumbs::for('users.index', function ($trail) {
-        $trail->parent('home');
-        // $trail->push('Users', route('users.index'));
-        $trail->push('Пользователи', route('users.index'));
-    });
-    // Home > Users > Registrations
-    Breadcrumbs::for('users.registrations', function ($trail) {
-        $trail->parent('users.index');
-        // $trail->push('Registrations Users', route('registrations.index'));
-        $trail->push('Registrations Users', route('registrations.index'));
-    });
-    // Home > Users > [User]
-    Breadcrumbs::for('users.show', function ($trail, $user) {
-        // if ( auth()->user()->can('view_users') ) {
-        //     $trail->parent('users.index');
-        //     $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
-        // } else {
-        //     $trail->parent('home');
-        //     $trail->push('My Profile', route('users.show', $user));
-        // }
-        if ( auth()->user()->id == $user->id ) {
-            $trail->parent('dashboard');
-            // $trail->push('My Profile', route('users.show', $user));
-            $trail->push('Мой профиль', route('users.show', $user));
-        } elseif ( auth()->user()->can('view_users') ) {
-            $trail->parent('users.index');
-            // $trail->push('Profile "' . $user->name . '"', route('users.show', $user));
-            $trail->push('Профиль "' . $user->name . '"', route('users.show', $user));
-        }
-    });
-    // Home > Users > [User] > edit
-    Breadcrumbs::for('users.edit', function ($trail, $user) {
-        $trail->parent('users.show', $user);
-        // $trail->push('Edit', route('users.edit', $user));
-        $trail->push('Редактирование', route('users.edit', $user));
-    });
 
-
-
-// Actions
-    // users
-    // Home > Users > Actions
-    Breadcrumbs::for('actions.users', function ($trail) {
-        $trail->parent('users.index');
-        // $trail->push('Actions users', route('actions.users'));
-        $trail->push('Активность пользователя', route('actions.users'));
-    });
-    // Home > Users > [User] > Actions
+// actions ПОПРАВИТЬ!
+    // // users
+    // // Home > Users > Actions
+    // Breadcrumbs::for('actions.users', function ($trail) {
+    //     $trail->parent('users.adminindex');
+    //     // $trail->push('Actions users', route('actions.users'));
+    //     $trail->push('Активность пользователя', route('actions.users'));
+    // });
+    // Home > Dashboard > Users > [User] > Actions
     Breadcrumbs::for('actions.user', function ($trail, $user) {
         $trail->parent('users.show', $user);
         $trail->push($user->name, route('actions.user', $user));
@@ -263,138 +358,4 @@ Breadcrumbs::for('orders.show', function ($trail, $order) {
     Breadcrumbs::for('actions.order', function ($trail, $order) {
         $trail->parent('orders.show', $order);
         $trail->push('History', route('actions.order', $order));
-    });
-
-
-
-// Settings
-    // Home > Settings
-    Breadcrumbs::for('settings', function ($trail) {
-        $trail->parent('home');
-        // $trail->push('Settings');
-        $trail->push('Настройки');
-    });
-
-    
-
-
-
-
-// admin side
-    // // Home > Categories
-    // Breadcrumbs::for('categories.adminindex', function ($trail) {
-    //     $trail->parent('home');
-    //     // $trail->push('Categories', route('categories.adminindex'));
-    //     $trail->push('Категории', route('categories.adminindex'));
-    // });
-    // // Home > Categories -> [Category]
-    // Breadcrumbs::for('categories.adminshow', function ($trail, $category) {
-    //     $trail->parent('categories.adminindex');
-    //     // get all parents:
-    //     $arr_parents = [];
-    //     $parent = $category;
-    //     while ( $parent->id > 1 ) {
-    //         $arr_parents[] = $parent;
-    //         $parent = Category::find($parent->parent_id);
-    //     }
-    //     $arr_parents = array_reverse($arr_parents);
-    //     // get breadcrumbs for all parents:
-    //     foreach ( $arr_parents as $parent ) {
-    //         $trail->push($parent->title, route('categories.adminshow', $parent->id));
-    //     }
-    // });
-
-
-    // Home > All Products
-    Breadcrumbs::for('products.adminindex', function ($trail) {
-        $trail->parent('home');
-        // $trail->push('All Products', route('products.adminindex'));
-        $trail->push('Товары', route('products.adminindex'));
-    });
-    // Home > All Products > [Product]
-    Breadcrumbs::for('products.adminshow', function ($trail, $product) {
-        $trail->parent('products.adminindex');
-        // $trail->push('Product', route('products.adminshow', $product));
-        $trail->push('Товар', route('products.adminshow', $product));
-    });
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//          Dashboard
-////////////////////////////////////////////////////////////////////////////////
-
-
-// Home > Dashboard
-Breadcrumbs::for('dashboard', function ($trail) {
-    $trail->parent('home');
-    $trail->push(__('Dashboard'), route('dashboard'));
-});
-
-    // Home > Dashboard > Categories
-    Breadcrumbs::for('categories.adminindex', function ($trail) {
-        $trail->parent('dashboard');
-        $trail->push('Категории', route('categories.adminindex'));
-    });
-    // Home > Dashboard > Categories -> [Category]
-    Breadcrumbs::for('categories.adminshow', function ($trail, $category) {
-        $trail->parent('categories.adminindex');
-        // get all parents:
-        $arr_parents = [];
-        $parent = $category;
-        while ( $parent->id > 1 ) {
-            $arr_parents[] = $parent;
-            $parent = Category::find($parent->parent_id);
-        }
-        $arr_parents = array_reverse($arr_parents);
-        // get breadcrumbs for all parents:
-        foreach ( $arr_parents as $parent ) {
-            $trail->push($parent->title, route('categories.adminshow', $parent->id));
-        }
-    });
-    // Home > Dashboard > Categories > Create Categories
-    Breadcrumbs::for('categories.create', function ($trail) {
-        $trail->parent('categories.adminindex');
-        $trail->push('Создание категории', route('categories.create'));
-    });
-
-
-
-// Tasks and Directive
-    // Home > Users > [User] > Tasks  /  Home > Dashboard > Tasks
-    Breadcrumbs::for('tasks.index', function ($trail, $user) {
-        if ( auth()->user()->id === $user->id ) {
-            $trail->parent('dashboard', $user);
-        } else {
-            $trail->parent('users.show', $user);
-        }
-        $trail->push('Задачи', route('tasks.index', $user));
-    });
-    // Home > Users > [User] > Tasks > [Task]  /  Home > Dashboard > Tasks > [Task]
-    Breadcrumbs::for('tasks.show', function ($trail, $task) {
-        $trail->parent('tasks.index', $task->getMaster);
-        $trail->push('Задача #' . $task->id, route('tasks.show', $task));
-    });
-    // Home > Users > [User] > Tasks > Create
-    Breadcrumbs::for('tasks.create', function ($trail, $user) {
-        $trail->parent('tasks.index', $user);
-        $trail->push('Создание поручения', route('tasks.create'));
-    });
-    // Home > Users > [User] > Tasks > [Task] > Edit
-    Breadcrumbs::for('tasks.edit', function ($trail, $task) {
-        $trail->parent('tasks.show', $task);
-        $trail->push('Редактирование', route('tasks.edit', $task));
-    });
-
-    // Home > Users > [User] > Directives
-    Breadcrumbs::for('directives.index', function ($trail, $user) {
-        $trail->parent('users.show', $user);
-        $trail->push('Поручения', route('directives.index', $user));
-    });
-    // Home > Users > [User] > Directives > [Directive]
-    Breadcrumbs::for('directives.show', function ($trail, $task) {
-        $trail->parent('directives.index', $task->getSlave);
-        $trail->push('Поручение #' . $task->id, route('directives.show', $task));
     });

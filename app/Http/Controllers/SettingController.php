@@ -22,7 +22,7 @@ class SettingController extends Controller
         abort_if ( !Auth::user()->can('view_settings'), 403 );
         $settings = Setting::all();
         $groups = Setting::pluck('name_group', 'group');
-        return view('settings.index', compact('settings', 'groups'));
+        return view('dashboard.adminpanel.settings.index', compact('settings', 'groups'));
     }
 
     /**

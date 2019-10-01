@@ -96,7 +96,7 @@ class ProductsController extends Controller
             ->paginate();
         $categories = Category::all();
 
-        return view('products.adminindex', compact('appends', 'categories', 'products'));
+        return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
 
 
@@ -123,7 +123,7 @@ class ProductsController extends Controller
         abort_if ( !auth()->user()->can('create_products'), 403 );
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
-        return view('products.create', compact('categories', 'manufacturers'));
+        return view('dashboard.adminpanel.products.create', compact('categories', 'manufacturers'));
     }
 
     /**
@@ -136,7 +136,7 @@ class ProductsController extends Controller
         abort_if (!auth()->user()->can('edit_products'), 403);
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
-        return view('products.edit', compact('product', 'categories', 'manufacturers'));
+        return view('dashboard.adminpanel.products.edit', compact('product', 'categories', 'manufacturers'));
     }
 
     /**
@@ -151,7 +151,7 @@ class ProductsController extends Controller
         $manufacturers = Manufacturer::all();
         session()->flash('message', 'When copying an item, you must change its name!');
 
-        return view('products.copy', compact('product', 'categories', 'manufacturers'));
+        return view('dashboard.adminpanel.products.copy', compact('product', 'categories', 'manufacturers'));
     }
 
     /**

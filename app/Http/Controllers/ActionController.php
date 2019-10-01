@@ -22,7 +22,7 @@ class ActionController extends Controller
     {
         abort_if ( auth()->user()->cannot('view_actions'), 403 );
         $actions = Action::orderBy('created_at', 'desc')->paginate();
-        return view('actions.index', compact('actions'));
+        return view('dashboard.adminpanel.actions.index', compact('actions'));
     }
     /**
      * Display a listing of the action all users.
@@ -31,7 +31,7 @@ class ActionController extends Controller
     public function show(Action $action)
     {
         abort_if ( auth()->user()->cannot('view_actions'), 403 );
-        return view('actions.show', compact('action'));
+        return view('dashboard.adminpanel.actions.show', compact('action'));
     }
 
 
@@ -47,7 +47,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.users', compact('actions'));
+        return view('dashboard.adminpanel.actions.users', compact('actions'));
     }
     /**
      * Display a listing of the action of user.
@@ -62,7 +62,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.user', compact('user', 'actions'));
+        return view('dashboard.adminpanel.actions.user', compact('user', 'actions'));
     }
 
 
@@ -81,7 +81,7 @@ class ActionController extends Controller
 
         $actions = $actions->paginate();
 
-        return view('actions.orders', compact('actions'));
+        return view('dashboard.adminpanel.actions.orders', compact('actions'));
     }
     /**
      * Show list of actions with order.
@@ -102,7 +102,7 @@ class ActionController extends Controller
 
         $actions = $actions->paginate();
 
-        return view('actions.order', compact('order', 'actions'));
+        return view('dashboard.adminpanel.actions.order', compact('order', 'actions'));
     }
 
 
@@ -112,14 +112,13 @@ class ActionController extends Controller
      */
     public function products()
     {
-        dd('products');
         abort_if ( auth()->user()->cannot('view_products'), 403 );
 
         $actions = Action::where('type', 'product')
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.products', compact('actions'));
+        return view('dashboard.adminpanel.actions.products', compact('actions'));
     }
     /**
      * Show list of actions with product.
@@ -143,7 +142,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.product', compact('product', 'actions'));
+        return view('dashboard.adminpanel.actions.product', compact('product', 'actions'));
     }
 
 
@@ -165,7 +164,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.categories', compact('actions'));
+        return view('dashboard.adminpanel.actions.categories', compact('actions'));
     }
     /**
      * Show list of actions with category.
@@ -189,7 +188,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.category', compact('category', 'actions'));
+        return view('dashboard.adminpanel.actions.category', compact('category', 'actions'));
     }
 
 
@@ -205,7 +204,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
             
-        return view('actions.categories', compact('actions'));
+        return view('dashboard.adminpanel.actions.categories', compact('actions'));
     }
 
 
@@ -221,7 +220,7 @@ class ActionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('actions.categories', compact('actions'));
+        return view('dashboard.adminpanel.actions.categories', compact('actions'));
     }
 
 }
