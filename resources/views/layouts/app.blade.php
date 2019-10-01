@@ -173,7 +173,7 @@
                                 <a href="{{ route('cart.show') }}" class="nav-link">
                                     <i class="fas fa-shopping-cart"></i>
                                     <span class="badge">
-                                        {{ Session::has('cart') and count(Session::get('cart')->items) ? count(Session::get('cart')->items) : '' }}
+                                        {{ (Session::has('cart') and count(Session::get('cart')->items)) ? count(Session::get('cart')->items) : '' }}
                                     </span>
                                 </a>
                             <li>

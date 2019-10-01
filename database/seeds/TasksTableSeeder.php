@@ -71,7 +71,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Убрать галерею товаров, если изображение одно',
                 'description' => 'Убрать галерею товаров, если изображение одно.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -156,14 +156,14 @@ class TasksTableSeeder extends Seeder
                         </li>
                     </ol>
                 ',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
                 'title' => 'Поправить количество товаров в корзине',
                 'description' => 'Поправить количество товаров в корзине, отображаемое в шапке сайта.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -233,7 +233,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Разрешения для ролей',
                 'description' => 'Проверить и при необходимости поправить разрешения для ролей.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
