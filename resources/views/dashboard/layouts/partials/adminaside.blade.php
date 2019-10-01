@@ -3,8 +3,10 @@
 
 {{-- Readme --}}
 <div class="admin_menu_block">
-    @if ( Auth::user()->hasRole(['owner']) )
-        <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseReadme" role="button" aria-expanded="false" aria-controls="collapseReadme">
+
+    {{-- 'owner', 'developer' --}}
+    @role(['owner', 'developer'])
+    <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseReadme" role="button" aria-expanded="false" aria-controls="collapseReadme">
 			<i class="fas fa-book-dead"></i> Readme</span>
 		</h5>
         <div class="collapse" id="collapseReadme">
@@ -20,14 +22,16 @@
             <div class="submenuitem">- <a target="_blank" href="https://github.com/caouecs/Laravel-lang">Laravel-lang</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://laravel.com/docs/5.8/migrations#creating-columns">Columns</a></div>
         </div>
-    @endif
+    @endrole
+    {{-- /'owner', 'developer' --}}
 </div>
 {{-- /Readme --}}
 
 
 {{-- Tools --}}
 <div class="admin_menu_block">
-    @role('owner')
+    {{-- 'owner', 'developer' --}}
+    @role(['owner', 'developer'])
         <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseTools" role="button" aria-expanded="false" aria-controls="collapseTools">
 			<i class="fas fa-tools"></i> Инструменты</span>
 		</h5>
@@ -38,6 +42,7 @@
             <div class="submenuitem">- <a href="{{ route('clear') }}">CacheClear</a></div>
         </div>
     @endrole
+    {{-- /'owner', 'developer' --}}
 </div>
 {{-- /Tools --}}
 

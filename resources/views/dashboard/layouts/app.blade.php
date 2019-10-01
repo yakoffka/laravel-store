@@ -25,6 +25,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/yo.css') }}" rel="stylesheet">
+    <style>
+        div.fw-background {
+            background: #ffa500;
+            background: linear-gradient(to right, #ffa500, #ea7500);
+        }
+    </style>
     @role('manager')<link href="{{ asset('css/manager.css') }}" rel="stylesheet">@endrole
     @role('admin')<link href="{{ asset('css/admin.css') }}" rel="stylesheet">@endrole
     @role('owner')<link href="{{ asset('css/owner.css') }}" rel="stylesheet">@endrole

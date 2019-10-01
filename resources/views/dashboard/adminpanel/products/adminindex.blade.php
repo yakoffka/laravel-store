@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('dashboard.layouts.app')
 
 @section('title', "Список товаров")
 
@@ -20,7 +20,7 @@
     <div class="row">
 
 
-        @include('layouts.partials.aside')
+        @include('dashboard.layouts.partials.aside')
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
@@ -49,7 +49,9 @@
                     <th>наименование</th>
                     {{-- <th>slug</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                    <th width="30" class="verticalTableHeader ta_c">видимость</th>
+                    <th class="verticalTableHeader ta_c">видимость</th>
+                    <th class="verticalTableHeader ta_c">видимость родителя</th>
+                    <th class="verticalTableHeader ta_c">видимость прародителя</th>
                     <th width="30" class="verticalTableHeader ta_c">категория</th>
                     <th width="30" class="verticalTableHeader ta_c">изображений</th>
                     {{-- <th class="verticalTableHeader ta_c">materials</th> --}}

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('dashboard.layouts.app')
 
 @php
     $title = 'Settings Store';
@@ -24,7 +24,7 @@
     <div class="row">
 
 
-        @include('layouts.partials.aside')
+        @include('dashboard.layouts.partials.aside')
 
 
         {{-- content --}}
