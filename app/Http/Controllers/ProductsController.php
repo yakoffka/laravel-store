@@ -584,7 +584,14 @@ class ProductsController extends Controller
         ]);
 
         $query = request('query');
-        $products = Product::search($query)->paginate(15);
+        // $products = Product::search($query)->paginate(15);
+        $products = Product::where('visible', 1)
+            // ->where('category_visible', true)
+            ->where('depricated_grandparent_visible', '=', 1)
+            ->where('depricated_parent_visible', '=', 1)
+            ->search($query)
+            ->paginate(15)
+            ;
         $appends = [];
         foreach($request->query as $key => $val){
             $appends[$key] = $val;
