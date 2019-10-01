@@ -258,9 +258,15 @@ class CategoryController extends Controller
 
             } elseif ( $category->products->count() ) {
                 $category->products->each(function ($product, $key) {
-                    $product->update([
+                    // $product->update([
+                    //     'depricated_parent_visible' => request('visible') ? true : false,
+                    //     'edited_by_user_id' => Auth::user()->id,
+                    // ]);
+                    // обновление модели без изменения updated_at может пригодится.
+                    $product->save([
                         'depricated_parent_visible' => request('visible') ? true : false,
                         'edited_by_user_id' => Auth::user()->id,
+                        'timestamps' => false,
                     ]);
                 });
             }
