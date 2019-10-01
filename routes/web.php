@@ -14,9 +14,12 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', function () {
-    return redirect( route('home') );
-});
+// Route::get('/', function () {
+//     return redirect( route('home') );
+// });
+// Route::get('/', function () {
+//     return redirect( route('mainpage') );
+// });
 
 /*
     GET '/items' ItemController@index
@@ -34,7 +37,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@home')->name('home');
+Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
 

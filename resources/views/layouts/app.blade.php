@@ -226,10 +226,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">{{__('Profile')}}</a>
-
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">{{__('Dashboard')}}</a>
                                     <a class="dropdown-item" href="{{ route('orders.index') }}">{{__('Orders')}}</a>
-
+                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">{{__('Profile')}}</a>
+                
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>

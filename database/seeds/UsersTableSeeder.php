@@ -23,6 +23,9 @@ class UsersTableSeeder extends Seeder
             ['name' => 'User1'.config('custom.name_owner'),         'email' => str_replace('@', '+user1@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
             ['name' => 'User2'.config('custom.name_owner'),         'email' => str_replace('@', '+user2@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
             ['name' => 'User3'.config('custom.name_owner'),         'email' => str_replace('@', '+user3@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User1'.config('custom.name_devel'),         'email' => str_replace('@', '+user1@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User2'.config('custom.name_devel'),         'email' => str_replace('@', '+user2@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User3'.config('custom.name_devel'),         'email' => str_replace('@', '+user3@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
         ];
 
         foreach ( $users as $user ) {
@@ -30,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 'uuid' => Str::uuid(),
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'password' => $user['passw'],
+                'password' => bcrypt($user['passw']),
                 'status' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

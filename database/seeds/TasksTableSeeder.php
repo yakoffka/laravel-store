@@ -13,29 +13,29 @@ class TasksTableSeeder extends Seeder
     public function run()
     {
 
-        // seeder tasks
-        $count_users = User::count();
+        // // seeder tasks
+        // $count_users = User::count();
 
-        $lorem = 'lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
+        // $lorem = 'lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
 
-        for ( $i = 1; $i < 25; $i++ ) {
+        // for ( $i = 1; $i < 25; $i++ ) {
 
-            $master = rand(3, $count_users-1);
-            $slave  = rand($master, $count_users-1);
-            $title = 'Title test task #' . $i;
+        //     $master = rand(3, $count_users-1);
+        //     $slave  = rand($master, $count_users-1);
+        //     $title = 'Title test task #' . $i;
 
-            DB::table('tasks')->insert([
-                'master_user_id' => $master,
-                'slave_user_id' => $slave,
-                'title' => $title,
-                'slug' => Str::slug($title, '-'),
-                'description' => 'Description for task #' . $i . '. ' . $lorem ,
-                'tasksstatus_id' => rand(1, 5),
-                'taskspriority_id' => rand(1, 4),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]);
-        }
+        //     DB::table('tasks')->insert([
+        //         'master_user_id' => $master,
+        //         'slave_user_id' => $slave,
+        //         'title' => $title,
+        //         'slug' => Str::slug($title, '-'),
+        //         'description' => 'Description for task #' . $i . '. ' . $lorem ,
+        //         'tasksstatus_id' => rand(1, 5),
+        //         'taskspriority_id' => rand(1, 4),
+        //         'created_at' => date('Y-m-d H:i:s'),
+        //         'updated_at' => date('Y-m-d H:i:s'),
+        //     ]);
+        // }
 
         // task for owner
         $arr_task_for_owner = [
@@ -46,6 +46,62 @@ class TasksTableSeeder extends Seeder
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
+
+            [
+                'title' => 'Добавить сравнение товаров',
+                'description' => 'Добавить сравнение товаров.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Конкретика событий',
+                'description' => 'добавить в события конкретики (более полное описание изменений).',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Убрать галерею товаров, если изображение одно',
+                'description' => 'Убрать галерею товаров, если изображение одно.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Написать ежедневник',
+                'description' => 'написать ежедневник.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Ознакомления с комментарием к заказу',
+                'description' => 'Добавить недопущение изменения статуса заказа без ознакомления с комментарием (с записью кто ознакомился).',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Plain в email',
+                'description' => 'Добавить plain в email https://laravel.ru/posts/272.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Canonical link',
+                'description' => 'SEO: canonical link.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Ценовые группы',
+                'description' => 'Добавить ценовые группы.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'Аватар',
@@ -688,8 +744,8 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Добавить атрибуты товаров',
-                'description' => 'Добавить атрибуты товаров как в
+                'title' => 'Добавить анимарованную сортировку товаров',
+                'description' => 'Добавить анимарованную сортировку товаров как в
                 <a href="https://s-sd.ru/blog_studio_design/animarovannaya_sortirovka_blokov_s_pomowyu_isotope/">примере</a>
                  .',
                 'tasksstatus_id' => 1,
@@ -726,8 +782,8 @@ class TasksTableSeeder extends Seeder
         foreach ( $arr_task_for_owner as $i => $task ) {
 
             DB::table('tasks')->insert([
-                'master_user_id' => 2,
-                'slave_user_id' => 2,
+                'master_user_id' => 3,
+                'slave_user_id' => 3,
                 'title' => $task['title'] ?? Str::limit($task->description, 20),
                 'slug' => Str::slug($task['title'], '-'),
                 'description' => $task['description'],

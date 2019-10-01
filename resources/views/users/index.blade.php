@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>List of users</h1>
+    <h1>Список пользователей ресурса</h1>
 
 
     <div class="row">
