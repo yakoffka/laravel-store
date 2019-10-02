@@ -201,9 +201,9 @@ class CategoryController extends CustomController
     public function update(Category $category)
     {
         abort_if( Auth::user()->cannot('edit_categories'), 403);
-        // dd(request()->all());
 
-        $validator = request()->validate([
+        // validation
+        request()->validate([
             'name'          => 'required|string|max:255',
             'sort_order'    => 'required|string|max:1',
             'title'         => 'nullable|string|max:255',
@@ -214,17 +214,6 @@ class CategoryController extends CustomController
             'parent_id'     => 'required|integer|max:255',
         ]);
 
-        // добавить проверку успешности сохранения!
-        // $category->update([
-        //     'name'              => request('name'),
-        //     'slug'              => Str::slug(request('name'), '-'),
-        //     'sort_order'        => request('sort_order'),
-        //     'title'             => request('title'),
-        //     'description'       => request('description'),
-        //     'visible'           => request('visible') ? 1 : 0,
-        //     'parent_id'         => request('parent_id'),
-        //     'edited_by_user_id' => Auth::user()->id,
-        // ]);
         $category->name              = request('name');
         $category->slug              = request('slug');
         $category->sort_order        = request('sort_order');
@@ -234,11 +223,12 @@ class CategoryController extends CustomController
         $category->parent_id         = request('parent_id');
         $category->edited_by_user_id = Auth::user()->id;
 
-        // $dirty_properties = array_flip( $category->getDirty() );
         $dirty_properties = $category->getDirty();
         $original = $category->getOriginal();
-        // $getDirty = $category->getDirty();
-        $category->save();
+
+        if ( !$category->save() ){
+            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        };
 
 
         if ( request('imagepath') ) {
@@ -294,26 +284,6 @@ class CategoryController extends CustomController
 
 
         if ( $dirty_properties ) {
-            // $description = 'Редактирование категории ' . $category->name 
-            //     . '. Изменённые поля: ' . implode(', ', $dirty_properties)
-            //     // . '. Исполнитель: ' . auth()->user()->name . '.'
-            //     ;
-            // $original = $category->getOriginal();
-            // $details = '';
-            // foreach ( $dirty_properties as $property ) {
-            //     $details .= 
-            // }
-
-            // // create action record
-            // $action = Action::create([
-            //     'user_id' => auth()->user()->id,
-            //     'type' => 'category',
-            //     'type_id' => $category->id,
-            //     'action' => 'update',
-            //     'description' => $description,
-            //     // 'old_value' => $category->id,
-            //     // 'new_value' => $category->id,
-            // ]);
             $description = $this->createAction($category, $dirty_properties, $original);
         }
 
@@ -322,7 +292,6 @@ class CategoryController extends CustomController
 
         // return redirect()->route('categories.adminshow', ['category' => $category->id]);
         return redirect()->route('categories.adminindex');
-        // return back();
     }
 
     /**

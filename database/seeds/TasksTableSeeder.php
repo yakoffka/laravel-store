@@ -54,19 +54,31 @@ class TasksTableSeeder extends Seeder
             //     'taskspriority_id' => 2,
             // ],
 
-            // [
-            //     'title' => '',
-            //     'description' => '.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 2,
-            // ],
+            [
+                'title' => 'рефакторинг',
+                'description' => '.
+                    <ol>
+                        <li>истории.
+                        </li><li>защита от массового заполнения.
+                        </li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 2,
+                'taskspriority_id' => 2,
+            ],
 
-            // [
-            //     'title' => '',
-            //     'description' => '.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 2,
-            // ],
+            [
+                'title' => 'Комментарии',
+                'description' => '.
+                    <ol>
+                        <li>Добавить email уведомление.
+                        </li><li>одобрение?.
+                        </li>
+                    </ol>
+                    ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'isDirty',
