@@ -15,7 +15,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                {{ $action->type }} {{ $action->action }}
+                                {{ $action->type }} 
                             </td>
                             <td>
                                 {{-- {{ $action->created_at }} --}}

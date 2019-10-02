@@ -16,7 +16,7 @@ class CreateActionsTable extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->set('type', [ // name model. set equivalent column.
+            $table->set('model', [ // name model. set equivalent column.
                 'Category', 
                 'Comment',
                 'Image',
@@ -28,11 +28,11 @@ class CreateActionsTable extends Migration
                 'Setting',
             ]);
             $table->unsignedBigInteger('type_id');
-            $table->set('action', [ // SET equivalent column.
-                'create', 
-                'update', 
-                'delete',
-                'verify', 
+            $table->set('type', [ // SET equivalent column.
+                'model_create', 
+                'model_update', 
+                'model_delete',
+                // 'verify', 
             ]);
             $table->text('description');
             $table->text('details')->nullable(); // serialized array. or longText??? or mediumText???

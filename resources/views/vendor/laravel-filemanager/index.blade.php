@@ -27,8 +27,8 @@
 <body>
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark" id="nav">
     <a class="navbar-brand invisible-lg d-none d-lg-inline" id="to-previous">
-      <i class="fas fa-arrow-left fa-fw"></i>
-      <span class="d-none d-lg-inline">{{ trans('laravel-filemanager::lfm.nav-back') }}</span>
+      <i class="fas fa-arrow-left fa-fw" title="{{ trans('laravel-filemanager::lfm.nav-back') }}"></i>
+      {{-- <span class="d-none d-lg-inline">{{ trans('laravel-filemanager::lfm.nav-back') }}</span> --}}
     </a>
     <a class="navbar-brand d-block d-lg-none" id="show_tree">
       <i class="fas fa-bars fa-fw"></i>
@@ -36,9 +36,9 @@
     <a class="navbar-brand d-block d-lg-none" id="current_folder"></a>
     <a id="loading" class="navbar-brand"><i class="fas fa-spinner fa-spin"></i></a>
     <div class="ml-auto px-2">
-      <a class="navbar-link d-none" id="multi_selection_toggle">
+      <a class="navbar-link d-none" id="multi_selection_toggle" title="{{ trans('laravel-filemanager::lfm.menu-multiple') }}">
         <i class="fa fa-check-double fa-fw"></i>
-        <span class="d-none d-lg-inline">{{ trans('laravel-filemanager::lfm.menu-multiple') }}</span>
+        {{-- <span class="d-none d-lg-inline">{{ trans('laravel-filemanager::lfm.menu-multiple') }}</span> --}}
       </a>
     </div>
     <a class="navbar-toggler collapsed border-0 px-1 py-2 m-0" data-toggle="collapse" data-target="#nav-buttons">
@@ -47,20 +47,22 @@
     <div class="collapse navbar-collapse flex-grow-0" id="nav-buttons">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" data-display="grid">
+          <a class="nav-link" data-display="grid" title="{{ trans('laravel-filemanager::lfm.nav-thumbnails') }}">
             <i class="fas fa-th-large fa-fw"></i>
-            <span>{{ trans('laravel-filemanager::lfm.nav-thumbnails') }}</span>
+            {{-- <span>{{ trans('laravel-filemanager::lfm.nav-thumbnails') }}</span> --}}
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-display="list">
+          <a class="nav-link" data-display="list" title="{{ trans('laravel-filemanager::lfm.nav-list') }}">
             <i class="fas fa-list-ul fa-fw"></i>
-            <span>{{ trans('laravel-filemanager::lfm.nav-list') }}</span>
+            {{-- <span>{{ trans('laravel-filemanager::lfm.nav-list') }}</span> --}}
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-sort fa-fw"></i>{{ trans('laravel-filemanager::lfm.nav-sort') }}
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+            aria-expanded="false" title="{{ trans('laravel-filemanager::lfm.nav-sort') }}">
+            <i class="fas fa-sort fa-fw"></i>
+            {{-- {{ trans('laravel-filemanager::lfm.nav-sort') }} --}}
           </a>
           <div class="dropdown-menu dropdown-menu-right border-0"></div>
         </li>

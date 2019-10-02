@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use App\Action;
 
 class CustomController extends Controller
@@ -12,26 +10,32 @@ class CustomController extends Controller
      *
      * @return string $action->description or false in case of failure
      */
-    protected function createAction($model, $dirty_properties, $original)
+    protected function createAction($model, $dirty_properties, $original, $type)
     {
         $reflect = new \ReflectionClass($model);
-        $shortName = $reflect->getShortName();
+        $shortModelName = $reflect->getShortName();
+        $description = __($type) . $shortModelName . ' "' . $model->name . '"';
 
-        $description = 'Редактирование модели ' . $shortName . ' "' . $model->name . '"';
+        // details
         $details = [];
-        foreach ( $dirty_properties as $property => $value ) {
-            $details[$property] = [
-                $property, $original[$property], $model->$property,
-            ];
+        if ( $type !== 'model_delete' ) {
+            if ( !$dirty_properties ) {
+                return false;
+            }
+            foreach ( $dirty_properties as $property => $value ) {
+                $details[$property] = [
+                    $property, !empty($original) ? $original[$property] : '', $model->$property,
+                ];
+            }
         }
 
         // create action record
         $action = new Action;
 
         $action->user_id = auth()->user()->id;
-        $action->type = $shortName;
+        $action->model = $shortModelName;
         $action->type_id = $model->id;
-        $action->action = 'update';
+        $action->type = $type;
         $action->description = $description;
         $action->details = serialize($details);
 

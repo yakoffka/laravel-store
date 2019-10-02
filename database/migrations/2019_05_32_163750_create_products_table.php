@@ -8,7 +8,8 @@ class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * change name file 
+     * 2019_05_17_163750_create_products_table -> 2019_05_32_163750_create_products_table
      * @return void
      */
     public function up()
@@ -33,6 +34,10 @@ class CreateProductsTable extends Migration
             $table->boolean('depricated_parent_visible')->default(true);
             $table->boolean('depricated_grandparent_visible')->default(true);
             $table->timestamps();
+
+            // $table->foreign('depricated_parent_visible')->references('visible')->on('categories')
+            //     ->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 

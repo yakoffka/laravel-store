@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\{Action, Category, Product};
 use Illuminate\Support\Facades\Storage;
-use Auth;
 use Illuminate\Support\Str;
 
 class CategoryController extends CustomController
@@ -44,7 +43,7 @@ class CategoryController extends CustomController
         } else {
 
             // get products
-            if( Auth::user() and  Auth::user()->can(['view_products'])) {
+            if( auth()->user() and  auth()->user()->can(['view_products'])) {
                 // $products = Product::sortBy('sort_order')->paginate();
                 $products = Product::paginate();
             } else {
@@ -65,10 +64,11 @@ class CategoryController extends CustomController
      */
     public function create()
     {
-        abort_if( Auth::user()->cannot('create_categories'), 403);
+        abort_if( auth()->user()->cannot('create_categories'), 403);
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.create', compact('categories'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -78,52 +78,46 @@ class CategoryController extends CustomController
      */
     public function store(Request $request)
     {
-        abort_if( Auth::user()->cannot('create_categories'), 403);
-        // dd(request()->all());
+        abort_if( auth()->user()->cannot('create_categories'), 403);
 
-        $validator = request()->validate([
+        request()->validate([
             'name'          => 'required|string|max:255',
-            'title'         => 'required|string|max:255',
+            'title'         => 'nullable|string|max:255',
+            'slug'          => 'nullable|string|max:255',
             'description'   => 'nullable|string|max:255',
             'imagepath'     => 'nullable|string',
-            'visible'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
+            'sort_order'    => 'required|string|max:1',
+            'visible'       => 'nullable|string|in:on',
         ]);
 
-        $category = Category::create([
-            'name'            => request('name'),
-            'slug'            => Str::slug(request('name'), '-'),
-            'title'           => request('title'),
-            'description'     => request('description'),
-            'visible'           => request('visible') ? 1 : 0,
-            'parent_id'       => request('parent_id'),
-            'added_by_user_id'=> Auth::user()->id,
-        ]);
+        $category = new Category;
 
-        if ( request('imagepath') ) {
-            if ( !$this->attachImage($category, request('imagepath')) ) {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
-            }
-        }
+        $category->name              = request('name');
+        $category->title             = request('title') ?? request('name');
+        $category->slug              = request('slug') ?? Str::slug(request('title'), '-');
+        $category->description       = request('description');
+        $category->parent_id         = request('parent_id');
+        $category->sort_order        = request('sort_order');
+        $category->visible           = request('visible') ? true : false;
+        $category->added_by_user_id  = auth()->user()->id;
+
+        $dirty_properties = $category->getDirty();
+
+        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __line__])->withInput();};
+
+        $dirty_properties['image'] = $this->attachImage($category, request('imagepath'), $dirty_properties);
 
         // add email!
 
-        $description = 'Создание категории ' . $category->name . '. Исполнитель: ' . auth()->user()->name . '.';
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'category',
-            'type_id' => $category->id,
-            'action' => 'create',
-            'description' => $description,
-            // 'old_value' => $category->id,
-            // 'new_value' => $category->id,
-        ]);
+        $description = $this->createAction($category, $dirty_properties, false, 'model_create');
 
-        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully created.');
+        if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
-        return redirect()->route('categories.show', ['category' => $category->id]);
+        return redirect()->route('categories.adminindex');
+        // return redirect()->route('categories.show', ['category' => $category->id]);
     }
+
 
     /**
      * Display the specified resource.
@@ -156,7 +150,7 @@ class CategoryController extends CustomController
         } else {
 
             // get products
-            if( Auth::user() and Auth::user()->can(['view_products'])) {
+            if( auth()->user() and auth()->user()->can(['view_products'])) {
                 $products = Product::where('category_id', $category->id)->paginate();
             } else {
                 $products = Product::where('visible', '=', 1)->where('category_id', $category->id)->paginate();
@@ -166,18 +160,6 @@ class CategoryController extends CustomController
         }
     }
 
-    private function getAllChildren($arr_children, $parent) {
-        $arr_subchildren = $parent->children->toArray();
-        foreach ( $arr_subchildren as $child ) {
-            if ( $child['id'] != 1 ) {
-                $arr_children[] = $child['id'];
-                $parent = Category::find($child['id']);
-                $arr_children = $this->getAllChildren($arr_children, $parent);
-            }
-        }
-
-        return $arr_children;
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -186,10 +168,11 @@ class CategoryController extends CustomController
      */
     public function edit(Category $category)
     {
-        abort_if (Auth::user()->cannot('edit_categories'), 403);
+        abort_if (auth()->user()->cannot('edit_categories'), 403);
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.edit', compact('category', 'categories'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -200,99 +183,46 @@ class CategoryController extends CustomController
      */
     public function update(Category $category)
     {
-        abort_if( Auth::user()->cannot('edit_categories'), 403);
+        abort_if( auth()->user()->cannot('edit_categories'), 403);
 
-        // validation
         request()->validate([
             'name'          => 'required|string|max:255',
-            'sort_order'    => 'required|string|max:1',
             'title'         => 'nullable|string|max:255',
             'slug'          => 'nullable|string|max:255',
             'description'   => 'nullable|string|max:255',
             'imagepath'     => 'nullable|string',
+            'sort_order'    => 'required|string|max:1',
             'visible'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
         $category->name              = request('name');
         $category->slug              = request('slug');
-        $category->sort_order        = request('sort_order');
         $category->title             = request('title');
         $category->description       = request('description');
-        $category->visible           = request('visible') ? 1 : 0;
+        $category->sort_order        = request('sort_order');
+        $category->visible           = request('visible') ? true : false;
         $category->parent_id         = request('parent_id');
-        $category->edited_by_user_id = Auth::user()->id;
+        $category->edited_by_user_id = auth()->user()->id;
 
         $dirty_properties = $category->getDirty();
         $original = $category->getOriginal();
 
-        if ( !$category->save() ){
-            return back()->withErrors(['something wrong. err' . __line__])->withInput();
-        };
+        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __line__])->withInput();};
 
+        $dirty_properties['image'] = $this->attachImage($category, request('imagepath'), $dirty_properties);
 
-        if ( request('imagepath') ) {
-            $image = $this->attachImage($category, request('imagepath'));
-            if ( !$image ) {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
-            } else {
-                $dirty_properties['image'] = $image;
-            }
-        }
-
-        // WORKAROUND #1 depricated_parent_visible
-        if ( array_key_exists('visible', $category->getChanges()) ) {
-
-            if ( $category->children->count() ) {
-                $category->children->each(function ($children_category, $key) {
-                    $children_category->update([
-                        'depricated_parent_visible' => request('visible') ? true : false,
-                        'edited_by_user_id' => Auth::user()->id,
-                    ]);
-
-                    if ( $children_category->products->count() ) {
-                        $children_category->products->each(function ($product, $key) {
-                            $product->update([
-                                'depricated_grandparent_visible' => request('visible') ? true : false,
-                                'edited_by_user_id' => Auth::user()->id,
-                            ]);
-                        });
-                    }
-
-                });
-
-            } elseif ( $category->products->count() ) {
-                $category->products->each(function ($product, $key) {
-                    // $product->update([
-                    //     'depricated_parent_visible' => request('visible') ? true : false,
-                    //     'edited_by_user_id' => Auth::user()->id,
-                    // ]);
-                    // обновление модели без изменения updated_at может пригодится. можно просто убрать касание.. что лучше?
-                    $product->save([
-                        'depricated_parent_visible' => request('visible') ? true : false,
-                        'edited_by_user_id' => Auth::user()->id,
-                        'timestamps' => false,
-                    ]);
-                });
-            }
-            $category->push();
-        }
-        // /WORKAROUND #1 depricated_parent_visible
-
+        $this->setVisibleChildren($category, $dirty_properties);
 
         // add email!
 
-
-        if ( $dirty_properties ) {
-            $description = $this->createAction($category, $dirty_properties, $original);
-        }
-
+        $description = $this->createAction($category, $dirty_properties, $original, 'model_update');
 
         if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
-        // return redirect()->route('categories.adminshow', ['category' => $category->id]);
         return redirect()->route('categories.adminindex');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -302,66 +232,28 @@ class CategoryController extends CustomController
      */
     public function destroy(Category $category)
     {
-        abort_if ( Auth::user()->cannot('delete_categories'), 403 );
+        abort_if ( auth()->user()->cannot('delete_categories'), 403 );
 
         if ( $category->id == 1 ) {
             return back()->withErrors(['"' . $category->name . '" is basic category and can not be removed.']);
         }
-        
-        if ( $category->countProducts() ) {
 
-            // // перемещение содержащихся в категории товаров в каталог
-            // foreach ( $category->products as $product ) {
-            //     $product->update([
-            //         'category_id' => 1,
-            //     ]);
-            // }
-
-            //  перемещение содержащихся в категории товаров во временную категорию
-
-            // запрет удаления категории
+        // запрет удаления категории
+        if ( $category->countProducts() or $category->countChildren() ) {
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
-        if ( $category->countChildren() ) {
-
-            // // перемещение содержащихся в категории подкатегорий в каталог
-            // foreach ( $category->products as $product ) {
-            //     $product->update([
-            //         'category_id' => 1,
-            //     ]);
-            // }
-
-            //  перемещение содержащихся в категории подкатегорий во временную категорию
-
-            // запрет удаления категории
-            return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
-        }
+        $description = $this->createAction($category, false, false, 'model_delete');
 
         $category->delete();
-
+        
         // add email!
 
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'category',
-            'type_id' => $category->id,
-            'action' => 'delete',
-            'description' => 
-                'Удаление категории ' 
-                . $category->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $category->id,
-            // 'new_value' => $category->id,
-        ]);
+        if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
-        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully delete.');
+        return redirect()->route('categories.adminindex');
 
-        // return redirect()->route('categories.index');
-        return back();
+        // return back();
     }
 
 
@@ -386,10 +278,15 @@ class CategoryController extends CustomController
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
      * и обновляет запись в базе данных. 
      *
-     * @return  boolean
+     * @return  string $imagepath
      */
-    private function attachImage (Category $category, $imagepath) {
-        // костыль... не совсем разобрался с тонкостями Filesystem
+    private function attachImage (Category $category, $imagepath, $dirty_properties) {
+
+        if ( !$imagepath ) {
+            return $dirty_properties;
+        }
+
+        // WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
         $src = str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
         $dst_dir = 'images/categories/' . $category->id;
         $basename = basename($src);
@@ -416,11 +313,49 @@ class CategoryController extends CustomController
         }
 
         // update $category
-        // if ( !$category->update(['image' => $basename]) ) {
         if ( !($category->image = $basename and $category->save()) ) {
             return back()->withErrors(['something wrong. err' . __line__])->withInput();
         }
 
-        return true;
+        return $dst;
     }
+
+
+
+    /**
+     * WORKAROUND #1 depricated_parent_visible
+     * устанавливает атрибуты потомков в соответствии с переданным значением
+     * 
+     * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
+     *
+     * @return  void
+     */
+    private function setVisibleChildren (Category $category, $dirty_properties) {
+        if ( array_key_exists('visible', $dirty_properties) ) {
+
+            // for category top-level
+            if ( $category->children->count() ) {
+                foreach ( $category->children as $children_category ) {
+                    $children_category->depricated_parent_visible = $category->visible;
+                    $children_category->save();
+
+                    if ( $children_category->products->count() ) {
+                        foreach ( $children_category->products as $product ) {
+                            $product->depricated_grandparent_visible = $category->visible;
+                            $product->save();
+                        };
+                    }
+
+                };
+
+            // for subcategory
+            } elseif ( $category->products->count() ) {
+                foreach ( $category->products as $product ) {
+                    $product->depricated_parent_visible = $category->visible;
+                    $product->save();
+                };
+            }
+        }
+    }
+
 }
