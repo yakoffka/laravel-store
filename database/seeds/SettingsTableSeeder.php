@@ -260,20 +260,6 @@ class SettingsTableSeeder extends Seeder
                 ],
                 'default_value' => 1,
             ],
-            [
-                'group' => 'display_settrings',
-                'name_group' => 'Настройки отображения',
-                'type' => 'checkbox',
-                'name' => 'display_subcategories',
-                'display_name' => 'Отображать в категориях подкатегории',
-                'description' => 'При включении данного пункта в категориях, содержащих подкатегории будут отображаться дочерние подкатегории.
-                    </p><p>При отключении - только товары, причем как находящиеся в данной категории, так и товары дочерних подкатегорий.',
-                'permissible_values' => [
-                    [0, 'выключено'],
-                    [1, 'включено'],
-                ],
-                'default_value' => 1,
-            ],
 
 
             // settings for filters

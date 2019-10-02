@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\{Action, Category, Product};
+use App\{Category, Product};
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -20,43 +19,16 @@ class CategoryController extends CustomController
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
-        // show subcategories and products only directly from catalog
-        if ( config('settings.display_subcategories') ) {
-
-            $categories = Category::all()
-                ->where('parent_id', '=', 1)
-                ->where('visible', '=', true)
-                ->where('parent_visible', '=', true) // getParentVisibleAttribute
-                ->where('id', '>', 1)
-                ->sortBy('sort_order');
-            // dd($categories);
-
-            $products = Product::all()
-                ->where('category_id', 1);
-                // ->sortBy('sort_order');
-            // dd($products);
-
-            return view('categories.index', compact('categories', 'products'));
-
-        // show products in this category
-        } else {
-
-            // get products
-            if( auth()->user() and  auth()->user()->can(['view_products'])) {
-                // $products = Product::sortBy('sort_order')->paginate();
-                $products = Product::paginate();
-            } else {
-                // $products = Product::sortBy('sort_order')->where('visible', '=', 1)->paginate();
-                $products = Product::where('visible', '=', 1)->paginate();
-            }
-
-            $category = Category::find(1);
-
-            return view('products.index', compact('products', 'category'));
-        }
+        $categories = Category::all()
+            ->where('parent_id', '=', 1)
+            ->where('visible', '=', true)
+            ->where('parent_visible', '=', true) // getParentVisibleAttribute
+            ->where('id', '>', 1)
+            ->sortBy('sort_order');
+        return view('categories.index', compact('categories'));
     }
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -73,10 +45,9 @@ class CategoryController extends CustomController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         abort_if( auth()->user()->cannot('create_categories'), 403);
 
@@ -115,49 +86,37 @@ class CategoryController extends CustomController
         if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
         return redirect()->route('categories.adminindex');
-        // return redirect()->route('categories.show', ['category' => $category->id]);
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
         abort_if( !$category->visible or !$category->parent_visible, 404);
+        if ( $category->id == 1 ) { return redirect()->route('categories.index'); }
 
-        // перенаправление при $category->id == 1
-        if ( $category->id == 1 ) {
-            return redirect()->route('categories.index');
-        }
-
-        // show subcategories from this category
-        if ( config('settings.display_subcategories') and $category->children->count() ) {
-
+        if ( $category->countChildren() ) {
             $categories = Category::all()
                 ->where('parent_id', $category->id)
                 ->where('visible', '=', true)
                 ->where('parent_visible', '=', true) // getParentVisibleAttribute
                 ->sortBy('sort_order');
+            return view('categories.show', compact('category', 'categories'));
 
-            $products = Product::all()->where('category_id', $category->id);
-            return view('categories.index', compact('categories', 'category', 'products'));
-
-
-        // show products in this category
-        } else {
-
-            // get products
-            if( auth()->user() and auth()->user()->can(['view_products'])) {
-                $products = Product::where('category_id', $category->id)->paginate();
-            } else {
-                $products = Product::where('visible', '=', 1)->where('category_id', $category->id)->paginate();
-            }
-
-            return view('products.index', compact('products', 'category'));
+        } elseif ( $category->countProducts() ) {
+            $products = Product::where('category_id', $category->id)
+                ->where('visible', '=', 1)
+                ->where('depricated_grandparent_visible', '=', 1)
+                ->orderBy('price')
+                ->paginate();
+            return view('products.index', compact('category', 'products'));
         }
+
+        abort(404);
     }
 
 
@@ -178,7 +137,7 @@ class CategoryController extends CustomController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
     public function update(Category $category)
@@ -227,7 +186,7 @@ class CategoryController extends CustomController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category)
@@ -252,8 +211,6 @@ class CategoryController extends CustomController
         if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
         return redirect()->route('categories.adminindex');
-
-        // return back();
     }
 
 

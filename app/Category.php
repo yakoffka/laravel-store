@@ -29,12 +29,12 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function countChildren()
+    public function countChildren() // учесть видимость (свою и родительскую)!
     {
         return $this->hasMany(Category::class, 'parent_id')->count();
     }
 
-    public function countProducts()
+    public function countProducts() // учесть видимость (свою и родительскую)!
     {
         return $this->hasMany(Product::class)->count();
     }

@@ -1,5 +1,9 @@
-Рефакторинг CategoryController. часть 2
-    Чистка CategoryController;
+Рефакторинг CategoryController. часть 3
+    Удаление настройки display_subcategories;
+    Чистка методов CategoryController::index и CategoryController::show;
+    Разделение и чистка resources/views/categories/show.blade.php и resources/views/categories/index.blade.php;
+
+
     Унификация метода createAction() CustomController;
     Изменение порядка выполения миграций;
     Изменение атрибутов Action;
