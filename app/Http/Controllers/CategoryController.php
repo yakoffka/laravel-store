@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Auth;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class CategoryController extends CustomController
 {
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);
@@ -108,18 +108,14 @@ class CategoryController extends Controller
 
         // add email!
 
+        $description = 'Создание категории ' . $category->name . '. Исполнитель: ' . auth()->user()->name . '.';
         // create action record
         $action = Action::create([
             'user_id' => auth()->user()->id,
             'type' => 'category',
             'type_id' => $category->id,
             'action' => 'create',
-            'description' => 
-                'Создание категории ' 
-                . $category->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
+            'description' => $description,
             // 'old_value' => $category->id,
             // 'new_value' => $category->id,
         ]);
@@ -210,7 +206,8 @@ class CategoryController extends Controller
         $validator = request()->validate([
             'name'          => 'required|string|max:255',
             'sort_order'    => 'required|string|max:1',
-            'title'         => 'required|string|max:255',
+            'title'         => 'nullable|string|max:255',
+            'slug'          => 'nullable|string|max:255',
             'description'   => 'nullable|string|max:255',
             'imagepath'     => 'nullable|string',
             'visible'       => 'nullable|string|in:on',
@@ -218,20 +215,38 @@ class CategoryController extends Controller
         ]);
 
         // добавить проверку успешности сохранения!
-        $category->update([
-            'name'              => request('name'),
-            'slug'              => Str::slug(request('name'), '-'),
-            'sort_order'        => request('sort_order'),
-            'title'             => request('title'),
-            'description'       => request('description'),
-            'visible'           => request('visible') ? 1 : 0,
-            'parent_id'         => request('parent_id'),
-            'edited_by_user_id' => Auth::user()->id,
-        ]);
+        // $category->update([
+        //     'name'              => request('name'),
+        //     'slug'              => Str::slug(request('name'), '-'),
+        //     'sort_order'        => request('sort_order'),
+        //     'title'             => request('title'),
+        //     'description'       => request('description'),
+        //     'visible'           => request('visible') ? 1 : 0,
+        //     'parent_id'         => request('parent_id'),
+        //     'edited_by_user_id' => Auth::user()->id,
+        // ]);
+        $category->name              = request('name');
+        $category->slug              = request('slug');
+        $category->sort_order        = request('sort_order');
+        $category->title             = request('title');
+        $category->description       = request('description');
+        $category->visible           = request('visible') ? 1 : 0;
+        $category->parent_id         = request('parent_id');
+        $category->edited_by_user_id = Auth::user()->id;
+
+        // $dirty_properties = array_flip( $category->getDirty() );
+        $dirty_properties = $category->getDirty();
+        $original = $category->getOriginal();
+        // $getDirty = $category->getDirty();
+        $category->save();
+
 
         if ( request('imagepath') ) {
-            if ( !$this->attachImage($category, request('imagepath')) ) {
+            $image = $this->attachImage($category, request('imagepath'));
+            if ( !$image ) {
                 return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            } else {
+                $dirty_properties['image'] = $image;
             }
         }
 
@@ -262,7 +277,7 @@ class CategoryController extends Controller
                     //     'depricated_parent_visible' => request('visible') ? true : false,
                     //     'edited_by_user_id' => Auth::user()->id,
                     // ]);
-                    // обновление модели без изменения updated_at может пригодится.
+                    // обновление модели без изменения updated_at может пригодится. можно просто убрать касание.. что лучше?
                     $product->save([
                         'depricated_parent_visible' => request('visible') ? true : false,
                         'edited_by_user_id' => Auth::user()->id,
@@ -277,23 +292,33 @@ class CategoryController extends Controller
 
         // add email!
 
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'category',
-            'type_id' => $category->id,
-            'action' => 'update',
-            'description' => 
-                'Редактирование категории ' 
-                . $category->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $category->id,
-            // 'new_value' => $category->id,
-        ]);
 
-        session()->flash('message', 'Category "' . $category->name . '" with id=' . $category->id . ' was successfully edit.');
+        if ( $dirty_properties ) {
+            // $description = 'Редактирование категории ' . $category->name 
+            //     . '. Изменённые поля: ' . implode(', ', $dirty_properties)
+            //     // . '. Исполнитель: ' . auth()->user()->name . '.'
+            //     ;
+            // $original = $category->getOriginal();
+            // $details = '';
+            // foreach ( $dirty_properties as $property ) {
+            //     $details .= 
+            // }
+
+            // // create action record
+            // $action = Action::create([
+            //     'user_id' => auth()->user()->id,
+            //     'type' => 'category',
+            //     'type_id' => $category->id,
+            //     'action' => 'update',
+            //     'description' => $description,
+            //     // 'old_value' => $category->id,
+            //     // 'new_value' => $category->id,
+            // ]);
+            $description = $this->createAction($category, $dirty_properties, $original);
+        }
+
+
+        if ( $description ) {session()->flash('message', __('SuccessOperationMessage'));}
 
         // return redirect()->route('categories.adminshow', ['category' => $category->id]);
         return redirect()->route('categories.adminindex');
@@ -422,7 +447,8 @@ class CategoryController extends Controller
         }
 
         // update $category
-        if ( !$category->update(['image' => $basename]) ) {
+        // if ( !$category->update(['image' => $basename]) ) {
+        if ( !($category->image = $basename and $category->save()) ) {
             return back()->withErrors(['something wrong. err' . __line__])->withInput();
         }
 

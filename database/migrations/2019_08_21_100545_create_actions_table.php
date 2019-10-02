@@ -16,16 +16,16 @@ class CreateActionsTable extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->set('type', [ // SET equivalent column.
-                'category', 
-                'comment',
-                'image',
-                'manufacturer',
-                'order',
-                'product',
-                'role',
-                'user',
-                'setting',
+            $table->set('type', [ // name model. set equivalent column.
+                'Category', 
+                'Comment',
+                'Image',
+                'Manufacturer',
+                'Order',
+                'Product',
+                'Role',
+                'User',
+                'Setting',
             ]);
             $table->unsignedBigInteger('type_id');
             $table->set('action', [ // SET equivalent column.
@@ -35,8 +35,7 @@ class CreateActionsTable extends Migration
                 'verify', 
             ]);
             $table->text('description');
-            $table->string('old_value')->nullable();
-            $table->string('new_value')->nullable();
+            $table->text('details')->nullable(); // serialized array. or longText??? or mediumText???
             $table->timestamps();
         });
     }

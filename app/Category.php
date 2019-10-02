@@ -9,9 +9,10 @@ use App\Traits\Category\{HasChildren, IsOrderable};
 
 class Category extends Model
 {
-    protected $guarded = [
-        'id',
-    ];
+    // protected $guarded = [
+    //     'id',
+    // ];
+    protected $fillable = [];
 
     public function products() 
     {

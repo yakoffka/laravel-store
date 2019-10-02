@@ -71,6 +71,11 @@
 
 
 
+  "SuccessOperationMessage": "Операция выполнена успешно",
+
+
+  "actions_show_title": "Просмотр события",
+  "actions_index_title": "Просмотр всех событий",
 
 
   "edit_profile": "редактировать профиль",

@@ -7,12 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Action extends Model
 {
 
-    // public $timestamps = false;
-
-    protected $guarded = [
-        'id',
-        'created_at',
-    ];
+    protected $fillable = [];
     protected $perPage = 50;
 
 

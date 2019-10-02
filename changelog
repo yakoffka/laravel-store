@@ -1,0 +1,10 @@
+Рефакторинг CategoryController
+    Избавление от массового заполнения модели Category (замена существующих аттрибутов модели fillable и guarded на пустой массив fillable);
+    Избавление от массового заполнения модели Action;
+    Запись в историю наименования измененных полей и их значения (старое и новое);
+    Создание CustomController с методом createAction();
+    Смена предка для контроллера на CustomController;
+    Добавление resources/views/dashboard/adminpanel/actions/show.blade.php
+    Добавление хлебных крошек для actions.index и actions.show;
+    Добавление возможности при необходимости сменить slug;
+    Незначительные изменения внешнего вида.

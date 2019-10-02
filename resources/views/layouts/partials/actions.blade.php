@@ -1,14 +1,14 @@
                 <table class="table blue_table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>№</th>
+                            <th width="30">№</th>
                             <th>Тип</th>
                             <th>Дата</th>
                             <th>Описание</th>
                             @if ( Auth::user()->can('view_orders') )
                                 <th>Исполнитель</th>
                             @endif
-                            {{-- <th>Наличие</th> --}}
+                            <th width="30" class="verticalTableHeader ta_c">actions</th>
                         </tr>
                     </thead>
                     @foreach( $actions as $action )
@@ -37,6 +37,12 @@
                                     </a>
                                 </td>
                             @endif
+
+                            <td>
+                                <a href="{{ route('actions.show', $action) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+
+                        </tr>
                     @endforeach
                     {{-- <tr>
                         <td>...</td>

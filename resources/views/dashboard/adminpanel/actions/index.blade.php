@@ -1,12 +1,12 @@
 @extends('dashboard.layouts.app')
 
-@section('title', 'actions')
+@section('title', __('actions_index_show'))
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('actions.categories') }}
+            {{ Breadcrumbs::render('actions.index') }}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')

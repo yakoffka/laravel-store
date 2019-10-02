@@ -47,6 +47,34 @@ class TasksTableSeeder extends Seeder
             //     'taskspriority_id' => 2,
             // ],
 
+            // [
+            //     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
+
+            // [
+            //     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
+
+            [
+                'title' => 'isDirty',
+                'description' => 'Добавить использование свойства модели isDirty (при написании истории, обновлении модели и может ещё где).',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
             [
                 'title' => 'Заменить мягкое сравнение на жесткое',
                 'description' => 'Заменить мягкое сравнение на жесткое везде, где позволяет протокол.',

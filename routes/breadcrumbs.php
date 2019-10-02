@@ -297,6 +297,17 @@ Breadcrumbs::for('dashboard', function ($trail) {
     //     $trail->push('Активность пользователя', route('actions.users'));
     // });
     // Home > Dashboard > Users > [User] > Actions
+    Breadcrumbs::for('actions.index', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push(__('actions_index_title'), route('actions.index'));
+    });
+    // Home > Dashboard > Users > [User] > Actions
+    Breadcrumbs::for('actions.show', function ($trail, $action) {
+        $trail->parent('actions.index');
+        $trail->push(__('actions_show_title') . ' #' . $action->id, route('actions.show', $action));
+    });
+
+    // Home > Dashboard > Users > [User] > Actions
     Breadcrumbs::for('actions.user', function ($trail, $user) {
         $trail->parent('users.show', $user);
         $trail->push($user->name, route('actions.user', $user));
