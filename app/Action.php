@@ -13,6 +13,7 @@ class Action extends Model
         'id',
         'created_at',
     ];
+    protected $perPage = 50;
 
 
     /**

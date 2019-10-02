@@ -23,7 +23,8 @@ class UsersController extends Controller
     public function index()
     {
         abort_if ( Auth::user()->cannot('view_users'), 403 );
-        $users = User::all();
+        // $users = User::all();
+        $users = User::paginate();
         $permissions = Permission::all();
         // $actions = Action::all();
         $actions = Action::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_actions'));// last 50!

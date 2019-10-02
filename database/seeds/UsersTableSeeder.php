@@ -23,9 +23,21 @@ class UsersTableSeeder extends Seeder
             ['name' => 'User1'.config('custom.name_owner'),         'email' => str_replace('@', '+user1@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
             ['name' => 'User2'.config('custom.name_owner'),         'email' => str_replace('@', '+user2@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
             ['name' => 'User3'.config('custom.name_owner'),         'email' => str_replace('@', '+user3@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User4'.config('custom.name_owner'),         'email' => str_replace('@', '+user4@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User5'.config('custom.name_owner'),         'email' => str_replace('@', '+user5@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User6'.config('custom.name_owner'),         'email' => str_replace('@', '+user6@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User7'.config('custom.name_owner'),         'email' => str_replace('@', '+user7@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User8'.config('custom.name_owner'),         'email' => str_replace('@', '+user8@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
+            ['name' => 'User9'.config('custom.name_owner'),         'email' => str_replace('@', '+user9@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 
             ['name' => 'User1'.config('custom.name_devel'),         'email' => str_replace('@', '+user1@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
             ['name' => 'User2'.config('custom.name_devel'),         'email' => str_replace('@', '+user2@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
             ['name' => 'User3'.config('custom.name_devel'),         'email' => str_replace('@', '+user3@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User4'.config('custom.name_devel'),         'email' => str_replace('@', '+user4@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User5'.config('custom.name_devel'),         'email' => str_replace('@', '+user5@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User6'.config('custom.name_devel'),         'email' => str_replace('@', '+user6@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User7'.config('custom.name_devel'),         'email' => str_replace('@', '+user7@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User8'.config('custom.name_devel'),         'email' => str_replace('@', '+user8@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
+            ['name' => 'User9'.config('custom.name_devel'),         'email' => str_replace('@', '+user9@', config('custom.mail_devel')),        'passw' => config('custom.pass_devel'), ], 
         ];
 
         foreach ( $users as $user ) {

@@ -495,9 +495,9 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'perPage in models',
                 'description' => 'protected $perPage = 25; // Да, вы можете переопределить число записей пагинации (по умолчанию 15) https://github.com/laravel/framework/blob/5.6/src/Illuminate/Database/Eloquent/Model.php',
-                'tasksstatus_id' => 5,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
-                'comment_slave' => 'сделал, но выдаёт ошибку то-ли при сидировании, то-ли при сохранении/изменении модели. сделать позже нормально.'
+                'comment_slave' => 'сделал, но выдаёт ошибку то-ли при сидировании, то-ли при сохранении/изменении модели. сделать позже нормально.</p><p>Сейчас норм.. странно.'
             ],
 
             [
@@ -664,13 +664,10 @@ class TasksTableSeeder extends Seeder
                 'description' => 'Стилизовать чекбоксы в:
                     <ol>
                         <li>в пермишинах ролей;</li>
-                        <li>;</li>
-                        <li>;</li>
-                        <li>.</li>
                     </ol>
                     ',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 1,
+                'tasksstatus_id' => 2,
+                'taskspriority_id' => 4,
             ],
 
             [

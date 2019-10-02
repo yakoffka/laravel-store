@@ -22,6 +22,18 @@
         @include('dashboard.layouts.partials.aside')
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+
+            {{-- pagination block --}}
+            @if ( empty($appends) )
+                @if($users->links())
+                    <div class="row col-sm-12 pagination">{{ $users->links() }}</div>
+                @endif
+            @else
+                @if($users->appends($appends)->links())
+                    <div class="row col-sm-12 pagination">{{ $users->links() }}</div>
+                @endif
+            @endif
+            {{-- /pagination block --}}
     
             <table class="blue_table overflow_x_auto">
                 <tr>
@@ -134,6 +146,19 @@
 
             @endforeach
             {{-- /Permissions --}}
+
+
+            {{-- pagination block --}}
+            @if ( empty($appends) )
+                @if($users->links())
+                    <div class="row col-sm-12 pagination">{{ $users->links() }}</div>
+                @endif
+            @else
+                @if($users->appends($appends)->links())
+                    <div class="row col-sm-12 pagination">{{ $users->links() }}</div>
+                @endif
+            @endif
+            {{-- /pagination block --}}
 
 
             {{-- Actions --}}
