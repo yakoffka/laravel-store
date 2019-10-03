@@ -5,100 +5,144 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Auth;
 use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Arr;
 use Str;
 use App\{Action, Category, Image, Manufacturer, Product};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 
-class ProductsController extends Controller
+class ProductsController extends CustomController
 {
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show', 'filter', 'search']);
     }
-    
+
+
     /**
+     * Only for filters and search!
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-
-        // this method only for filters!
         if ( !$request->query->count() ){
             return redirect()->route('categories.index');
         }
-
-        // save query string for pagination
-        $appends = [];
-        foreach($request->query as $key => $val){
-            $appends[$key] = $val;
-        }
-
-        // // inject parameter in $request query
-        // $request->merge(['key' => 'value']);
-        // dd($request->query);
-
-
-        // original
-        // $products = Product::where('visible', '=', 1)
-        //     ->orderBy('price')
-        //     ->filter($request, $this->getFilters())
-        //     ->paginate();
-
-        // Method Illuminate\Database\Eloquent\Collection::paginate does not exist.
-        // resolve issue: https://gist.github.com/simonhamp/549e8821946e2c40a617c85d2cf5af5e
-        // $products = Product::where('visible', '=', 1)
-        //     ->orderBy('price')
-        //     ->filter($request, $this->getFilters())
-        //     ->get()
-        //     ->where('category_visible', '=', true) // getCategoryVisibleAttribute
-        //     ->paginate()
-        //     ;
-
+        $appends = $request->query->all();
         $products = Product::where('visible', '=', 1)
             ->where('depricated_grandparent_visible', '=', 1)
             ->where('depricated_parent_visible', '=', 1)
             ->orderBy('price')
-            ->filter($request, $this->getFilters())
-            // ->where('category_visible', '=', true) // getCategoryVisibleAttribute
-            ->paginate()
-            ;
-
+            ->filter($request)
+            ->paginate();
         return view('products.index', compact('products', 'appends'));
-
-        // return redirect()->route('categories.index');
     }
 
-    protected function getFilters() 
-    {
-        return [];
-    }
 
-    
     /**
      * Display a listing of the resource (all products) for admin side. 
      *
      * @return \Illuminate\Http\Response
      */
     public function adminIndex() {
-
-        $appends = [];
-        foreach(request()->query as $key => $val){
-            $appends[$key] = $val;
-        }
-        // $products = Product::all()->orderBy('category_id')->paginate(); // order!!
-        $products = Product::filter(request(), $this->getFilters())
+        $appends = request()->query->all();
+        $products = Product::filter(request())
             ->orderBy('category_id')
             ->paginate();
         $categories = Category::all();
-
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        abort_if ( !auth()->user()->can('create_products'), 403 );
+        $categories = Category::all();
+        $manufacturers = Manufacturer::all();
+        return view('dashboard.adminpanel.products.create', compact('categories', 'manufacturers'));
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Product $product
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Product $product)
+    {
+        abort_if ( auth()->user()->cannot('create_products'), 403 );
+
+        request()->validate([
+            'name'              => 'required|max:255|unique:products,name',
+            'manufacturer_id'   => 'required|integer',
+            'category_id'       => 'required|integer',
+            'visible'           => 'nullable|string|in:on',
+            'materials'         => 'nullable|string',
+            'description'       => 'nullable|string',
+            'modification'      => 'nullable|string',
+            'workingconditions' => 'nullable|string',
+            'imagespath'        => 'nullable|string',
+            'date_manufactured' => 'nullable|string|min:10|max:10',
+            'price'             => 'nullable|integer',
+            'copy_img'          => 'nullable|integer',
+        ]);
+
+        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
+            $modification = $this->cleanSrcCodeTables(request('modification'));
+        } else {
+            $modification = request('modification') ?? '';
+        }
+
+        $product = new Product;
+        $product->name = request('name');
+        $product->slug = Str::slug(request('name'), '-');
+        $product->manufacturer_id = request('manufacturer_id');
+        $product->category_id = request('category_id');
+        $product->visible = request('visible') ? 1 : 0;
+        $product->materials = request('materials') ?? '';
+        $product->description = request('description') ?? '';
+        $product->modification = $modification;
+        $product->workingconditions = request('workingconditions') ?? '';
+        $product->date_manufactured = request('date_manufactured') ?? '';
+        $product->price = request('price') ?? 0;
+        $product->added_by_user_id = auth()->user()->id;
+        $product->views = 0;
+
+        $dirty_properties = $product->getDirty();
+
+        if ( !$product->save() ) {
+            return back()->withErrors(['something wrong!'])->withInput();
+        }
+
+        $this->attachImages($product->id, request('imagespath'));
+
+        $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
+
+        $description = $this->createAction($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+
+        // send email-notification
+        if ( config('settings.email_new_product') ) {
+            $user = auth()->user();
+            $bcc = config('mail.mail_bcc');
+            if ( config('settings.additional_email_bcc') ) {
+                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
+            }
+            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+            \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
+        }
+
+        // session()->flash('message', 'New product "' . $product->name . '" has been created');
+        if ( $description ) {session()->flash('message', $description);}
+
+        return redirect()->route('categories.show', $product->category_id);
+    }
 
 
     /**
@@ -118,19 +162,6 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        abort_if ( !auth()->user()->can('create_products'), 403 );
-        $categories = Category::all();
-        $manufacturers = Manufacturer::all();
-        return view('dashboard.adminpanel.products.create', compact('categories', 'manufacturers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
         abort_if (!auth()->user()->can('edit_products'), 403);
@@ -138,6 +169,7 @@ class ProductsController extends Controller
         $manufacturers = Manufacturer::all();
         return view('dashboard.adminpanel.products.edit', compact('product', 'categories', 'manufacturers'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -152,211 +184,6 @@ class ProductsController extends Controller
         session()->flash('message', 'When copying an item, you must change its name!');
 
         return view('dashboard.adminpanel.products.copy', compact('product', 'categories', 'manufacturers'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  request()
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Product $product)
-    {
-        // dd(request()->all());
-        abort_if ( auth()->user()->cannot('create_products'), 403 );
-
-        $validator = Validator::make(request()->all(), [
-            'name'              => 'required|max:255|unique:products,name',
-            'manufacturer_id'   => 'required|integer',
-            'category_id'       => 'required|integer',
-            'visible'           => 'nullable|string|in:on',
-            'materials'         => 'nullable|string',
-            'description'       => 'nullable|string',
-            'modification'      => 'nullable|string',
-            'workingconditions' => 'nullable|string',
-            'imagespath'        => 'nullable|string',
-            'date_manufactured' => 'nullable|string|min:10|max:10',
-            'price'             => 'nullable|integer',
-            'copy_img'          => 'nullable|integer',
-        ]);
-        
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-
-        // get string table of modification srctablecode
-        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
-            $dirty_modification = request('modification');
-            $clean_modification = $this->cleanTables($dirty_modification);
-            // dd($dirty_modification, $clean_modification);
-            $modification = $clean_modification;
-        } else {
-            $modification = request('modification') ?? '';
-        }
-
-
-        if (!$product = Product::create([
-            'name' => request('name'),
-            'slug' => Str::slug(request('name'), '-'),
-            'manufacturer_id' => request('manufacturer_id'),
-            'category_id' => request('category_id'),
-            'visible' => request('visible') ? 1 : 0,
-            'materials' => request('materials') ?? '',
-            'description' => request('description') ?? '',
-            'modification' => $modification,
-            'workingconditions' => request('workingconditions') ?? '',
-            'date_manufactured' => request('date_manufactured') ?? '',
-            'price' => request('price') ?? 0,
-            'added_by_user_id' => auth()->user()->id,
-            'views' => 0,
-        ])) {
-            return back()->withErrors(['something wrong!'])->withInput();
-        }
-
-        // if ( request()->file('images') and count(request()->file('images')) ) {
-        //     foreach(request()->file('images') as $key => $image) {
-                
-        //         // // validation images
-        //         // // $validator = Validator::make(['image' => $image], [$key => 'required|image|mimes:jpeg,bmp,png']);
-        //         // $validator = Validator::make(
-        //         //     ['image' => $image],
-        //         //     [$key => 'required|image|mimetypes:image/png']
-        //         // );
-                
-        //         // image re-creation
-        //         $image_name = ImageYoTrait::saveImgSet($image, $product->id);
-        //         $originalName = $image->getClientOriginalName();
-        //         $path  = '/images/products/' . $product->id;
-
-        //         // create record
-        //         $image = Image::create([
-        //             'product_id' => $product->id,
-        //             // 'slug' => $image_name,
-        //             'slug' => Str::slug($image_name, '-'),
-        //             'path' => $path,
-        //             'name' => $image_name,
-        //             'ext' => config('imageyo.res_ext'),
-        //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-        //             'sort_order' => 9,
-        //             'orig_name' => $originalName,
-        //         ]);
-        //     }
-        // }
-
-
-        $this->attachImages($product->id, request('imagespath'));
-
-
-        // copy all image and create records to images table
-        if ( request('copy_img') ) {
-            $images = Product::find(request('copy_img'))->images;
-            // dd($images);
-            if ( $images->count() ) {
-
-                // create dir to preview the image
-                $dst_dir = storage_path() . config('imageyo.dirdst') . '/' . $product->id;
-                if ( !is_dir($dst_dir) ) {
-                    if ( !mkdir($dst_dir, 0777, true) ) {
-                        return back()->withErrors(['error #' . __line__])->withInput();
-                    }
-                }
-                // create dir to copy the original image
-                $dst_dir_origin = storage_path() . config('imageyo.dirdst_origin') . '/' . $product->id;
-                if ( !is_dir($dst_dir_origin) ) {
-                    if ( !mkdir($dst_dir_origin, 0777, true) ) {
-                        return back()->withErrors(['error #' . __line__])->withInput();
-                    }
-                }
-
-                while ( $images->count() ) {
-
-                    $image = $images->shift();
-
-                    // array of preview
-                    foreach ( config('imageyo.previews') as $type_preview ) {
-                        if ( config('imageyo.is_' . $type_preview) ) {
-
-                            $rel_path = '/' . $image->name . '-' . $type_preview . $image->ext;
-
-                            if ( $type_preview == 'origin' ) {
-                                $source = storage_path() . config('imageyo.dirdst_origin') . '/' . $image->product_id . $rel_path;
-                                $dest = $dst_dir_origin . $rel_path;
-                            } else {
-                                $source = storage_path() . config('imageyo.dirdst') . '/' . $image->product_id . $rel_path;
-                                $dest = $dst_dir . $rel_path;    
-                            }
-                            // dd($source, $dest);
-
-
-                            if ( !is_file($source) ) {
-                                return back()->withErrors(['error #' . __line__ ])->withInput();
-                            }
-                            if ( !copy ($source , $dest) ) {
-                                return back()->withErrors(['error #' . __line__])->withInput();
-                            }
-                        }
-                    }
-
-                    // create records in the images table
-                    if ( !(Image::create([
-                        'product_id' => $product->id,
-                        'slug' => $image->slug,
-                        'path' => $image->path,
-                        'name' => $image->name,
-                        'ext'  => $image->ext,
-                        'alt'  => $image->alt,
-                        'sort_order' => 9,
-                        'orig_name' => $image->orig_name,
-                    ])) ) {
-                        return back()->withErrors(['error #' . __line__ ])->withInput();
-                    }
-                }
-            }
-
-            $donor = Product::find($image->product_id)->name;
-            $description_action = 'Копирование товара "' . $product->name . '" из донора "' . $donor . '". Исполнитель: ' . auth()->user()->name . '.';
-        } else {
-            $description_action = 'Создание товара "' . $product->name . '". Исполнитель: ' . auth()->user()->name . '.';
-        }
-
-        // send email-notification
-        // $email_new_product = Setting::all()->firstWhere('name', 'email_new_product');
-        // if ( $email_new_product->value ) {
-        if ( config('settings.email_new_product') ) {
-
-            $user = auth()->user();
-            $bcc = config('mail.mail_bcc');
-
-            // $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            // if ( $additional_email_bcc->value ) {
-            if ( config('settings.additional_email_bcc') ) {
-                // $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-            }
-            // $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            // $when = Carbon::now()->addMinutes($email_send_delay);
-            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-
-            \Mail::to($user)
-                ->bcc($bcc)
-                ->later($when, new Created($product, $user));
-        }
-
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'product',
-            'type_id' => $product->id,
-            'action' => 'create',
-            'description' => $description_action,
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
-        session()->flash('message', 'New product "' . $product->name . '" has been created');
-
-        return redirect()->route('products.show', ['product' => $product->id]);
     }
 
 
@@ -393,7 +220,7 @@ class ProductsController extends Controller
         // get string table of modification srctablecode
         if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
             $dirty_modification = request('modification');
-            $clean_modification = $this->cleanTables($dirty_modification);
+            $clean_modification = $this->cleanSrcCodeTables($dirty_modification);
             // dd($dirty_modification, $clean_modification);
             $modification = $clean_modification;
         } else {
@@ -607,7 +434,7 @@ class ProductsController extends Controller
     *
     * Возвращает исходный код, очищенный от ненужных тегов, классов, стилей и др.
     */
-    private function cleanTables (String $dirty_modification ): string {
+    private function cleanSrcCodeTables (String $dirty_modification ): string {
 
         // удаление ненужных тегов
         $res = strip_tags($dirty_modification, '<table><caption><thead><tbody><th><tr><td>');
@@ -784,5 +611,43 @@ class ProductsController extends Controller
     
         return back();
     }
-    
+
+
+    /**
+     * Copying all donor images and creating an entry in the image table.
+     * 
+     * 
+     */
+    private function additionallyIfCopy (Product $product, $donor_id)
+    {
+        if ( !$donor_id ) {
+            return false;
+        }
+
+        $donor = Product::find($donor_id);
+
+        $d_images = Product::find($donor_id)->images;
+
+        foreach ( $d_images as $d_image ) {
+            $image = new Image;
+            $image->product_id = $product->id;
+            $image->slug = $d_image->slug;
+            $image->path = $d_image->path;
+            $image->name = $d_image->name;
+            $image->ext = $d_image->ext;
+            $image->alt = $d_image->alt;
+            $image->sort_order = $d_image->sort_order;
+            $image->orig_name = $d_image->orig_name;
+            $image->save();
+        }
+
+        $pathToDir = 'public/images/products/'; // TODO!!!
+        $files = Storage::files($pathToDir . $donor_id);
+        foreach ( $files as $src ) {
+            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
+            Storage::copy($src, $dst);
+        }
+
+        return 'Копирование товара "' . $product->name . '" из донора "' . $donor->name . '".';
+    }
 }

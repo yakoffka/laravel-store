@@ -32,6 +32,7 @@ class CreateActionsTable extends Migration
                 'model_create', 
                 'model_update', 
                 'model_delete',
+                'model_copy',
                 // 'verify', 
             ]);
             $table->text('description');

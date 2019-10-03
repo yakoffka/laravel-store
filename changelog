@@ -1,11 +1,9 @@
-Рефакторинг CategoryController. часть 3
-    Удаление настройки display_subcategories;
-    Чистка методов CategoryController::index и CategoryController::show;
-    Разделение и чистка resources/views/categories/show.blade.php и resources/views/categories/index.blade.php;
+Рефакторинг ProductController. часть 1
+    Чистка методов index, adminIndex, store, show;
+    Изменение метода CustomController::createAction (удаление полей из details, если и старое и новое значения пусты);
+    Добавление возможного значения model_copy для поля type модели Action. 
 
-
-    Унификация метода createAction() CustomController;
-    Изменение порядка выполения миграций;
-    Изменение атрибутов Action;
-    Незначительные изменения внешнего вида.
-
+ProductController refactoring. part 1
+    Cleaning methods index, adminIndex, store, show;
+    Changing the CustomController::createAction method (deleting fields from details if both the old and new values are empty);
+    Adding a possible model_copy value for the type field of the Action model.

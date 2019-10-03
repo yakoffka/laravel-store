@@ -20,7 +20,6 @@ return [
 	'display_prices' => '1',
 	'display_registration' => '0',
 	'display_login' => '1',
-	'display_subcategories' => '1',
 	'filter_manufacturers' => '1',
 	'filter_categories' => '1',
 	'filter_subcategories' => '0',
