@@ -11,7 +11,8 @@ trait ImageYoTrait
 
     public static function saveImgSet($image, $product_id, $mode = false)
     {
-        // info(__method__ . '@' . __line__;
+        info(__method__ . '@' . __line__);
+        info(config('imageyo.watermark'));
         $name_img = false;
 
         if ( $mode === 'rewatermark' ) {

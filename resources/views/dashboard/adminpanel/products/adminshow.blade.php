@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('dashboard.layouts.app')
 
 @section('title', $product->name . config('custom.product_title_append'))
 
@@ -7,33 +7,28 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        {{-- <div class="col col-sm-9 breadcrumbs"> --}}
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('products.show', $product) }}
+            {{ Breadcrumbs::render('products.adminshow', $product) }}
         </div>
-        {{-- <div class="col col-sm-3 searchform"> --}}
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
     </div>
 
-    <h1>{{ $product->name }}</h1>
+    <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
 
     <div class="row">
 
 
-        @include('layouts.partials.aside')
+        @include('dashboard.layouts.partials.aside')
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             <div class="row">
 
-                    {{-- col-xs-12 col-sm-6  col-md-5
-                    col-xs-12 col-sm-6  col-md-4
-                    col-xs-12 col-sm-12 col-md-3 --}}
-
-                {{-- <div class="col-md-4 wrap_b_image"> --}}
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
+
+                    {{ config('imageyo.watermark') }}
 
                     @if ( $product->images->count() > 1 )
                         @carousel(compact('product'))
@@ -59,12 +54,13 @@
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
                     {{-- <h2>specification product</h2> --}}
 
-                    @if ($product->manufacturer->title)<span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>@endif
-                    @if ($product->materials)<span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>@endif
-                    @if ($product->category->id)<span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>@endif
-                    @if ($product->visible)<span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>@endif
-                    @if ($product->date_manufactured)<span class="grey">date_manufactured: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
-                    @if ($product->id)<span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
+                    {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
+                    <span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>
+                    <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
+                    <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
+                    <span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
+                    <span class="grey">date_manufactured: </span>{{ $product->date_manufactured ?? '-' }}<br>
+                    <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
 
                     @if ( config('settings.display_prices') and $product->price)
@@ -74,13 +70,89 @@
                     @endif
 
 
+                    @permission('edit_products')
+
+                        <!-- created_at -->
+                        <span class="grey">added by: </span>{{ $product->creator->name }}<br>
+                        <span class="grey">date added: </span>{{ $product->created_at }}<br>
+                        <span class="grey">просмотров: </span>{{ $product->views }}<br>
+
+                        @if($product->updated_at != $product->created_at)
+
+                            <!-- updated_at -->
+                            <span class="grey">updated by: </span>{{ $product->editor->name }}<br>
+                            <span class="grey">date updated: </span>{{ $product->updated_at }}<br>
+
+                        @endif
+
+                    @endpermission
+
+
                     <div class="row product_buttons">
+
+                        @guest
 
                             @if ( config('settings.display_cart') )
                                 <div class="col-sm-12">
                                     @addToCart(['product_id' => $product->id])
                                 </div>
                             @endif
+
+                        @else
+
+                            @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
+
+                                <div class="col-sm-4">
+                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </a>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    {{-- <!-- form delete product -->
+                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
+                                        @csrf
+
+                                        @method("DELETE")
+
+                                        <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash"></i> delete
+                                        </button>
+                                    </form> --}}
+                                    @modalConfirmDestroy([
+                                        'btn_class' => 'btn btn-outline-danger form-control',
+                                        'cssId' => 'delele_',
+                                        'item' => $product,
+                                        'action' => route('products.destroy', ['product' => $product->id]), 
+                                    ]) 
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <a href="{{ route('products.copy', ['product' => $product->id]) }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-copy"></i>
+                                    </a>
+                                </div>
+                                
+                            @elseif ( Auth::user()->can('edit_products') )
+
+                                <div class="col-sm-12">
+                                    <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
+                                        <i class="fas fa-pen-nib"></i> edit
+                                    </a>
+                                </div>
+                                
+                            @else
+
+                                @if ( config('settings.display_cart') )
+                                    <div class="col-sm-12">
+                                        @addToCart(['product_id' => $product->id])
+                                    </div>
+                                @endif
+
+                            @endif
+
+                        @endguest
+
                     </div>
                 </div>
 

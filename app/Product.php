@@ -56,14 +56,16 @@ class Product extends Model
     }
 
     public function creator() {
-        return $this->belongsTo(User::class, 'added_by_user_id');
+        return $this->belongsTo(User::class, 'added_by_user_id')->withDefault([
+            'name' => 'no author'
+        ]);
     }
 
     public function editor() {
         // return $this->belongsTo(User::class, 'edited_by_user_id');
         return $this->belongsTo(User::class, 'edited_by_user_id')->withDefault([
-            'name' => 'NO Author'
-        ]);;
+            'name' => 'no editor'
+        ]);
     }
 
     public function manufacturer() {

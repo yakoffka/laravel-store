@@ -61,7 +61,7 @@
     <td class="actions3">
 
         {{-- view --}}
-        <a href="{{ route('products.show', $product) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+        <a href="{{ route('products.adminshow', $product) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
     
         {{-- edit --}}
         <a href="{{ route('products.edit', ['product' => $product->id]) }}"

@@ -31,7 +31,7 @@
             <br>description: {{ $action->description }}
             <br>created_at: {{ $action->created_at }}
 
-            @if ($action->details)
+            @if ( unserialize($action->details) )
                 <table class="blue_table">
                     <caption>list of change</caption>
                     <tr>
@@ -45,6 +45,8 @@
                         <tr><td>{{ $loop->iteration }}</td><td class="ta_l">{{ $property[0] }}</td><td class="ta_l">{{ $property[1] }}</td><td class="ta_l">{{ $property[2] }}</td></tr>
                     @endforeach
                 </table>
+            @else
+                <br>детали события отсутствуют.
             @endif
 
         </div>

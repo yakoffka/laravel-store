@@ -138,7 +138,6 @@ class ProductsController extends CustomController
             \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
         }
 
-        // session()->flash('message', 'New product "' . $product->name . '" has been created');
         if ( $description ) {session()->flash('message', $description);}
 
         return redirect()->route('categories.show', $product->category_id);
@@ -156,6 +155,18 @@ class ProductsController extends CustomController
         $product->incrementViews();
         return view('products.show', compact('product'));
     }
+
+
+    /**
+     * Display the specified resource for admin side.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function adminShow(Product $product) {
+        return view('dashboard.adminpanel.products.adminshow', compact('product'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -198,7 +209,7 @@ class ProductsController extends CustomController
     {
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
-        $validator = Validator::make(request()->all(), [
+        request()->validate([
             'name'              => 'required|max:255',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
@@ -212,102 +223,52 @@ class ProductsController extends CustomController
             'price'             => 'nullable|integer',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-
-        // get string table of modification srctablecode
         if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
-            $dirty_modification = request('modification');
-            $clean_modification = $this->cleanSrcCodeTables($dirty_modification);
-            // dd($dirty_modification, $clean_modification);
-            $modification = $clean_modification;
+            $modification = $this->cleanSrcCodeTables(request('modification'));
         } else {
             $modification = request('modification') ?? '';
         }
 
+        $product->name = request('name');
+        $product->slug = Str::slug(request('name'), '-');
+        $product->manufacturer_id = request('manufacturer_id');
+        $product->category_id = request('category_id');
+        $product->visible = request('visible') ? 1 : 0;
+        $product->materials = request('materials');
+        $product->description = request('description');
+        $product->modification = $modification;
+        $product->workingconditions = request('workingconditions') ?? '';
+        $product->date_manufactured = request('date_manufactured') ?? '';
+        $product->price = request('price');
+        $product->edited_by_user_id = auth()->user()->id;
 
-        $product->update([
-            'name' => request('name'),
-            'slug' => Str::slug(request('name'), '-'),
-            'manufacturer_id' => request('manufacturer_id'),
-            'category_id' => request('category_id'),
-            'visible' => request('visible') ? 1 : 0,
-            'materials' => request('materials'),
-            'description' => request('description'),
-            'modification' => $modification,
-            'workingconditions' => request('workingconditions') ?? '',
-            'date_manufactured' => request('date_manufactured') ?? '',
-            'price' => request('price'),
-            'edited_by_user_id' => auth()->user()->id,
-        ]);
+        $dirty_properties = $product->getDirty();
+        $original = $product->getOriginal();
 
+        if ( !$product->save() ) {
+            return back()->withErrors(['something wrong!'])->withInput();
+        }
 
-        // if ( request()->file('images') and count(request()->file('images')) ) { // проверить на изображение!!!
-        //     // dd(__METHOD__ . '@' . __LINE__);
-        //     foreach(request()->file('images') as $image) {
-
-        //         // image re-creation
-        //         $image_name = ImageYoTrait::saveImgSet($image, $product->id);
-        //         $originalName = $image->getClientOriginalName();
-        //         $path  = '/images/products/' . $product->id;
-
-        //         // create image record
-        //         $image = Image::create([
-        //             'product_id' => $product->id,
-        //             // 'slug' => $image_name,
-        //             'slug' => Str::slug($image_name, '-'),
-        //             'path' => $path,
-        //             'name' => $image_name,
-        //             'ext' => config('imageyo.res_ext'),
-        //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-        //             'sort_order' => 9,
-        //             'orig_name' => $originalName,
-        //         ]);
-        //     }
-        // }
         $this->attachImages($product->id, request('imagespath'));
+
+        $description = $this->createAction($product, $dirty_properties, $original, 'model_update');
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
-
             $user = auth()->user();
             $bcc = config('mail.mail_bcc');
-            
             if ( config('settings.additional_email_bcc') ) {
                 $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
             }
-
-            $when = Carbon::now()->addMinutes( config('settings.email_send_delay') ); // TODO convert to int?
-
-            \Mail::to($user)
-            ->bcc($bcc)
-            ->later($when, new Updated($product));
+            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+            \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
         }
 
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'product',
-            'type_id' => $product->id,
-            'action' => 'update',
-            'description' => 
-                'Редактирование товара ' 
-                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
-                . $product->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
+        if ( $description ) {session()->flash('message', $description);}
 
-        session()->flash('message', 'Product "' . $product->name . '" has been updated');
-
-        // return redirect()->route('products.index');
-        return redirect()->route('products.show', $product->id);
+        return redirect()->route('products.adminshow', $product->id);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -322,67 +283,26 @@ class ProductsController extends CustomController
         $products_name = $product->name;
         $products_id = $product->id;
 
-        // destroy product images
         if ($product->images) {
-
             // delete public directory (converted images)
             $directory_pub = 'public/images/products/' . $product->id;
             Storage::deleteDirectory($directory_pub);
-
             // delete uploads directory (original images)
             $directory_upl = 'uploads/images/products/' . $product->id;
             Storage::deleteDirectory($directory_upl);
-
         }
 
-        // destroy product comments
         $product->comments()->delete();
 
-        // destroy product
-        $product->delete();
-
         // ADD DELETE PRODUCT EMAIL!
-        // // send email-notification
-        // $email_update_product = Setting::all()->firstWhere('name', 'email_update_product');
-        // if ( $email_update_product->value ) {
 
-        //     $user = auth()->user();
-        //     $bcc = config('mail.mail_bcc');
-            
-        //     $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-        //     if ( $additional_email_bcc->value ) {
-        //         $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-        //     }
+        $description = $this->createAction($product, false, false, 'model_delete');
 
-        //     $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-        //     $when = Carbon::now()->addMinutes($email_send_delay);
-
-        //     \Mail::to($user)
-        //     ->bcc($bcc)
-        //     ->later($when, new Updated($product));
-        // }
-
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'product',
-            'type_id' => $product->id,
-            'action' => 'delete',
-            'description' => 
-                'Удаление товара ' 
-                // . '<a href="' . route('products.show', ['product' => $product->id]) . '">' . $product->name . '</a>'
-                . $product->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
+        $product->delete();
 
         session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
 
-        // return redirect()->route('products.index');
-        return back();
+        return redirect()->route('categories.show', $products_id);
     }
 
 
@@ -403,6 +323,7 @@ class ProductsController extends CustomController
         session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
         return redirect()->route('products.index');
     }
+
 
     public function search(Request $request) 
     {

@@ -55,6 +55,20 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
+                'title' => 'ReWatermark',
+                'description' => 'Некорректная работа ReWatermark.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
+                'title' => 'Вынести количество просмотров товаров в отдельную таблицу',
+                'description' => 'и инкрементировать их, не касаясь модели товар.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
+
+            [
                 'title' => 'рефакторинг',
                 'description' => '.
                     <ol>

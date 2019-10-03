@@ -55,12 +55,12 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
     // filter
     // Route::get('products.filter', 'ProductsController@filter')->name('products.filter');
     // rewatermark
-    Route::get      ('/products/rewatermark',   'ProductsController@rewatermark')->name('products.rewatermark');
-    Route::get      ('/products/{product}/copy','ProductsController@copy'       )->name('products.copy');
+    Route::get      ('admin/products/rewatermark',   'ProductsController@rewatermark')->name('products.rewatermark')->middleware('auth');
+    Route::get      ('admin/products/{product}/copy','ProductsController@copy'       )->name('products.copy')->middleware('auth');
 
     Route::get      ('admin/products',          'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
-    // Route::get      ('admin/products/{product}','ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
-    Route::get      ('admin/products/{product}','ProductsController@show'       )->name('products.adminshow'   )->middleware('auth');
+    Route::get      ('admin/products/{product}','ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
+    // Route::get      ('admin/products/{product}','ProductsController@show'       )->name('products.adminshow'   )->middleware('auth');
     Route::post     ('admin/products/massupdate', 'ProductsController@massupdate')->name('products.massupdate'  )->middleware('auth');
 
 

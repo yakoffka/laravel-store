@@ -78,11 +78,11 @@
             @permission('create_products')
                 <div class="submenuitem">- <a href="{{ route('products.create') }}">Создание</a></div>
             @endpermission
-            {{-- @permission('edit_products')
+            @permission('edit_products')
                 <div class="submenuitem">- 
                     <a href="{{ route('products.rewatermark') }}" title="Resave all image with new Watermark">Rewatermark</a>
                 </div>
-            @endpermission --}}
+            @endpermission
         </div>
     @endpermission
 </div>
