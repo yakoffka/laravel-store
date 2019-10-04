@@ -6,11 +6,12 @@ use App\{Action, Setting};
 use Illuminate\Http\Request;
 use Auth;
 
-class SettingController extends Controller
+class SettingController extends CustomController
 {
     public function __construct() {
         $this->middleware('auth');
     }
+
 
     /**
      * Display a listing of the resource.
@@ -25,6 +26,7 @@ class SettingController extends Controller
         return view('dashboard.adminpanel.settings.index', compact('settings', 'groups'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -32,9 +34,11 @@ class SettingController extends Controller
      */
     public function create()
     {
-        abort_if ( !Auth::user()->can('create_settings'), 403 );
-        return __method__;
+        // abort_if ( !Auth::user()->can('create_settings'), 403 );
+        // return __method__;
+        abort(404);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -44,9 +48,11 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        abort_if ( !Auth::user()->can('create_settings'), 403 );
-        return __method__;
+        // abort_if ( !Auth::user()->can('create_settings'), 403 );
+        // return __method__;
+        abort(404);
     }
+
 
     /**
      * Display the specified resource.
@@ -56,9 +62,11 @@ class SettingController extends Controller
      */
     public function show(Setting $setting)
     {
-        abort_if ( !Auth::user()->can('view_settings'), 403 );
-        return __method__;
+        // abort_if ( !Auth::user()->can('view_settings'), 403 );
+        // return __method__;
+        abort(404);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -68,9 +76,11 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting)
     {
-        abort_if ( !Auth::user()->can('edit_settings'), 403 );
-        return __method__;
+        // abort_if ( !Auth::user()->can('edit_settings'), 403 );
+        // return __method__;
+        abort(404);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -82,10 +92,9 @@ class SettingController extends Controller
     public function update(Setting $setting)
     {
         abort_if ( !Auth::user()->can('edit_settings'), 403 );
-        // dd(request('value'));
 
         if ( $setting->type == 'checkbox' ) {
-            $validator = request()->validate([
+            request()->validate([
                 // 'value' => 'required|string',
                 'value' => 'string',
             ]);
@@ -95,7 +104,7 @@ class SettingController extends Controller
     
         } elseif( $setting->type == 'select' or $setting->type == 'text' ) {
 
-            $validator = request()->validate([
+            request()->validate([
                 'value' => 'required|string',
             ]);
 
@@ -110,7 +119,7 @@ class SettingController extends Controller
                     $arr_bcc[] = request("value_email$i");
                 }
             }
-            $validator = request()->validate($arr_validate);
+            request()->validate($arr_validate);
 
             $value = implode(', ', $arr_bcc);
 
@@ -118,23 +127,14 @@ class SettingController extends Controller
             return back()->withErrors('недопустимый тип пункта настроек');
         }
 
-
-        if ( !$setting->update(['value' => $value,]) ) {
+        $setting->value = $value;
+        $original = $setting->getOriginal();
+        $dirty_properties = $setting->getDirty();
+        if ( !$setting->save() ) {
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-
-        // create action record
-        $action = Action::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'setting',
-            'type_id' => $setting->id,
-            'action' => 'update',
-            'description' => 'Изменение настройки ' . $setting->name . '. Исполнитель: ' . auth()->user()->name . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
+        $this->createAction($setting, $dirty_properties, $original, 'model_update');
 
         // overwriting the configuration file config/settings.php
         $settings = Setting::get();
@@ -157,6 +157,7 @@ class SettingController extends Controller
         return redirect('/settings/' . '#setting_' . $setting->name);
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -165,7 +166,8 @@ class SettingController extends Controller
      */
     public function destroy(Setting $setting)
     {
-        abort_if ( !Auth::user()->can('delete_settings'), 403 );
-        return __method__;
+        // abort_if ( !Auth::user()->can('delete_settings'), 403 );
+        // return __method__;
+        abort(404);
     }
 }

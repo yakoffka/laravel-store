@@ -15,13 +15,13 @@ return [
 	'description_wysiwyg' => 'tinymce',
 	'modification_wysiwyg' => 'srctablecode',
 	'workingconditions_wysiwyg' => 'tinymce',
-	'show_empty_category' => '1',
+	'show_empty_category' => '0',
 	'display_cart' => '1',
 	'display_prices' => '1',
-	'display_registration' => '0',
+	'display_registration' => '1',
 	'display_login' => '1',
 	'filter_manufacturers' => '1',
 	'filter_categories' => '1',
-	'filter_subcategories' => '0',
+	'filter_subcategories' => '1',
 
 ];

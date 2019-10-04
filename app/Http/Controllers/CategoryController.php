@@ -19,6 +19,13 @@ class CategoryController extends CustomController
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        // $categories = Category::with('products') // whithout empty categories
+        //     ->get()
+        //     ->where('parent_id', '=', 1)
+        //     ->where('visible', '=', true)
+        //     ->where('parent_visible', '=', true) // getParentVisibleAttribute
+        //     ->where('id', '>', 1)
+        //     ->sortBy('sort_order');
         $categories = Category::all()
             ->where('parent_id', '=', 1)
             ->where('visible', '=', true)

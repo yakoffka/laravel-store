@@ -133,7 +133,17 @@
                 {{-- /massupdate --}}
 
             @elseif ( !$category->countProducts() and !$category->countChildren() )
-                <h2>Категория пуста</h2>                
+                <h2 class="blue center">Категория пуста</h2>
+
+                <div class="row justify-content-center">
+                    @if ( $category->parent->id === 1 )
+                        <a href="{{ route('categories.create') }}?parent_id={{ $category->id }}"
+                            class="btn btn-primary col-5 m-2">добавить подкатегорию</a>
+                    @endif
+
+                    <a href="{{ route('products.create') }}?parent_id={{ $category->id }}"
+                        class="btn btn-primary col-5 m-2">добавить товар</a>
+                </div>
             @endif
 
         </div>

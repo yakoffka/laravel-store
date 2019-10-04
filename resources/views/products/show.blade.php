@@ -59,16 +59,16 @@
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
                     {{-- <h2>specification product</h2> --}}
 
-                    @if ($product->manufacturer->title)<span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>@endif
-                    @if ($product->materials)<span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>@endif
-                    @if ($product->category->id)<span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>@endif
-                    @if ($product->visible)<span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>@endif
-                    @if ($product->date_manufactured)<span class="grey">date_manufactured: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
-                    @if ($product->id)<span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
+                    @if ($product->manufacturer->title)<span class="grey">{{__('__manufacturer')}}: </span>{{ $product->manufacturer->title ?? '-' }}<br>@endif
+                    @if ($product->materials)<span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>@endif
+                    @if ($product->category->id)<span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>@endif
+                    {{-- @if ($product->visible)<span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>@endif --}}
+                    @if ($product->date_manufactured)<span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
+                    @if ($product->id)<span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
 
 
                     @if ( config('settings.display_prices') and $product->price)
-                        <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
+                        <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
                     @endif

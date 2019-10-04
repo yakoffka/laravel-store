@@ -107,7 +107,11 @@
                             <select name="parent_id" id="parent_id">
                                 @foreach ( $categories as $parent_category )
                                     @if ( !$parent_category->countProducts() )
-                                        <option value="{{ $parent_category->id }}">{{ $parent_category->title }}</option>
+                                        <option value="{{ $parent_category->id }}"
+                                            @if ( request('parent_id') == $parent_category->id )
+                                                selected
+                                            @endif    
+                                        >{{ $parent_category->title }}</option>
                                     @endif
                                 @endforeach
                             </select>

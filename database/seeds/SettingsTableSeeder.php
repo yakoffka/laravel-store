@@ -206,7 +206,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
             [
                 'group' => 'display_settrings',
@@ -245,7 +245,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'выключено'],
                     [1, 'включено'],
                 ],
-                'default_value' => 0,
+                'default_value' => 1,
             ],
             [
                 'group' => 'display_settrings',
@@ -300,7 +300,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'не показывать'],
                     [1, 'показывать'],
                 ],
-                'default_value' => 0,
+                'default_value' => 1,
             ],
 
 

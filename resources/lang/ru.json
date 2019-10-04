@@ -107,6 +107,14 @@
   "title": "тайтл (развёрнутое наименование)",
   "visible": "видимость",
 
+
+  "__manufacturer": "бренд",
+  "__materials": "материал",
+  "__category": "категория",
+  "__date_manufactured": "опубликовано",
+  "__vendor_code": "артикул",
+  "__price": "цена",
+
   "Profile": "Профиль",
   "Orders": "Заказы"
 }

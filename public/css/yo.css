@@ -726,7 +726,7 @@ nav.navbar.navbar-dark a.navbar-brand {
     position: relative;
 }
 .navbar .main_menu {
-    margin-left: 120px;
+    margin-left: 60px;
     top: -5px;
     /* transform: skew(0, -.75deg);
     transform-origin: bottom left;
