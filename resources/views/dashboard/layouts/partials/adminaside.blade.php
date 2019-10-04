@@ -80,7 +80,7 @@
             @endpermission
             @permission('edit_products')
                 <div class="submenuitem">- 
-                    <a href="{{ route('products.rewatermark') }}" title="Resave all image with new Watermark">Rewatermark</a>
+                    <a href="{{ route('products.rewatermark') }}" title="Resave all image with new Watermark">ReWaterMark</a>
                 </div>
             @endpermission
         </div>

@@ -132,7 +132,7 @@
                                         <i class="fas fa-copy"></i>
                                     </a>
                                 </div>
-                                
+
                             @elseif ( Auth::user()->can('edit_products') )
 
                                 <div class="col-sm-12">

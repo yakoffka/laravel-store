@@ -58,22 +58,31 @@
     {{-- <td class="ta_c">coming soon</td> --}}
     
     {{-- actions --}}
-    <td class="actions3">
+    <td class="actions4">
 
         {{-- view --}}
-        <a href="{{ route('products.adminshow', $product) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+        <a href="{{ route('products.adminshow', $product) }}" 
+            class="btn btn-outline-primary" title="{{ __('show_action') }}">
+            <i class="fas fa-eye"></i>
+        </a>
     
         {{-- edit --}}
         <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-            class="btn btn-outline-success">
+            class="btn btn-outline-success" title="{{ __('edit_action') }}">
             <i class="fas fa-pen-nib"></i>
+        </a>
+
+        {{-- copy --}}
+        <a href="{{ route('products.copy', ['product' => $product->id]) }}"
+            class="btn btn-outline-primary" title="{{ __('copy_action') }}">
+            <i class="fas fa-copy"></i>
         </a>
 
         {{-- delete --}}
         @permission('delete_products')
             @modalConfirmDestroy([
                 'btn_class' => 'btn btn-outline-danger align-self-center',
-                'cssId' => 'delele_',
+                'cssId' => 'delele_action',
                 'item' => $product,
                 'type_item' => 'товар',
                 'action' => route('products.destroy', $product), 

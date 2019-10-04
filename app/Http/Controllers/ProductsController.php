@@ -11,6 +11,7 @@ use Str;
 use App\{Action, Category, Image, Manufacturer, Product};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
+use Artisan;
 
 class ProductsController extends CustomController
 {
@@ -308,19 +309,25 @@ class ProductsController extends CustomController
 
     public function rewatermark()
     {
-        info(__method__ . '@' . __line__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
+        // info(__method__ . '@' . __line__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
+        $products = Product::has('images')->get();
 
-        // $products = Product::all()->where('image', '!=', null);
-        $products = Product::all();
+        if ( $products->count() ) {
+            Artisan::call('queue:restart');
+            // info(__method__ . '@' . __line__ . ': call(\'queue:restart\')');
 
-        foreach ($products as $product) {
-            // RewatermarkJob::dispatch($product->id);
-            $job = new RewatermarkJob($product->id);
-            dispatch($job);
-            // dispatch($job)->onQueue('rewatermark');
+            foreach ($products as $product) {
+                // RewatermarkJob::dispatch($product->id);
+                $job = new RewatermarkJob($product->id);
+                dispatch($job);
+                // info(__method__ . '@' . __line__ . ': dispatch(new RewatermarkJob('.$product->id.'))');
+                // dispatch($job)->onQueue('rewatermark');
+            }
+    
+            session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
+        } else {
+            session()->flash('message', 'No products with images.');
         }
-
-        session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
         return redirect()->route('products.index');
     }
 
@@ -549,6 +556,7 @@ class ProductsController extends CustomController
 
         $d_images = Product::find($donor_id)->images;
 
+        // copy all entries from the image table related to this product
         foreach ( $d_images as $d_image ) {
             $image = new Image;
             $image->product_id = $product->id;
@@ -562,7 +570,16 @@ class ProductsController extends CustomController
             $image->save();
         }
 
+        // copy all files from public directory images of products
         $pathToDir = 'public/images/products/'; // TODO!!!
+        $files = Storage::files($pathToDir . $donor_id);
+        foreach ( $files as $src ) {
+            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
+            Storage::copy($src, $dst);
+        }
+
+        // copy all files from uploads directory images of products
+        $pathToDir = 'uploads/images/products/'; // TODO!!!
         $files = Storage::files($pathToDir . $donor_id);
         foreach ( $files as $src ) {
             $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);

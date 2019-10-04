@@ -108,7 +108,7 @@
                         {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">images</th> --}}
                         {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
-                        <th class="actions3">actions</th>
+                        <th class="actions4">actions</th>
                         {{-- <th>p</th> --}}
 
                     </tr>

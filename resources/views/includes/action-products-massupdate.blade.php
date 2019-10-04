@@ -1,6 +1,6 @@
 
         {{-- {{ $value }} --}}
-        <button type="button" class="btn btn-outline-{{ $b_class }}" data-toggle="modal" data-target="#modal_mass_{{ $value }}">
+        <button type="button" class="btn btn-outline-{{ $b_class }} col-sm-2" data-toggle="modal" data-target="#modal_mass_{{ $value }}">
             <i class="fas {{ $i_class }}"></i> {{ $b_label }}
         </button>
         <div class="modal fade" id="modal_mass_{{ $value }}" tabindex="-1" role="dialog" aria-labelledby="modal_mass_{{ $value }}Label" aria-hidden="true">

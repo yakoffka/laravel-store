@@ -89,6 +89,12 @@
   "apply": "применить",
   "edit": "редактирование",
   "Edit": "Редактирование",
+
+
+  "show_action": "просмотреть",
+  "edit_action": "редактировать",
+  "copy_action": "копировать",
+  "delete_action": "удалить",
   
   "category": "категория",
   "date_manufactured": "дата производства",

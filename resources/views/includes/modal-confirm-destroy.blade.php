@@ -8,7 +8,8 @@
 --}}
 
 <!-- Button trigger modal -->
-<button type="button" class="{{ $btn_class }}" data-toggle="modal" data-target="#{{ $cssId }}_{{ $item->id }}">
+<button type="button" class="{{ $btn_class }}" title="{{ __('delete_action') }}"
+  data-toggle="modal" data-target="#{{ $cssId }}_{{ $item->id }}">
   <i class="fas fa-trash"></i>
 </button>
 
@@ -39,8 +40,10 @@
 
             @method("DELETE")
 
-            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">отмена</button>
-            <button type="submit" class="btn btn-outline-danger">удалить</button>
+            {{-- <div class="form-group row"> --}}
+              <button type="button" class="btn btn-outline-primary form-control col-sm-5" data-dismiss="modal">отмена</button>
+              <button type="submit" class="btn btn-outline-danger form-control col-sm-5">удалить</button>
+            {{-- </div> --}}
 
         </form>
 
