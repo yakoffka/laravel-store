@@ -57,8 +57,9 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'ReWatermark',
                 'description' => 'Некорректная работа ReWatermark.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
+                'comment_slave' => 'before migration refresh call "php artisan config:clear".'
             ],
 
             [
@@ -99,7 +100,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'isDirty',
                 'description' => 'Добавить использование свойства модели isDirty (при написании истории, обновлении модели и может ещё где).',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 
@@ -120,7 +121,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Конкретика событий',
                 'description' => 'добавить в события конкретики (более полное описание изменений).',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 
@@ -176,7 +177,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Добавить пользователя System',
                 'description' => 'Добавить пользователя System с божественными привилегиями. Создать от его имени базовые роли, пользователей и разрешения, которые не смогут удалить смертные.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -196,8 +197,8 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Не работает настройка "Показывать товары без цены"',
-                'description' => 'Не работает настройка "Показывать товары без цены". Поправить с помощью иньекции в запрос и фильтра. Принудительно удалить из запроса используемые пары (ну их в жопу, хитрецов сраных)',
-                'tasksstatus_id' => 1,
+                'description' => 'Не работает настройка "Показывать товары без цены".',
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -226,14 +227,14 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Переадресация после редактирования',
                 'description' => 'После редактирования переадресовывать на админпросмотр списка вещи.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
                 'title' => 'Permission в ProductController',
                 'description' => 'Расставить разрешения в ProductController.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -296,7 +297,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Изменить вид товара',
                 'description' => 'Сделать одинаковое отображение для персонала и клиентов.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -461,7 +462,7 @@ class TasksTableSeeder extends Seeder
                     </li>
                 </ul>
                 ',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
@@ -624,7 +625,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Вёрстка: сверстать главную страницу',
                 'description' => 'сверстать главную страницу.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 3,
             ],
 
@@ -656,7 +657,7 @@ class TasksTableSeeder extends Seeder
                         <li></li>
                     </ol>
                 ',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 3,
             ],
 
@@ -722,7 +723,7 @@ class TasksTableSeeder extends Seeder
                         <li>в пермишинах ролей;</li>
                     </ol>
                     ',
-                'tasksstatus_id' => 2,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
@@ -804,7 +805,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Добавить анимарованную сортировку товаров',
+                'title' => 'Добавить анимированную сортировку товаров',
                 'description' => 'Добавить анимарованную сортировку товаров как в
                 <a href="https://s-sd.ru/blog_studio_design/animarovannaya_sortirovka_blokov_s_pomowyu_isotope/">примере</a>
                  .',

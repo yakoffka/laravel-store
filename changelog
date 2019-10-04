@@ -1,5 +1,0 @@
-Refactoring SettingController
-    Change the ancestor for the controller on CustomController;
-    Getting rid of mass filling of the Setting model;
-    Redirect to page 404 with unused methods;
-    Minor changes in appearance.

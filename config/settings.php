@@ -22,6 +22,6 @@ return [
 	'display_login' => '1',
 	'filter_manufacturers' => '1',
 	'filter_categories' => '1',
-	'filter_subcategories' => '1',
+	'filter_subcategories' => '0',
 
 ];

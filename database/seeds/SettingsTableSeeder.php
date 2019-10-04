@@ -300,7 +300,7 @@ class SettingsTableSeeder extends Seeder
                     [0, 'не показывать'],
                     [1, 'показывать'],
                 ],
-                'default_value' => 1,
+                'default_value' => 0,
             ],
 
 
