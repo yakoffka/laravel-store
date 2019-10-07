@@ -92,7 +92,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Бренд => Производитель',
                 'description' => 'Заменить все вхождения.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -352,8 +352,8 @@ class TasksTableSeeder extends Seeder
 
             [
                 'title' => 'Реализовать управление производителями',
-                'description' => 'добавить контроллер и виды.',
-                'tasksstatus_id' => 1,
+                'description' => 'добавить контроллер, роуты, хлебные крошки, разрешения и виды.',
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 

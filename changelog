@@ -1,17 +1,1 @@
-Реализация производителей
-    Описание стандартных методов ManufacturerController;
-    Указание роутов;
-    Указание хлебных крошек;
-    Добавление группы разрешений для производителей;
-    Проставление разрешений в методах контроллера ManufacturerController;
-    Создание вьюшек;
-    Незначительные правки внешнего вида.
 
-Manufacturers Implementation
-    Description of standard ManufacturerController methods
-    Indication of routes;
-    Indication of bread crumbs;
-    Adding a group of permissions for manufacturers;
-    Permissions in ManufacturerController controller methods;
-    Creating views;
-    Minor changes in appearance.

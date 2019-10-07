@@ -99,7 +99,7 @@
   "category": "категория",
   "date_manufactured": "дата производства",
   "description": "описание",
-  "manufacturer": "бренд",
+  "manufacturer": "производитель",
   "materials": "материал",
   "name": "наименование (краткое)",
   "price": "цена",
@@ -108,7 +108,7 @@
   "visible": "видимость",
 
 
-  "__manufacturer": "бренд",
+  "__manufacturer": "производитель",
   "__materials": "материал",
   "__category": "категория",
   "__date_manufactured": "опубликовано",
