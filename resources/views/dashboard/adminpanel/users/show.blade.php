@@ -124,7 +124,7 @@
                             <th>№</th>
                             {{-- <th>Тип</th> --}}
                             <th>Дата</th>
-                            <th>Описание</th>
+                            <th>{{ _('__Description') }}</th>
                             @if ( Auth::user()->can('view_orders') )
                                 <th>Исполнитель</th>
                             @endif

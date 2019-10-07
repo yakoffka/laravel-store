@@ -62,8 +62,8 @@ class CategoryController extends CustomController
             'name'          => 'required|string|max:255',
             'title'         => 'nullable|string|max:255',
             'slug'          => 'nullable|string|max:255',
-            'description'   => 'nullable|string|max:255',
-            'imagepath'     => 'nullable|string',
+            'description'   => 'nullable|string|max:65535',
+            'imagepath'     => 'nullable|string|max:255',
             'parent_id'     => 'required|integer|max:255',
             'sort_order'    => 'required|string|max:1',
             'visible'       => 'nullable|string|in:on',
@@ -84,7 +84,7 @@ class CategoryController extends CustomController
 
         if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
 
-        $dirty_properties['image'] = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
+        $dirty_properties = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
 
         // add email!
 
@@ -155,8 +155,8 @@ class CategoryController extends CustomController
             'name'          => 'required|string|max:255',
             'title'         => 'nullable|string|max:255',
             'slug'          => 'nullable|string|max:255',
-            'description'   => 'nullable|string|max:255',
-            'imagepath'     => 'nullable|string',
+            'description'   => 'nullable|string|max:65535',
+            'imagepath'     => 'nullable|string|max:255',
             'sort_order'    => 'required|string|max:1',
             'visible'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
@@ -176,7 +176,7 @@ class CategoryController extends CustomController
 
         if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
 
-        $dirty_properties['image'] = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
+        $dirty_properties = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
 
         $this->setVisibleChildren($category, $dirty_properties);
 
@@ -281,7 +281,8 @@ class CategoryController extends CustomController
             return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
-        return $dst;
+        $dirty_properties['image'] = $dst;
+        return $dirty_properties;
     }
 
 

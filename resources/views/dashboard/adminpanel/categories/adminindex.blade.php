@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.app')
 
 
-@section('title', 'список категорий')
+@section('title', __('__list_categories'))
 
 
 @section('content')
@@ -16,7 +16,7 @@
     </div>
 
 
-    <h1>список категорий</h1>
+    <h1>{{ __('__list_categories') }}</h1>
 
 
     <div class="row">
@@ -32,16 +32,16 @@
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        <th>id</th>
-                        <th>наименование</th>
-                        <th width="30" class="verticalTableHeader ta_c">id род. категории</th>
+                        <th>{{ __('__id') }}</th>
+                        <th>{{ __('__name') }}</th>
+                        <th width="30" class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</th>
                         <th width="30" class="verticalTableHeader ta_c">{{ __('sort_order') }}</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость родителя</th>
-                        <th width="60" class="verticalTableHeader ta_c">изображение</th>
-                        <th width="30" class="verticalTableHeader ta_c">кол. подкатегорий</th>
-                        <th width="30" class="verticalTableHeader ta_c">кол. товаров</th>
-                        <th class="actions3">actions</th>
+                        <th class="verticalTableHeader ta_c">{{ __('__visible') }}</th>
+                        <th class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</th>
+                        <th width="60" class="verticalTableHeader ta_c">{{ __('__img') }}</th>
+                        <th width="30" class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</th>
+                        <th width="30" class="verticalTableHeader ta_c">{{ __('__count_products') }}</th>
+                        <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 
                     @foreach($categories as $category)
@@ -58,20 +58,10 @@
                 </table>
 
 
-
                 {{-- add new category --}}
-                <a href="{{ route('categories.create') }}" class="btn btn-primary form-control pb-1">Создать новую категорию</a>
+                <a href="{{ route('categories.create') }}" class="btn btn-primary form-control pb-1">{{ __('__create_category') }}</a>
                 <div class="row col-sm-12 pb-2"></div>
                 {{-- /add new category --}}
-
-
-                {{-- pagination block --}}
-                {{-- @if($categories->links())
-                    <div class="row col-sm-12 pagination">{{ $categories->links() }}</div>
-                @endif --}}
-                {{-- @if($categories->appends($appends)->links())
-                    <div class="row col-sm-12 pagination">{{ $categories->links() }}</div>
-                @endif --}}
 
             </div>
         </div>

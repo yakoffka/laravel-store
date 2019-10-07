@@ -67,7 +67,7 @@
   "actions": "история",
   "tasks": "задачи",
   "create_new_roles": "создать новую роль",
-
+  "create_new_task": "Поставить новую задачу",
 
 
 
@@ -107,13 +107,48 @@
   "title": "тайтл (развёрнутое наименование)",
   "visible": "видимость",
 
+  "Copy_product": "Копирование товара",
+  "Copy_images_product_donor": "Копировать изображения товара",
 
+
+  "__id": "id",
+  "__name": "наименование",
   "__manufacturer": "производитель",
   "__materials": "материал",
+  "__master": "заказчик",
   "__category": "категория",
   "__date_manufactured": "опубликовано",
+  "__description": "описание",
   "__vendor_code": "артикул",
   "__price": "цена",
+  "__visible": "видимость",
+  "__parent_visible": "видимость родителя",
+  "__grand_parent_visible": "видимость прародителя",
+  "__views": "просмотров",
+  "__parent_category_id": "id род. категории",
+  "__priority": "приоритет",
+  "__slave": "исполнитель",
+  "__status": "статус",
+  "__comm_slave": "комментарий исполнителя",
+  "task_show": "Просмотр задачи #:id",
+  "directive_show": "Просмотр поручения #:id",
+  "__title": "описание",
+  "__img": "изображение",
+  "__count_subcategories": "кол. подкатегорий",
+  "__count_products": "кол. товаров",
+  "__count_img": "кол. изображений",
+  "__actions": "действия",
+  "__create_category": "Создать новую категорию",
+  "__list_products": "список товаров",
+  "__list_categories": "список категорий",
+  "__list_of_tasks": "список задач для Вас",
+  "__list_of_directives": "список отданных Вами поручений",
+  "to_tasks_index": "к списку задач",
+  "to_directives_index": "к списку поручений",
+
+  "__Description": "Описание",
+  "__Modification": "Модификации",
+  "__Workingconditions": "Условия работы",
 
 
   "Manufacturers": "Производители",
@@ -122,8 +157,10 @@
   "Manufacturers_edit": "Редактирование производителя",
 
 
-  "added_by_user_id": "создан",
+  "added_by_user_id": "добавлен",
   "edited_by_user_id": "отредактирован",
+  "created_at": "дата создания",
+  "updated_at": "дата обновления",
 
   "Profile": "Профиль",
   "Orders": "Заказы"

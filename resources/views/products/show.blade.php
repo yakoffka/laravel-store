@@ -7,11 +7,9 @@
 @section('content')
 
     <div class="row searchform_breadcrumbs">
-        {{-- <div class="col col-sm-9 breadcrumbs"> --}}
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('products.show', $product) }}
         </div>
-        {{-- <div class="col col-sm-3 searchform"> --}}
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             <div class="d-none d-md-block">@include('layouts.partials.searchform')</div>
         </div>
@@ -28,11 +26,6 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             <div class="row">
 
-                    {{-- col-xs-12 col-sm-6  col-md-5
-                    col-xs-12 col-sm-6  col-md-4
-                    col-xs-12 col-sm-12 col-md-3 --}}
-
-                {{-- <div class="col-md-4 wrap_b_image"> --}}
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
 
                     @if ( $product->images->count() > 1 )
@@ -55,24 +48,19 @@
                 </div>
 
 
-                {{-- <div class="col-md-5"> --}}
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
-                    {{-- <h2>specification product</h2> --}}
 
                     @if ($product->manufacturer->title)<span class="grey">{{__('__manufacturer')}}: </span>{{ $product->manufacturer->title ?? '-' }}<br>@endif
                     @if ($product->materials)<span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>@endif
                     @if ($product->category->id)<span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>@endif
-                    {{-- @if ($product->visible)<span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>@endif --}}
                     @if ($product->date_manufactured)<span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
                     @if ($product->id)<span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
-
 
                     @if ( config('settings.display_prices') and $product->price)
                         <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
                     @endif
-
 
                     <div class="row product_buttons">
 
@@ -83,7 +71,6 @@
                             @endif
                     </div>
                 </div>
-
 
                 {{-- информация о доставке на экранах lg --}}
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 mb-2 shipping">
@@ -101,27 +88,27 @@
 
                 @if ($product->description)
                     <li class="nav-item">
-                        <a title="Описание {{ $product->name }}" class="nav-link active" id="home-tab" 
+                        <a title="{{ _('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab" 
                             data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                            Описание
+                            {{ _('__Description') }}
                         </a>
                     </li>
                 @endif
 
                 @if ($product->modification)
                     <li class="nav-item">
-                        <a title="Модификации {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
+                        <a title="{{ _('__Modification') }} {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
                             data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                            Модификации
+                            {{ _('__Modification') }}
                         </a>
                     </li>
                 @endif
 
                 @if ($product->workingconditions)
                     <li class="nav-item">
-                        <a title="Условия работы {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
+                        <a title="{{ _('__Workingconditions') }} {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
                             data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                            Условия работы
+                            {{ _('__Workingconditions') }}
                         </a>
                     </li>
                 @endif

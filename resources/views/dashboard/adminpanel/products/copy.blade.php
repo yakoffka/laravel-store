@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.app')
 
-@section('title', 'Копирование товара ' . $product->name)
+@section('title', __('Copy_product') . ' ' . $product->name)
 
-@section('description', 'Копирование товара ' . $product->name . '.')
+@section('description',  __('Copy_product') . ' ' . $product->name . '.')
 
 @section('content')
 
@@ -16,7 +16,7 @@
     </div>
 
 
-    <h1>Копирование товара '{{ $product->name }}'</h1>
+    <h1>{{ __('Copy_product')}} '{{ $product->name }}'</h1>
 
 
     <div class="row">
@@ -34,7 +34,7 @@
 
                 <div class="boxes left_stylized_checkbox">
                     <input type="checkbox" id="copy_img" name="copy_img" value="{{ $product->id }}" checked>
-                    <label for="copy_img">Копировать изображения копируемого товара</label>
+                    <label for="copy_img">{{ __('Copy_images_product_donor') }}</label>
                 </div>
 
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])

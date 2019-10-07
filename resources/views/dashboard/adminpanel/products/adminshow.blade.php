@@ -28,8 +28,6 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
 
-                    {{ config('imageyo.watermark') }}
-
                     @if ( $product->images->count() > 1 )
                         @carousel(compact('product'))
                     @elseif ( $product->images->count() === 1)
@@ -50,41 +48,32 @@
                 </div>
 
 
-                {{-- <div class="col-md-5"> --}}
                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
-                    {{-- <h2>specification product</h2> --}}
 
                     {{-- <span class="grey">manufacturer: </span>{{ $product->manufacturer ?? '-' }}<br> --}}
-                    <span class="grey">manufacturer: </span>{{ $product->manufacturer->title ?? '-' }}<br>
-                    <span class="grey">materials: </span>{{ $product->materials ?? '-' }}<br>
-                    <span class="grey">category: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
-                    <span class="grey">visible: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
-                    <span class="grey">date_manufactured: </span>{{ $product->date_manufactured ?? '-' }}<br>
-                    <span class="grey">vendor code (id): </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
+                    <span class="grey">{{__('__manufacturer')}}: </span>{{ $product->manufacturer->title ?? '-' }}<br>
+                    <span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>
+                    <span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
+                    <span class="grey">{{ __('__visible') }}: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
+                    <span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>
+                    <span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
 
                     @if ( config('settings.display_prices') and $product->price)
-                        <span class="grey">price: </span>{{ $product->price }} &#8381;<br>
+                        <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
                     @endif
 
 
                     @permission('edit_products')
-
-                        <!-- created_at -->
-                        <span class="grey">added by: </span>{{ $product->creator->name }}<br>
-                        <span class="grey">date added: </span>{{ $product->created_at }}<br>
-                        <span class="grey">просмотров: </span>{{ $product->views }}<br>
-
+                        <span class="grey">{{__('added_by_user_id')}}: </span>{{ $product->creator->name }}<br>
+                        <span class="grey">{{__('created_at')}}: </span>{{ $product->created_at }}<br>
                         @if($product->updated_at != $product->created_at)
-
-                            <!-- updated_at -->
-                            <span class="grey">updated by: </span>{{ $product->editor->name }}<br>
-                            <span class="grey">date updated: </span>{{ $product->updated_at }}<br>
-
+                            <span class="grey">{{__('edited_by_user_id')}}: </span>{{ $product->editor->name }}<br>
+                            <span class="grey">{{__('updated_at')}}: </span>{{ $product->updated_at }}<br>
                         @endif
-
+                        <span class="grey">{{__('__views')}}: </span>{{ $product->views }}<br>
                     @endpermission
 
 
@@ -109,16 +98,6 @@
                                 </div>
 
                                 <div class="col-sm-4">
-                                    {{-- <!-- form delete product -->
-                                    <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
-                                        @csrf
-
-                                        @method("DELETE")
-
-                                        <button type="submit" class="btn btn-outline-danger">
-                                        <i class="fas fa-trash"></i> delete
-                                        </button>
-                                    </form> --}}
                                     @modalConfirmDestroy([
                                         'btn_class' => 'btn btn-outline-danger form-control',
                                         'cssId' => 'delele_',
@@ -173,9 +152,9 @@
 
                 @if ($product->description)
                     <li class="nav-item">
-                        <a title="Описание {{ $product->name }}" class="nav-link active" id="home-tab" 
+                        <a title="{{ _('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab" 
                             data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                            Описание
+                            {{ _('__Description') }}
                         </a>
                     </li>
                 @endif

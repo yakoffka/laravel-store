@@ -61,12 +61,12 @@ class TasksTableSeeder extends Seeder
             //     'taskspriority_id' => 2,
             // ],
 
-            // [
-            //     'title' => '',
-            //     'description' => '.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 2,
-            // ],
+            [
+                'title' => '255 description catery',
+                'description' => '.',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'CategoryController::attachSingleImage',
@@ -120,7 +120,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => '__(\'lang_const\')',
                 'description' => 'Использовать языковые файлы и константы вместо текста в коде.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 

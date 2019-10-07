@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.app')
 
-@section('title', "Список товаров")
+@section('title', __('__list_products'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Список всех товаров</h1>
+    <h1>{{ __('__list_products') }}</h1>
 
 
     <div class="row">
@@ -39,31 +39,29 @@
                         >
                         <label class="empty_label" for="checkbox_total"
                             onClick="check_all_products(this.form,['check_total'].checked)"
-                        >
-                            id
-                        </label>
+                        >id</label>
                         @php
                             $oForms = '';
                         @endphp
                     </th>
-                    <th>наименование</th>
+                    <th>{{ __('__name') }}</th>
                     {{-- <th>slug</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                    <th class="verticalTableHeader ta_c">видимость</th>
-                    <th class="verticalTableHeader ta_c">видимость родителя</th>
-                    <th class="verticalTableHeader ta_c">видимость прародителя</th>
-                    <th width="30" class="verticalTableHeader ta_c">категория</th>
-                    <th width="30" class="verticalTableHeader ta_c">изображений</th>
+                    <th class="verticalTableHeader ta_c">{{ __('__visible') }}</th>
+                    <th class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</th>
+                    <th class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</th>
+                    <th width="30" class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</th>
+                    <th width="30" class="verticalTableHeader ta_c">{{ __('__count_img') }}</th>
                     {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
                     {{-- <th>description</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">date_manufactured</th> --}}
-                    <th>цена</th>
+                    <th>{{ __('__price') }}</th>
                     {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">images</th> --}}
                     {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
-                    <th class="actions4">действия</th>
+                    <th class="actions4">{{ __('__actions') }}</th>
                     {{-- <th>p</th> --}}
 
                 </tr>
