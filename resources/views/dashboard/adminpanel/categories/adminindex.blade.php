@@ -32,15 +32,15 @@
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        <th>{{ __('__id') }}</th>
+                        <th width="30">{{ __('__id') }}</th>
                         <th>{{ __('__name') }}</th>
-                        <th width="30" class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</th>
-                        <th width="30" class="verticalTableHeader ta_c">{{ __('sort_order') }}</th>
-                        <th class="verticalTableHeader ta_c">{{ __('__visible') }}</th>
-                        <th class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</th>
-                        <th width="60" class="verticalTableHeader ta_c">{{ __('__img') }}</th>
-                        <th width="30" class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</th>
-                        <th width="30" class="verticalTableHeader ta_c">{{ __('__count_products') }}</th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>
                         <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 

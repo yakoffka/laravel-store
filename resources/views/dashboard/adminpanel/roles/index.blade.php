@@ -26,15 +26,13 @@
             <h2 class="blue">Таблица ролей:</h2>
             <table class="blue_table">
                 <tr>
-                    {{-- <th>#</th> --}}
-                    <th>id</th>
-                    {{-- <th>name</th> --}}
-                    <th>display_name</th>
-                    <th>description</th>
-                    <th width="30" class="verticalTableHeader ta_c">num_permissions</th>
-                    <th width="30" class="verticalTableHeader ta_c">num_users</th>
-                    <th width="30" class="verticalTableHeader ta_c">creator</th>
-                    <th width="30" class="verticalTableHeader ta_c">editor</th>
+                    <th>{{ __('id') }}</th>
+                    <th>{{ __('display_name') }}</th>
+                    <th>{{ __('description') }}</th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('num_permissions') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('num_users') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('creator') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('editor') }}</div></th>
                     {{-- <th>created</th> --}}
                     {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>
@@ -43,9 +41,7 @@
                 @foreach($roles as $i=>$role)
 
                     <tr>
-                        {{-- <td>{{ $i+1 }}</td> --}}
                         <td>{{ $role->id }}</td>
-                        {{-- <td>{{ $role->name }}</td> --}}
                         <td>{{ $role->display_name }}</td>
                         <td class="description" style="max-width: 300px;">{{ $role->description }}</td>
                         <td><a href="#perms_{{ $role->name }}">

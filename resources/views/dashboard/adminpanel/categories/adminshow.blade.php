@@ -28,17 +28,17 @@
             <h2>Сводная информация</h2>
                 
             <table class="blue_table overflow_x_auto">
-                <tr><td class="th ta_r">id</td><td class="td ta_l">{{ $category->id }}</td></tr>
-                <tr><td class="th ta_r">name</td><td class="td ta_l">{{ $category->name }}</td></tr>
-                <tr><td class="th ta_r">slug</td><td class="td ta_l">{{ $category->slug }}</td></tr>
-                <tr><td class="th ta_r">sort_order</td><td class="td ta_l">{{ $category->sort_order }}</td></tr>
-                <tr><td class="th ta_r">title</td><td class="td ta_l">{{ $category->title }}</td></tr>
-                <tr><td class="th ta_r">description</td><td class="td ta_l">{{ $category->description }}</td></tr>
-                <tr><td class="th ta_r">visible</td><td class="td ta_l">{{ $category->visible }}</td></tr>
-                <tr><td class="th ta_r">parent_id</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
-                <tr><td class="th ta_r">added_by_user_id</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>
-                <tr><td class="th ta_r">created_at</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
-                <tr><td class="th ta_r">updated_at</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__id') }}</td><td class="td ta_l">{{ $category->id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__name') }}</td><td class="td ta_l">{{ $category->name }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__slug') }}</td><td class="td ta_l">{{ $category->slug }}</td></tr>
+                <tr><td class="th ta_r">{{ __('sort_order') }}</td><td class="td ta_l">{{ $category->sort_order }}</td></tr>
+                <tr><td class="th ta_r">{{ __('title') }}</td><td class="td ta_l">{{ $category->title }}</td></tr>
+                <tr><td class="th ta_r">{{ __('description') }}</td><td class="td ta_l">{{ $category->description }}</td></tr>
+                <tr><td class="th ta_r">{{ __('visible') }}</td><td class="td ta_l">{{ $category->visible }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__parent_category_id') }}</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('added_by_user_id') }}</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('created_at') }}</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
+                <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
             </table>
 
             @if ( $category->countChildren() )
@@ -47,16 +47,16 @@
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        <th>id</th>
-                        <th>наименование</th>
-                        <th width="30" class="verticalTableHeader ta_c">id род. категории</th>
-                        <th width="30" class="verticalTableHeader ta_c">sort order</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость родителя</th>
-                        <th width="60" class="verticalTableHeader ta_c">изображение</th>
-                        <th class="verticalTableHeader ta_c">кол. товаров</th>
-                        <th class="verticalTableHeader ta_c">кол. подкатегорий</th>
-                        <th class="actions3">actions</th>
+                        <th width="30">{{ __('__id') }}</th>
+                        <th>{{ __('__name') }}</th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>
+                        <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 
                     @foreach ( $category->children as $subcategory)
@@ -72,7 +72,6 @@
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        {{-- <th width="30">id</th> --}}
                         <th class="ta_c left_stylized_checkbox">
                             <input 
                                 form="products_massupdate" 
@@ -84,33 +83,19 @@
                             >
                             <label class="empty_label" for="checkbox_total"
                                 onClick="check_all_products(this.form,['check_total'].checked)"
-                            >
-                                id
-                            </label>
+                            >{{ __('__id') }}</label>
                             @php
                                 $oForms = '';
                             @endphp
                         </th>
-                        <th>name</th>
-                        {{-- <th>slug</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                        <th class="verticalTableHeader ta_c">видимость</th>
-                        <th class="verticalTableHeader ta_c">видимость родителя</th>
-                        <th class="verticalTableHeader ta_c">видимость прародителя</th>
-                        <th width="30" class="verticalTableHeader ta_c">category_id</th>
-                        <th width="30" class="verticalTableHeader ta_c">изображений</th>
-                        {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
-                        {{-- <th>description</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">date_manufactured</th> --}}
-                        <th>price</th>
-                        {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">images</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
-                        <th class="actions4">actions</th>
-                        {{-- <th>p</th> --}}
-
+                        <th>{{ __('__name') }}</th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                        <th width="60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>
+                        <th class="actions4">{{ __('__actions') }}</th>
                     </tr>
 
                     @foreach ( $category->products as $product )

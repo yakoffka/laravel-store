@@ -28,26 +28,21 @@
             {{-- table manufacturers --}}
             <table class="blue_table overflow_x_auto">
                 <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    {{-- <th>slug</th> --}}
-                    <th width="30" class="verticalTableHeader ta_c">sort_order</th>
-                    <th>title</th>
-                    <th>description</th>
-                    <th width="60" class="verticalTableHeader ta_c">image</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</th>
-                    {{-- <th>created_at</th>
-                    <th>edited_at</th> --}}
-                    <th class="actions3">actions</th>
+                    <th width="30">{{ __('__id') }}</th>
+                    <th>{{ __('__name') }}</th>
+                    <th>{{ __('title') }}</th>
+                    <th>{{ __('__description') }}</th>
+                    <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</div></th>
+                    <th class="actions3">{{ __('__actions') }}</th>
                 </tr>
 
                 @foreach ( $manufacturers as $manufacturer )
                     <tr>
                         <td>{{ $manufacturer->id }}</td>
                         <td><a href="{{ route('manufacturers.show', $manufacturer) }}">{{ $manufacturer->name }}</a></td>
-                        {{-- <td>{{ $manufacturer->slug }}</td> --}}
-                        <td>{{ $manufacturer->sort_order }}</td>
                         <td>{{ $manufacturer->title ?? '-' }}</td>
                         <td>{!! $manufacturer->description ?? '-' !!}</td>
 
@@ -66,10 +61,9 @@
                         </td>
                         {{-- image --}}
                     
+                        <td>{{ $manufacturer->sort_order }}</td>
                         <td title="{{ $manufacturer->creator->name }}">{{ $manufacturer->creator->id }}</td>
                         <td title="{{ $manufacturer->editor->name ?? '' }}">{{ $manufacturer->editor->id ?? '-' }}</td>
-                        {{-- <td>{{ $manufacturer->created_at }}</td>
-                        <td>{{ $manufacturer->edited_at }}</td> --}}
 
                         {{-- actions --}}
                         <td>

@@ -8,7 +8,7 @@
                 @if ( Auth::user()->can('view_orders') )
                     <th>Исполнитель</th>
                 @endif
-                <th width="30" class="verticalTableHeader ta_c">actions</th>
+                <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
             </tr>
         </thead>
         @foreach( $actions as $action )

@@ -39,31 +39,19 @@
                         >
                         <label class="empty_label" for="checkbox_total"
                             onClick="check_all_products(this.form,['check_total'].checked)"
-                        >id</label>
+                        >{{ __('__id') }}</label>
                         @php
                             $oForms = '';
                         @endphp
                     </th>
                     <th>{{ __('__name') }}</th>
-                    {{-- <th>slug</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                    <th class="verticalTableHeader ta_c">{{ __('__visible') }}</th>
-                    <th class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</th>
-                    <th class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('__count_img') }}</th>
-                    {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
-                    {{-- <th>description</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">date_manufactured</th> --}}
-                    <th>{{ __('__price') }}</th>
-                    {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">images</th> --}}
-                    {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                    <th width="60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
+                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>
                     <th class="actions4">{{ __('__actions') }}</th>
-                    {{-- <th>p</th> --}}
-
                 </tr>
 
                 @foreach ( $products as $product )

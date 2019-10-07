@@ -27,51 +27,20 @@
 
             {{-- table manufacturer --}}
             <table class="blue_table overflow_x_auto">
-                <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>slug</th>
-                    <th width="30" class="verticalTableHeader ta_c">sort_order</th>
-                    <th>title</th>
-                    <th>description</th>
-                    <th width="60" class="verticalTableHeader ta_c">image</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</th>
-                    <th width="30" class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</th>
-                    <th>created_at</th>
-                    <th>edited_at</th>
-                </tr>
-
-                <tr>
-                    <td>{{ $manufacturer->id }}</td>
-                    <td>{{ $manufacturer->name }}</td>
-                    <td>{{ $manufacturer->slug }}</td>
-                    <td>{{ $manufacturer->sort_order }}</td>
-                    <td>{{ $manufacturer->title }}</td>
-                    <td>{!! $manufacturer->description !!}</td>
-                    {{-- <td>{{ $manufacturer->image }}</td> --}}
-
-                    {{-- image --}}
-                    <td>
-                        @if($manufacturer->imagespath)
-                            <div class="card-img-top b_image"
-                                style="background-image: url({{ asset('storage') }}/images/manufacturers/{{$manufacturer->id}}/{{$manufacturer->imagespath}});">
-                        @else
-                            <div class="card-img-top b_image"
-                                style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
-                        @endif
-                            <div class="dummy perc100"></div>
-                            <div class="element"></div>
-                        </div>
-                    </td>
-                    {{-- image --}}
-
-                    <td title="{{ $manufacturer->creator->name }}">{{ $manufacturer->creator->id }}</td>
-                    <td title="{{ $manufacturer->editor->name ?? '' }}">{{ $manufacturer->editor->id ?? '-' }}</td>
-                    <td>{{ $manufacturer->created_at }}</td>
-                    <td>{{ $manufacturer->edited_at }}</td>
-                </tr>
+                <tr><td class="th ta_r">{{ __('__id') }}</td><td class="td ta_l">{{ $manufacturer->id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__name') }}</td><td class="td ta_l">{{ $manufacturer->name }}</td></tr>
+                <tr><td class="th ta_r">{{ __('__slug') }}</td><td class="td ta_l">{{ $manufacturer->slug }}</td></tr>
+                <tr><td class="th ta_r">{{ __('sort_order') }}</td><td class="td ta_l">{{ $manufacturer->sort_order }}</td></tr>
+                <tr><td class="th ta_r">{{ __('title') }}</td><td class="td ta_l">{{ $manufacturer->title }}</td></tr>
+                <tr><td class="th ta_r">{{ __('description') }}</td><td class="td ta_l">{{ $manufacturer->description }}</td></tr>
+                {{-- <tr><td class="th ta_r">{{ __('__img') }}</td><td class="td ta_l">{{ $manufacturer->visible }}</td></tr> --}}
+                <tr><td class="th ta_r">{{ __('added_by_user_id') }}</td><td class="td ta_l">{{ $manufacturer->added_by_user_id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('edited_by_user_id') }}</td><td class="td ta_l">{{ $manufacturer->edited_by_user_id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('created_at') }}</td><td class="td ta_l">{{ $manufacturer->created_at }}</td></tr>
+                <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $manufacturer->updated_at }}</td></tr>
             </table>
             {{-- /table manufacturer --}}
+
 
             <a href="{{ route('manufacturers.edit', $manufacturer) }}"
                 class="btn btn-outline-success form-control">{{ __('Manufacturers_edit') }}
@@ -95,33 +64,19 @@
                             >
                             <label class="empty_label" for="checkbox_total"
                                 onClick="check_all_products(this.form,['check_total'].checked)"
-                            >
-                                id
-                            </label>
+                            >{{ __('__id') }}</label>
                             @php
                                 $oForms = '';
                             @endphp
                         </th>
-                        <th>name</th>
-                        {{-- <th>slug</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">manufacturer_id</th> --}}
-                        <th class="verticalTableHeader ta_c">видимость</th>
-                        <th class="verticalTableHeader ta_c">видимость родителя</th>
-                        <th class="verticalTableHeader ta_c">видимость прародителя</th>
-                        <th width="30" class="verticalTableHeader ta_c">category_id</th>
-                        <th width="30" class="verticalTableHeader ta_c">изображений</th>
-                        {{-- <th class="verticalTableHeader ta_c">materials</th> --}}
-                        {{-- <th>description</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">date_manufactured</th> --}}
-                        <th>price</th>
-                        {{-- <th class="verticalTableHeader ta_c">added_by_user_id</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">created_at</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">updated_at</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">images</th> --}}
-                        {{-- <th class="verticalTableHeader ta_c">куплено</th> --}}
-                        <th class="actions4">actions</th>
-                        {{-- <th>p</th> --}}
-
+                        <th>{{ __('__name') }}</th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                        <th width="60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>
+                        <th class="actions4">{{ __('__actions') }}</th>
                     </tr>
 
                     @foreach ( $manufacturer->products as $product )

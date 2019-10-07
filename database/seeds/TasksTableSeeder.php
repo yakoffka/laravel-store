@@ -71,7 +71,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'CategoryController::attachSingleImage',
                 'description' => 'поправить метод: возвращаемые значения, ед. число imagepath, etc.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -85,7 +85,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'verticalTableHeader',
                 'description' => 'Поправить отображение класса verticalTableHeader в google chrome.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
@@ -177,7 +177,7 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Заменить мягкое сравнение на жесткое',
                 'description' => 'Заменить мягкое сравнение на жесткое везде, где позволяет протокол.',
-                'tasksstatus_id' => 1,
+                'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
