@@ -60,7 +60,9 @@ class Product extends Model
     }
 
     public function manufacturer() {
-        return $this->belongsTo(Manufacturer::class);
+        return $this->belongsTo(Manufacturer::class)->withDefault([
+            'name' => 'noname'
+        ]);
     }
 
     public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel

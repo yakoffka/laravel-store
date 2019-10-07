@@ -89,6 +89,23 @@
 {{-- /Products --}}
 
 
+{{-- Manufacturers --}}
+<div class="admin_menu_block">
+    @permission('view_manufacturers')
+        <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseManufacturers" role="button" aria-expanded="false" aria-controls="collapseManufacturers">
+            <i class="far fa-copyright"></i> Производители</span>
+		</h5>
+        <div class="collapse" id="collapseManufacturers">
+            <div class="submenuitem">- <a href="{{ route('manufacturers.index') }}">Список</a></div>
+            @permission('create_manufacturers')
+                <div class="submenuitem">- <a href="{{ route('manufacturers.create') }}">Создание</a></div>
+            @endpermission
+        </div>
+    @endpermission
+</div>
+{{-- /Manufacturers --}}
+
+
 {{-- Orders --}}
 <div class="admin_menu_block">
     @permission('view_orders')

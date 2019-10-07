@@ -1,12 +1,12 @@
 @extends('dashboard.layouts.app')
 
-@section('title', "Категория $category->title")
+@section('title', __('Manufacturers_show'))
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('categories.adminshow', $category) }}
+            {{ Breadcrumbs::render('manufacturers.show', $manufacturer) }}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Просмотр категории '{{ $category->title }}'</h1>
+    <h1>{{ __('Manufacturers_show') }}</h1>
 
 
     <div class="row">
@@ -25,50 +25,61 @@
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
-            <h2>Сводная информация</h2>
-                
+            {{-- table manufacturer --}}
             <table class="blue_table overflow_x_auto">
-                <tr><td class="th ta_r">id</td><td class="td ta_l">{{ $category->id }}</td></tr>
-                <tr><td class="th ta_r">name</td><td class="td ta_l">{{ $category->name }}</td></tr>
-                <tr><td class="th ta_r">slug</td><td class="td ta_l">{{ $category->slug }}</td></tr>
-                <tr><td class="th ta_r">sort_order</td><td class="td ta_l">{{ $category->sort_order }}</td></tr>
-                <tr><td class="th ta_r">title</td><td class="td ta_l">{{ $category->title }}</td></tr>
-                <tr><td class="th ta_r">description</td><td class="td ta_l">{{ $category->description }}</td></tr>
-                <tr><td class="th ta_r">visible</td><td class="td ta_l">{{ $category->visible }}</td></tr>
-                <tr><td class="th ta_r">parent_id</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
-                <tr><td class="th ta_r">added_by_user_id</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>
-                <tr><td class="th ta_r">created_at</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
-                <tr><td class="th ta_r">updated_at</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>slug</th>
+                    <th width="30" class="verticalTableHeader ta_c">sort_order</th>
+                    <th>title</th>
+                    <th>description</th>
+                    <th width="60" class="verticalTableHeader ta_c">image</th>
+                    <th width="30" class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</th>
+                    <th width="30" class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</th>
+                    <th>created_at</th>
+                    <th>edited_at</th>
+                </tr>
+
+                <tr>
+                    <td>{{ $manufacturer->id }}</td>
+                    <td>{{ $manufacturer->name }}</td>
+                    <td>{{ $manufacturer->slug }}</td>
+                    <td>{{ $manufacturer->sort_order }}</td>
+                    <td>{{ $manufacturer->title }}</td>
+                    <td>{!! $manufacturer->description !!}</td>
+                    {{-- <td>{{ $manufacturer->image }}</td> --}}
+
+                    {{-- image --}}
+                    <td>
+                        @if($manufacturer->imagespath)
+                            <div class="card-img-top b_image"
+                                style="background-image: url({{ asset('storage') }}/images/manufacturers/{{$manufacturer->id}}/{{$manufacturer->imagespath}});">
+                        @else
+                            <div class="card-img-top b_image"
+                                style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
+                        @endif
+                            <div class="dummy perc100"></div>
+                            <div class="element"></div>
+                        </div>
+                    </td>
+                    {{-- image --}}
+
+                    <td title="{{ $manufacturer->creator->name }}">{{ $manufacturer->creator->id }}</td>
+                    <td title="{{ $manufacturer->editor->name ?? '' }}">{{ $manufacturer->editor->id ?? '-' }}</td>
+                    <td>{{ $manufacturer->created_at }}</td>
+                    <td>{{ $manufacturer->edited_at }}</td>
+                </tr>
             </table>
+            {{-- /table manufacturer --}}
 
-            @if ( $category->countChildren() )
-                {{-- table categories --}}
-                <h2>В категории '{{ $category->title }}' находятся {{ $category->countChildren() }} подкатегорий:</h2>
+            <a href="{{ route('manufacturers.edit', $manufacturer) }}"
+                class="btn btn-outline-success form-control">{{ __('Manufacturers_edit') }}
+            </a>
 
-                <table class="blue_table overflow_x_auto">
-                    <tr>
-                        <th>id</th>
-                        <th>наименование</th>
-                        <th width="30" class="verticalTableHeader ta_c">id род. категории</th>
-                        <th width="30" class="verticalTableHeader ta_c">sort order</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость</th>
-                        <th width="30" class="verticalTableHeader ta_c">видимость родителя</th>
-                        <th width="60" class="verticalTableHeader ta_c">изображение</th>
-                        <th class="verticalTableHeader ta_c">кол. товаров</th>
-                        <th class="verticalTableHeader ta_c">кол. подкатегорий</th>
-                        <th class="actions3">actions</th>
-                    </tr>
-
-                    @foreach ( $category->children as $subcategory)
-                        @categoryRow(['category' =>  $subcategory,])
-                    @endforeach
-
-                </table>
-                {{-- /table categories --}}
-
-            @elseif ( $category->countProducts() )
+            @if ( $manufacturer->countProducts() )
                 {{-- table products --}}
-                <h2>Категория содержит {{ $category->countProducts() }} товаров:</h2>
+                <br><br><h2>{{ $manufacturer->countProducts() }} товаров:</h2>
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
@@ -113,7 +124,7 @@
 
                     </tr>
 
-                    @foreach ( $category->products as $product )
+                    @foreach ( $manufacturer->products as $product )
                         @productRow(['product' => $product])
                         @php
                             $oForms .= 'oForm[\'products[' . $product->id . ']\'].checked = checked;';
@@ -132,18 +143,6 @@
                 @formProductsMassupdate
                 {{-- /massupdate --}}
 
-            @elseif ( !$category->countProducts() and !$category->countChildren() )
-                <h2 class="blue center">Категория пуста</h2>
-
-                <div class="row justify-content-center">
-                    @if ( $category->parent->id === 1 )
-                        <a href="{{ route('categories.create') }}?parent_id={{ $category->id }}"
-                            class="btn btn-primary col-5 m-2">добавить подкатегорию</a>
-                    @endif
-
-                    <a href="{{ route('products.create') }}?parent_id={{ $category->id }}"
-                        class="btn btn-primary col-5 m-2">добавить товар</a>
-                </div>
             @endif
 
         </div>

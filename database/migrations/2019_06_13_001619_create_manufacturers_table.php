@@ -17,8 +17,12 @@ class CreateManufacturersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('title');
-            $table->text('description');
+            $table->unsignedInteger('sort_order')->default(5);
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('imagepath')->nullable()->charset('utf8');
+            $table->unsignedInteger('added_by_user_id')->default(1);
+            $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->timestamps();
         });
     }

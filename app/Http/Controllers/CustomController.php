@@ -25,7 +25,7 @@ class CustomController extends Controller
             foreach ( $dirty_properties as $property => $value ) {
                 if ( !empty(!empty($original) ?? $original[$property]) or !empty($model->$property) ) {
                     $details[$property] = [
-                        $property, !empty($original) ? $original[$property] : '', $model->$property,
+                        $property, !empty($original[$property]) ? $original[$property] : '-', $model->$property ?? '-',
                     ];
                 }
             }

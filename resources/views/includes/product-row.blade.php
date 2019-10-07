@@ -41,9 +41,11 @@
     </td>
     
     {{-- <td class="ta_c">{{ $product->category_id }}</td> --}}
-    @if ( !empty($category) )
+    {{-- @if ( !empty($category) )
         <td class="ta_c" title="{{ $product->category->title }}">{{ $product->category_id }}</td>
-    @endif
+    @endif --}}
+    <td class="ta_c" title="{{ $product->category->title }}">{{ $product->category_id }}</td>
+
 
     <td>{{ $product->images->count() }}</td>
 

@@ -115,6 +115,16 @@
   "__vendor_code": "артикул",
   "__price": "цена",
 
+
+  "Manufacturers": "Производители",
+  "Manufacturers_create": "Создание производителя",
+  "Manufacturers_show": "Производитель",
+  "Manufacturers_edit": "Редактирование производителя",
+
+
+  "added_by_user_id": "создан",
+  "edited_by_user_id": "отредактирован",
+
   "Profile": "Профиль",
   "Orders": "Заказы"
 }

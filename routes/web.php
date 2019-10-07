@@ -161,6 +161,9 @@ Route::get('search', 'ProductsController@search')->name('search');
         Route::get('actions', 'ActionController@index')->name('actions.index');
         Route::get('actions/{action}', 'ActionController@show')->name('actions.show');
 
+    // manufacturers
+        Route::resource('manufacturers', 'ManufacturerController')->middleware('auth');
+
 
     // Tasks and Directive
         // tasks
@@ -179,13 +182,9 @@ Route::get('search', 'ProductsController@search')->name('search');
         Artisan::call('route:clear');
         // Artisan::call('route:cache');
         Artisan::call('queue:restart');
-
         // composer dump-autoload
-        
         session()->flash('message', 'Application cache is almost cleared .. (without "Artisan::call(\'config:cache\');"');
-        
         return back();
-
     })->name('clear');
 
 

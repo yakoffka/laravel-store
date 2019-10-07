@@ -50,9 +50,9 @@
                             <?php
                                 foreach ( $manufacturers as $manufacturer ) {
                                     if ( $product->manufacturer_id == $manufacturer->id ) {
-                                        echo '<option value="' . $manufacturer->id . '" selected>' . $manufacturer->title . '</option>';
+                                        echo '<option value="' . $manufacturer->id . '" selected>' . $manufacturer->name . '</option>';
                                     } else {
-                                        echo '<option value="' . $manufacturer->id . '">' . $manufacturer->title . '</option>';
+                                        echo '<option value="' . $manufacturer->id . '">' . $manufacturer->name . '</option>';
                                     }
                                 }
                             ?>

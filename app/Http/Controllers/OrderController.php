@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Order;
-use App\Cart;
-use App\Status;
+use App\{Action, Cart, Order, Setting, Status};
 use Session;
 use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
-use App\Setting;
-use App\Action;
 
 class OrderController extends Controller
 {
@@ -109,7 +105,7 @@ class OrderController extends Controller
             return redirect()->route('orders.show', ['order' => $order->id]);
         }
 
-        return back()->withErrors(['something wrong. err' . __line__])->withInput();
+        return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
     }
 
     /**

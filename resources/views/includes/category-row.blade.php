@@ -41,7 +41,6 @@
 
         {{-- actions --}}
         <td>
-
             {{-- view --}}
             <a href="{{ route('categories.adminshow', $category) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
         
@@ -70,7 +69,7 @@
                     ])
                 @endpermission
             @endif
-
         </td>
+        {{-- /actions --}}
     </tr>
 

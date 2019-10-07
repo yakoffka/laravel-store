@@ -82,9 +82,9 @@ class CategoryController extends CustomController
 
         $dirty_properties = $category->getDirty();
 
-        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __line__])->withInput();};
+        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
 
-        $dirty_properties['image'] = $this->attachImage($category, request('imagepath'), $dirty_properties);
+        $dirty_properties['image'] = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
 
         // add email!
 
@@ -174,9 +174,9 @@ class CategoryController extends CustomController
         $dirty_properties = $category->getDirty();
         $original = $category->getOriginal();
 
-        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __line__])->withInput();};
+        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
 
-        $dirty_properties['image'] = $this->attachImage($category, request('imagepath'), $dirty_properties);
+        $dirty_properties['image'] = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
 
         $this->setVisibleChildren($category, $dirty_properties);
 
@@ -244,7 +244,7 @@ class CategoryController extends CustomController
      *
      * @return  string $imagepath
      */
-    private function attachImage (Category $category, $imagepath, $dirty_properties) {
+    private function attachSingleImage (Category $category, $imagepath, $dirty_properties) {
 
         if ( !$imagepath ) {
             return $dirty_properties;
@@ -258,7 +258,7 @@ class CategoryController extends CustomController
 
         // проверка на существование исходного файла. так как config('filesystems.disks.lfm.root') === config('filesystems.disks.public.root'), использую не 'Storage::disk(config('lfm.disk'))->exists($src)', а 'Storage::disk('public')->exists($src)'
         if ( !Storage::disk('public')->exists($src) ) {
-            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
         // удаление всех файлов из директории назначения
@@ -267,18 +267,18 @@ class CategoryController extends CustomController
             if ( $arr_files = Storage::disk('public')->delete($arr_files) ) {
                 // dd("all files in dir $dst_dir has been deleted");
             } else {
-                return back()->withErrors(['something wrong. err' . __line__])->withInput();
+                return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
             }
         }
 
         // копирование файла
         if ( !Storage::disk('public')->copy($src, $dst) ) {
-            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
         // update $category
         if ( !($category->image = $basename and $category->save()) ) {
-            return back()->withErrors(['something wrong. err' . __line__])->withInput();
+            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
         return $dst;

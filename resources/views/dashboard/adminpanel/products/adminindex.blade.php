@@ -87,7 +87,7 @@
             @formProductsMassupdate
             {{-- /massupdate --}}
 
-            <!-- pagination block -->
+            {{-- pagination block --}}
             {{-- @if($products->links())
                 <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
             @endif --}}

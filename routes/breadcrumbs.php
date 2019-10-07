@@ -370,3 +370,27 @@ Breadcrumbs::for('dashboard', function ($trail) {
         $trail->parent('orders.show', $order);
         $trail->push('History', route('actions.order', $order));
     });
+
+
+// Manufacturers
+    // Home > Dashboard > Manufacturers
+    Breadcrumbs::for('manufacturers.index', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push(__('Manufacturers'), route('manufacturers.index'));
+    });
+    // Home > Dashboard > Manufacturers > Create
+    Breadcrumbs::for('manufacturers.create', function ($trail) {
+        $trail->parent('manufacturers.index');
+        $trail->push(__('Manufacturers_create'), route('manufacturers.create'));
+    });
+    // Home > Dashboard > Manufacturers > [Manufacturer]
+    Breadcrumbs::for('manufacturers.show', function ($trail, $manufacturer) {
+        $trail->parent('manufacturers.index');
+        $trail->push(__('Manufacturers_show'), route('manufacturers.create', $manufacturer));
+    });
+    // Home > Dashboard > Manufacturers > [Manufacturer] > Edit
+    Breadcrumbs::for('manufacturers.edit', function ($trail, $manufacturer) {
+        $trail->parent('manufacturers.show', $manufacturer);
+        $trail->push(__('Manufacturers_edit'), route('manufacturers.edit', $manufacturer));
+    });
+

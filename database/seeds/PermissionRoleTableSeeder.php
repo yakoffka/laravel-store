@@ -28,6 +28,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,0,
                 /* actions */       0,0,0,0,
                 /* tasks */         0,0,0,0,
+                /* manufacturers */ 1,1,1,1,
             ],
             'unregistered' => [
                 /* roles */         0,0,0,0,
@@ -41,6 +42,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,0,
                 /* actions */       0,0,0,0,
                 /* tasks */         0,0,0,0,
+                /* manufacturers */ 0,0,0,0,
             ],
             'owner' => [
                 /* roles */         1,1,1,1,
@@ -54,6 +56,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,1,
                 /* actions */       0,0,0,1,
                 /* tasks */         1,1,1,1,
+                /* manufacturers */ 1,1,1,1,
             ],
             'developer' => [
                 /* roles */         1,1,1,1,
@@ -67,6 +70,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,1,
                 /* actions */       0,0,0,1,
                 /* tasks */         1,1,1,1,
+                /* manufacturers */ 1,1,1,1,
             ],
             'admin' => [
                 /* roles */         0,0,0,1,
@@ -80,6 +84,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,1,
                 /* actions */       0,0,0,1,
                 /* tasks */         1,1,1,1,
+                /* manufacturers */ 1,1,1,1,
             ],
             'cmanager' => [
                 /* roles */         0,0,0,0,
@@ -93,6 +98,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,1,
                 /* actions */       0,0,0,1,
                 /* tasks */         1,0,0,1,
+                /* manufacturers */ 1,1,1,1,
             ],
             'smanager' => [
                 /* roles */         0,0,0,0,
@@ -106,6 +112,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,1,
                 /* actions */       0,0,0,1,
                 /* tasks */         1,0,0,1,
+                /* manufacturers */ 0,0,0,0,
             ],
             'user' => [
                 /* roles */         0,0,0,0,
@@ -119,6 +126,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,0,
                 /* actions */       0,0,0,0,
                 /* tasks */         0,0,0,0,
+                /* manufacturers */ 0,0,0,0,
             ],
         ];
 

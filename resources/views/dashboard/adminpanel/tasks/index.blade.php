@@ -225,7 +225,7 @@
                 @endif
 
 
-                <!-- pagination block -->
+                {{-- pagination block --}}
                 @if($tasks->links())
                     <div class="row col-sm-12 pagination">{{ $tasks->links() }}</div>
                 @endif

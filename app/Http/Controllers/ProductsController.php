@@ -119,7 +119,7 @@ class ProductsController extends CustomController
         $dirty_properties = $product->getDirty();
 
         if ( !$product->save() ) {
-            return back()->withErrors(['something wrong!'])->withInput();
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
         $this->attachImages($product->id, request('imagespath'));
@@ -247,7 +247,7 @@ class ProductsController extends CustomController
         $original = $product->getOriginal();
 
         if ( !$product->save() ) {
-            return back()->withErrors(['something wrong!'])->withInput();
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
         $this->attachImages($product->id, request('imagespath'));

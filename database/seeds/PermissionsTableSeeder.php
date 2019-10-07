@@ -83,6 +83,12 @@ class PermissionsTableSeeder extends Seeder
             /* 42 */ ['group' => 'tasks', 'name' => 'edit_tasks',    'display_name' => 'правка',    'description' => 'Редактирование задач',],
             /* 43 */ ['group' => 'tasks', 'name' => 'delete_tasks',  'display_name' => 'удаление',  'description' => 'Удаление задач, включая чужие',],
             /* 44 */ ['group' => 'tasks', 'name' => 'view_tasks',    'display_name' => 'просмотр',  'description' => 'Просмотр задач, включая чужие, и их истории.',      ],
+
+            // permissions for manufacturers
+            /* 45 */ ['group' => 'manufacturers', 'name' => 'create_manufacturers',  'display_name' => 'создание',  'description' => 'Создание производителей',         ],
+            /* 46 */ ['group' => 'manufacturers', 'name' => 'edit_manufacturers',    'display_name' => 'правка',    'description' => 'Редактирование производителей',   ],
+            /* 47 */ ['group' => 'manufacturers', 'name' => 'delete_manufacturers',  'display_name' => 'удаление',  'description' => 'Удаление производителей',         ],
+            /* 48 */ ['group' => 'manufacturers', 'name' => 'view_manufacturers',    'display_name' => 'просмотр',  'description' => 'Просмотр производителей.',        ],
             
         ];
  

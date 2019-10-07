@@ -65,7 +65,7 @@
                 {{-- /add new category --}}
 
 
-                {{-- <!-- pagination block --> --}}
+                {{-- pagination block --}}
                 {{-- @if($categories->links())
                     <div class="row col-sm-12 pagination">{{ $categories->links() }}</div>
                 @endif --}}

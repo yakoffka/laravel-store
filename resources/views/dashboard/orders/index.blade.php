@@ -23,7 +23,7 @@
         <h2 class="blue">Details orders:</h2>
 
 
-        <!-- pagination block -->
+        {{-- pagination block --}}
         @if($orders->links())
             <div class="row col-sm-12 pagination">{{ $orders->links() }}</div>
         @endif
