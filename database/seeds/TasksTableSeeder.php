@@ -61,12 +61,12 @@ class TasksTableSeeder extends Seeder
             //     'taskspriority_id' => 2,
             // ],
 
-            [
-                'title' => '255 description catery',
-                'description' => '.',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 2,
-            ],
+            // [
+            //     'title' => '',
+            //     'description' => '.',
+            //     'tasksstatus_id' => 1,
+            //     'taskspriority_id' => 2,
+            // ],
 
             [
                 'title' => 'CategoryController::attachSingleImage',

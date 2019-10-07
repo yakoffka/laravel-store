@@ -112,9 +112,9 @@ class TaskController extends Controller
             auth()->user()->cannot('view_tasks') 
             and 
             (
-                $task->master_user_id != auth()->user()->id
+                $task->master_user_id !== auth()->user()->id
                 and
-                $task->slave_user_id != auth()->user()->id // ???
+                $task->slave_user_id !== auth()->user()->id // ???
             ),
         403 );
 
@@ -136,9 +136,9 @@ class TaskController extends Controller
             auth()->user()->cannot('view_tasks') 
             and 
             (
-                $task->master_user_id != auth()->user()->id
+                $task->master_user_id !== auth()->user()->id
                 or
-                $task->slave_user_id != auth()->user()->id // ???
+                $task->slave_user_id !== auth()->user()->id // ???
             ),
         403 );
 
@@ -173,9 +173,9 @@ class TaskController extends Controller
             auth()->user()->cannot('edit_tasks') 
             and 
             (
-                $task->master_user_id != auth()->user()->id
+                $task->master_user_id !== auth()->user()->id
                 and
-                $task->slave_user_id != auth()->user()->id
+                $task->slave_user_id !== auth()->user()->id
             ),
         403 );
 
@@ -189,7 +189,7 @@ class TaskController extends Controller
         // закрыть задачу может только тот, кто её открыл
         if ( 
             !is_null( $request->tasksstatus_id ) 
-            and $request->tasksstatus_id == '4' // TODO!!! привязка к id!!!
+            and $request->tasksstatus_id === '4' // TODO!!! привязка к id!!!
             and auth()->user()->id !== $task->master_user_id
         ) {
             return back()->withErrors(['закрыть задачу может только тот, кто её открыл'])->withInput();
@@ -234,9 +234,9 @@ class TaskController extends Controller
             auth()->user()->cannot('delete_tasks') 
             and 
             (
-                $task->master_user_id != auth()->user()->id
+                $task->master_user_id !== auth()->user()->id
                 or
-                $task->slave_user_id != auth()->user()->id // ???
+                $task->slave_user_id !== auth()->user()->id // ???
             ),
         403 );
 

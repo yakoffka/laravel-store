@@ -93,7 +93,7 @@ class SettingController extends CustomController
     {
         abort_if ( !Auth::user()->can('edit_settings'), 403 );
 
-        if ( $setting->type == 'checkbox' ) {
+        if ( $setting->type === 'checkbox' ) {
             request()->validate([
                 // 'value' => 'required|string',
                 'value' => 'string',
@@ -102,7 +102,7 @@ class SettingController extends CustomController
             // $value = request('value');
             $value = !empty(request('value')) ? 1 : 0;
     
-        } elseif( $setting->type == 'select' or $setting->type == 'text' ) {
+        } elseif( $setting->type === 'select' or $setting->type === 'text' ) {
 
             request()->validate([
                 'value' => 'required|string',
@@ -110,7 +110,7 @@ class SettingController extends CustomController
 
             $value = request('value');
 
-        } elseif( $setting->type == 'email' ) {
+        } elseif( $setting->type === 'email' ) {
 
             $arr_bcc = [];
             for ( $i = 1; $i <= config('mail.max_quantity_add_bcc'); $i++ ) {

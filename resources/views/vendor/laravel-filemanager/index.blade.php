@@ -76,7 +76,14 @@
     <a data-action="use" data-multiple="true"><i class="fas fa-check"></i>{{ trans('laravel-filemanager::lfm.btn-confirm') }}</a>
   </nav>
 
+  <div class="flex-row">
+    <p class="p-2">
+        В наименованиях файлов и директорий использовать ТОЛЬКО латинские символы, цифры и знаки подчеркивания!
+    </p>
+  </div>
+
   <div class="d-flex flex-row">
+    
     <div id="tree"></div>
 
     <div id="main">

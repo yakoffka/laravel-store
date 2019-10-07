@@ -56,7 +56,7 @@ class ActionController extends Controller
      */
     public function user(User $user)
     {
-        abort_if ( auth()->user()->cannot('view_users') and auth()->user()->id != $user->id, 403 );
+        abort_if ( auth()->user()->cannot('view_users') and auth()->user()->id !== $user->id, 403 );
 
         $actions = Action::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
@@ -90,7 +90,7 @@ class ActionController extends Controller
      */
     public function order(Order $order)
     {
-        abort_if ( auth()->user()->cannot('view_orders') and auth()->user()->id != $order->user_id, 403 );
+        abort_if ( auth()->user()->cannot('view_orders') and auth()->user()->id !== $order->user_id, 403 );
 
         $actions = Action::where('type', 'order')
             ->where('type_id', $order->id)

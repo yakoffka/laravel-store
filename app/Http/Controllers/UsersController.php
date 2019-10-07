@@ -40,7 +40,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id != $user->id , 403 );
+        abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id !== $user->id , 403 );
         $permissions = Permission::all();
         $actions = Action::where('user_id', $user->id)->get();// last 50!
 

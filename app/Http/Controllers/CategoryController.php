@@ -104,7 +104,7 @@ class CategoryController extends CustomController
      */
     public function show(Category $category) {
         abort_if( !$category->visible or !$category->parent_visible, 404);
-        if ( $category->id == 1 ) { return redirect()->route('categories.index'); }
+        if ( $category->id === 1 ) { return redirect()->route('categories.index'); }
 
         if ( $category->countChildren() ) {
             $categories = Category::all()
@@ -200,7 +200,7 @@ class CategoryController extends CustomController
     {
         abort_if ( auth()->user()->cannot('delete_categories'), 403 );
 
-        if ( $category->id == 1 ) {
+        if ( $category->id === 1 ) {
             return back()->withErrors(['"' . $category->name . '" is basic category and can not be removed.']);
         }
 

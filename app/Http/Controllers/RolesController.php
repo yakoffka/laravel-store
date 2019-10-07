@@ -85,7 +85,7 @@ class RolesController extends Controller
 
             foreach ( $permissions as $permission ) {
                 if (
-                    request($permission['name']) == 'on' 
+                    request($permission['name']) === 'on' 
                     and !$role->perms->contains('name', $permission['name']) 
                     and auth()->user()->can($permission['name']) 
                 ) {
@@ -189,7 +189,7 @@ class RolesController extends Controller
             foreach ( $permissions as $permission ) {
 
                 // attach Permission
-                if ( request($permission['name']) == 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
+                if ( request($permission['name']) === 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $role->attachPermission($permission['id']);
 
                     $attach_roles[] = $permission['name'];

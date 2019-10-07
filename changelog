@@ -1,15 +1,1 @@
-Языковые файлы и константы
-    Замена текста в коде на языковые файлы и константы:
-     -resources/views/dashboard/adminpanel/categories/adminindex.blade.php;
-     -resources/views/dashboard/adminpanel/tasks/index.blade.php;
-     -resources/views/dashboard/adminpanel/tasks/show.blade.php;
-     -resources/views/products/show.blade.php;
-    Незначительные правки внешнего вида.
-
-Language files and constants
-    Replacing text in code with language files and constants:
-     -resources/views/dashboard/adminpanel/categories/adminindex.blade.php;
-     -resources/views/dashboard/adminpanel/tasks/index.blade.php;
-     -resources/views/dashboard/adminpanel/tasks/show.blade.php;
-     -resources/views/products/show.blade.php;
-    Minor changes in appearance.
+Replacing loose comparison with strict comparison

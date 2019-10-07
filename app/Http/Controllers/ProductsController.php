@@ -95,7 +95,7 @@ class ProductsController extends CustomController
             'copy_img'          => 'nullable|integer',
         ]);
 
-        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
             $modification = $this->cleanSrcCodeTables(request('modification'));
         } else {
             $modification = request('modification') ?? '';
@@ -224,7 +224,7 @@ class ProductsController extends CustomController
             'price'             => 'nullable|integer',
         ]);
 
-        if ( request('modification') and config('settings.modification_wysiwyg') == 'srctablecode' ) {
+        if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
             $modification = $this->cleanSrcCodeTables(request('modification'));
         } else {
             $modification = request('modification') ?? '';
@@ -486,14 +486,14 @@ class ProductsController extends CustomController
         }
 
         // delete
-        if (request('action') == 'delete') {
+        if (request('action') === 'delete') {
             abort_if ( auth()->user()->cannot('delete_products'), 403 );
             $products->each(function ($product) {
                 if (!$this->destroy($product)) { $err = true; }
             });
 
         // replace
-        } elseif (request('action') == 'replace') {
+        } elseif (request('action') === 'replace') {
             $products->each(function ($product) {
                 if (
                     $product->update([
@@ -504,7 +504,7 @@ class ProductsController extends CustomController
             });
 
         // invisible
-        } elseif (request('action') == 'invisible') {
+        } elseif (request('action') === 'invisible') {
             $products->each(function ($product) {
                 if (
                     $product->update([
@@ -515,7 +515,7 @@ class ProductsController extends CustomController
             });
 
         // visible
-        } elseif (request('action') == 'visible') {
+        } elseif (request('action') === 'visible') {
             $products->each(function ($product) {
                 if (
                     $product->update([
