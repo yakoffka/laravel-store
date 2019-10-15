@@ -303,7 +303,7 @@ class ProductsController extends CustomController
 
         session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
 
-        return redirect()->route('categories.show', $products_id);
+        return redirect()->route('categories.index');
     }
 
 
