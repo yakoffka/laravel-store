@@ -60,7 +60,7 @@
 
                     {{-- description --}}
                     <div class="card-text description">
-                        {{-- <h4>{{ _('__Description') }}</h4> --}}
+                        {{-- <h4>{{ __('__Description') }}</h4> --}}
                         <p>
                             {!! $task->description !!}
                         </p>

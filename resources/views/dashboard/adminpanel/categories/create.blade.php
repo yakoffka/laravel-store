@@ -47,7 +47,7 @@
                     {{-- name --}}
                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label for="name">{{ __('name') }}</label>
+                            <label for="name">{{ __('__namerequired') }}*</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
                                 value="{{ old('name') }}" required>
                         </div>
@@ -66,14 +66,14 @@
 
                     {{-- slug --}}
                     <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label for="slug">{{ __('slug') }}</label>
-                                <input type="text" id="slug" name="slug" class="form-control" placeholder="Name Product"
-                                    value="{{ old('slug') }}">
-                            </div>
+                        <div class="form-group">
+                            <label for="slug">{{ __('slug') }}</label>
+                            <input type="text" id="slug" name="slug" class="form-control" placeholder="Name Product"
+                                value="{{ old('slug') }}">
                         </div>
-                        {{-- /slug --}}
                     </div>
+                    {{-- /slug --}}
+                </div>
 
                 <div class="form-group">
                     <label for="description">{{ __('description') }}</label>

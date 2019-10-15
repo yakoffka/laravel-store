@@ -88,27 +88,27 @@
 
                 @if ($product->description)
                     <li class="nav-item">
-                        <a title="{{ _('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab" 
+                        <a title="{{ __('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab" 
                             data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                            {{ _('__Description') }}
+                            {{ __('__Description') }}
                         </a>
                     </li>
                 @endif
 
                 @if ($product->modification)
                     <li class="nav-item">
-                        <a title="{{ _('__Modification') }} {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
+                        <a title="{{ __('__Modification') }} {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
                             data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                            {{ _('__Modification') }}
+                            {{ __('__Modification') }}
                         </a>
                     </li>
                 @endif
 
                 @if ($product->workingconditions)
                     <li class="nav-item">
-                        <a title="{{ _('__Workingconditions') }} {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
+                        <a title="{{ __('__Workingconditions') }} {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
                             data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                            {{ _('__Workingconditions') }}
+                            {{ __('__Workingconditions') }}
                         </a>
                     </li>
                 @endif

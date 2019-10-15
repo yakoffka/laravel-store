@@ -31,7 +31,7 @@
 
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
 
-                @input(['name' => 'name', 'label' => __('name'), 'value' => old('name'), 'required' => 'required'])
+                @input(['name' => 'name', 'label' => __('__namerequired'), 'value' => old('name'), 'required' => 'required'])
 
                 {{-- manufacturer, materials, date_manufactured, price --}}
                 <div class="row">

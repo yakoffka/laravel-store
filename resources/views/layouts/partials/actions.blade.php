@@ -4,7 +4,7 @@
                 <th width="30">№</th>
                 <th>Тип</th>
                 <th>Дата</th>
-                <th>{{ _('__Description') }}</th>
+                <th>{{ __('__Description') }}</th>
                 @if ( Auth::user()->can('view_orders') )
                     <th>Исполнитель</th>
                 @endif
