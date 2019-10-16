@@ -14,7 +14,12 @@ class CustomController extends Controller
     {
         $reflect = new \ReflectionClass($model);
         $shortModelName = $reflect->getShortName();
-        $description = __($type) . $shortModelName . ' "' . $model->name . '"';
+        if ( $model->name ) {
+            $description = ' "' . $model->name . '"';
+        } else {
+            $description = '';
+        }
+        $description = __($type) . __($shortModelName . '_model') . $description;
 
         // details
         $details = [];
@@ -34,7 +39,9 @@ class CustomController extends Controller
         // create action record
         $action = new Action;
 
-        $action->user_id = auth()->user()->id;
+        if ( auth()->user() ) {
+            $action->user_id = auth()->user()->id;
+        }
         $action->model = $shortModelName;
         $action->type_id = $model->id;
         $action->type = $type;

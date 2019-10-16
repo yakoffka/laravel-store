@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.app')
 
-@section('title', __('actions_index_show'))
+@section('title', __('actions_index_title'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>All History</h1>
+    <h1>{{ __('actions_index_title') }}</h1>
 
 
     <div class="row">
@@ -25,8 +25,7 @@
     
             {{-- Actions --}}
             @if( $actions->count() )
-                <h2 id="actions">table all actions</h2>
-                @include('layouts.partials.actions')
+                @include('dashboard.adminpanel.partials.actions')
             @else
                 Активность не зафиксирована.
             @endif

@@ -53,6 +53,7 @@
   "Whoops, something went wrong on our servers.": "Упс, на наших серверах что-то пошло не так.",
 
   "Dashboard": "Кабинет",
+  "Actions": "История",
 
 
   "roles": "роли",
@@ -75,15 +76,20 @@
 
 
   "actions_show_title": "Просмотр события",
-  "actions_index_title": "Просмотр всех событий",
+  "actions_index_title": "Просмотр событий",
 
 
   "edit_profile": "редактировать профиль",
 
-  "model_create": "создание модели ",
-  "model_update": "редактирование модели ",
-  "model_delete": "удаление модели ",
-  "model_copy": "копирование модели ",
+  "model_create": "создание ",
+  "model_update": "редактирование ",
+  "model_delete": "удаление ",
+  "model_copy":   "копирование ",
+
+  "Comment_model": "комментария",
+  "Product_model": "товара",
+  "Category_model": "категории",
+  "Manufacturer_model": "производителя",
 
 
   "apply": "применить",
@@ -151,7 +157,7 @@
   "__Description": "Описание",
   "__Modification": "Модификации",
   "__Workingconditions": "Условия работы",
-
+  "__Date": "Дата",
 
   "Manufacturers": "Производители",
   "Manufacturers_create": "Создание производителя",

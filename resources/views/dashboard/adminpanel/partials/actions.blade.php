@@ -2,8 +2,8 @@
         <thead>
             <tr>
                 <th width="30">№</th>
-                <th>Тип</th>
-                <th>Дата</th>
+                {{-- <th>Тип</th> --}}
+                <th>{{ __('__Date')}}</th>
                 <th>{{ __('__Description') }}</th>
                 @if ( Auth::user()->can('view_orders') )
                     <th>Исполнитель</th>
@@ -11,15 +11,15 @@
                 <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
             </tr>
         </thead>
-        @foreach( $actions as $action )
+        @foreach ( $actions as $action )
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>
+                {{-- <td>
                     {{ $action->type }} 
-                </td>
+                </td> --}}
                 <td>
                     {{-- {{ $action->created_at }} --}}
-                    <span title="{{ $action->created_at }}">{{ substr($action->created_at, 0, 10) }}</span>
+                    <span title="{{ $action->created_at }}">{{-- {{ substr($action->created_at, 0, 10) }} --}}{{ $action->created_at }}</span>
                 </td>
                 <td class="description">
                     {{-- {{ $action->description }} --}}

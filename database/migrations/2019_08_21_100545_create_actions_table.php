@@ -15,7 +15,7 @@ class CreateActionsTable extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->default(7); // default unregistered user
             $table->set('model', [ // name model. set equivalent column.
                 'Category', 
                 'Comment',

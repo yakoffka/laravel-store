@@ -8,7 +8,7 @@ use App\Product;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
-class ProductCommentsController extends Controller
+class ProductCommentsController extends CustomController
 {
     public function __construct() {
         $this->middleware('auth')->except(['store']);
@@ -29,7 +29,7 @@ class ProductCommentsController extends Controller
             $validator = Validator::make(request()->all(), [
                 'user_name' => 'nullable|string',
                 'comment_string' => 'required|string',
-            ]);    
+            ]);
         }
 
         if ($validator->fails()) {
@@ -37,13 +37,28 @@ class ProductCommentsController extends Controller
         }
 
         $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
-        // dd($comment_string);
-        $comment = Comment::create([
-            'product_id' => $product->id,
-            'user_id' => Auth::user() ? Auth::user()->id : 0,
-            'user_name' => Auth::user() ? Auth::user()->name : request('user_name'),
-            'comment_string' => $comment_string,
-        ]);
+
+        // $comment = Comment::create([
+        //     'product_id' => $product->id,
+        //     'user_id' => Auth::user() ? Auth::user()->id : 0,
+        //     'user_name' => Auth::user() ? Auth::user()->name : request('user_name'),
+        //     'comment_string' => $comment_string,
+        // ]);
+        $comment = new Comment;
+            $comment->product_id = $product->id;
+            $comment->user_id = Auth::user() ? Auth::user()->id : 0;
+            $comment->user_name = Auth::user() ? Auth::user()->name : request('user_name');
+            $comment->comment_string = $comment_string;
+
+        $dirty_properties = $comment->getDirty();
+
+        if ( !$comment->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        }
+
+        $description = $this->createAction($comment, $dirty_properties, false, 'model_create');
+
+        if ( $description ) {session()->flash('message', $description);}
 
         return redirect('/products/' . $product->id . '#comment_' . $comment->id);
     }
