@@ -191,21 +191,6 @@
 			<i class="fas fa-history"></i> История</span>
 		</h5>
         <div class="collapse" id="collapseHistory">
-            @permission('view_products')
-                <div class="submenuitem">- <a href="{{ route('actions.products') }}">Товаров</a></div>
-            @endpermission
-            @permission('view_orders')
-                <div class="submenuitem">- <a href="{{ route('actions.orders') }}">Заказов</a></div>
-            @endpermission
-            @permission('view_categories')
-                <div class="submenuitem">- <a href="{{ route('actions.categories') }}">Категорий</a></div>
-            @endpermission
-            @permission('view_users')
-                <div class="submenuitem">- <a href="{{ route('actions.registrations') }}">Регистрации</a></div>
-            @endpermission
-            @permission('view_settings')
-                <div class="submenuitem">- <a href="{{ route('actions.settings') }}">Настроек</a></div>
-            @endpermission
             @permission('view_users')
                 <div class="submenuitem">- <a href="{{ route('actions.index') }}">Полная</a></div>
             @endpermission

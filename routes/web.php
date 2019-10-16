@@ -131,32 +131,6 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
     // actions
-        // categories actions
-        Route::get('actions/categories', 'ActionController@categories')->name('actions.categories');
-        Route::get('actions/categories/{category}', 'ActionController@category')->name('actions.category');
-        // comments actions
-        Route::get('actions/comments', 'ActionController@comments')->name('actions.comments');
-        Route::get('actions/comments/{comment}', 'ActionController@comment')->name('actions.comment');
-        // images actions
-        Route::get('actions/images', 'ActionController@images')->name('actions.images');
-        Route::get('actions/images/{image}', 'ActionController@image')->name('actions.image');
-        // manufacturers actions
-        Route::get('actions/manufacturers', 'ActionController@manufacturers')->name('actions.manufacturers');
-        Route::get('actions/manufacturers/{manufacturer}', 'ActionController@manufacturer')->name('actions.manufacturer');
-        // orders actions
-        Route::get('actions/orders', 'ActionController@orders')->name('actions.orders');
-        Route::get('actions/orders/{order}', 'ActionController@order')->name('actions.order');
-        // products actions
-        Route::get('actions/products', 'ActionController@products')->name('actions.products');
-        Route::get('actions/products/{product}', 'ActionController@product')->name('actions.product');
-        // users actions
-        // Route::get('actions/users', 'ActionController@users')->name('actions.users');
-        Route::get('actions/users/{user}', 'ActionController@user')->name('actions.user');
-        // registrations actions
-        Route::get('actions/registrations', 'ActionController@registrations')->name('actions.registrations');
-        // settings actions
-        Route::get('actions/settings', 'ActionController@settings')->name('actions.settings');
-        // Route::get('actions/settings/{setting}', 'ActionController@setting')->name('actions.setting');
         // all 
         Route::get('actions', 'ActionController@index')->name('actions.index');
         Route::get('actions/{action}', 'ActionController@show')->name('actions.show');
