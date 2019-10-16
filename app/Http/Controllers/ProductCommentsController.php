@@ -75,9 +75,17 @@ class ProductCommentsController extends CustomController
         }
 
         $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
-        $comment->update([
-            'comment_string' => $comment_string,
-        ]);
+        $comment->comment_string = $comment_string;
+
+        $dirty_properties = $comment->getDirty();
+        $original = $comment->getOriginal();
+        // dd($dirty_properties, $original);
+        if ( !$comment->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        }
+        $description = $this->createAction($comment, $dirty_properties, $original, 'model_update');
+        // dd($description);
+        if ( $description ) {session()->flash('message', $description);}
 
         // return redirect()->route('products.show', ['product' => $comment->product_id]);
         return redirect('/products/' . $comment->product_id . '#comment_' . $comment->id);

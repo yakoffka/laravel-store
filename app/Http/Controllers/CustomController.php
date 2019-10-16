@@ -17,7 +17,7 @@ class CustomController extends Controller
         if ( $model->name ) {
             $description = ' "' . $model->name . '"';
         } else {
-            $description = '';
+            $description = ' #' . $model->id;
         }
         $description = __($type) . __($shortModelName . '_model') . $description;
 

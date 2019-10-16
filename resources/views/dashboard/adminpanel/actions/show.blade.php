@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>{{ __('actions_show_title') }}</h1>
+    <h1>{{ __('actions_show_title') }} №{{ $action->id }}</h1>
 
 
     <div class="row">
@@ -22,23 +22,25 @@
         @include('dashboard.layouts.partials.aside')
 
         <div class="col">
-    
-            <br>id: {{ $action->id }}
-            <br>user_id: {{ $action->user_id }}
-            <br>type: {{ $action->type }}
-            <br>{{ $action->type }} id: {{ $action->type_id }}
-            <br>action: {{ $action->action }}
-            <br>description: {{ $action->description }}
+
+            <h2>{{ $action->description }}</h2>
+            {{-- <br>id: {{ $action->id }} --}}
+            {{-- <br>user_id: {{ $action->user_id }} --}}
+            <br>Исполнитель: {{ $action->getInitiator->name }}
+            {{-- <br>type: {{ $action->type }} --}}
+            {{-- <br>{{ $action->type }} id: {{ $action->type_id }} --}}
+            <br>model: {{ $action->model }} №{{ $action->type_id }}
+            {{-- <br>description: {{ $action->description }} --}}
             <br>created_at: {{ $action->created_at }}
 
             @if ( unserialize($action->details) )
                 <table class="blue_table">
-                    <caption>list of change</caption>
+                    <caption>{{ __('list_of_change')}} </caption>
                     <tr>
                         <th>#</th>
-                        <th>name</th>
-                        <th>old</th>
-                        <th>new</th>
+                        <th>поле</th>
+                        <th>старое значение</th>
+                        <th>новое значение</th>
                     </tr>
 
                     @foreach ( unserialize($action->details) as $property ) 

@@ -1,7 +1,7 @@
     <table class="table blue_table table-bordered table-striped">
         <thead>
             <tr>
-                <th width="30">№</th>
+                <th width="30">{{ __('id') }}</th>
                 {{-- <th>Тип</th> --}}
                 <th>{{ __('__Date')}}</th>
                 <th>{{ __('__Description') }}</th>
@@ -13,7 +13,8 @@
         </thead>
         @foreach ( $actions as $action )
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                {{-- <td>{{ $loop->iteration }}</td> --}}
+                <td>{{ $action->id }}</td>
                 {{-- <td>
                     {{ $action->type }} 
                 </td> --}}
