@@ -18,8 +18,8 @@ $factory->define(Comment::class, function (Faker $faker) {
         // 'user_name' => $faker->name,
         'user_id' => rand(1, $users->count()),
         'user_name' => '',
-        // 'comment_string' => $faker->sentense(rand(5, 9), true),
-        'comment_string' => $faker->realText(rand(100, 500)),
+        // 'body' => $faker->sentense(rand(5, 9), true),
+        'body' => $faker->realText(rand(100, 500)),
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];

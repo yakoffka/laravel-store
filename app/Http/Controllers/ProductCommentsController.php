@@ -23,12 +23,12 @@ class ProductCommentsController extends CustomController
     public function store(Product $product) {
         if ( Auth::user() ) {
             $validator = Validator::make(request()->all(), [
-                'comment_string' => 'required|string',
+                'body' => 'required|string',
             ]);
         } else {
             $validator = Validator::make(request()->all(), [
                 'user_name' => 'nullable|string',
-                'comment_string' => 'required|string',
+                'body' => 'required|string',
             ]);
         }
 
@@ -36,19 +36,19 @@ class ProductCommentsController extends CustomController
             return back()->withErrors($validator)->withInput();
         }
 
-        $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
+        $body = str_replace(["\r\n", "\r", "\n"], '<br>', request('body'));
 
         // $comment = Comment::create([
         //     'product_id' => $product->id,
         //     'user_id' => Auth::user() ? Auth::user()->id : 0,
         //     'user_name' => Auth::user() ? Auth::user()->name : request('user_name'),
-        //     'comment_string' => $comment_string,
+        //     'body' => $body,
         // ]);
         $comment = new Comment;
             $comment->product_id = $product->id;
             $comment->user_id = Auth::user() ? Auth::user()->id : 0;
             $comment->user_name = Auth::user() ? Auth::user()->name : request('user_name');
-            $comment->comment_string = $comment_string;
+            $comment->body = $body;
 
         $dirty_properties = $comment->getDirty();
 
@@ -65,15 +65,15 @@ class ProductCommentsController extends CustomController
         abort_if ( Auth::user()->cannot('edit_comments') and Auth::user()->id !== $comment->user_id, 403 );
 
         $validator = Validator::make(request()->all(), [
-            'comment_string' => 'required|string',
+            'body' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $comment_string = str_replace(["\r\n", "\r", "\n"], '<br>', request('comment_string'));
-        $comment->comment_string = $comment_string;
+        $body = str_replace(["\r\n", "\r", "\n"], '<br>', request('body'));
+        $comment->body = $body;
 
         $dirty_properties = $comment->getDirty();
         $original = $comment->getOriginal();

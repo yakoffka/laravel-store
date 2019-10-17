@@ -223,7 +223,7 @@
 
                                 </div>
 
-                                <div class="comment_str">{!! $comment->comment_string !!}</div>{{-- enable html entities!! --}}
+                                <div class="comment_str">{!! $comment->body !!}</div>{{-- enable html entities!! --}}
                                         
                                 <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
 
@@ -234,8 +234,8 @@
                                         
                                         @csrf
 
-                                        <textarea id="comment_string_{{ $comment->id }}" name="comment_string" cols="30" rows="4" 
-                                            class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->comment_string); ?></textarea>
+                                        <textarea id="body_{{ $comment->id }}" name="body" cols="30" rows="4" 
+                                            class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->body); ?></textarea>
                                         <button type="submit" class="btn btn-success">редактировать</button>
                                     </form>
                                 <?php } ?>
@@ -278,8 +278,8 @@
                         @endauth
 
                         <div class="form-group">
-                            <!-- <label for="comment_string">Add a comment</label> -->
-                            <textarea id="comment_string" name="comment_string" cols="30" rows="4" class="form-control" placeholder="Add a your comment" required>{{ old('comment_string') }}</textarea>                       
+                            <!-- <label for="body">Add a comment</label> -->
+                            <textarea id="body" name="body" cols="30" rows="4" class="form-control" placeholder="Add a your comment" required>{{ old('body') }}</textarea>                       
                         </div>
                         <button type="submit" class="btn btn-primary">отправить</button>
                     </form>
