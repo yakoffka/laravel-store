@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use App\Filters\Action\ActionFilters;
 
 class Action extends Model
 {
@@ -26,6 +29,10 @@ class Action extends Model
 
     public function getInitiator () {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
+        return (new ActionFilters($request))->add($filters)->filter($builder);
     }
 
 }

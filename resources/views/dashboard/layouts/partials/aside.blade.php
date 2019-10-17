@@ -4,6 +4,8 @@
                 @include('dashboard.layouts.partials.adminaside')
             @else
             @endpermission
+            @if ( !empty($actions) )
+                @include('dashboard.adminpanel.partials.filters.filter-action')
+            @endif
         </div>
     </div>
-

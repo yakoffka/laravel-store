@@ -29,11 +29,12 @@
                     <thead>
                         <tr>
                             <th width="30">{{ __('id') }}</th>
-                            {{-- <th>Тип</th> --}}
+                            <th>{{ __('__Type')}}</th>
+                            <th>{{ __('__Model')}}</th>
                             <th>{{ __('__Date')}}</th>
                             <th>{{ __('__Description') }}</th>
                             @if ( Auth::user()->can('view_orders') )
-                                <th>Исполнитель</th>
+                                <th>{{ __('__Initiator')}}</th>
                             @endif
                             <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
                         </tr>
@@ -42,9 +43,8 @@
                         <tr>
                             {{-- <td>{{ $loop->iteration }}</td> --}}
                             <td>{{ $action->id }}</td>
-                            {{-- <td>
-                                {{ $action->type }} 
-                            </td> --}}
+                            <td>{{ __($action->type) }}</td>
+                            <td>{{  __($action->model) }}</td>
                             <td>
                                 {{-- {{ $action->created_at }} --}}
                                 <span title="{{ $action->created_at }}">{{-- {{ substr($action->created_at, 0, 10) }} --}}{{ $action->created_at }}</span>
@@ -58,10 +58,12 @@
                                 <td>
                                     {{-- {{ $action->getInitiator->name }} --}}
                                     <a 
-                                        href="{{ route('actions.user', $action->getInitiator) }}" 
+                                        href="
+                                        {{-- {{ route('actions.user', $action->getInitiator) }} --}}
+                                        " 
                                         title="view all actions {{ $action->getInitiator->name }}"
                                     >
-                                        {{ $action->getInitiator->name }}
+                                        {{ $action->getInitiator->name }}{{ $action->getInitiator->id }}
                                     </a>
                                 </td>
                             @endif

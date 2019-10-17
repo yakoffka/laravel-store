@@ -158,14 +158,7 @@
                                             <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                                 <i class="fas fa-pen-nib"></i>
                                             </a>
-                                        </div>
-
-                                        <div class="col-sm-3 p-1">
-                                            <a href="{{ route('actions.product', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                                <i class="fas fa-history"></i>
-                                            </a>
-                                        </div>
-                                        
+                                        </div>                                       
 
                                         <div class="col-sm-3 p-1">
                                             {{-- <!-- form delete product -->

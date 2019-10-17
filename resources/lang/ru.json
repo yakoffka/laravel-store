@@ -159,6 +159,9 @@
   "__Modification": "Модификации",
   "__Workingconditions": "Условия работы",
   "__Date": "Дата",
+  "__Type": "Тип",
+  "__Model": "Модель",
+  "__Initiator": "Инициатор",
 
   "Manufacturers": "Производители",
   "Manufacturers_create": "Создание производителя",
@@ -170,6 +173,24 @@
   "edited_by_user_id": "отредактирован",
   "created_at": "дата создания",
   "updated_at": "дата обновления",
+
+
+  "models_filter": "по модели",
+  "types_filter": "по типу",
+  "users_filter": "по инициатору",
+
+
+  "Category": "категории", 
+  "Comment": "комментарии",
+  "Image": "изображения",
+  "Manufacturer": "производители",
+  "Order": "заказы",
+  "Product": "товары",
+  "Role": "роли",
+  "User": "пользователи",
+  "Setting": "настройки",
+
+
 
   "Profile": "Профиль",
   "Orders": "Заказы"

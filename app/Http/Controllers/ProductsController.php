@@ -16,12 +16,12 @@ use Artisan;
 class ProductsController extends CustomController
 {
     public function __construct() {
-        $this->middleware('auth')->except(['index', 'show', 'filter', 'search']);
+        $this->middleware('auth')->except(['index', 'show', 'search']);
     }
 
 
     /**
-     * Only for filters and search!
+     * Only for filters!
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
