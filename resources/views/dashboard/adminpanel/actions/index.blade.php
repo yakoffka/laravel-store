@@ -63,7 +63,7 @@
                                         " 
                                         title="view all actions {{ $action->getInitiator->name }}"
                                     >
-                                        {{ $action->getInitiator->name }}{{ $action->getInitiator->id }}
+                                        {{ $action->getInitiator->name }}
                                     </a>
                                 </td>
                             @endif

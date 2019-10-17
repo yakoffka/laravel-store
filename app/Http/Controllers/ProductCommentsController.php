@@ -56,10 +56,8 @@ class ProductCommentsController extends CustomController
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
-        $description = $this->createAction($comment, $dirty_properties, false, 'model_create');
-
-        if ( $description ) {session()->flash('message', $description);}
-
+        $message = $this->createAction($comment, $dirty_properties, false, 'model_create');
+        if ( $message ) {session()->flash('message', $message);}
         return redirect('/products/' . $product->id . '#comment_' . $comment->id);
     }
 
@@ -83,11 +81,8 @@ class ProductCommentsController extends CustomController
         if ( !$comment->save() ) {
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
-        $description = $this->createAction($comment, $dirty_properties, $original, 'model_update');
-        // dd($description);
-        if ( $description ) {session()->flash('message', $description);}
-
-        // return redirect()->route('products.show', ['product' => $comment->product_id]);
+        $message = $this->createAction($comment, $dirty_properties, $original, 'model_update');
+        if ( $message ) {session()->flash('message', $message);}
         return redirect('/products/' . $comment->product_id . '#comment_' . $comment->id);
     }
 
@@ -100,7 +95,9 @@ class ProductCommentsController extends CustomController
     public function destroy(Comment $comment)
     {
         abort_if ( Auth::user()->cannot('delete_comments'), 403 );
+        $message = $this->createAction($comment, false, false, 'model_delete');
         $comment->delete();
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.show', ['product' => $comment->product_id]);
     }
 

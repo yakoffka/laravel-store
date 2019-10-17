@@ -126,7 +126,7 @@ class ProductsController extends CustomController
 
         $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
 
-        $description = $this->createAction($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+        $message = $this->createAction($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // send email-notification
         if ( config('settings.email_new_product') ) {
@@ -139,8 +139,7 @@ class ProductsController extends CustomController
             \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
         }
 
-        if ( $description ) {session()->flash('message', $description);}
-
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.show', $product->category_id);
     }
 
@@ -252,7 +251,7 @@ class ProductsController extends CustomController
 
         $this->attachImages($product->id, request('imagespath'));
 
-        $description = $this->createAction($product, $dirty_properties, $original, 'model_update');
+        $message = $this->createAction($product, $dirty_properties, $original, 'model_update');
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
@@ -265,8 +264,7 @@ class ProductsController extends CustomController
             \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
         }
 
-        if ( $description ) {session()->flash('message', $description);}
-
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.adminshow', $product->id);
     }
 
@@ -297,13 +295,11 @@ class ProductsController extends CustomController
 
         // ADD DELETE PRODUCT EMAIL!
 
-        $description = $this->createAction($product, false, false, 'model_delete');
-
+        $message = $this->createAction($product, false, false, 'model_delete');
         $product->delete();
-
-        session()->flash('message', 'Product "' . $products_name . '" with id=' . $products_id . ' was successfully removed.');
-
-        return redirect()->route('categories.index');
+        if ( $message ) {session()->flash('message', $message);}
+        // return redirect()->route('categories.index');
+        return back();
     }
 
 

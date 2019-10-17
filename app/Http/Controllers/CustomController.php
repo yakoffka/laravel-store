@@ -12,6 +12,7 @@ class CustomController extends Controller
      */
     protected function createAction($model, $dirty_properties, $original, $type)
     {
+        // dd($model->getAttributes());
         $reflect = new \ReflectionClass($model);
         $shortModelName = $reflect->getShortName();
         if ( $model->name ) {
@@ -23,10 +24,15 @@ class CustomController extends Controller
 
         // details
         $details = [];
-        if ( $type !== 'model_delete' ) {
-            if ( !$dirty_properties ) {
-                return false;
+        if ( $type === 'model_delete' ) {
+            foreach ( $model->getAttributes() as $property => $value ) {
+                if ( !empty(!empty($original) ?? $original[$property]) or !empty($model->$property) ) {
+                    $details[$property] = [
+                        $property, $value, '-',
+                    ];
+                }
             }
+        } else {
             foreach ( $dirty_properties as $property => $value ) {
                 if ( !empty(!empty($original) ?? $original[$property]) or !empty($model->$property) ) {
                     $details[$property] = [
@@ -49,7 +55,7 @@ class CustomController extends Controller
         $action->details = serialize($details);
 
         if ( $action->save() ) {
-            return $description;
+            return 'success_' . $description;
         } else {
             return false;
         }

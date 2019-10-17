@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\{Action, Role, Permission,User};
 
 class UsersController extends Controller
 {
-    public function __construct() {
-        // $this->middleware(['auth', 'permission:view_users']);
-        $this->middleware('auth');
-    }
+    public function __construct() { $this->middleware('auth'); }
 
     /**
      * Display a listing of the resource.

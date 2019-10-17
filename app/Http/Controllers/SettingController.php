@@ -134,7 +134,7 @@ class SettingController extends CustomController
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        $this->createAction($setting, $dirty_properties, $original, 'model_update');
+        $message = $this->createAction($setting, $dirty_properties, $original, 'model_update');
 
         // overwriting the configuration file config/settings.php
         $settings = Setting::get();
@@ -151,9 +151,7 @@ class SettingController extends CustomController
             fclose($fp);
         }
 
-        session()->flash('message', 'Setting "' . $setting->name . '" was successfully changed.');
-
-        // return back();
+        if ( $message ) {session()->flash('message', $message);}
         return redirect('/settings/' . '#setting_' . $setting->name);
     }
 
