@@ -94,23 +94,6 @@
                         <td class="center no_fl">
                             {{ $order->cart->items[$i]['qty'] }}
                         </td>
-
-
-                        {{-- <td class="center no_fl"> --}}
-                            {{-- <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
-                                <i class="fas fa-pen-nib"></i>
-                            </a> --}}
-                            {{-- <form action="{{ route('cart.delete-item', ['product' => $item['item']->id]) }}" method="POST" class="del_btn">
-                                @csrf
-
-                                @method("DELETE")
-
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form> --}}
-                        {{-- </td> --}}
-
                         <td>{{ $item['item']->price }}</td>
                         <td>{{ $order->cart->items[$i]['amount'] }}</td>
                     </tr>
@@ -160,12 +143,12 @@
         </div>
 
         
-        {{-- Actions --}}
-        @if( $actions->count() )
-            <h2 id="actions">History of order #{{ $order->id }}</h2>
-            @include('layouts.partials.actions')
+        {{-- Events --}}
+        @if( $events->count() )
+            <h2 id="events">History of order #{{ $order->id }}</h2>
+            @include('layouts.partials.events')
         @endif
-        {{-- /Actions --}}
+        {{-- /Events --}}
 
 
     @else

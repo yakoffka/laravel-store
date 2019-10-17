@@ -53,7 +53,7 @@
   "Whoops, something went wrong on our servers.": "Упс, на наших серверах что-то пошло не так.",
 
   "Dashboard": "Кабинет",
-  "Actions": "История",
+  "Events": "События",
 
 
   "roles": "роли",
@@ -65,7 +65,7 @@
   "orders": "заказы",
   "settings": "настройки",
   "adminpanel": "панель магазина",
-  "actions": "история",
+  "events": "история",
   "tasks": "задачи",
   "create_new_roles": "создать новую роль",
   "create_new_task": "Поставить новую задачу",
@@ -75,8 +75,8 @@
   "SuccessOperationMessage": "Операция выполнена успешно",
 
 
-  "actions_show_title": "Просмотр события",
-  "actions_index_title": "Просмотр событий",
+  "events_show_title": "Просмотр события",
+  "events_index_title": "Просмотр событий",
 
 
   "edit_profile": "редактировать профиль",
@@ -97,10 +97,10 @@
   "Edit": "Редактирование",
 
 
-  "show_action": "просмотреть",
-  "edit_action": "редактировать",
-  "copy_action": "копировать",
-  "delete_action": "удалить",
+  "show_event": "просмотреть",
+  "edit_event": "редактировать",
+  "copy_event": "копировать",
+  "delete_event": "удалить",
   
   "category": "категория",
   "date_manufactured": "дата производства",

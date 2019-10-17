@@ -2,7 +2,7 @@
 
 <h4 class="ta_c">фильтры</h4>
 
-<form class="formfilters" action="{{ route('actions.index') }}">
+<form class="formfilters" action="{{ route('events.index') }}">
 
     {{-- {{dd($models)}} --}}
     @if ( $models->count() )
@@ -78,7 +78,7 @@
 </form>
 
 @if ( !empty($appends['models']) or !empty($appends['types']) or !empty($appends['users']) )
-<form class="formfilters" action="{{ route('actions.index') }}">
+<form class="formfilters" action="{{ route('events.index') }}">
     <button type="submit" class="btn btn-outline-danger form-control">
         <i class="fas fa-eraser"></i> cleare filter
     </button>

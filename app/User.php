@@ -47,31 +47,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-    // protected $dates = ['deleted_at'];
-
-    // public function roles()
-    // {
-    //     return $this->belongsToMany('App\Role');
-    // }
-
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
-
-    // public function getRank() {
-    //     return $this->hasMany(Order::class);
-    // }
-
-
-    // это не нужно? получать в контроллере через where?
-    // public function getActions () {
-    //     return $this->hasMany(Action::class);
-    // }
-
-    // public function getTask () {
-    //     return $this->hasMany(Task::class, )
-    // }
-
 }

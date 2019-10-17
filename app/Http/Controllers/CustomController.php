@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Action;
+use App\Event;
 
 class CustomController extends Controller
 {
     /**
-     * Create records in table actions.
+     * Create records in table events.
      *
-     * @return string $action->description or false in case of failure
+     * @return string $event->description or false in case of failure
      */
-    protected function createAction($model, $dirty_properties, $original, $type)
+    protected function createEvents($model, $dirty_properties, $original, $type)
     {
         // dd($model->getAttributes());
         $reflect = new \ReflectionClass($model);
@@ -42,19 +42,19 @@ class CustomController extends Controller
             }
         }
 
-        // create action record
-        $action = new Action;
+        // create event record
+        $event = new Event;
 
         if ( auth()->user() ) {
-            $action->user_id = auth()->user()->id;
+            $event->user_id = auth()->user()->id;
         }
-        $action->model = $shortModelName;
-        $action->type_id = $model->id;
-        $action->type = $type;
-        $action->description = $description;
-        $action->details = serialize($details);
+        $event->model = $shortModelName;
+        $event->type_id = $model->id;
+        $event->type = $type;
+        $event->description = $description;
+        $event->details = serialize($details);
 
-        if ( $action->save() ) {
+        if ( $event->save() ) {
             return 'success_' . $description;
         } else {
             return false;

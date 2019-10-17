@@ -288,87 +288,16 @@ Breadcrumbs::for('dashboard', function ($trail) {
 
 
 
-// actions ПОПРАВИТЬ!
-    // // users
-    // // Home > Users > Actions
-    // Breadcrumbs::for('actions.users', function ($trail) {
-    //     $trail->parent('users.adminindex');
-    //     // $trail->push('Actions users', route('actions.users'));
-    //     $trail->push('Активность пользователя', route('actions.users'));
-    // });
-    // Home > Dashboard > Users > [User] > Actions
-    Breadcrumbs::for('actions.index', function ($trail) {
+// Events
+    // Home > Dashboard > Events
+    Breadcrumbs::for('events.index', function ($trail) {
         $trail->parent('dashboard');
-        $trail->push(__('actions_index_title'), route('actions.index'));
+        $trail->push(__('events_index_title'), route('events.index'));
     });
-    // Home > Dashboard > Users > [User] > Actions
-    Breadcrumbs::for('actions.show', function ($trail, $action) {
-        $trail->parent('actions.index');
-        $trail->push(__('actions_show_title') . ' #' . $action->id, route('actions.show', $action));
-    });
-
-    // Home > Dashboard > Users > [User] > Actions
-    Breadcrumbs::for('actions.user', function ($trail, $user) {
-        $trail->parent('users.show', $user);
-        $trail->push($user->name, route('actions.user', $user));
-    });
-
-    // comments
-    // Home > Catalog > Comments > Actions
-    Breadcrumbs::for('actions.comments', function ($trail) {
-        $trail->parent('catalog');
-        // $trail->push('Actions comments', route('actions.comments'));
-        $trail->push('История комментирования', route('actions.comments'));
-    });
-    // Home > Catalog > Comments > [Comment] > Actions
-    Breadcrumbs::for('actions.comment', function ($trail, $comment) {
-        $trail->parent('actions.comments');
-        $trail->push($comment->name, route('actions.comment', $comment));
-    });
-
-    // categories
-    // Home > Catalog > Categories > Actions
-    Breadcrumbs::for('actions.categories', function ($trail) {
-        $trail->parent('catalog');
-        // $trail->push('Actions categories', route('actions.categories'));
-        $trail->push('История категорий', route('actions.categories'));
-    });
-    // Home > Catalog > Categories > [Category] > Actions
-    Breadcrumbs::for('actions.category', function ($trail, $category) {
-        $trail->parent('actions.categories');
-        $trail->push($category->name, route('actions.category', $category));
-    });
-
-    // products
-    // Home > Catalog > Actions
-    Breadcrumbs::for('actions.products', function ($trail) {
-        $trail->parent('catalog');
-        // $trail->push('Actions products', route('actions.products'));
-        $trail->push('История товаров', route('actions.products'));
-    });
-    // Home > Catalog > Products > [Product] > Actions
-    Breadcrumbs::for('actions.product', function ($trail, $product) {
-        $trail->parent('products.show', $product);
-        $trail->push($product->name, route('actions.product', $product));
-    });
-
-    // orders
-    // Home > Catalog > Actions
-    Breadcrumbs::for('actions.orders', function ($trail) {
-        // if ( auth()->user()->can('view_orders') ) {
-        //     $trail->parent('orders.index');
-        //     $trail->push('Actions orders', route('actions.orders'));
-        // } else {
-
-        // }
-        $trail->parent('orders.index');
-        // $trail->push('Actions orders', route('actions.orders'));
-        $trail->push('История заказов', route('actions.orders'));
-    });
-    // Home > Catalog > Orders > [Order] > Actions
-    Breadcrumbs::for('actions.order', function ($trail, $order) {
-        $trail->parent('orders.show', $order);
-        $trail->push('History', route('actions.order', $order));
+    // Home > Dashboard > Users > Events > [Event]
+    Breadcrumbs::for('events.show', function ($trail, $event) {
+        $trail->parent('events.index');
+        $trail->push(__('events_show_title') . ' #' . $event->id, route('events.show', $event));
     });
 
 

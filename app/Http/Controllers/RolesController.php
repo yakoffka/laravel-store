@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Auth;
-use App\{Role, Action};
+use App\{Role, Event};
 use App\Permission;
 use Illuminate\Support\Facades\DB;
 
@@ -97,12 +95,12 @@ class RolesController extends Controller
             $mess .= $attach_roles ? ' Роли присвоены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '';
         }
 
-        // create action record
-        $action = Action::create([
+        // create event record
+        $event = Event::create([
             'user_id' => auth()->user()->id,
             'type' => 'role',
             'type_id' => $role->id,
-            'action' => 'create',
+            'type' => 'model_create',
             'description' => 
                 'Создание роли ' 
                 . $role->name
@@ -207,12 +205,12 @@ class RolesController extends Controller
             $mess .= ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
         }
 
-        // create action record
-        $action = Action::create([
+        // create event record
+        $event = Event::create([
             'user_id' => auth()->user()->id,
             'type' => 'role',
             'type_id' => $role->id,
-            'action' => 'update',
+            'type' => 'model_update',
             'description' => 
                 'Редактирование роли ' 
                 . $role->name

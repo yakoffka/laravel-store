@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{Action, Cart, Order, Setting, Status};
+use App\{Event, Cart, Order, Setting, Status};
 use Session;
 use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
@@ -86,12 +86,12 @@ class OrderController extends Controller
                     ->later($when, new Created($order));
             }
 
-            // create action record
-            $action = Action::create([
+            // create event record
+            $event = Event::create([
                 'user_id' => auth()->user()->id,
                 'type' => 'order',
                 'type_id' => $order->id,
-                'action' => 'create',
+                'type' => 'model_create',
                 'description' => 
                     'Создание заказа №' 
                     . str_pad($order->id, 5, "0", STR_PAD_LEFT) 
@@ -118,9 +118,9 @@ class OrderController extends Controller
     {
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
-        $actions = Action::where('type', 'order')->where('type_id', $order->id)->get();
+        $events = Event::where('type', 'order')->where('type_id', $order->id)->get();
         
-        return view('dashboard.orders.show', compact('order', 'statuses', 'actions'));
+        return view('dashboard.orders.show', compact('order', 'statuses', 'events'));
     }
 
 
@@ -164,12 +164,12 @@ class OrderController extends Controller
                 ->later($when, new StatusChanged($order, $order->status->name, $user));
         }
 
-        // create action record
-        $action = Action::create([
+        // create event record
+        $event = Event::create([
             'user_id' => auth()->user()->id,
             'type' => 'order',
             'type_id' => $order->id,
-            'action' => 'update',
+            'type' => 'model_update',
             'description' => 
                 'Изменение статуса заказа №' 
                 . str_pad($order->id, 5, "0", STR_PAD_LEFT) 

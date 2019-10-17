@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filters\Action;
+namespace App\Filters\Event;
 
 use App\Filters\FiltersAbstract;
-use App\Filters\Action\{ModelFilter, UserFilter};
+use App\Filters\Event\{ModelFilter, UserFilter};
 
-class ActionFilters extends FiltersAbstract
+class EventFilters extends FiltersAbstract
 {
     protected $filters = [
         'models' => ModelFilter::class,

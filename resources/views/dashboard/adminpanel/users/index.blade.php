@@ -97,23 +97,12 @@
 
 
                         @permission('delete_users')
-                        {{-- @if( auth()->user()->can('delete_users') or Auth::user()->id == $user->id ) --}}
-                            {{-- <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
-                                @csrf
-
-                                @method("DELETE")
-
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form> --}}
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
                                 'item' => $user,
                                 'action' => route('users.destroy', ['user' => $user->id]),
                             ])
-                        {{-- @endif --}}
                         @endpermission
 
                     </td>
@@ -161,13 +150,12 @@
             {{-- /pagination block --}}
 
 
-            {{-- Actions --}}
-            @if( $actions->count() )
-                <h2 id="actions">table history (last {{ config('custom.num_last_actions') }} actions)</h2>
-                also <a href="{{-- {{ route('actions.users') }} --}}">see</a> all history.
-                @include('layouts.partials.actions')
+            {{-- Events --}}
+            @if( $events->count() )
+                <h2 id="events">table history (last {{ config('custom.num_last_events') }} events)</h2>
+                @include('layouts.partials.events')
             @endif
-            {{-- /Actions --}}
+            {{-- /Events --}}
 
         </div>
     </div>

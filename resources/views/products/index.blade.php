@@ -161,24 +161,12 @@
                                         </div>                                       
 
                                         <div class="col-sm-3 p-1">
-                                            {{-- <!-- form delete product -->
-                                            <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="POST">
-                                                @csrf
-
-                                                @method("DELETE")
-
-                                                <button type="submit" class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form> --}}
-                                            {{-- @modalConfirmAction(['button' => 'danger', 'cssId' => 'del_' . $product->id, 'item' => $product]) --}}
                                             @modalConfirmDestroy([
                                                 'btn_class' => 'btn btn-outline-danger form-control',
                                                 'cssId' => 'delele_',
                                                 'item' => $product,
                                                 'action' => route('products.destroy', ['product' => $product->id]), 
-                                            ]) 
-                                            
+                                            ])
                                         </div>
 
                                     @elseif ( Auth::user()->can('edit_products') )

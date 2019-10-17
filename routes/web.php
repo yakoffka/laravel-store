@@ -130,10 +130,10 @@ Route::get('search', 'ProductsController@search')->name('search');
     Route::resource('settings', 'SettingController');
 
 
-    // actions
+    // events
         // all 
-        Route::get('actions', 'ActionController@index')->name('actions.index');
-        Route::get('actions/{action}', 'ActionController@show')->name('actions.show');
+        Route::get('events', 'EventController@index')->name('events.index');
+        Route::get('events/{event}', 'EventController@show')->name('events.show');
 
     // manufacturers
         Route::resource('manufacturers', 'ManufacturerController')->middleware('auth');

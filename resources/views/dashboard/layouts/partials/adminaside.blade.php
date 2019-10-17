@@ -192,7 +192,7 @@
 		</h5>
         <div class="collapse" id="collapseHistory">
             @permission('view_users')
-                <div class="submenuitem">- <a href="{{ route('actions.index') }}">Полная</a></div>
+                <div class="submenuitem">- <a href="{{ route('events.index') }}">Полная</a></div>
             @endpermission
         </div>
     @endpermission

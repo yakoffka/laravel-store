@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActionsTable extends Migration
+class createEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateActionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('actions', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->default(7); // default unregistered user
             $table->set('model', [ // name model. set equivalent column.
@@ -33,7 +33,7 @@ class CreateActionsTable extends Migration
                 'model_update', 
                 'model_delete',
                 'model_copy',
-                // 'verify', 
+                'verify', 
             ]);
             $table->text('description');
             $table->text('details')->nullable(); // serialized array. or longText??? or mediumText???
@@ -48,6 +48,6 @@ class CreateActionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actions');
+        Schema::dropIfExists('events');
     }
 }

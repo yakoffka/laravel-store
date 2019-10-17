@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Action, Setting};
+use App\Setting;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -134,7 +134,7 @@ class SettingController extends CustomController
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        $message = $this->createAction($setting, $dirty_properties, $original, 'model_update');
+        $message = $this->createEvents($setting, $dirty_properties, $original, 'model_update');
 
         // overwriting the configuration file config/settings.php
         $settings = Setting::get();

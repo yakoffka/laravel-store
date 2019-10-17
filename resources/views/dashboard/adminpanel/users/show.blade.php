@@ -71,16 +71,6 @@
 
 
                         @if( auth()->user()->can('delete_users') or Auth::user()->id == $user->id )
-                        {{-- @permission('delete_users') --}}
-                            {{-- <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST" class="del_btn">
-                                @csrf
-
-                                @method("DELETE")
-
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form> --}}
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
@@ -89,7 +79,6 @@
                             ])
 
                         @endif                
-                        {{-- @endpermission --}}
 
                     </td>
                 </tr>
@@ -114,44 +103,39 @@
 
 
 
-            {{-- Actions --}}
-            @if($actions->count())
-                <h2>table of last action {{ $user->name }}. View <a href="{{ route('actions.user', $user) }}">all action {{ $user->name }}</a>.</h2>
+            {{-- Events --}}
+            @if($events->count())
+                <h2>table of last event {{ $user->name }}. View <a href="{{ route('events.index') }}?user[]={{ $user->id }}">all event {{ $user->name }}</a>.</h2>
 
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>№</th>
-                            {{-- <th>Тип</th> --}}
                             <th>Дата</th>
                             <th>{{ __('__Description') }}</th>
                             @if ( Auth::user()->can('view_orders') )
                                 <th>Исполнитель</th>
                             @endif
-                            {{-- <th>Наличие</th> --}}
                         </tr>
                     </thead>
-                    @foreach( $actions as $action )
+                    @foreach( $events as $event )
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            {{-- <td>
-                                {{ $action->action }}
-                            </td> --}}
                             <td>
-                                {{ $action->created_at }}
+                                {{ $event->created_at }}
                             </td>
                             <td class="description">
-                                {{ $action->description }}
+                                {{ $event->description }}
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>
-                                    {{ $action->getInitiator->name }}
+                                    {{ $event->getInitiator->name }}
                                 </td>
                             @endif
                     @endforeach
                 </table>
             @endif
-            {{-- /Actions --}}
+            {{-- /Events --}}
 
         </div>
     </div>

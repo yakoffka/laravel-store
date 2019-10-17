@@ -5,7 +5,7 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\{Action, Role, Permission,User};
+use App\{Event, Role, Permission, User};
 
 class UsersController extends Controller
 {
@@ -22,10 +22,10 @@ class UsersController extends Controller
         // $users = User::all();
         $users = User::paginate();
         $permissions = Permission::all();
-        // $actions = Action::all();
-        $actions = Action::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_actions'));// last 50!
+        // $events = Event::all();
+        $events = Event::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_events'));// last 50!
 
-        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'actions'));
+        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'events'));
     }
 
     /**
@@ -38,9 +38,9 @@ class UsersController extends Controller
     {
         abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id !== $user->id , 403 );
         $permissions = Permission::all();
-        $actions = Action::where('user_id', $user->id)->get();// last 50!
+        $events = Event::where('user_id', $user->id)->get();// last 50!
 
-        return view('dashboard.adminpanel.users.show', compact('user', 'permissions', 'actions'));
+        return view('dashboard.adminpanel.users.show', compact('user', 'permissions', 'events'));
     }
 
     /**
@@ -131,17 +131,17 @@ class UsersController extends Controller
             }
             
         } else {
-            abort(403, 'Unauthorized action.');
+            abort(403);
         }
 
         // add session flash!
 
-        // create action record
-        $action = Action::create([
+        // create event record
+        $event = Event::create([
             'user_id' => auth()->user()->id,
             'type' => 'user',
             'type_id' => $user->id,
-            'action' => 'update',
+            'type' => 'model_update',
             'description' => 
                 'Редактирование пользователя ' 
                 . $user->name
@@ -180,12 +180,12 @@ class UsersController extends Controller
 
         // add session flash!
 
-        // create action record
-        $action = Action::create([
+        // create event record
+        $event = Event::create([
             'user_id' => auth()->user()->id,
             'type' => 'user',
             'type_id' => $user->id,
-            'action' => 'delete',
+            'type' => 'model_delete',
             'description' => 
                 'Удаление пользователя ' 
                 . $user->name

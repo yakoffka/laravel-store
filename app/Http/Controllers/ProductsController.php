@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
 use Str;
-use App\{Action, Category, Image, Manufacturer, Product};
+use App\{Category, Image, Manufacturer, Product};
 use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 use Artisan;
@@ -126,7 +125,7 @@ class ProductsController extends CustomController
 
         $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
 
-        $message = $this->createAction($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+        $message = $this->createEvents($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // send email-notification
         if ( config('settings.email_new_product') ) {
@@ -251,7 +250,7 @@ class ProductsController extends CustomController
 
         $this->attachImages($product->id, request('imagespath'));
 
-        $message = $this->createAction($product, $dirty_properties, $original, 'model_update');
+        $message = $this->createEvents($product, $dirty_properties, $original, 'model_update');
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
@@ -295,7 +294,7 @@ class ProductsController extends CustomController
 
         // ADD DELETE PRODUCT EMAIL!
 
-        $message = $this->createAction($product, false, false, 'model_delete');
+        $message = $this->createEvents($product, false, false, 'model_delete');
         $product->delete();
         if ( $message ) {session()->flash('message', $message);}
         // return redirect()->route('categories.index');

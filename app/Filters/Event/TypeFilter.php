@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filters\Action;
+namespace App\Filters\Event;
 
 use Illuminate\Database\Eloquent\Builder;
 use App\Filters\FilterAbstract;
 
-class UserFilter extends FilterAbstract
+class TypeFilter extends FilterAbstract
 {
     public function filter(Builder $builder, $value)
     {
-        return $builder->whereIn('user_id', $value);
+        return $builder->whereIn('type', $value);
     }
 }
