@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\{Event, User};
-use App\Http\Controllers\Controller;
+use App\User;
+use App\Http\Controllers\CustomController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -12,7 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Str;
 use App\Mail\Auth\VerifyMail;
 
-class RegisterController extends Controller
+class RegisterController extends CustomController
 {
     /*
     |--------------------------------------------------------------------------
@@ -79,29 +79,22 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'verify_token' => Str::random(), // Str::random(40);
             'status' => User::STATUS_INACTIVE,
+            'verify_token' => Str::random(),
         ]);
-        
-        if ( $user ) {
-            $user->attachRole(4); // user role
 
-            // sending email notification with queue
-            \Mail::to($user->email)
-                ->bcc(config('mail.mail_info'))
-                ->queue(new VerifyMail($user));
+        if ( !$user ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
-        // create event record
-        $event = Event::create([
-            'user_id' => 1,
-            'type' => 'user',
-            'type_id' => 1,
-            'type' => 'model_create',
-            'description' => 'Регистрация пользователя ' . $user->name . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
+        $user->attachRole(8); // user role
+
+        // sending email notification with queue
+        \Mail::to($user->email)
+            ->bcc(config('mail.mail_info'))
+            ->queue(new VerifyMail($user));
+
+        $this->createEvents($user, false, false, 'model_create');
 
         return $user;
     }
@@ -138,20 +131,8 @@ class RegisterController extends Controller
         // return redirect()->route('login')
         //     ->with('success', 'Your e-mail is verified. You can now login.');
 
-
-        // create event record
-        $event = Event::create([
-            'user_id' => $user->id,
-            'type' => 'user',
-            'type_id' => $user->id,
-            'type' => 'verify',
-            'description' => 'Верификация пользователя ' . $user->name . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
+        $this->createEvents($user, false, false, 'verify');
         session()->flash('message', 'Your e-mail is verified. You can now login.');
-
         return redirect()->route('login');
     }
 }

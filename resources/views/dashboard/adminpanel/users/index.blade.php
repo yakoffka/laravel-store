@@ -153,7 +153,7 @@
             {{-- Events --}}
             @if( $events->count() )
                 <h2 id="events">table history (last {{ config('custom.num_last_events') }} events)</h2>
-                @include('layouts.partials.events')
+                {{-- @include('layouts.partials.events') --}}
             @endif
             {{-- /Events --}}
 

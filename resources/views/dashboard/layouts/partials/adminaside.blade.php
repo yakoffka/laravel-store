@@ -186,7 +186,7 @@
 
 {{-- History --}}
 <div class="admin_menu_block">
-    @permission('view_actions')
+    @permission('view_events')
         <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseHistory" role="button" aria-expanded="false" aria-controls="collapseHistory">
 			<i class="fas fa-history"></i> История</span>
 		</h5>

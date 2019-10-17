@@ -32,7 +32,7 @@ class CustomController extends Controller
                     ];
                 }
             }
-        } else {
+        } elseif ( !empty($dirty_properties) ) {
             foreach ( $dirty_properties as $property => $value ) {
                 if ( !empty(!empty($original) ?? $original[$property]) or !empty($model->$property) ) {
                     $details[$property] = [

@@ -29,7 +29,7 @@
                 </div>
             @endif
 
-            
+            {{-- {{dd(config('mail.from.address'),config('mail.from.name'),config('mail.port'),config('mail.host'))}} --}}
 
             {{-- 'owner', 'manager', 'developer' --}}
             @role(['owner', 'manager', 'developer'])
