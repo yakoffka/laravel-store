@@ -1,6 +1,0 @@
-Рефакторинг RegisterController
-    Добавление createEvents в RegisterController;
-    Замена прикрепляемой роли к вновь создаваемомупользователю;
-    Изменение файла .env!!! заменить везде!
-    Правка метода CustomController::createEvents;
-    Незначительная правка шаблонов.

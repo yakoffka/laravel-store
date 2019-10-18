@@ -61,12 +61,17 @@ class TasksTableSeeder extends Seeder
             //     'taskspriority_id' => 2,
             // ],
 
-            // [
-            //     'title' => '',
-            //     'description' => '.',
-            //     'tasksstatus_id' => 1,
-            //     'taskspriority_id' => 2,
-            // ],
+            [
+                'title' => 'Прописать классы сообщений',
+                'description' => '.
+                    Session::flash(\'alert-danger\', \'danger\');
+                    Session::flash(\'alert-warning\', \'warning\');
+                    Session::flash(\'alert-success\', \'success\');
+                    Session::flash(\'alert-info\', \'info\');
+                ',
+                'tasksstatus_id' => 1,
+                'taskspriority_id' => 2,
+            ],
 
             [
                 'title' => 'CategoryController::attachSingleImage',

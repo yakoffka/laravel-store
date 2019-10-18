@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\{Event, Cart, Order, Setting, Status};
+use App\{Event, Cart, Order, Status};
 use Session;
 use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 
-class OrderController extends Controller
+class OrderController extends CustomController
 {
     public function __construct(Cart $cart) {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -28,17 +27,7 @@ class OrderController extends Controller
             $orders = Order::where('user_id', '=', auth()->user()->id)
                 ->paginate();
         }
-        // dd($orders);
-
-        // $orders = auth()->user()->orders;
-        // $orders->transform( function($order, $key) { // Call to undefined method Illuminate\Database\Eloquent\Builder::transform()
-        //     $order->cart = unserialize($order->cart);
-        //     return $order;
-        // });
-        // dd($orders);
-
         $statuses = Status::all();
-        
         return view('dashboard.orders.index', compact('orders', 'statuses'));
     }
 
@@ -48,14 +37,13 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) // protected??
+    public function store()
     {
         $cart = Session::has('cart') ? Session::get('cart') : null;
         abort_if ( !$cart, 404 );
-        Session::forget('cart');
 
-        $validator = Validator::make(request()->all(), [
-            'comment' => 'required|string|max:600', // ???
+        request()->validate([
+            'comment' => 'nullable|string|max:1000',
         ]);
 
         $order = Order::create([
@@ -68,44 +56,42 @@ class OrderController extends Controller
             // address, shipping
         ]);
 
-        if ( $order ) {
+        if ( !$order ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        }
+        Session::forget('cart');
 
-            // send email-notification
-            if ( config('settings.email_new_order') ) {
-
-                $user = auth()->user();
-                $bcc = config('mail.mail_bcc');
-                if ( config('settings.additional_email_bcc') ) {
-                    $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
-                }
-
-                $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-
-                \Mail::to($user)
-                    ->bcc($bcc)
-                    ->later($when, new Created($order));
+        // send email-notification
+        if ( config('settings.email_new_order') ) {
+            $user = auth()->user();
+            $bcc = config('mail.mail_bcc');
+            if ( config('settings.additional_email_bcc') ) {
+                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
             }
-
-            // create event record
-            $event = Event::create([
-                'user_id' => auth()->user()->id,
-                'type' => 'order',
-                'type_id' => $order->id,
-                'type' => 'model_create',
-                'description' => 
-                    'Создание заказа №' 
-                    . str_pad($order->id, 5, "0", STR_PAD_LEFT) 
-                    . '. Заказчик: ' 
-                    . auth()->user()->name 
-                    . '.',
-                // 'old_value' => $product->id,
-                // 'new_value' => $product->id,
-            ]);
-
-            return redirect()->route('orders.show', ['order' => $order->id]);
+            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+            \Mail::to($user)
+                ->bcc($bcc)
+                ->later($when, new Created($order));
         }
 
-        return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
+        $message = 'Создание заказа №' . str_pad($order->id, 5, "0", STR_PAD_LEFT) . '. Заказчик: ' 
+            . auth()->user()->name  . '.';
+
+        // create event record
+        $event = new Event;
+        $event->user_id = auth()->user()->id;
+        $event->model = 'order';
+        $event->type_id = $order->id;
+        $event->type = 'model_create';
+        $event->description = $message;
+        // $event->old_value =
+        // $event->new_value =
+        $event->save();
+        // if ( !$event->save() ) {
+        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        // }
+        // if ( $event ) {session()->flash('message', $message);}
+        return redirect()->route('orders.show', ['order' => $order->id]);
     }
 
     /**
@@ -118,8 +104,7 @@ class OrderController extends Controller
     {
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
-        $events = Event::where('type', 'order')->where('type_id', $order->id)->get();
-        
+        $events = Event::where('model', 'Order')->where('type_id', $order->id)->get();
         return view('dashboard.orders.show', compact('order', 'statuses', 'events'));
     }
 
@@ -135,48 +120,41 @@ class OrderController extends Controller
     {
         abort_if ( auth()->user()->cannot('edit_orders'), 403 );
 
-        $validator = Validator::make(request()->all(), [
+        request()->validate([
             'status_id' => 'required|integer|max:9', // Status::all()->count()
         ]);
 
         $old_status_id = $order->status_id;
 
-        if (!$order->update([
-            'status_id' => request('status_id'),
-        ])) {
-            return back()->withError(['something wrong. err' . __line__]);
+        // if (!$order->update([
+        //     'status_id' => request('status_id'),
+        // ])) {
+        //     return back()->withError(['something wrong. err' . __line__]);
+        // }
+        $order->status_id = request('status_id');
+        $dirty_properties = $order->getDirty();
+        $original = $order->getOriginal();
+
+        if ( !$order->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
         // send email-notification
         if ( config('settings.email_update_order') ) {
-
             $user = $order->customer;
             $bcc = config('mail.mail_bcc');
-
             if ( config('settings.additional_email_bcc') ) {
                 $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
             }
-
             $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-
             \Mail::to($user)
                 ->bcc($bcc)
                 ->later($when, new StatusChanged($order, $order->status->name, $user));
         }
 
         // create event record
-        $event = Event::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'order',
-            'type_id' => $order->id,
-            'type' => 'model_update',
-            'description' => 
-                'Изменение статуса заказа №' 
-                . str_pad($order->id, 5, "0", STR_PAD_LEFT) 
-                . ' на "' . $order->status->description . '".',
-            'old_value' => $old_status_id,
-            'new_value' => $order->id,
-        ]);
+        $message = $this->createEvents($order, $dirty_properties, $original, 'model_update');
+        if ( $message ) {session()->flash('message', $message);}
 
         return back();
     }
@@ -190,5 +168,9 @@ class OrderController extends Controller
     public function destroy($id)
     {
         // soft delete?
+        $message = __('mess_function_i_development');
+        session()->flash('message', $message);
+        // session()->flash('alert-class', $message);
+        return back();
     }
 }

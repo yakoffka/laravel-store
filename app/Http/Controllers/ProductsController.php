@@ -121,10 +121,9 @@ class ProductsController extends CustomController
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
+        // create event record
         $this->attachImages($product->id, request('imagespath'));
-
         $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
-
         $message = $this->createEvents($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // send email-notification

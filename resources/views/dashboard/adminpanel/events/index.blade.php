@@ -57,10 +57,7 @@
                             @if ( Auth::user()->can('view_orders') )
                                 <td>
                                     {{-- {{ $event->getInitiator->name }} --}}
-                                    <a 
-                                        href="
-                                        {{-- {{ route('events.user', $event->getInitiator) }} --}}
-                                        " 
+                                    <a href="{{ route('events.index') }}?users[]={{ $event->getInitiator->id }}" 
                                         title="view all events {{ $event->getInitiator->name }}"
                                     >
                                         {{ $event->getInitiator->name }}

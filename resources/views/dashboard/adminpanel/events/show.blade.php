@@ -44,7 +44,7 @@
                     </tr>
 
                     @foreach ( unserialize($event->details) as $property ) 
-                        <tr><td>{{ $loop->iteration }}</td><td class="ta_l">{{ $property[0] }}</td><td class="ta_l">{{ $property[1] }}</td><td class="ta_l">{{ $property[2] }}</td></tr>
+                        <tr><td>{{ $loop->iteration }}</td><td class="ta_l">{{ $property[0] }}</td><td class="ta_l">{!! $property[1] !!}</td><td class="ta_l">{!! $property[2] !!}</td></tr>
                     @endforeach
                 </table>
             @else

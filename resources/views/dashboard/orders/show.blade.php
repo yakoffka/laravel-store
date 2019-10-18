@@ -13,136 +13,101 @@
         </div>
     </div>
 
-{{-- <div class="container"> --}}
 
-    {{-- <div class="grey">
-        <span class="grey">created:</span>  {{ $order->created_at }}
-        <span class="grey">updated:</span>  {{ $order->updated_at }}
-    </div> --}}
-
-
-    {{-- {{ dd($order) }} --}}
-    {{-- {{ dd($order, $order->cart, $order->cart->total_qty) }} --}}
-    
     @if( !empty($order->cart) and !empty($order->cart->total_qty) )
 
         <div class="row justify-content-center">
             <h1>Detail of order #{{ $order->id }}</h1>
         </div>
 
+        <span class="grey">created:</span> {{ $order->created_at }}
+        <span class="grey">updated:</span> {{ $order->updated_at }}<br>
+    
         @permission('view_users')
-            <h2>customer: <span class="grey">{{ $order->customer->name }}</span></h2>
+            <span class="grey">customer:</span> {{ $order->customer->name }}<br>
         @endpermission
 
-        <div class="row">
-            <h2>status of order: </h2>
-            @permission('edit_orders')
-                @selectStatusOrder([
-                    'statuses' => $statuses, 
-                    'order' => $order, 
-                ])
-            @else
-                <span class="grey">{{ $order->status->description }}</span>
-            @endpermission
-        </div>
+        <span class="grey">status of order:</span>
+        @permission('edit_orders')
+            @selectStatusOrder([
+                'statuses' => $statuses, 
+                'order' => $order, 
+            ])
+        @endpermission
+        {{ $order->status->description }}<br>
 
-        {{-- <div class="detail_order">
-            <p>
+
+        @if($order->cart->total_qty)
+
             <h2>Детали заказа:</h2>
+            <table class="blue_table">
 
-            </p>
-        </div> --}}
+                <tr>
+                    <th>#</th>
+                    <th>img</th>
+                    <th>name</th>
+                    <th>qty</th>
+                    <th>price</th>
+                    <th>amount</th>
+                </tr>
 
-        <div class="row">
+            @foreach($order->cart->items as $i => $item)
 
-            @if($order->cart->total_qty)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>
+                        @if($item['item']->image)
+                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}});">
+                        @else
+                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+                        @endif
+    
+                            <div class="dummy"></div><div class="element"></div>
+                        </div>       
+                    </td>
+                    <td>
+                        <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">
+                            {{ $item['item']->name }}
+                        </a>
+                    </td>
+                    <td class="center no_fl">
+                        {{ $order->cart->items[$i]['qty'] }}
+                    </td>
+                    <td>{{ $item['item']->price }}</td>
+                    <td>{{ $order->cart->items[$i]['amount'] }}</td>
+                </tr>
 
-                <h2>specification</h2>
-                <table class="blue_table">
+            @endforeach
 
-                    <tr>
-                        <th>#</th>
-                        <th>img</th>
-                        <th>name</th>
-                        <th>qty</th>
-                        {{-- <th class="actions2">action</th> --}}
-                        <th>price</th>
-                        <th>amount</th>
-                    </tr>
+                <tr>
+                    <th colspan="5">total payment</th>
+                    <td>{{ $order->total_payment }}</td>
+                </tr>
 
-                    {{-- {{dd($order->cart)}} --}}
+            </table>
 
-                @foreach($order->cart->items as $i => $item)
 
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            @if($item['item']->image)
-                                <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}});">
-                            @else
-                                <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
-                            @endif
-        
-                                <div class="dummy"></div><div class="element"></div>
-                            </div>       
-                        </td>
-                        <td>
-                            <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">
-                                {{ $item['item']->name }}
-                            </a>
-                        </td>
-                        <td class="center no_fl">
-                            {{ $order->cart->items[$i]['qty'] }}
-                        </td>
-                        <td>{{ $item['item']->price }}</td>
-                        <td>{{ $order->cart->items[$i]['amount'] }}</td>
-                    </tr>
+            <h2>Комментарий к заказу</h2>
+            <table class="blue_table">
+                <tr>
+                    <th colspan="6">comment</th>
+                </tr>
+                <tr>
+                    <td colspan="6" class="ta_l">{{ $order->comment ?? '-' }}</td>
+                </tr>
+            </table>
 
-                @endforeach
+            <h2>Доставка</h2>
+            <table class="blue_table">
+                <tr>
+                    <th colspan="6">address</th>
+                </tr>
+                <tr>
+                    <td colspan="6">{{ $order->cart->address ?? '-' }}</td>
+                </tr>
+            </table>
+        @endif
 
-                    <tr>
-                        <th colspan="5">total payment</th>
-                        <td>{{ $order->total_payment }}</td>
-                    </tr>
-
-                </table>
-
-                <h2>date</h2>
-                <table class="blue_table">
-                    <tr>
-                        <td colspan="3">created_at</td>
-                        <td colspan="3">updated_at</td>
-                    </tr>    
-                    <tr>
-                        <td colspan="3">{{ $order->created_at }}</td>
-                        <td colspan="3">{{ $order->updated_at }}</td>
-                    </tr>
-                </table>
-
-                <h2>comment to order</h2>
-                <table class="blue_table">
-                    <tr>
-                        <th colspan="6">comment</th>
-                    </tr>
-                    <tr>
-                        <td colspan="6" class="ta_l">{{ $order->comment ?? '-' }}</td>
-                    </tr>
-                </table>
-
-                <h2>shipping</h2>
-                <table class="blue_table">
-                    <tr>
-                        <th colspan="6">address</th>
-                    </tr>
-                    <tr>
-                        <td colspan="6">{{ $order->cart->address ?? '-' }}</td>
-                    </tr>
-                </table>
-
-            @endif
-        </div>
-
-        
         {{-- Events --}}
         @if( $events->count() )
             <h2 id="events">History of order #{{ $order->id }}</h2>
@@ -150,11 +115,8 @@
         @endif
         {{-- /Events --}}
 
-
     @else
 
-        {{-- ??? --}}
-        
         <div class="row justify-content-center">
             <h1>Youre cart is empty</h1>
         </div>
@@ -164,12 +126,6 @@
                 <a href="{{ route('products.index') }}" class="btn btn-success">shopping</a>
             </div>
        </div>
-
-        <div class="wrap_panda">
-            <div class="panda">
-                <img src="https://yakoffka.ru/src/img/links/panda-waving.png" alt="" srcset="">
-            </div>
-        </div>
 
     @endif
 
@@ -185,6 +141,4 @@
     ])
     @endif --}}
 
-
-{{-- </div> --}}
 @endsection

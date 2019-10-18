@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('total_payment');
             $table->text('cart');
             $table->unsignedInteger('status_id');
-            $table->text('comment')->nullable(); // change status order
-            $table->text('history')->nullable(); // change status order
+            $table->text('comment')->nullable();
+            // $table->text('history')->nullable();
             $table->text('address')->nullable();
             $table->timestamps();
 

@@ -1,13 +1,16 @@
 <td>
     <!-- Button trigger modal -->
-    <button
+    {{-- <button
         type="button" 
-        class="btn btn-{{ $order->status->style ?? 'primary' }} form-control" 
+        class="btn btn-outline-{{ $order->status->style ?? 'primary' }}" 
         data-toggle="modal" 
         data-target="#select_status_order_{{ $order->id }}"
     >
         {{ $order->status->name }}
-    </button>
+    </button> --}}
+    <span class="pointer text-primary nowrap" data-toggle="modal" data-target="#select_status_order_{{ $order->id }}">
+        <i class="fas fa-pen-nib"></i>
+    </span>
 
     <!-- Modal -->
     <div 

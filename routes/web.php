@@ -93,9 +93,14 @@ Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy')
 
 
 /* categories*/
+    // POST       categories                 categories.store    CategoryController@store    web,auth                                                                                                               |
+    // GET|HEAD   categories                 categories.index    CategoryController@index    web                                                                                                                    |
+    // GET|HEAD   categories/create          categories.create   CategoryController@create   web,auth                                                                                                               |
+    // DELETE     categories/{category}      categories.destroy  CategoryController@destroy  web,auth                                                                                                               |
+    // GET|HEAD   categories/{category}      categories.show     CategoryController@show     web                                                                                                                    |
+    // PUT|PATCH  categories/{category}      categories.update   CategoryController@update   web,auth                                                                                                               |
+    // GET|HEAD   categories/{category}/edit categories.edit     CategoryController@edit     web,auth                                                                                                               |
     Route::resource('categories', 'CategoryController');
-    // Route::get('/categories', 'CategoryController@index')->name('categories.index');
-    // Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
     Route::get   ('admin/categories',                       'CategoryController@adminIndex')->name('categories.adminindex'  )->middleware('auth');
     Route::get   ('admin/categories/{category}',            'CategoryController@adminShow' )->name('categories.adminshow'   )->middleware('auth');
 
