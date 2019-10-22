@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\{Role, Event};
+use App\Role;
 use App\Permission;
 use Illuminate\Support\Facades\DB;
 
-class RolesController extends Controller
+class RolesController extends CustomController
 {
     public function __construct() {
         $this->middleware('auth');
@@ -48,39 +48,36 @@ class RolesController extends Controller
     {
         abort_if ( auth()->user()->cannot('create_roles'), 403 );
 
-        $arrToValidate['name'] = 'required|string|max:255|unique:roles';
-        $arrToValidate['display_name'] = 'required|string|max:255|unique:roles';
-        $arrToValidate['description'] = 'required|string|max:255';
-        
-
-        $permissions = Permission::all()->toArray();
-        foreach ( $permissions as $permission ) {
-            $arrToValidate[$permission['name']] = 'string|max:3';
-        }
-
-        $validator = request()->validate($arrToValidate);
-
-        // dd(request()->all());
-        // dd(request('rank'));
-        $role = Role::create([
-            'name' => request('name'),
-            'display_name' => request('display_name'),
-            'description' => request('description'),
-            'added_by_user_id' => auth()->user()->id,
+        // validate main fields
+        request()->validate([
+            'name' => 'required|string|max:255|unique:roles',
+            'display_name' => 'required|string|max:255|unique:roles',
+            'description' => 'required|string|max:255',
         ]);
 
-        
-        if ($role) {
-            $mess = 'Роль ' . $role->name . ' создана успешно.';
-        } else {
-            return back()->withErrors(['error #' . __line__ ])->withInput();
+        // validate all possible permissions
+        $permissions = Permission::all()->toArray();
+        foreach ( $permissions as $permission ) {
+            $arrToValidate[$permission['name']] = 'in:on,off';
+        }
+        request()->validate($arrToValidate);
+
+        $role = new Role;
+        $role->name = request('name');
+        $role->display_name = request('display_name');
+        $role->description = request('description');
+        $role->added_by_user_id = auth()->user()->id;
+        $dirty_properties = $role->getDirty();
+
+        if ( !$role->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
         
 
         // attach permissions
+        $additional_description = '';
         if ( auth()->user()->can('edit_roles') ) {
             $attach_roles = [];
-
             foreach ( $permissions as $permission ) {
                 if (
                     request($permission['name']) === 'on' 
@@ -91,30 +88,12 @@ class RolesController extends Controller
                     $attach_roles[] = $permission['name'];
                 }
             }
-
-            $mess .= $attach_roles ? ' Роли присвоены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '';
+            $additional_description = $attach_roles ? ' Роли присвоены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '';
         }
 
         // create event record
-        $event = Event::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'role',
-            'type_id' => $role->id,
-            'type' => 'model_create',
-            'description' => 
-                'Создание роли ' 
-                . $role->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name
-                . '. '
-                . $mess
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
-        session()->flash('message', $mess);
-
+        $message = $this->createEvents($role, $dirty_properties, false, 'model_create', $additional_description);
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.show', compact('role'));
     }
 
@@ -155,76 +134,57 @@ class RolesController extends Controller
     {
         abort_if ( auth()->user()->cannot('edit_roles'), 403 );
 
-        $arrToValidate['name'] = 'required|string|max:255'; // |unique:roles
-        $arrToValidate['display_name'] = 'required|string|max:255'; // |unique:roles
-        $arrToValidate['description'] = 'required|string|max:255';
-
-        $permissions = Permission::all()->toArray();
-
-        foreach ( $permissions as $permission ) {
-            $arrToValidate[$permission['name']] = 'string|max:3';
-        }
-
-        $validator = request()->validate($arrToValidate);
-
-        $update = $role->update([
-            'name' => request('name'),
-            'display_name' => request('display_name'),
-            'description' => request('description'),
-            'edited_by_user_id' => auth()->user()->id,
+        // validate main fields
+        request()->validate([
+            'name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
         ]);
 
-        
-        if ($update) {
-            $mess = 'Роль ' . $role->name . ' успешно обновлена.';
-        } else {
-            return back()->withErrors(['error #' . __line__ ])->withInput();
+        // validate all possible permissions
+        $permissions = Permission::all()->toArray();
+        foreach ( $permissions as $permission ) {
+            $arrToValidate[$permission['name']] = 'in:on,off';
+        }
+        request()->validate($arrToValidate);
+
+        // update
+        $role->name = request('name');
+        $role->display_name = request('display_name');
+        $role->description = request('description');
+        $role->edited_by_user_id = auth()->user()->id;
+
+        $dirty_properties = $role->getDirty();
+        $original = $role->getOriginal();
+
+        if ( !$role->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
-
+        // attach/take Permission
+        $additional_description = '';
         if ( auth()->user()->can('edit_roles') ) {
             $attach_roles = $take_roles = [];
             foreach ( $permissions as $permission ) {
-
                 // attach Permission
                 if ( request($permission['name']) === 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $role->attachPermission($permission['id']);
-
                     $attach_roles[] = $permission['name'];
-                    
                 // take Permission
                 } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
                     $take_role = DB::table('permission_role')->where([
                         ['permission_id', '=', $permission['id']],
                         ['role_id', '=', $role->id],
                     ])->delete();
-
                     $take_roles[] = $permission['name'];
                 }
             }
-            $mess .= ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
+            $additional_description = ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
         }
 
         // create event record
-        $event = Event::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'role',
-            'type_id' => $role->id,
-            'type' => 'model_update',
-            'description' => 
-                'Редактирование роли ' 
-                . $role->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name
-                . '. '
-                . $mess
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
-        session()->flash('message', $mess);
-
+        $message = $this->createEvents($role, $dirty_properties, $original, 'model_update', $additional_description);
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.show', compact('role'));
     }
 
@@ -245,8 +205,10 @@ class RolesController extends Controller
         if ($role->users->count()) {
             return back()->withErrors(['"' . $role->name . '" role is assigned to ' . $role->users->count() . ' users. before removing it is necessary to take it away.']);
         }
-        $role->forceDelete();
-        // $role->delete();
+
+        $message = $this->createEvents($role, false, false, 'model_delete');
+        $role->forceDelete(); // and if forceDelete
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.index');
     }
 }

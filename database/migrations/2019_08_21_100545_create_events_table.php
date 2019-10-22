@@ -36,6 +36,7 @@ class createEventsTable extends Migration
                 'verify', 
             ]);
             $table->text('description');
+            $table->text('additional_description');
             $table->text('details')->nullable(); // serialized array. or longText??? or mediumText???
             $table->timestamps();
         });

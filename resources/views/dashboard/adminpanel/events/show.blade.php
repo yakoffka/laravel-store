@@ -32,6 +32,10 @@
             <br>model: {{ $event->model }} №{{ $event->type_id }}
             {{-- <br>description: {{ $event->description }} --}}
             <br>created_at: {{ $event->created_at }}
+            @if ($event->additional_description)
+                <br>additional_description: {{ $event->additional_description }}
+            @endif
+
 
             @if ( unserialize($event->details) )
                 <table class="blue_table">

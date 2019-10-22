@@ -10,7 +10,7 @@ class CustomController extends Controller
      *
      * @return string $event->description or false in case of failure
      */
-    protected function createEvents($model, $dirty_properties, $original, $type)
+    protected function createEvents($model, $dirty_properties, $original, $type, $additional_description = '')
     {
         // dd($model->getAttributes());
         $reflect = new \ReflectionClass($model);
@@ -53,6 +53,7 @@ class CustomController extends Controller
         $event->type = $type;
         $event->description = $description;
         $event->details = serialize($details);
+        $event->additional_description = $additional_description;
 
         if ( $event->save() ) {
             return 'success_' . $description;

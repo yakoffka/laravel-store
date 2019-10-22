@@ -277,8 +277,8 @@ class ProductsController extends CustomController
     {
         abort_if ( auth()->user()->cannot('delete_products'), 403 );
 
-        $products_name = $product->name;
-        $products_id = $product->id;
+        // $products_name = $product->name;
+        // $products_id = $product->id;
 
         if ($product->images) {
             // delete public directory (converted images)
@@ -295,7 +295,7 @@ class ProductsController extends CustomController
 
         $message = $this->createEvents($product, false, false, 'model_delete');
         $product->delete();
-        if ( $message ) {session()->flash('message', $message);}
+        if ( $message ) {session()->flash('message', $message);} // and if delete
         // return redirect()->route('categories.index');
         return back();
     }
