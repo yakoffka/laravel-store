@@ -29,7 +29,7 @@
         @method('PATCH')
 
         <table class="blue_table">
-        <tr>
+            <tr>
                 <th>id</th>
                 <th>img</th>
                 <th>name</th>
@@ -113,14 +113,17 @@
 
         </table>
 
-        @permission('edit_users')
-            
+        {{-- @permission('edit_users')   
         @else
             <div class="form-group">
                 <label for="name">password user</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
-        @endpermission
+        @endpermission --}}
+        <div class="form-group">
+            <label for="name">password user</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
 
         <button type="submit" class="btn btn-primary form-control">{{ __('edit_profile') }}</button><br><br><br>
 

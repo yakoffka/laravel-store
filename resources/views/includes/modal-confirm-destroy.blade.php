@@ -26,8 +26,7 @@
       <div class="modal-body ta_l">
         <p>Запрошенная Вами операция требует подтверждения.</p>
         <p>
-          Удалить {{ $type_item ?? 'продукт' }}
-          '{{ $name_item ?? $item->name ?? $item->title ?? '' }}'?
+          Вы действительно желаете удалить '{{ $name_item ?? $item->name ?? $item->title ?? '' }}'?
         </p>
 
       </div>

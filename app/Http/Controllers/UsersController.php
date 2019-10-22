@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\{Event, Role, Permission, User};
 
-class UsersController extends Controller
+class UsersController extends CustomController
 {
     public function __construct() { $this->middleware('auth'); }
+
 
     /**
      * Display a listing of the resource.
@@ -27,6 +27,7 @@ class UsersController extends Controller
 
         return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'events'));
     }
+
 
     /**
      * Display the specified resource.
@@ -70,7 +71,7 @@ class UsersController extends Controller
     {
         abort_if ( Auth::user()->cannot('edit_users') and Auth::user()->id !== $user->id, 403 );
 
-        $validator = Validator::make (request()->all(), [
+        request()->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255', // |unique:users
             'role' => 'nullable|integer|max:255',
@@ -78,26 +79,26 @@ class UsersController extends Controller
             'password' => 'nullable|string|min:6|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
         if ( ( request('role' ) or request( 'take_role' ) ) and Auth::user()->cannot('edit_roles') ) {
             return back()->withErrors('you can not attach and take roles!')->withInput();
         }
 
 
-        if ( Auth::user()->can('edit_users') ) {
+        // self edit
+        if ( Auth::user()->id === $user->id ) {
+            if ( !Hash::check(request('password'), $user->password )) {
+                return back()->withErrors(['failed password'])->withInput();
+            }
+            $user->name = request('name');
+            $user->email = request('email');
 
-            // update user without input password
-            $user->update([
-                'name' => request('name'),
-                'email' => request('email'),
-            ]);
+        // edit other user without input password
+        } elseif ( Auth::user()->can('edit_users') ) {
+            $user->name = request('name');
+            $user->email = request('email');
 
             // attach Role
             if ( request('role' ) ) {
-                // !! проверить на уникальность! SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '5-2' for key 'PRIMARY' (SQL: insert into `role_user` (`role_id`, `user_id`) values (2, 5))
                 $user->attachRole(request('role'));
             }
 
@@ -114,49 +115,23 @@ class UsersController extends Controller
                 ])->delete();
             }
 
-        } elseif ( Auth::user()->id === $user->id ) {
-            if ( !Hash::check(request('password'),$user->password )) {
-                return back()->withErrors(['failed password'])->withInput();
-            }
-    
-            // $user->update([
-            //     'name' => request('name'),
-            //     'email' => request('email'),
-            // ]);
-            if ( !$user->update([
-                    'name' => request('name'),
-                    'email' => request('email'),
-            ]) ) {
-                return back()->withError(['something wrong. err' . __line__]);
-            }
-            
         } else {
             abort(403);
         }
 
-        // add session flash!
+        $dirty_properties = $user->getDirty();
+        $original = $user->getOriginal();
+        if ( !$user->save() ) {
+            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        }
 
         // create event record
-        $event = Event::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'user',
-            'type_id' => $user->id,
-            'type' => 'model_update',
-            'description' => 
-                'Редактирование пользователя ' 
-                . $user->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
-        session()->flash('message', 'User "' . $user->name . '" with id=' . $user->id . ' was successfully edited.');
-
+        $message = $this->createEvents($user, $dirty_properties, $original, 'model_update');
+        if ( $message ) {session()->flash('message', $message);}
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -173,30 +148,15 @@ class UsersController extends Controller
             return back()->withErrors([$user->name . ' is last owner. dont destroy him!']);
         }
 
+        // create event record
+        $message = $this->createEvents($user, false, false, 'model_delete');
+
         // $user->delete();
         if ( !$user->delete() ) {
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        // add session flash!
-
-        // create event record
-        $event = Event::create([
-            'user_id' => auth()->user()->id,
-            'type' => 'user',
-            'type_id' => $user->id,
-            'type' => 'model_delete',
-            'description' => 
-                'Удаление пользователя ' 
-                . $user->name
-                . '. Исполнитель: ' 
-                . auth()->user()->name 
-                . '.',
-            // 'old_value' => $product->id,
-            // 'new_value' => $product->id,
-        ]);
-
-        session()->flash('message', 'User "' . $user->name . '" with id=' . $user->id . ' was successfully deleted.');
+        if ( $message ) {session()->flash('message', $message);} // and if delete
 
         return redirect( route('users.index'));
     }
