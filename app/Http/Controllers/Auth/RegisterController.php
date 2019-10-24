@@ -94,7 +94,7 @@ class RegisterController extends CustomController
             ->bcc(config('mail.mail_info'))
             ->queue(new VerifyMail($user));
 
-        $this->createEvents($user, false, false, 'model_create');
+        $this->createCustomevent($user, false, false, 'model_create');
 
         return $user;
     }
@@ -131,7 +131,7 @@ class RegisterController extends CustomController
         // return redirect()->route('login')
         //     ->with('success', 'Your e-mail is verified. You can now login.');
 
-        $this->createEvents($user, false, false, 'verify');
+        $this->createCustomevent($user, false, false, 'verify');
         session()->flash('message', 'Your e-mail is verified. You can now login.');
         return redirect()->route('login');
     }

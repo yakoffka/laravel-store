@@ -186,13 +186,13 @@
 
 {{-- History --}}
 <div class="admin_menu_block">
-    @permission('view_events')
+    @permission('view_customevents')
         <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseHistory" role="button" aria-expanded="false" aria-controls="collapseHistory">
 			<i class="fas fa-history"></i> История</span>
 		</h5>
         <div class="collapse" id="collapseHistory">
             @permission('view_users')
-                <div class="submenuitem">- <a href="{{ route('events.index') }}">Полная</a></div>
+                <div class="submenuitem">- <a href="{{ route('customevents.index') }}">Полная</a></div>
             @endpermission
         </div>
     @endpermission

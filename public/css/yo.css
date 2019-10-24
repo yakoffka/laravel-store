@@ -96,7 +96,9 @@ a, button {outline: none;} /* Убираем границу вокруг ссы�
  
   
 
-
+.nowrap {
+    white-space: nowrap;
+}
 
 .height2em {height: 2em;}
 .relative {position: relative;}

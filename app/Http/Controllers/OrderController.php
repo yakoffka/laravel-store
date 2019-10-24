@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Event, Cart, Order, Status};
+use App\{Customevent, Cart, Order, Status};
 use Session;
 use App\Mail\Order\{Created, StatusChanged};
 use Illuminate\Support\Facades\Validator;
@@ -46,17 +46,27 @@ class OrderController extends CustomController
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        $order = Order::create([
-            'user_id' => auth()->user()->id,
-            'cart' => serialize($cart),
-            'status_id' => 1,
-            'total_qty' => $cart->total_qty,
-            'total_payment' => $cart->total_payment,
-            'comment' => request('comment'),
-            // address, shipping
-        ]);
+        // $order = Order::create([
+        //     'user_id' => auth()->user()->id,
+        //     'cart' => serialize($cart),
+        //     'status_id' => 1,
+        //     'total_qty' => $cart->total_qty,
+        //     'total_payment' => $cart->total_payment,
+        //     'comment' => request('comment'),
+        //     // address, shipping
+        // ]);
+        $order = new Order;
+        $order->user_id = auth()->user()->id;
+        $order->cart = serialize($cart);
+        $order->status_id = 1;
+        $order->total_qty = $cart->total_qty;
+        $order->total_payment = $cart->total_payment;
+        $order->comment = request('comment');
+        // address, shipping
 
-        if ( !$order ) {
+        $dirty_properties = $order->getDirty();
+
+        if ( !$order->save() ) {
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
         Session::forget('cart');
@@ -78,19 +88,21 @@ class OrderController extends CustomController
             . auth()->user()->name  . '.';
 
         // create event record
-        $event = new Event;
-        $event->user_id = auth()->user()->id;
-        $event->model = 'order';
-        $event->type_id = $order->id;
-        $event->type = 'model_create';
-        $event->description = $message;
-        // $event->old_value =
-        // $event->new_value =
-        $event->save();
-        // if ( !$event->save() ) {
-        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        // }
-        // if ( $event ) {session()->flash('message', $message);}
+        // $customevent = new Customevent;
+        // $customevent->user_id = auth()->user()->id;
+        // $customevent->model = 'order';
+        // $customevent->type_id = $order->id;
+        // $customevent->type = 'model_create';
+        // $customevent->description = $message;
+        // dd(__LINE__);
+        // $customevent->save();
+        // dd(__LINE__);
+        // // if ( !$customevent->save() ) {
+        // //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        // // }
+        // // if ( $customevent ) {session()->flash('message', $message);}
+        $message = $this->createCustomevent($order, $dirty_properties, false, 'model_create');
+        if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('orders.show', ['order' => $order->id]);
     }
 
@@ -104,8 +116,8 @@ class OrderController extends CustomController
     {
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
-        $events = Event::where('model', 'Order')->where('type_id', $order->id)->get();
-        return view('dashboard.orders.show', compact('order', 'statuses', 'events'));
+        $customevents = Customevent::where('model', 'Order')->where('type_id', $order->id)->get();
+        return view('dashboard.orders.show', compact('order', 'statuses', 'customevents'));
     }
 
 
@@ -153,7 +165,7 @@ class OrderController extends CustomController
         }
 
         // create event record
-        $message = $this->createEvents($order, $dirty_properties, $original, 'model_update');
+        $message = $this->createCustomevent($order, $dirty_properties, $original, 'model_update');
         if ( $message ) {session()->flash('message', $message);}
 
         return back();

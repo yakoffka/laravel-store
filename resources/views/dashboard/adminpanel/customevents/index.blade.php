@@ -1,12 +1,12 @@
 @extends('dashboard.layouts.app')
 
-@section('title', __('events_index_title'))
+@section('title', __('customevents_index_title'))
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('events.index') }}
+            {{ Breadcrumbs::render('customevents.index') }}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>{{ __('events_index_title') }}</h1>
+    <h1>{{ __('customevents_index_title') }}</h1>
 
 
     <div class="row">
@@ -24,7 +24,7 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
     
             {{-- Events --}}
-            @if( $events->count() )
+            @if( $customevents->count() )
                 <table class="table blue_table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -39,34 +39,34 @@
                             <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
                         </tr>
                     </thead>
-                    @foreach ( $events as $event )
+                    @foreach ( $customevents as $customevent )
                         <tr>
                             {{-- <td>{{ $loop->iteration }}</td> --}}
-                            <td>{{ $event->id }}</td>
-                            {{-- <td>{{ __($event->type) }}</td> --}}
-                            {{-- <td>{{  __($event->model) }}</td> --}}
+                            <td>{{ $customevent->id }}</td>
+                            {{-- <td>{{ __($customevent->type) }}</td> --}}
+                            {{-- <td>{{  __($customevent->model) }}</td> --}}
                             <td>
-                                {{-- {{ $event->created_at }} --}}
-                                <span title="{{ $event->created_at }}">{{-- {{ substr($event->created_at, 0, 10) }} --}}{{ $event->created_at }}</span>
+                                {{-- {{ $customevent->created_at }} --}}
+                                <span title="{{ $customevent->created_at }}">{{-- {{ substr($customevent->created_at, 0, 10) }} --}}{{ $customevent->created_at }}</span>
                             </td>
                             <td class="description">
-                                {{-- {{ $event->description }} --}}
-                                {{-- <span title="{{ $event->description }}">{{ str_limit($event->description, 50) }}</span> --}}
-                                <span title="{{ $event->description }}">{{ $event->description }}</span>
+                                {{-- {{ $customevent->description }} --}}
+                                {{-- <span title="{{ $customevent->description }}">{{ str_limit($customevent->description, 50) }}</span> --}}
+                                <span title="{{ $customevent->description }}">{{ $customevent->description }}</span>
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>
-                                    {{-- {{ $event->getInitiator->name }} --}}
-                                    <a href="{{ route('events.index') }}?users[]={{ $event->getInitiator->id }}" 
-                                        title="view all events {{ $event->getInitiator->name }}"
+                                    {{-- {{ $customevent->getInitiator->name }} --}}
+                                    <a href="{{ route('customevents.index') }}?users[]={{ $customevent->getInitiator->id }}" 
+                                        title="view all events {{ $customevent->getInitiator->name }}"
                                     >
-                                        {{ $event->getInitiator->name }}
+                                        {{ $customevent->getInitiator->name }}
                                     </a>
                                 </td>
                             @endif
             
                             <td>
-                                <a href="{{ route('events.show', $event) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('customevents.show', $customevent) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
                             </td>
             
                         </tr>

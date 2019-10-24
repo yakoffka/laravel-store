@@ -104,8 +104,8 @@
 
 
             {{-- Events --}}
-            @if($events->count())
-                <h2>table of last event {{ $user->name }}. View <a href="{{ route('events.index') }}?user[]={{ $user->id }}">all event {{ $user->name }}</a>.</h2>
+            @if($customevents->count())
+                <h2>table of last event {{ $user->name }}. View <a href="{{ route('customevents.index') }}?user[]={{ $user->id }}">all event {{ $user->name }}</a>.</h2>
 
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -118,18 +118,18 @@
                             @endif
                         </tr>
                     </thead>
-                    @foreach( $events as $event )
+                    @foreach( $customevents as $customevent )
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                {{ $event->created_at }}
+                                {{ $customevent->created_at }}
                             </td>
                             <td class="description">
-                                {{ $event->description }}
+                                {{ $customevent->description }}
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>
-                                    {{ $event->getInitiator->name }}
+                                    {{ $customevent->getInitiator->name }}
                                 </td>
                             @endif
                     @endforeach

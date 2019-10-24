@@ -88,7 +88,7 @@ class CategoryController extends CustomController
 
         // add email!
 
-        $message = $this->createEvents($category, $dirty_properties, false, 'model_create');
+        $message = $this->createCustomevent($category, $dirty_properties, false, 'model_create');
         if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.adminindex');
     }
@@ -180,7 +180,7 @@ class CategoryController extends CustomController
 
         // add email!
 
-        $message = $this->createEvents($category, $dirty_properties, $original, 'model_update');
+        $message = $this->createCustomevent($category, $dirty_properties, $original, 'model_update');
         if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.adminindex');
     }
@@ -205,7 +205,7 @@ class CategoryController extends CustomController
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
-        $message = $this->createEvents($category, false, false, 'model_delete');
+        $message = $this->createCustomevent($category, false, false, 'model_delete');
         $category->delete();
         
         // add email!

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class createEventsTable extends Migration
+class createCustomeventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class createEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('customevents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->default(7); // default unregistered user
             $table->set('model', [ // name model. set equivalent column.
@@ -49,6 +49,6 @@ class createEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('customevents');
     }
 }

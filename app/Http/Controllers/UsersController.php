@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\{Event, Role, Permission, User};
+use App\{Customevent, Role, Permission, User};
 
 class UsersController extends CustomController
 {
@@ -19,13 +19,11 @@ class UsersController extends CustomController
     public function index()
     {
         abort_if ( Auth::user()->cannot('view_users'), 403 );
-        // $users = User::all();
         $users = User::paginate();
         $permissions = Permission::all();
-        // $events = Event::all();
-        $events = Event::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_events'));// last 50!
+        $customevents = Customevent::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_events'));// last 50!
 
-        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'events'));
+        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'customevents'));
     }
 
 
@@ -39,9 +37,9 @@ class UsersController extends CustomController
     {
         abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id !== $user->id , 403 );
         $permissions = Permission::all();
-        $events = Event::where('user_id', $user->id)->get();// last 50!
+        $customevents = Customevent::where('user_id', $user->id)->get();// last 50!
 
-        return view('dashboard.adminpanel.users.show', compact('user', 'permissions', 'events'));
+        return view('dashboard.adminpanel.users.show', compact('user', 'permissions', 'customevents'));
     }
 
     /**
@@ -126,7 +124,7 @@ class UsersController extends CustomController
         }
 
         // create event record
-        $message = $this->createEvents($user, $dirty_properties, $original, 'model_update');
+        $message = $this->createCustomevent($user, $dirty_properties, $original, 'model_update');
         if ( $message ) {session()->flash('message', $message);}
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
@@ -149,7 +147,7 @@ class UsersController extends CustomController
         }
 
         // create event record
-        $message = $this->createEvents($user, false, false, 'model_delete');
+        $message = $this->createCustomevent($user, false, false, 'model_delete');
 
         // $user->delete();
         if ( !$user->delete() ) {

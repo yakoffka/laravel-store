@@ -4,8 +4,8 @@
                 @include('dashboard.layouts.partials.adminaside')
             @else
             @endpermission
-            @if ( !empty($events) )
-                @include('dashboard.adminpanel.partials.filters.filter-event')
+            @if ( !empty($customevents) )
+                @include('dashboard.adminpanel.partials.filters.filter-customevent')
             @endif
         </div>
     </div>

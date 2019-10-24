@@ -288,16 +288,16 @@ Breadcrumbs::for('dashboard', function ($trail) {
 
 
 
-// Events
-    // Home > Dashboard > Events
-    Breadcrumbs::for('events.index', function ($trail) {
+// Customevents
+    // Home > Dashboard > Customevents
+    Breadcrumbs::for('customevents.index', function ($trail) {
         $trail->parent('dashboard');
-        $trail->push(__('events_index_title'), route('events.index'));
+        $trail->push(__('customevents_index_title'), route('customevents.index'));
     });
-    // Home > Dashboard > Users > Events > [Event]
-    Breadcrumbs::for('events.show', function ($trail, $event) {
-        $trail->parent('events.index');
-        $trail->push(__('events_show_title') . ' #' . $event->id, route('events.show', $event));
+    // Home > Dashboard > Users > Customevents > [Customevent]
+    Breadcrumbs::for('customevents.show', function ($trail, $customevent) {
+        $trail->parent('customevents.index');
+        $trail->push(__('customevents_show_title') . ' #' . $customevent->id, route('customevents.show', $customevent));
     });
 
 

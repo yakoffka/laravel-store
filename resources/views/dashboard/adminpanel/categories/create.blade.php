@@ -48,7 +48,7 @@
                     <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="name">{{ __('__namerequired') }}*</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Name Product"
+                            <input type="text" id="name" name="name" class="form-control" placeholder="{{__('Name')}} {{__('Category')}}"
                                 value="{{ old('name') }}" required>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="title">{{ __('title') }}</label>
-                            <input type="text" id="title" name="title" class="form-control" placeholder="Name Product"
+                            <input type="text" id="title" name="title" class="form-control" placeholder="{{__('Title')}} {{__('Category')}}"
                                 value="{{ old('title') }}">
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="slug">{{ __('slug') }}</label>
-                            <input type="text" id="slug" name="slug" class="form-control" placeholder="Name Product"
+                            <input type="text" id="slug" name="slug" class="form-control" placeholder="{{__('Slug')}} {{__('Category')}}"
                                 value="{{ old('slug') }}">
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label for="description">{{ __('description') }}</label>
                     <textarea id="description" name="description" cols="30" rows="4" class="form-control"
-                        placeholder="description">{{ old('description') }}</textarea>                       
+                        placeholder="{{ __('description') }}">{{ old('description') }}</textarea>                       
                 </div>
 
 

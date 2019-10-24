@@ -8,8 +8,8 @@
     >
         {{ $order->status->name }}
     </button> --}}
-    <span class="pointer text-primary nowrap" data-toggle="modal" data-target="#select_status_order_{{ $order->id }}">
-        <i class="fas fa-pen-nib"></i>
+    <span class="pointer text-{{ $order->status->style ?? 'primary' }} nowrap" data-toggle="modal" data-target="#select_status_order_{{ $order->id }}">
+        {{ $order->status->name }} <i class="fas fa-pen-nib"></i>
     </span>
 
     <!-- Modal -->

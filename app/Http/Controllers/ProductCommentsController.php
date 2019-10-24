@@ -56,7 +56,7 @@ class ProductCommentsController extends CustomController
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
-        $message = $this->createEvents($comment, $dirty_properties, false, 'model_create');
+        $message = $this->createCustomevent($comment, $dirty_properties, false, 'model_create');
         if ( $message ) {session()->flash('message', $message);}
         return redirect('/products/' . $product->id . '#comment_' . $comment->id);
     }
@@ -81,7 +81,7 @@ class ProductCommentsController extends CustomController
         if ( !$comment->save() ) {
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
-        $message = $this->createEvents($comment, $dirty_properties, $original, 'model_update');
+        $message = $this->createCustomevent($comment, $dirty_properties, $original, 'model_update');
         if ( $message ) {session()->flash('message', $message);}
         return redirect('/products/' . $comment->product_id . '#comment_' . $comment->id);
     }
@@ -95,7 +95,7 @@ class ProductCommentsController extends CustomController
     public function destroy(Comment $comment)
     {
         abort_if ( Auth::user()->cannot('delete_comments'), 403 );
-        $message = $this->createEvents($comment, false, false, 'model_delete');
+        $message = $this->createCustomevent($comment, false, false, 'model_delete');
         $comment->delete();
         if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.show', ['product' => $comment->product_id]);

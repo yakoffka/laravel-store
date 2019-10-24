@@ -37,7 +37,7 @@ class PermissionsTableSeeder extends Seeder
             /* 12 */ ['group' => 'users', 'name' => 'view_users',    'display_name' => 'просмотр', 'description' => 'Просмотр пользователей, включая удаленных, и их события.',],
             
             // permissions for comments
-            /* 13 */ ['group' => 'comments', 'name' => 'create_comments',  'display_name' => 'создание', 'description' => 'Создание комментариев, включая комментарии от чужого имени (не реализовано)',       ],
+            /* 13 */ ['group' => 'comments', 'name' => 'create_comments',  'display_name' => 'создание', 'description' => 'Создание комментариев, включая комментарии от чужого имени (не реализовано)',],
             /* 14 */ ['group' => 'comments', 'name' => 'edit_comments',    'display_name' => 'правка',	 'description' => 'Редактирование комментариев, включая чужие', ],
             /* 15 */ ['group' => 'comments', 'name' => 'delete_comments',  'display_name' => 'удаление', 'description' => 'Удаление комментариев',       ],
             /* 16 */ ['group' => 'comments', 'name' => 'view_comments',    'display_name' => 'просмотр', 'description' => 'Просмотр комментариев, включая чужие и удалённые(не реализовано), и их события.',],
@@ -70,19 +70,19 @@ class PermissionsTableSeeder extends Seeder
             /* 33 */ ['group' => 'adminpanel', 'name' => 'create_adminpanel',  'display_name' => 'создание',  'description' => 'Создание админки',        ],
             /* 34 */ ['group' => 'adminpanel', 'name' => 'edit_adminpanel',    'display_name' => 'правка',    'description' => 'Редактирование админки',  ],
             /* 35 */ ['group' => 'adminpanel', 'name' => 'delete_adminpanel',  'display_name' => 'удаление',  'description' => 'Удаление админки',        ],
-            /* 36 */ ['group' => 'adminpanel', 'name' => 'view_adminpanel',    'display_name' => 'просмотр',  'description' => 'Пользование админкой',        ],
+            /* 36 */ ['group' => 'adminpanel', 'name' => 'view_adminpanel',    'display_name' => 'просмотр',  'description' => 'Пользование админкой',    ],
 
             // permissions to events (history)
-            /* 37 */ ['group' => 'events', 'name' => 'create_events',  'display_name' => 'создание', 'description' => 'Создание события',        ],
-            /* 38 */ ['group' => 'events', 'name' => 'edit_events',    'display_name' => 'правка',   'description' => 'Редактирование события',  ],
-            /* 39 */ ['group' => 'events', 'name' => 'delete_events',  'display_name' => 'удаление', 'description' => 'Удаление события',        ],
-            /* 40 */ ['group' => 'events', 'name' => 'view_events',    'display_name' => 'просмотр', 'description' => 'Просмотр полной события.',        ],
+            /* 37 */ ['group' => 'customevents', 'name' => 'create_customevents',  'display_name' => 'создание', 'description' => 'Создание события',        ],
+            /* 38 */ ['group' => 'customevents', 'name' => 'edit_customevents',    'display_name' => 'правка',   'description' => 'Редактирование события',  ],
+            /* 39 */ ['group' => 'customevents', 'name' => 'delete_customevents',  'display_name' => 'удаление', 'description' => 'Удаление события',        ],
+            /* 40 */ ['group' => 'customevents', 'name' => 'view_customevents',    'display_name' => 'просмотр', 'description' => 'Просмотр полной события.',],
 
             // permissions to tasks
             /* 41 */ ['group' => 'tasks', 'name' => 'create_tasks',  'display_name' => 'создание',  'description' => 'Создание задач',      ],
             /* 42 */ ['group' => 'tasks', 'name' => 'edit_tasks',    'display_name' => 'правка',    'description' => 'Редактирование задач',],
             /* 43 */ ['group' => 'tasks', 'name' => 'delete_tasks',  'display_name' => 'удаление',  'description' => 'Удаление задач, включая чужие',],
-            /* 44 */ ['group' => 'tasks', 'name' => 'view_tasks',    'display_name' => 'просмотр',  'description' => 'Просмотр задач, включая чужие, и их события.',      ],
+            /* 44 */ ['group' => 'tasks', 'name' => 'view_tasks',    'display_name' => 'просмотр',  'description' => 'Просмотр задач, включая чужие, и их события.',],
 
             // permissions for manufacturers
             /* 45 */ ['group' => 'manufacturers', 'name' => 'create_manufacturers',  'display_name' => 'создание',  'description' => 'Создание производителей',         ],

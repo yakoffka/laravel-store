@@ -31,7 +31,6 @@
 
         <table class="blue_table">
             <tr>
-                <th>#</th>
                 <th>id</th>
                 <th>status</th>
                 @permission('view_orders')
@@ -52,7 +51,6 @@
             @foreach($orders as $i=>$order)
 
                 <tr>
-                    <td>{{ $i+1 }}</td>
                     <td>{{ $order->id }}</td>
                     @permission('edit_orders')
                         @selectStatusOrder([
@@ -70,8 +68,8 @@
                     @endpermission
                     <td>{{ $order->total_qty ?? '-' }}</td>
                     <td>{{ $order->total_payment ?? '-' }}</td>
-                    <td>{{ $order->created_at ?? '-' }}</td>
-                    <td>{{ $order->updated_at ?? '-' }}</td>
+                    <td><span class="nowrap">{{ $order->created_at ?? '-' }}</span></td>
+                    <td><span class="nowrap">{{ $order->updated_at ?? '-' }}</span></td>
                     <td>
                         @if( $order->comment )
                             @modalMessage([
@@ -140,12 +138,6 @@
     @else
 
         <h1>Your list of orders is empty</h1>
-
-        <div class="wrap_panda">
-            <div class="panda">
-                <img src="https://yakoffka.ru/src/img/links/panda-waving.png" alt="" srcset="">
-            </div>
-        </div>
     
     @endif
 

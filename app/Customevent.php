@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Filters\Event\EventFilters;
+use App\Filters\Customevent\CustomeventFilters;
 
-class Event extends Model
+class Customevent extends Model
 {
 
     protected $fillable = [];
@@ -18,7 +18,7 @@ class Event extends Model
     }
 
     public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
-        return (new EventFilters($request))->add($filters)->filter($builder);
+        return (new CustomeventFilters($request))->add($filters)->filter($builder);
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Category;
-use App\Http\ViewComposer\{NavigationComposer, FilterManufacturerComposer, FilterCategoryComposer, FilterEventsComposer};
+use App\Http\ViewComposer\{NavigationComposer, FilterManufacturerComposer, FilterCategoryComposer, FilterCustomeventsComposer};
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -32,6 +32,6 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('layouts.partials.filter-manufacturer', FilterManufacturerComposer::class);
         view()->composer('layouts.partials.filter-category', FilterCategoryComposer::class);
         // filters event
-        view()->composer('dashboard.adminpanel.partials.filters.filter-event', FilterEventsComposer::class);
+        view()->composer('dashboard.adminpanel.partials.filters.filter-customevent', FilterCustomeventsComposer::class);
     }
 }

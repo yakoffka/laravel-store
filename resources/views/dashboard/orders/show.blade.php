@@ -109,9 +109,9 @@
         @endif
 
         {{-- Events --}}
-        @if( $events->count() )
-            <h2 id="events">History of order #{{ $order->id }}</h2>
-            @include('layouts.partials.events')
+        @if( $customevents->count() )
+            <h2 id="customevents">History of order #{{ $order->id }}</h2>
+            @include('layouts.partials.customevents')
         @endif
         {{-- /Events --}}
 

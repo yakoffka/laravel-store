@@ -53,7 +53,7 @@
   "Whoops, something went wrong on our servers.": "Упс, на наших серверах что-то пошло не так.",
 
   "Dashboard": "Кабинет",
-  "Events": "События",
+  "Customevents": "События",
 
 
   "roles": "роли",
@@ -65,7 +65,7 @@
   "orders": "заказы",
   "settings": "настройки",
   "adminpanel": "панель магазина",
-  "events": "история",
+  "customevents": "история",
   "tasks": "задачи",
   "create_new_roles": "создать новую роль",
   "create_new_task": "Поставить новую задачу",
@@ -75,8 +75,8 @@
   "SuccessOperationMessage": "Операция выполнена успешно",
 
 
-  "events_show_title": "Просмотр события",
-  "events_index_title": "Просмотр событий",
+  "customevents_show_title": "Просмотр события",
+  "customevents_index_title": "Просмотр событий",
 
 
   "edit_profile": "редактировать профиль",
@@ -97,10 +97,7 @@
   "Edit": "Редактирование",
 
 
-  "show_event": "просмотреть",
-  "edit_event": "редактировать",
-  "copy_event": "копировать",
-  "delete_event": "удалить",
+  "show_customevent": "просмотреть",
   
   "category": "категория",
   "date_manufactured": "дата производства",
@@ -108,7 +105,7 @@
   "manufacturer": "производитель",
   "materials": "материал",
   "name": "наименование (краткое)",
-  "slug": "slug (только при необходимости)",
+  "slug": "слаг (только при необходимости)",
   "price": "цена",
   "sort_order": "порядок сортировки",
   "title": "тайтл (развёрнутое наименование)",
@@ -189,6 +186,9 @@
   "Role": "роли",
   "User": "пользователи",
   "Setting": "настройки",
+
+  "Title": "Тайтл",
+  "Slug": "Слаг",
 
 
 

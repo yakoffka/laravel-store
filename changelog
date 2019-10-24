@@ -1,0 +1,11 @@
+Refactoring: Change name Event => Customevent
+    Replacing the manually created class Event with Customevent due to the fact that this name (Event) is already used in the application
+
+//Add CommentObserver
+//    php artisan make:observer CommentObserver --model=Comment;
+//    add method CommentObserver@creating (before create model Category);
+
+// translate: заменить плейсхолдеры в products, customevents, orders, Your e-mail is verified. You can now login.
+// изменить количество наименований в корзине на количество товаров
+// сбрасывается корзина при регистрации..
+// в корзине ссылку на товар сделать _blank!

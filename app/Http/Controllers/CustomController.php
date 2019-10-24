@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Event;
+use App\Customevent;
 
 class CustomController extends Controller
 {
     /**
      * Create records in table events.
      *
-     * @return string $event->description or false in case of failure
+     * @return string $customevent->description or false in case of failure
      */
-    protected function createEvents($model, $dirty_properties, $original, $type, $additional_description = '')
+    protected function createCustomevent($model, $dirty_properties, $original, $type, $additional_description = '')
     {
         // dd($model->getAttributes());
         $reflect = new \ReflectionClass($model);
@@ -43,19 +43,19 @@ class CustomController extends Controller
         }
 
         // create event record
-        $event = new Event;
+        $customevent = new Customevent;
 
         if ( auth()->user() ) {
-            $event->user_id = auth()->user()->id;
+            $customevent->user_id = auth()->user()->id;
         }
-        $event->model = $shortModelName;
-        $event->type_id = $model->id;
-        $event->type = $type;
-        $event->description = $description;
-        $event->details = serialize($details);
-        $event->additional_description = $additional_description;
+        $customevent->model = $shortModelName;
+        $customevent->type_id = $model->id;
+        $customevent->type = $type;
+        $customevent->description = $description;
+        $customevent->details = serialize($details);
+        $customevent->additional_description = $additional_description;
 
-        if ( $event->save() ) {
+        if ( $customevent->save() ) {
             return 'success_' . $description;
         } else {
             return false;

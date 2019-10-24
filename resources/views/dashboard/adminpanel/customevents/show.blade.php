@@ -1,12 +1,12 @@
 @extends('dashboard.layouts.app')
 
-@section('title', __('events_show_title'))
+@section('title', __('customevents_show_title'))
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('events.show', $event) }}
+            {{ Breadcrumbs::render('customevents.show', $customevent) }}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>{{ __('events_show_title') }} №{{ $event->id }}</h1>
+    <h1>{{ __('customevents_show_title') }} №{{ $customevent->id }}</h1>
 
 
     <div class="row">
@@ -23,21 +23,21 @@
 
         <div class="col">
 
-            <h2>{{ $event->description }}</h2>
-            {{-- <br>id: {{ $event->id }} --}}
-            {{-- <br>user_id: {{ $event->user_id }} --}}
-            <br>Исполнитель: {{ $event->getInitiator->name }}
-            {{-- <br>type: {{ $event->type }} --}}
-            {{-- <br>{{ $event->type }} id: {{ $event->type_id }} --}}
-            <br>model: {{ $event->model }} №{{ $event->type_id }}
-            {{-- <br>description: {{ $event->description }} --}}
-            <br>created_at: {{ $event->created_at }}
-            @if ($event->additional_description)
-                <br>additional_description: {{ $event->additional_description }}
+            <h2>{{ $customevent->description }}</h2>
+            {{-- <br>id: {{ $customevent->id }} --}}
+            {{-- <br>user_id: {{ $customevent->user_id }} --}}
+            <br>Исполнитель: {{ $customevent->getInitiator->name }}
+            {{-- <br>type: {{ $customevent->type }} --}}
+            {{-- <br>{{ $customevent->type }} id: {{ $customevent->type_id }} --}}
+            <br>model: {{ $customevent->model }} №{{ $customevent->type_id }}
+            {{-- <br>description: {{ $customevent->description }} --}}
+            <br>created_at: {{ $customevent->created_at }}
+            @if ($customevent->additional_description)
+                <br>additional_description: {{ $customevent->additional_description }}
             @endif
 
 
-            @if ( unserialize($event->details) )
+            @if ( unserialize($customevent->details) )
                 <table class="blue_table">
                     <caption>{{ __('list_of_change')}} </caption>
                     <tr>
@@ -47,7 +47,7 @@
                         <th>новое значение</th>
                     </tr>
 
-                    @foreach ( unserialize($event->details) as $property ) 
+                    @foreach ( unserialize($customevent->details) as $property ) 
                         <tr><td>{{ $loop->iteration }}</td><td class="ta_l">{{ $property[0] }}</td><td class="ta_l">{!! $property[1] !!}</td><td class="ta_l">{!! $property[2] !!}</td></tr>
                     @endforeach
                 </table>

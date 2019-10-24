@@ -48,7 +48,7 @@ class ProductsController extends CustomController
     public function adminIndex() {
         $appends = request()->query->all();
         $products = Product::filter(request())
-            ->orderBy('category_id')
+            // ->orderBy('category_id')
             ->paginate();
         $categories = Category::all();
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
@@ -124,7 +124,7 @@ class ProductsController extends CustomController
         // create event record
         $this->attachImages($product->id, request('imagespath'));
         $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
-        $message = $this->createEvents($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+        $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // send email-notification
         if ( config('settings.email_new_product') ) {
@@ -249,7 +249,7 @@ class ProductsController extends CustomController
 
         $this->attachImages($product->id, request('imagespath'));
 
-        $message = $this->createEvents($product, $dirty_properties, $original, 'model_update');
+        $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
@@ -293,11 +293,14 @@ class ProductsController extends CustomController
 
         // ADD DELETE PRODUCT EMAIL!
 
-        $message = $this->createEvents($product, false, false, 'model_delete');
+        $message = $this->createCustomevent($product, false, false, 'model_delete');
         $product->delete();
         if ( $message ) {session()->flash('message', $message);} // and if delete
-        // return redirect()->route('categories.index');
-        return back();
+        if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
+            return redirect()->route('products.adminindex');
+        } else {
+            return back();
+        }
     }
 
 
