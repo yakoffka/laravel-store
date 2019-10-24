@@ -124,8 +124,8 @@ class UsersController extends CustomController
         }
 
         // create event record
-        $message = $this->createCustomevent($user, $dirty_properties, $original, 'model_update');
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($user, $dirty_properties, $original, 'model_update');
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
     }
@@ -147,14 +147,14 @@ class UsersController extends CustomController
         }
 
         // create event record
-        $message = $this->createCustomevent($user, false, false, 'model_delete');
+        // $message = $this->createCustomevent($user, false, false, 'model_delete');
 
         // $user->delete();
         if ( !$user->delete() ) {
             return back()->withError(['something wrong. err' . __line__]);
         }
 
-        if ( $message ) {session()->flash('message', $message);} // and if delete
+        // if ( $message ) {session()->flash('message', $message);} // and if delete
 
         return redirect( route('users.index'));
     }

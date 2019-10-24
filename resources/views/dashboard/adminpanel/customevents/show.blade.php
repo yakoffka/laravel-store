@@ -23,13 +23,13 @@
 
         <div class="col">
 
-            <h2>{{ $customevent->description }}</h2>
+            <h2>{{ $customevent->type }} {{ $customevent->model }} id={{ $customevent->model_id }}</h2>
             {{-- <br>id: {{ $customevent->id }} --}}
             {{-- <br>user_id: {{ $customevent->user_id }} --}}
             <br>Исполнитель: {{ $customevent->getInitiator->name }}
             {{-- <br>type: {{ $customevent->type }} --}}
-            {{-- <br>{{ $customevent->type }} id: {{ $customevent->type_id }} --}}
-            <br>model: {{ $customevent->model }} №{{ $customevent->type_id }}
+            <br>type: {{ $customevent->type }}
+            <br>model: {{ $customevent->model }} №{{ $customevent->model_id }}
             {{-- <br>description: {{ $customevent->description }} --}}
             <br>created_at: {{ $customevent->created_at }}
             @if ($customevent->additional_description)

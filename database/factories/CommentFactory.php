@@ -5,11 +5,14 @@
 use App\Comment;
 use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Carbon;
 
 $factory->define(Comment::class, function (Faker $faker) {
 
-    $created_at = $faker->dateTimeBetween('-1 months', '-1 days');
-    $updated_at = rand(1, 9) < 8 ? $created_at : $faker->dateTimeBetween($created_at, 'now');
+    // $created_at = $faker->dateTimeBetween('-1 months', '-1 days');
+    // $updated_at = rand(1, 9) < 8 ? $created_at : $faker->dateTimeBetween($created_at, 'now');
+    $created_at = Carbon::now();
+    $updated_at = Carbon::now();
     $users = User::all();
 
     return [

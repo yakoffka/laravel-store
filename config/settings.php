@@ -4,11 +4,12 @@
 
 return [
 
-	'email_new_order' => '1', // email-уведомления при создании заказа
-	'email_update_order' => '1', // email-уведомления при изменении заказа
+	'email_new_order' => '0', // email-уведомления при создании заказа
+	'email_update_order' => '0', // email-уведомления при изменении заказа
 	'email_new_product' => '0', // email-уведомления при создании нового товара
 	'email_update_product' => '0', // email-уведомления при изменении товара
-	'email_send_delay' => '0', // задержка отправки email-уведомлений
+	'email_comments_saved' => '0', // email-уведомления при добавлении комментариев
+	'email_send_delay' => '1', // задержка отправки email-уведомлений
 	'additional_email_bcc' => '0', // Дополнительные адреса bcc
 	'view_products_whitout_price' => '1', // Показывать товары без цены
 	'priceless_text' => 'Цену на данный товар уточняйте у менеджера', // Текст, выводимый при отсутствии цены на товар

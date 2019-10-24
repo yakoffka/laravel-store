@@ -49,7 +49,7 @@ class CustomController extends Controller
             $customevent->user_id = auth()->user()->id;
         }
         $customevent->model = $shortModelName;
-        $customevent->type_id = $model->id;
+        $customevent->model_id = $model->id;
         $customevent->type = $type;
         $customevent->description = $description;
         $customevent->details = serialize($details);

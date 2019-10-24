@@ -92,8 +92,8 @@ class RolesController extends CustomController
         }
 
         // create event record
-        $message = $this->createCustomevent($role, $dirty_properties, false, 'model_create', $additional_description);
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($role, $dirty_properties, false, 'model_create', $additional_description);
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.show', compact('role'));
     }
 
@@ -183,8 +183,8 @@ class RolesController extends CustomController
         }
 
         // create event record
-        $message = $this->createCustomevent($role, $dirty_properties, $original, 'model_update', $additional_description);
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($role, $dirty_properties, $original, 'model_update', $additional_description);
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.show', compact('role'));
     }
 
@@ -206,9 +206,9 @@ class RolesController extends CustomController
             return back()->withErrors(['"' . $role->name . '" role is assigned to ' . $role->users->count() . ' users. before removing it is necessary to take it away.']);
         }
 
-        $message = $this->createCustomevent($role, false, false, 'model_delete');
+        // $message = $this->createCustomevent($role, false, false, 'model_delete');
         $role->forceDelete(); // and if forceDelete
-        if ( $message ) {session()->flash('message', $message);}
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.index');
     }
 }

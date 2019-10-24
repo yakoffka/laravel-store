@@ -124,7 +124,7 @@ class ProductsController extends CustomController
         // create event record
         $this->attachImages($product->id, request('imagespath'));
         $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
-        $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+        // $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // send email-notification
         if ( config('settings.email_new_product') ) {
@@ -137,7 +137,7 @@ class ProductsController extends CustomController
             \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
         }
 
-        if ( $message ) {session()->flash('message', $message);}
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.show', $product->category_id);
     }
 
@@ -249,7 +249,7 @@ class ProductsController extends CustomController
 
         $this->attachImages($product->id, request('imagespath'));
 
-        $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
+        // $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
 
         // send email-notification
         if ( config('settings.email_update_product') ) {
@@ -262,7 +262,7 @@ class ProductsController extends CustomController
             \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
         }
 
-        if ( $message ) {session()->flash('message', $message);}
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.adminshow', $product->id);
     }
 
@@ -293,9 +293,9 @@ class ProductsController extends CustomController
 
         // ADD DELETE PRODUCT EMAIL!
 
-        $message = $this->createCustomevent($product, false, false, 'model_delete');
+        // $message = $this->createCustomevent($product, false, false, 'model_delete');
         $product->delete();
-        if ( $message ) {session()->flash('message', $message);} // and if delete
+        // if ( $message ) {session()->flash('message', $message);} // and if delete
         if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
             return redirect()->route('products.adminindex');
         } else {

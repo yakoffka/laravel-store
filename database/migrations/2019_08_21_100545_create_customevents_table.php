@@ -26,17 +26,29 @@ class createCustomeventsTable extends Migration
                 'Role',
                 'User',
                 'Setting',
+
+                'categories', 
+                'comments',
+                'images',
+                'manufacturers',
+                'orders',
+                'products',
+                'roles',
+                'users',
+                'settings',
             ]);
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('model_id');
             $table->set('type', [ // SET equivalent column.
                 'model_create', 
                 'model_update', 
                 'model_delete',
                 'model_copy',
-                'verify', 
+                'verify',
+
+                'saved',
             ]);
-            $table->text('description');
-            $table->text('additional_description');
+            $table->text('description')->nullable();
+            // $table->text('additional_description')->nullable();
             $table->text('details')->nullable(); // serialized array. or longText??? or mediumText???
             $table->timestamps();
         });

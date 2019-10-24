@@ -226,7 +226,6 @@
                                 <div class="comment_str">{!! $comment->body !!}</div>{{-- enable html entities!! --}}
                                         
                                 <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
-
                                     <!-- form edit -->
                                     <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
 

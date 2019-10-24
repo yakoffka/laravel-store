@@ -10,7 +10,7 @@ use App\Filters\Customevent\CustomeventFilters;
 class Customevent extends Model
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
     protected $perPage = 50;
 
     public function getInitiator () {

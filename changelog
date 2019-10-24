@@ -1,9 +1,21 @@
-Refactoring: Change name Event => Customevent
-    Replacing the manually created class Event with Customevent due to the fact that this name (Event) is already used in the application
+Add CommentObserver
+    php artisan make:observer CommentObserver --model=Comment;
+    add in App\Providers\AppServiceProvider {
+        use App\Comment;
+        use App\Observers\CommentObserver;
+        ...
+        public function boot()
+        {
+            ...
+            Comment::observe(CommentObserver::class);
+        }
+    } 
+    create saving and saved methods in App\Observers\CommentObserver;
+    create createCustomevent and sendEmailNotification methods in App\Observers\CommentObserver;
+    rename field 'type_id' on 'model_id' and delete 'additional_description' field in customevents table;
+    add settings: email_comments_saved;
+    comment $this->createCustomevent() and session()->flash('message', $message) in other controllers.
 
-//Add CommentObserver
-//    php artisan make:observer CommentObserver --model=Comment;
-//    add method CommentObserver@creating (before create model Category);
 
 // translate: заменить плейсхолдеры в products, customevents, orders, Your e-mail is verified. You can now login.
 // изменить количество наименований в корзине на количество товаров

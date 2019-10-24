@@ -25,6 +25,11 @@
     
             {{-- Events --}}
             @if( $customevents->count() )
+
+                @if($customevents->appends($appends)->links())
+                    <div class="row col-sm-12 pagination">{{ $customevents->links() }}</div>
+                @endif
+
                 <table class="table blue_table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -52,7 +57,7 @@
                             <td class="description">
                                 {{-- {{ $customevent->description }} --}}
                                 {{-- <span title="{{ $customevent->description }}">{{ str_limit($customevent->description, 50) }}</span> --}}
-                                <span title="{{ $customevent->description }}">{{ $customevent->description }}</span>
+                                {{ $customevent->type }} {{ $customevent->model }} id={{ $customevent->model_id }}
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>
@@ -72,6 +77,11 @@
                         </tr>
                     @endforeach
                 </table>
+
+                @if($customevents->appends($appends)->links())
+                    <div class="row col-sm-12 pagination">{{ $customevents->links() }}</div>
+                @endif
+
             @else
                 Активность не зафиксирована.
             @endif

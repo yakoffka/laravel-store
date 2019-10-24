@@ -70,6 +70,19 @@ class SettingsTableSeeder extends Seeder
             [
                 'group' => 'emails',
                 'name_group' => 'Настройки отправки email-уведомлений',
+                'type' => 'checkbox',
+                'name' => 'email_comments_saved',
+                'display_name' => 'email-уведомления при добавлении комментариев',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении комментариев.',
+                'permissible_values' => [
+                    [0, 'выключено'],
+                    [1, 'включено'],
+                ],
+                'default_value' => 0,
+            ],
+            [
+                'group' => 'emails',
+                'name_group' => 'Настройки отправки email-уведомлений',
                 'type' => 'select',
                 'name' => 'email_send_delay',
                 'display_name' => 'задержка отправки email-уведомлений',

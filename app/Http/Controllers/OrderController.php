@@ -91,7 +91,7 @@ class OrderController extends CustomController
         // $customevent = new Customevent;
         // $customevent->user_id = auth()->user()->id;
         // $customevent->model = 'order';
-        // $customevent->type_id = $order->id;
+        // $customevent->model_id = $order->id;
         // $customevent->type = 'model_create';
         // $customevent->description = $message;
         // dd(__LINE__);
@@ -101,8 +101,8 @@ class OrderController extends CustomController
         // //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         // // }
         // // if ( $customevent ) {session()->flash('message', $message);}
-        $message = $this->createCustomevent($order, $dirty_properties, false, 'model_create');
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($order, $dirty_properties, false, 'model_create');
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('orders.show', ['order' => $order->id]);
     }
 
@@ -116,7 +116,7 @@ class OrderController extends CustomController
     {
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
-        $customevents = Customevent::where('model', 'Order')->where('type_id', $order->id)->get();
+        $customevents = Customevent::where('model', 'Order')->where('model_id', $order->id)->get();
         return view('dashboard.orders.show', compact('order', 'statuses', 'customevents'));
     }
 
@@ -165,8 +165,8 @@ class OrderController extends CustomController
         }
 
         // create event record
-        $message = $this->createCustomevent($order, $dirty_properties, $original, 'model_update');
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($order, $dirty_properties, $original, 'model_update');
+        // if ( $message ) {session()->flash('message', $message);}
 
         return back();
     }

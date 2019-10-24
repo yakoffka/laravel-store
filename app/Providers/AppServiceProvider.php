@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use App\Comment;
+use App\Observers\CommentObserver;
 
 use Illuminate\Support\Facades\Schema; // https://laravel-news.com/laravel-5-4-key-too-long-error part 1/2
 
@@ -54,5 +56,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.action-products-massupdate', 'actionProductsMassupdate');
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
+
+        Comment::observe(CommentObserver::class);
     }
 }

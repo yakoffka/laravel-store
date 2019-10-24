@@ -71,8 +71,8 @@ class ManufacturerController extends CustomController
 
         $dirty_properties = $this->attachSingleImage($manufacturer, request('imagepath'), $dirty_properties);
 
-        $message = $this->createCustomevent($manufacturer, $dirty_properties, false, 'model_create');
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($manufacturer, $dirty_properties, false, 'model_create');
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 
@@ -137,8 +137,8 @@ class ManufacturerController extends CustomController
 
         $dirty_properties = $this->attachSingleImage($manufacturer, request('imagepath'), $dirty_properties);
 
-        $message = $this->createCustomevent($manufacturer, $dirty_properties, $original, 'model_update');
-        if ( $message ) {session()->flash('message', $message);}
+        // $message = $this->createCustomevent($manufacturer, $dirty_properties, $original, 'model_update');
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 
@@ -160,10 +160,10 @@ class ManufacturerController extends CustomController
 
         // ADD DELETE PRODUCT EMAIL!
 
-        $message = $this->createCustomevent($manufacturer, false, false, 'model_delete');
+        // $message = $this->createCustomevent($manufacturer, false, false, 'model_delete');
         $manufacturer->delete();
 
-        if ( $message ) {session()->flash('message', $message);}
+        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 
