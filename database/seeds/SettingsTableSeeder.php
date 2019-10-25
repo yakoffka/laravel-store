@@ -67,11 +67,13 @@ class SettingsTableSeeder extends Seeder
                 ],
                 'default_value' => 0,
             ],
+
+            // email_comments_*
             [
                 'group' => 'emails',
                 'name_group' => 'Настройки отправки email-уведомлений',
                 'type' => 'checkbox',
-                'name' => 'email_comments_saved',
+                'name' => 'email_comments_created',
                 'display_name' => 'email-уведомления при добавлении комментариев',
                 'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении комментариев.',
                 'permissible_values' => [
@@ -80,6 +82,33 @@ class SettingsTableSeeder extends Seeder
                 ],
                 'default_value' => 0,
             ],
+            [
+                'group' => 'emails',
+                'name_group' => 'Настройки отправки email-уведомлений',
+                'type' => 'checkbox',
+                'name' => 'email_comments_updated',
+                'display_name' => 'email-уведомления при изменении комментариев',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении комментариев.',
+                'permissible_values' => [
+                    [0, 'выключено'],
+                    [1, 'включено'],
+                ],
+                'default_value' => 0,
+            ],
+            // [
+            //     'group' => 'emails',
+            //     'name_group' => 'Настройки отправки email-уведомлений',
+            //     'type' => 'checkbox',
+            //     'name' => 'email_comments_deleted',
+            //     'display_name' => 'email-уведомления при удалении комментариев',
+            //     'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении комментариев.',
+            //     'permissible_values' => [
+            //         [0, 'выключено'],
+            //         [1, 'включено'],
+            //     ],
+            //     'default_value' => 0,
+            // ],
+
             [
                 'group' => 'emails',
                 'name_group' => 'Настройки отправки email-уведомлений',

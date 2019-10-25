@@ -8,7 +8,8 @@ return [
 	'email_update_order' => '0', // email-уведомления при изменении заказа
 	'email_new_product' => '0', // email-уведомления при создании нового товара
 	'email_update_product' => '0', // email-уведомления при изменении товара
-	'email_comments_saved' => '0', // email-уведомления при добавлении комментариев
+	'email_comments_created' => '1', // email-уведомления при добавлении комментариев
+	'email_comments_updated' => '1', // email-уведомления при изменении комментариев
 	'email_send_delay' => '1', // задержка отправки email-уведомлений
 	'additional_email_bcc' => '0', // Дополнительные адреса bcc
 	'view_products_whitout_price' => '1', // Показывать товары без цены

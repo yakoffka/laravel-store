@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use App\Customevent;
+use App\Mail\CommentNotification;
 
 class Comment extends Model
 {
     protected $guarded = [];
-    // protected $fillable = ['body'];
 
     /**
      * The number of models to return for pagination.
@@ -33,11 +34,12 @@ class Comment extends Model
      */
     public function createCustomevent()
     {
-        info(__METHOD__ . 'Some helpful information!');
+        // info(__METHOD__ . 'Some helpful information!');
 
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
+        // dd($attr, $dirty, $original);
 
         $details = [];
         foreach ( $attr as $property => $value ) {
@@ -59,26 +61,35 @@ class Comment extends Model
 
 
     /**
-     * Create records in table events.
-     *
+     * Create event notification.
+     * 
      * @return void?
      */
     public function sendEmailNotification()
     {
-        // info(__METHOD__);
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . debug_backtrace()[1]['function'];
+        $type = debug_backtrace()[1]['function'];
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
         $setting = config($namesetting);
 
-        if ( $setting === '1' ) {
-            info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-            // $user = auth()->user();
-            // $bcc = config('mail.mail_bcc');
-            // if ( config('settings.additional_email_bcc') ) {
-            //     $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-            // }
-            // $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-            // \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
+        if ( $setting === '1' ) {
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+
+            \Mail::to( auth()->user() ?? config('mail.from.address') )
+                ->bcc($bcc)
+                ->later( 
+                    $when, 
+                    new CommentNotification($this, $type, $username)
+                );
         }
 
     }
