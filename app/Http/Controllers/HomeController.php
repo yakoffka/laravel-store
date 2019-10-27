@@ -41,8 +41,8 @@ class HomeController extends Controller
         $categories = Category::all()
             ->where('parent_id', '=', 1)
             ->where('id', '>', 1)
-            ->where('visible', '=', true)
-            ->where('parent_visible', '=', true); // getParentVisibleAttribute
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on'); // getParentSeeableAttribute
 
         $videobackground = true;
 

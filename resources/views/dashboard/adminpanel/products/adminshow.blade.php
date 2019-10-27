@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <h1 class="<?php if(!$product->visible){echo 'hide';}?>">{{ $product->name }}</h1>
+    <h1 class="<?php if(!$product->seeable){echo 'hide';}?>">{{ $product->name }}</h1>
 
     <div class="row">
 
@@ -54,7 +54,7 @@
                     <span class="grey">{{__('__manufacturer')}}: </span>{{ $product->manufacturer->title ?? '-' }}<br>
                     <span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>
                     <span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
-                    <span class="grey">{{ __('__visible') }}: </span>{{ $product->visible ? 'visible' : 'invisible' }}<br>
+                    <span class="grey">{{ __('__seeable') }}: </span>{{ $product->seeable ? 'seeable' : 'inseeable' }}<br>
                     <span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>
                     <span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 

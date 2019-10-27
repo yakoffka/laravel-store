@@ -84,20 +84,20 @@ class Product extends Model
     
     /**
      * Accessor возвращает видимость родительской категории товара
-     * in controller using snake-case: $category->parent_visible!!!
+     * in controller using snake-case: $category->parent_seeable!!!
      */
-    public function getCategoryVisibleAttribute()
+    public function getCategorySeeableAttribute()
     {
-        return $this->belongsTo(Category::class, 'category_id')->get()->max('visible');
+        return $this->belongsTo(Category::class, 'category_id')->get()->max('seeable');
     }
     
     /**
      * Accessor возвращает видимость дедовской категории товара
-     * in controller using snake-case: $category->parent_visible!!!
+     * in controller using snake-case: $category->parent_seeable!!!
      */
-    public function getParentCategoryVisibleAttribute()
+    public function getParentCategorySeeableAttribute()
     {
-        return $this->belongsTo(Category::class, 'category_id')->get()->max('parent_visible');
+        return $this->belongsTo(Category::class, 'category_id')->get()->max('parent_seeable');
     }
 
 

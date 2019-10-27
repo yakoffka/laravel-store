@@ -13,8 +13,8 @@ class NavigationComposer
         $categories = Category::all()
             ->where('id', '<>', 1)
             ->where('parent_id', '=', 1)
-            ->where('visible', '=', true)
-            ->where('parent_visible', '=', true) // getParentVisibleAttribute
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
             ->sortBy('sort_order');
         return $view->with('categories', $categories);
     }

@@ -30,9 +30,9 @@ class ProductsController extends CustomController
             return redirect()->route('categories.index');
         }
         $appends = $request->query->all();
-        $products = Product::where('visible', '=', 1)
-            ->where('depricated_grandparent_visible', '=', 1)
-            ->where('depricated_parent_visible', '=', 1)
+        $products = Product::where('seeable', '=', 'on')
+            ->where('grandparent_seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on')
             ->orderBy('price')
             ->filter($request)
             ->paginate();
@@ -83,7 +83,7 @@ class ProductsController extends CustomController
             'name'              => 'required|max:255|unique:products,name',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
-            'visible'           => 'nullable|string|in:on',
+            'seeable'           => 'nullable|string|in:on',
             'materials'         => 'nullable|string',
             'description'       => 'nullable|string',
             'modification'      => 'nullable|string',
@@ -105,7 +105,7 @@ class ProductsController extends CustomController
         $product->slug = Str::slug(request('name'), '-');
         $product->manufacturer_id = request('manufacturer_id');
         $product->category_id = request('category_id');
-        $product->visible = request('visible') ? 1 : 0;
+        $product->seeable = request('seeable') ;
         $product->materials = request('materials') ?? '';
         $product->description = request('description') ?? '';
         $product->modification = $modification;
@@ -149,7 +149,7 @@ class ProductsController extends CustomController
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product) {
-        abort_if( !$product->visible or !$product->category_visible or !$product->parent_category_visible, 404);
+        abort_if( !$product->seeable or !$product->category_seeable or !$product->parent_category_seeable, 404);
         $product->incrementViews();
         return view('products.show', compact('product'));
     }
@@ -211,7 +211,7 @@ class ProductsController extends CustomController
             'name'              => 'required|max:255',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
-            'visible'           => 'nullable|string|in:on',
+            'seeable'           => 'nullable|string|in:on',
             'materials'         => 'nullable|string',
             'description'       => 'nullable|string',
             'modification'      => 'nullable|string',
@@ -231,7 +231,7 @@ class ProductsController extends CustomController
         $product->slug = Str::slug(request('name'), '-');
         $product->manufacturer_id = request('manufacturer_id');
         $product->category_id = request('category_id');
-        $product->visible = request('visible') ? 1 : 0;
+        $product->seeable = request('seeable') ;
         $product->materials = request('materials');
         $product->description = request('description');
         $product->modification = $modification;
@@ -337,10 +337,10 @@ class ProductsController extends CustomController
 
         $query = request('query');
         // $products = Product::search($query)->paginate(15);
-        $products = Product::where('visible', 1)
-            // ->where('category_visible', true)
-            ->where('depricated_grandparent_visible', '=', 1)
-            ->where('depricated_parent_visible', '=', 1)
+        $products = Product::where('seeable', 'on')
+            // ->where('category_seeable', true)
+            ->where('grandparent_seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on')
             ->search($query)
             ->paginate(15)
             ;
@@ -468,7 +468,7 @@ class ProductsController extends CustomController
         // dd(request()->all());
 
         request()->validate([
-            'action' => 'required|string|in:delete,replace,invisible,visible',
+            'action' => 'required|string|in:delete,replace,inseeable,seeable',
             'products' => 'required|array',
             'category_id' => 'nullable|string',
         ]);
@@ -500,23 +500,23 @@ class ProductsController extends CustomController
                 ) { $err = true; }
             });
 
-        // invisible
-        } elseif (request('action') === 'invisible') {
+        // inseeable
+        } elseif (request('action') === 'inseeable') {
             $products->each(function ($product) {
                 if (
                     $product->update([
-                        'visible' => false,
+                        'seeable' => false,
                         'edited_by_user_id' => auth()->user()->id,
                     ])
                 ) { $err = true; }
             });
 
-        // visible
-        } elseif (request('action') === 'visible') {
+        // seeable
+        } elseif (request('action') === 'seeable') {
             $products->each(function ($product) {
                 if (
                     $product->update([
-                        'visible' => true,
+                        'seeable' => true,
                         'edited_by_user_id' => auth()->user()->id,
                     ])
                 ) { $err = true; }

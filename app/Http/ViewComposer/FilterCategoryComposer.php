@@ -11,8 +11,8 @@ class FilterCategoryComposer
     public function compose (View $view)
     {
         $categories = Category::all()
-            ->where('visible', '=', true)
-            ->where('parent_visible', '=', true); // getParentVisibleAttribute
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on'); // getParentSeeableAttribute
         return $view->with('categories', $categories);
     }
 }

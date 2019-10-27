@@ -90,7 +90,7 @@
                 <div class="col-lg-4 col-md-6 product_card_bm">
                     <div class="card">
 
-                        <h2 class="product_card_h2<?php if(!$product->visible){echo ' hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h2>
+                        <h2 class="product_card_h2<?php if(!$product->seeable){echo ' hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h2>
 
                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                             @if($product->images->count())
@@ -123,7 +123,7 @@
                                         priceless
                                     @endif
                                 </span>
-                                <?php if(!$product->visible){echo '<span class="red">invisible</span>';}?>
+                                <?php if(!$product->seeable){echo '<span class="red">inseeable</span>';}?>
                                 <br>
                             </div>
 

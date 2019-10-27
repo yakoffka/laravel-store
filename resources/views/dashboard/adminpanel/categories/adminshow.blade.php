@@ -35,7 +35,7 @@
                 <tr><td class="th ta_r">{{ __('title') }}</td><td class="td ta_l">{{ $category->title }}</td></tr>
                 <tr><td class="th ta_r">{{ __('description') }}</td><td class="td ta_l">{{ $category->description }}</td></tr>
                 <tr><td class="th ta_r">{{ __('imagepath') }}</td><td class="td ta_l">{{ $category->imagepath }}</td></tr>
-                <tr><td class="th ta_r">{{ __('visible') }}</td><td class="td ta_l">{{ $category->visible }}</td></tr>
+                <tr><td class="th ta_r">{{ __('seeable') }}</td><td class="td ta_l">{{ $category->seeable }}</td></tr>
                 <tr><td class="th ta_r">{{ __('__parent_category_id') }}</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('added_by_user_id') }}</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('created_at') }}</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
@@ -52,8 +52,8 @@
                         <th>{{ __('__name') }}</th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
                         <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>
@@ -90,9 +90,9 @@
                             @endphp
                         </th>
                         <th>{{ __('__name') }}</th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_seeable') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
                         <th width="60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>

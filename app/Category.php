@@ -41,11 +41,11 @@ class Category extends Model
 
     /**
      * Accessor
-     * in controller using snake-case: $category->parent_visible!!!
+     * in controller using snake-case: $category->parent_seeable!!!
      */
-    public function getParentVisibleAttribute()
+    public function getParentSeeableAttribute()
     {
-        return $this->belongsTo(Category::class, 'parent_id')->get()->max('visible');
+        return $this->belongsTo(Category::class, 'parent_id')->get()->max('seeable');
     }
 
 
@@ -123,51 +123,51 @@ class Category extends Model
     }
 
     /**
-     * set visible
+     * set seeable
      * 
      * @return  Category $category
      */
-    // public function setVisibleYo () {
+    // public function setSeeable () {
     //     info(__METHOD__);
-    //     info('$this->getOriginal(\'visible\') = ');
-    //     info($this->getOriginal('visible'));
-    //     if( $this->visible !== 'on' ) {
-    //         $this->visible = $this->getOriginal('visible');
+    //     info('$this->getOriginal(\'seeable\') = ');
+    //     info($this->getOriginal('seeable'));
+    //     if( $this->seeable !== 'on' ) {
+    //         $this->seeable = $this->getOriginal('seeable');
     //     }
     //     return $this;
     // }
 
     /**
-     * WORKAROUND #1 depricated_parent_visible
-     * устанавливает атрибут visible потомков в соответствии с переданным значением
+     * WORKAROUND #1 parent_seeable
+     * устанавливает атрибут seeable потомков в соответствии с переданным значением
      * 
      * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
      *
      * @return  Category $category
      */
-    public function setChildrenVisible () {
+    public function setChildrenSeeable () {
         info(__METHOD__);
-        info('$this->visible = ');
-        info($this->visible);
+        info('$this->seeable = ');
+        info($this->seeable);
         // info($this);
         // info($this->title); 
-        // info($this->visible); 
+        // info($this->seeable); 
         // info($this->getDirty()); 
         // info($this->getOriginal());
 
 
-        if ( $this->isDirty('visible') ) {
-            info('$this->isDirty(\'visible\')');
+        if ( $this->isDirty('seeable') ) {
+            info('$this->isDirty(\'seeable\')');
 
             // // for category top-level
             // if ( $this->children->count() ) {
             //     foreach ( $this->children as $children_category ) {
-            //         $children_category->depricated_parent_visible = $this->visible;
+            //         $children_category->parent_seeable = $this->seeable;
             //         $children_category->save();
 
             //         if ( $children_category->products->count() ) {
             //             foreach ( $children_category->products as $product ) {
-            //                 $product->depricated_grandparent_visible = $this->visible;
+            //                 $product->depricated_grandparent_seeable = $this->seeable;
             //                 $product->save();
             //             };
             //         }
@@ -177,56 +177,56 @@ class Category extends Model
             // // for subcategory
             // } elseif ( $this->products->count() ) {
             //     foreach ( $this->products as $product ) {
-            //         $product->depricated_parent_visible = $this->visible;
+            //         $product->parent_seeable = $this->seeable;
             //         $product->save();
             //     };
             // }
             // for category top-level
             if ( $this->children->count() ) {
                 // foreach ( $this->children as $children_category ) {
-                //     $children_category->depricated_parent_visible = $this->visible;
+                //     $children_category->parent_seeable = $this->seeable;
                 //     $children_category->save();
 
                 //     if ( $children_category->products->count() ) {
                 //         foreach ( $children_category->products as $product ) {
-                //             $product->depricated_grandparent_visible = $this->visible;
+                //             $product->depricated_grandparent_seeable = $this->seeable;
                 //             $product->save();
                 //         };
                 //     }
 
                 // };
-                // $this->children->depricated_parent_visible->push($this->visible);
-                // $this->children->products->depricated_grandparent_visible->push($this->visible);
+                // $this->children->parent_seeable->push($this->seeable);
+                // $this->children->products->depricated_grandparent_seeable->push($this->seeable);
                 // dd($this->children(), $this->children);
 
 
 
-                // $this->children()->update(['depricated_parent_visible' => $this->visible]);
-                // info($this->children()->update(['depricated_parent_visible' => $this->visible]));
+                // $this->children()->update(['parent_seeable' => $this->seeable]);
+                // info($this->children()->update(['parent_seeable' => $this->seeable]));
                 $this->children->each(function ($item, $key) {
                     // dd($item, $key);
-                    // info($item->depricated_parent_visible);
-                    // info('$item->update([\'depricated_parent_visible\' => $this->visible])');
-                    // info('$this->visible = ');
-                    info('$this->visible = ');
-                    info($this->visible);
-                    // $item->depricated_parent_visible = $this->visible;
+                    // info($item->parent_seeable);
+                    // info('$item->update([\'parent_seeable\' => $this->seeable])');
+                    // info('$this->seeable = ');
+                    info('$this->seeable = ');
+                    info($this->seeable);
+                    // $item->parent_seeable = $this->seeable;
                     // $item->save();
-                    // $item->update(['depricated_parent_visible' => $this->visible]);
-                    // info($item->depricated_parent_visible);
+                    // $item->update(['parent_seeable' => $this->seeable]);
+                    // info($item->parent_seeable);
                 });
 
             // for subcategory
             } elseif ( $this->products->count() ) {
                 // foreach ( $this->products as $product ) {
-                //     $product->depricated_parent_visible = $this->visible;
+                //     $product->parent_seeable = $this->seeable;
                 //     $product->save();
                 // };
-                // $this->products->depricated_parent_visible->push($this->visible);
+                // $this->products->parent_seeable->push($this->seeable);
 
             }
         } else {
-            info('!$this->isDirty(\'visible\')');
+            info('!$this->isDirty(\'seeable\')');
         }
         return $this;
     }
@@ -238,7 +238,7 @@ class Category extends Model
      */
     public function setTitle () {
         info(__METHOD__);
-        info($this); info($this->title); info($this->visible); info($this->getDirty()); info($this->getOriginal());
+        info($this); info($this->title); info($this->seeable); info($this->getDirty()); info($this->getOriginal());
 
         if ( !$this->title ) { $this->title = $this->name; }
         info($this);

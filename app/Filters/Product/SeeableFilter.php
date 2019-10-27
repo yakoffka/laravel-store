@@ -5,7 +5,7 @@ namespace App\Filters\Product;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filters\FilterAbstract;
 
-class VisibleFilter extends FilterAbstract
+class SeeableFilter extends FilterAbstract
 {
 
     /**
@@ -17,13 +17,13 @@ class VisibleFilter extends FilterAbstract
     public function mappings()
     {
         return [
-            'visible' => true,
-            'invisible' => false,
+            'seeable' => true,
+            'inseeable' => false,
         ];
     }
 
     /**
-     * Filter by visible
+     * Filter by seeable
      * 
      * @param string $value
      * 
@@ -37,9 +37,9 @@ class VisibleFilter extends FilterAbstract
         // dd($value);
 
         if ( auth()->user() and auth()->user()->can('create_products') ) {
-            return $builder->where('visible', true);
+            return $builder->where('seeable', true);
         } else {
-            // return $builder->where('visible', false);
+            // return $builder->where('seeable', false);
             return null;
         }
 

@@ -22,14 +22,14 @@ class CategoryController extends CustomController
         // $categories = Category::with('products') // whithout empty categories
         //     ->get()
         //     ->where('parent_id', '=', 1)
-        //     ->where('visible', '=', true)
-        //     ->where('parent_visible', '=', true) // getParentVisibleAttribute
+        //     ->where('seeable', '=', 'on')
+        //     ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
         //     ->where('id', '>', 1)
         //     ->sortBy('sort_order');
         $categories = Category::all()
             ->where('parent_id', '=', 1)
-            ->where('visible', '=', true)
-            ->where('parent_visible', '=', true) // getParentVisibleAttribute
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
             ->where('id', '>', 1)
             ->sortBy('sort_order');
         return view('categories.index', compact('categories'));
@@ -66,7 +66,7 @@ class CategoryController extends CustomController
             'imagepath'     => 'nullable|string|max:255',
             'parent_id'     => 'required|integer|max:255',
             'sort_order'    => 'required|string|max:1',
-            'visible'       => 'nullable|string|in:on',
+            'seeable'       => 'nullable|string|in:on',
         ]);
 
         $category = Category::create([
@@ -77,7 +77,7 @@ class CategoryController extends CustomController
             'imagepath'         => request('imagepath'),
             'parent_id'         => request('parent_id'),
             'sort_order'        => request('sort_order'),
-            'visible'           => request('visible') ? true : false, // 
+            'seeable'           => request('seeable') ? true : false, // 
             'added_by_user_id'  => auth()->user()->id,
         ]);
 
@@ -94,23 +94,24 @@ class CategoryController extends CustomController
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
-        abort_if( !$category->visible or !$category->parent_visible, 404);
+        abort_if( !$category->seeable or !$category->parent_seeable, 404);
         if ( $category->id === 1 ) { return redirect()->route('categories.index'); }
 
         if ( $category->countChildren() ) {
             $categories = Category::all()
                 ->where('parent_id', $category->id)
-                ->where('visible', '=', true)
-                ->where('parent_visible', '=', true) // getParentVisibleAttribute
+                ->where('seeable', '=', 'on')
+                ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
 
         } elseif ( $category->countProducts() ) {
             $products = Product::where('category_id', $category->id)
-                ->where('visible', '=', 1)
-                ->where('depricated_grandparent_visible', '=', 1)
+                ->where('seeable', '=', 'on')
+                ->where('grandparent_seeable', '=', 'on')
                 ->orderBy('price')
                 ->paginate();
+            // dd($products);
             return view('products.index', compact('category', 'products'));
         }
 
@@ -150,7 +151,7 @@ class CategoryController extends CustomController
             'description'   => 'nullable|string|max:65535',
             'imagepath'     => 'nullable|string|max:255',
             'sort_order'    => 'required|string|max:1',
-            'visible'       => 'nullable|string|in:on',
+            'seeable'       => 'nullable|string|in:on',
             'parent_id'     => 'required|integer|max:255',
         ]);
 
@@ -161,14 +162,14 @@ class CategoryController extends CustomController
             'description'       => request('description'),
             'imagepath'         => request('imagepath'),
             'sort_order'        => request('sort_order'),
-            'visible'           => request('visible'),
+            'seeable'           => request('seeable'),
             'parent_id'         => request('parent_id'),
             'edited_by_user_id' => auth()->user()->id,
         ]);
 
         // $this->attachSingleImage($category, request('imagepath'));
 
-        // $this->setVisibleChildren($category);
+        // $this->setSeeableChildren($category);
 
         return redirect()->route('categories.adminindex');
     }
@@ -272,26 +273,26 @@ class CategoryController extends CustomController
 
 
     /**
-     * WORKAROUND #1 depricated_parent_visible
+     * WORKAROUND #1 parent_seeable
      * устанавливает атрибуты потомков в соответствии с переданным значением
      * 
      * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
      *
      * @return  void
      */
-    private function setVisibleChildren (Category $category) {
+    private function setSeeableChildren (Category $category) {
         dd($category->isDirty);
-        if ( $category->isDirty('visible') ) {
+        if ( $category->isDirty('seeable') ) {
 
             // for category top-level
             if ( $category->children->count() ) {
                 foreach ( $category->children as $children_category ) {
-                    $children_category->depricated_parent_visible = $category->visible;
+                    $children_category->parent_seeable = $category->seeable;
                     $children_category->save();
 
                     if ( $children_category->products->count() ) {
                         foreach ( $children_category->products as $product ) {
-                            $product->depricated_grandparent_visible = $category->visible;
+                            $product->grandparent_seeable = $category->seeable;
                             $product->save();
                         };
                     }
@@ -301,7 +302,7 @@ class CategoryController extends CustomController
             // for subcategory
             } elseif ( $category->products->count() ) {
                 foreach ( $category->products as $product ) {
-                    $product->depricated_parent_visible = $category->visible;
+                    $product->parent_seeable = $category->seeable;
                     $product->save();
                 };
             }

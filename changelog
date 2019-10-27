@@ -1,13 +1,4 @@
-Refactoring Category
-    Create CategoryObserver:
-        php artisan make:observer CategoryObserver --model=Category;
-    Create Mailable with Markdown:
-        php artisan make:mail CategoryNotification --markdown="emails.category";
-    Add settings email_categories_created, email_categories_updated and email_categories_deleted*
-    Add uuid field for naming source directory category
-    Change field type visible boolean => string
-При описании метода app/Category.php::setChildrenVisible столкнулся с неожиданным значением свойства $this->visible ($category->visible) = []. Ожидал увидеть 'on'/null.
-По всей видимости это связано с зарезервированными переменными/методами модели (visible, setVisible)
+Refactoring: replace "*visible" -> "*seeable"
 
     
 

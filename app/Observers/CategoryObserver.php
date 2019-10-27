@@ -21,7 +21,7 @@ class CategoryObserver
             ->setTitle()
             ->setSlug()
             ->attachSingleImage()
-            // ->setVisible()
+            // ->setSeeable()
             // ->createCustomevent()
             // ->sendEmailNotification()
             ;
@@ -59,9 +59,9 @@ class CategoryObserver
         $category
             ->setSlug()
             ->attachSingleImage()
-            // ->setVisible()
-            // ->setChildrenVisible()
-            // ->setVisible()
+            // ->setSeeable()
+            // ->setChildrenSeeable()
+            // ->setSeeable()
             ;
     }
 
@@ -79,7 +79,7 @@ class CategoryObserver
         session()->flash('message', __('success_operation'));
 
         // info($category);
-        // info($category->visible); 
+        // info($category->seeable); 
         // info($category->getDirty()); 
         // info($category->getOriginal());
     }

@@ -335,8 +335,8 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Accessor getParentVisibleAttribute',
-                'description' => 'Попытаться улучшить метод getParentVisibleAttribute в модели Category (max(\'visible\')).',
+                'title' => 'Accessor getParentSeeableAttribute',
+                'description' => 'Попытаться улучшить метод getParentSeeableAttribute в модели Category (max(\'seeable\')).',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
@@ -604,7 +604,7 @@ class TasksTableSeeder extends Seeder
                     <li>amount: unsignedinteger - количество</li>
                 </ol>
                 <br>
-                Заменить все вхождения "visible" на "published".
+                Заменить все вхождения "seeable" на "published".
                 ',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,

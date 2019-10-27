@@ -36,8 +36,8 @@
                         <th>{{ __('__name') }}</th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__visible') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_visible') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
+                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
                         <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
                         <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>

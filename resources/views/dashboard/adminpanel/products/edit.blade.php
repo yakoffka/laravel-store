@@ -148,18 +148,18 @@
                     </div>
                     {{-- /parent category --}}
 
-                    {{-- visible --}}
+                    {{-- seeable --}}
                     <div class="form-group col-12 col-md-2">
                         <div class="right_stylized_checkbox">
-                            <input type="checkbox" id="visible" name="visible"
-                                @if ( $product->visible )
+                            <input type="checkbox" id="seeable" name="seeable"
+                                @if ( $product->seeable )
                                     checked
                                 @endif
                             >
-                            <label for="visible">{{ __('visible') }}</label>
+                            <label for="seeable">{{ __('seeable') }}</label>
                         </div>
                     </div>
-                    {{-- /visible --}}
+                    {{-- /seeable --}}
                 </div>
 
                 

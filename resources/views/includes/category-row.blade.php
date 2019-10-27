@@ -1,22 +1,22 @@
 
-    <tr class="{{ (!$category->visible or !$category->depricated_parent_visible) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
+    <tr class="{{ (!$category->seeable or !$category->parent_seeable) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
         <td class="ta_l{{ $category->parent_id == 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
         <td>{{ $category->parent->id ?? '-' }}</td>
         <td>{{ $category->sort_order }}</td>
 
-        {{-- visible --}}
+        {{-- seeable --}}
         <td>
-            @if ( $category->visible )
+            @if ( $category->seeable )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>
             @endif
         </td>
 
-        {{-- depricated_parent_visible --}}
+        {{-- parent_seeable --}}
         <td>
-            @if ( $category->depricated_parent_visible )
+            @if ( $category->parent_seeable )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>

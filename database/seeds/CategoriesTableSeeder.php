@@ -145,7 +145,6 @@ class CategoriesTableSeeder extends Seeder
                 'sort_order' => 5,
                 'title' => $category['title'] ?? ucwords($category['name']),
                 'description' => 'Description ' . ucwords($category['name']),
-                // 'visible' => true,
                 'parent_id' => $category['parent_id'],
                 'added_by_user_id' => 1,
                 'created_at' => date('Y-m-d H:i:s'),

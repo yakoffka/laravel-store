@@ -142,14 +142,14 @@
                     </div>
                     {{-- /parent category --}}
 
-                    {{-- visible --}}
+                    {{-- seeable --}}
                     <div class="form-group col-12 col-md-2">
                         <div class="right_stylized_checkbox">
-                            <input type="checkbox" id="visible" name="visible" checked>
-                            <label for="visible">{{ __('visible') }}</label>
+                            <input type="checkbox" id="seeable" name="seeable" checked>
+                            <label for="seeable">{{ __('seeable') }}</label>
                         </div>
                     </div>
-                    {{-- /visible --}}
+                    {{-- /seeable --}}
                 </div>
 
                 <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
