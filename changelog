@@ -1,8 +1,1 @@
-Replacing the display in the basket of the number of items with the number of products
-    
-
-    
-
-// translate: заменить плейсхолдеры в products, customevents, orders, Your e-mail is verified. You can now login.
-// сбрасывается корзина при регистрации..
-// в корзине ссылку на товар сделать _blank!
+Prevent notifications and events when updating the parent_seeable and grandparent_seeable properties    

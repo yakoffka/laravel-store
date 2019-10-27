@@ -32,9 +32,6 @@
             <br>model: {{ $customevent->model }} №{{ $customevent->model_id }}
             {{-- <br>description: {{ $customevent->description }} --}}
             <br>created_at: {{ $customevent->created_at }}
-            @if ($customevent->additional_description)
-                <br>additional_description: {{ $customevent->additional_description }}
-            @endif
 
 
             @if ( unserialize($customevent->details) )
