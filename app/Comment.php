@@ -43,7 +43,7 @@ class Comment extends Model
 
         $details = [];
         foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
                 $details[] = [ 
                     $property, 
                     $original[$property] ?? FALSE, 

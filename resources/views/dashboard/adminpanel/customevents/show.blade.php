@@ -54,6 +54,11 @@
             @else
                 <br>детали события отсутствуют.
             @endif
+            
+            <div class="center">
+                <a class="btn btn-outline-primary form-control col-5" href="{{ route('customevents.show', $customevent->id-1) }}">prew event</a>
+                <a class="btn btn-outline-primary form-control col-5" href="{{ route('customevents.show', $customevent->id+1) }}">next event</a>
+            </div>
 
         </div>
     </div>

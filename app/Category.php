@@ -56,7 +56,7 @@ class Category extends Model
      */
     public function createCustomevent()
     {
-        info(__METHOD__);
+        // info(__METHOD__);
 
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -65,7 +65,7 @@ class Category extends Model
 
         $details = [];
         foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
                 $details[] = [ 
                     $property, 
                     $original[$property] ?? FALSE, 
@@ -94,7 +94,7 @@ class Category extends Model
      */
     public function sendEmailNotification()
     {
-        info(__METHOD__);
+        // info(__METHOD__);
 
         $type = debug_backtrace()[1]['function'];
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
@@ -123,21 +123,6 @@ class Category extends Model
     }
 
     /**
-     * set seeable
-     * 
-     * @return  Category $category
-     */
-    // public function setSeeable () {
-    //     info(__METHOD__);
-    //     info('$this->getOriginal(\'seeable\') = ');
-    //     info($this->getOriginal('seeable'));
-    //     if( $this->seeable !== 'on' ) {
-    //         $this->seeable = $this->getOriginal('seeable');
-    //     }
-    //     return $this;
-    // }
-
-    /**
      * WORKAROUND #1 parent_seeable
      * устанавливает атрибут seeable потомков в соответствии с переданным значением
      * 
@@ -146,87 +131,17 @@ class Category extends Model
      * @return  Category $category
      */
     public function setChildrenSeeable () {
-        info(__METHOD__);
-        info('$this->seeable = ');
-        info($this->seeable);
-        // info($this);
-        // info($this->title); 
-        // info($this->seeable); 
-        // info($this->getDirty()); 
-        // info($this->getOriginal());
-
-
+        // info(__METHOD__);
         if ( $this->isDirty('seeable') ) {
-            info('$this->isDirty(\'seeable\')');
-
-            // // for category top-level
-            // if ( $this->children->count() ) {
-            //     foreach ( $this->children as $children_category ) {
-            //         $children_category->parent_seeable = $this->seeable;
-            //         $children_category->save();
-
-            //         if ( $children_category->products->count() ) {
-            //             foreach ( $children_category->products as $product ) {
-            //                 $product->depricated_grandparent_seeable = $this->seeable;
-            //                 $product->save();
-            //             };
-            //         }
-
-            //     };
-
-            // // for subcategory
-            // } elseif ( $this->products->count() ) {
-            //     foreach ( $this->products as $product ) {
-            //         $product->parent_seeable = $this->seeable;
-            //         $product->save();
-            //     };
-            // }
-            // for category top-level
-            if ( $this->children->count() ) {
-                // foreach ( $this->children as $children_category ) {
-                //     $children_category->parent_seeable = $this->seeable;
-                //     $children_category->save();
-
-                //     if ( $children_category->products->count() ) {
-                //         foreach ( $children_category->products as $product ) {
-                //             $product->depricated_grandparent_seeable = $this->seeable;
-                //             $product->save();
-                //         };
-                //     }
-
-                // };
-                // $this->children->parent_seeable->push($this->seeable);
-                // $this->children->products->depricated_grandparent_seeable->push($this->seeable);
-                // dd($this->children(), $this->children);
-
-
-
-                // $this->children()->update(['parent_seeable' => $this->seeable]);
-                // info($this->children()->update(['parent_seeable' => $this->seeable]));
-                $this->children->each(function ($item, $key) {
-                    // dd($item, $key);
-                    // info($item->parent_seeable);
-                    // info('$item->update([\'parent_seeable\' => $this->seeable])');
-                    // info('$this->seeable = ');
-                    info('$this->seeable = ');
-                    info($this->seeable);
-                    // $item->parent_seeable = $this->seeable;
-                    // $item->save();
-                    // $item->update(['parent_seeable' => $this->seeable]);
-                    // info($item->parent_seeable);
+            $this->children->each(function ($item, $key) {
+                $item->update(['parent_seeable' => $this->seeable]);
+                $item->products->each(function ($product, $key) {
+                    $product->update(['grandparent_seeable' => $this->seeable]);
                 });
-
-            // for subcategory
-            } elseif ( $this->products->count() ) {
-                // foreach ( $this->products as $product ) {
-                //     $product->parent_seeable = $this->seeable;
-                //     $product->save();
-                // };
-                // $this->products->parent_seeable->push($this->seeable);
-
-            }
-        } else {
-            info('!$this->isDirty(\'seeable\')');
+            });
+            $this->products->each(function ($item, $key) {
+                $item->update(['parent_seeable' => $this->seeable]);
+            });
         }
         return $this;
     }
@@ -237,7 +152,7 @@ class Category extends Model
      * @return  Category $category
      */
     public function setTitle () {
-        info(__METHOD__);
+        // info(__METHOD__);
         info($this); info($this->title); info($this->seeable); info($this->getDirty()); info($this->getOriginal());
 
         if ( !$this->title ) { $this->title = $this->name; }
@@ -251,7 +166,7 @@ class Category extends Model
      * @return  Category $category
      */
     public function setUuid () {
-        info(__METHOD__);
+        // info(__METHOD__);
         $this->uuid = Str::uuid();
         return $this;
     }
@@ -263,10 +178,11 @@ class Category extends Model
      * @return  Category $category
      */
     public function setSlug () {
-        info(__METHOD__);
-        if ( $this->isDirty('slug') ) {
+        // info(__METHOD__);
+        if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
         } elseif ( $this->isDirty('title') ) {
+            info('$this->isDirty(\'title\')');
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;
@@ -279,7 +195,7 @@ class Category extends Model
      * @return  string $imagepath
      */
     public function attachSingleImage () {
-        info(__METHOD__);
+        // info(__METHOD__);
 
         if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
             return $this;

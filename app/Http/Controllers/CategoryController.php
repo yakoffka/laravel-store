@@ -141,7 +141,6 @@ class CategoryController extends CustomController
      */
     public function update(Category $category)
     {
-        info(__METHOD__);
         abort_if( auth()->user()->cannot('edit_categories'), 403);
 
         request()->validate([
@@ -166,10 +165,6 @@ class CategoryController extends CustomController
             'parent_id'         => request('parent_id'),
             'edited_by_user_id' => auth()->user()->id,
         ]);
-
-        // $this->attachSingleImage($category, request('imagepath'));
-
-        // $this->setSeeableChildren($category);
 
         return redirect()->route('categories.adminindex');
     }

@@ -45,14 +45,15 @@
                     </tr>
 
                     @foreach($categories as $category)
-                    @if ( $category->parent->id == 1 and $category->id != 1)
-                        @categoryRow(['category' =>  $category, 'maincategory' => true])
-                        @foreach($categories as $subcategory)
-                            @if ( $subcategory->parent->id == $category->id )
-                                @categoryRow(['category' =>  $subcategory,])
-                            @endif
-                        @endforeach
-                    @endif
+                        {{-- {{ $category }} --}}
+                        @if ( $category->parent->id == 1 and $category->id != 1)
+                            @categoryRow(['category' =>  $category, 'maincategory' => true])
+                            @foreach($categories as $subcategory)
+                                @if ( $subcategory->parent->id == $category->id )
+                                    @categoryRow(['category' =>  $subcategory,])
+                                @endif
+                            @endforeach
+                        @endif
                     @endforeach
 
                 </table>

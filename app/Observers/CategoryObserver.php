@@ -14,17 +14,8 @@ class CategoryObserver
      */
     public function creating(Category $category)
     {
-        info(__METHOD__);
-        // info($category->getDirty());
-        $category
-            ->setUuid()
-            ->setTitle()
-            ->setSlug()
-            ->attachSingleImage()
-            // ->setSeeable()
-            // ->createCustomevent()
-            // ->sendEmailNotification()
-            ;
+        // info(__METHOD__);
+        $category->setUuid()->setTitle()->setSlug()->attachSingleImage();
     }
 
     /**
@@ -35,14 +26,8 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-        info(__METHOD__);
-        // info($category->getDirty());
-        $category
-            // ->setSlug()
-            // ->attachSingleImage()
-            ->createCustomevent()
-            ->sendEmailNotification()
-            ;
+        // info(__METHOD__);
+        $category->createCustomevent()->sendEmailNotification();
         session()->flash('message', __('success_operation'));
     }
 
@@ -55,14 +40,8 @@ class CategoryObserver
      */
     public function updating(Category $category)
     {
-        info(__METHOD__);
-        $category
-            ->setSlug()
-            ->attachSingleImage()
-            // ->setSeeable()
-            // ->setChildrenSeeable()
-            // ->setSeeable()
-            ;
+        // info(__METHOD__);
+        $category->setSlug()->attachSingleImage()->setChildrenSeeable();
     }
 
     /**
@@ -73,15 +52,9 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        info(__METHOD__);
-        info($category->getDirty());
+        // info(__METHOD__);
         $category->createCustomevent()->sendEmailNotification();
         session()->flash('message', __('success_operation'));
-
-        // info($category);
-        // info($category->seeable); 
-        // info($category->getDirty()); 
-        // info($category->getOriginal());
     }
 
 
@@ -93,7 +66,7 @@ class CategoryObserver
      */
     public function deleting(Category $category)
     {
-        info(__METHOD__);
+        // info(__METHOD__);
     }
 
     /**
@@ -104,7 +77,7 @@ class CategoryObserver
      */
     public function deleted(Category $category)
     {
-        info(__METHOD__);
+        // info(__METHOD__);
         $category->createCustomevent();
         // $category->sendEmailNotification(); 
         session()->flash('message', __('success_operation'));

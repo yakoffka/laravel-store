@@ -54,7 +54,7 @@
                     {{-- name --}}
                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label for="name">{{ __('name') }}</label>
+                            <label for="name">{{ __('__namerequired') }}*</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="{{__('Name')}} {{__('Category')}}"
                                 value="{{ old('name') ?? $category->name }}" required>
                         </div>
