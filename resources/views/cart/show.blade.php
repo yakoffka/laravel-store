@@ -96,6 +96,11 @@
                     <td>{{ $cart->total_payment }}</td>
                 </tr>
 
+                {{-- <tr>
+                    <td colspan="6">total_qty</td>
+                    <td>{{ $cart->total_qty }}</td>
+                </tr> --}}
+
                 </table>
 
             @endif

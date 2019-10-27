@@ -173,17 +173,17 @@
                                 <a href="{{ route('cart.show') }}" class="nav-link">
                                     <i class="fas fa-shopping-cart"></i>
                                     <span class="badge">
-                                        {{ (Session::has('cart') and count(Session::get('cart')->items)) ? count(Session::get('cart')->items) : '' }}
+                                        {{ (Session::has('cart') and Session::get('cart')->total_qty) ? Session::get('cart')->total_qty : '' }}
                                     </span>
                                 </a>
                             <li>
 
                             {{-- d-md-none - Скрыто на экранах шире md --}}
                             <li class="nav-item d-md-none">
-                                @if (Session::has('cart') and count(Session::get('cart')->items))
+                                @if (Session::has('cart') and Session::get('cart')->total_qty)
                                     <a href="{{ route('cart.show') }}" class="nav-link">
                                         <i class="fas fa-shopping-cart"></i>
-                                        in youre cart {{ count(Session::get('cart')->items) }} products
+                                        in youre cart {{ Session::get('cart')->total_qty }} products
                                     </a>
                                 @else
                                     <i class="fas fa-shopping-cart"></i> youre cart is empty

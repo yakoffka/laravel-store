@@ -1,11 +1,8 @@
-Continue refactoring Category
+Replacing the display in the basket of the number of items with the number of products
     
 
     
-
-// search 'extends CustomController' 
 
 // translate: заменить плейсхолдеры в products, customevents, orders, Your e-mail is verified. You can now login.
-// изменить количество наименований в корзине на количество товаров
 // сбрасывается корзина при регистрации..
 // в корзине ссылку на товар сделать _blank!
