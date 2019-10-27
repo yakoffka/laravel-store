@@ -57,7 +57,7 @@
                             <td class="description">
                                 {{-- {{ $customevent->description }} --}}
                                 {{-- <span title="{{ $customevent->description }}">{{ str_limit($customevent->description, 50) }}</span> --}}
-                                {{ $customevent->type }} {{ $customevent->model }} id={{ $customevent->model_id }}
+                                {{ __($customevent->type . '_' . $customevent->model) }} '{{ $customevent->model_name }}' (id={{ $customevent->model_id }})
                             </td>
                             @if ( Auth::user()->can('view_orders') )
                                 <td>

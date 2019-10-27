@@ -82,10 +82,10 @@ class Category extends Model
             'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
             'model' => $this->getTable(),
             'model_id' => $this->id,
+            'model_name' => $this->name,
             'type' => debug_backtrace()[1]['function'],
             'description' => $this->description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
-            'description' => $this->description ?? FALSE,
         ]);
         return $this;
     }

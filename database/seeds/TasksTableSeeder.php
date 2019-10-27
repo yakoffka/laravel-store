@@ -27,7 +27,7 @@ class TasksTableSeeder extends Seeder
         //     DB::table('tasks')->insert([
         //         'master_user_id' => $master,
         //         'slave_user_id' => $slave,
-        //         'title' => $title,
+        //         'name' => $title,
         //         'slug' => Str::slug($title, '-'),
         //         'description' => 'Description for task #' . $i . '. ' . $lorem ,
         //         'tasksstatus_id' => rand(1, 5),
@@ -41,28 +41,28 @@ class TasksTableSeeder extends Seeder
         $arr_task_for_owner = [
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => '.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => '.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => '.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 2,
             // ],
 
             [
-                'title' => 'Прописать классы сообщений',
+                'name' => 'Прописать классы сообщений',
                 'description' => '.
                     Session::flash(\'alert-danger\', \'danger\');
                     Session::flash(\'alert-warning\', \'warning\');
@@ -74,63 +74,63 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'CategoryController::attachSingleImage',
+                'name' => 'CategoryController::attachSingleImage',
                 'description' => 'поправить метод: возвращаемые значения, ед. число imagepath, etc.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'sort_order in ProductController',
+                'name' => 'sort_order in ProductController',
                 'description' => 'Реализовать отправку и обработку sort_order для product.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'verticalTableHeader',
+                'name' => 'verticalTableHeader',
                 'description' => 'Поправить отображение класса verticalTableHeader в google chrome.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Бренд => Производитель',
+                'name' => 'Бренд => Производитель',
                 'description' => 'Заменить все вхождения.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => '->charset(\'utf8\')',
+                'name' => '->charset(\'utf8\')',
                 'description' => 'Уточнить необходимость использования в миграциях и либо добавить везде, либо везде удалить.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Проверить именования',
+                'name' => 'Проверить именования',
                 'description' => 'Проверить именования, используя <a href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md#%D1%81%D0%BE%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D0%B9%D1%82%D0%B5-%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D1%8F-%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B0-%D0%BE%D0%B1-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8">соглашения сообщества об именовании</a>.  При необходимости поправить.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Вернуться к массовому присваиванию?',
+                'name' => 'Вернуться к массовому присваиванию?',
                 'description' => 'Массовое присваивание это хорошо? См <a href="https://github.com/alexeymezenin/laravel-best-practices/blob/master/russian.md#%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B9%D1%82%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%BE%D0%B2%D0%BE%D0%B5-%D0%B7%D0%B0%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-mass-assignment">здесь</a>.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => '__(\'lang_const\')',
+                'name' => '__(\'lang_const\')',
                 'description' => 'Использовать языковые файлы и константы вместо текста в коде.',
                 'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'ReWatermark',
+                'name' => 'ReWatermark',
                 'description' => 'Некорректная работа ReWatermark.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
@@ -138,14 +138,14 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вынести количество просмотров товаров в отдельную таблицу',
+                'name' => 'Вынести количество просмотров товаров в отдельную таблицу',
                 'description' => 'и инкрементировать их, не касаясь модели товар.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'рефакторинг',
+                'name' => 'рефакторинг',
                 'description' => '.
                     <ol>
                         <li>истории.
@@ -160,7 +160,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Комментарии',
+                'name' => 'Комментарии',
                 'description' => '.
                     <ol>
                         <li>Добавить email уведомление.
@@ -173,112 +173,112 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'isDirty',
+                'name' => 'isDirty',
                 'description' => 'Добавить использование свойства модели isDirty (при написании истории, обновлении модели и может ещё где).',
                 'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Заменить мягкое сравнение на жесткое',
+                'name' => 'Заменить мягкое сравнение на жесткое',
                 'description' => 'Заменить мягкое сравнение на жесткое везде, где позволяет протокол.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить сравнение товаров',
+                'name' => 'Добавить сравнение товаров',
                 'description' => 'Добавить сравнение товаров.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Конкретика событий',
+                'name' => 'Конкретика событий',
                 'description' => 'добавить в события конкретики (более полное описание изменений).',
                 'tasksstatus_id' => 2,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Убрать галерею товаров, если изображение одно',
+                'name' => 'Убрать галерею товаров, если изображение одно',
                 'description' => 'Убрать галерею товаров, если изображение одно.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Написать ежедневник',
+                'name' => 'Написать ежедневник',
                 'description' => 'написать ежедневник.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Ознакомления с комментарием к заказу',
+                'name' => 'Ознакомления с комментарием к заказу',
                 'description' => 'Добавить недопущение изменения статуса заказа без ознакомления с комментарием (с записью кто ознакомился).',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Plain в email',
+                'name' => 'Plain в email',
                 'description' => 'Добавить plain в email https://laravel.ru/posts/272.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Canonical link',
+                'name' => 'Canonical link',
                 'description' => 'SEO: canonical link.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Ценовые группы',
+                'name' => 'Ценовые группы',
                 'description' => 'Добавить ценовые группы.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Аватар',
+                'name' => 'Аватар',
                 'description' => 'Добавить аватары для пользователей.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить пользователя System',
+                'name' => 'Добавить пользователя System',
                 'description' => 'Добавить пользователя System с божественными привилегиями. Создать от его имени базовые роли, пользователей и разрешения, которые не смогут удалить смертные.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Запрет изменения разрешений',
+                'name' => 'Запрет изменения разрешений',
                 'description' => 'Запретить изменение разрешений, отсутствующих у исполнителя.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить историю ролей',
+                'name' => 'Добавить историю ролей',
                 'description' => 'Добавить историю ролей.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Не работает настройка "Показывать товары без цены"',
+                'name' => 'Не работает настройка "Показывать товары без цены"',
                 'description' => 'Не работает настройка "Показывать товары без цены".',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Изменить роли и разрешения',
+                'name' => 'Изменить роли и разрешения',
                 'description' => '.
                     <ol>
                         <li>Добавить content-manager sale-manager.
@@ -293,126 +293,126 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Поправить количество товаров в корзине',
+                'name' => 'Поправить количество товаров в корзине',
                 'description' => 'Поправить количество товаров в корзине, отображаемое в шапке сайта.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Переадресация после редактирования',
+                'name' => 'Переадресация после редактирования',
                 'description' => 'После редактирования переадресовывать на админпросмотр списка вещи.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Permission в ProductController',
+                'name' => 'Permission в ProductController',
                 'description' => 'Расставить разрешения в ProductController.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Restore SoftDeleted users',
+                'name' => 'Restore SoftDeleted users',
                 'description' => 'Restore SoftDeleted users.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Accessor in filters',
+                'name' => 'Accessor in filters',
                 'description' => 'Реализовать использование отношений в фильтрах.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Добавить виджеты',
+                'name' => 'Добавить виджеты',
                 'description' => 'Рассмотреть целесообразность применения пакета <a href="https://github.com/arrilot/laravel-widgets">arrilot/laravel-widgets</a>.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Accessor getParentSeeableAttribute',
+                'name' => 'Accessor getParentSeeableAttribute',
                 'description' => 'Попытаться улучшить метод getParentSeeableAttribute в модели Category (max(\'seeable\')).',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Проверить вывод истории',
+                'name' => 'Проверить вывод истории',
                 'description' => 'Проверить вывод истории для различных категорий. Добавить события для занесения в историю.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить сортировку категорий',
+                'name' => 'Добавить сортировку категорий',
                 'description' => 'Добавить поле в модель категорий.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Реализовать управление производителями',
+                'name' => 'Реализовать управление производителями',
                 'description' => 'добавить контроллер, роуты, хлебные крошки, разрешения и виды.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Разрешения для ролей',
+                'name' => 'Разрешения для ролей',
                 'description' => 'Проверить и при необходимости поправить разрешения для ролей.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Изменить вид товара',
+                'name' => 'Изменить вид товара',
                 'description' => 'Сделать одинаковое отображение для персонала и клиентов.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить избранное',
+                'name' => 'Добавить избранное',
                 'description' => 'аналогично корзине, только без количества и стоимости.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Сортировка по цене',
+                'name' => 'Сортировка по цене',
                 'description' => 'Сделать по-умолчанию сортировку товаров по цене.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить режим отображения в виде сетки, списка, таблицы',
+                'name' => 'Добавить режим отображения в виде сетки, списка, таблицы',
                 'description' => 'Добавить режим отображения в виде сетки, списка, таблицы. <a href="https://www.dssl.ru/products/analogovyie-kameryi/?display=table&CODE=analogovyie-kameryi">пример</a>',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Кастомизировать ошибки валидации',
+                'name' => 'Кастомизировать ошибки валидации',
                 'description' => 'Кастомизировать ошибки валидации (<a href="http://laravel.su/docs/5.4/Validation#form-request-validation" target="_blank" rel="noopener noreferrer">читать здесь</a>).',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Проверить видимость товара',
+                'name' => 'Проверить видимость товара',
                 'description' => 'Проверить видимость товара перед выводом в products.show.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Продумать отображение описания товара',
+                'name' => 'Продумать отображение описания товара',
                 'description' => 'Продумать отображение описания товара, содержащего теги на странице результатов поиска.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
@@ -420,42 +420,42 @@ class TasksTableSeeder extends Seeder
             ],
 
             // [
-            //     'title' => 'Продумать модальную форму',
+            //     'name' => 'Продумать модальную форму',
             //     'description' => 'public_html/resources/views/includes/modalForm.blade.php.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 4,
             // ],
 
             [
-                'title' => 'Заменить Status на OrderStatus',
+                'name' => 'Заменить Status на OrderStatus',
                 'description' => 'Заменить Status на OrderStatus, StatusesTableSeeder на OrderStatusesTableSeeder, CreateStatusesTable на CreateOrderStatusesTable, etc.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Изменить обновление записи',
+                'name' => 'Изменить обновление записи',
                 'description' => 'Делать изменение записи только при изменении. См. <a href="https://laravel.demiart.ru/10-skrytyh-fishek-laravel-eloquent/">п.п. 9, 10</a>',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Свернуть меню админки',
+                'name' => 'Свернуть меню админки',
                 'description' => 'Свернуть подпункты как подкатегории в меню каталога.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
             // [
-            //     'title' => 'Уникальность наименования товара',
+            //     'name' => 'Уникальность наименования товара',
             //     'description' => 'Разобраться, нужна-ли. Если да, то добавить валидацию в контроллер.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 4,
             // ],
 
             [
-                'title' => 'Добавить возможность вставки таблиц',
+                'name' => 'Добавить возможность вставки таблиц',
                 'description' => '
                     Добавить возможность вставки таблиц при создании и редактировании товаров. Вставка исходного html-кода с последующей чисткой на стороне сервера.
                     </p><p>Добавить поля в модель Product.',
@@ -464,7 +464,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             // [
-            //     'title' => 'Доработать TaskList',
+            //     'name' => 'Доработать TaskList',
             //     'description' => 'Доработать TaskList:</p>
             //     <ol>
             //         <li>Добавить отображение задач и поручений в виде карточек.
@@ -480,56 +480,56 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
-                'title' => 'ImageYoTrait',
+                'name' => 'ImageYoTrait',
                 'description' => 'Разберись, наконец, с этим трейтом.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Обработать загрузку больших изображений',
+                'name' => 'Обработать загрузку больших изображений',
                 'description' => 'Обработать загрузку больших изображений. На фронте и бэке. Поставить лимит.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Заменить dev на prod',
+                'name' => 'Заменить dev на prod',
                 'description' => 'После окончания сменить значение APP_DEBUG в ".env".',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Удаление мусора',
+                'name' => 'Удаление мусора',
                 'description' => 'Продумать удаление каталогов с изображениями при "migrate:refresh --seed".',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Задисейбленный submit в Settings',
+                'name' => 'Задисейбленный submit в Settings',
                 'description' => 'В Settings сделать submit по-умолчанию неактивным. Активировать только при смене соответствующего параметра. Доделать для email_send_delay и additional_email_bcc.',
                 'tasksstatus_id' => 2,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Удалить rank',
+                'name' => 'Удалить rank',
                 'description' => 'Удалить rank из table roles. Субординацию соблюдать, опираясь на role.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Поправить фильтр категорий',
+                'name' => 'Поправить фильтр категорий',
                 'description' => 'Фильтр категорий некорректно работает при отключенной опции "Показывать в фильтре категорий подкатегории".',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Добавить подтверждение удаления товаров из корзины',
+                'name' => 'Добавить подтверждение удаления товаров из корзины',
                 'description' => 'Добавить подтверждение удаления товаров из корзины. Затронуть файлы
                 <ul> 
                     <li>resources/views/cart/confirmation.blade.php
@@ -542,21 +542,21 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Редирект со страницы оформления заказа',
+                'name' => 'Редирект со страницы оформления заказа',
                 'description' => 'Продумать редирект со страницы оформления заказа при удалении последнего товара из корзины.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Перенести меню каталога',
+                'name' => 'Перенести меню каталога',
                 'description' => 'Перенести меню каталога в главное меню.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Отображать в категориях подкатегории',
+                'name' => 'Отображать в категориях подкатегории',
                 'description' => 'Вместо товаров на главной и в категориях отображать подкатегории (при их наличии) мозаикой.<br>
                 <a href="https://grmeh.ru/cat/stropy_remni/stropy_tekstilnye">пример</a></br> Ниже - контакты с картой.',
                 'tasksstatus_id' => 6,
@@ -564,7 +564,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Переделать структуру главного меню',
+                'name' => 'Переделать структуру главного меню',
                 'description' => '
                 <ol>
                     <li>главная</li>
@@ -578,21 +578,21 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Убрать цены, корзину и login/register в настройки',
+                'name' => 'Убрать цены, корзину и login/register в настройки',
                 'description' => 'Убрать цены и корзину в настройки. По умолчанию отображение включить. Регистрацию, наверное, тоже.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Удаление задач',
+                'name' => 'Удаление задач',
                 'description' => 'Добавить возможность удаления задачи из "resources/views/tasks/show.blade.php".',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Поля модели товар',
+                'name' => 'Поля модели товар',
                 'description' => 'Привести поля товара и прочих моделей к виду (список пополнить):
                 <ol>
                     <li>title: string - название</li>
@@ -611,21 +611,21 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Добавить в настройки отображение пустых категорий',
+                'name' => 'Добавить в настройки отображение пустых категорий',
                 'description' => 'Добавить в настройки отображение пустых категорий. или не в настройки.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Uuid primaryKey',
+                'name' => 'Uuid primaryKey',
                 'description' => 'Добавить в модель App\User <code>protected $primaryKey = \'uuid\';</code>.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'perPage in models',
+                'name' => 'perPage in models',
                 'description' => 'protected $perPage = 25; // Да, вы можете переопределить число записей пагинации (по умолчанию 15) https://github.com/laravel/framework/blob/5.6/src/Illuminate/Database/Eloquent/Model.php',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
@@ -633,28 +633,28 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Изменить алгоритм подсчета стоимости корзины',
+                'name' => 'Изменить алгоритм подсчета стоимости корзины',
                 'description' => 'Изменить алгоритм подсчета стоимости корзины в зависимости от наличия цен на товары в корзине.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Разделить отображение и редактирование настроек',
+                'name' => 'Разделить отображение и редактирование настроек',
                 'description' => 'Разделить отображение и редактирование настроек.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Вынести всплывающие сообщения в fixed block',
+                'name' => 'Вынести всплывающие сообщения в fixed block',
                 'description' => 'Вынести всплывающие сообщения в fixed block.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Удаление категорий',
+                'name' => 'Удаление категорий',
                 'description' => 'Добавить удаление категорий с перемещением нахоудаление категорий с перемещением находящихся в них подкатегорий и товаров на уровень выше.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
@@ -662,35 +662,35 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Добавить возможность сидирования магазинов различных тематик',
+                'name' => 'Добавить возможность сидирования магазинов различных тематик',
                 'description' => 'Добавить возможность сидирования магазинов различных тематик с управлением из .env.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Перенести сидирование изображений в отдельный класс',
+                'name' => 'Перенести сидирование изображений в отдельный класс',
                 'description' => 'В данный момент сидирование в таблицу "images" происходит в файле "ProductTableSeeder", что не есть комильфо. Исправить.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'Добавить отображение фильтров в настройки',
+                'name' => 'Добавить отображение фильтров в настройки',
                 'description' => 'Добавить в настройки возможность выбора отображения фильтров (не отображать, только категории, категории и подкатегории). часть элементов раскрывать по клику',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'SEO: продумать дубли страниц',
+                'name' => 'SEO: продумать дубли страниц',
                 'description' => 'Продумать дубли страниц: либо отключить, либо настроить canonical. Пример: /products и /categories',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,
             ],
 
             [
-                'title' => 'SEO: title, description, keywords',
+                'name' => 'SEO: title, description, keywords',
                 'description' => 'Продумать формирование title, description, keywords для товаров и категорий.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
@@ -698,14 +698,14 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вёрстка: сверстать главную страницу',
+                'name' => 'Вёрстка: сверстать главную страницу',
                 'description' => 'сверстать главную страницу.',
                 'tasksstatus_id' => 2,
                 'taskspriority_id' => 3,
             ],
 
             [
-                'title' => 'Вёрстка: яндекс сервисы',
+                'name' => 'Вёрстка: яндекс сервисы',
                 'description' => 'регистрация почты плюс:
                     <ol>
                         <li>регистрация карт</li>
@@ -723,7 +723,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вёрстка: сверстать админку',
+                'name' => 'Вёрстка: сверстать админку',
                 'description' => 'сверстать главную страницу.:
                     <ol>
                         <li>admin.layout</li>
@@ -737,14 +737,14 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вёрстка: видоизменить 404 etc',
+                'name' => 'Вёрстка: видоизменить 404 etc',
                 'description' => 'видоизменить 404, 403, 500 etc.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Model Product',
+                'name' => 'Model Product',
                 'description' => 'Добавить поля:
                     <ol>
                         <li>sort_order</li>
@@ -759,7 +759,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Добавить групповые действия с товарами',
+                'name' => 'Добавить групповые действия с товарами',
                 'description' => 'Добавить групповые действия с товарами.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 2,
@@ -767,14 +767,14 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Поправить шаблоны писем',
+                'name' => 'Поправить шаблоны писем',
                 'description' => 'Поправить шаблоны писем.',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 4,
             ],
 
             [
-                'title' => 'Доработать роуты',
+                'name' => 'Доработать роуты',
                 'description' => '
                     <ol>
                         <li>отформатировать роуты;</li>
@@ -792,7 +792,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Вёрстка: чекбоксы',
+                'name' => 'Вёрстка: чекбоксы',
                 'description' => 'Стилизовать чекбоксы в:
                     <ol>
                         <li>в пермишинах ролей;</li>
@@ -803,7 +803,7 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Выбор категории при создании/редактировании товара',
+                'name' => 'Выбор категории при создании/редактировании товара',
                 'description' => 'Изменить выбор категории при создании/редактировании товара:
                     <ol>
                         <li>запретить ввод корневой директории (содержащей подкатегории);</li>
@@ -817,14 +817,14 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'title' => 'Настройки п. 3.5 Отображать в категории подкатегории',
+                'name' => 'Настройки п. 3.5 Отображать в категории подкатегории',
                 'description' => 'Разобраться и поправить описание (и поведение приложения) п. 3.5 Отображать в категории подкатегории.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => ':
             //         <ol>
             //             <li>;</li>
@@ -838,7 +838,7 @@ class TasksTableSeeder extends Seeder
             // ],
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => ':
             //         <ol>
             //             <li>;</li>
@@ -852,7 +852,7 @@ class TasksTableSeeder extends Seeder
             // ],
 
             // [
-            //     'title' => '',
+            //     'name' => '',
             //     'description' => ':
             //         <ol>
             //             <li>;</li>
@@ -866,21 +866,21 @@ class TasksTableSeeder extends Seeder
             // ],
 
             [
-                'title' => 'Перестал работать фильтр',
+                'name' => 'Перестал работать фильтр',
                 'description' => 'После смены концепции отображения (скорее всего) перестал работать фильтр. Поправить.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Количество просмотров товара',
+                'name' => 'Количество просмотров товара',
                 'description' => 'Добавить в модель Product количество просмотров.',
                 'tasksstatus_id' => 6,
                 'taskspriority_id' => 1,
             ],
 
             [
-                'title' => 'Добавить анимированную сортировку товаров',
+                'name' => 'Добавить анимированную сортировку товаров',
                 'description' => 'Добавить анимарованную сортировку товаров как в
                 <a href="https://s-sd.ru/blog_studio_design/animarovannaya_sortirovka_blokov_s_pomowyu_isotope/">примере</a>
                  .',
@@ -889,21 +889,21 @@ class TasksTableSeeder extends Seeder
             ],
 
             // [
-            //     'title' => 'rrrrrr',
+            //     'name' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 1,
             // ],
 
             // [
-            //     'title' => 'rrrrrr',
+            //     'name' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 1,
             // ],
 
             // [
-            //     'title' => 'rrrrrr',
+            //     'name' => 'rrrrrr',
             //     'description' => 'rrrrrrr.',
             //     'tasksstatus_id' => 1,
             //     'taskspriority_id' => 1,
@@ -920,8 +920,8 @@ class TasksTableSeeder extends Seeder
             DB::table('tasks')->insert([
                 'master_user_id' => 3,
                 'slave_user_id' => 3,
-                'title' => $task['title'] ?? Str::limit($task->description, 20),
-                'slug' => Str::slug($task['title'], '-'),
+                'name' => $task['name'] ?? Str::limit($task->description, 20),
+                'slug' => Str::slug($task['name'], '-'),
                 'description' => $task['description'],
                 'comment_slave' => $task['comment_slave'] ?? '',
                 'tasksstatus_id' => $task['tasksstatus_id'],

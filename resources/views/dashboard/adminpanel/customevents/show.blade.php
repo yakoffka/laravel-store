@@ -23,7 +23,7 @@
 
         <div class="col">
 
-            <h2>{{ $customevent->type }} {{ $customevent->model }} id={{ $customevent->model_id }}</h2>
+            <h2>{{ __($customevent->type . '_' . $customevent->model) }} '{{ $customevent->model_name }}' (id={{ $customevent->model_id }})</h2>
             {{-- <br>id: {{ $customevent->id }} --}}
             {{-- <br>user_id: {{ $customevent->user_id }} --}}
             <br>Исполнитель: {{ $customevent->getInitiator->name }}

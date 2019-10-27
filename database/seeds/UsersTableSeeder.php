@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
         //     app/Http/Controllers/Auth/RegisterController.php ($user->attachRole(8); // user role)
         //     app/Comment.php ('user_id' => auth()->user()->id ?? $this->user_id ?? 7)
         //     app/Category.php ('user_id' => auth()->user()->id ?? $this->user_id ?? 7)
+        //     database/migrations/2019_08_21_100545_create_customevents_table.php ($table->unsignedBigInteger('user_id')->default(7); // default unregistered user)
 
         $users = [
             ['name' => 'System',                                    'email' => str_replace('@', '+system@', config('custom.mail_owner')),       'passw' => config('custom.pass_owner'), ], 

@@ -17,6 +17,7 @@ $factory->define(Comment::class, function (Faker $faker) {
     return [
         'product_id' => rand(1, config('custom.num_products_seed')),
         'user_id' => rand(1, $users->count()),
+        'name' => 'comment #XXX',
         'user_name' => '',
         'body' => $faker->realText(rand(100, 500)),
         'created_at' => $created_at,

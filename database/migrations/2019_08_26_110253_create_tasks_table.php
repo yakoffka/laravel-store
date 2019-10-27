@@ -13,14 +13,11 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        // $statuses = array_column(config('task.statuses'), 'name');
-        // $priorities = array_column(config('task.priorities'), 'name');
-
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('master_user_id');
             $table->unsignedBigInteger('slave_user_id');
-            $table->string('title', 100);
+            $table->string('name')->unique();
             $table->string('slug');
             $table->text('description');
             $table->unsignedBigInteger('tasksstatus_id');

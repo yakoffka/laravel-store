@@ -15,13 +15,13 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name')->unique();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('total_qty');
             $table->unsignedInteger('total_payment');
             $table->text('cart');
             $table->unsignedInteger('status_id');
             $table->text('comment')->nullable();
-            // $table->text('history')->nullable();
             $table->text('address')->nullable();
             $table->timestamps();
 
