@@ -1,8 +1,17 @@
-Add Email notification for Comment
-    // $ php artisan make:mail Comment/Created --markdown="emails.comment.created"
-    // $ php artisan make:mail Comment/Updated --markdown="emails.comment.updated"
-    // $ php artisan make:mail Comment/Deleted --markdown="emails.comment.deleted"
-    php artisan make:mail Comment --markdown="emails.comment"
+Refactoring Category
+    Create CategoryObserver:
+        php artisan make:observer CategoryObserver --model=Category;
+    Create Mailable with Markdown:
+        php artisan make:mail CategoryNotification --markdown="emails.category";
+    Add settings email_categories_created, email_categories_updated and email_categories_deleted*
+    Add uuid field for naming source directory category
+    Change field type visible boolean => string
+При описании метода app/Category.php::setChildrenVisible столкнулся с неожиданным значением свойства $this->visible ($category->visible) = []. Ожидал увидеть 'on'/null.
+По всей видимости это связано с зарезервированными переменными/методами модели (visible, setVisible)
+
+    
+
+// search 'extends CustomController' 
 
 // translate: заменить плейсхолдеры в products, customevents, orders, Your e-mail is verified. You can now login.
 // изменить количество наименований в корзине на количество товаров

@@ -12,6 +12,11 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        // !!! ПРИ ИЗМЕНЕНИИ ПОПРАВИТЬ:
+        //     app/Http/Controllers/Auth/RegisterController.php ($user->attachRole(8); // user role)
+        //     app/Comment.php ('user_id' => auth()->user()->id ?? $this->user_id ?? 7)
+        //     app/Category.php ('user_id' => auth()->user()->id ?? $this->user_id ?? 7)
+
         $users = [
             ['name' => 'System',                                    'email' => str_replace('@', '+system@', config('custom.mail_owner')),       'passw' => config('custom.pass_owner'), ], 
             ['name' => 'Owner'.config('custom.name_owner'),         'email' => str_replace('@', '+owner@', config('custom.mail_owner')),        'passw' => config('custom.pass_owner'), ], 

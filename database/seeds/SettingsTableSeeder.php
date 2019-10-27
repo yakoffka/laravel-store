@@ -67,6 +67,48 @@ class SettingsTableSeeder extends Seeder
                 ],
                 'default_value' => 0,
             ],
+            
+
+            // email_categories_*
+            [
+                'group' => 'emails',
+                'name_group' => 'Настройки отправки email-уведомлений',
+                'type' => 'checkbox',
+                'name' => 'email_categories_created',
+                'display_name' => 'email-уведомления при добавлении категорий',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении категорий.',
+                'permissible_values' => [
+                    [0, 'выключено'],
+                    [1, 'включено'],
+                ],
+                'default_value' => 0,
+            ],
+            [
+                'group' => 'emails',
+                'name_group' => 'Настройки отправки email-уведомлений',
+                'type' => 'checkbox',
+                'name' => 'email_categories_updated',
+                'display_name' => 'email-уведомления при изменении категорий',
+                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении категорий.',
+                'permissible_values' => [
+                    [0, 'выключено'],
+                    [1, 'включено'],
+                ],
+                'default_value' => 0,
+            ],
+            // [
+            //     'group' => 'emails',
+            //     'name_group' => 'Настройки отправки email-уведомлений',
+            //     'type' => 'checkbox',
+            //     'name' => 'email_categories_deleted',
+            //     'display_name' => 'email-уведомления при удалении категорий',
+            //     'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении категорий.',
+            //     'permissible_values' => [
+            //         [0, 'выключено'],
+            //         [1, 'включено'],
+            //     ],
+            //     'default_value' => 0,
+            // ],
 
             // email_comments_*
             [

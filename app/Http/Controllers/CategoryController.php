@@ -69,27 +69,20 @@ class CategoryController extends CustomController
             'visible'       => 'nullable|string|in:on',
         ]);
 
-        $category = new Category;
+        $category = Category::create([
+            'name'              => request('name'),
+            'title'             => request('title'), // 
+            'slug'              => request('slug'), // 
+            'description'       => request('description'),
+            'imagepath'         => request('imagepath'),
+            'parent_id'         => request('parent_id'),
+            'sort_order'        => request('sort_order'),
+            'visible'           => request('visible') ? true : false, // 
+            'added_by_user_id'  => auth()->user()->id,
+        ]);
 
-        $category->name              = request('name');
-        $category->title             = request('title') ?? request('name');
-        $category->slug              = request('slug') ?? Str::slug(request('title'), '-');
-        $category->description       = request('description');
-        $category->parent_id         = request('parent_id');
-        $category->sort_order        = request('sort_order');
-        $category->visible           = request('visible') ? true : false;
-        $category->added_by_user_id  = auth()->user()->id;
+        // $this->attachSingleImage($category, request('imagepath'));
 
-        $dirty_properties = $category->getDirty();
-
-        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
-
-        $dirty_properties = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
-
-        // add email!
-
-        // $message = $this->createCustomevent($category, $dirty_properties, false, 'model_create');
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.adminindex');
     }
 
@@ -147,6 +140,7 @@ class CategoryController extends CustomController
      */
     public function update(Category $category)
     {
+        info(__METHOD__);
         abort_if( auth()->user()->cannot('edit_categories'), 403);
 
         request()->validate([
@@ -160,28 +154,22 @@ class CategoryController extends CustomController
             'parent_id'     => 'required|integer|max:255',
         ]);
 
-        $category->name              = request('name');
-        $category->slug              = request('slug');
-        $category->title             = request('title');
-        $category->description       = request('description');
-        $category->sort_order        = request('sort_order');
-        $category->visible           = request('visible') ? true : false;
-        $category->parent_id         = request('parent_id');
-        $category->edited_by_user_id = auth()->user()->id;
+        $category->update([
+            'name'              => request('name'),
+            'slug'              => request('slug'), // depricated!
+            'title'             => request('title'),
+            'description'       => request('description'),
+            'imagepath'         => request('imagepath'),
+            'sort_order'        => request('sort_order'),
+            'visible'           => request('visible'),
+            'parent_id'         => request('parent_id'),
+            'edited_by_user_id' => auth()->user()->id,
+        ]);
 
-        $dirty_properties = $category->getDirty();
-        $original = $category->getOriginal();
+        // $this->attachSingleImage($category, request('imagepath'));
 
-        if ( !$category->save() ){ return back()->withErrors(['something wrong. err' . __LINE__])->withInput();};
+        // $this->setVisibleChildren($category);
 
-        $dirty_properties = $this->attachSingleImage($category, request('imagepath'), $dirty_properties);
-
-        $this->setVisibleChildren($category, $dirty_properties);
-
-        // add email!
-
-        // $message = $this->createCustomevent($category, $dirty_properties, $original, 'model_update');
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.adminindex');
     }
 
@@ -238,10 +226,10 @@ class CategoryController extends CustomController
      *
      * @return  string $imagepath
      */
-    private function attachSingleImage (Category $category, $imagepath, $dirty_properties) {
+    private function attachSingleImage (Category $category, $imagepath) {
 
         if ( !$imagepath ) {
-            return $dirty_properties;
+            return TRUE;
         }
 
         // WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
@@ -271,12 +259,14 @@ class CategoryController extends CustomController
         }
 
         // update $category
-        if ( !($category->image = $basename and $category->save()) ) {
+        // if ( !($category->imagepath = $basename and $category->save()) ) {
+        //     return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
+        // }
+        if ( !($category->update([ 'imagepath' => $basename ]) ) ) {
             return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
-        $dirty_properties['image'] = $dst;
-        return $dirty_properties;
+        return TRUE;
     }
 
 
@@ -289,8 +279,9 @@ class CategoryController extends CustomController
      *
      * @return  void
      */
-    private function setVisibleChildren (Category $category, $dirty_properties) {
-        if ( array_key_exists('visible', $dirty_properties) ) {
+    private function setVisibleChildren (Category $category) {
+        dd($category->isDirty);
+        if ( $category->isDirty('visible') ) {
 
             // for category top-level
             if ( $category->children->count() ) {

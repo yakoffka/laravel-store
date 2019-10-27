@@ -21,7 +21,9 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('sort_order')->default(5);
             $table->unsignedInteger('manufacturer_id')->nullable();
             $table->unsignedInteger('category_id');
-            $table->boolean('visible')->default(true);
+            // $table->boolean('visible')->default(true);
+            // $table->set('visible', ['on'])->default('on')->nullable();
+            $table->string('visible')->nullable()->default('on');
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
             $table->text('modification')->nullable();                   // modification table
@@ -31,8 +33,12 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->unsignedInteger('views');                           // кол-во просмотров товара
-            $table->boolean('depricated_parent_visible')->default(true);
-            $table->boolean('depricated_grandparent_visible')->default(true);
+            // $table->boolean('depricated_parent_visible')->default(true);
+            // $table->boolean('depricated_grandparent_visible')->default(true);
+            // $table->set('depricated_parent_visible', ['on'])->default('on')->nullable();
+            // $table->set('depricated_grandparent_visible', ['on'])->default('on')->nullable();
+            $table->string('depricated_parent_visible')->nullable()->default('on');
+            $table->string('depricated_grandparent_visible')->nullable()->default('on');
             $table->timestamps();
 
             // $table->foreign('depricated_parent_visible')->references('visible')->on('categories')

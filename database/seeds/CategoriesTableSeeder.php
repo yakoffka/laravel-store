@@ -139,12 +139,13 @@ class CategoriesTableSeeder extends Seeder
         $key = 1;
         foreach ($categories as $category) {
             DB::table('categories')->insert([
+                'uuid' => Str::uuid(),
                 'name' => $category['name'],
                 'slug' => $category['slug'] ?? Str::slug($category['name'], '-'),
                 'sort_order' => 5,
                 'title' => $category['title'] ?? ucwords($category['name']),
                 'description' => 'Description ' . ucwords($category['name']),
-                'visible' => true,
+                // 'visible' => true,
                 'parent_id' => $category['parent_id'],
                 'added_by_user_id' => 1,
                 'created_at' => date('Y-m-d H:i:s'),

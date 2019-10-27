@@ -24,9 +24,9 @@
         </td>
 
         <td>
-            @if($category->image)
+            @if($category->imagepath)
                 <div class="card-img-top b_image"
-                    style="background-image: url({{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}});">
+                    style="background-image: url({{ asset('storage') }}/images/categories/{{$category->uuid}}/{{$category->imagepath}});">
             @else
                 <div class="card-img-top b_image"
                     style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">

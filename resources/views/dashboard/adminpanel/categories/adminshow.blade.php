@@ -34,6 +34,7 @@
                 <tr><td class="th ta_r">{{ __('sort_order') }}</td><td class="td ta_l">{{ $category->sort_order }}</td></tr>
                 <tr><td class="th ta_r">{{ __('title') }}</td><td class="td ta_l">{{ $category->title }}</td></tr>
                 <tr><td class="th ta_r">{{ __('description') }}</td><td class="td ta_l">{{ $category->description }}</td></tr>
+                <tr><td class="th ta_r">{{ __('imagepath') }}</td><td class="td ta_l">{{ $category->imagepath }}</td></tr>
                 <tr><td class="th ta_r">{{ __('visible') }}</td><td class="td ta_l">{{ $category->visible }}</td></tr>
                 <tr><td class="th ta_r">{{ __('__parent_category_id') }}</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('added_by_user_id') }}</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>

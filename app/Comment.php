@@ -43,8 +43,12 @@ class Comment extends Model
 
         $details = [];
         foreach ( $attr as $property => $value ) {
-            if ( !empty($original[$property]) or !empty($dirty[$property]) ) {
-                $details[] = [ $property, $original[$property] ?? FALSE, $dirty[$property] ?? FALSE, ];
+            if ( array_key_exists( $property, $dirty ) ) {
+                $details[] = [ 
+                    $property, 
+                    $original[$property] ?? FALSE, 
+                    $dirty[$property] ?? FALSE, 
+                ];
             }
         }
 
@@ -91,7 +95,5 @@ class Comment extends Model
                     new CommentNotification($this, $type, $username)
                 );
         }
-
     }
-
 }

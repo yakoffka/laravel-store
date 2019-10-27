@@ -38,24 +38,20 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-
         // удаление директорий с изображениями!!!
-        $directory = substr(config('imageyo.dirdst'), 4); // '/app/public/images/products' => '/public/images/products'
-        // echo '    directory = "' . $directory . '"' . "\n";
-        if ( Storage::deleteDirectory($directory) ) {
-            echo '    deleted $directory = "' . $directory . '"' . "\n";
-        } else {
-            echo '    not deleted $directory = "' . $directory . '"' . "\n"; 
-        };
-
-        $directory = substr(config('imageyo.dirdst_origin'), 4); // '/app/public/images/products' => '/public/images/products'
-        // echo '    directory = "' . $directory . '"' . "\n";
-        if ( Storage::deleteDirectory($directory) ) {
-            echo '    deleted $directory = "' . $directory . '"' . "\n";
-        } else {
-            echo '    not deleted $directory = "' . $directory . '"' . "\n"; 
-        };
-
+        foreach ([
+            '/public/images/products',
+            '/uploads/images',
+            '/public/images/manufacturers',
+            '/public/images/categories',
+            'public/lfm_img',
+        ] as $directory) {
+            if ( Storage::deleteDirectory($directory) ) {
+                echo '    deleted $directory = "' . $directory . '"' . "\n";
+            } else {
+                echo '    not deleted $directory = "' . $directory . '"' . "\n"; 
+            };
+        }
 
         Schema::dropIfExists('images');
     }
