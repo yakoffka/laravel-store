@@ -1,1 +1,21 @@
-Prevent notifications and events when updating the parent_seeable and grandparent_seeable properties    
+Create observers for Manufacturer, Order, Product, Role, Setting, Task and User
+    php artisan make:observer ManufacturerObserver --model=Manufacturer;    
+    php artisan make:observer OrderObserver --model=Order;    
+    php artisan make:observer ProductObserver --model=Product;    
+    php artisan make:observer RoleObserver --model=Role;    
+    php artisan make:observer SettingObserver --model=Setting;    
+    php artisan make:observer TaskObserver --model=Task;    
+    php artisan make:observer UserObserver --model=User;
+add this in AppServiceProvider:
+    use App\{Category, Comment, Manufacturer, Order, Product, Role, Setting, Task, User};
+    use App\Observers\{CategoryObserver, CommentObserver, ManufacturerObserver, OrderObserver, ProductObserver, RoleObserver, SettingObserver, TaskObserver, UserObserver};
+
+    Manufacturer::observe(ManufacturerObserver::class);
+    Order::observe(OrderObserver::class);
+    Product::observe(ProductObserver::class);
+    Role::observe(RoleObserver::class);
+    Setting::observe(SettingObserver::class);
+    Task::observe(TaskObserver::class);
+    User::observe(UserObserver::class);
+add in observers creating, updating and deleting methods
+
