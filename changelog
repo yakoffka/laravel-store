@@ -1,5 +1,1 @@
-Refactoring visible parents
-    remove depricated parent_seeable and grandparent_seeable fields;
-    cleaning application from these properties;
-    // adding public $appends property in app/Product.php model for shared accessors; 
-    soft clean ProductController and CategoryController.
+Commenting out of date settings
