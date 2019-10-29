@@ -39,6 +39,7 @@
                 <tr><td class="th ta_r">{{ __('parent_seeable') }}</td><td class="td ta_l">{{ $category->parent_seeable }}</td></tr>
                 <tr><td class="th ta_r">{{ __('__parent_category_id') }}</td><td class="td ta_l">{{ $category->parent_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('added_by_user_id') }}</td><td class="td ta_l">{{ $category->added_by_user_id }}</td></tr>
+                <tr><td class="th ta_r">{{ __('edited_by_user_id') }}</td><td class="td ta_l">{{ $category->edited_by_user_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('created_at') }}</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
                 <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
             </table>

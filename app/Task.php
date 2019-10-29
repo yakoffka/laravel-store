@@ -67,9 +67,6 @@ class Task extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
         $this->type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -108,10 +105,6 @@ class Task extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
         $type = $this->type;
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
         $setting = config($namesetting);

@@ -1,4 +1,4 @@
-<tr class="{{ (!$product->seeable or !$product->parent_seeable or !$product->grandparent_seeable) ? 'gray' : ''}}">
+<tr class="{{ (!$product->seeable or !$product->category_seeable or !$product->parent_category_seeable) ? 'gray' : ''}}">
     <td class="ta_c left_stylized_checkbox">
         <input 
             form="products_massupdate" 
@@ -22,18 +22,18 @@
         @endif
     </td>
 
-    {{-- parent_seeable --}}
+    {{-- category_seeable --}}
     <td class="ta_c" width="30px">
-        @if ( $product->parent_seeable )
+        @if ( $product->category_seeable )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>
         @endif
     </td>
 
-    {{-- grandparent_seeable --}}
+    {{-- parent_category_seeable --}}
     <td class="ta_c" width="30px">
-        @if ( $product->grandparent_seeable )
+        @if ( $product->parent_category_seeable )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>

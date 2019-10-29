@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 // use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
 use Str;
@@ -21,7 +20,7 @@ class ProductsController extends Controller
 
     /**
      * Only for filters!
-     * Display a listing of the resource.
+     * Display a listing of the resource for filters. Only for filters!
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,11 +29,13 @@ class ProductsController extends Controller
             return redirect()->route('categories.index');
         }
         $appends = $request->query->all();
+        $array_seeable_categories = Category::all()
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+            ->pluck('id')
+            ->toArray();
         $products = Product::where('seeable', '=', 'on')
-            // ->where('grandparent_seeable', '=', 'on')
-            // ->where('parent_seeable', '=', 'on')
-            ->where('category_seeable', '=', 'on')
-            ->where('parent_category_seeable', '=', 'on')
+            ->whereIn('category_id', $array_seeable_categories)
             ->orderBy('price')
             ->filter($request)
             ->paginate();
@@ -114,17 +115,7 @@ class ProductsController extends Controller
             'views' => 0,
         ]);
 
-
-        // $dirty_properties = $product->getDirty();
-
-        // if ( !$product->save() ) {
-        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        // }
-
-        // create event record
         $this->attachImages($product->id, request('imagespath'));
-        // $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
-        // // $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
         // // send email-notification
         // if ( config('settings.email_new_product') ) {
@@ -145,7 +136,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product) {
@@ -201,7 +192,7 @@ class ProductsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  request()
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function update(Product $product)
@@ -239,35 +230,8 @@ class ProductsController extends Controller
             'price' => request('price'),
             'views' => 0,
         ]);
-        // if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
-        //     $modification = $this->cleanSrcCodeTables(request('modification'));
-        // } else {
-        //     $modification = request('modification') ?? '';
-        // }
-
-        // $product->name = request('name');
-        // $product->slug = Str::slug(request('name'), '-');
-        // $product->manufacturer_id = request('manufacturer_id');
-        // $product->category_id = request('category_id');
-        // $product->seeable = request('seeable') ;
-        // $product->materials = request('materials');
-        // $product->description = request('description');
-        // $product->modification = $modification;
-        // $product->workingconditions = request('workingconditions') ?? '';
-        // $product->date_manufactured = request('date_manufactured') ?? '';
-        // $product->price = request('price');
-        // $product->edited_by_user_id = auth()->user()->id;
-
-        // $dirty_properties = $product->getDirty();
-        // $original = $product->getOriginal();
-
-        // if ( !$product->save() ) {
-        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        // }
 
         $this->attachImages($product->id, request('imagespath'));
-
-        // // $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
 
         // // send email-notification
         // if ( config('settings.email_update_product') ) {
@@ -280,7 +244,6 @@ class ProductsController extends Controller
         //     \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
         // }
 
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.adminshow', $product->id);
     }
 
@@ -288,33 +251,16 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
     {
         abort_if ( auth()->user()->cannot('delete_products'), 403 );
 
-        // // $products_name = $product->name;
-        // // $products_id = $product->id;
-
-        // if ($product->images) {
-        //     // delete public directory (converted images)
-        //     $directory_pub = 'public/images/products/' . $product->id;
-        //     Storage::deleteDirectory($directory_pub);
-        //     // delete uploads directory (original images)
-        //     $directory_upl = 'uploads/images/products/' . $product->id;
-        //     Storage::deleteDirectory($directory_upl);
-        // }
-
-        // $product->comments()->delete();
-        // // !!!$product->images()->delete();
-
-        // // ADD DELETE PRODUCT EMAIL!
-
-        // // $message = $this->createCustomevent($product, false, false, 'model_delete');
         $product->delete();
-        // if ( $message ) {session()->flash('message', $message);} // and if delete
+
+        // возврат на предыдущую страницу, если удаление было инициировано не со страницы товара
         if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
             return redirect()->route('products.adminindex');
         } else {
@@ -325,21 +271,14 @@ class ProductsController extends Controller
 
     public function rewatermark()
     {
-        // info(__method__ . '@' . __line__ . ': config(\'imageyo.watermark\') = ' . config('imageyo.watermark'));
         $products = Product::has('images')->get();
 
         if ( $products->count() ) {
             Artisan::call('queue:restart');
-            // info(__method__ . '@' . __line__ . ': call(\'queue:restart\')');
-
             foreach ($products as $product) {
-                // RewatermarkJob::dispatch($product->id);
                 $job = new RewatermarkJob($product->id);
                 dispatch($job);
-                // info(__method__ . '@' . __line__ . ': dispatch(new RewatermarkJob('.$product->id.'))');
-                // dispatch($job)->onQueue('rewatermark');
             }
-    
             session()->flash('message', 'Jobs for ' . $products->count() . ' send in queue to rewatermark.');
         } else {
             session()->flash('message', 'No products with images.');
@@ -355,10 +294,13 @@ class ProductsController extends Controller
         ]);
 
         $query = request('query');
+        $array_seeable_categories = Category::all()
+            ->where('seeable', '=', 'on')
+            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+            ->pluck('id')
+            ->toArray();
         $products = Product::where('seeable', 'on')
-            // ->where('category_seeable', true)
-            ->where('grandparent_seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on')
+            ->whereIn('category_id', $array_seeable_categories)
             ->search($query)
             ->paginate(15)
             ;
@@ -389,14 +331,15 @@ class ProductsController extends Controller
         $imagepaths = explode(',', $imagespath);
         foreach( $imagepaths as $imagepath) {
             $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+
             // image re-creation
             $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
             $originalName = basename($image_name);
             $path  = '/images/products/' . $product_id;
+
             // create record
             $image = Image::create([
                 'product_id' => $product_id,
-                // 'slug' => $image_name,
                 'slug' => Str::slug($image_name, '-'),
                 'path' => $path,
                 'name' => $image_name,
@@ -409,76 +352,8 @@ class ProductsController extends Controller
     }
 
 
-    /*
-    * Приватный метод очистки исходного украденного исходного кода таблиц
-    *
-    * Возвращает исходный код, очищенный от ненужных тегов, классов, стилей и др.
-    */
-    /*private function cleanSrcCodeTables (String $dirty_modification ): string {
-
-        // удаление ненужных тегов
-        $res = strip_tags($dirty_modification, '<table><caption><thead><tbody><th><tr><td>');
-
-        $arr_replace = [
-            ["~</table>.*?<table[^>]*?>~u",         "REPLACE_THIS"],                    // если таблиц несколько
-            ["~.*?<table[^>]*?>~u",     "<table class=\"blue_table\">"],                // обрезка до таблицы
-            ["~</table>.*?~u",          "</table>"],                                    // обрезка после таблицы
-            ["~<caption[^>]*?>~u",      "<caption>"],                                   // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<thead[^>]*?>~u",        "<thead>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<tbody[^>]*?>~u",        "<tbody>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<th[\s]{1}[^>]*?>~u",    "<th>"],                                        // не зацепить <thead>!!
-            ["~<tr[^>]*?>~u",           "<tr>"],
-            ["~<td[^>]*?>~u",           "<td>"],
-            ["~>[\s]*~",                ">"],
-            ["~[\s]*>~",                ">"],
-            ["~<[\s]*~",                "<"],
-            ["~[\s]*<~",                "<"],
-            ["~REPLACE_THIS~u",         "</table>\n<table class=\"blue_table\">"],
-
-        ];
-        foreach($arr_replace as $replace) {
-            $res = preg_replace( $replace[0], $replace[1], $res );
-        }
-
-        // удаление прочего мусора
-        $arr_delete = [
-            '&nbsp;',
-        ];
-        foreach($arr_delete as $delete) {
-            $res = str_replace( $delete, '', $res );
-        }
-
-        // опционально: если последним столбцом таблицы идет цена, то вырезаем весь столбец
-        if ( strpos($res,'<td>Цена</td></tr>') or strpos($res,'<th>Цена</th></tr>') ) {
-            $arr_replace = [
-                ["~<td>[^<]+?</td></tr>~u","</tr>"],
-                ["~<th>[^<]+?</th></tr>~u","</tr>"],
-            ];
-            foreach($arr_replace as $replace) {
-                $res = preg_replace( $replace[0], $replace[1], $res );
-            }
-        }
-
-        // опционально: удаление столбца <tr><td>Код товара</td>
-        if ( strpos($res,'<tr><td>Код товара</td>') or strpos($res,'<tr><th>Код товара</th>') ) {
-            $arr_replace = [
-                ["~<tr><td>[^<]+?</td>~u","<tr>"],
-                ["~<tr><th>[^<]+?</th>~u","<tr>"],
-            ];
-            foreach($arr_replace as $replace) {
-                $res = preg_replace( $replace[0], $replace[1], $res );
-            }
-        }
-
-        return $res;
-    }*/
-
-
-
-
     public function massupdate() {
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
-        // dd(request()->all());
 
         request()->validate([
             'action' => 'required|string|in:delete,replace,inseeable,seeable',
@@ -549,53 +424,4 @@ class ProductsController extends Controller
     
         return back();
     }
-
-
-    // /**
-    //  * Copying all donor images and creating an entry in the image table.
-    //  * 
-    //  * 
-    //  */
-    // private function additionallyIfCopy (Product $product, $donor_id)
-    // {
-    //     if ( !$donor_id ) {
-    //         return false;
-    //     }
-
-    //     $donor = Product::find($donor_id);
-
-    //     $d_images = Product::find($donor_id)->images;
-
-    //     // copy all entries from the image table related to this product
-    //     foreach ( $d_images as $d_image ) {
-    //         $image = new Image;
-    //         $image->product_id = $product->id;
-    //         $image->slug = $d_image->slug;
-    //         $image->path = $d_image->path;
-    //         $image->name = $d_image->name;
-    //         $image->ext = $d_image->ext;
-    //         $image->alt = $d_image->alt;
-    //         $image->sort_order = $d_image->sort_order;
-    //         $image->orig_name = $d_image->orig_name;
-    //         $image->save();
-    //     }
-
-    //     // copy all files from public directory images of products
-    //     $pathToDir = 'public/images/products/'; // TODO!!!
-    //     $files = Storage::files($pathToDir . $donor_id);
-    //     foreach ( $files as $src ) {
-    //         $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
-    //         Storage::copy($src, $dst);
-    //     }
-
-    //     // copy all files from uploads directory images of products
-    //     $pathToDir = 'uploads/images/products/'; // TODO!!!
-    //     $files = Storage::files($pathToDir . $donor_id);
-    //     foreach ( $files as $src ) {
-    //         $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
-    //         Storage::copy($src, $dst);
-    //     }
-
-    //     return 'Копирование товара "' . $product->name . '" из донора "' . $donor->name . '".';
-    // }
 }

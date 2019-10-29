@@ -43,13 +43,13 @@ class Product extends Model
     
     protected $guarded = [];
     protected $perPage = 12;
+    // shared accessors
+    // public $appends = [
+    //     'category_seeable', // getCategorySeeableAttribute
+    //     'parent_category_seeable', // getParentCategorySeeableAttribute
+    //     // 'blogs:id,title' // пример добавления ТОЛЬКО id and title from relation blogs
+    // ];
 
-    // 
-    public $appends = [
-        'category_seeable', // getCategorySeeableAttribute
-        'parent_category_seeable', // getParentCategorySeeableAttribute
-        'blogs:id,title' // пример добавления ТОЛЬКО id and title from relation blogs
-    ];
 
     public function comments() {
         // return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
@@ -192,11 +192,6 @@ class Product extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
-
-        if( $this->isDirty('parent_seeable') or $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -235,10 +230,6 @@ class Product extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
         $type = debug_backtrace()[1]['function'];
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
         $setting = config($namesetting);

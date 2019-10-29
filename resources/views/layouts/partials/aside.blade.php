@@ -4,7 +4,6 @@
             @include('layouts.partials.separator')
             @include('layouts.partials.filters')
             @permission('view_adminpanel')
-                {{-- @include('layouts.partials.separator') --}}
                 @include('dashboard.layouts.partials.adminaside')
             @else
             @endpermission

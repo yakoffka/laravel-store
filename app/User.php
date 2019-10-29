@@ -63,12 +63,7 @@ class User extends Authenticatable
      */
     public function createCustomevent()
     {
-        // info(__METHOD__);
-
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
+        info(__METHOD__);
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -105,12 +100,7 @@ class User extends Authenticatable
      */
     public function sendEmailNotification()
     {
-        // info(__METHOD__);
-
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
+        info(__METHOD__);
         $type = debug_backtrace()[1]['function'];
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
         $setting = config($namesetting);

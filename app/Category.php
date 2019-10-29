@@ -13,7 +13,10 @@ use Str;
 class Category extends Model
 {
     protected $guarded = [];
-    
+    // public $appends = [
+    //     'parent_seeable', // shared accessor getParentSeeableAttribute
+    // ];
+
     public function products() 
     {
         return $this->hasMany(Product::class);
@@ -79,11 +82,6 @@ class Category extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
-
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -120,12 +118,7 @@ class Category extends Model
      */
     public function sendEmailNotification()
     {
-        // info(__METHOD__);
-
-        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
-            return $this;
-        }
-
+        info(__METHOD__);
         $type = debug_backtrace()[1]['function'];
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
         $setting = config($namesetting);
@@ -153,29 +146,29 @@ class Category extends Model
         return $this;
     }
 
-    /**
-     * WORKAROUND #1 parent_seeable
-     * устанавливает атрибут seeable потомков в соответствии с переданным значением
-     * 
-     * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
-     *
-     * @return  Category $category
-     */
-    public function setChildrenSeeable () {
-        // info(__METHOD__);
-        if ( $this->isDirty('seeable') ) {
-            $this->children->each(function ($item, $key) {
-                $item->update(['parent_seeable' => $this->seeable]);
-                $item->products->each(function ($product, $key) {
-                    $product->update(['grandparent_seeable' => $this->seeable]);
-                });
-            });
-            $this->products->each(function ($item, $key) {
-                $item->update(['parent_seeable' => $this->seeable]);
-            });
-        }
-        return $this;
-    }
+    // /**
+    //  * WORKAROUND #1 parent_seeable
+    //  * устанавливает атрибут seeable потомков в соответствии с переданным значением
+    //  * 
+    //  * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
+    //  *
+    //  * @return  Category $category
+    //  */
+    // public function setChildrenSeeable () {
+    //     info(__METHOD__);
+    //     if ( $this->isDirty('seeable') ) {
+    //         $this->children->each(function ($item, $key) {
+    //             $item->update(['parent_seeable' => $this->seeable]);
+    //             $item->products->each(function ($product, $key) {
+    //                 $product->update(['grandparent_seeable' => $this->seeable]);
+    //             });
+    //         });
+    //         $this->products->each(function ($item, $key) {
+    //             $item->update(['parent_seeable' => $this->seeable]);
+    //         });
+    //     }
+    //     return $this;
+    // }
 
     /**
      * set title from dirty title or name fields
@@ -210,7 +203,6 @@ class Category extends Model
         if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
         } elseif ( $this->isDirty('title') ) {
-            info('$this->isDirty(\'title\')');
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;

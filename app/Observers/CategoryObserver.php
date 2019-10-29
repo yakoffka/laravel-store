@@ -41,7 +41,8 @@ class CategoryObserver
     public function updating(Category $category)
     {
         // info(__METHOD__);
-        $category->setSlug()->attachSingleImage()->setChildrenSeeable()->setEditor();
+        // $category->setSlug()->attachSingleImage()->setChildrenSeeable()->setEditor();
+        $category->setSlug()->attachSingleImage()->setEditor();
     }
 
     /**

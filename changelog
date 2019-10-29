@@ -1,4 +1,5 @@
-Adding pop-up messages when adding products to the cart
-    and remove debug info from resources/views/products/index.blade.php
-
-
+Refactoring visible parents
+    remove depricated parent_seeable and grandparent_seeable fields;
+    cleaning application from these properties;
+    // adding public $appends property in app/Product.php model for shared accessors; 
+    soft clean ProductController and CategoryController.
