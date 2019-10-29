@@ -1,17 +1,4 @@
-Model refactoring
-    Affected Models: Manufacturer, Order, Product, Role, Setting, Task, User;
-        protected $guarded = [];
-    replace sendEmailNotification() and createCustomevent() methods from controllers to models;
-    remove from Manufacturer, Order, Product, Role, Setting, Task, User
-Create Mailable with Markdown:
-    php artisan make:mail ManufacturerNotification --markdown="emails.manufacturer"
-    php artisan make:mail OrderNotification --markdown="emails.order"
-    php artisan make:mail ProductNotification --markdown="emails.product"
-    php artisan make:mail RoleNotification --markdown="emails.role"
-    php artisan make:mail SettingNotification --markdown="emails.setting"
-    php artisan make:mail TaskNotification --markdown="emails.task"
-    php artisan make:mail UserNotification --markdown="emails.user"
-Create settings for email notification;
+Adding pop-up messages when adding products to the cart
+    and remove debug info from resources/views/products/index.blade.php
 
-    
 

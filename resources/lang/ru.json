@@ -242,6 +242,10 @@
   "Setting_update_success": "Настройка ':Name' успешно обновлена. ",
   "Task__success": "Задача ':Name' успешно :type_act. ",
 
+
+  "Success_adding__to_cart": "Товар ':Name' успешно добавлен в корзину. ",
+
+
   "Profile": "Профиль",
   "Orders": "Заказы"
 }

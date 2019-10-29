@@ -9,6 +9,7 @@ class Cart // extends Model
     public $items = null;
     public $total_qty = 0;
     public $total_payment = 0;
+    private $event_description = '';
 
     /**
      *
@@ -47,6 +48,8 @@ class Cart // extends Model
         $this->items[$item->id] = $storedItem;
         $this->total_qty ++;
         $this->total_payment += $item->price;
+        $this->event_description = __('Success_adding__to_cart', ['name' => $item->name]);
+        session()->flash('message', $this->event_description);
     }
 
     /**
@@ -99,6 +102,12 @@ class Cart // extends Model
                 $this->total_payment = $this->total_payment + $changedItem['amount'] - $item->price * $old_qty;
             }
         }
+    }
+
+    public function setFlashMess()
+    {
+        $this->event_description = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->type)]);
+        session()->flash('message', $this->event_description);
     }
     
 }
