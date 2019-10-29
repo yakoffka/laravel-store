@@ -18,6 +18,7 @@
 
     {{-- <h1></h1> --}}
 
+    @if( config('custom.store_theme') === 'SLINGS')
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -65,6 +66,7 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    @endif
 
 
 
@@ -117,6 +119,7 @@
 
 
 
+    @if( config('custom.store_theme') === 'SLINGS')
     {{-- yandex MAP --}}
     <h2>мы на карте</h2>
 
@@ -186,5 +189,6 @@
         </script>
     </div>
     {{-- /yandex MAP --}}
+    @endif
 
 @endsection
