@@ -67,90 +67,6 @@ class SettingsTableSeeder extends Seeder
                 ],
                 'default_value' => 0,
             ],
-            
-
-            // email_categories_*
-            [
-                'group' => 'emails',
-                'name_group' => 'Настройки отправки email-уведомлений',
-                'type' => 'checkbox',
-                'name' => 'email_categories_created',
-                'display_name' => 'email-уведомления при добавлении категорий',
-                'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении категорий.',
-                'permissible_values' => [
-                    [0, 'выключено'],
-                    [1, 'включено'],
-                ],
-                'default_value' => 0,
-            ],
-            [
-                'group' => 'emails',
-                'name_group' => 'Настройки отправки email-уведомлений',
-                'type' => 'checkbox',
-                'name' => 'email_categories_updated',
-                'display_name' => 'email-уведомления при изменении категорий',
-                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении категорий.',
-                'permissible_values' => [
-                    [0, 'выключено'],
-                    [1, 'включено'],
-                ],
-                'default_value' => 0,
-            ],
-            // [
-            //     'group' => 'emails',
-            //     'name_group' => 'Настройки отправки email-уведомлений',
-            //     'type' => 'checkbox',
-            //     'name' => 'email_categories_deleted',
-            //     'display_name' => 'email-уведомления при удалении категорий',
-            //     'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении категорий.',
-            //     'permissible_values' => [
-            //         [0, 'выключено'],
-            //         [1, 'включено'],
-            //     ],
-            //     'default_value' => 0,
-            // ],
-
-            // email_comments_*
-            [
-                'group' => 'emails',
-                'name_group' => 'Настройки отправки email-уведомлений',
-                'type' => 'checkbox',
-                'name' => 'email_comments_created',
-                'display_name' => 'email-уведомления при добавлении комментариев',
-                'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении комментариев.',
-                'permissible_values' => [
-                    [0, 'выключено'],
-                    [1, 'включено'],
-                ],
-                'default_value' => 0,
-            ],
-            [
-                'group' => 'emails',
-                'name_group' => 'Настройки отправки email-уведомлений',
-                'type' => 'checkbox',
-                'name' => 'email_comments_updated',
-                'display_name' => 'email-уведомления при изменении комментариев',
-                'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении комментариев.',
-                'permissible_values' => [
-                    [0, 'выключено'],
-                    [1, 'включено'],
-                ],
-                'default_value' => 0,
-            ],
-            // [
-            //     'group' => 'emails',
-            //     'name_group' => 'Настройки отправки email-уведомлений',
-            //     'type' => 'checkbox',
-            //     'name' => 'email_comments_deleted',
-            //     'display_name' => 'email-уведомления при удалении комментариев',
-            //     'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении комментариев.',
-            //     'permissible_values' => [
-            //         [0, 'выключено'],
-            //         [1, 'включено'],
-            //     ],
-            //     'default_value' => 0,
-            // ],
-
             [
                 'group' => 'emails',
                 'name_group' => 'Настройки отправки email-уведомлений',
@@ -179,6 +95,305 @@ class SettingsTableSeeder extends Seeder
                 'permissible_values' => [],
                 'default_value' => 0,
             ],
+            
+
+            // email notifications for models:
+                // email_categories_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_categories_created',
+                    'display_name' => 'email-уведомления при добавлении категорий',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении категорий.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_categories_updated',
+                    'display_name' => 'email-уведомления при изменении категорий',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении категорий.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_categories_deleted',
+                    'display_name' => 'email-уведомления при удалении категорий',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении категорий.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_comments_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_comments_created',
+                    'display_name' => 'email-уведомления при добавлении комментариев',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении комментариев.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_comments_updated',
+                    'display_name' => 'email-уведомления при изменении комментариев',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении комментариев.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_comments_deleted',
+                    'display_name' => 'email-уведомления при удалении комментариев',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении комментариев.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_manufacturers_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_manufacturers_created',
+                    'display_name' => 'email-уведомления при добавлении производителя',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении производителя.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_manufacturers_updated',
+                    'display_name' => 'email-уведомления при изменении производителя',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении производителя.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_manufacturers_deleted',
+                    'display_name' => 'email-уведомления при удалении производителя',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении производителя.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_orders_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_orders_created',
+                    'display_name' => 'email-уведомления при добавлении заказа',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении заказа.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_orders_updated',
+                    'display_name' => 'email-уведомления при изменении заказа',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении заказа.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_orders_deleted',
+                    'display_name' => 'email-уведомления при удалении заказа',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении заказа.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_products_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_products_created',
+                    'display_name' => 'email-уведомления при добавлении товаров',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении товаров.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_products_updated',
+                    'display_name' => 'email-уведомления при изменении товаров',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении товаров.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_products_deleted',
+                    'display_name' => 'email-уведомления при удалении товаров',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении товаров.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_settings_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_settings_updated',
+                    'display_name' => 'email-уведомления при изменении настроек',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении настроек.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_tasks_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_tasks_created',
+                    'display_name' => 'email-уведомления при добавлении задач/поручений',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении задач/поручений.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_tasks_updated',
+                    'display_name' => 'email-уведомления при изменении задач/поручений',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении задач/поручений.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_tasks_deleted',
+                    'display_name' => 'email-уведомления при удалении задач/поручений',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении задач/поручений.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                // email_users_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_users_created',
+                    'display_name' => 'email-уведомления при добавлении пользователей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при добавлении пользователей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_users_updated',
+                    'display_name' => 'email-уведомления при изменении пользователей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении пользователей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_users_deleted',
+                    'display_name' => 'email-уведомления при удалении пользователей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении пользователей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+            // /email notifications for models
+
             
 
             // settings for products

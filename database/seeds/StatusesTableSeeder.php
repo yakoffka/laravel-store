@@ -12,15 +12,15 @@ class StatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            ['name' => 'processing',        'title' => 'title processing',        'description' => 'description processing',      'style' => 'danger'   ],
-            ['name' => 'pending payment',   'title' => 'title pending payment',   'description' => 'description pending payment', 'style' => 'warning'  ],
-            ['name' => 'shipped',           'title' => 'title shipped',           'description' => 'description shipped',         'style' => 'primary'  ],
-            ['name' => 'complited',         'title' => 'title complited',         'description' => 'description complited',       'style' => 'success'  ],
-            ['name' => 'on hold',           'title' => 'title on hold',           'description' => 'description on hold',         'style' => 'danger'   ],
-            ['name' => 'canceled',          'title' => 'title canceled',          'description' => 'description canceled',        'style' => 'danger'   ],
-            ['name' => 'refunded',          'title' => 'title refunded',          'description' => 'description refunded',        'style' => 'danger'   ],
-            ['name' => 'failed',            'title' => 'title failed',            'description' => 'description failed',          'style' => 'danger'   ],
-            ['name' => 'test',              'title' => 'title test',              'description' => 'description test',            'style' => 'secondary'],
+            ['name' => 'processing',        'title' => 'title_processing',        'description' => 'description_processing',      'style' => 'danger'   ],
+            ['name' => 'pending payment',   'title' => 'title_pending payment',   'description' => 'description_pending payment', 'style' => 'warning'  ],
+            ['name' => 'shipped',           'title' => 'title_shipped',           'description' => 'description_shipped',         'style' => 'primary'  ],
+            ['name' => 'complited',         'title' => 'title_complited',         'description' => 'description_complited',       'style' => 'success'  ],
+            ['name' => 'on hold',           'title' => 'title_on hold',           'description' => 'description_on hold',         'style' => 'danger'   ],
+            ['name' => 'canceled',          'title' => 'title_canceled',          'description' => 'description_canceled',        'style' => 'danger'   ],
+            ['name' => 'refunded',          'title' => 'title_refunded',          'description' => 'description_refunded',        'style' => 'danger'   ],
+            ['name' => 'failed',            'title' => 'title_failed',            'description' => 'description_failed',          'style' => 'danger'   ],
+            ['name' => 'test',              'title' => 'title_test',              'description' => 'description_test',            'style' => 'secondary'],
         ];
 
         foreach ($statuses as $status) {

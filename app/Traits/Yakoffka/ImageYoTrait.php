@@ -198,13 +198,9 @@ trait ImageYoTrait
         return $name_dst_image_without_ext;
 
 
-    /*
-    *
-    *    FOUR RECTANGLES http://php.net/manual/ru/function.imagecopyresampled.php
+    /*       FOUR RECTANGLES http://php.net/manual/ru/function.imagecopyresampled.php
     *   
-    *
     *                     $src_image                                   $dst_image
-    *
     *
     *    |<-------------------------------------------->|   |<--------- $dstimage_w --------->|
     *    |                                              |   |                                 |
@@ -219,7 +215,6 @@ trait ImageYoTrait
     *    +-- $src_x --+-------- $src_w --------+        |   |         $dst_h                | |
     *    |            |                        |        |   |            |                  | |
     *    |            |                        |        |   |            |                  | |
-    *    |            |                        |        |   |            |                  | |
     *    |            |                        |        |   |            +------------------+ |
     *    |            |        Sample          |        |   |                                 |
     *    |            |                        |        |   |                                 |
@@ -227,9 +222,7 @@ trait ImageYoTrait
     *    |         $src_h                      |        |   |                                 |
     *    |            |                        |        |   +---------------------------------+
     *    |            |                        |        |
-    *    |            |                        |        |
     *    |            +------------------------+        |
-    *    |                                              |
     *    |                                              |
     *    +----------------------------------------------+
     *
@@ -244,52 +237,5 @@ trait ImageYoTrait
     *   src_w     - Ширина исходного изображения.
     *   src_h     - Высота исходного изображения.
     */
-
     }
-
-
-    // public static function recursiveDelete ( string $patch )
-    // {
-	// 	$res=false;
-
-	// 	if ( is_dir($patch) ) {
-	// 		$scandir = scandir($patch);
-
-    //         foreach ( $scandir as $val ) {
-	// 			if( $val!='.' and $val!='..' ) {
-    //                 $res = ImageYoTrait::recursiveDelete($patch."/".$val);
-    //             }
-    //         }
-    //         unset($val);
-
-	// 		// if ( rmdir($patch) ) {
-    //         //     $res=true;
-    //         // } else {
-    //         //     $res=false;
-    //         // }
-			
-	// 	} elseif ( is_file($patch) ) {
-
-    //         $patch_origin = str_replace(config('imageyo.dirdst'), config('imageyo.dirdst_origin'), $patch);
-    //         $patch_origin = str_replace(['_l.', '_m.', '_s.'], '-origin.', $patch_origin);
-    //         // return $patch_origin;
-    //         if ( is_file( $patch_origin ) ) {
-
-    //             if ( unlink($patch) ) {
-    //                 $res=true;
-    //             } else {
-    //                 $res=false;
-    //             }
-
-    //         } else {
-    //             dd('оригинальный файл отсутствует!' . $patch_origin);
-    //         }
-
-	// 	} else {
-    //         $res=false;
-    //     }
-
-	// 	return $res;
-	// }
-
 }

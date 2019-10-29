@@ -15,6 +15,7 @@ class RoleObserver
     public function creating(Role $role)
     {
         info(__METHOD__);
+        $role->setCreator();
     }
 
     /**
@@ -26,6 +27,8 @@ class RoleObserver
     public function created(Role $role)
     {
         info(__METHOD__);
+        $role->setAviablePermissions()->createCustomevent()
+            ->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -38,6 +41,7 @@ class RoleObserver
     public function updating(Role $role)
     {
         info(__METHOD__);
+        $role->setEditor();
     }
 
     /**
@@ -49,6 +53,8 @@ class RoleObserver
     public function updated(Role $role)
     {
         info(__METHOD__);
+        $role->setAviablePermissions()->createCustomevent()
+            ->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -72,6 +78,7 @@ class RoleObserver
     public function deleted(Role $role)
     {
         info(__METHOD__);
+        $role->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

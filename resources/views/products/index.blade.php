@@ -91,7 +91,8 @@
                     <div class="card">
 
                         <h2 class="product_card_h2<?php if(!$product->seeable){echo ' hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h2>
-
+                        {{ $product->category_seeable ?? 'off' }} {{ $product->parent_category_seeable ?? 'off' }}
+                        
                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                             @if($product->images->count())
                                 @php 

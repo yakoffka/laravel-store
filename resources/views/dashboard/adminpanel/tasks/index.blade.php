@@ -20,7 +20,7 @@
     </div>
 
 
-    <h1>{{ empty($directive) ? __('__list_of_tasks') : __('__list_of_directives') }} ( {{ $tasks->total() }} )</h1>
+    <h1>{{ empty($directive) ? __('__list_of_tasks') : __('__list_of_directives') }} ({{ $tasks->total() }})</h1>
 
 
     <div class="row">
@@ -33,10 +33,19 @@
 
            <div class="row">
 
+
+                @if ( empty($directive) )
+                @else
+                    {{-- add new directive --}}
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary form-control pb-1">{{ __('create_new_task') }}</a>
+                    <div class="row col-sm-12 pb-2"></div>
+                    {{-- /add new directive --}}
+                @endif
+
                 <table class="blue_table overflow_x_auto">
                     <tr>
                         <th>{{ __('__id') }}</th>
-                        <th>{{ __('__title') }}</th>
+                        <th>{{ __('__name') }}</th>
                         <th>{{ __('__status') }}</th>
                         <th>{{ __('__priority') }}</th>
                         <th>@if( empty($directive) ) {{ __('__master') }} @else {{ __('__slave') }} @endif</th>
@@ -46,7 +55,7 @@
                     @foreach($tasks as $task)
                         <tr class="{{ $task->getStatus->class }}">
                             <td>{{ $task->id }}</td>
-                            <td class="ta_l">{{ $task->title }}</td>
+                            <td class="ta_l">{{ $task->name }}</td>
 
                             {{-- status --}}
                             <td class="ta_l">
@@ -103,15 +112,6 @@
                     @endforeach
 
                 </table>
-
-
-                @if ( empty($directive) )
-                @else
-                    {{-- add new directive --}}
-                    <a href="{{ route('tasks.create') }}" class="btn btn-primary form-control pb-1">{{ __('create_new_task') }}</a>
-                    <div class="row col-sm-12 pb-2"></div>
-                    {{-- /add new directive --}}
-                @endif
 
 
                 {{-- pagination block --}}

@@ -7,29 +7,6 @@ use App\Setting;
 class SettingObserver
 {
     /**
-     * Handle the setting "creating" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function creating(Setting $setting)
-    {
-        info(__METHOD__);
-    }
-
-    /**
-     * Handle the setting "created" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function created(Setting $setting)
-    {
-        info(__METHOD__);
-    }
-
-
-    /**
      * Handle the setting "updating" event.
      *
      * @param  \App\Setting  $setting
@@ -38,6 +15,7 @@ class SettingObserver
     public function updating(Setting $setting)
     {
         info(__METHOD__);
+        $setting->setEditor()->writeConfig();
     }
 
     /**
@@ -49,51 +27,6 @@ class SettingObserver
     public function updated(Setting $setting)
     {
         info(__METHOD__);
-    }
-
-
-    /**
-     * Handle the setting "deleting" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function deleting(Setting $setting)
-    {
-        info(__METHOD__);
-    }
-
-    /**
-     * Handle the setting "deleted" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function deleted(Setting $setting)
-    {
-        info(__METHOD__);
-    }
-
-
-    /**
-     * Handle the setting "restored" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function restored(Setting $setting)
-    {
-        info(__METHOD__);
-    }
-
-    /**
-     * Handle the setting "force deleted" event.
-     *
-     * @param  \App\Setting  $setting
-     * @return void
-     */
-    public function forceDeleted(Setting $setting)
-    {
-        info(__METHOD__);
+        $setting->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 }

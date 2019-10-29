@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\{Customevent, Cart, Order, Status};
 use Session;
 use App\Mail\Order\{Created, StatusChanged};
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
+use App\Mail\ManufacturerNotification;
+use Illuminate\Support\Facades\Storage;
+use Str;
 
-class OrderController extends CustomController
+class OrderController extends Controller
 {
     public function __construct(Cart $cart) {
         $this->middleware('auth');
@@ -24,7 +26,7 @@ class OrderController extends CustomController
         if ( auth()->user()->can('view_orders') ) {
             $orders = Order::paginate();
         } else {
-            $orders = Order::where('user_id', '=', auth()->user()->id)
+            $orders = Order::where('customer_id', '=', auth()->user()->id)
                 ->paginate();
         }
         $statuses = Status::all();
@@ -39,53 +41,30 @@ class OrderController extends CustomController
      */
     public function store()
     {
-        $cart = Session::has('cart') ? Session::get('cart') : null;
-        abort_if ( !$cart, 404 );
-
         request()->validate([
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        // $order = Order::create([
-        //     'user_id' => auth()->user()->id,
-        //     'cart' => serialize($cart),
-        //     'status_id' => 1,
-        //     'total_qty' => $cart->total_qty,
-        //     'total_payment' => $cart->total_payment,
-        //     'comment' => request('comment'),
-        //     // address, shipping
-        // ]);
-        $order = new Order;
-        $order->user_id = auth()->user()->id;
-        $order->cart = serialize($cart);
-        $order->status_id = 1;
-        $order->total_qty = $cart->total_qty;
-        $order->total_payment = $cart->total_payment;
-        $order->comment = request('comment');
-        // address, shipping
+        $order = Order::create([
+            'comment' => request('comment'),
+            // address, shipping
+        ]);
 
-        $dirty_properties = $order->getDirty();
+        // // send email-notification
+        // if ( config('settings.email_new_order') ) {
+        //     $user = auth()->user();
+        //     $bcc = config('mail.mail_bcc');
+        //     if ( config('settings.additional_email_bcc') ) {
+        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
+        //     }
+        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+        //     \Mail::to($user)
+        //         ->bcc($bcc)
+        //         ->later($when, new Created($order));
+        // }
 
-        if ( !$order->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
-        Session::forget('cart');
-
-        // send email-notification
-        if ( config('settings.email_new_order') ) {
-            $user = auth()->user();
-            $bcc = config('mail.mail_bcc');
-            if ( config('settings.additional_email_bcc') ) {
-                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
-            }
-            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-            \Mail::to($user)
-                ->bcc($bcc)
-                ->later($when, new Created($order));
-        }
-
-        $message = 'Создание заказа №' . str_pad($order->id, 5, "0", STR_PAD_LEFT) . '. Заказчик: ' 
-            . auth()->user()->name  . '.';
+        // $message = 'Создание заказа №' . str_pad($order->id, 5, "0", STR_PAD_LEFT) . '. Заказчик: ' 
+        //     . auth()->user()->name  . '.';
 
         // create event record
         // $customevent = new Customevent;
@@ -136,33 +115,33 @@ class OrderController extends CustomController
             'status_id' => 'required|integer|max:9', // Status::all()->count()
         ]);
 
-        $old_status_id = $order->status_id;
+        // $old_status_id = $order->status_id;
 
-        // if (!$order->update([
-        //     'status_id' => request('status_id'),
-        // ])) {
-        //     return back()->withError(['something wrong. err' . __line__]);
+        if (!$order->update([
+            'status_id' => request('status_id'),
+        ])) {
+            return back()->withError(['something wrong. err' . __line__]);
+        }
+        // $order->status_id = request('status_id');
+        // $dirty_properties = $order->getDirty();
+        // $original = $order->getOriginal();
+
+        // if ( !$order->save() ) {
+        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         // }
-        $order->status_id = request('status_id');
-        $dirty_properties = $order->getDirty();
-        $original = $order->getOriginal();
 
-        if ( !$order->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
-
-        // send email-notification
-        if ( config('settings.email_update_order') ) {
-            $user = $order->customer;
-            $bcc = config('mail.mail_bcc');
-            if ( config('settings.additional_email_bcc') ) {
-                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
-            }
-            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-            \Mail::to($user)
-                ->bcc($bcc)
-                ->later($when, new StatusChanged($order, $order->status->name, $user));
-        }
+        // // send email-notification
+        // if ( config('settings.email_update_order') ) {
+        //     $user = $order->customer;
+        //     $bcc = config('mail.mail_bcc');
+        //     if ( config('settings.additional_email_bcc') ) {
+        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')) );
+        //     }
+        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+        //     \Mail::to($user)
+        //         ->bcc($bcc)
+        //         ->later($when, new StatusChanged($order, $order->status->name, $user));
+        // }
 
         // create event record
         // $message = $this->createCustomevent($order, $dirty_properties, $original, 'model_update');

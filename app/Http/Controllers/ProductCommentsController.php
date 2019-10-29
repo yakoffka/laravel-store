@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\{Comment, Product};
-use Auth;
 
-class ProductCommentsController extends CustomController
+class ProductCommentsController extends Controller
 {
     public function __construct() {
         $this->middleware('auth')->except(['store']);
@@ -19,21 +18,25 @@ class ProductCommentsController extends CustomController
      */
     public function store(Product $product) {
 
-        if ( Auth::user() ) {
-            request()->validate([
-                'body' => 'required|string',
-            ]);
-        } else {
-            request()->validate([
-                'user_name' => 'required|string',
-                'body' => 'required|string',
-            ]);
-        }
+        // if ( auth()->user() ) {
+        //     request()->validate([
+        //         'body' => 'required|string',
+        //     ]);
+        // } else {
+        //     request()->validate([
+        //         'user_name' => 'required|string',
+        //         'body' => 'required|string',
+        //     ]);
+        // }
+        request()->validate([
+            'user_name' => 'string',
+            'body' => 'required|string',
+        ]);
 
         $comment = Comment::create([
             'product_id' => $product->id,
-            'user_id' => Auth::user() ? Auth::user()->id : 0,
-            'user_name' => Auth::user() ? Auth::user()->name : request('user_name'),
+            'user_id' => auth()->user() ? auth()->user()->id : 0,
+            'user_name' => auth()->user() ? auth()->user()->name : request('user_name'),
             'body' => request('body'),
         ]);
 
@@ -42,7 +45,7 @@ class ProductCommentsController extends CustomController
 
 
     public function update(Comment $comment) {
-        abort_if ( Auth::user()->cannot('edit_comments') and Auth::user()->id !== $comment->user_id, 403 );
+        abort_if ( auth()->user()->cannot('edit_comments') and auth()->user()->id !== $comment->user_id, 403 );
 
         request()->validate([ 'body' => 'required|string', ]);
 
@@ -62,7 +65,7 @@ class ProductCommentsController extends CustomController
      */
     public function destroy(Comment $comment)
     {
-        abort_if ( Auth::user()->cannot('delete_comments'), 403 );
+        abort_if ( auth()->user()->cannot('delete_comments'), 403 );
         $comment->delete();
         return redirect()->route('products.show', ['product' => $comment->product_id]);
     }

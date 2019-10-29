@@ -15,7 +15,7 @@ class CategoryObserver
     public function creating(Category $category)
     {
         // info(__METHOD__);
-        $category->setUuid()->setTitle()->setSlug()->attachSingleImage();
+        $category->setUuid()->setTitle()->setSlug()->attachSingleImage()->setCreator();
     }
 
     /**
@@ -41,7 +41,7 @@ class CategoryObserver
     public function updating(Category $category)
     {
         // info(__METHOD__);
-        $category->setSlug()->attachSingleImage()->setChildrenSeeable();
+        $category->setSlug()->attachSingleImage()->setChildrenSeeable()->setEditor();
     }
 
     /**

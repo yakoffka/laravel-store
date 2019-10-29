@@ -18,12 +18,14 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger('master_user_id');
             $table->unsignedBigInteger('slave_user_id');
             $table->string('name')->unique();
-            $table->string('slug');
+            // $table->string('slug');
             $table->text('description');
             $table->unsignedBigInteger('tasksstatus_id');
             $table->unsignedBigInteger('taskspriority_id');
             $table->text('comment_slave')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('added_by_user_id');
+            $table->unsignedBigInteger('edited_by_user_id')->nullable();
             $table->softDeletes();
         });
     }

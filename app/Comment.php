@@ -30,7 +30,7 @@ class Comment extends Model
     /**
      * Create records in table events.
      *
-     * @return void?
+     * @return Comment $comment
      */
     public function createCustomevent()
     {
@@ -56,18 +56,19 @@ class Comment extends Model
             'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
             'model' => $this->getTable(),
             'model_id' => $this->id,
-            'model_name' => $this->name,
+            'model_name' => $this->id,
             'type' => debug_backtrace()[1]['function'],
             'description' => $this->description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
+        return $this;
     }
 
 
     /**
      * Create event notification.
      * 
-     * @return void?
+     * @return Comment $comment
      */
     public function sendEmailNotification()
     {
@@ -95,5 +96,6 @@ class Comment extends Model
                     new CommentNotification($this, $type, $username)
                 );
         }
+        return $this;
     }
 }

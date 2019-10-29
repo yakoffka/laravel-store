@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Illuminate\Support\Carbon;
+use App\Customevent;
+use App\Mail\ProductNotification;
 use Str;
+// use App\Traits\Yakoffka\ImageYoTrait;
+use App\Jobs\RewatermarkJob;
+use Artisan;
+use App\{Category, Image, Manufacturer};
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -35,6 +43,13 @@ class Product extends Model
     
     protected $guarded = [];
     protected $perPage = 12;
+
+    // 
+    public $appends = [
+        'category_seeable', // getCategorySeeableAttribute
+        'parent_category_seeable', // getParentCategorySeeableAttribute
+        'blogs:id,title' // пример добавления ТОЛЬКО id and title from relation blogs
+    ];
 
     public function comments() {
         // return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
@@ -92,7 +107,7 @@ class Product extends Model
     }
     
     /**
-     * Accessor возвращает видимость дедовской категории товара
+     * Accessor возвращает видимость прародительской категории товара
      * in controller using snake-case: $category->parent_seeable!!!
      */
     public function getParentCategorySeeableAttribute()
@@ -113,4 +128,342 @@ class Product extends Model
         }
     }
 
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function setCreator () {
+        info(__METHOD__);
+        $this->added_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function setEditor () {
+        info(__METHOD__);
+        $this->edited_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set title from dirty title or name fields
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function setTitle () {
+        info(__METHOD__);
+        if ( !$this->title ) { $this->title = $this->name; }
+        return $this;
+    }
+
+    /**
+     * set slug from dirty fiedl slug or title
+     * при одновременном изменении slug и title трансформирует поле slug.
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function setSlug () {
+        info(__METHOD__);
+        if ( $this->isDirty('slug') and $this->slug ) {
+            $this->slug = Str::slug($this->slug, '-');
+        } elseif ( $this->isDirty('title') ) {
+            info('$this->isDirty(\'title\')');
+            $this->slug = Str::slug($this->title, '-');
+        }
+        return $this;
+    }
+
+    /**
+     * Create records in table events.
+     *
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function createCustomevent()
+    {
+        info(__METHOD__);
+
+        if( $this->isDirty('parent_seeable') or $this->isDirty('grandparent_seeable') ) {
+            return $this;
+        }
+
+        $attr = $this->getAttributes();
+        $dirty = $this->getDirty();
+        $original = $this->getOriginal();
+        // dd($attr, $dirty, $original);
+
+        $details = [];
+        foreach ( $attr as $property => $value ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+                $details[] = [ 
+                    $property, 
+                    $original[$property] ?? FALSE, 
+                    $dirty[$property] ?? FALSE,
+                ];
+            }
+        }
+
+        Customevent::create([
+            'user_id' => auth()->user()->id,
+            'model' => $this->getTable(),
+            'model_id' => $this->id,
+            'model_name' => $this->name,
+            'type' => debug_backtrace()[1]['function'],
+            'description' => $this->description ?? FALSE,
+            'details' => serialize($details) ?? FALSE,
+        ]);
+        return $this;
+    }
+
+
+    /**
+     * Create event notification.
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function sendEmailNotification()
+    {
+        info(__METHOD__);
+        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
+            return $this;
+        }
+
+        $type = debug_backtrace()[1]['function'];
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $setting = config($namesetting);
+
+        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+
+        if ( $setting === '1' ) {
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+
+            \Mail::to( auth()->user() ?? config('mail.from.address') )
+                ->bcc($bcc)
+                ->later( 
+                    $when, 
+                    new ProductNotification($this, $type, $username)
+                );
+        }
+        return $this;
+    }
+
+    // /**
+    //  * метод добавления изображений товара
+    //  * 
+    //  * Принимает строку с path файлов изображений, разделёнными запятой
+    //  * Создает, при необходимости директорию для хранения изображений товара,
+    //  *  и копирует в неё комплект превью с наложением водяных знаков.
+    //  * Добавляет запись о каждом изображении в таблицу images
+    //  *
+    //  * @param  Product $product
+    //  * @return  Product $product
+    //  */
+    // public function attachImages ()
+    // {
+    //     info(__METHOD__);
+    //     if ( !request('imagespath') ) {
+    //         return $this;
+    //     }
+
+    //     $imagepaths = explode(',', request('imagespath'));
+
+    //     foreach( $imagepaths as $imagepath) {
+
+    //         $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+
+    //         info('$image = ' . $image);
+    //         // image re-creation
+    //         $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
+    //         $originalName = basename($image_name);
+    //         $path  = '/images/products/' . $this->id;
+
+    //         // create record
+    //         $image = Image::create([
+    //             'product_id' => $this->id,
+    //             'slug' => Str::slug($image_name, '-'),
+    //             'path' => $path,
+    //             'name' => $image_name,
+    //             'ext' => config('imageyo.res_ext'),
+    //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+    //             'sort_order' => 9,
+    //             'orig_name' => $originalName,
+    //         ]);
+    //     }
+    //     return $this;
+    // }
+
+    /**
+     * метод очистки исходного украденного исходного кода таблиц
+     *
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function cleanSrcCodeTables ()
+    {
+        info(__METHOD__);
+        if ( !$this->isDirty('modification') or empty($this->modification) ) {
+            return $this;
+        }
+
+        // удаление ненужных тегов
+        $res = strip_tags($this->modification, '<table><caption><thead><tbody><th><tr><td>');
+
+        $arr_replace = [
+            ["~</table>.*?<table[^>]*?>~u",         "REPLACE_THIS"],                    // если таблиц несколько
+            ["~.*?<table[^>]*?>~u",     "<table class=\"blue_table\">"],                // обрезка до таблицы
+            ["~</table>.*?~u",          "</table>"],                                    // обрезка после таблицы
+            ["~<caption[^>]*?>~u",      "<caption>"],                                   // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<thead[^>]*?>~u",        "<thead>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<tbody[^>]*?>~u",        "<tbody>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<th[\s]{1}[^>]*?>~u",    "<th>"],                                        // не зацепить <thead>!!
+            ["~<tr[^>]*?>~u",           "<tr>"],
+            ["~<td[^>]*?>~u",           "<td>"],
+            ["~>[\s]*~",                ">"],
+            ["~[\s]*>~",                ">"],
+            ["~<[\s]*~",                "<"],
+            ["~[\s]*<~",                "<"],
+            ["~REPLACE_THIS~u",         "</table>\n<table class=\"blue_table\">"],
+
+        ];
+
+        foreach($arr_replace as $replace) {
+            $res = preg_replace( $replace[0], $replace[1], $res );
+        }
+
+        // удаление прочего мусора
+        $arr_delete = [
+            '&nbsp;',
+        ];
+        foreach($arr_delete as $delete) {
+            $res = str_replace( $delete, '', $res );
+        }
+
+        // опционально: если последним столбцом таблицы идет цена, то вырезаем последний столбец
+        if ( strpos($res,'<td>Цена</td></tr>') or strpos($res,'<th>Цена</th></tr>') ) {
+            $arr_replace = [
+                ["~<td>[^<]+?</td></tr>~u","</tr>"],
+                ["~<th>[^<]+?</th></tr>~u","</tr>"],
+            ];
+            foreach($arr_replace as $replace) {
+                $res = preg_replace( $replace[0], $replace[1], $res );
+            }
+        }
+
+        // опционально: удаление столбца <tr><td>Код товара</td>
+        if ( strpos($res,'<tr><td>Код товара</td>') or strpos($res,'<tr><th>Код товара</th>') ) {
+            $arr_replace = [
+                ["~<tr><td>[^<]+?</td>~u","<tr>"],
+                ["~<tr><th>[^<]+?</th>~u","<tr>"],
+            ];
+            foreach($arr_replace as $replace) {
+                $res = preg_replace( $replace[0], $replace[1], $res );
+            }
+        }
+
+        $this->modification = $res;
+        return $this;
+    }
+
+
+    /**
+     * Copying all donor images and creating an entry in the image table.
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function additionallyIfCopy ()
+    {
+        info(__METHOD__);
+        if ( !request('copy_img') ) {
+            return $this;
+        }
+
+        $donor_id = request('copy_img');
+        // $donor = Product::find($donor_id);
+        $d_images = Product::find($donor_id)->images;
+
+        // copy all entries from the image table related to this product
+        foreach ( $d_images as $d_image ) {
+            $image = new Image;
+            $image->product_id = $this->id;
+            $image->slug = $d_image->slug;
+            $image->path = $d_image->path;
+            $image->name = $d_image->name;
+            $image->ext = $d_image->ext;
+            $image->alt = $d_image->alt;
+            $image->sort_order = $d_image->sort_order;
+            $image->orig_name = $d_image->orig_name;
+            $image->save();
+        }
+
+        // copy all files from public directory images of products
+        $pathToDir = 'public/images/products/'; // TODO!!!
+        $files = Storage::files($pathToDir . $donor_id);
+        foreach ( $files as $src ) {
+            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$this->id, $src);
+            Storage::copy($src, $dst);
+        }
+
+        // copy all files from uploads directory images of products
+        $pathToDir = 'uploads/images/products/'; // TODO!!!
+        $files = Storage::files($pathToDir . $donor_id);
+        foreach ( $files as $src ) {
+            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$this->id, $src);
+            Storage::copy($src, $dst);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Delete relative images
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function deleteImages()
+    {
+        if ($this->images) {
+            // delete public directory (converted images)
+            $directory_pub = 'public/images/products/' . $this->id;
+            Storage::deleteDirectory($directory_pub);
+            // delete uploads directory (original images)
+            $directory_upl = 'uploads/images/products/' . $this->id;
+            Storage::deleteDirectory($directory_upl);
+            // 
+            $this->images()->delete();
+        }
+        return $this;
+    }
+
+    /**
+     * Delete relative comments
+     * 
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function deleteComments()
+    {
+        $this->comments()->delete();
+        return $this;
+    }
 }

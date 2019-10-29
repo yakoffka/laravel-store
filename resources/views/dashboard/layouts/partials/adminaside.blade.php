@@ -57,6 +57,7 @@
         <div class="collapse" id="collapseTasks">
             <div class="submenuitem">- <a href="{{ route('tasks.index') }}">задачи</a></div>
             <div class="submenuitem">- <a href="{{ route('directives.index') }}">поручения</a></div>
+            <div class="submenuitem">- <a href="{{ route('tasks.create') }}">{{ __('create_new_task') }}</a></div>
             {{-- @permission('view_tasks')
                 <div class="submenuitem">- <a href="">all task</a></div>
                 <div class="submenuitem">- <a href="">all directives</a></div>

@@ -8,7 +8,7 @@ use App\Product;
 use App\Customevent;
 use App\Mail\CategoryNotification;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Str;
 
 class Category extends Model
 {
@@ -50,13 +50,35 @@ class Category extends Model
 
 
     /**
+     * set setCreator from auth user
+     * 
+     * @return  Category $category
+     */
+    public function setCreator () {
+        info(__METHOD__);
+        $this->added_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @return  Category $category
+     */
+    public function setEditor () {
+        info(__METHOD__);
+        $this->edited_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
      * Create records in table events.
      *
-     * @return void?
+     * @return  Category $category
      */
     public function createCustomevent()
     {
-        // info(__METHOD__);
+        info(__METHOD__);
 
         if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
             return $this;
@@ -79,7 +101,7 @@ class Category extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
+            'user_id' => auth()->user()->id,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -94,7 +116,7 @@ class Category extends Model
     /**
      * Create event notification.
      * 
-     * @return void?
+     * @return  Category $category
      */
     public function sendEmailNotification()
     {
@@ -128,6 +150,7 @@ class Category extends Model
                     new CategoryNotification($this, $type, $username)
                 );
         }
+        return $this;
     }
 
     /**
@@ -161,10 +184,7 @@ class Category extends Model
      */
     public function setTitle () {
         // info(__METHOD__);
-        info($this); info($this->title); info($this->seeable); info($this->getDirty()); info($this->getOriginal());
-
         if ( !$this->title ) { $this->title = $this->name; }
-        info($this);
         return $this;
     }
 
@@ -200,7 +220,7 @@ class Category extends Model
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
      * и обновляет запись в базе данных. 
      *
-     * @return  string $imagepath
+     * @return  Category $category
      */
     public function attachSingleImage () {
         // info(__METHOD__);
@@ -232,5 +252,4 @@ class Category extends Model
         $this->imagepath = $basename;
         return $this;
     }
-
 }

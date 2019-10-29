@@ -29,6 +29,7 @@ class CommentObserver
         info(__METHOD__);
         $comment->createCustomevent();
         $comment->sendEmailNotification();
+        $comment->name = $comment->id;
         session()->flash('message', __('success_operation'));
     }
 

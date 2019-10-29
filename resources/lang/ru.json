@@ -68,7 +68,7 @@
   "customevents": "история",
   "tasks": "задачи",
   "create_new_roles": "создать новую роль",
-  "create_new_task": "Поставить новую задачу",
+  "create_new_task": "дать поручение",
 
 
 
@@ -223,8 +223,24 @@
   "verify_users": "Верификация пользователя",
 
 
+  "masculine_verify": "верифицирован",
+  "masculine_created": "создан",
+  "masculine_updated": "обновлён",
+  "masculine_deleted": "удалён",
+  "feminine_verify": "верифицирована",
+  "feminine_created": "создана",
+  "feminine_updated": "обновлёна",
+  "feminine_deleted": "удалёна",
+  "neuter_verify": "верифицировано",
+  "neuter_created": "создано",
+  "neuter_updated": "обновлёно",
+  "neuter_deleted": "удалёно",
+
   "mess_function_i_development": "В данный момент функция находится в разработке",
-  "success_operation": "Операция выполена успешно",
+  "success_operation": "Операция выполена успешно. ",
+  
+  "Setting_update_success": "Настройка ':Name' успешно обновлена. ",
+  "Task__success": "Задача ':Name' успешно :type_act. ",
 
   "Profile": "Профиль",
   "Orders": "Заказы"

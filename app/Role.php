@@ -3,6 +3,11 @@
 namespace App;
 
 use Zizaco\Entrust\EntrustRole;
+use Illuminate\Support\Carbon;
+use App\Mail\RoleNotification;
+use App\Customevent;
+use App\Permission;
+use Illuminate\Support\Facades\DB;
 
 class Role extends EntrustRole
 {
@@ -14,18 +19,8 @@ class Role extends EntrustRole
     *  description — A more detailed explanation of what the Role does. Also optional.
     */
 
-    /**
-    * The attributes that are mass assignable. yo
-    *
-    * @var array
-    */
-    protected $fillable = [
-        'name',
-        'display_name',
-        'description',
-        'added_by_user_id',
-        'edited_by_user_id',
-    ];
+    protected $guarded = [];
+    private $event_description = '';
 
     /**
     * Many-to-Many relations with the user model.
@@ -55,4 +50,145 @@ class Role extends EntrustRole
         return $this->belongsTo(User::class, 'edited_by_user_id');
     }
 
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Role $role
+     * @return  Role $role
+     */
+    public function setCreator () {
+        info(__METHOD__);
+        $this->added_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Role $role
+     * @return  Role $role
+     */
+    public function setEditor () {
+        info(__METHOD__);
+        $this->edited_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * Attaches the permissions to the role that are transferred in the request, 
+     * provided that the authorized user has them
+     * 
+     * @param  Role $role
+     * @return  Role $role
+     */
+    public function setAviablePermissions () {
+        info(__METHOD__);
+        $permissions = Permission::all()->toArray();
+        $attach_roles = [];
+        foreach ( $permissions as $permission ) {
+            // attach Permission
+            if (
+                request($permission['name']) === 'on' 
+                and !$this->perms->contains('name', $permission['name']) 
+                and auth()->user()->can($permission['name']) 
+            ) {
+                $this->attachPermission($permission['id']);
+                $attach_roles[] = $permission['name'];
+
+            // take Permission
+            } elseif ( 
+                empty(request($permission['name'])) 
+                and $this->perms->contains('name', $permission['name']) 
+                and auth()->user()->can($permission['name']) 
+            ) {
+                $take_role = DB::table('permission_role')->where([
+                    ['permission_id', '=', $permission['id']],
+                    ['role_id', '=', $this->id],
+                ])->delete();
+                $take_roles[] = $permission['name'];
+            }
+        }
+        $this->event_description = ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
+        return $this;
+    }
+
+    /**
+     * Create records in table events.
+     *
+     * @return Role $role
+     */
+    public function createCustomevent()
+    {
+        info(__METHOD__);
+
+        $attr = $this->getAttributes();
+        $dirty = $this->getDirty();
+        $original = $this->getOriginal();
+        // dd($attr, $dirty, $original);
+
+        $details = [];
+        foreach ( $attr as $property => $value ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+                $details[] = [ 
+                    $property, 
+                    $original[$property] ?? FALSE, 
+                    $dirty[$property] ?? FALSE,
+                ];
+            }
+        }
+
+        Customevent::create([
+            'user_id' => auth()->user()->id,
+            'model' => $this->getTable(),
+            'model_id' => $this->id,
+            'model_name' => $this->name,
+            'type' => debug_backtrace()[1]['function'],
+            'description' => $this->description ?? FALSE,
+            'details' => serialize($details) ?? FALSE,
+        ]);
+        return $this;
+    }
+
+
+    /**
+     * Create event notification.
+     * 
+     * @return Role $role
+     */
+    public function sendEmailNotification()
+    {
+        info(__METHOD__);
+
+        $type = debug_backtrace()[1]['function'];
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $setting = config($namesetting);
+
+        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+
+        if ( $setting === '1' ) {
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+
+            \Mail::to( auth()->user() ?? config('mail.from.address') )
+                ->bcc($bcc)
+                ->later( 
+                    $when, 
+                    new RoleNotification($this, $type, $username)
+                );
+        }
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        session()->flash('message', __('success_operation') . $this->event_description);
+    }
 }

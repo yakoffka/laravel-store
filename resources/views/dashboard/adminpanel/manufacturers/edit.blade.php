@@ -33,12 +33,35 @@
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagepath', 'value' => old('imagepath')])
 
                 <div class="row">
-                    <div class="col-12 col-md-6">
-                        @input(['name' => 'name', 'label' => __('name'), 'value' => old('name') ?? $manufacturer->name, 'required' => 'required'])
+                    {{-- name --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="name">{{ __('__namerequired') }}*</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="{{__('Name')}}"
+                                value="{{ old('name') ?? $manufacturer->name }}" required>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        @input(['name' => 'title', 'label' => __('title'), 'value' => old('title') ?? $manufacturer->title])
+                    {{-- /name --}}
+
+                    {{-- title --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="title">{{ __('title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="{{__('Title')}}"
+                                value="{{ old('title') ?? $manufacturer->title }}">
+                        </div>
                     </div>
+                    {{-- /title --}}
+
+                    {{-- slug --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="slug">{{ __('slug') }}</label>
+                            <input type="text" id="slug" name="slug" class="form-control" placeholder="{{__('Slug')}}"
+                                value="{{ old('slug') ?? $manufacturer->slug }}">
+                        </div>
+                    </div>
+                    {{-- /slug --}}
                 </div>
 
                 {{-- description --}}

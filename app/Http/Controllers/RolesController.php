@@ -6,7 +6,7 @@ use App\Role;
 use App\Permission;
 use Illuminate\Support\Facades\DB;
 
-class RolesController extends CustomController
+class RolesController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
@@ -62,38 +62,13 @@ class RolesController extends CustomController
         }
         request()->validate($arrToValidate);
 
-        $role = new Role;
-        $role->name = request('name');
-        $role->display_name = request('display_name');
-        $role->description = request('description');
-        $role->added_by_user_id = auth()->user()->id;
-        $dirty_properties = $role->getDirty();
+        $role = Role::create([
+            'name' => request('name'),
+            'display_name' => request('display_name'),
+            'description' => request('description'),
+            // 'added_by_user_id' => auth()->user()->id,
+        ]);
 
-        if ( !$role->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
-        
-
-        // attach permissions
-        $additional_description = '';
-        if ( auth()->user()->can('edit_roles') ) {
-            $attach_roles = [];
-            foreach ( $permissions as $permission ) {
-                if (
-                    request($permission['name']) === 'on' 
-                    and !$role->perms->contains('name', $permission['name']) 
-                    and auth()->user()->can($permission['name']) 
-                ) {
-                    $role->attachPermission($permission['id']);
-                    $attach_roles[] = $permission['name'];
-                }
-            }
-            $additional_description = $attach_roles ? ' Роли присвоены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '';
-        }
-
-        // create event record
-        // $message = $this->createCustomevent($role, $dirty_properties, false, 'model_create', $additional_description);
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('roles.show', compact('role'));
     }
 
@@ -148,43 +123,50 @@ class RolesController extends CustomController
         }
         request()->validate($arrToValidate);
 
-        // update
-        $role->name = request('name');
-        $role->display_name = request('display_name');
-        $role->description = request('description');
-        $role->edited_by_user_id = auth()->user()->id;
+        // // update
+        // $role->name = request('name');
+        // $role->display_name = request('display_name');
+        // $role->description = request('description');
+        // $role->edited_by_user_id = auth()->user()->id;
 
-        $dirty_properties = $role->getDirty();
-        $original = $role->getOriginal();
+        // $dirty_properties = $role->getDirty();
+        // $original = $role->getOriginal();
 
-        if ( !$role->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
+        // if ( !$role->save() ) {
+        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        // }
 
-        // attach/take Permission
-        $additional_description = '';
-        if ( auth()->user()->can('edit_roles') ) {
-            $attach_roles = $take_roles = [];
-            foreach ( $permissions as $permission ) {
-                // attach Permission
-                if ( request($permission['name']) === 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
-                    $role->attachPermission($permission['id']);
-                    $attach_roles[] = $permission['name'];
-                // take Permission
-                } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
-                    $take_role = DB::table('permission_role')->where([
-                        ['permission_id', '=', $permission['id']],
-                        ['role_id', '=', $role->id],
-                    ])->delete();
-                    $take_roles[] = $permission['name'];
-                }
-            }
-            $additional_description = ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
-        }
+        // // attach/take Permission
+        // $additional_description = '';
+        // if ( auth()->user()->can('edit_roles') ) {
+        //     $attach_roles = $take_roles = [];
+        //     foreach ( $permissions as $permission ) {
+        //         // attach Permission
+        //         if ( request($permission['name']) === 'on' and !$role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
+        //             $role->attachPermission($permission['id']);
+        //             $attach_roles[] = $permission['name'];
+        //         // take Permission
+        //         } elseif ( empty(request($permission['name'])) and $role->perms->contains('name', $permission['name']) and auth()->user()->can($permission['name']) ) {
+        //             $take_role = DB::table('permission_role')->where([
+        //                 ['permission_id', '=', $permission['id']],
+        //                 ['role_id', '=', $role->id],
+        //             ])->delete();
+        //             $take_roles[] = $permission['name'];
+        //         }
+        //     }
+        //     $additional_description = ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
+        // }
 
-        // create event record
-        // $message = $this->createCustomevent($role, $dirty_properties, $original, 'model_update', $additional_description);
-        // if ( $message ) {session()->flash('message', $message);}
+        // // create event record
+        // // $message = $this->createCustomevent($role, $dirty_properties, $original, 'model_update', $additional_description);
+        // // if ( $message ) {session()->flash('message', $message);}
+        $role->update([
+            'name' => request('name'),
+            'display_name' => request('display_name'),
+            'description' => request('description'),
+            // 'edited_by_user_id' => auth()->user()->id,
+        ]);
+
         return redirect()->route('roles.show', compact('role'));
     }
 

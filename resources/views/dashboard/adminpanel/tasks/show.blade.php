@@ -27,7 +27,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h2>#{{ $task->id }} {{ $task->title }}</h2>
+                    <h2>#{{ $task->id }} {{ $task->name }}</h2>
                 </div>
 
                 <div class="card-body">

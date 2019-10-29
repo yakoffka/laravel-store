@@ -15,6 +15,7 @@ class ProductObserver
     public function creating(Product $product)
     {
         info(__METHOD__);
+        $product->setTitle()->setSlug()->cleanSrcCodeTables()->additionallyIfCopy()->setCreator();
     }
 
     /**
@@ -26,6 +27,9 @@ class ProductObserver
     public function created(Product $product)
     {
         info(__METHOD__);
+        // $product->attachImages()->createCustomevent()->sendEmailNotification();
+        $product->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -38,6 +42,7 @@ class ProductObserver
     public function updating(Product $product)
     {
         info(__METHOD__);
+        $product->setTitle()->setSlug()->cleanSrcCodeTables()->setEditor();
     }
 
     /**
@@ -49,6 +54,9 @@ class ProductObserver
     public function updated(Product $product)
     {
         info(__METHOD__);
+        // $product->attachImages()->createCustomevent()->sendEmailNotification();
+        $product->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -61,6 +69,7 @@ class ProductObserver
     public function deleting(Product $product)
     {
         info(__METHOD__);
+        $product->deleteComments()->deleteImages();
     }
 
     /**
@@ -72,6 +81,9 @@ class ProductObserver
     public function deleted(Product $product)
     {
         info(__METHOD__);
+        $product->createCustomevent();
+        // $category->sendEmailNotification(); 
+        session()->flash('message', __('success_operation'));
     }
 
 

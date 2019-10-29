@@ -53,6 +53,7 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  Task $task
      * @return \Illuminate\Http\Response
      */
     public function create(Task $task)
@@ -67,16 +68,16 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Task $task
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Task $task)
     {
         abort_if ( auth()->user()->cannot('create_tasks'), 403 );
 
-        $this->validate($request, [
+        request()->validate([
             'slave_user_id' => 'required|integer|exists:users,id',
-            'title' => 'string',
+            'name' => 'string',
             'description' => 'required|string',
             'taskspriority_id' => 'exists:taskspriorities,id',
         ]);
@@ -84,18 +85,18 @@ class TaskController extends Controller
 
         if ( !$task = Task::create([
             'master_user_id' => auth()->user()->id,
-            'slave_user_id' => $request->slave_user_id,
-            'title' => $request->title ?? Str::limit($request->description, 20),
-            'slug' => Str::slug($request->title ?? substr($request->title, 0, 20), '-'), // TODO unic!!!
-            'description' => $request->description,
+            'slave_user_id' => request('slave_user_id'),
+            'name' => request('name') ?? Str::limit(request('description'), 20),
+            // 'slug' => Str::slug(request('name') ?? substr(request('name'), 0, 20), '-'), // TODO unic!!!
+            'description' => request('description'),
             'tasksstatus_id' => 1, // TODO привязка к id
-            'taskspriority_id' => $request->taskspriority_id,
+            'taskspriority_id' => request('taskspriority_id'),
         ])) {
             return back()->withErrors(['something wrong! ERR #' . __line__]);
         }
 
-        $message = 'Task #' . $task->id . ' "' . $task->title . '" is create successfull';
-        session()->flash('message', $message);
+        // $message = 'Task #' . $task->id . ' "' . $task->name . '" is create successfull';
+        // session()->flash('message', $message);
 
         return redirect()->route('directives.index', auth()->user());
     }
@@ -163,7 +164,6 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
@@ -179,8 +179,7 @@ class TaskController extends Controller
             ),
         403 );
 
-
-        $this->validate($request, [
+        request()->validate([
             'tasksstatus_id' => 'exists:tasksstatuses,id',
             'taskspriority_id' => 'exists:taskspriorities,id',            
             'comment_slave' => 'string|nullable',
@@ -188,8 +187,8 @@ class TaskController extends Controller
 
         // закрыть задачу может только тот, кто её открыл
         if ( 
-            !is_null( $request->tasksstatus_id ) 
-            and $request->tasksstatus_id === '4' // TODO!!! привязка к id!!!
+            !is_null( request('tasksstatus_id') ) 
+            and request('tasksstatus_id') === '4' // TODO!!! привязка к id!!!
             and auth()->user()->id !== $task->master_user_id
         ) {
             return back()->withErrors(['закрыть задачу может только тот, кто её открыл'])->withInput();
@@ -197,7 +196,7 @@ class TaskController extends Controller
 
         // комментировать задачу может только исполнитель
         if ( 
-            !is_null( $request->comment_slave ) 
+            !is_null( request('comment_slave') ) 
             and (
                 auth()->user()->id !== $task->slave_user_id
                 and
@@ -208,16 +207,16 @@ class TaskController extends Controller
         }
 
         if (!$task->update([
-            'tasksstatus_id' => $request->tasksstatus_id ?? $task->tasksstatus_id,          // изменить! перезаписать только при изменении!
-            'taskspriority_id' => $request->taskspriority_id ?? $task->taskspriority_id,    // изменить! перезаписать только при изменении!
-            'comment_slave' => $request->comment_slave ?? $task->comment_slave,             // изменить! перезаписать только при изменении!
+            'tasksstatus_id' => request('tasksstatus_id') ?? $task->tasksstatus_id,          // изменить! перезаписать только при изменении!
+            'taskspriority_id' => request('taskspriority_id') ?? $task->taskspriority_id,    // изменить! перезаписать только при изменении!
+            'comment_slave' => request('comment_slave') ?? $task->comment_slave,             // изменить! перезаписать только при изменении!
         ])) {
             return back()->withErrors(['something wrong! ERR #' . __line__]);
         }
 
-        $message = 'Task #' . $task->id . ' "' . $task->title . '" is edit';
+        // $message = 'Task #' . $task->id . ' "' . $task->name . '" is edit';
 
-        session()->flash('message', $message);
+        // session()->flash('message', $message);
 
         return back();
     }
@@ -225,7 +224,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
+     * @param  Task $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task)
@@ -240,7 +239,7 @@ class TaskController extends Controller
             ),
         403 );
 
-        $message = 'Task #' . $task->id . ' "' . $task->title . '" is deleted';
+        $message = 'Task #' . $task->id . ' "' . $task->name . '" is deleted';
 
         if ( !$task->delete() ) {
             return back()->withErrors(['something wrong! ERR #' . __line__]);

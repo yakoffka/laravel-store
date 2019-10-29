@@ -15,6 +15,7 @@ class ManufacturerObserver
     public function creating(Manufacturer $manufacturer)
     {
         info(__METHOD__);
+        $manufacturer->setTitle()->setSlug()->attachSingleImage()->setCreator();
     }
 
     /**
@@ -26,6 +27,8 @@ class ManufacturerObserver
     public function created(Manufacturer $manufacturer)
     {
         info(__METHOD__);
+        $manufacturer->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -38,6 +41,7 @@ class ManufacturerObserver
     public function updating(Manufacturer $manufacturer)
     {
         info(__METHOD__);
+        $manufacturer->setTitle()->setSlug()->attachSingleImage()->setEditor();
     }
 
     /**
@@ -49,6 +53,8 @@ class ManufacturerObserver
     public function updated(Manufacturer $manufacturer)
     {
         info(__METHOD__);
+        $manufacturer->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -72,6 +78,9 @@ class ManufacturerObserver
     public function deleted(Manufacturer $manufacturer)
     {
         info(__METHOD__);
+        $manufacturer->createCustomevent();
+        // $category->sendEmailNotification(); 
+        session()->flash('message', __('success_operation'));
     }
 
 

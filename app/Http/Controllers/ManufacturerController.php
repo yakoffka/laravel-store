@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Str;
 use App\{Category, Manufacturer};
 
-class ManufacturerController extends CustomController
+class ManufacturerController extends Controller
 {
     public function __construct() {$this->middleware(['auth', 'permission:view_manufacturers']);}
 
@@ -51,28 +50,17 @@ class ManufacturerController extends CustomController
             'description'       => 'nullable|string',
             'imagepath'         => 'nullable|string',
             'sort_order'        => 'required|string|max:1',
-            'title'             => 'nullable|string|max:65535', // ?
+            'title'             => 'nullable|string', // ?
         ]);
 
-        $manufacturer = new Manufacturer;
+        $manufacturer = Manufacturer::create([
+            'name'              => request('name'),
+            'description'       => request('description'),
+            'imagepath'         => request('imagepath'),
+            'sort_order'        => request('sort_order'),
+            'title'             => request('title'),
+        ]);
 
-        $manufacturer->name = request('name');
-        $manufacturer->description = request('description');
-        $manufacturer->sort_order = request('sort_order');
-        $manufacturer->title = request('title');
-        $manufacturer->slug = Str::slug(request('title') ?? request('name'), '-');
-        $manufacturer->added_by_user_id = auth()->user()->id;
-
-        $dirty_properties = $manufacturer->getDirty();
-
-        if ( !$manufacturer->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
-
-        $dirty_properties = $this->attachSingleImage($manufacturer, request('imagepath'), $dirty_properties);
-
-        // $message = $this->createCustomevent($manufacturer, $dirty_properties, false, 'model_create');
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 
@@ -118,27 +106,16 @@ class ManufacturerController extends CustomController
             'description'       => 'nullable|string',
             'imagepath'         => 'nullable|string',
             'sort_order'        => 'required|string|max:1',
-            'title'             => 'nullable|string|max:65535', // ?
+            'title'             => 'nullable|string',
         ]);
 
-        $manufacturer->name = request('name');
-        $manufacturer->description = request('description');
-        $manufacturer->sort_order = request('sort_order');
-        $manufacturer->title = request('title');
-        $manufacturer->slug = Str::slug(request('title') ?? request('name'), '-');
-        $manufacturer->edited_by_user_id = auth()->user()->id;
+        $manufacturer->update([
+            'name' => request('name'),
+            'description' => request('description'),
+            'sort_order' => request('sort_order'),
+            'title' => request('title'),
+        ]);
 
-        $dirty_properties = $manufacturer->getDirty();
-        $original = $manufacturer->getOriginal();
-
-        if ( !$manufacturer->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
-
-        $dirty_properties = $this->attachSingleImage($manufacturer, request('imagepath'), $dirty_properties);
-
-        // $message = $this->createCustomevent($manufacturer, $dirty_properties, $original, 'model_update');
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 
@@ -166,54 +143,4 @@ class ManufacturerController extends CustomController
         // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
-
-
-
-
-    /**
-     * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию производителя
-     * и обновляет запись в базе данных. 
-     *
-     * @return  array $dirty_properties
-     */
-    private function attachSingleImage (Manufacturer $manufacturer, $imagepath, $dirty_properties) {
-
-        // dd($imagepath);
-        if ( !$imagepath ) {
-            return $dirty_properties;
-        }
-
-        // WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
-        $src = str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
-        $dst_dir = 'images/manufacturers/' . $manufacturer->id;
-        $basename = basename($src);
-        $dst = $dst_dir . '/' . $basename;
-
-        // проверка на существование исходного файла. так как config('filesystems.disks.lfm.root') === config('filesystems.disks.public.root'), использую не 'Storage::disk(config('lfm.disk'))->exists($src)', а 'Storage::disk('public')->exists($src)'
-        if ( !Storage::disk('public')->exists($src) ) {
-            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
-        }
-
-        // удаление всех файлов из директории назначения
-        $arr_files = Storage::disk('public')->files($dst_dir);
-        if ( $arr_files ) {
-            if ( !$arr_files = Storage::disk('public')->delete($arr_files) ) {
-                return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
-            }
-        }
-
-        // копирование файла
-        if ( !Storage::disk('public')->copy($src, $dst) ) {
-            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
-        }
-
-        // update $manufacturer
-        if ( !($manufacturer->imagepath = $basename and $manufacturer->save()) ) {
-            return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
-        }
-
-        $dirty_properties['imagepath'] = $dst;
-        return $dirty_properties;
-    }
-
 }

@@ -24,6 +24,7 @@ class CreateSettingsTable extends Migration
             $table->string('type');
             $table->string('permissible_values', 600);
             $table->string('value')->nullable();
+            $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ class OrderObserver
     public function creating(Order $order)
     {
         info(__METHOD__);
+        $order->createFromCart()->setCustomer();
     }
 
     /**
@@ -26,6 +27,8 @@ class OrderObserver
     public function created(Order $order)
     {
         info(__METHOD__);
+        $order->setName()->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -38,6 +41,7 @@ class OrderObserver
     public function updating(Order $order)
     {
         info(__METHOD__);
+        $order->setCustomer();
     }
 
     /**
@@ -49,6 +53,8 @@ class OrderObserver
     public function updated(Order $order)
     {
         info(__METHOD__);
+        $order->setName()->createCustomevent()->sendEmailNotification();
+        session()->flash('message', __('success_operation'));
     }
 
 
@@ -72,6 +78,9 @@ class OrderObserver
     public function deleted(Order $order)
     {
         info(__METHOD__);
+        $order->createCustomevent();
+        // $category->sendEmailNotification(); 
+        session()->flash('message', __('success_operation'));
     }
 
 

@@ -47,7 +47,7 @@
                     </select>
                 </div>
                 
-                @input(['name' => 'title', 'value' => old('title'), 'required' => 'required'])
+                @input(['name' => 'name', 'value' => old('name'), 'required' => 'required'])
 
                 @textarea(['name' => 'description', 'value' => old('description'), 'required' => 'required'])
 

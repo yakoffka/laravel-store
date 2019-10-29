@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\{Taskspriority, Tasksstatus};
+use Illuminate\Support\Carbon;
+use App\Customevent;
+use App\Mail\TaskNotification;
 
 class Task extends Model
 {
@@ -12,13 +15,8 @@ class Task extends Model
     
     protected $guarded = [];
     protected $perPage = 30;
-
-
-    // Illuminate\Database\QueryException  : SQLSTATE[HY000]: General error: 1364 Field 'name' doesn't have a default value (SQL: insert into `products` (`updated_at`, `created_at`) values (2019-09-05 00:58:39, 2019-09-05 00:58:39))
-    // public function __construct()
-    // {
-    //   $this->perPage = config('custom.tasks_paginate');
-    // }
+    private $event_description = '';
+    private $type = '';
     
     public function getMaster () {
         return $this->belongsTo(User::class, 'master_user_id');
@@ -34,5 +32,116 @@ class Task extends Model
     
     public function getStatus () {
         return $this->belongsTo(Tasksstatus::class, 'tasksstatus_id');
+    }
+
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Task $task
+     * @return  Task $task
+     */
+    public function setCreator () {
+        info(__METHOD__);
+        $this->added_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @param  Task $task
+     * @return  Task $task
+     */
+    public function setEditor () {
+        info(__METHOD__);
+        $this->edited_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * Create records in table events.
+     *
+     * @return Task $task
+     */
+    public function createCustomevent()
+    {
+        info(__METHOD__);
+        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
+            return $this;
+        }
+        $this->type = debug_backtrace()[1]['function'];
+        $attr = $this->getAttributes();
+        $dirty = $this->getDirty();
+        $original = $this->getOriginal();
+        // dd($attr, $dirty, $original);
+
+        $details = [];
+        foreach ( $attr as $property => $value ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+                $details[] = [ 
+                    $property, 
+                    $original[$property] ?? FALSE, 
+                    $dirty[$property] ?? FALSE,
+                ];
+            }
+        }
+
+        Customevent::create([
+            'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
+            'model' => $this->getTable(),
+            'model_id' => $this->id,
+            'model_name' => $this->name,
+            'type' => $this->type,
+            'description' => $this->description ?? FALSE,
+            'details' => serialize($details) ?? FALSE,
+        ]);
+        return $this;
+    }
+
+
+    /**
+     * Create event notification.
+     * 
+     * @return Task $task
+     */
+    public function sendEmailNotification()
+    {
+        info(__METHOD__);
+        if( $this->isDirty('parent_seeable') or  $this->isDirty('grandparent_seeable') ) {
+            return $this;
+        }
+
+        $type = $this->type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $setting = config($namesetting);
+
+        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+
+        if ( $setting === '1' ) {
+
+            $bcc = config('mail.mail_bcc');
+            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            if ( $additional_email_bcc->value ) {
+                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
+            }
+            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
+            $when = Carbon::now()->addMinutes($email_send_delay);
+            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+
+            \Mail::to( auth()->user() ?? config('mail.from.address') )
+                ->bcc($bcc)
+                ->later( 
+                    $when, 
+                    new TaskNotification($this, $type, $username)
+                );
+        }
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        $this->event_description = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->type)]);
+        session()->flash('message', $this->event_description);
     }
 }

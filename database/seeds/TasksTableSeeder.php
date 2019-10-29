@@ -921,11 +921,12 @@ class TasksTableSeeder extends Seeder
                 'master_user_id' => 3,
                 'slave_user_id' => 3,
                 'name' => $task['name'] ?? Str::limit($task->description, 20),
-                'slug' => Str::slug($task['name'], '-'),
+                // 'slug' => Str::slug($task['name'], '-'),
                 'description' => $task['description'],
                 'comment_slave' => $task['comment_slave'] ?? '',
                 'tasksstatus_id' => $task['tasksstatus_id'],
                 'taskspriority_id' => $task['taskspriority_id'],
+                'added_by_user_id' => 3,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);

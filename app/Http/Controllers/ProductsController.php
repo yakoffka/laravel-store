@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Mail\Product\{Created, Updated};
+// use App\Mail\Product\{Created, Updated};
 use Illuminate\Support\Carbon;
 use Str;
 use App\{Category, Image, Manufacturer, Product};
-use App\Traits\Yakoffka\ImageYoTrait; // Traits???
 use App\Jobs\RewatermarkJob;
 use Artisan;
+use App\Traits\Yakoffka\ImageYoTrait;
 
-class ProductsController extends CustomController
+class ProductsController extends Controller
 {
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show', 'search']);
@@ -31,8 +31,10 @@ class ProductsController extends CustomController
         }
         $appends = $request->query->all();
         $products = Product::where('seeable', '=', 'on')
-            ->where('grandparent_seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on')
+            // ->where('grandparent_seeable', '=', 'on')
+            // ->where('parent_seeable', '=', 'on')
+            ->where('category_seeable', '=', 'on')
+            ->where('parent_category_seeable', '=', 'on')
             ->orderBy('price')
             ->filter($request)
             ->paginate();
@@ -80,7 +82,9 @@ class ProductsController extends CustomController
         abort_if ( auth()->user()->cannot('create_products'), 403 );
 
         request()->validate([
-            'name'              => 'required|max:255|unique:products,name',
+            'name'              => 'required|string|unique:products,name',
+            'title'             => 'nullable|string',
+            'slug'              => 'nullable|string',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
             'seeable'           => 'nullable|string|in:on',
@@ -94,48 +98,44 @@ class ProductsController extends CustomController
             'copy_img'          => 'nullable|integer',
         ]);
 
-        if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
-            $modification = $this->cleanSrcCodeTables(request('modification'));
-        } else {
-            $modification = request('modification') ?? '';
-        }
+        $product = Product::create([
+            'name' => request('name'),
+            'title' => request('title'),
+            'slug' => request('slug'),
+            'manufacturer_id' => request('manufacturer_id'),
+            'category_id' => request('category_id'),
+            'seeable' => request('seeable') ,
+            'materials' => request('materials'),
+            'description' => request('description'),
+            'modification' => request('modification'),
+            'workingconditions' => request('workingconditions'),
+            'date_manufactured' => request('date_manufactured'),
+            'price' => request('price'),
+            'views' => 0,
+        ]);
 
-        $product = new Product;
-        $product->name = request('name');
-        $product->slug = Str::slug(request('name'), '-');
-        $product->manufacturer_id = request('manufacturer_id');
-        $product->category_id = request('category_id');
-        $product->seeable = request('seeable') ;
-        $product->materials = request('materials') ?? '';
-        $product->description = request('description') ?? '';
-        $product->modification = $modification;
-        $product->workingconditions = request('workingconditions') ?? '';
-        $product->date_manufactured = request('date_manufactured') ?? '';
-        $product->price = request('price') ?? 0;
-        $product->added_by_user_id = auth()->user()->id;
-        $product->views = 0;
 
-        $dirty_properties = $product->getDirty();
+        // $dirty_properties = $product->getDirty();
 
-        if ( !$product->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
+        // if ( !$product->save() ) {
+        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        // }
 
         // create event record
         $this->attachImages($product->id, request('imagespath'));
-        $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
-        // $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
+        // $copy_action = $this->additionallyIfCopy ($product, request('copy_img'));
+        // // $message = $this->createCustomevent($product, $dirty_properties, false, $copy_action ? 'model_copy' : 'model_create');
 
-        // send email-notification
-        if ( config('settings.email_new_product') ) {
-            $user = auth()->user();
-            $bcc = config('mail.mail_bcc');
-            if ( config('settings.additional_email_bcc') ) {
-                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-            }
-            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-            \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
-        }
+        // // send email-notification
+        // if ( config('settings.email_new_product') ) {
+        //     $user = auth()->user();
+        //     $bcc = config('mail.mail_bcc');
+        //     if ( config('settings.additional_email_bcc') ) {
+        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
+        //     }
+        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+        //     \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
+        // }
 
         // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.show', $product->category_id);
@@ -158,7 +158,7 @@ class ProductsController extends CustomController
     /**
      * Display the specified resource for admin side.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function adminShow(Product $product) {
@@ -169,6 +169,7 @@ class ProductsController extends CustomController
     /**
      * Show the form for creating a new resource.
      *
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
@@ -209,6 +210,8 @@ class ProductsController extends CustomController
 
         request()->validate([
             'name'              => 'required|max:255',
+            'title'             => 'nullable|string',
+            'slug'              => 'nullable|string',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
             'seeable'           => 'nullable|string|in:on',
@@ -221,46 +224,61 @@ class ProductsController extends CustomController
             'price'             => 'nullable|integer',
         ]);
 
-        if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
-            $modification = $this->cleanSrcCodeTables(request('modification'));
-        } else {
-            $modification = request('modification') ?? '';
-        }
+        $product->update([
+            'name' => request('name'),
+            'title' => request('title'),
+            'slug' => request('slug'),
+            'manufacturer_id' => request('manufacturer_id'),
+            'category_id' => request('category_id'),
+            'seeable' => request('seeable') ,
+            'materials' => request('materials'),
+            'description' => request('description'),
+            'modification' => request('modification'),
+            'workingconditions' => request('workingconditions'),
+            'date_manufactured' => request('date_manufactured'),
+            'price' => request('price'),
+            'views' => 0,
+        ]);
+        // if ( request('modification') and config('settings.modification_wysiwyg') === 'srctablecode' ) {
+        //     $modification = $this->cleanSrcCodeTables(request('modification'));
+        // } else {
+        //     $modification = request('modification') ?? '';
+        // }
 
-        $product->name = request('name');
-        $product->slug = Str::slug(request('name'), '-');
-        $product->manufacturer_id = request('manufacturer_id');
-        $product->category_id = request('category_id');
-        $product->seeable = request('seeable') ;
-        $product->materials = request('materials');
-        $product->description = request('description');
-        $product->modification = $modification;
-        $product->workingconditions = request('workingconditions') ?? '';
-        $product->date_manufactured = request('date_manufactured') ?? '';
-        $product->price = request('price');
-        $product->edited_by_user_id = auth()->user()->id;
+        // $product->name = request('name');
+        // $product->slug = Str::slug(request('name'), '-');
+        // $product->manufacturer_id = request('manufacturer_id');
+        // $product->category_id = request('category_id');
+        // $product->seeable = request('seeable') ;
+        // $product->materials = request('materials');
+        // $product->description = request('description');
+        // $product->modification = $modification;
+        // $product->workingconditions = request('workingconditions') ?? '';
+        // $product->date_manufactured = request('date_manufactured') ?? '';
+        // $product->price = request('price');
+        // $product->edited_by_user_id = auth()->user()->id;
 
-        $dirty_properties = $product->getDirty();
-        $original = $product->getOriginal();
+        // $dirty_properties = $product->getDirty();
+        // $original = $product->getOriginal();
 
-        if ( !$product->save() ) {
-            return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
-        }
+        // if ( !$product->save() ) {
+        //     return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
+        // }
 
         $this->attachImages($product->id, request('imagespath'));
 
-        // $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
+        // // $message = $this->createCustomevent($product, $dirty_properties, $original, 'model_update');
 
-        // send email-notification
-        if ( config('settings.email_update_product') ) {
-            $user = auth()->user();
-            $bcc = config('mail.mail_bcc');
-            if ( config('settings.additional_email_bcc') ) {
-                $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-            }
-            $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-            \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
-        }
+        // // send email-notification
+        // if ( config('settings.email_update_product') ) {
+        //     $user = auth()->user();
+        //     $bcc = config('mail.mail_bcc');
+        //     if ( config('settings.additional_email_bcc') ) {
+        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
+        //     }
+        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
+        //     \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
+        // }
 
         // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('products.adminshow', $product->id);
@@ -277,23 +295,24 @@ class ProductsController extends CustomController
     {
         abort_if ( auth()->user()->cannot('delete_products'), 403 );
 
-        // $products_name = $product->name;
-        // $products_id = $product->id;
+        // // $products_name = $product->name;
+        // // $products_id = $product->id;
 
-        if ($product->images) {
-            // delete public directory (converted images)
-            $directory_pub = 'public/images/products/' . $product->id;
-            Storage::deleteDirectory($directory_pub);
-            // delete uploads directory (original images)
-            $directory_upl = 'uploads/images/products/' . $product->id;
-            Storage::deleteDirectory($directory_upl);
-        }
+        // if ($product->images) {
+        //     // delete public directory (converted images)
+        //     $directory_pub = 'public/images/products/' . $product->id;
+        //     Storage::deleteDirectory($directory_pub);
+        //     // delete uploads directory (original images)
+        //     $directory_upl = 'uploads/images/products/' . $product->id;
+        //     Storage::deleteDirectory($directory_upl);
+        // }
 
-        $product->comments()->delete();
+        // $product->comments()->delete();
+        // // !!!$product->images()->delete();
 
-        // ADD DELETE PRODUCT EMAIL!
+        // // ADD DELETE PRODUCT EMAIL!
 
-        // $message = $this->createCustomevent($product, false, false, 'model_delete');
+        // // $message = $this->createCustomevent($product, false, false, 'model_delete');
         $product->delete();
         // if ( $message ) {session()->flash('message', $message);} // and if delete
         if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
@@ -336,7 +355,6 @@ class ProductsController extends CustomController
         ]);
 
         $query = request('query');
-        // $products = Product::search($query)->paginate(15);
         $products = Product::where('seeable', 'on')
             // ->where('category_seeable', true)
             ->where('grandparent_seeable', '=', 'on')
@@ -349,8 +367,45 @@ class ProductsController extends CustomController
             $appends[$key] = $val;
         }
 
-        // return view('search.result', compact('query', 'products', 'appends'));
         return view('products.index', compact('query', 'products', 'appends'));
+    }
+
+
+    /**
+     * Приватный метод добавления изображений товара
+     * 
+     * Принимает строку с path файлов изображений, разделёнными запятой
+     * Создает, при необходимости директорию для хранения изображений товара,
+     *  и копирует в неё комплект превью с наложением водяных знаков.
+     * Добавляет запись о каждом изображении в таблицу images
+     *
+     * Возвращает void
+     */
+    private function attachImages (int $product_id, string $imagespath = NULL)
+    {
+        if ( empty($imagespath) ) {
+            return true;
+        }
+        $imagepaths = explode(',', $imagespath);
+        foreach( $imagepaths as $imagepath) {
+            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+            // image re-creation
+            $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
+            $originalName = basename($image_name);
+            $path  = '/images/products/' . $product_id;
+            // create record
+            $image = Image::create([
+                'product_id' => $product_id,
+                // 'slug' => $image_name,
+                'slug' => Str::slug($image_name, '-'),
+                'path' => $path,
+                'name' => $image_name,
+                'ext' => config('imageyo.res_ext'),
+                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                'sort_order' => 9,
+                'orig_name' => $originalName,
+            ]);
+        }
     }
 
 
@@ -359,7 +414,7 @@ class ProductsController extends CustomController
     *
     * Возвращает исходный код, очищенный от ненужных тегов, классов, стилей и др.
     */
-    private function cleanSrcCodeTables (String $dirty_modification ): string {
+    /*private function cleanSrcCodeTables (String $dirty_modification ): string {
 
         // удаление ненужных тегов
         $res = strip_tags($dirty_modification, '<table><caption><thead><tbody><th><tr><td>');
@@ -416,51 +471,9 @@ class ProductsController extends CustomController
         }
 
         return $res;
-    }
+    }*/
 
 
-    /**
-     * Приватный метод добавления изображений товара
-     * 
-     * Принимает строку с path файлов изображений, разделёнными запятой
-     * Создает, при необходимости директорию для хранения изображений товара,
-     *  и копирует в неё комплект превью с наложением водяных знаков.
-     * Добавляет запись о каждом изображении в таблицу images
-     *
-     * Возвращает void
-     */
-    private function attachImages (int $product_id, string $imagespath = NULL)
-    {
-
-        if ( empty($imagespath) ) {
-            return true;
-        }
-
-        $imagepaths = explode(',', $imagespath);
-
-        foreach( $imagepaths as $imagepath) {
-
-            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
-
-            // image re-creation
-            $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
-            $originalName = basename($image_name);
-            $path  = '/images/products/' . $product_id;
-
-            // create record
-            $image = Image::create([
-                'product_id' => $product_id,
-                // 'slug' => $image_name,
-                'slug' => Str::slug($image_name, '-'),
-                'path' => $path,
-                'name' => $image_name,
-                'ext' => config('imageyo.res_ext'),
-                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                'sort_order' => 9,
-                'orig_name' => $originalName,
-            ]);
-        }
-    }
 
 
     public function massupdate() {
@@ -538,51 +551,51 @@ class ProductsController extends CustomController
     }
 
 
-    /**
-     * Copying all donor images and creating an entry in the image table.
-     * 
-     * 
-     */
-    private function additionallyIfCopy (Product $product, $donor_id)
-    {
-        if ( !$donor_id ) {
-            return false;
-        }
+    // /**
+    //  * Copying all donor images and creating an entry in the image table.
+    //  * 
+    //  * 
+    //  */
+    // private function additionallyIfCopy (Product $product, $donor_id)
+    // {
+    //     if ( !$donor_id ) {
+    //         return false;
+    //     }
 
-        $donor = Product::find($donor_id);
+    //     $donor = Product::find($donor_id);
 
-        $d_images = Product::find($donor_id)->images;
+    //     $d_images = Product::find($donor_id)->images;
 
-        // copy all entries from the image table related to this product
-        foreach ( $d_images as $d_image ) {
-            $image = new Image;
-            $image->product_id = $product->id;
-            $image->slug = $d_image->slug;
-            $image->path = $d_image->path;
-            $image->name = $d_image->name;
-            $image->ext = $d_image->ext;
-            $image->alt = $d_image->alt;
-            $image->sort_order = $d_image->sort_order;
-            $image->orig_name = $d_image->orig_name;
-            $image->save();
-        }
+    //     // copy all entries from the image table related to this product
+    //     foreach ( $d_images as $d_image ) {
+    //         $image = new Image;
+    //         $image->product_id = $product->id;
+    //         $image->slug = $d_image->slug;
+    //         $image->path = $d_image->path;
+    //         $image->name = $d_image->name;
+    //         $image->ext = $d_image->ext;
+    //         $image->alt = $d_image->alt;
+    //         $image->sort_order = $d_image->sort_order;
+    //         $image->orig_name = $d_image->orig_name;
+    //         $image->save();
+    //     }
 
-        // copy all files from public directory images of products
-        $pathToDir = 'public/images/products/'; // TODO!!!
-        $files = Storage::files($pathToDir . $donor_id);
-        foreach ( $files as $src ) {
-            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
-            Storage::copy($src, $dst);
-        }
+    //     // copy all files from public directory images of products
+    //     $pathToDir = 'public/images/products/'; // TODO!!!
+    //     $files = Storage::files($pathToDir . $donor_id);
+    //     foreach ( $files as $src ) {
+    //         $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
+    //         Storage::copy($src, $dst);
+    //     }
 
-        // copy all files from uploads directory images of products
-        $pathToDir = 'uploads/images/products/'; // TODO!!!
-        $files = Storage::files($pathToDir . $donor_id);
-        foreach ( $files as $src ) {
-            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
-            Storage::copy($src, $dst);
-        }
+    //     // copy all files from uploads directory images of products
+    //     $pathToDir = 'uploads/images/products/'; // TODO!!!
+    //     $files = Storage::files($pathToDir . $donor_id);
+    //     foreach ( $files as $src ) {
+    //         $dst = str_replace($pathToDir.$donor_id, $pathToDir.$product->id, $src);
+    //         Storage::copy($src, $dst);
+    //     }
 
-        return 'Копирование товара "' . $product->name . '" из донора "' . $donor->name . '".';
-    }
+    //     return 'Копирование товара "' . $product->name . '" из донора "' . $donor->name . '".';
+    // }
 }

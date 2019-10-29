@@ -20,8 +20,6 @@
 
         <h1>List of orders</h1>
 
-        <h2 class="blue">Details orders:</h2>
-
 
         {{-- pagination block --}}
         @if($orders->links())
@@ -31,7 +29,7 @@
 
         <table class="blue_table">
             <tr>
-                <th>id</th>
+                <th>name</th>
                 <th>status</th>
                 @permission('view_orders')
                     <th>user</th>
@@ -51,14 +49,14 @@
             @foreach($orders as $i=>$order)
 
                 <tr>
-                    <td>{{ $order->id }}</td>
+                    <td>{{ __('Order_name_#') }}{{ $order->name }}</td>
                     @permission('edit_orders')
                         @selectStatusOrder([
                             'statuses' => $statuses, 
                             'order' => $order, 
                         ])
                     @else
-                        <td>{{ $order->status->name ?? '-' }}</td>
+                        <td>{{ __($order->status->name) }}</td>
                     @endpermission
                     @permission('view_orders')
                         <td>
@@ -84,7 +82,7 @@
                     </td>
                     <td>
 
-                        @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->user_id )
+                        @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->customer_id )
                             <a href="{{ route('orders.show', ['order' => $order->id]) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-eye"></i>
                             </a>

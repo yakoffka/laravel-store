@@ -36,8 +36,39 @@
 
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
 
-                @input(['name' => 'name', 'label' => __('__namerequired'), 'value' => old('name') ?? $product->name, 'required' => 'required'])
+                {{-- @input(['name' => 'name', 'label' => __('__namerequired'), 'value' => old('name') ?? $product->name, 'required' => 'required']) --}}
+                <div class="row">
+                    {{-- name --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="name">{{ __('__namerequired') }}*</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="{{__('Name')}}"
+                                value="{{ old('name') ?? $product->name }}" required>
+                        </div>
+                    </div>
+                    {{-- /name --}}
 
+                    {{-- title --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="title">{{ __('title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="{{__('Title')}}"
+                                value="{{ old('title') ?? $product->title }}">
+                        </div>
+                    </div>
+                    {{-- /title --}}
+
+                    {{-- slug --}}
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="slug">{{ __('slug') }}</label>
+                            <input type="text" id="slug" name="slug" class="form-control" placeholder="{{__('Slug')}}"
+                                value="{{ old('slug') ?? $product->slug }}">
+                        </div>
+                    </div>
+                    {{-- /slug --}}
+                </div>
+    
                 {{-- manufacturer, materials, date_manufactured, price --}}
                 <div class="row">
                     <div class="col-12 col-md-3">
