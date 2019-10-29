@@ -73,6 +73,10 @@ textarea,
 .grey .grey, .greygrey{color: #8e9aa0;}
 .blue {color: #3490dc;}
 
+.row form input::placeholder {
+    color: #a2b0b8;
+    font-style: italic;
+}
 
 .bg_white {
     background-color: #fff;
@@ -1247,5 +1251,12 @@ h5.grey {
 /*======================================================================================================*/
 
 
-
-
+.fixed_alert {
+    position: fixed;
+    top: 2em;
+    right: 2em;
+    z-index: 1000;
+}
+.alert-success.fixed_alert {
+    background-color: rgba(255,255,255,0.8);
+}

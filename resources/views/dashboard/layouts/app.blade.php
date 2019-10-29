@@ -431,10 +431,16 @@
             @endif
 
             @if( session('message'))
-                <div class="container p-0">
+                {{-- <div class="container p-0">
                     <div class="alert alert-success">
                         <div class="alert-title">{{ session('message') }}</div>
                     </div>
+                </div> --}}
+                <div class="fixed_alert alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             @endif
 
