@@ -1,8 +1,4 @@
-Refactoring observers
-    change permission for system role;
-    clean controllers:
-        RegisterController.php
-        CategoryController.php
-        UsersController.php
-    set flash message;
-    localisation flash message.
+Edit email-notifications for Сategories
+    localisation emails;
+    unification emails blades and MolesNotifications;
+    change names emails blades;

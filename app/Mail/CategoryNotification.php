@@ -11,23 +11,38 @@ class CategoryNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $category;
+    public $model;
+    public $model_id;
+    public $model_name;
     public $username;
-    public $type;
+    public $event_type;
+
     public $subject;
+    public $body;
+    public $url;
+    
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($category, $type, $username)
+    public function __construct($model, $model_id, $model_name, $username, $event_type)
     {
         info(__METHOD__);
-        $this->category = $category;
+        $this->model = $model;
+        $this->model_id = $model_id;
+        $this->model_name = $model_name;
         $this->username = $username;
-        $this->type = $type;
-        $this->subject = $this->username . ' ' . $this->type . ' категорию.';
+        $this->event_type = $event_type;
+
+        $this->subject = __('subject_notification', ['descr' => __($event_type.'_'.$model), 'name' => $model_name]);
+        $this->body = __('body_notification', ['descr' => __($event_type.'_'.$model), 'name' => $model_name, 'username' => $username]);
+
+        $this->url = '';
+        if ( $event_type !== 'deleted') {
+            $this->url = route($model.'.adminshow', [$model => $model_id]);
+        }
     }
 
     /**
@@ -38,7 +53,7 @@ class CategoryNotification extends Mailable
     public function build()
     {
         info(__METHOD__);
-        $markdown = 'emails.category';
+        $markdown = 'emails.'.$this->model;
 
         return $this // markdown, from, subject, view, attach
             ->markdown($markdown)

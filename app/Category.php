@@ -122,8 +122,7 @@ class Category extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $event_type = $this->event_type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -143,7 +142,7 @@ class Category extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new CategoryNotification($this, $event_type, $username)
+                    new CategoryNotification($this->getTable(), $this->id, $this->name, $username, $this->event_type)
                 );
         }
         return $this;
