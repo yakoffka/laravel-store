@@ -22,6 +22,29 @@ class Comment extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
+    public function setAuthor()
+    {
+        info(__METHOD__);
+        $this->user_id = auth()->user() ? auth()->user()->id : 7;
+        $this->user_name = auth()->user() ? auth()->user()->name : (request('user_name') ? __('Guest ') . request('user_name') : __('Guest ') . 'Anonimous');
+        return $this;
+    }
+
+    public function setName()
+    {
+        info(__METHOD__);
+        $this->name = \Str::limit($this->body, 20);
+        return $this;
+    }
+
+    public function transformBody()
+    {
+        info(__METHOD__);
+        $this->body = str_replace(["\r\n", "\r", "\n"], '<br>', $this->body);
+        return $this;
+    }
+
     /**
      * Create records in table events.
      *
@@ -51,7 +74,7 @@ class Comment extends Model
             'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
             'model' => $this->getTable(),
             'model_id' => $this->id,
-            'model_name' => $this->id,
+            'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
@@ -68,8 +91,7 @@ class Comment extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $event_type = $this->event_type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -89,7 +111,7 @@ class Comment extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new CommentNotification($this, $event_type, $username)
+                    new CommentNotification($this->getTable(), $this->id, $this->name, $username, $this->event_type, $this->product_id, $this->body)
                 );
         }
         return $this;

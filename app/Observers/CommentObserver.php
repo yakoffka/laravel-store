@@ -15,7 +15,7 @@ class CommentObserver
     public function creating(Comment $comment)
     {
         info(__METHOD__);
-        $comment->body = str_replace(["\r\n", "\r", "\n"], '<br>', $comment->body);
+        $comment->setAuthor()->setName()->transformBody();
     }
 
     /**
@@ -27,7 +27,6 @@ class CommentObserver
     public function created(Comment $comment)
     {
         info(__METHOD__);
-        $comment->name = $comment->id;
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -41,7 +40,7 @@ class CommentObserver
     public function updating(Comment $comment)
     {
         info(__METHOD__);
-        $comment->body = str_replace(["\r\n", "\r", "\n"], '<br>', $comment->body);
+        $comment->transformBody();
     }
 
     /**

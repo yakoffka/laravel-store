@@ -18,16 +18,6 @@ class ProductCommentsController extends Controller
      */
     public function store(Product $product) {
 
-        // if ( auth()->user() ) {
-        //     request()->validate([
-        //         'body' => 'required|string',
-        //     ]);
-        // } else {
-        //     request()->validate([
-        //         'user_name' => 'required|string',
-        //         'body' => 'required|string',
-        //     ]);
-        // }
         request()->validate([
             'user_name' => 'string',
             'body' => 'required|string',
@@ -35,8 +25,6 @@ class ProductCommentsController extends Controller
 
         $comment = Comment::create([
             'product_id' => $product->id,
-            'user_id' => auth()->user() ? auth()->user()->id : 0,
-            'user_name' => auth()->user() ? auth()->user()->name : request('user_name'),
             'body' => request('body'),
         ]);
 
@@ -44,6 +32,12 @@ class ProductCommentsController extends Controller
     }
 
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Comment $comment
+     * @return \Illuminate\Http\Response
+     */
     public function update(Comment $comment) {
         abort_if ( auth()->user()->cannot('edit_comments') and auth()->user()->id !== $comment->user_id, 403 );
 

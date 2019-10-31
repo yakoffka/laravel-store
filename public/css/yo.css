@@ -314,6 +314,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     form.collapse textarea {
         margin-bottom: .25rem;
     }
+    .date_comment.gray {text-align: right; color: #596d77;}
 
 /* .wrap_b_image, .shipping { */
 .wrap_b_image {

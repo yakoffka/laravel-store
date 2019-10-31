@@ -174,19 +174,12 @@
                             <li class="list-group-item" id="comment_{{ $comment->id }}" >
                                 <div class="comment_header">
 
-                                    @if($comment->user_id == 0)
+                                    {{-- @if($comment->user_id == 7)
                                         Гость {{ $comment->user_name }}
                                     @else
                                         {{ $comment->creator ? $comment->creator->name : 'RIP' }}
-                                    @endif
-
-
-                                    <!-- created_at/updated_at -->
-                                    @if($comment->updated_at == $comment->created_at)
-                                        опубликвано {{ $comment->created_at }}:
-                                    @else
-                                        опубликвано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
-                                    @endif
+                                    @endif --}}
+                                    {{ $comment->user_name }}
 
                                     @auth
                                         @if( $comment->creator and $comment->creator->id == Auth::user()->id )
@@ -224,6 +217,15 @@
                                 </div>
 
                                 <div class="comment_str">{!! $comment->body !!}</div>{{-- enable html entities!! --}}
+
+                                <div class="date_comment gray">
+                                    <!-- created_at/updated_at -->
+                                    @if($comment->updated_at == $comment->created_at)
+                                        опубликовано {{ $comment->created_at }}:
+                                    @else
+                                        опубликовано {{ $comment->created_at }} (обновлено: {{ $comment->updated_at }}):
+                                    @endif
+                                </div>
                                         
                                 <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
                                     <!-- form edit -->

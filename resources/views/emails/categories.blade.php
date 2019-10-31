@@ -4,7 +4,7 @@
 {{ $body }}
 
 @if( $url )
-Для просмотра категории перейдите по ссылке ниже.
+Для просмотра перейдите по ссылке ниже.
 @component('mail::button', ['url' => $url])
 {{ __('show') }} {{ $model_name }}
 @endcomponent

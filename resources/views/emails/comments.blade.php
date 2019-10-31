@@ -1,16 +1,17 @@
 @component('mail::message')
 # {{ $subject }}
 
-Пользователь {{ $username }} {{ __($type . '_comment') }} комментарий:
+{{ $body }}
 
-"{{ $comment->body }}"
+{{ $comment_body}}
 
-Для просмотра данного комментария перейдите по ссылке ниже.
-
-@component('mail::button', ['url' => route('products.show', ['product' => $comment->product_id])])
-{{ __('show') }}
+@if( $url )
+Для просмотра перейдите по ссылке ниже.
+@component('mail::button', ['url' => $url])
+{{ __('show') }} {{ $model_name }}
 @endcomponent
+@endif
 
-__('Thanks'),<br>
+{{ __('Thanks') }},<br>
 {{ config('app.name') }}
 @endcomponent

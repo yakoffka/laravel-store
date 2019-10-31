@@ -6,12 +6,12 @@ return [
 
 	'additional_email_bcc' => '0', // Дополнительные адреса bcc
 	'email_send_delay' => '0', // задержка отправки email-уведомлений
-	'email_categories_created' => '1', // email-уведомления при создании категорий
-	'email_categories_updated' => '1', // email-уведомления при изменении категорий
-	'email_categories_deleted' => '1', // email-уведомления при удалении категорий
-	'email_comments_created' => '0', // email-уведомления при создании комментариев
-	'email_comments_updated' => '0', // email-уведомления при изменении комментариев
-	'email_comments_deleted' => '0', // email-уведомления при удалении комментариев
+	'email_categories_created' => '0', // email-уведомления при создании категорий
+	'email_categories_updated' => '0', // email-уведомления при изменении категорий
+	'email_categories_deleted' => '0', // email-уведомления при удалении категорий
+	'email_comments_created' => '1', // email-уведомления при создании комментариев
+	'email_comments_updated' => '1', // email-уведомления при изменении комментариев
+	'email_comments_deleted' => '1', // email-уведомления при удалении комментариев
 	'email_manufacturers_created' => '0', // email-уведомления при создании производителя
 	'email_manufacturers_updated' => '0', // email-уведомления при изменении производителя
 	'email_manufacturers_deleted' => '0', // email-уведомления при удалении производителя

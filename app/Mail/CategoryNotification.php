@@ -36,8 +36,15 @@ class CategoryNotification extends Mailable
         $this->username = $username;
         $this->event_type = $event_type;
 
-        $this->subject = __('subject_notification', ['descr' => __($event_type.'_'.$model), 'name' => $model_name]);
-        $this->body = __('body_notification', ['descr' => __($event_type.'_'.$model), 'name' => $model_name, 'username' => $username]);
+        $this->subject = __('subject_notification', [
+            'descr' => __($event_type.'_'.$model), 
+            'name' => $model_name
+        ]);
+        $this->body = __('body_notification', [
+            'descr' => __($event_type.'_'.$model), 
+            'name' => $model_name, 
+            'username' => $username
+        ]);
 
         $this->url = '';
         if ( $event_type !== 'deleted') {

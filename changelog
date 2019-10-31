@@ -1,4 +1,4 @@
-Edit email-notifications for Сategories
-    localisation emails;
-    unification emails blades and MolesNotifications;
-    change names emails blades;
+Edit email-notifications for Comments
+    clean ProductCommentsController;
+    clean CommentsObserver;
+    uniqueness of the name field of the model;

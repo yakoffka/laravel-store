@@ -11,23 +11,49 @@ class CommentNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $comment;
+    public $model;
+    public $model_id;
+    public $model_name;
     public $username;
-    public $type;
+    public $event_type;
+    public $product_id;
+    public $comment_body;
+
     public $subject;
+    public $body;
+    public $url;
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($comment, $type, $username)
+    public function __construct($model, $model_id, $model_name, $username, $event_type, $product_id, $comment_body)
     {
         info(__METHOD__);
-        $this->comment = $comment;
+        $this->model = $model;
+        $this->model_id = $model_id;
+        $this->model_name = $model_name;
         $this->username = $username;
-        $this->type = $type;
-        $this->subject = $this->username . ' ' . $this->type . ' комментарий к товару.';
+        $this->event_type = $event_type;
+        $this->product_id = $product_id;
+        $this->comment_body = $comment_body;
+
+        $this->subject = __('subject_notification', [
+            'descr' => __($event_type.'_'.$model), 
+            'name' => $model_name
+        ]);
+        $this->body = __('body_notification', [
+            'descr' => __($event_type.'_'.$model), 
+            'name' => $model_name, 
+            'username' => $username
+        ]);
+
+        $this->url = '';
+        if ( $event_type !== 'deleted') {
+            $this->url = route('products.show', ['product' => $this->product_id]);
+        }
     }
 
     /**
@@ -38,7 +64,7 @@ class CommentNotification extends Mailable
     public function build()
     {
         info(__METHOD__);
-        $markdown = 'emails.comment';
+        $markdown = 'emails.'.$this->model;
 
         return $this // markdown, from, subject, view, attach
             ->markdown($markdown)
