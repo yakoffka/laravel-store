@@ -160,11 +160,13 @@ class RolesController extends Controller
         // // create event record
         // // $message = $this->createCustomevent($role, $dirty_properties, $original, 'model_update', $additional_description);
         // // if ( $message ) {session()->flash('message', $message);}
+
+        $role->setAviablePermissions();
+
         $role->update([
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
-            // 'edited_by_user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('roles.show', compact('role'));
@@ -181,11 +183,13 @@ class RolesController extends Controller
         abort_if ( auth()->user()->cannot('delete_roles'), 403 );
 
         if ( $role->id < 5  ) {
-            return back()->withErrors(['"' . $role->name . '" is basic role and can not be removed.']);
+            // return back()->withErrors([ __('is basic role and can not be removed', ['name' => $role->name]) ]);
+            return back()->withErrors([ __('is basic role and can not be removed') ]);
         }
 
         if ($role->users->count()) {
-            return back()->withErrors(['"' . $role->name . '" role is assigned to ' . $role->users->count() . ' users. before removing it is necessary to take it away.']);
+            // return back()->withErrors([ __('role is assigned users. before removing it is necessary to take it away.', ['name' => $role->name, 'count' => $role->users->count()]) ]);
+            return back()->withErrors([ __('role is assigned users. before removing it is necessary to take it away.') ]);
         }
 
         // $message = $this->createCustomevent($role, false, false, 'model_delete');

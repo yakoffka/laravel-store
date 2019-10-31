@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\ProductNotification;
 use Str;
-// use App\Traits\Yakoffka\ImageYoTrait;
+use App\Traits\Yakoffka\ImageYoTrait;
 use App\Jobs\RewatermarkJob;
 use Artisan;
 use App\{Category, Image, Manufacturer};
@@ -43,6 +43,7 @@ class Product extends Model
     
     protected $guarded = [];
     protected $perPage = 12;
+    private $event_type = '';
     // shared accessors
     // public $appends = [
     //     'category_seeable', // getCategorySeeableAttribute
@@ -177,7 +178,6 @@ class Product extends Model
         if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
         } elseif ( $this->isDirty('title') ) {
-            info('$this->isDirty(\'title\')');
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;
@@ -192,6 +192,7 @@ class Product extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -213,8 +214,8 @@ class Product extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -230,8 +231,8 @@ class Product extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -251,56 +252,61 @@ class Product extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new ProductNotification($this, $type, $username)
+                    new ProductNotification($this, $event_type, $username)
                 );
         }
         return $this;
     }
 
-    // /**
-    //  * метод добавления изображений товара
-    //  * 
-    //  * Принимает строку с path файлов изображений, разделёнными запятой
-    //  * Создает, при необходимости директорию для хранения изображений товара,
-    //  *  и копирует в неё комплект превью с наложением водяных знаков.
-    //  * Добавляет запись о каждом изображении в таблицу images
-    //  *
-    //  * @param  Product $product
-    //  * @return  Product $product
-    //  */
-    // public function attachImages ()
-    // {
-    //     info(__METHOD__);
-    //     if ( !request('imagespath') ) {
-    //         return $this;
-    //     }
+    /**
+     * метод добавления изображений товара
+     * 
+     * Принимает строку с path файлов изображений, разделёнными запятой
+     * Создает, при необходимости директорию для хранения изображений товара,
+     *  и копирует в неё комплект превью с наложением водяных знаков.
+     * Добавляет запись о каждом изображении в таблицу images
+     *
+     * @param  Product $product
+     * @return  Product $product
+     */
+    public function attachImages ()
+    {
+        info(__METHOD__);
+        if ( !request('imagespath') ) {
+            return $this;
+        }
 
-    //     $imagepaths = explode(',', request('imagespath'));
+        $imagepaths = explode(',', request('imagespath'));
 
-    //     foreach( $imagepaths as $imagepath) {
+        foreach( $imagepaths as $imagepath) {
 
-    //         $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
 
-    //         info('$image = ' . $image);
-    //         // image re-creation
-    //         $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
-    //         $originalName = basename($image_name);
-    //         $path  = '/images/products/' . $this->id;
+            // info('$image = ' . $image);
+            // image re-creation
+            $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
+            $originalName = basename($image_name);
+            $path  = '/images/products/' . $this->id;
 
-    //         // create record
-    //         $image = Image::create([
-    //             'product_id' => $this->id,
-    //             'slug' => Str::slug($image_name, '-'),
-    //             'path' => $path,
-    //             'name' => $image_name,
-    //             'ext' => config('imageyo.res_ext'),
-    //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-    //             'sort_order' => 9,
-    //             'orig_name' => $originalName,
-    //         ]);
-    //     }
-    //     return $this;
-    // }
+            // create record
+            $images[] = Image::create([
+                'product_id' => $this->id,
+                'slug' => Str::slug($image_name, '-'),
+                'path' => $path,
+                'name' => $image_name,
+                'ext' => config('imageyo.res_ext'),
+                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                'sort_order' => 9,
+                'orig_name' => $originalName,
+            ]);
+        }
+        
+        if ( !$this->isDirty() and !empty($images) ) {
+            $this->touch();
+        }
+
+        return $this;
+    }
 
     /**
      * метод очистки исходного украденного исходного кода таблиц
@@ -455,6 +461,14 @@ class Product extends Model
     public function deleteComments()
     {
         $this->comments()->delete();
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('Product__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        session()->flash('message', $message);
         return $this;
     }
 }

@@ -16,6 +16,8 @@ class Category extends Model
     // public $appends = [
     //     'parent_seeable', // shared accessor getParentSeeableAttribute
     // ];
+    private $event_type = '';
+
 
     public function products() 
     {
@@ -82,6 +84,7 @@ class Category extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -103,8 +106,8 @@ class Category extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -119,8 +122,8 @@ class Category extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -140,7 +143,7 @@ class Category extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new CategoryNotification($this, $type, $username)
+                    new CategoryNotification($this, $event_type, $username)
                 );
         }
         return $this;
@@ -242,6 +245,14 @@ class Category extends Model
         }
 
         $this->imagepath = $basename;
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('Category__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        session()->flash('message', $message);
         return $this;
     }
 }

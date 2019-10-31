@@ -27,9 +27,7 @@ class ProductObserver
     public function created(Product $product)
     {
         info(__METHOD__);
-        // $product->attachImages()->createCustomevent()->sendEmailNotification();
-        $product->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -54,9 +52,7 @@ class ProductObserver
     public function updated(Product $product)
     {
         info(__METHOD__);
-        // $product->attachImages()->createCustomevent()->sendEmailNotification();
-        $product->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -81,9 +77,7 @@ class ProductObserver
     public function deleted(Product $product)
     {
         info(__METHOD__);
-        $product->createCustomevent();
-        // $category->sendEmailNotification(); 
-        session()->flash('message', __('success_operation'));
+        $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

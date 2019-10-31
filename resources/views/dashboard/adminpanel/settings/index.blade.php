@@ -67,7 +67,7 @@
 
                             <div class="card-body" id="setting_{{ $setting->name }}">
 
-                                <h5 class="card-title">{{ $j . '.' . $i }} {{ $setting->display_name }}</h5>
+                                <h5 class="card-title">{{ $j . '.' . $i }}  {{ $setting->name }} - {{ $setting->display_name }}</h5>
                                 <p class="card-text">
                                     {!! $setting->description !!}
                                 </p>

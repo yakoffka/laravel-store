@@ -104,8 +104,8 @@
 
 
             {{-- Events --}}
+            <h2>table of last event {{ $user->name }}. View <a href="{{ route('customevents.index') }}?user[]={{ $user->id }}">all event {{ $user->name }}</a>.</h2>
             @if($customevents->count())
-                <h2>table of last event {{ $user->name }}. View <a href="{{ route('customevents.index') }}?user[]={{ $user->id }}">all event {{ $user->name }}</a>.</h2>
 
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -134,6 +134,8 @@
                             @endif
                     @endforeach
                 </table>
+            @else
+                event list is empty
             @endif
             {{-- /Events --}}
 

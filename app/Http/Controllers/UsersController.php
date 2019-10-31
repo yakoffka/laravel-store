@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\{Customevent, Role, Permission, User};
 
-class UsersController extends CustomController
+class UsersController extends Controller
 {
     public function __construct() { $this->middleware('auth'); }
 
@@ -21,9 +21,8 @@ class UsersController extends CustomController
         abort_if ( Auth::user()->cannot('view_users'), 403 );
         $users = User::paginate();
         $permissions = Permission::all();
-        $customevents = Customevent::all()->sortByDesc('created_at')->slice(0, config('custom.num_last_events'));// last 50!
 
-        return view('dashboard.adminpanel.users.index', compact('users', 'permissions', 'customevents'));
+        return view('dashboard.adminpanel.users.index', compact('users', 'permissions'));
     }
 
 
@@ -71,14 +70,14 @@ class UsersController extends CustomController
 
         request()->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255', // |unique:users
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id.',id', // |unique:users,email,'.$user->id.',id'
             'role' => 'nullable|integer|max:255',
             'take_role' => 'nullable|integer|max:255',
             'password' => 'nullable|string|min:6|max:255',
         ]);
 
         if ( ( request('role' ) or request( 'take_role' ) ) and Auth::user()->cannot('edit_roles') ) {
-            return back()->withErrors('you can not attach and take roles!')->withInput();
+            return back()->withErrors(__('You can not attach and take roles!'))->withInput();
         }
 
 
@@ -104,7 +103,7 @@ class UsersController extends CustomController
             if ( request( 'take_role' ) ) {
                 // dont delete last role!
                 if ( count(DB::table('role_user')->where('user_id', '=', $user->id)->get()) < 2 ) {
-                    return back()->withErrors(['You can not take the last role!']);
+                    return back()->withErrors([__('You can not take the last role!')]);
                 }
 
                 $take_role = DB::table('role_user')->where([
@@ -113,19 +112,18 @@ class UsersController extends CustomController
                 ])->delete();
             }
 
+            if ( request('role' ) or request( 'take_role' ) ) {
+                $user->touch();
+            }
+
         } else {
             abort(403);
         }
 
-        $dirty_properties = $user->getDirty();
-        $original = $user->getOriginal();
         if ( !$user->save() ) {
             return back()->withErrors(['something wrong! Err#' . __LINE__])->withInput();
         }
 
-        // create event record
-        // $message = $this->createCustomevent($user, $dirty_properties, $original, 'model_update');
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
     }
@@ -146,15 +144,10 @@ class UsersController extends CustomController
             return back()->withErrors([$user->name . ' is last owner. dont destroy him!']);
         }
 
-        // create event record
-        // $message = $this->createCustomevent($user, false, false, 'model_delete');
-
         // $user->delete();
         if ( !$user->delete() ) {
             return back()->withError(['something wrong. err' . __line__]);
         }
-
-        // if ( $message ) {session()->flash('message', $message);} // and if delete
 
         return redirect( route('users.index'));
     }

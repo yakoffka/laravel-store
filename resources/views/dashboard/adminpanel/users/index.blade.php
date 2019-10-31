@@ -37,13 +37,14 @@
     
             <table class="blue_table overflow_x_auto">
                 <tr>
-                    <th>#</th>
+                    {{-- <th>#</th> --}}
                     <th>id</th>
                     <th>img</th>
                     <th>name</th>
                     <th>email</th>
                     <th>roles</th>
                     <th>permissions</th>
+                    <th>status</th>
                     {{-- <th>created</th> --}}
                     {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>
@@ -52,7 +53,7 @@
                 @foreach($users as $i=>$user)
 
                 <tr>
-                    <td>{{ $i+1 }}</td>
+                    {{-- <td>{{ $i+1 }}</td> --}}
                     <td>{{ $user->id }}</td>
                     <td><img src="{{ asset('storage') }}/images/default/user_default.png" alt="no image" width="75px"></td>
                     <td>{{ $user->name }}</td>
@@ -72,6 +73,7 @@
                             echo $num_permissions;
                         ?>
                     </a></td>
+                    <td>{{ $user->status }}</td>
                     {{-- <td>{{ $user->created_at ?? '-' }}</td> --}}
                     {{-- <td>{{ $user->updated_at ?? '-' }}</td> --}}
                     <td>
@@ -149,13 +151,6 @@
             @endif
             {{-- /pagination block --}}
 
-
-            {{-- Events --}}
-            @if( $customevents->count() )
-                <h2 id="customevents">table history (last {{ config('custom.num_last_events') }} events)</h2>
-                {{-- @include('layouts.partials.customevents') --}}
-            @endif
-            {{-- /Events --}}
 
         </div>
     </div>

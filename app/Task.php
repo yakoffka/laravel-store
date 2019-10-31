@@ -15,8 +15,7 @@ class Task extends Model
     
     protected $guarded = [];
     protected $perPage = 30;
-    private $event_description = '';
-    private $type = '';
+    private $event_type = '';
     
     public function getMaster () {
         return $this->belongsTo(User::class, 'master_user_id');
@@ -67,7 +66,7 @@ class Task extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
-        $this->type = debug_backtrace()[1]['function'];
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -89,8 +88,8 @@ class Task extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => $this->type,
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -105,8 +104,8 @@ class Task extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $type = $this->type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -126,7 +125,7 @@ class Task extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new TaskNotification($this, $type, $username)
+                    new TaskNotification($this, $event_type, $username)
                 );
         }
         return $this;
@@ -134,7 +133,9 @@ class Task extends Model
 
     public function setFlashMess()
     {
-        $this->event_description = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->type)]);
-        session()->flash('message', $this->event_description);
+        info(__METHOD__);
+        $message = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        session()->flash('message', $message);
+        return $this;
     }
 }

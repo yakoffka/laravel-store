@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.app')
 
-@section('title', 'edit profile')
+@section('title', __('editing_profile', ['name' => $user->name ]))
 
 @section('content')
 
@@ -15,7 +15,7 @@
 
 <div class="container">
 
-    <h1>edit profile {{ $user->name }}</h1>
+    <h1>{{ __('editing_profile', ['name' => $user->name ]) }}</h1>
 
     
     <h2>{{ $user->name }} info:</h2>
@@ -36,10 +36,12 @@
                 <th>email</th>
                 <th>roles</th>
 
-                @permission('edit_roles')
+                {{-- @permission('edit_roles') --}}
+                @if ( auth()->user()->can('edit_roles') and auth()->user()->id !== $user->id )
                     <th>add role</th>
                     <th>take the role</th>
-                @endpermission
+                @endif
+                {{-- @endpermission --}}
 
                 <th>created</th>
                 <th>updated</th>
@@ -66,7 +68,8 @@
                     ?>
                 </td>
                 
-                @permission('edit_roles')
+                @if ( auth()->user()->can('edit_roles') and auth()->user()->id !== $user->id )
+                {{-- @permission('edit_roles') --}}
                 <td>
                     <select name="role" id="role">
                         <option value="" selected>-</option>
@@ -104,7 +107,8 @@
                         ?>
                     </select>
                 </td>
-                @endpermission
+                @endif
+                {{-- @endpermission --}}
 
 
                 <td>{{ $user->created_at ?? '-' }}</td>

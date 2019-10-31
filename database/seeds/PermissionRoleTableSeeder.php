@@ -28,7 +28,7 @@ class PermissionRoleTableSeeder extends Seeder
                 /* adminpanel */    0,0,0,0,
                 /* actions */       0,0,0,0,
                 /* tasks */         0,0,0,0,
-                /* manufacturers */ 1,1,1,1,
+                /* manufacturers */ 0,0,0,0,
             ],
             'unregistered' => [
                 /* roles */         0,0,0,0,

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\{Category, Product};
 
-class CategoryController extends CustomController
+class CategoryController extends Controller
 {
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);

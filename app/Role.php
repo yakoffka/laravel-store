@@ -94,7 +94,7 @@ class Role extends EntrustRole
                 and auth()->user()->can($permission['name']) 
             ) {
                 $this->attachPermission($permission['id']);
-                $attach_roles[] = $permission['name'];
+                $attach_roles[] = $permission['description'];
 
             // take Permission
             } elseif ( 
@@ -106,10 +106,17 @@ class Role extends EntrustRole
                     ['permission_id', '=', $permission['id']],
                     ['role_id', '=', $this->id],
                 ])->delete();
-                $take_roles[] = $permission['name'];
+                $take_roles[] = $permission['description'];
             }
         }
-        $this->event_description = ($attach_roles ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode(', ', $attach_roles) . '.' : '') . ($take_roles ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode(', ', $take_roles) . '.' : '');
+        $this->event_description = 
+              (!empty($attach_roles) ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode('; ', $attach_roles) . '.' : '')
+            . (!empty($take_roles) ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode('; ', $take_roles) . '.' : '');
+        
+        if ( !$this->isDirty() and (!empty($attach_roles) or !empty($take_roles)) ) {
+            $this->touch();
+        }
+
         return $this;
     }
 
@@ -121,7 +128,7 @@ class Role extends EntrustRole
     public function createCustomevent()
     {
         info(__METHOD__);
-
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -143,8 +150,8 @@ class Role extends EntrustRole
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -160,8 +167,8 @@ class Role extends EntrustRole
     {
         info(__METHOD__);
 
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -181,7 +188,7 @@ class Role extends EntrustRole
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new RoleNotification($this, $type, $username)
+                    new RoleNotification($this, $event_type, $username)
                 );
         }
         return $this;
@@ -189,6 +196,9 @@ class Role extends EntrustRole
 
     public function setFlashMess()
     {
-        session()->flash('message', __('success_operation') . $this->event_description);
+        info(__METHOD__);
+        $message = __('Role__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        session()->flash('message', $message . $this->event_description);
+        return $this;
     }
 }

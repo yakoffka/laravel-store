@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Http\Controllers\CustomController;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -12,7 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Str;
 use App\Mail\Auth\VerifyMail;
 
-class RegisterController extends CustomController
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -94,8 +94,6 @@ class RegisterController extends CustomController
             ->bcc(config('mail.mail_info'))
             ->queue(new VerifyMail($user));
 
-        $this->createCustomevent($user, false, false, 'model_create');
-
         return $user;
     }
 
@@ -111,7 +109,7 @@ class RegisterController extends CustomController
         // return redirect()->route('login')
         //     ->with('success', 'Check your email and click on the link to verify.');
 
-        session()->flash('message', 'Check your email and click on the link to verify.');
+        session()->flash('message', __('Check your email and click on the link to verify.'));
         return redirect()->route('login');
     }
 
@@ -131,8 +129,7 @@ class RegisterController extends CustomController
         // return redirect()->route('login')
         //     ->with('success', 'Your e-mail is verified. You can now login.');
 
-        $this->createCustomevent($user, false, false, 'verify');
-        session()->flash('message', 'Your e-mail is verified. You can now login.');
+        session()->flash('message', __('Your e-mail is verified. You can now login.'));
         return redirect()->route('login');
     }
 }

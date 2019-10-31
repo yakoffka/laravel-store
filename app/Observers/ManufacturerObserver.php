@@ -27,8 +27,7 @@ class ManufacturerObserver
     public function created(Manufacturer $manufacturer)
     {
         info(__METHOD__);
-        $manufacturer->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $manufacturer->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -53,8 +52,7 @@ class ManufacturerObserver
     public function updated(Manufacturer $manufacturer)
     {
         info(__METHOD__);
-        $manufacturer->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $manufacturer->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -78,9 +76,7 @@ class ManufacturerObserver
     public function deleted(Manufacturer $manufacturer)
     {
         info(__METHOD__);
-        $manufacturer->createCustomevent();
-        // $category->sendEmailNotification(); 
-        session()->flash('message', __('success_operation'));
+        $manufacturer->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

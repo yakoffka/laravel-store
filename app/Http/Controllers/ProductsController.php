@@ -115,7 +115,8 @@ class ProductsController extends Controller
             'views' => 0,
         ]);
 
-        $this->attachImages($product->id, request('imagespath'));
+        // $this->attachImages($product->id, request('imagespath'));
+        $product->attachImages();
 
         // // send email-notification
         // if ( config('settings.email_new_product') ) {
@@ -231,7 +232,8 @@ class ProductsController extends Controller
             'views' => 0,
         ]);
 
-        $this->attachImages($product->id, request('imagespath'));
+        // $this->attachImages($product->id, request('imagespath'));
+        $product->attachImages();
 
         // // send email-notification
         // if ( config('settings.email_update_product') ) {
@@ -313,43 +315,43 @@ class ProductsController extends Controller
     }
 
 
-    /**
-     * Приватный метод добавления изображений товара
-     * 
-     * Принимает строку с path файлов изображений, разделёнными запятой
-     * Создает, при необходимости директорию для хранения изображений товара,
-     *  и копирует в неё комплект превью с наложением водяных знаков.
-     * Добавляет запись о каждом изображении в таблицу images
-     *
-     * Возвращает void
-     */
-    private function attachImages (int $product_id, string $imagespath = NULL)
-    {
-        if ( empty($imagespath) ) {
-            return true;
-        }
-        $imagepaths = explode(',', $imagespath);
-        foreach( $imagepaths as $imagepath) {
-            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+    // /**
+    //  * Приватный метод добавления изображений товара
+    //  * 
+    //  * Принимает строку с path файлов изображений, разделёнными запятой
+    //  * Создает, при необходимости директорию для хранения изображений товара,
+    //  *  и копирует в неё комплект превью с наложением водяных знаков.
+    //  * Добавляет запись о каждом изображении в таблицу images
+    //  *
+    //  * Возвращает void
+    //  */
+    // private function attachImages (int $product_id, string $imagespath = NULL)
+    // {
+    //     if ( empty($imagespath) ) {
+    //         return true;
+    //     }
+    //     $imagepaths = explode(',', $imagespath);
+    //     foreach( $imagepaths as $imagepath) {
+    //         $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
 
-            // image re-creation
-            $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
-            $originalName = basename($image_name);
-            $path  = '/images/products/' . $product_id;
+    //         // image re-creation
+    //         $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
+    //         $originalName = basename($image_name);
+    //         $path  = '/images/products/' . $product_id;
 
-            // create record
-            $image = Image::create([
-                'product_id' => $product_id,
-                'slug' => Str::slug($image_name, '-'),
-                'path' => $path,
-                'name' => $image_name,
-                'ext' => config('imageyo.res_ext'),
-                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-                'sort_order' => 9,
-                'orig_name' => $originalName,
-            ]);
-        }
-    }
+    //         // create record
+    //         $image = Image::create([
+    //             'product_id' => $product_id,
+    //             'slug' => Str::slug($image_name, '-'),
+    //             'path' => $path,
+    //             'name' => $image_name,
+    //             'ext' => config('imageyo.res_ext'),
+    //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+    //             'sort_order' => 9,
+    //             'orig_name' => $originalName,
+    //         ]);
+    //     }
+    // }
 
 
     public function massupdate() {

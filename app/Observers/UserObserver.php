@@ -26,6 +26,7 @@ class UserObserver
     public function created(User $user)
     {
         info(__METHOD__);
+        $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -49,6 +50,7 @@ class UserObserver
     public function updated(User $user)
     {
         info(__METHOD__);
+        $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -72,6 +74,7 @@ class UserObserver
     public function deleted(User $user)
     {
         info(__METHOD__);
+        $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -82,6 +85,17 @@ class UserObserver
      * @return void
      */
     public function restored(User $user)
+    {
+        info(__METHOD__);
+    }
+
+    /**
+     * Handle the user "force forceDeleting" event.
+     *
+     * @param  \App\User  $user
+     * @return void
+     */
+    public function forceDeleting(User $user)
     {
         info(__METHOD__);
     }

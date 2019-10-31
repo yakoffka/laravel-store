@@ -10,13 +10,8 @@ use App\Mail\CommentNotification;
 class Comment extends Model
 {
     protected $guarded = [];
-
-    /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
     protected $perPage = 15;
+    private $event_type = '';
 
 
     public function product() {
@@ -34,8 +29,8 @@ class Comment extends Model
      */
     public function createCustomevent()
     {
-        // info(__METHOD__ . 'Some helpful information!');
-
+        info(__METHOD__);
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -57,8 +52,8 @@ class Comment extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->id,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -72,8 +67,9 @@ class Comment extends Model
      */
     public function sendEmailNotification()
     {
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        info(__METHOD__);
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -93,9 +89,17 @@ class Comment extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new CommentNotification($this, $type, $username)
+                    new CommentNotification($this, $event_type, $username)
                 );
         }
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('Comment__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        session()->flash('message', $message);
         return $this;
     }
 }

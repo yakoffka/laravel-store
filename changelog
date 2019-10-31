@@ -1,1 +1,8 @@
-Commenting out of date settings
+Refactoring observers
+    change permission for system role;
+    clean controllers:
+        RegisterController.php
+        CategoryController.php
+        UsersController.php
+    set flash message;
+    localisation flash message.

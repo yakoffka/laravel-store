@@ -12,6 +12,7 @@ use Session;
 class Order extends Model
 {
     protected $guarded = [];
+    private $event_type = '';
 
     public function status() {
         return $this->belongsTo(Status::class);
@@ -35,7 +36,7 @@ class Order extends Model
     {
         // skip property 'cart'!!!
         info(__METHOD__);
-
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -57,8 +58,8 @@ class Order extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -73,9 +74,8 @@ class Order extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -95,9 +95,10 @@ class Order extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new OrderNotification($this, $type, $username)
+                    new OrderNotification($this, $event_type, $username)
                 );
         }
+        return $this;
     }
 
     public function createFromCart() 
@@ -133,7 +134,15 @@ class Order extends Model
     public function setName ()
     {
         info(__METHOD__);
-        $this->name = $this->id;
+        $this->name = str_pad($this->id, 5, "0", STR_PAD_LEFT);
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('Order__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        session()->flash('message', $message);
         return $this;
     }
 }

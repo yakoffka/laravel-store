@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\UserNotification;
-use Illuminate\Support\Facades\Storage;
-use Str;
 
 class User extends Authenticatable
 {
@@ -50,6 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    private $event_type = '';
+
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -59,11 +59,15 @@ class User extends Authenticatable
     /**
      * Create records in table events.
      *
-     * @return void?
+     * @return User $user
      */
     public function createCustomevent()
     {
         info(__METHOD__);
+        $this->event_type = debug_backtrace()[1]['function'];
+        if ( $this->isDirty('status') and $this->status === User::STATUS_ACTIVE ) {
+            $this->event_type = 'verify'; 
+        }
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -85,8 +89,8 @@ class User extends Authenticatable
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -96,13 +100,13 @@ class User extends Authenticatable
     /**
      * Create event notification.
      * 
-     * @return void?
+     * @return User $user
      */
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -122,8 +126,17 @@ class User extends Authenticatable
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new CategoryNotification($this, $type, $username)
+                    new UserNotification($this, $event_type, $username)
                 );
         }
+        return $this;
+    }
+
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('User__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        session()->flash('message', $message);
+        return $this;
     }
 }

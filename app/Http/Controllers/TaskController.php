@@ -95,9 +95,6 @@ class TaskController extends Controller
             return back()->withErrors(['something wrong! ERR #' . __line__]);
         }
 
-        // $message = 'Task #' . $task->id . ' "' . $task->name . '" is create successfull';
-        // session()->flash('message', $message);
-
         return redirect()->route('directives.index', auth()->user());
     }
 

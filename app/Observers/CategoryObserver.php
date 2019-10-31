@@ -14,7 +14,7 @@ class CategoryObserver
      */
     public function creating(Category $category)
     {
-        // info(__METHOD__);
+        info(__METHOD__);
         $category->setUuid()->setTitle()->setSlug()->attachSingleImage()->setCreator();
     }
 
@@ -26,9 +26,8 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-        // info(__METHOD__);
-        $category->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        info(__METHOD__);
+        $category->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -40,7 +39,7 @@ class CategoryObserver
      */
     public function updating(Category $category)
     {
-        // info(__METHOD__);
+        info(__METHOD__);
         // $category->setSlug()->attachSingleImage()->setChildrenSeeable()->setEditor();
         $category->setSlug()->attachSingleImage()->setEditor();
     }
@@ -53,9 +52,8 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        // info(__METHOD__);
-        $category->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        info(__METHOD__);
+        $category->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -67,7 +65,7 @@ class CategoryObserver
      */
     public function deleting(Category $category)
     {
-        // info(__METHOD__);
+        info(__METHOD__);
     }
 
     /**
@@ -78,9 +76,7 @@ class CategoryObserver
      */
     public function deleted(Category $category)
     {
-        // info(__METHOD__);
-        $category->createCustomevent();
-        // $category->sendEmailNotification(); 
-        session()->flash('message', __('success_operation'));
+        info(__METHOD__);
+        $category->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 }

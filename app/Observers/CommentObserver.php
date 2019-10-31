@@ -27,10 +27,8 @@ class CommentObserver
     public function created(Comment $comment)
     {
         info(__METHOD__);
-        $comment->createCustomevent();
-        $comment->sendEmailNotification();
         $comment->name = $comment->id;
-        session()->flash('message', __('success_operation'));
+        $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -55,9 +53,7 @@ class CommentObserver
     public function updated(Comment $comment)
     {
         info(__METHOD__);
-        $comment->createCustomevent();
-        $comment->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -81,8 +77,6 @@ class CommentObserver
     public function deleted(Comment $comment)
     {
         info(__METHOD__);
-        $comment->createCustomevent();
-        // $comment->sendEmailNotification(); 
-        session()->flash('message', __('success_operation'));
+        $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 }

@@ -71,6 +71,14 @@
   "create_new_task": "дать поручение",
 
 
+  "You can not take the last role!": "Вы не можете отнять последнюю роль",
+  "You can not attach and take roles!": "Вы не можете добавлять или забирать роли",
+  "is basic role and can not be removed": "Нельзя удалить базовую роль",
+  "role is assigned users. before removing it is necessary to take it away.": "Нельзя удалить роль, прикрепленную пользователям.",
+
+
+  "Check your email and click on the link to verify.": "Профиль успешно создан. Верифицируйте Вашу почту по ссылке в отправленном нами письме.",
+  "Your e-mail is verified. You can now login. ": "Верификация e-mail пройдена успешно. Теперь Вы можете выполнить вход.",
 
   "SuccessOperationMessage": "Операция выполнена успешно",
 
@@ -80,7 +88,8 @@
 
 
   "edit_profile": "редактировать профиль",
-
+  "editing_profile": "редактирование профиля :Name",
+  
   "model_create": "создание ",
   "model_update": "изменение ",
   "model_delete": "удаление ",
@@ -222,6 +231,11 @@
   "deleted_users": "Удаление пользователя",
   "verify_users": "Верификация пользователя",
 
+  "mess_function_i_development": "В данный момент функция находится в разработке",
+  "success_operation": "Операция выполена успешно. ",
+
+
+
 
   "masculine_verify": "верифицирован",
   "masculine_created": "создан",
@@ -236,12 +250,15 @@
   "neuter_updated": "обновлёно",
   "neuter_deleted": "удалёно",
 
-  "mess_function_i_development": "В данный момент функция находится в разработке",
-  "success_operation": "Операция выполена успешно. ",
-  
-  "Setting_update_success": "Настройка ':Name' успешно обновлена. ",
+  "Category__success": "Категория ':Name' успешно :type_act. ",
+  "Comment__success": "Комментарий ':Name' успешно :type_act. ",
+  "Manufacturer__success": "Производитель ':Name' успешно :type_act. ",
+  "Order__success": "Заказ ':Name' успешно :type_act. ",
+  "Product__success": "Товар ':Name' успешно :type_act. ",
+  "Role__success": "Роль ':Name' успешно :type_act. ",
+  "Setting__success": "Настройка ':Name' успешно :type_act. ",
   "Task__success": "Задача ':Name' успешно :type_act. ",
-
+  "User__success": "Профиль пользователя ':Name' успешно :type_act. ",
 
   "Success_adding__to_cart": "Товар ':Name' успешно добавлен в корзину. ",
 

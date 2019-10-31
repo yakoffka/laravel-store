@@ -27,8 +27,7 @@ class OrderObserver
     public function created(Order $order)
     {
         info(__METHOD__);
-        $order->setName()->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $order->setName()->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -53,8 +52,7 @@ class OrderObserver
     public function updated(Order $order)
     {
         info(__METHOD__);
-        $order->setName()->createCustomevent()->sendEmailNotification();
-        session()->flash('message', __('success_operation'));
+        $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
@@ -78,9 +76,7 @@ class OrderObserver
     public function deleted(Order $order)
     {
         info(__METHOD__);
-        $order->createCustomevent();
-        // $category->sendEmailNotification(); 
-        session()->flash('message', __('success_operation'));
+        $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

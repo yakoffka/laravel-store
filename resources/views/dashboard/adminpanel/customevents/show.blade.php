@@ -30,7 +30,7 @@
             {{-- <br>type: {{ $customevent->type }} --}}
             <br>type: {{ $customevent->type }}
             <br>model: {{ $customevent->model }} №{{ $customevent->model_id }}
-            {{-- <br>description: {{ $customevent->description }} --}}
+            <br>description: {{ $customevent->description }}
             <br>created_at: {{ $customevent->created_at }}
 
 

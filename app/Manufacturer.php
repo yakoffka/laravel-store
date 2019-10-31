@@ -12,6 +12,7 @@ use Str;
 class Manufacturer extends Model
 {
     protected $guarded = [];
+    private $event_type = '';
 
     public function products() {
         return $this->hasMany(Product::class);
@@ -80,7 +81,6 @@ class Manufacturer extends Model
         if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
         } elseif ( $this->isDirty('title') ) {
-            info('$this->isDirty(\'title\')');
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;
@@ -94,7 +94,7 @@ class Manufacturer extends Model
     public function createCustomevent()
     {
         info(__METHOD__);
-
+        $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
@@ -116,8 +116,8 @@ class Manufacturer extends Model
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
-            'type' => debug_backtrace()[1]['function'],
-            'description' => $this->description ?? FALSE,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
             'details' => serialize($details) ?? FALSE,
         ]);
         return $this;
@@ -132,9 +132,8 @@ class Manufacturer extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-
-        $type = debug_backtrace()[1]['function'];
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $type;
+        $event_type = $this->event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
         $setting = config($namesetting);
 
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -154,9 +153,10 @@ class Manufacturer extends Model
                 ->bcc($bcc)
                 ->later( 
                     $when, 
-                    new ManufacturerNotification($this, $type, $username)
+                    new ManufacturerNotification($this, $event_type, $username)
                 );
         }
+        return $this;
     }
 
     /**
@@ -196,4 +196,11 @@ class Manufacturer extends Model
         return $this;
     }
 
+    public function setFlashMess()
+    {
+        info(__METHOD__);
+        $message = __('Manufacturer__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        session()->flash('message', $message);
+        return $this;
+    }
 }
