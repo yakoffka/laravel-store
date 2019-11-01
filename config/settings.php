@@ -21,9 +21,9 @@ return [
 	'email_products_created' => '0', // email-уведомления при создании товаров
 	'email_products_updated' => '0', // email-уведомления при изменении товаров
 	'email_products_deleted' => '0', // email-уведомления при удалении товаров
-	'email_roles_created' => '1', // email-уведомления при создании ролей
-	'email_roles_updated' => '1', // email-уведомления при изменении ролей
-	'email_roles_deleted' => '1', // email-уведомления при удалении ролей
+	'email_roles_created' => '0', // email-уведомления при создании ролей
+	'email_roles_updated' => '0', // email-уведомления при изменении ролей
+	'email_roles_deleted' => '0', // email-уведомления при удалении ролей
 	'email_settings_updated' => '0', // email-уведомления при изменении настроек
 	'email_tasks_created' => '0', // email-уведомления при создании задач/поручений
 	'email_tasks_updated' => '0', // email-уведомления при изменении задач/поручений

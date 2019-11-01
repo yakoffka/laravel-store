@@ -1,4 +1,4 @@
-Edit email-notifications for Roles
-    clean RoleController;
+Edit email-notifications for Settings
+    clean SettingController;
     adding name field uniqueness check when updatingж
     adding email_roles_* settings.
