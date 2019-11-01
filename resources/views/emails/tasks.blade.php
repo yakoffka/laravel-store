@@ -1,12 +1,15 @@
 @component('mail::message')
-# Introduction
+# {{ $subject }}
 
-The body of your message.
+{{ $body }}
 
-@component('mail::button', ['url' => ''])
-Button Text
+@if( $url )
+Для просмотра перейдите по ссылке ниже.
+@component('mail::button', ['url' => $url])
+{{ __('show') }} {{ $model_name }}
 @endcomponent
+@endif
 
-Thanks,<br>
+{{ __('Thanks') }},<br>
 {{ config('app.name') }}
 @endcomponent

@@ -21,8 +21,6 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::where('slave_user_id', auth()->user()->id)
-            // ->orderBy('id', 'desc') TODO
-            // ->orderBy('taskspriority_id')
             ->orderBy('tasksstatus_id')
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
@@ -41,8 +39,6 @@ class TaskController extends Controller
         $directive = true;
         $taskspriorities = Taskspriority::all();
         $tasks = Task::where('master_user_id', auth()->user()->id)
-            // ->orderBy('id', 'desc') TODO
-            // ->orderBy('taskspriority_id')
             ->orderBy('tasksstatus_id')
             ->paginate();
         $tasksstatuses = Tasksstatus::all();
@@ -87,7 +83,6 @@ class TaskController extends Controller
             'master_user_id' => auth()->user()->id,
             'slave_user_id' => request('slave_user_id'),
             'name' => request('name') ?? Str::limit(request('description'), 20),
-            // 'slug' => Str::slug(request('name') ?? substr(request('name'), 0, 20), '-'), // TODO unic!!!
             'description' => request('description'),
             'tasksstatus_id' => 1, // TODO привязка к id
             'taskspriority_id' => request('taskspriority_id'),

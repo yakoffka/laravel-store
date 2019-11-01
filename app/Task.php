@@ -84,7 +84,7 @@ class Task extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
+            'user_id' => auth()->user()->id,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -104,29 +104,21 @@ class Task extends Model
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $event_type = $this->event_type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
+            $to = auth()->user();
 
-            $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = config('settigs.additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-            }
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
-            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
+            $bcc = array_unique($bcc);
 
-            \Mail::to( auth()->user() ?? config('mail.from.address') )
-                ->bcc($bcc)
-                ->later( 
-                    $when, 
-                    new TaskNotification($this, $event_type, $username)
-                );
+            \Mail::to($to)->bcc($bcc)->later( 
+                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+                new TaskNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+            );
         }
         return $this;
     }

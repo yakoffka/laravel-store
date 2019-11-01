@@ -1,4 +1,1 @@
-Edit email-notifications for Settings
-    clean SettingController;
-    adding name field uniqueness check when updatingж
-    adding email_roles_* settings.
+Edit email-notifications for Tasks and Users
