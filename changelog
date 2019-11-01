@@ -1,4 +1,4 @@
 Edit email-notifications for Comments
-    clean ProductCommentsController;
-    clean CommentsObserver;
-    uniqueness of the name field of the model;
+    replacing the way to get the variable $additional_email_bcc;
+    refactoring sendEmailNotification method;
+    adding an auxiliary getUniqueBCC method;

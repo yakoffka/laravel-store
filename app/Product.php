@@ -240,7 +240,7 @@ class Product extends Model
         if ( $setting === '1' ) {
 
             $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
+            $additional_email_bcc = config('settigs.additional_email_bcc');
             if ( $additional_email_bcc->value ) {
                 $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
             }

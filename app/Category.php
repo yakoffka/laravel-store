@@ -117,36 +117,37 @@ class Category extends Model
     /**
      * Create event notification.
      * 
-     * @return  Category $category
+     * @return Comment $comment
      */
     public function sendEmailNotification()
     {
         info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
-
-            $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-            }
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
-            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
-
             \Mail::to( auth()->user() ?? config('mail.from.address') )
-                ->bcc($bcc)
+                ->bcc($this->getUniqueBCC())
                 ->later( 
-                    $when, 
+                    Carbon::now()->addMinutes(config('mail.email_send_delay')), 
                     new CategoryNotification($this->getTable(), $this->id, $this->name, $username, $this->event_type)
                 );
         }
         return $this;
     }
+
+    private function getUniqueBCC()
+    {
+        info(__METHOD__);
+        $bcc = config('mail.mail_bcc');
+        $additional_email_bcc = config('settigs.additional_email_bcc');
+        $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc));
+        $bcc = array_diff($bcc, ['']);
+        $bcc = array_unique($bcc);
+        return $bcc;
+    }
+
 
     // /**
     //  * WORKAROUND #1 parent_seeable
