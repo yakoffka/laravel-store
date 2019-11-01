@@ -35,6 +35,7 @@ class ManufacturersTableSeeder extends Seeder
 
         foreach ( $manufacturers as $manufacturer ) {
             DB::table('manufacturers')->insert([
+                'uuid' => Str::uuid(),
                 'name'          => $manufacturer['name'],
                 'slug'          => Str::slug($manufacturer['name'], '-'),
                 'title'         => $manufacturer['title'],

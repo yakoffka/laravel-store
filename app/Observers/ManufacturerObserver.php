@@ -15,7 +15,7 @@ class ManufacturerObserver
     public function creating(Manufacturer $manufacturer)
     {
         info(__METHOD__);
-        $manufacturer->setTitle()->setSlug()->attachSingleImage()->setCreator();
+        $manufacturer->setUuid()->setTitle()->setSlug()->attachSingleImage()->setCreator();
     }
 
     /**

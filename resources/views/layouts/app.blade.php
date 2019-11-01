@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
+    {{-- <!-- CSRF Token --> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- https://connect.yandex.ru/pdd/ --}}
     <meta name="yandex-verification" content="d8186fcbcc7d8b8f" />
 
     {{-- <title>@yield('title') {{ config('custom.product_title_append') }}</title> --}}

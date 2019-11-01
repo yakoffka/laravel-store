@@ -1,4 +1,9 @@
-Edit email-notifications for Comments
-    replacing the way to get the variable $additional_email_bcc;
-    refactoring sendEmailNotification method;
-    adding an auxiliary getUniqueBCC method;
+Edit email-notifications for Manufacturers
+    and:
+    adding uuid field for manufacturers (imagepath);
+    domain confirmation at yandex email;
+    clean conig/mail.php and .env(!) files: remove 
+        config("mail.mail_to_test"), 
+        config("mail.name_info"), 
+        config("mail.mail_info");
+    adding field uniqueness check when updating.

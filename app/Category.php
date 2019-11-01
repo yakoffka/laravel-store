@@ -54,162 +54,6 @@ class Category extends Model
     }
 
 
-    /**
-     * set setCreator from auth user
-     * 
-     * @return  Category $category
-     */
-    public function setCreator () {
-        info(__METHOD__);
-        $this->added_by_user_id = auth()->user()->id;
-        return $this;
-    }
-
-    /**
-     * set setCreator from auth user
-     * 
-     * @return  Category $category
-     */
-    public function setEditor () {
-        info(__METHOD__);
-        $this->edited_by_user_id = auth()->user()->id;
-        return $this;
-    }
-
-    /**
-     * Create records in table events.
-     *
-     * @return  Category $category
-     */
-    public function createCustomevent()
-    {
-        info(__METHOD__);
-        $this->event_type = debug_backtrace()[1]['function'];
-        $attr = $this->getAttributes();
-        $dirty = $this->getDirty();
-        $original = $this->getOriginal();
-        // dd($attr, $dirty, $original);
-
-        $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
-                    $dirty[$property] ?? FALSE,
-                ];
-            }
-        }
-
-        Customevent::create([
-            'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
-            'model' => $this->getTable(),
-            'model_id' => $this->id,
-            'model_name' => $this->name,
-            'type' => $this->event_type,
-            'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
-        ]);
-        return $this;
-    }
-
-
-    /**
-     * Create event notification.
-     * 
-     * @return Comment $comment
-     */
-    public function sendEmailNotification()
-    {
-        info(__METHOD__);
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
-        $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
-
-        if ( $setting === '1' ) {
-            \Mail::to( auth()->user() ?? config('mail.from.address') )
-                ->bcc($this->getUniqueBCC())
-                ->later( 
-                    Carbon::now()->addMinutes(config('mail.email_send_delay')), 
-                    new CategoryNotification($this->getTable(), $this->id, $this->name, $username, $this->event_type)
-                );
-        }
-        return $this;
-    }
-
-    private function getUniqueBCC()
-    {
-        info(__METHOD__);
-        $bcc = config('mail.mail_bcc');
-        $additional_email_bcc = config('settigs.additional_email_bcc');
-        $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc));
-        $bcc = array_diff($bcc, ['']);
-        $bcc = array_unique($bcc);
-        return $bcc;
-    }
-
-
-    // /**
-    //  * WORKAROUND #1 parent_seeable
-    //  * устанавливает атрибут seeable потомков в соответствии с переданным значением
-    //  * 
-    //  * ПЕРЕДЕЛАТЬ! Добиться использования аксессоров в builder! 
-    //  *
-    //  * @return  Category $category
-    //  */
-    // public function setChildrenSeeable () {
-    //     info(__METHOD__);
-    //     if ( $this->isDirty('seeable') ) {
-    //         $this->children->each(function ($item, $key) {
-    //             $item->update(['parent_seeable' => $this->seeable]);
-    //             $item->products->each(function ($product, $key) {
-    //                 $product->update(['grandparent_seeable' => $this->seeable]);
-    //             });
-    //         });
-    //         $this->products->each(function ($item, $key) {
-    //             $item->update(['parent_seeable' => $this->seeable]);
-    //         });
-    //     }
-    //     return $this;
-    // }
-
-    /**
-     * set title from dirty title or name fields
-     * 
-     * @return  Category $category
-     */
-    public function setTitle () {
-        // info(__METHOD__);
-        if ( !$this->title ) { $this->title = $this->name; }
-        return $this;
-    }
-
-    /**
-     * set uuid for naming source category
-     * 
-     * @return  Category $category
-     */
-    public function setUuid () {
-        // info(__METHOD__);
-        $this->uuid = Str::uuid();
-        return $this;
-    }
-
-    /**
-     * set slug from dirty fiedl slug or title
-     * при одновременном изменении slug и title трансформирует поле slug.
-     * 
-     * @return  Category $category
-     */
-    public function setSlug () {
-        // info(__METHOD__);
-        if ( $this->isDirty('slug') and $this->slug ) {
-            $this->slug = Str::slug($this->slug, '-');
-        } elseif ( $this->isDirty('title') ) {
-            $this->slug = Str::slug($this->title, '-');
-        }
-        return $this;
-    }
 
     /**
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
@@ -218,8 +62,7 @@ class Category extends Model
      * @return  Category $category
      */
     public function attachSingleImage () {
-        // info(__METHOD__);
-
+        info(__METHOD__);
         if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
             return $this;
         }
@@ -248,11 +91,139 @@ class Category extends Model
         return $this;
     }
 
+    /**
+     * Create records in table events.
+     *
+     * @return  Category $category
+     */
+    public function createCustomevent()
+    {
+        info(__METHOD__);
+        $this->event_type = debug_backtrace()[1]['function'];
+        $attr = $this->getAttributes();
+        $dirty = $this->getDirty();
+        $original = $this->getOriginal();
+
+        $details = [];
+        foreach ( $attr as $property => $value ) {
+            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+                $details[] = [ 
+                    $property, 
+                    $original[$property] ?? FALSE, 
+                    $dirty[$property] ?? FALSE,
+                ];
+            }
+        }
+
+        Customevent::create([
+            'user_id' => auth()->user()->id,
+            'model' => $this->getTable(),
+            'model_id' => $this->id,
+            'model_name' => $this->name,
+            'type' => $this->event_type,
+            'description' => $this->event_description ?? FALSE,
+            'details' => serialize($details) ?? FALSE,
+        ]);
+        return $this;
+    }
+
+    /**
+     * Create event notification.
+     * 
+     * @return Comment $comment
+     */
+    public function sendEmailNotification()
+    {
+        info(__METHOD__);
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
+        $setting = config($namesetting);
+        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+
+        if ( $setting === '1' ) {
+            $to = auth()->user();
+
+            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
+            $bcc = array_unique($bcc);
+
+            \Mail::to($to)->bcc($bcc)->later( 
+                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+                new CategoryNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * sets message the variable for the next request only
+     * 
+     * @return  Category $category
+     */
     public function setFlashMess()
     {
         info(__METHOD__);
         $message = __('Category__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
         session()->flash('message', $message);
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @return  Category $category
+     */
+    public function setCreator () {
+        info(__METHOD__);
+        $this->added_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set setCreator from auth user
+     * 
+     * @return  Category $category
+     */
+    public function setEditor () {
+        info(__METHOD__);
+        $this->edited_by_user_id = auth()->user()->id;
+        return $this;
+    }
+
+    /**
+     * set slug from dirty fiedl slug or title
+     * while changing slug and title transforms the slug field.
+     * 
+     * @return  Category $category
+     */
+    public function setSlug () {
+        info(__METHOD__);
+        if ( $this->isDirty('slug') and $this->slug ) {
+            $this->slug = Str::slug($this->slug, '-');
+        } elseif ( $this->isDirty('title') ) {
+            $this->slug = Str::slug($this->title, '-');
+        }
+        return $this;
+    }
+
+    /**
+     * set title from dirty title or name fields
+     * 
+     * @return  Category $category
+     */
+    public function setTitle () {
+        info(__METHOD__);
+        if ( !$this->title ) { $this->title = $this->name; }
+        return $this;
+    }
+
+    /**
+     * set uuid for naming source category
+     * 
+     * @return  Category $category
+     */
+    public function setUuid () {
+        info(__METHOD__);
+        $this->uuid = Str::uuid();
         return $this;
     }
 }

@@ -51,7 +51,7 @@ class CategoryController extends Controller
         abort_if( auth()->user()->cannot('create_categories'), 403);
 
         request()->validate([
-            'name'          => 'required|string|max:255',
+            'name'          => 'required|string|max:255|unique:categories,name',
             'title'         => 'nullable|string|max:255',
             'slug'          => 'nullable|string|max:255',
             'description'   => 'nullable|string|max:65535',
@@ -130,7 +130,7 @@ class CategoryController extends Controller
         abort_if( auth()->user()->cannot('edit_categories'), 403);
 
         request()->validate([
-            'name'          => 'required|string|max:255',
+            'name'          => 'required|string|max:255|unique:categories,name,'.$category->id.',id',
             'title'         => 'nullable|string|max:255',
             'slug'          => 'nullable|string|max:255',
             'description'   => 'nullable|string|max:65535',

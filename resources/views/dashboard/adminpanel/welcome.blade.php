@@ -245,34 +245,6 @@ laravel-worker: added process group
 
             {{-- 'owner', 'developer' --}}
             @role(['owner', 'developer'])
-
-            <h4>Регистрация в yandex</h4>
-
-            <code>
-                <pre>
-2019.09.15
-
-https://passport.yandex.ru/registration?from=mail&origin=hostroot_homer_auth_L_ru&retpath=https%3A%2F%2Fmail.yandex.ru%2F&process_uuid=4c0ed96b-9625-4508-a768-3d8c7392e00c
-Регистрация rope-kit@yandex.ru
-Имя Канат
-Фамилия Комплект
-Придумайте логин    rope-kit
-Придумайте пароль   kjhil7f5
-У меня нет телефона
-Фамилия вашего любимого музыканта rthetherthsdgf
-Ваш аккаунт готов!
-
-https://developer.tech.yandex.ru/
-Подключить API
-Добавить ключ
-Название ключа yandexmapkey
-    yandexmapkey
-    4d24c871-78b4-4844-8088-0b919c191b85
-                </pre>
-            </code>
-
-
-
                 <h4>History</h4>
 
                 <ol>

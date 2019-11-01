@@ -50,7 +50,7 @@
                         <td>
                             @if($manufacturer->imagepath)
                                 <div class="card-img-top b_image"
-                                    style="background-image: url({{ asset('storage') }}/images/manufacturers/{{$manufacturer->id}}/{{$manufacturer->imagepath}});">
+                                    style="background-image: url({{ asset('storage') }}/images/manufacturers/{{$manufacturer->uuid}}/{{$manufacturer->imagepath}});">
                             @else
                                 <div class="card-img-top b_image"
                                     style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">

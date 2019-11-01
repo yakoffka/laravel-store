@@ -91,7 +91,7 @@ class RegisterController extends Controller
 
         // sending email notification with queue
         \Mail::to($user->email)
-            ->bcc(config('mail.mail_info'))
+            // ->bcc(config('mail.mail_info'))!!! depricated setting
             ->queue(new VerifyMail($user));
 
         return $user;

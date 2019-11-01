@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Str;
 use App\{Category, Manufacturer};
 
 class ManufacturerController extends Controller
@@ -50,7 +49,7 @@ class ManufacturerController extends Controller
             'description'       => 'nullable|string',
             'imagepath'         => 'nullable|string',
             'sort_order'        => 'required|string|max:1',
-            'title'             => 'nullable|string', // ?
+            'title'             => 'nullable|string',
         ]);
 
         $manufacturer = Manufacturer::create([
@@ -102,7 +101,7 @@ class ManufacturerController extends Controller
         abort_if ( auth()->user()->cannot('edit_manufacturers'), 403 );
 
         request()->validate([
-            'name'              => 'required|max:255', // unique?
+            'name'              => 'required|max:255|unique:manufacturers,name,'.$manufacturer->id.',id',
             'description'       => 'nullable|string',
             'imagepath'         => 'nullable|string',
             'sort_order'        => 'required|string|max:1',
@@ -110,10 +109,11 @@ class ManufacturerController extends Controller
         ]);
 
         $manufacturer->update([
-            'name' => request('name'),
-            'description' => request('description'),
-            'sort_order' => request('sort_order'),
-            'title' => request('title'),
+            'name'          => request('name'),
+            'description'   => request('description'),
+            'imagepath'     => request('imagepath'),
+            'sort_order'    => request('sort_order'),
+            'title'         => request('title'),
         ]);
 
         return redirect()->route('manufacturers.index');
@@ -135,12 +135,10 @@ class ManufacturerController extends Controller
             Storage::deleteDirectory($directory);
         }
 
-        // ADD DELETE PRODUCT EMAIL!
+        // product to noname or only empty manufacturer!
 
-        // $message = $this->createCustomevent($manufacturer, false, false, 'model_delete');
         $manufacturer->delete();
 
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('manufacturers.index');
     }
 }

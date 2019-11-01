@@ -40,7 +40,7 @@ class CategoryObserver
     public function updating(Category $category)
     {
         info(__METHOD__);
-        $category->setSlug()->attachSingleImage()->setEditor();
+        $category->setTitle()->setSlug()->attachSingleImage()->setEditor();
     }
 
     /**

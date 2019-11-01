@@ -40,7 +40,7 @@ class Manufacturer extends Model
     /**
      * set setCreator from auth user
      * 
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function setCreator () {
         info(__METHOD__);
@@ -51,7 +51,7 @@ class Manufacturer extends Model
     /**
      * set setCreator from auth user
      * 
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function setEditor () {
         info(__METHOD__);
@@ -62,7 +62,7 @@ class Manufacturer extends Model
     /**
      * set title from dirty title or name fields
      * 
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function setTitle () {
         info(__METHOD__);
@@ -74,7 +74,7 @@ class Manufacturer extends Model
      * set slug from dirty fiedl slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      * 
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function setSlug () {
         info(__METHOD__);
@@ -89,7 +89,7 @@ class Manufacturer extends Model
     /**
      * Create records in table events.
      *
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function createCustomevent()
     {
@@ -98,7 +98,6 @@ class Manufacturer extends Model
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
-        // dd($attr, $dirty, $original);
 
         $details = [];
         foreach ( $attr as $property => $value ) {
@@ -112,7 +111,7 @@ class Manufacturer extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id ?? $this->user_id ?? 7, // $this->user_id - for seeding; 7 - id for Undefined user.
+            'user_id' => auth()->user()->id,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -127,34 +126,26 @@ class Manufacturer extends Model
     /**
      * Create event notification.
      * 
-     * @return  Category $category
+     * @return  Manufacturer
      */
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $event_type = $this->event_type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
+            $to = auth()->user();
 
-            $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = config('settigs.additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-            }
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
-            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
+            $bcc = array_unique($bcc);
 
-            \Mail::to( auth()->user() ?? config('mail.from.address') )
-                ->bcc($bcc)
-                ->later( 
-                    $when, 
-                    new ManufacturerNotification($this, $event_type, $username)
-                );
+            \Mail::to($to)->bcc($bcc)->later( 
+                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+                new ManufacturerNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+            );
         }
         return $this;
     }
@@ -166,7 +157,7 @@ class Manufacturer extends Model
      * @return  string $imagepath
      */
     public function attachSingleImage () {
-        // info(__METHOD__);
+        info(__METHOD__);
 
         if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
             return $this;
@@ -201,6 +192,17 @@ class Manufacturer extends Model
         info(__METHOD__);
         $message = __('Manufacturer__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
         session()->flash('message', $message);
+        return $this;
+    }
+
+    /**
+     * set uuid for naming source category
+     * 
+     * @return  Category $category
+     */
+    public function setUuid () {
+        info(__METHOD__);
+        $this->uuid = Str::uuid();
         return $this;
     }
 }
