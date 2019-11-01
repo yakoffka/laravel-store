@@ -114,7 +114,7 @@
 			<i class="fas fa-shipping-fast"></i> Заказы</span>
 		</h5>
         <div class="collapse" id="collapseOrders">
-            <div class="submenuitem">- <a href="{{ route('orders.index') }}">Список</a></div>
+            <div class="submenuitem">- <a href="{{ route('orders.adminindex') }}">Список</a></div>
         </div>
     @endpermission
 </div>

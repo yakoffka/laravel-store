@@ -111,10 +111,10 @@ Route::get('cart/confirmation', 'CartController@confirmation')->name('cart.confi
 Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.change-item');
 Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
 
-// order.save
-Route::resource('orders', 'OrderController')->except(['edit']);
-// Route::resource('orders', 'OrderController')->except(['index']);
-// Route::get('/orders/{user?}', 'CategoryController@index')->name('orders.index');
+// orders
+    Route::resource('orders',           'OrderController')->except(['edit']);
+    Route::get('admin/orders',          'OrderController@adminIndex')->name('orders.adminindex'  )->middleware('auth');
+    Route::get('admin/orders/{order}',  'OrderController@adminShow' )->name('orders.adminshow'   )->middleware('auth');
 
 
 // images

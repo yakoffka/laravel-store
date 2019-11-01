@@ -6,7 +6,11 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('orders.show', $order) }}
+            @permission('view_orders')
+                {{ Breadcrumbs::render('orders.adminshow', $order) }}
+            @else
+                {{ Breadcrumbs::render('orders.show', $order) }}
+            @endpermission
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')

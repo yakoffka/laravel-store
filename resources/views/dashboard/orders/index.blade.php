@@ -1,21 +1,22 @@
 @extends('dashboard.layouts.app')
 
-@section('title', 'orders')
+@section('title', __('AllOrders'))
 
 @section('content')
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('orders.index') }}
+            @permission('view_orders')
+                {{ Breadcrumbs::render('orders.adminindex') }}
+            @else
+                {{ Breadcrumbs::render('orders.index') }}
+            @endpermission
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
         </div>
     </div>
 
-{{-- <div class="container"> --}}
-
-    {{-- {{dd($orders->count())}} --}}
     @if( $orders->count() )
 
         <h1>List of orders</h1>
@@ -82,14 +83,22 @@
                     </td>
                     <td>
 
-                        @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->customer_id )
-                            <a href="{{ route('orders.show', ['order' => $order->id]) }}" class="btn btn-outline-primary">
+                        {{-- @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->customer_id )
+                            <a href="{{ route('orders.adminshow', ['order' => $order->id]) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-eye"></i>
                             </a>
                         @else
                             <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
+                        @endif --}}
+                        @if ( Auth::user()->can('view_orders') )
+                            <a href="{{ route('orders.adminshow', ['order' => $order->id]) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        @else
+                            <a href="{{ route('orders.show', ['order' => $order->id]) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         @endif
-
 
                         {{-- @if ( Auth::user()->can('edit_orders') )
                             <a href="{{ route('orders.edit', ['order' => $order->id]) }}" class="btn btn-outline-success">
@@ -99,22 +108,7 @@
                             <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                         @endif --}}
 
-
                         @if ( Auth::user()->can('delete_orders') )
-                            {{-- <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="POST" class="del_btn">
-                                @csrf
-
-                                @method("DELETE")
-
-                                @if ( $order->id < 5 )
-                                    <button type="submit" class="btn btn-outline-secondary">
-                                @else
-                                    <button type="submit" class="btn btn-outline-danger">
-                                @endif
-
-                                <i class="fas fa-trash"></i>
-                                </button>
-                            </form> --}}
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
@@ -124,7 +118,6 @@
                             ])
     
                         @else
-                            {{-- <button class="btn btn-outline-secondary"><i class="fas fa-trash"></i></button> --}}
                         @endif
 
                     </td>
@@ -139,5 +132,4 @@
     
     @endif
 
-{{-- </div> --}}
 @endsection

@@ -23,12 +23,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if ( auth()->user()->can('view_orders') ) {
-            $orders = Order::paginate();
-        } else {
-            $orders = Order::where('customer_id', '=', auth()->user()->id)
-                ->paginate();
-        }
+        $orders = Order::where('customer_id', '=', auth()->user()->id)->paginate();
+        // $statuses = Status::all();
+        return view('dashboard.orders.index', compact('orders'));
+    }
+
+    /**
+     * Display a listing of the resource for admin side.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex()
+    {
+        abort_if ( auth()->user()->cannot('view_orders'), 403 );
+        $orders = Order::paginate();
         $statuses = Status::all();
         return view('dashboard.orders.index', compact('orders', 'statuses'));
     }
@@ -93,6 +101,21 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $order->cart = unserialize($order->cart);
+        $statuses = Status::all();
+        $customevents = Customevent::where('model', 'Order')->where('model_id', $order->id)->get();
+        return view('dashboard.orders.show', compact('order', 'statuses', 'customevents'));
+    }
+
+    /**
+     * Display the specified resource for admin side.
+     *
+     * @param  Order $order
+     * @return \Illuminate\Http\Response
+     */
+    public function adminShow(Order $order)
+    {
+        abort_if ( auth()->user()->cannot('view_orders'), 403 );
         $order->cart = unserialize($order->cart);
         $statuses = Status::all();
         $customevents = Customevent::where('model', 'Order')->where('model_id', $order->id)->get();

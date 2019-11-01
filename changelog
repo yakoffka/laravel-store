@@ -1,9 +1,4 @@
-Edit email-notifications for Manufacturers
-    and:
-    adding uuid field for manufacturers (imagepath);
-    domain confirmation at yandex email;
-    clean conig/mail.php and .env(!) files: remove 
-        config("mail.mail_to_test"), 
-        config("mail.name_info"), 
-        config("mail.mail_info");
-    adding field uniqueness check when updating.
+Separation of the OrderController::index method
+    Separation of the OrderController::index method into OrderController::index and OrderController::AdminIndex;
+    Separation of the OrderController::show method into OrderController::show and OrderController::AdminShow;
+    editing routes, breadcrumbs, blades.

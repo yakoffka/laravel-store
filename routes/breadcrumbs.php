@@ -206,17 +206,23 @@ Breadcrumbs::for('dashboard', function ($trail) {
     // Home > Dashboard > Orders
     Breadcrumbs::for('orders.index', function ($trail) {
         $trail->parent('dashboard');
-        if ( auth()->user()->can('view_orders') ) {
-            $trail->push('Заказы', route('orders.index'));
-        } else {
-            $trail->push('Мои заказы', route('orders.index'));
-        }
+        $trail->push('Мои заказы', route('orders.index'));
     });
     // Home > Dashboard > Orders > [Order]
     Breadcrumbs::for('orders.show', function ($trail, $order) {
         $trail->parent('orders.index');
-        // $trail->push('Order #' . $order->id);
         $trail->push('Заказ #' . $order->id, route('orders.show', $order));
+    });
+
+    // Home > Dashboard > AdmOrders
+    Breadcrumbs::for('orders.adminindex', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push('Заказы', route('orders.adminindex'));
+    });
+    // Home > Dashboard > AdmOrders > [Order]
+    Breadcrumbs::for('orders.adminshow', function ($trail, $order) {
+        $trail->parent('orders.adminindex');
+        $trail->push('Заказ #' . $order->id, route('orders.adminshow', $order));
     });
 
 
