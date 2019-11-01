@@ -298,6 +298,46 @@ class SettingsTableSeeder extends Seeder
                     ],
                     'default_value' => 0,
                 ],
+                // email_roles_*
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_roles_created',
+                    'display_name' => 'email-уведомления при создании ролей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при создании ролей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_roles_updated',
+                    'display_name' => 'email-уведомления при изменении ролей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при изменении ролей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
+                [
+                    'group' => 'emails',
+                    'name_group' => 'Настройки отправки email-уведомлений',
+                    'type' => 'checkbox',
+                    'name' => 'email_roles_deleted',
+                    'display_name' => 'email-уведомления при удалении ролей',
+                    'description' => 'Разрешает либо запрещает отправку email-уведомлений при удалении ролей.',
+                    'permissible_values' => [
+                        [0, 'выключено'],
+                        [1, 'включено'],
+                    ],
+                    'default_value' => 0,
+                ],
                 // email_settings_*
                 [
                     'group' => 'emails',

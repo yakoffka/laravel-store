@@ -1,3 +1,4 @@
-Edit email-notifications for Products
-    clean ProductController;
-    adding name field uniqueness check when updating.
+Edit email-notifications for Roles
+    clean RoleController;
+    adding name field uniqueness check when updatingж
+    adding email_roles_* settings.
