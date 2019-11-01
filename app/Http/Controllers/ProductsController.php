@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Mail\Product\{Created, Updated};
-use Illuminate\Support\Carbon;
-use Str;
-use App\{Category, Image, Manufacturer, Product};
+use App\{Category, Manufacturer, Product};
 use App\Jobs\RewatermarkJob;
 use Artisan;
-use App\Traits\Yakoffka\ImageYoTrait;
 
 class ProductsController extends Controller
 {
@@ -115,21 +111,8 @@ class ProductsController extends Controller
             'views' => 0,
         ]);
 
-        // $this->attachImages($product->id, request('imagespath'));
         $product->attachImages();
 
-        // // send email-notification
-        // if ( config('settings.email_new_product') ) {
-        //     $user = auth()->user();
-        //     $bcc = config('mail.mail_bcc');
-        //     if ( config('settings.additional_email_bcc') ) {
-        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-        //     }
-        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-        //     \Mail::to($user)->bcc($bcc)->later($when, new Created($product, $user));
-        // }
-
-        // if ( $message ) {session()->flash('message', $message);}
         return redirect()->route('categories.show', $product->category_id);
     }
 
@@ -201,7 +184,7 @@ class ProductsController extends Controller
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
         request()->validate([
-            'name'              => 'required|max:255',
+            'name'              => 'required|max:255|unique:products,name,'.$product->id.',id',
             'title'             => 'nullable|string',
             'slug'              => 'nullable|string',
             'manufacturer_id'   => 'required|integer',
@@ -232,19 +215,7 @@ class ProductsController extends Controller
             'views' => 0,
         ]);
 
-        // $this->attachImages($product->id, request('imagespath'));
         $product->attachImages();
-
-        // // send email-notification
-        // if ( config('settings.email_update_product') ) {
-        //     $user = auth()->user();
-        //     $bcc = config('mail.mail_bcc');
-        //     if ( config('settings.additional_email_bcc') ) {
-        //         $bcc = array_merge( $bcc, explode(', ', config('settings.additional_email_bcc')));
-        //     }
-        //     $when = Carbon::now()->addMinutes(config('settings.email_send_delay'));
-        //     \Mail::to($user)->bcc($bcc)->later($when, new Updated($product, $user));
-        // }
 
         return redirect()->route('products.adminshow', $product->id);
     }
@@ -315,45 +286,6 @@ class ProductsController extends Controller
     }
 
 
-    // /**
-    //  * Приватный метод добавления изображений товара
-    //  * 
-    //  * Принимает строку с path файлов изображений, разделёнными запятой
-    //  * Создает, при необходимости директорию для хранения изображений товара,
-    //  *  и копирует в неё комплект превью с наложением водяных знаков.
-    //  * Добавляет запись о каждом изображении в таблицу images
-    //  *
-    //  * Возвращает void
-    //  */
-    // private function attachImages (int $product_id, string $imagespath = NULL)
-    // {
-    //     if ( empty($imagespath) ) {
-    //         return true;
-    //     }
-    //     $imagepaths = explode(',', $imagespath);
-    //     foreach( $imagepaths as $imagepath) {
-    //         $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
-
-    //         // image re-creation
-    //         $image_name = ImageYoTrait::saveImgSet($image, $product_id, 'lfm-mode');
-    //         $originalName = basename($image_name);
-    //         $path  = '/images/products/' . $product_id;
-
-    //         // create record
-    //         $image = Image::create([
-    //             'product_id' => $product_id,
-    //             'slug' => Str::slug($image_name, '-'),
-    //             'path' => $path,
-    //             'name' => $image_name,
-    //             'ext' => config('imageyo.res_ext'),
-    //             'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
-    //             'sort_order' => 9,
-    //             'orig_name' => $originalName,
-    //         ]);
-    //     }
-    // }
-
-
     public function massupdate() {
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
@@ -419,11 +351,12 @@ class ProductsController extends Controller
 
 
         if ( !empty($err) ) {
-            $mess = 'Операция не удалась или удалась неполностью.';
+            $message = 'Операция не удалась или удалась неполностью.';
         } else {
-            $mess = 'Операция прошла успешно.';                
+            $message = 'Операция прошла успешно.';                
         }
     
+        session()->flash('message', $message);
         return back();
     }
 }

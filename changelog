@@ -1,4 +1,3 @@
-Edit email-notifications for Orders
-    Clean OrderController;
-    field status_id validation change;
-    replacement of property name on accessor getName; 
+Edit email-notifications for Products
+    clean ProductController;
+    adding name field uniqueness check when updating.
