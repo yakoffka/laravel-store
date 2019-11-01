@@ -27,7 +27,7 @@ class OrderObserver
     public function created(Order $order)
     {
         info(__METHOD__);
-        $order->setName()->createCustomevent()->sendEmailNotification()->setFlashMess();
+        $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

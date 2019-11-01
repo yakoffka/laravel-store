@@ -27,7 +27,6 @@
             <div class="row col-sm-12 pagination">{{ $orders->links() }}</div>
         @endif
 
-
         <table class="blue_table">
             <tr>
                 <th>name</th>
@@ -50,7 +49,7 @@
             @foreach($orders as $i=>$order)
 
                 <tr>
-                    <td>{{ __('Order_name_#') }}{{ $order->name }}</td>
+                    <td>{{ __('Order_name_#', ['name' => $order->name]) }}</td>
                     @permission('edit_orders')
                         @selectStatusOrder([
                             'statuses' => $statuses, 

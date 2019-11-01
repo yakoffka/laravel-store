@@ -43,7 +43,7 @@
                             @if($item['item']->image)
                             <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}}_s{{ config('imageyo.res_ext') }});">
                             @else
-                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/no-img.jpg);">
+                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg-l.png);">
                             @endif
         
                                 <div class="dummy"></div><div class="element"></div>

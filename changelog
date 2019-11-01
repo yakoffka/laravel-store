@@ -1,4 +1,4 @@
-Separation of the OrderController::index method
-    Separation of the OrderController::index method into OrderController::index and OrderController::AdminIndex;
-    Separation of the OrderController::show method into OrderController::show and OrderController::AdminShow;
-    editing routes, breadcrumbs, blades.
+Edit email-notifications for Orders
+    Clean OrderController;
+    field status_id validation change;
+    replacement of property name on accessor getName; 

@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\OrderNotification;
-use Str;
 use Session;
 
 class Order extends Model
 {
     protected $guarded = [];
     private $event_type = '';
+
 
     public function status() {
         return $this->belongsTo(Status::class);
@@ -28,19 +28,27 @@ class Order extends Model
 
 
     /**
+     * Accessor
+     * in controller using snake-case
+     */
+    public function getNameAttribute()
+    {
+        return str_pad($this->id, 5, "0", STR_PAD_LEFT);
+    }
+
+    /**
      * Create records in table events.
      *
-     * @return void?
+     * @param  Order $order
      */
     public function createCustomevent()
     {
-        // skip property 'cart'!!!
+        // !!! skip property 'cart' in $details!!!
         info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
-        // dd($attr, $dirty, $original);
 
         $details = [];
         foreach ( $attr as $property => $value ) {
@@ -69,34 +77,26 @@ class Order extends Model
     /**
      * Create event notification.
      * 
-     * @return void?
+     * @param  Order $order
      */
     public function sendEmailNotification()
     {
         info(__METHOD__);
-        $event_type = $this->event_type;
-        $namesetting = 'settings.email_' . $this->getTable() . '_' . $event_type;
+        $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
+            $to = auth()->user();
 
-            $bcc = config('mail.mail_bcc');
-            $additional_email_bcc = Setting::all()->firstWhere('name', 'additional_email_bcc');
-            if ( $additional_email_bcc->value ) {
-                $bcc = array_merge( $bcc, explode(', ', $additional_email_bcc->value));
-            }
-            $email_send_delay = Setting::all()->firstWhere('name', 'email_send_delay');
-            $when = Carbon::now()->addMinutes($email_send_delay);
-            $username = auth()->user() ? auth()->user()->name : 'Unregistered';
+            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
+            $bcc = array_unique($bcc);
 
-            \Mail::to( auth()->user() ?? config('mail.from.address') )
-                ->bcc($bcc)
-                ->later( 
-                    $when, 
-                    new OrderNotification($this, $event_type, $username)
-                );
+            \Mail::to($to)->bcc($bcc)->later( 
+                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+                new OrderNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+            );
         }
         return $this;
     }
@@ -128,13 +128,6 @@ class Order extends Model
     {
         info(__METHOD__);
         $this->manager_id = auth()->user()->id;
-        return $this;
-    }
-
-    public function setName ()
-    {
-        info(__METHOD__);
-        $this->name = str_pad($this->id, 5, "0", STR_PAD_LEFT);
         return $this;
     }
 
