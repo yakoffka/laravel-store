@@ -28,7 +28,8 @@
             </div>
         </a>
 
-        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }}</a>
+        <a data-ripple href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }}</a>
+        {{-- <button class="ripplebutton" data-ripple>Demo button 1</button> --}}
         
     </div>
     

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme_switch')
 
 @section('title', $product->name . config('custom.product_title_append'))
 

@@ -1,0 +1,1 @@
+@extends('layouts.' . (config('settings.theme') ?? 'app') )

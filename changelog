@@ -1,1 +1,7 @@
-Edit email-notifications for Tasks and Users
+layout. Theme Swith and Ripple
+    adding new layout music;
+    добавление посредника между вью и основными лэйаутами (app и music);
+    тестирование на resources/views/products/show.blade.php;
+    adding setting theme;
+    adding ripple.js for (matherial-like buttons);
+    other minor edits.

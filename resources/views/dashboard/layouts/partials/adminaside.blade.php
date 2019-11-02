@@ -12,6 +12,7 @@
         <div class="collapse" id="collapseReadme">
             <div class="submenuitem">- <a target="_blank" href="https://laravel.com">Laravel.com</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://laravel.com/api/5.8">api/5.8</a></div>
+            <div class="submenuitem">- <a target="_blank" href="https://freefrontend.com">freefrontend.com</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/Zizaco/entrust#usage">Zizaco/entrust</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://packagist.org/packages/davejamesmiller/laravel-breadcrumbs#user-content-defining-breadcrumbs">Breadcrumbs</a></div>
             <div class="submenuitem">- <a target="_blank" href="https://github.com/nicolaslopezj/searchable">Search</a></div>

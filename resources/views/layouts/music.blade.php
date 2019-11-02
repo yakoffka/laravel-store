@@ -59,7 +59,7 @@
         config('settings.modification_wysiwyg') == 'tinymce' or
         config('settings.workingconditions_wysiwyg') == 'tinymce'
     )
-       <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>
             var editor_config = {
                 path_absolute : "/",
@@ -98,6 +98,8 @@
         </script>
         {{-- <script src="{{ asset('wysiwyg/tinymce/4/tinymce.min.js') }}"></script> --}}
     @endif
+
+    <style>body{color:red;}</style>
 
 
     <!-- Favicon -->

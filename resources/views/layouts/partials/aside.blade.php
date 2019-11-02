@@ -7,6 +7,7 @@
                 @include('dashboard.layouts.partials.adminaside')
             @else
             @endpermission
+            @include('layouts.partials.separator')
+            @include('layouts.partials.promo1')
         </div>
     </div>
-

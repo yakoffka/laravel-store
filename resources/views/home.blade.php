@@ -80,7 +80,6 @@
     </div>
     <div class="row m-4"></div>
     {{-- attention --}}
-    
 
 
 
@@ -116,15 +115,27 @@
     <div class="row m-4"></div>
     {{-- attention --}}
 
-
+</div>
+    <section class="call-to-action-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Иностранным гражданам предоставляем временную регистрацию.</h2>
+                    <p>08.07.2018 года в силу вступил новый закон о миграционном учете - Федеральный закон № 163-ФЗ от 27.06.2018 г. Данный закон уточняет понятие миграционного учета и описывает, какие объекты могут быть местом регистрации иностранных граждан. Самое главное уточнение нового закона о миграционном учете состоит в том, что иностранный гражданин теперь может вставать на миграционный учет только по месту фактического проживания.</p>
+                    <!--a href="#pricing" class="slide-btn smoth-scroll">узнать цены</a-->
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="container">
 
 
     <h2>Контакты</h2>
 
     <div class="row height_" id="contacts">
 
-        <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <p class="h4 mb-4">Maps</p>
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <p class="h4 mb-4 center blue">{{ __('we_are_on_the_map') }}</p>
 
             {{-- yandex MAP --}}
             <div id="map" style="width: 100%; height: 100%;"></div>
@@ -190,9 +201,9 @@
             {{-- /yandex MAP --}}    
         </div>
 
-        <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-6">
 
-            <p class="h4 mb-4">Contact us</p>
+            <p class="h4 mb-4 center blue">{{ __('feedback_us') }}</p>
 
             <form class="contact_us" method="POST" action="{{ route('home.contact_us') }}" enctype="multipart/form-data">
                 @csrf
@@ -252,26 +263,30 @@
     </div>
 
 
+    <hr class="ellipsis">
+
+
     <div class="row" id="contacts">
 
         <div class="col-12">
+            <p class="h4 mb-4 center blue">{{ __('Contact_us') }}</p>
             <div class="row mt-4 center">
                 <div class="col-4">
-                    <p class="h4 mb-4"> <span class="b_border"><i class="fas fa-phone"></i> phones</span> </p>
+                    <p class="h4 mb-4"> <span class="b_border nowrap"><i class="fas fa-phone"></i> {{ __('phones') }}</span> </p>
                     <p class="list">+7 (863) 269-41-20</p>
                     <p class="list">+7 (863) 269-14-67</p>
                     <p class="list">+7 (863) 256-10-42</p>
                 </div>
         
                 <div class="col-4">
-                    <p class="h4 mb-4"> <span class="b_border"><i class="fas fa-envelope"></i> address</span> </p>
+                    <p class="h4 mb-4"> <span class="b_border nowrap"><i class="fas fa-envelope"></i> {{ __('address') }}</span> </p>
                     <p class="list">542308 г. Ростов-на-Дону,</p>
                     <p class="list">ул. Машиностроительная,</p>
                     <p class="list">д. 96 строение 2</p>
                 </div>
         
                 <div class="col-4">
-                        <p class="h4 mb-4"> <span class="b_border"><i class="fas fa-at"></i> emails</span> </p>
+                    <p class="h4 mb-4"> <span class="b_border nowrap"><i class="fas fa-at"></i> {{ __('emails') }}</span> </p>
                     <p class="list">info@example.com</p>
                     <p class="list">post@example.com</p>
                     <p class="list">admin@example.com</p>
