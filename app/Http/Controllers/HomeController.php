@@ -49,4 +49,11 @@ class HomeController extends Controller
         return view('home', compact('categories', 'videobackground'));
     }
 
+    public function contactUs(Request $request)
+    {
+        $message = 'Только что Вы отправили форму в Никуда. Лучше позвоните, если телефоны верные..';
+        session()->flash('message', $message);
+        return back();
+    }
+
 }

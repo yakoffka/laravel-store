@@ -13,7 +13,7 @@
         @endif
 
         <button type="submit" class="btn btn-outline-success form-control">
-            <i class="fas fa-filter"></i> filter out
+            <i class="fas fa-filter"></i> {{ __('filter_out')}}
         </button>
     </form>
 
@@ -21,7 +21,7 @@
     @if ( !empty($appends['manufacturers']) or !empty($appends['categories']) )
         <form class="formfilters" action="{{ route('products.index') }}">
             <button type="submit" class="btn btn-outline-danger form-control">
-                <i class="fas fa-eraser"></i> cleare filter
+                <i class="fas fa-eraser"></i> {{ __('cleare_filter')}}
             </button>
         </form>
     @endif

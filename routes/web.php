@@ -41,6 +41,7 @@ Route::get('/', 'HomeController@home')->name('home');
 Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
+Route::post('/contact_us', 'HomeController@contactUs')->name('home.contact_us');
 
 
 

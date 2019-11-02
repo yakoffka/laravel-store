@@ -281,41 +281,14 @@
             </div>
         </nav>
 
-        {{-- <div class="height2em"></div> --}}
-       
-        @if ($errors->any())
-            <div class="container">
-                {{-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Holy guacamole!</strong> Something went wrong..
-                    <ol>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                    </ol>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div> --}}
-                <div class="fixed_alert alert alert-danger alert-dismissible fade show" role="alert">
-                    <ol>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ol>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        @endif
-
         {{-- @section('sidebar')
             This is the master sidebar.
         @show --}}
 
 
         {{-- videobackground --}}
-        @if(!empty($videobackground) and false)
+        {{-- @if(!empty($videobackground) and false) --}}
+        @if( TRUE )
             <style>
                 header {
                     position: relative;
@@ -384,6 +357,11 @@
                     <div class="container h-100">
                         <div class="d-flex h-100 text-center align-items-center">
                             <div class="w-100 text-white">
+                                <h1>LARAVEL-STORE</h1>
+                                <h5>Laravel v5.8 based</h5>
+                                <div class="col-md-8 mx-auto">
+                                    <p>The overlay color can be changed by changing the <code>background-color</code> of the <code>.overlay</code> class in the CSS.</p>
+                                </div>
                             </div>
                         </div>
                     </div>            
@@ -393,11 +371,11 @@
                 </video>
                 <div class="container h-100">
                     <div class="d-flex h-100 text-center align-items-center">
-                        <div class="w-100 text-white">
+                        <div class="w-100 text-white"></div>
                     </div>
                 </div>
             </header>
-            <section class="my-5">
+            {{-- <section class="my-5">
                 <div class="container">
                     <div class="row">
                     <div class="col-md-8 mx-auto">
@@ -410,7 +388,7 @@
                     </div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
             {{-- <header>
                 <div class="overlay">
                     <div class="container h-100">
@@ -442,16 +420,26 @@
             @endif
 
             @if( session('message'))
-                {{-- <div class="container p-0">
-                    <div class="alert alert-success">
-                        <div class="alert-title">{{ session('message') }}</div>
-                    </div>
-                </div> --}}
                 <div class="fixed_alert alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('message') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="container">
+                    <div class="fixed_alert alert alert-danger alert-dismissible fade show" role="alert">
+                        <ol>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ol>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             @endif
 

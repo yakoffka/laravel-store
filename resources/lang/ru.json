@@ -287,6 +287,17 @@
 
   "Order_name_#": "Заказ №:name",
 
+  "filter_out": "отфильтровать",
+  "cleare_filter": "сбросить фильтр",
+
+  "__Your_Name_required": "Имя",
+  "__Your_Email_required": "Адрес электронной почты",
+  "Subject": "Выберите тему",
+  "__Your_Message_required": "Сообщение",
+  "Send me a copy of this message": "отправить мне копию сообщения",
+  "I accept": "Настоящим подтверждаю, что я не глядя принимаю все условия и соглашения",
+  "send_message": "Отправить сообщение",
+
 
   "Profile": "Профиль",
   "AllOrders": "Заказы",

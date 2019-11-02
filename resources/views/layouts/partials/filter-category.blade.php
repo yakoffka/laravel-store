@@ -1,6 +1,6 @@
 
 <div class="filter_block left_stylized_checkbox">
-    <div class="filter_block_header">КАТЕГОРИИ</div>
+    <div class="filter_block_header">ПО КАТЕГОРИЯМ</div>
     @if($categories->count())
         @foreach( $categories as $category )
 

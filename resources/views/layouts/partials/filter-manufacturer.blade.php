@@ -2,7 +2,7 @@
 
 {{-- <div class="filter_block right_stylized_checkbox"> --}}
 <div class="filter_block left_stylized_checkbox">
-    <div class="filter_block_header">ПРОИЗВОДИТЕЛИ</div>
+    <div class="filter_block_header">ПО ПРОИЗВОДИТЕЛЯМ</div>
     @if($manufacturers->count())
 
         @foreach($manufacturers as $manufacturer)
