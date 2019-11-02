@@ -288,7 +288,7 @@
 
         {{-- videobackground --}}
         {{-- @if(!empty($videobackground) and false) --}}
-        @if( TRUE )
+        @if( !empty($videobackground) )
             <style>
                 header {
                     position: relative;
