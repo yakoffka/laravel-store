@@ -123,7 +123,7 @@
 
     <div class="row height_" id="contacts">
 
-        <div class="col col-6">
+        <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <p class="h4 mb-4">Maps</p>
 
             {{-- yandex MAP --}}
@@ -190,7 +190,7 @@
             {{-- /yandex MAP --}}    
         </div>
 
-        <div class="col col-6">
+        <div class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
             <p class="h4 mb-4">Contact us</p>
 

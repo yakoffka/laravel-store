@@ -537,12 +537,13 @@ table.param tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:ob
 
 /* b_image https://htmler.ru/2016/06/07/css-height-dynamic-width/*/
 .b_image{
-    width:100%;
+    width:90%;
     background-repeat:no-repeat;
     background-position:center center;
     background-size:contain;
     display: inline-block;
     position: relative;
+    margin: 5%;
 }
     .b_image .dummy {
         margin-top: 100%; /* соотношение сторон*/
