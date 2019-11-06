@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('layouts.theme_switch')
 
 @section('title', __('customevents_index_title'))
 

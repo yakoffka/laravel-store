@@ -36,7 +36,6 @@ return [
 	'description_wysiwyg' => 'tinymce', // Текстовый редактор для редактирования описания товара
 	'modification_wysiwyg' => 'srctablecode', // Текстовый редактор для редактирования модификаций товара
 	'workingconditions_wysiwyg' => 'tinymce', // Текстовый редактор для редактирования условий работы товара
-	'modification_wysiwyg' => 'srctablecode', // Текстовый редактор для редактирования модификаций товара
 	'theme' => 'music', // Выбор темы оформления приложения
 	'show_empty_category' => '0', // Отображение пустых категорий
 	'display_cart' => '1', // Отображение корзины

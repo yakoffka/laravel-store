@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('layouts.theme_switch')
 
 @php
     $title = 'Settings Store';

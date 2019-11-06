@@ -1,5 +1,5 @@
 <div class="col-lg-4 col-md-6 product_card_bm">
-    <div class="category grid">
+    <div class="category grid shadoweffect2">
         
         {{-- <div class="title_green"><h3 title="{{ $category->title }}">{{ $category->name }}</h3></div> --}}
 
@@ -23,12 +23,23 @@
             @endif
 
                 {{-- <div class="dummy perc50"></div> --}}
-                <div class="dummy perc80"></div>
+                <div class="dummy perc100"></div>
                 <div class="element"></div>
             </div>
         </a>
 
-        <a data-ripple href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn" title="{{ $category->title }}">{{ $category->name }}</a>
+        <a data-ripple href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn ta_l" title="{{ $category->title }}">
+            {{ $category->name }}
+            <br><span>
+                @if ($category->countProducts())
+                    {{ trans_choice('categories.numproducts', $category->value_for_trans_choice_products, ['value' => $category->countProducts()]) }}
+                @elseif ($category->countChildren())
+                    {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_children, ['value' => $category->countChildren()]) }}
+                @else
+                    00
+                @endif
+            </span>
+        </a>
         {{-- <button class="ripplebutton" data-ripple>Demo button 1</button> --}}
         
     </div>

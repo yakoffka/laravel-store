@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme_switch')
 
 @section('title', 'confirmation of an order')
 

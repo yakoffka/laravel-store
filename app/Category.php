@@ -46,11 +46,43 @@ class Category extends Model
 
     /**
      * Accessor
-     * in controller using snake-case: $category->parent_seeable!!!
+     * in controller or blade using snake-case: $category->parent_seeable!!!
      */
     public function getParentSeeableAttribute()
     {
         return $this->belongsTo(Category::class, 'parent_id')->get()->max('seeable');
+    }
+
+    /**
+     * Accessor
+     * 
+     * @return unsigned integer [^1]{1}\d or [1]{1}\d
+     * 
+     * in controller or blade using snake-case: $category->value_for_trans_choice_children
+     */
+    public function getValueForTransChoiceChildrenAttribute()
+    {
+        if( substr($this->countChildren(), -2, 1) === '1' ) {
+            return substr($this->countChildren(), -2);
+        } else {
+            return substr($this->countChildren(), -1);
+        }
+    }
+
+    /**
+     * Accessor
+     * 
+     * @return unsigned integer [^1]{1}\d or [1]{1}\d
+     * 
+     * in controller or blade using snake-case: $category->value_for_trans_choice_products
+     */
+    public function getValueForTransChoiceProductsAttribute()
+    {
+        if( substr($this->countProducts(), -2, 1) === '1' ) {
+            return substr($this->countProducts(), -2);
+        } else {
+            return substr($this->countProducts(), -1);
+        }
     }
 
 

@@ -80,16 +80,16 @@ textarea,
     background-color: rgba(255, 255, 255, 0.4);
 }
 @keyframes ripple {
-0% {
-    opacity: 1;
-    transform: scale(0);
-}
-80% {
-    transform: scale(1);
-}
-100% {
-    opacity: 0;
-}
+    0% {
+        opacity: 1;
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+    }
 }
 button.ripplebutton {
     background-color: dodgerblue;
@@ -1234,34 +1234,39 @@ hr.ellipsis::before{
     padding: 0;
     margin-bottom: 10px;
     margin-top: 10px;
+    position: relative;
 }
 
 
 .category.grid .block_number.block_number_right {
     position: absolute;
-    right: 20px;
+    /* right: 20px; */
+    top: 1.5rem;
+    right: 1.5rem;
     /* color: #a7b6c2; */
     color: #bbcf54;
     font-size: 2rem;
-    padding-top: 20px;
-    padding-right: 30px;
+    padding-top: 0;
+    padding-right: 10px;
     z-index: 2;
+    /* width: 50px; */
+    width: 2em;
+    height: 50px;
+    text-align: right;
 }
 .category.grid .block_number.block_number_right::before {
     content: '';
-    width: 50px;
-    height: 50px;
-    /* border-right: 1px solid #d8e1e8;
-    border-top: 1px solid #d8e1e8; */
+    width: 1.5em;
+    height: 1.5em;
     border-right: 1px solid #bbcf54;
     border-top: 1px solid #bbcf54;
     position: absolute;
-    /* top: 29px;
-    right: 17px; */
+    top: 0;
+    right: 0;
 }
 
 .category.grid .btn {
-    width: 150px;
+    min-width: 150px;
     border-radius: 0px;
     font-size: 0.875rem;
     font-weight: 700;
@@ -1269,11 +1274,15 @@ hr.ellipsis::before{
     color: #fff;
     background-color: #30404d;
     border: 2px solid #30404d;
-    padding: 1em 0;
+    padding: 1em 0.5em;
     text-decoration: none;
     margin-right: 1rem;
-    transition: all 0.5s ease-out 0s;
+    /* transition: all 0.5s ease-out 0s; */
+    transition: all 0.3s ease-out 0s;
     opacity: 0.9;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 .category.grid .btn:hover {
     opacity: 1;
@@ -1281,7 +1290,9 @@ hr.ellipsis::before{
     border-color: #69b1de;
     color: #fefefe;
 }
-
+.category.grid .btn span {
+    font-size: .7rem;
+}
 .category.grid .title_green {
     /* background: #bbcf54;
     border: 1px solid #bbcf54;
@@ -1360,6 +1371,10 @@ hr.ellipsis::before{
 /*======================================================================================================*/
 
 
+
+
+
+/*======================================================================================================*/
 .fixed_alert {
     position: fixed;
     top: 2em;
@@ -1370,3 +1385,302 @@ hr.ellipsis::before{
     background-color: rgba(255,255,255,0.8);
     max-width: 80vw;
 }
+/*======================================================================================================*/
+
+
+
+
+
+/*======================================================================================================*/
+/*==================================================
+ * ShadowEffect 1
+ * ===============================================*/
+ .shadoweffect1{
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
+}
+
+/*==================================================
+ * ShadowEffect 2
+ * ===============================================*/
+.shadoweffect2
+{
+  position: relative;
+}
+.shadoweffect2:before, .shadoweffect2:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.shadoweffect2:after
+{
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
+}
+
+/*==================================================
+ * ShadowEffect 3
+ * ===============================================*/
+.shadoweffect3
+{
+  position: relative;
+}
+.shadoweffect3:before
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+
+/*==================================================
+ * ShadowEffect 4
+ * ===============================================*/
+.shadoweffect4
+{
+  position: relative;
+}
+.shadoweffect4:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  right: 10px;
+  left: auto;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 15px 10px #777;
+  -moz-box-shadow: 0 15px 10px #777;
+  box-shadow: 0 15px 10px #777;
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  transform: rotate(3deg);
+}  
+
+/*==================================================
+ * ShadowEffect 5
+ * ===============================================*/
+.shadoweffect5
+{
+  position: relative;
+}
+.shadoweffect5:before, .shadoweffect5:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 25px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #777;
+  -webkit-box-shadow: 0 35px 20px #777;
+  -moz-box-shadow: 0 35px 20px #777;
+  box-shadow: 0 35px 20px #777;
+  -webkit-transform: rotate(-8deg);
+  -moz-transform: rotate(-8deg);
+  -o-transform: rotate(-8deg);
+  -ms-transform: rotate(-8deg);
+  transform: rotate(-8deg);
+}
+.shadoweffect5:after
+{
+  -webkit-transform: rotate(8deg);
+  -moz-transform: rotate(8deg);
+  -o-transform: rotate(8deg);
+  -ms-transform: rotate(8deg);
+  transform: rotate(8deg);
+  right: 10px;
+  left: auto;
+}
+
+/*==================================================
+ * ShadowEffect 6
+ * ===============================================*/
+.shadoweffect6
+{
+  	position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.shadoweffect6:before, .shadoweffect6:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:50%;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+} 
+.shadoweffect6:after
+{
+	right:10px; 
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg); 
+       -moz-transform:skew(8deg) rotate(3deg);     
+        -ms-transform:skew(8deg) rotate(3deg);     
+         -o-transform:skew(8deg) rotate(3deg); 
+            transform:skew(8deg) rotate(3deg);
+}
+
+/*==================================================
+ * ShadowEffect 7
+ * ===============================================*/
+.shadoweffect7
+{
+  	position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.shadoweffect7:before, .shadoweffect7:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:0;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+} 
+.shadoweffect7:after
+{
+	right:10px; 
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg); 
+       -moz-transform:skew(8deg) rotate(3deg);     
+        -ms-transform:skew(8deg) rotate(3deg);     
+         -o-transform:skew(8deg) rotate(3deg); 
+            transform:skew(8deg) rotate(3deg);
+}
+
+/*==================================================
+ * ShadowEffect 8
+ * ===============================================*/
+.shadoweffect8
+{
+  	position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.shadoweffect8:before, .shadoweffect8:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:0;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+} 
+.shadoweffect8:after
+{
+	right:10px; 
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg); 
+       -moz-transform:skew(8deg) rotate(3deg);     
+        -ms-transform:skew(8deg) rotate(3deg);     
+         -o-transform:skew(8deg) rotate(3deg); 
+            transform:skew(8deg) rotate(3deg);
+}
+
+/*==================================================
+ * ShadowEffect 4
+ * ===============================================*/
+ /* .shadoweffect4_
+ {
+   position: relative;
+ } */
+ .shadoweffect4_:after
+ {
+   z-index: -1;
+   position: absolute;
+   content: "";
+   bottom: 15px;
+   right: 10px;
+   left: auto;
+   width: 90%;
+   top: 80%;
+   max-width:300px;
+   background: #777;
+   -webkit-box-shadow: 0 15px 10px #777;
+   -moz-box-shadow: 0 15px 10px #777;
+   box-shadow: 0 15px 10px #777;
+   -webkit-transform: rotate(3deg);
+   -moz-transform: rotate(3deg);
+   -o-transform: rotate(3deg);
+   -ms-transform: rotate(3deg);
+   transform: rotate(3deg);
+   /* transition: all 0.5s ease-out 0s; */
+   transition: all 0.3s ease-out 0s;
+}
+
+ .category.grid.shadoweffect4_:hover:after, .category.grid.shadoweffect4_:hover .btn {
+    background: #69b1de;
+    border-color: #69b1de;
+ }
+
+ /*======================================================================================================*/
+
+
+
+
+

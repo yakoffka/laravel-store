@@ -535,23 +535,6 @@ class SettingsTableSeeder extends Seeder
         
             // display settrings
             [
-                'group' => 'wysiwyg',
-                'name_group' => 'Настройки текстового редактора',
-                'type' => 'select',
-                'name' => 'modification_wysiwyg',
-                'display_name' => 'Текстовый редактор для редактирования модификаций товара',
-                'description' => 'Выберите, какой текстовый редактор использовать для редактирования поля "Модификации".',
-                'permissible_values' => [
-                    [0, 'не использовать'],
-                    ['srctablecode', 'исходный код таблицы (применяется только для поля "Модификации")'],
-                    // ['summernote', 'текстовый редактор summernote'],
-                    // ['ckeditor', 'текстовый редактор ckeditor'],
-                    ['tinymce', 'текстовый редактор TinyMCE'],
-                    //['srccode', 'режим правки исходного кода (!)'],
-                ],
-                'default_value' => 'srctablecode',
-            ],
-            [
                 'group' => 'display_settrings',
                 'name_group' => 'Настройки отображения',
                 'type' => 'select',

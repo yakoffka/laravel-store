@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme_switch')
 
 @section('title', config('custom.main_title_append'))
 

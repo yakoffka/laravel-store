@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.app')
+@extends('layouts.theme_switch')
 
 @section( 'title', empty($directive) ? __('task_show', ['id' => $task->id]) : __('directive_show', ['id' => $task->id]))
 

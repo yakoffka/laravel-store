@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme_switch')
 
 @section('title', $category->name . config('custom.category_title_append'))
 
