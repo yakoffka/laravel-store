@@ -157,7 +157,7 @@
                             <label for="description">{{ __('category') }}</label>
                             <select name="category_id" id="category_id">
                                 @foreach ( $categories as $category )
-                                    @if ( $category->countProducts() )
+                                    @if ( $category->products->count() )
                                         <option value="{{ $category->id }}"
                                             @if ( request('parent_id') == $category->id )
                                                 selected

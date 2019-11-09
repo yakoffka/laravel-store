@@ -36,8 +36,8 @@
             </div>
         </td>
 
-        <td>{{ $category->countChildren() }}</td>
-        <td>{{ $category->countProducts() }}</td>
+        <td>{{ $category->children->count() }}</td>
+        <td>{{ $category->products->count() }}</td>
 
         {{-- actions --}}
         <td>
@@ -51,7 +51,7 @@
             </a>
 
             {{-- delete --}}
-            @if ( $category->countProducts() or $category->countChildren() )
+            @if ( $category->products->count() or $category->children->count() )
                 <button type="button" 
                     class="btn btn-outline-secondary align-self-center" 
                     title="Категория {{ $category->name }} не может быть удалена, пока в ней находятся товары или подкатегории."

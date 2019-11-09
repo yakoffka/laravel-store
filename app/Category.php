@@ -34,15 +34,17 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function countChildren() // учесть видимость (свою и родительскую)!
-    {
-        return $this->hasMany(Category::class, 'parent_id')->count();
-    }
+    // public function countChildren() // учесть видимость (свою и родительскую)!
+    // {
+    //     // return $this->hasMany(Category::class, 'parent_id')->count();
+    //     return $this->children()->count();
+    // }
 
-    public function countProducts() // учесть видимость (свою и родительскую)!
-    {
-        return $this->hasMany(Product::class)->count();
-    }
+    // public function countProducts() // учесть видимость (свою и родительскую)!
+    // {
+    //     // return $this->hasMany(Product::class)->count();
+    //     return $this->products()->count();
+    // }
 
     /**
      * Accessor
@@ -51,6 +53,7 @@ class Category extends Model
     public function getParentSeeableAttribute()
     {
         return $this->belongsTo(Category::class, 'parent_id')->get()->max('seeable');
+        // return $this->parent->get()->max('seeable');
     }
 
     /**
@@ -62,10 +65,11 @@ class Category extends Model
      */
     public function getValueForTransChoiceChildrenAttribute()
     {
-        if( substr($this->countChildren(), -2, 1) === '1' ) {
-            return substr($this->countChildren(), -2);
+        $countChildren = $this->children->count();
+        if( substr($countChildren, -2, 1) === '1' ) {
+            return substr($countChildren, -2);
         } else {
-            return substr($this->countChildren(), -1);
+            return substr($countChildren, -1);
         }
     }
 
@@ -78,10 +82,11 @@ class Category extends Model
      */
     public function getValueForTransChoiceProductsAttribute()
     {
-        if( substr($this->countProducts(), -2, 1) === '1' ) {
-            return substr($this->countProducts(), -2);
+        $countProducts = $this->children->count();
+        if( substr($countProducts, -2, 1) === '1' ) {
+            return substr($countProducts, -2);
         } else {
-            return substr($this->countProducts(), -1);
+            return substr($countProducts, -1);
         }
     }
 

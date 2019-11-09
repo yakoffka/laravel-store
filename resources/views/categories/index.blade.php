@@ -30,7 +30,7 @@
            <div class="row">
                 @foreach($categories as $category)
 
-                    @if ( !config('settings.show_empty_category') and !$category->countProducts() and !$category->countChildren() )
+                    @if ( !config('settings.show_empty_category') and !$category->products->count() and !$category->children->count() )
                         @continue
                     @endif
 

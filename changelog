@@ -1,3 +1,9 @@
-Theme Music
-    preload css files;
+Reduce the number of database queries. Category 
+    Install debugbar (https://github.com/barryvdh/laravel-debugbar);
+    add with("children", "products") in CategoryController::index;
+        remove app/Category.php::countProducts method ($category->products->count() -> $category->products->count());
+        remove app/Category.php::countChildren method ($category->children->count() -> $category->children->count());
+
+
+
     

@@ -5,7 +5,7 @@
         @foreach( $categories as $category )
 
             {{-- hide empty categories --}}
-            @if ( !config('settings.show_empty_category') and !$category->countProducts() and !$category->countChildren() )
+            @if ( !config('settings.show_empty_category') and !$category->products->count() and !$category->children->count() )
                 @continue
             @endif
             {{-- /hide empty categories --}}
@@ -14,7 +14,7 @@
             @if ( $category->id == 1 )
 
             {{-- parent categories --}}
-            @elseif ( $category->countChildren() ) 
+            @elseif ( $category->children->count() ) 
                 <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1" 
                     onClick="check_{{ $category->id }}(this.form,this.checked)"
                     id="filter_categories_{{ $category->id }}"
@@ -33,7 +33,7 @@
 
                 @foreach ( $categories as $i => $subcategory )
                     {{-- hide empty subcategory --}}
-                    @if ( !config('settings.show_empty_category') and !$subcategory->countProducts() and !$subcategory->countChildren() )
+                    @if ( !config('settings.show_empty_category') and !$subcategory->products->count() and !$subcategory->children->count() )
                         @continue
                     @endif
 

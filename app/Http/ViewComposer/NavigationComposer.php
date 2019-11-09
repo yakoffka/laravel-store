@@ -16,6 +16,14 @@ class NavigationComposer
             ->where('seeable', '=', 'on')
             ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
             ->sortBy('sort_order');
+        // $categories = Category::with('parent', 'children', 'products')
+        //     ->where('parent_id', '=', 1)
+        //     ->where('seeable', '=', 'on')
+        //     ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        //     ->where('id', '>', 1)
+        //     ->orderBy('sort_order')
+        //     ->get()
+        //     ;
         return $view->with('categories', $categories);
     }
 }

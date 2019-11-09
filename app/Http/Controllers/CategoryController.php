@@ -13,17 +13,37 @@ class CategoryController extends Controller
 
     /**
      * Display a listing of the resource (parent categories). 
+     * only catalog 
      *
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        // $categories = Category::with('products') // whithout empty categories
-        $categories = Category::all()
+
+        // // old (Queries 54)
+        // $categories = Category::all()
+        //     ->where('parent_id', '=', 1)
+        //     ->where('seeable', '=', 'on')
+        //     ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        //     ->where('id', '>', 1)
+        //     ->sortBy('sort_order');
+
+        // // excluding parent_seeable  (Queries 44)
+        // $categories = Category::all()
+        //     ->where('parent_id', '=', 1)
+        //     ->where('seeable', '=', 'on')
+        //     // ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        //     ->where('id', '>', 1)
+        //     ->sortBy('sort_order');
+
+        // eager loading (Queries 45)
+        $categories = Category::with('children', 'products')
+            ->get()
             ->where('parent_id', '=', 1)
             ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
             ->where('id', '>', 1)
             ->sortBy('sort_order');
+
+        // dd($categories);
         return view('categories.index', compact('categories'));
     }
 
@@ -86,7 +106,7 @@ class CategoryController extends Controller
         abort_if( !$category->seeable or !$category->parent_seeable, 404);
         if ( $category->id === 1 ) { return redirect()->route('categories.index'); }
 
-        if ( $category->countChildren() ) {
+        if ( $category->children->count() ) {
             $categories = Category::all()
                 ->where('parent_id', $category->id)
                 ->where('seeable', '=', 'on')
@@ -94,7 +114,7 @@ class CategoryController extends Controller
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
 
-        } elseif ( $category->countProducts() ) {
+        } elseif ( $category->products->count() ) {
             $products = Product::where('category_id', $category->id)
                 ->where('seeable', '=', 'on')
                 ->orderBy('price')
@@ -170,7 +190,7 @@ class CategoryController extends Controller
         }
 
         // запрет удаления непустой категории
-        if ( $category->countProducts() or $category->countChildren() ) {
+        if ( $category->products->count() or $category->children->count() ) {
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 

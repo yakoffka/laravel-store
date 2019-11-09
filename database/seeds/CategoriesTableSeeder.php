@@ -34,6 +34,13 @@ class CategoriesTableSeeder extends Seeder
                 ['name' => 'grand pianos',     'parent_id' => 3 ],
                 ['name' => 'digital pianos',   'parent_id' => 3 ],
                 
+                ['name' => 'acoustic drums',  'parent_id' => 4 ],
+                ['name' => 'grand drums',     'parent_id' => 4 ],
+                ['name' => 'digital drums',   'parent_id' => 4 ],
+                
+                ['name' => 'scenic lighting',       'parent_id' => 5 ],
+                ['name' => 'decorative lighting',   'parent_id' => 5 ],
+                
                 ['name' => 'strings',          'parent_id' => 6 ],
                 ['name' => 'mediators',        'parent_id' => 6 ],
                 ['name' => 'tools',            'parent_id' => 6 ],
