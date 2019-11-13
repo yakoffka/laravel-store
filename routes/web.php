@@ -82,6 +82,7 @@ Route::get('/users/{user}', 'UsersController@show')->name('users.show');
 Route::get('/users/edit/{user}', 'UsersController@edit')->name('users.edit');
 Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
 Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
+Route::patch('/users/{user}/password-change', 'UsersController@passwordChange')->name('users.password-change');
 
 /* roles*/
 Route::get('/roles', 'RolesController@index')->name('roles.index');

@@ -73,7 +73,7 @@ class UsersController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id.',id', // |unique:users,email,'.$user->id.',id'
             'role' => 'nullable|integer|max:255',
             'take_role' => 'nullable|integer|max:255',
-            'password' => 'nullable|string|min:6|max:255',
+            'password' => 'nullable|string|min:8|max:255',
         ]);
 
         if ( ( request('role' ) or request( 'take_role' ) ) and Auth::user()->cannot('edit_roles') ) {
@@ -126,6 +126,41 @@ class UsersController extends Controller
 
         return redirect( route('users.show', ['user' => $user]));
         // return redirect( route('users.index') );
+    }
+
+
+    /**
+     * Update password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function passwordChange(User $user)
+    {
+        abort_if ( Auth::user()->cannot('edit_users') and Auth::user()->id !== $user->id, 403 );
+
+        request()->validate([
+            // 'new_password' => 'string|min:8|max:255|
+            // regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z]{8,}/
+            // |confirmed',
+            'new_password' => [
+                'string',
+                'min:8',
+                'max:255',
+                'regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z]{8,}/',
+                'confirmed'
+            ],
+            'password' => 'string',
+        ]);
+
+        if ( !Hash::check(request('password'), $user->password )) {
+            return back()->withErrors(['failed password'])->withInput();
+        }
+
+        $user->update(['password' => Hash::make(request('new_password'))]);
+
+        return redirect( route('users.show', ['user' => $user]));
     }
 
 

@@ -62,7 +62,7 @@
                                 <i class="fas fa-pen-nib"></i>
                             </a>
                         @else
-                            @if ( Auth::user()->id == $user->id )
+                            @if ( auth()->user()->id == $user->id )
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
@@ -70,7 +70,7 @@
                         @endpermission
 
 
-                        @if( auth()->user()->can('delete_users') or Auth::user()->id == $user->id )
+                        @if( auth()->user()->can('delete_users') or auth()->user()->id == $user->id )
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
@@ -82,7 +82,12 @@
 
                     </td>
                 </tr>
-            </table><br><br><br>
+            </table>
+
+
+
+            @modalPasswordChange()
+
 
             
             @permission('view_roles')
@@ -113,7 +118,7 @@
                             <th>№</th>
                             <th>Дата</th>
                             <th>{{ __('__Description') }}</th>
-                            @if ( Auth::user()->can('view_orders') )
+                            @if ( auth()->user()->can('view_orders') )
                                 <th>Исполнитель</th>
                             @endif
                         </tr>
@@ -127,7 +132,7 @@
                             <td class="description">
                                 {{ $customevent->description }}
                             </td>
-                            @if ( Auth::user()->can('view_orders') )
+                            @if ( auth()->user()->can('view_orders') )
                                 <td>
                                     {{ $customevent->getInitiator->name }}
                                 </td>

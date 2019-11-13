@@ -55,6 +55,10 @@
   "Dashboard": "Кабинет",
   "Customevents": "События",
   "Thanks": "Спасибо",
+  "change_passw_title": "сменить пароль",
+  "newPassword": "введите новый пароль",
+  "ConfirmNewPassword": "подтвердите новый пароль",
+  "inp_active_Password": "введите действующий пароль",
 
 
   "roles": "роли",
@@ -228,10 +232,10 @@
   "created_tasks": "создание задачи",
   "updated_tasks": "обновление задачи",
   "deleted_tasks": "удаление задачи",
-  "created_users": "создание пользователя",
-  "updated_users": "обновление пользователя",
-  "deleted_users": "удаление пользователя",
-  "verify_users": "верификация пользователя",
+  "created_users": "создание профиля пользователя",
+  "updated_users": "обновление профиля пользователя",
+  "deleted_users": "удаление профиля пользователя",
+  "verify_users": "верификация email пользователя",
 
   "mess_function_i_development": "В данный момент функция находится в разработке",
   "success_operation": "Операция выполена успешно. ",
