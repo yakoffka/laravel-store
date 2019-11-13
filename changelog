@@ -1,3 +1,6 @@
-Theme Music
-    preload css files;
-    
+Force queue start
+     Adding settings to send a forced queue start signal for each queuing.
+     Used on hosting (without root rights)
+Принудительный запуск очереди
+    Добавление настройки для отправки принудительного сигнала запуска очереди при каждой постановке в очередь.
+    Используется на хостингах (без прав корня)    

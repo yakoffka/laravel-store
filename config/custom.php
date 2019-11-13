@@ -22,4 +22,7 @@
         'name_owner' => env('NAME_OWNER',       'OwnerName'),
         'mail_owner' => env('MAIL_OWNER',       'owner@example.ex'),
         'pass_owner' => env('PASS_OWNER',       env('APP_KEY') ),
+
+        // EXEC_QUEUE_WORK="/opt/php/7.2/bin/php ../artisan queue:work --once"
+        'exec_queue_work' => env('EXEC_QUEUE_WORK', false),
     ];

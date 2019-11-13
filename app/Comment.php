@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\CommentNotification;
+use Artisan;
 
 class Comment extends Model
 {
@@ -91,6 +92,12 @@ class Comment extends Model
     public function sendEmailNotification() // !!! Possible execution as a guest
     {
         info(__METHOD__);
+
+        // restarting the queue to make sure they are started
+        if( !empty(config('custom.exec_queue_work')) ) {
+            info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+        }
+
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
