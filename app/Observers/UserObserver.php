@@ -26,7 +26,7 @@ class UserObserver
     public function created(User $user)
     {
         info(__METHOD__);
-        // $user->createCustomevent()->sendEmailNotification()->setFlashMess();
+        $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 

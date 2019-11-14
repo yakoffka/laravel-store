@@ -35,7 +35,7 @@
             @method("PATCH")
 
             <div class="form-group row">
-                <label for="new_password" class="col-md-6 col-form-label text-md-right">{{ __('newPassword') }}</label>
+                <label for="new_password" class="col-md-6 col-form-label text-md-right">{{ __('newPassword') }}*</label>
 
                 <div class="col-md-6">
                     <input id="new_password" type="password" class="form-control @error('password') is-invalid @enderror" name="new_password" required autocomplete="new-password">
@@ -43,13 +43,18 @@
             </div>
 
             <div class="form-group row">
-                <label for="new_password-confirm" class="col-md-6 col-form-label text-md-right">{{ __('ConfirmNewPassword') }}</label>
+                <label for="new_password-confirm" class="col-md-6 col-form-label text-md-right">{{ __('ConfirmNewPassword') }}*</label>
 
                 <div class="col-md-6">
                     <input id="new_password-confirm" type="password" class="form-control" name="new_password_confirmation" required autocomplete="new-password">
                 </div>
             </div>
 
+
+
+            <div class="form-group row">
+              {{ __('Note: the new password must consist of at least 8 characters and contain at least one digit, one uppercase and one lowercase Latin letters') }}
+            </div>
 
             <div class="form-group row">
                 <label for="password" class="col-md-6 col-form-label text-md-right">{{ __('inp_active_Password') }}</label>
@@ -58,7 +63,6 @@
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                 </div>
             </div>
-
 
 
             {{-- <div class="form-group row"> --}}

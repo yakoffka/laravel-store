@@ -1,6 +1,2 @@
-Change user password
-    adding the ability to change the password in the user profile;
-    adding regex validation rule ('regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z]{8,}/')
-        in register and update methods;
-    increase the minimum number of characters.
+
     

@@ -61,6 +61,11 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            {{ __('Note: the new password must consist of at least 8 characters and contain at least one digit, one uppercase and one lowercase Latin letters') }}
+                        </div>
+
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

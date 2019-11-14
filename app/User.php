@@ -85,7 +85,7 @@ class User extends Authenticatable
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : 7, // 7 - id for Undefined user.
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -110,7 +110,8 @@ class User extends Authenticatable
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
-            $to = auth()->user();
+            $to = auth()->user() ?? config('mail.from.address');
+            $user_name = auth()->user() ? auth()->user()->name : 'Unregistered';
 
             $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
@@ -118,7 +119,7 @@ class User extends Authenticatable
 
             \Mail::to($to)->bcc($bcc)->later( 
                 Carbon::now()->addMinutes(config('mail.email_send_delay')), 
-                new UserNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+                new UserNotification($this->getTable(), $this->id, $this->name, $user_name, $this->event_type)
             );
         }
         return $this;
