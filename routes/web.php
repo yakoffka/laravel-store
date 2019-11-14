@@ -35,7 +35,13 @@
     $url = route('itemsShow', ['id' => 1]);
 */
 
-Auth::routes();
+
+if ( !empty(config('settings.display_registration')) ) {
+    Auth::routes();
+} else {
+    Auth::routes(['register' => false]);
+}
+
 
 Route::get('/', 'HomeController@home')->name('home');
 Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
