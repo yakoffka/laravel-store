@@ -1,1 +1,3 @@
-
+Preparation for production
+    Adding settings to send a forced queue start signal for each queuing (used on hosting without root rights).
+    Change the way passwords are generated;

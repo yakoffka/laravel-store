@@ -95,6 +95,11 @@ class RegisterController extends Controller
             // ->bcc(config('mail.mail_info'))!!! depricated setting
             ->queue(new VerifyMail($user));
 
+        // restarting the queue to make sure they are started
+        if( !empty(config('custom.exec_queue_work')) ) {
+            info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+        }
+
         return $user;
     }
 

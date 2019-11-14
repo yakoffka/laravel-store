@@ -111,6 +111,11 @@ class Setting extends Model
                 Carbon::now()->addMinutes(config('mail.email_send_delay')), 
                 new SettingNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
+
+            // restarting the queue to make sure they are started
+            if( !empty(config('custom.exec_queue_work')) ) {
+                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+            }
         }
         return $this;
     }

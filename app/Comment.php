@@ -93,11 +93,6 @@ class Comment extends Model
     {
         info(__METHOD__);
 
-        // restarting the queue to make sure they are started
-        if( !empty(config('custom.exec_queue_work')) ) {
-            info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-        }
-
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -113,6 +108,11 @@ class Comment extends Model
                 Carbon::now()->addMinutes(config('mail.email_send_delay')), 
                 new CommentNotification($this->getTable(), $this->id, $this->name, $this->user_name, $this->event_type, $this->product_id, $this->body)
             );
+
+            // restarting the queue to make sure they are started
+            if( !empty(config('custom.exec_queue_work')) ) {
+                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+            }
         }
         return $this;
     }
