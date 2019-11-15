@@ -41,40 +41,41 @@ class ProductsTableSeeder extends Seeder
         <p>местные расслоения лент на суммарной длине более 50мм с разрывом трех и более строчек одного крайнего или двух и более внутренних швов</p>
         <p>размочаливание или износ более 10% от ширины петель стропа</p>';
 
+        if (config('app.env') !== 'production') {
 
-        for ($i=0; $i < config('custom.num_products_seed'); $i++) {
+            for ($i=0; $i < config('custom.num_products_seed'); $i++) {
 
-            $manufacturer = $manufacturers->random();
-            $category = $arr_categories[array_rand($arr_categories)];
-            $name = $category['name']
-                . ' '
-                .  $manufacturer->title
-                . ' '
-                . $a[rand(0, strlen($a)-1)]
-                . $a[rand(0, strlen($a)-1)]
-                . '-' 
-                . rand(10, 215);
-            $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
-            $modification = !rand(0, 1) ? '' : '<table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>';
-            $description = 'Description for product "' . $name . '". Lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
+                $manufacturer = $manufacturers->random();
+                $category = $arr_categories[array_rand($arr_categories)];
+                $name = $category['name']
+                    . ' '
+                    .  $manufacturer->title
+                    . ' '
+                    . $a[rand(0, strlen($a)-1)]
+                    . $a[rand(0, strlen($a)-1)]
+                    . '-' 
+                    . rand(10, 215);
+                $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
+                $modification = !rand(0, 1) ? '' : '<table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>';
+                $description = 'Description for product "' . $name . '". Lorem ipsum, quia dolor sit amet consectetur adipiscing velit, sed quia non-numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem.';
 
-            DB::table('products')->insert([
-                'name' => $name,
-                'slug' => Str::slug($name, '-'),
-                'manufacturer_id' => $manufacturer->id,
-                'seeable' => rand(0, 5) ? 'on' : NULL,
-                'category_id' => $category['id'],
-                'materials' => $materials,
-                'description' => $description,
-                'modification' => $modification,
-                'date_manufactured' => date('Y-m-d'),
-                'price' => rand(1000,35000),
-                'added_by_user_id' => 2,
-                'views' => 0,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]);
-
+                DB::table('products')->insert([
+                    'name' => $name,
+                    'slug' => Str::slug($name, '-'),
+                    'manufacturer_id' => $manufacturer->id,
+                    'seeable' => rand(0, 5) ? 'on' : NULL,
+                    'category_id' => $category['id'],
+                    'materials' => $materials,
+                    'description' => $description,
+                    'modification' => $modification,
+                    'date_manufactured' => date('Y-m-d'),
+                    'price' => rand(1000,35000),
+                    'added_by_user_id' => 2,
+                    'views' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
         }
     }
 }

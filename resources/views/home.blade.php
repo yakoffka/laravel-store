@@ -85,7 +85,7 @@
 
     {{-- catalog --}}
     <h2 id="catalog">наша продукция</h2>
-        
+
     <div class="row">
 
         @foreach($categories as $category)

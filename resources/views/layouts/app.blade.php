@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- https://connect.yandex.ru/pdd/ --}}
-    <meta name="yandex-verification" content="d8186fcbcc7d8b8f" />
+    <meta name="yandex-verification" content="{{env('YANDEX_VERIFICATION', '')}}" />
 
     {{-- <title>@yield('title') {{ config('custom.product_title_append') }}</title> --}}
     <title>@yield('title')</title>
@@ -453,7 +453,7 @@
 
             @include('layouts.partials.separator')
 
-            <div class="grey denial_responsibility">                
+            <div class="grey denial_responsibility">
                 Администрация Сайта не несет ответственности за размещённые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
             </div>
 

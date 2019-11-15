@@ -2,6 +2,10 @@
 <div class="filter_block left_stylized_checkbox">
     <div class="filter_block_header">ПО КАТЕГОРИЯМ</div>
     @if($categories->count())
+        @php
+            $oForms = '';
+        @endphp
+
         @foreach( $categories as $category )
 
             {{-- hide empty categories --}}
@@ -69,7 +73,6 @@
 
                     @endif
                 @endforeach
-
                 {{-- <div id="group_{{ $category->id }}">{!! $inputs !!}</div> --}}
                 <script type="text/javascript">function check_{{ $category->id }}(oForm,checked){{!! $oForms !!}}</script>
 

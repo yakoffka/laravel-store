@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--music-->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- https://connect.yandex.ru/pdd/ --}}
-    <meta name="yandex-verification" content="d8186fcbcc7d8b8f" />
+    <meta name="yandex-verification" content="{{env('YANDEX_VERIFICATION', '')}}" />
 
     <title>@yield('title')</title>
 

@@ -1,3 +1,4 @@
-Preparation for production
-    Adding settings to send a forced queue start signal for each queuing (used on hosting without root rights).
-    Change the way passwords are generated;
+Minor changes in appearance
+    Error correction in filter-category.blade.php in the absence of goods;
+    Cancel seeding of goods in production;
+    Other minor changes.

@@ -36,7 +36,7 @@
                 @elseif ($category->countChildren())
                     {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_children, ['value' => $category->countChildren()]) }}
                 @else
-                    00
+                    категория пуста
                 @endif
             </span>
         </a>

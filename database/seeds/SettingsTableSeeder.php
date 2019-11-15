@@ -545,7 +545,7 @@ class SettingsTableSeeder extends Seeder
                     ['app', 'тема по-умолчанию'],
                     ['music', 'тема Music'],
                 ],
-                'default_value' => 'app',
+                'default_value' => 'music',
             ],
             [
                 'group' => 'display_settrings',
