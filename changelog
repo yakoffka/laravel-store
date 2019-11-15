@@ -1,4 +1,3 @@
-Minor changes in appearance
-    Error correction in filter-category.blade.php in the absence of goods;
-    Cancel seeding of goods in production;
-    Other minor changes.
+Error empty parent subcategory correction
+    Creating a list of possible categories for the product from categories that do not contain other subcategories (previously from categories containing products).
+    Создание списка возможных категорий для товара из категорий, которые не содержат другие подкатегории (раньше из категорий, содержащих товары).

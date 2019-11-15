@@ -13,6 +13,9 @@
     <title>@yield('title')</title>
 
     <meta name="description" content="@yield('description')"/>
+
+    {{-- Scripts part 1 --}}
+    <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
   
     {{-- Fonts --}}
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
@@ -418,8 +421,8 @@
 
 
 
-    {{-- Scripts --}}
-    <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
+    {{-- Scripts part 2 --}}
+    {{-- move to part 1 <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 
