@@ -15,7 +15,7 @@ class ProductObserver
     public function creating(Product $product)
     {
         info(__METHOD__);
-        $product->setTitle()->setSlug()->cleanSrcCodeTables()->additionallyIfCopy()->setCreator();
+        $product->setTitle()->setSlug()->cleanSrcCodeTables()->setCreator();
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductObserver
     public function created(Product $product)
     {
         info(__METHOD__);
-        $product->createCustomevent()->sendEmailNotification()->setFlashMess();
+        $product->additionallyIfCopy()->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
 
