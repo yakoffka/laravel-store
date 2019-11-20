@@ -109,7 +109,7 @@ button.ripplebutton {
 .grey .grey, .greygrey{color: #8e9aa0;}
 .blue {color: #3490dc;}
 
-.row form input::placeholder {
+.row form input::placeholder, .row form textarea::placeholder {
     color: #a2b0b8;
     font-style: italic;
 }

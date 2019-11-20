@@ -115,17 +115,19 @@
                         </a>
 
                         <div class="card-body p-1">
-                            <div class="card-text col-sm-12">
-                                <span class="grey">
-                                    @if($product->price)
-                                        price: {{ $product->price }} &#8381;
-                                    @else
-                                        priceless
-                                    @endif
-                                </span>
-                                <?php if(!$product->seeable){echo '<span class="red">inseeable</span>';}?>
-                                <br>
-                            </div>
+                            @if ( config('settings.display_prices') and $product->price)
+                                <div class="card-text col-sm-12">
+                                    <span class="grey">
+                                        @if($product->price)
+                                            price: {{ $product->price }} &#8381;
+                                        @else
+                                            priceless
+                                        @endif
+                                    </span>
+                                    <?php if(!$product->seeable){echo '<span class="red">inseeable</span>';}?>
+                                    <br>
+                                </div>
+                            @endif
 
                             <div class="row product_buttons center">
 

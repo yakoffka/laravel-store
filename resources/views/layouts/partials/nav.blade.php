@@ -1,4 +1,4 @@
-<h4>Catalog</h4>
+<h4 class="ta_c">{{ __('Categories')}}</h4>
 
 @if($categories->count())
 <ul class="navbar-nav mr-auto" id="mainMenu">
