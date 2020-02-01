@@ -16,60 +16,6 @@
     </div>
 
 
-    {{-- <h1></h1> --}}
-
-    @if( config('custom.store_theme') === 'SLINGS' and FALSE )
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://prod.dragoon.pw/storage/images/common/s/s2.png" alt="">
-                <div class="container">
-                    <div class="carousel-caption text-left">
-                        <h1>ООО «Канат-Комплект»</h1>
-                        <p>крупнейший дистрибьютер грузоподъемного оборудования в Ростове-на-Дону, Батайске, Азове, Краснодаре.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#catalog" role="button">грузоподъемное оборудование собственного производства</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://prod.dragoon.pw/storage/images/common/s/s4.png" alt="">
-                <div class="container">
-                    <div class="carousel-caption text-right">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                    <img src="https://prod.dragoon.pw/storage/images/common/s/s5.png" alt="">
-                    <div class="container">
-                        <div class="carousel-caption text-right">
-                            <h1>One more for good measure.</h1>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    @endif
-
-
-
     {{-- attention --}}
     <div class="row m-4"></div>
     <div class="row">
@@ -142,10 +88,10 @@
             <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4d24c871-78b4-4844-8088-0b919c191b85" type="text/javascript"></script>
             <script type="text/javascript">
                 var myMap;
-    
+
                 // Дождёмся загрузки API и готовности DOM.
                 ymaps.ready(init);
-    
+
                 function init () {
                     // Создание экземпляра карты и его привязка к контейнеру с
                     // заданным id ("map").
@@ -162,32 +108,32 @@
                         balloonContentFooter: "просп. 40-летия Победы 75",
                         hintContent: "ООО Канат-Комплект"
                     });
-    
+
                     // https://yandex.ru/maps/39/rostov-na-donu/?from=api-maps&l=sat%2Cskl&ll=39.824304%2C47.239137&origin=jsapi_2_1_74&z=18
-    
-    
+
+
                     myMap.geoObjects.add(myPlacemark);
-    
+
                     // document.getElementById('destroyButton').onclick = function () {
                     //     // Для уничтожения используется метод destroy.
                     //     myMap.destroy();
                     // };
-    
+
                     // отключить зум карты
-                    myMap.behaviors.disable('scrollZoom'); 
-    
+                    myMap.behaviors.disable('scrollZoom');
+
                 }
-    
+
                 // function setCenter () {
                 //     myMap.setCenter([57.767265, 40.925358]);
                 // }
-    
+
                 // function setBounds () {
                 //     // Bounds - границы видимой области карты.
                 //     // Задаются в географических координатах самой юго-восточной и самой северо-западной точек видимой области.
                 //     myMap.setBounds([[37, 38], [39, 40]]);
                 // }
-    
+
                 function setTypeAndPan () {
                     // Меняем тип карты на "Гибрид".
                     myMap.setType('yandex#hybrid');
@@ -198,7 +144,7 @@
                     });
                 }
             </script>
-            {{-- /yandex MAP --}}    
+            {{-- /yandex MAP --}}
         </div>
 
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-6">
@@ -230,7 +176,7 @@
                         <option value="4">Feature request</option>
                     </select>
                 </div>
-    
+
                 <div class="form-group">
                     <label for="">{{ __('__Your_Message_required') }}</label><br>
                     <textarea
@@ -241,14 +187,14 @@
                         class="form-control"
                         placeholder="{{ __('__Your_Message_required') }}"
                         required
-                    ></textarea>                       
+                    ></textarea>
                 </div>
-    
+
                 <div class="form-group left_stylized_checkbox">
                     <input type="checkbox" name="copy" value="" id="copy" checked>
                     <label class="filters main_category"  for="copy">{{ __('Send me a copy of this message') }}</label>
                 </div>
-    
+
                 <div class="form-group left_stylized_checkbox">
                     <input type="checkbox" name="accept" value="" id="accept"  onchange="document.getElementById('submit').disabled = !this.checked;">
                     <label class="filters main_category"  for="accept">{{ __('I accept') }}</label>
@@ -277,14 +223,14 @@
                     <p class="list">+7 (863) 269-14-67</p>
                     <p class="list">+7 (863) 256-10-42</p>
                 </div>
-        
+
                 <div class="col-4">
                     <p class="h4 mb-4"> <span class="b_border nowrap"><i class="fas fa-envelope"></i> {{ __('address') }}</span> </p>
                     <p class="list">542308 г. Ростов-на-Дону,</p>
                     <p class="list">ул. Машиностроительная,</p>
                     <p class="list">д. 96 строение 2</p>
                 </div>
-        
+
                 <div class="col-4">
                     <p class="h4 mb-4"> <span class="b_border nowrap"><i class="fas fa-at"></i> {{ __('emails') }}</span> </p>
                     <p class="list">info@example.com</p>
@@ -294,8 +240,8 @@
             </div>
         </div>
 
-    
-    
+
+
     </div>
 
 @endsection

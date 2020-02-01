@@ -16,7 +16,7 @@
 
     {{-- Scripts part 1 --}}
     <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
-  
+
     {{-- Fonts --}}
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
     <link href="{{ asset('fonts/proxima-nova/style.css') }}" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
                 <a class="logo d-none d-md-block" href="{{ url('/') }}">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                     {{-- <img src="/laravel_white.png" alt="logo"> --}}
                     <img src="{{ asset('storage') }}/images/common/logo_{{ config('custom.store_theme') }}.png" alt="logo">
-                    
+
                 </a>
             </div>
         </div>
@@ -58,11 +58,6 @@
                 {{-- logo --}}
 
 
-                {{-- <a class="navbar-brand grey" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a> --}}
-
-                
                 {{-- main_menu --}}{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                 <ul class="main_menu d-none d-md-block">
                     @include('menu.main')
@@ -129,7 +124,7 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-                            
+
                             @if (Route::has('register') and config('settings.display_registration'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -139,13 +134,13 @@
                         @else
 
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" 
-                                    class="nav-link dropdown-toggle" 
-                                    href="#" 
-                                    role="button" 
-                                    data-toggle="dropdown" 
+                                <a id="navbarDropdown"
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    data-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false" 
+                                    aria-expanded="false"
                                     v-pre
                                 >
                                     {{-- {{ Auth::user()->roles->first()->name }} --}}
@@ -161,7 +156,7 @@
                                         <a class="dropdown-item" href="{{ route('orders.index') }}">{{__('Orders')}}</a>
                                     @endpermission
                                     <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">{{__('Profile')}}</a>
-                
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -186,11 +181,11 @@
                         {{-- search --}}{{-- d-md-none - Скрыто на экранах шире md --}}
                         <li class="nav-item d-md-none">
                             {{-- <form class="search" action="{{ route('search') }}" method="GET" role="search">
-                                <input 
-                                    style="width:100%; margin-top:5px; height:2em;" 
-                                    type="search" 
-                                    class="input-sm form-control" 
-                                    name="query" 
+                                <input
+                                    style="width:100%; margin-top:5px; height:2em;"
+                                    type="search"
+                                    class="input-sm form-control"
+                                    name="query"
                                     placeholder="Search products"
                                     value="{{ $query ?? '' }}"
                                 >
@@ -206,134 +201,7 @@
             </div>
         </nav>
 
-        {{-- @section('sidebar')
-            This is the master sidebar.
-        @show --}}
 
-
-        {{-- videobackground --}}
-        {{-- @if(!empty($videobackground) and false) --}}
-        @if( !empty($videobackground) )
-            <style>
-                header {
-                    position: relative;
-                    background-color: black;
-                    height: 100vh;
-                    min-height: 25rem;
-                    width: 100%;
-                    overflow: hidden;
-                }
-            
-                header video {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    min-width: 100%;
-                    min-height: 100%;
-                    width: auto;
-                    height: auto;
-                    z-index: 0;
-                    -ms-transform: translateX(-50%) translateY(-50%);
-                    -moz-transform: translateX(-50%) translateY(-50%);
-                    -webkit-transform: translateX(-50%) translateY(-50%);
-                    transform: translateX(-50%) translateY(-50%);
-                }
-            
-                header .container {
-                    position: relative;
-                    z-index: 2;
-                }
-            
-                header .overlay {
-                    position: absolute;
-                    top: 0;
-                    /* top: -2em; */
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    background-color: black;
-                    opacity: 0.5;
-                    /* z-index: 1; */
-                }
-            
-                @media (pointer: coarse) and (hover: none) {
-                    header {
-                        /* background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll; */
-                    }
-                    header video {
-                        display: none;
-                    }
-                }
-
-                /* yo */
-            
-                header {
-                    position: relative;
-                    z-index: -2;
-                    top: -3em;
-                }
-                header .overlay {
-                    z-index: 1;
-                }
-            </style>
-            
-            <header>
-                <div class="overlay">
-                    <div class="container h-100">
-                        <div class="d-flex h-100 text-center align-items-center">
-                            <div class="w-100 text-white">
-                                <h1>LARAVEL-STORE</h1>
-                                <h5>Laravel v5.8 based</h5>
-                                <div class="col-md-8 mx-auto">
-                                    <p>The overlay color can be changed by changing the <code>background-color</code> of the <code>.overlay</code> class in the CSS.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>            
-                </div>
-                <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                    <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
-                </video>
-                <div class="container h-100">
-                    <div class="d-flex h-100 text-center align-items-center">
-                        <div class="w-100 text-white"></div>
-                    </div>
-                </div>
-            </header>
-            {{-- <section class="my-5">
-                <div class="container">
-                    <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <p>The HTML5 video element uses an mp4 video as a source. Change the source video to add in your own background! The header text is vertically centered using flex utilities that are build into Bootstrap 4.</p>
-                        <p>The overlay color can be changed by changing the <code>background-color</code> of the <code>.overlay</code> class in the CSS.</p>
-                        <p>Set the mobile fallback image in the CSS by changing the background image of the header element within the media query at the bottom of the CSS snippet.</p>
-                        <p class="mb-0">
-                        Created by <a href="https://startbootstrap.com">Start Bootstrap</a>
-                        </p>
-                    </div>
-                    </div>
-                </div>
-            </section> --}}
-            {{-- <header>
-                <div class="overlay">
-                    <div class="container h-100">
-                        <div class="d-flex h-100 text-center align-items-center">
-                            <div class="w-100 text-white">
-                                <h1 class="display-1">Канат-Комплект</h1>
-                                <p class="lead mb-0">Грузоподъемное оборудование собственного производства</p>
-                                <div class="h1"><i class="blue fas fa-chevron-circle-down"></i></div>
-                            </div>
-                        </div>
-                    </div>            
-                </div>
-                <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                    <source src="{{ asset('videos/futaj.mp4') }}" type="video/mp4">
-                </video>
-            </header> --}}
-        @else
-        @endif
-        {{-- /videobackground --}}
- 
         <main class="py-4">
 
             {{-- @alert(['type' => 'primary', 'title' => 'roles/create'])
@@ -378,7 +246,7 @@
 
             @include('layouts.partials.separator')
 
-            <div class="grey denial_responsibility">                
+            <div class="grey denial_responsibility">
                 Администрация Сайта не несет ответственности за размещённые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
             </div>
 
@@ -406,7 +274,7 @@
                     @endif
 
                 </div>
-                
+
             </div>
 
             <div class="skew"></div>
@@ -493,14 +361,14 @@
                 file_browser_callback : function(field_name, url, type, win) {
                     var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
                     var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-        
+
                     var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
                     if (type == 'image') {
                         cmsURL = cmsURL + "&type=Images";
                     } else {
                         cmsURL = cmsURL + "&type=Files";
                     }
-        
+
                     tinyMCE.activeEditor.windowManager.open({
                         file : cmsURL,
                         title : 'Filemanager',
@@ -511,7 +379,7 @@
                     });
                 }
             };
-        
+
             tinymce.init(editor_config);
         </script>
     @endif
