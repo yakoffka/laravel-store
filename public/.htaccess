@@ -19,13 +19,4 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-
-    # yakoff: http://www.kanatkom.ru -> https://.kanatkom.ru
-    RewriteCond %{HTTP_HOST} ^www.kanatkom.ru$ [NC]
-    RewriteRule ^(.*)$ https://kanatkom.ru/$1 [R=301,L]
-
-    # yakoff: http://kanatkom.ru -> https://kanatkom.ru
-    RewriteCond %{SERVER_PORT} !^443$
-    RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
-
 </IfModule>
