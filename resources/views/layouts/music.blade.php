@@ -317,7 +317,6 @@
     </script>
     {{-- ripple --}}
 
-
     {{-- wysiwyg --}}
     @if (
         config('settings.description_wysiwyg') == 'ckeditor' or

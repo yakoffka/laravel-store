@@ -1,6 +1,6 @@
 <div class="col-lg-4 col-md-6 product_card_bm">
     <div class="category grid shadoweffect2">
-        
+
         {{-- <div class="title_green"><h3 title="{{ $category->title }}">{{ $category->name }}</h3></div> --}}
 
         <div class="block_number block_number_right">
@@ -12,7 +12,7 @@
                 00
             @endif
         </div>
-    
+
         <a href="{{ route('categories.show', ['category' => $category->id]) }}">
             @if($category->imagepath)
                 <div class="card-img-top b_image"
@@ -41,10 +41,10 @@
             </span>
         </a>
         {{-- <button class="ripplebutton" data-ripple>Demo button 1</button> --}}
-        
+
     </div>
-    
-    
+
+
     {{-- <div class="card">
 
         <h2 class="product_card_h2">
