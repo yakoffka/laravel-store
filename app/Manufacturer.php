@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\ManufacturerNotification;
 use Illuminate\Support\Facades\Storage;
-use Str;
+use Illuminate\Support\Str;
 
 class Manufacturer extends Model
 {
@@ -39,7 +39,7 @@ class Manufacturer extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @return  Manufacturer
      */
     public function setCreator () {
@@ -50,7 +50,7 @@ class Manufacturer extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @return  Manufacturer
      */
     public function setEditor () {
@@ -61,7 +61,7 @@ class Manufacturer extends Model
 
     /**
      * set title from dirty title or name fields
-     * 
+     *
      * @return  Manufacturer
      */
     public function setTitle () {
@@ -73,7 +73,7 @@ class Manufacturer extends Model
     /**
      * set slug from dirty fiedl slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
-     * 
+     *
      * @return  Manufacturer
      */
     public function setSlug () {
@@ -102,9 +102,9 @@ class Manufacturer extends Model
         $details = [];
         foreach ( $attr as $property => $value ) {
             if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -125,7 +125,7 @@ class Manufacturer extends Model
 
     /**
      * Create event notification.
-     * 
+     *
      * @return  Manufacturer
      */
     public function sendEmailNotification()
@@ -142,8 +142,8 @@ class Manufacturer extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new ManufacturerNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
@@ -157,7 +157,7 @@ class Manufacturer extends Model
 
     /**
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
-     * и обновляет запись в базе данных. 
+     * и обновляет запись в базе данных.
      *
      * @return  string $imagepath
      */
@@ -168,7 +168,7 @@ class Manufacturer extends Model
             return $this;
         }
 
-        // смена файловой системы. 
+        // смена файловой системы.
         // переделать. WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
         $src = str_replace( config('filesystems.disks.lfm.url'), '', $this->imagepath );
         $dst_dir = 'images/manufacturers/' . $this->uuid;
@@ -202,7 +202,7 @@ class Manufacturer extends Model
 
     /**
      * set uuid for naming source category
-     * 
+     *
      * @return  Category $category
      */
     public function setUuid () {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\{Task, Taskspriority, Tasksstatus, User};
 use Illuminate\Http\Request;
-use Str;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -101,9 +101,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        abort_if ( 
-            auth()->user()->cannot('view_tasks') 
-            and 
+        abort_if (
+            auth()->user()->cannot('view_tasks')
+            and
             (
                 $task->master_user_id !== auth()->user()->id
                 and
@@ -125,9 +125,9 @@ class TaskController extends Controller
      */
     public function directive(Task $task)
     {
-        abort_if ( 
-            auth()->user()->cannot('view_tasks') 
-            and 
+        abort_if (
+            auth()->user()->cannot('view_tasks')
+            and
             (
                 $task->master_user_id !== auth()->user()->id
                 or
@@ -161,9 +161,9 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        abort_if ( 
-            auth()->user()->cannot('edit_tasks') 
-            and 
+        abort_if (
+            auth()->user()->cannot('edit_tasks')
+            and
             (
                 $task->master_user_id !== auth()->user()->id
                 and
@@ -173,13 +173,13 @@ class TaskController extends Controller
 
         request()->validate([
             'tasksstatus_id' => 'exists:tasksstatuses,id',
-            'taskspriority_id' => 'exists:taskspriorities,id',            
+            'taskspriority_id' => 'exists:taskspriorities,id',
             'comment_slave' => 'string|nullable',
         ]);
 
         // закрыть задачу может только тот, кто её открыл
-        if ( 
-            !is_null( request('tasksstatus_id') ) 
+        if (
+            !is_null( request('tasksstatus_id') )
             and request('tasksstatus_id') === '4' // TODO!!! привязка к id!!!
             and auth()->user()->id !== $task->master_user_id
         ) {
@@ -187,8 +187,8 @@ class TaskController extends Controller
         }
 
         // комментировать задачу может только исполнитель
-        if ( 
-            !is_null( request('comment_slave') ) 
+        if (
+            !is_null( request('comment_slave') )
             and (
                 auth()->user()->id !== $task->slave_user_id
                 and
@@ -221,9 +221,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        abort_if ( 
-            auth()->user()->cannot('delete_tasks') 
-            and 
+        abort_if (
+            auth()->user()->cannot('delete_tasks')
+            and
             (
                 $task->master_user_id !== auth()->user()->id
                 or

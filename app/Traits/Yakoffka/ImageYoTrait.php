@@ -11,8 +11,8 @@ trait ImageYoTrait
 
     public static function saveImgSet($image, $product_id, $mode = false)
     {
-        info(__method__ . '@' . __line__);
-        info(config('imageyo.watermark'));
+        // info(__method__ . '@' . __line__);
+        // info(config('imageyo.watermark'));
         $name_img = false;
 
         if ( $mode === 'rewatermark' ) {
@@ -62,7 +62,7 @@ trait ImageYoTrait
             $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
-            
+
         } else {
             $src_img_name = $image->getClientOriginalName();
             $src_path = $image->path();
@@ -76,7 +76,7 @@ trait ImageYoTrait
         // получение параметров из конфигурационного файла
         if ( $type_preview === 'origin' ) {
             $dstimage_w = $src_w;
-            $dstimage_h = $src_h;    
+            $dstimage_h = $src_h;
             $dst_dir    = storage_path() . config('imageyo.dirdst_origin') . '/' . $product_id;
         } else {
             $dstimage_w = config('imageyo.' . $type_preview . '_w');
@@ -98,7 +98,7 @@ trait ImageYoTrait
         $icfunc = "imagecreatefrom".$type;
         if(!function_exists($icfunc)){//если нет такой функции - прекращаем работу скрипта
             // err
-            return false;  
+            return false;
         }
 
         // узнаем коэффициент масштабирования (по горизонтали и вертикали и выбираем наибольший) < 1 при уменьшении
@@ -134,13 +134,13 @@ trait ImageYoTrait
             $src_size = getimagesize($path_watermark);
             $src_w = $src_size[0];
             $src_h = $src_size[1];
-    
+
             //определение функции соответственно типу файла водяного знака
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
             $icfunc = "imagecreatefrom".$type;
             if(!function_exists($icfunc)) {//если нет такой функции - прекращаем работу скрипта
                 // err
-                return false;  
+                return false;
             }
 
             // узнаем коэффициент масштабирования (по горизонтали и вертикали и выбираем наибольший) < 1 при уменьшении
@@ -171,8 +171,8 @@ trait ImageYoTrait
                     $b = $colorat & 0xFF;
 
                     if (
-                        ($r == 252 && $g == 252 && $b == 252) || 
-                        ($r == 253 && $g == 253 && $b == 253) || 
+                        ($r == 252 && $g == 252 && $b == 252) ||
+                        ($r == 253 && $g == 253 && $b == 253) ||
                         ($r == 254 && $g == 254 && $b ==254)
                     ) {
                         imagesetpixel($dst_image, $x, $y, $color_fill);
@@ -199,7 +199,7 @@ trait ImageYoTrait
 
 
     /*       FOUR RECTANGLES http://php.net/manual/ru/function.imagecopyresampled.php
-    *   
+    *
     *                     $src_image                                   $dst_image
     *
     *    |<-------------------------------------------->|   |<--------- $dstimage_w --------->|

@@ -4,11 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use App\Product;
-use App\Customevent;
 use App\Mail\CategoryNotification;
 use Illuminate\Support\Facades\Storage;
-use Str;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -19,12 +17,12 @@ class Category extends Model
     private $event_type = '';
 
 
-    public function products() 
+    public function products()
     {
         return $this->hasMany(Product::class);
     }
 
-    public function parent() 
+    public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
@@ -55,9 +53,9 @@ class Category extends Model
 
     /**
      * Accessor
-     * 
-     * @return unsigned integer [^1]{1}\d or [1]{1}\d
-     * 
+     *
+     * @return integer [^1]{1}\d or [1]{1}\d
+     *
      * in controller or blade using snake-case: $category->value_for_trans_choice_children
      */
     public function getValueForTransChoiceChildrenAttribute()
@@ -71,9 +69,9 @@ class Category extends Model
 
     /**
      * Accessor
-     * 
-     * @return unsigned integer [^1]{1}\d or [1]{1}\d
-     * 
+     *
+     * @return integer [^1]{1}\d or [1]{1}\d
+     *
      * in controller or blade using snake-case: $category->value_for_trans_choice_products
      */
     public function getValueForTransChoiceProductsAttribute()
@@ -89,17 +87,16 @@ class Category extends Model
 
     /**
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
-     * и обновляет запись в базе данных. 
+     * и обновляет запись в базе данных.
      *
-     * @return  Category $category
+     * @return Category
      */
     public function attachSingleImage () {
-        info(__METHOD__);
         if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
             return $this;
         }
 
-        // смена файловой системы. 
+        // смена файловой системы.
         // переделать. WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
         $src = str_replace( config('filesystems.disks.lfm.url'), '', $this->imagepath );
         $dst_dir = 'images/categories/' . $this->uuid;
@@ -130,7 +127,6 @@ class Category extends Model
      */
     public function createCustomevent()
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -139,9 +135,9 @@ class Category extends Model
         $details = [];
         foreach ( $attr as $property => $value ) {
             if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -161,8 +157,8 @@ class Category extends Model
 
     /**
      * Create event notification.
-     * 
-     * @return Comment $comment
+     *
+     * @return Category $comment
      */
     public function sendEmailNotification()
     {
@@ -178,14 +174,14 @@ class Category extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new CategoryNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
             if( !empty(config('custom.exec_queue_work')) ) {
-                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
         return $this;
@@ -193,7 +189,7 @@ class Category extends Model
 
     /**
      * sets message the variable for the next request only
-     * 
+     *
      * @return  Category $category
      */
     public function setFlashMess()
@@ -206,7 +202,7 @@ class Category extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @return  Category $category
      */
     public function setCreator () {
@@ -217,7 +213,7 @@ class Category extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @return  Category $category
      */
     public function setEditor () {
@@ -229,7 +225,7 @@ class Category extends Model
     /**
      * set slug from dirty fiedl slug or title
      * while changing slug and title transforms the slug field.
-     * 
+     *
      * @return  Category $category
      */
     public function setSlug () {
@@ -244,7 +240,7 @@ class Category extends Model
 
     /**
      * set title from dirty title or name fields
-     * 
+     *
      * @return  Category $category
      */
     public function setTitle () {
@@ -255,7 +251,7 @@ class Category extends Model
 
     /**
      * set uuid for naming source category
-     * 
+     *
      * @return  Category $category
      */
     public function setUuid () {

@@ -3,19 +3,18 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use App\Customevent;
 use App\Mail\UserNotification;
 
 class User extends Authenticatable
 {
     // use Notifiable, EntrustUserTrait;
-    use Notifiable, EntrustUserTrait;
-    use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
+
+     use Notifiable, EntrustUserTrait;
+     use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -66,7 +65,7 @@ class User extends Authenticatable
         info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         if ( $this->isDirty('status') and $this->status === User::STATUS_ACTIVE ) {
-            $this->event_type = 'verify'; 
+            $this->event_type = 'verify';
         }
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -76,9 +75,9 @@ class User extends Authenticatable
         $details = [];
         foreach ( $attr as $property => $value ) {
             if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -99,7 +98,7 @@ class User extends Authenticatable
 
     /**
      * Create event notification.
-     * 
+     *
      * @return User $user
      */
     public function sendEmailNotification()
@@ -117,8 +116,8 @@ class User extends Authenticatable
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new UserNotification($this->getTable(), $this->id, $this->name, $user_name, $this->event_type)
             );
 

@@ -1,2 +1,7 @@
-Minor changes in appearance
-    
+EXEC_QUEUE_WORK
+    Adding to the .env.example setting EXEC_QUEUE_WORK forced queue start (for hosting)
+    Replace "use Str;" => "use Illuminate\Support\Str;";
+
+    Добавление в .env.example настройки EXEC_QUEUE_WORK принудительного запуска очереди (для хостинга);
+    Replace "use Str;" => "use Illuminate\Support\Str;";
+

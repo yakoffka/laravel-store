@@ -144,7 +144,7 @@ Route::get('search', 'ProductsController@search')->name('search');
 
 
     // customevents
-        // all 
+        // all
         Route::get('customevents', 'CustomeventController@index')->name('customevents.index');
         Route::get('customevents/{customevent}', 'CustomeventController@show')->name('customevents.show');
 

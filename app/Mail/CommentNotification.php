@@ -27,7 +27,13 @@ class CommentNotification extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $model
+     * @param $model_id
+     * @param $model_name
+     * @param $username
+     * @param $event_type
+     * @param $product_id
+     * @param $comment_body
      */
     public function __construct($model, $model_id, $model_name, $username, $event_type, $product_id, $comment_body)
     {
@@ -41,12 +47,12 @@ class CommentNotification extends Mailable
         $this->comment_body = $comment_body;
 
         $this->subject = __('subject_notification', [
-            'descr' => __($event_type.'_'.$model), 
+            'descr' => __($event_type.'_'.$model),
             'name' => $model_name
         ]);
         $this->body = __('body_notification', [
-            'descr' => __($event_type.'_'.$model), 
-            'name' => $model_name, 
+            'descr' => __($event_type.'_'.$model),
+            'name' => $model_name,
             'username' => $username
         ]);
 

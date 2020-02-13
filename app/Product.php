@@ -10,7 +10,7 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\ProductNotification;
-use Str;
+use Illuminate\Support\Str;
 use App\Traits\Yakoffka\ImageYoTrait;
 use App\Jobs\RewatermarkJob;
 use Artisan;
@@ -40,7 +40,7 @@ class Product extends Model
             'products.description' => 10,
         ],
     ];
-    
+
     protected $guarded = [];
     protected $perPage = 12;
     private $event_type = '';
@@ -84,7 +84,7 @@ class Product extends Model
     public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
         return (new ProductFilters($request))->add($filters)->filter($builder);
     }
-    
+
     public function images() {
         return $this->hasMany(Image::class)->orderBy('sort_order');
     }
@@ -97,7 +97,7 @@ class Product extends Model
     {
         return Str::limit(strip_tags($this->description), 80);
     }
-    
+
     /**
      * Accessor возвращает видимость родительской категории товара
      * in controller using snake-case: $category->parent_seeable!!!
@@ -106,7 +106,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id')->get()->max('seeable');
     }
-    
+
     /**
      * Accessor возвращает видимость прародительской категории товара
      * in controller using snake-case: $category->parent_seeable!!!
@@ -132,7 +132,7 @@ class Product extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -144,7 +144,7 @@ class Product extends Model
 
     /**
      * set setCreator from auth user
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -156,7 +156,7 @@ class Product extends Model
 
     /**
      * set title from dirty title or name fields
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -169,7 +169,7 @@ class Product extends Model
     /**
      * set slug from dirty fiedl slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -201,9 +201,9 @@ class Product extends Model
         $details = [];
         foreach ( $attr as $property => $value ) {
             if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -224,7 +224,7 @@ class Product extends Model
 
     /**
      * Create event notification.
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -242,8 +242,8 @@ class Product extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new ProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
@@ -257,7 +257,7 @@ class Product extends Model
 
     /**
      * метод добавления изображений товара
-     * 
+     *
      * Принимает строку с path файлов изображений, разделёнными запятой
      * Создает, при необходимости директорию для хранения изображений товара,
      *  и копирует в неё комплект превью с наложением водяных знаков.
@@ -297,7 +297,7 @@ class Product extends Model
                 'orig_name' => $originalName,
             ]);
         }
-        
+
         if ( !$this->isDirty() and !empty($images) ) {
             $this->touch();
         }
@@ -380,7 +380,7 @@ class Product extends Model
 
     /**
      * Copying all donor images and creating an entry in the image table.
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -430,7 +430,7 @@ class Product extends Model
 
     /**
      * Delete relative images
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
@@ -449,7 +449,7 @@ class Product extends Model
 
     /**
      * Delete relative comments
-     * 
+     *
      * @param  Product $product
      * @return  Product $product
      */
