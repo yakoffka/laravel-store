@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use App\Mail\CategoryNotification;
 use Illuminate\Support\Facades\Storage;
@@ -11,44 +13,64 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
     protected $guarded = [];
-    // public $appends = [
-    //     'parent_seeable', // shared accessor getParentSeeableAttribute
-    // ];
     private $event_type = '';
 
+    /**
+     * @return BelongsTo
+     */
+    public function parent(): belongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'parent_id');
+    }
 
-    public function products()
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
 
-    public function parent()
+    /**
+     * @return HasMany
+     */
+    public function children(): hasMany
     {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
-    public function countChildren() // учесть видимость (свою и родительскую)!
-    {
-        return $this->hasMany(Category::class, 'parent_id')->count();
-    }
-
-    public function countProducts() // учесть видимость (свою и родительскую)!
-    {
-        return $this->hasMany(Product::class)->count();
+        return $this->hasMany(__CLASS__, 'parent_id');
     }
 
     /**
-     * Accessor
-     * in controller or blade using snake-case: $category->parent_seeable!!!
+     * @return bool
      */
-    public function getParentSeeableAttribute()
+    public function hasChildren(): bool
     {
-        return $this->belongsTo(Category::class, 'parent_id')->get()->max('seeable');
+        /*return $this->children()->count();*/
+        return $this->children()->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasProducts(): bool
+    {
+        /*return $this->products()->count();*/
+        return $this->products()->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDescendant(): bool
+    {
+        return $this->hasProducts() or $this->hasChildren();
+    }
+
+    /**
+     * @return bool
+     */
+    public function fullSeeable(): bool
+    {
+        return $this->seeable && $this->parent->seeable;
     }
 
     /**
@@ -58,13 +80,13 @@ class Category extends Model
      *
      * in controller or blade using snake-case: $category->value_for_trans_choice_children
      */
-    public function getValueForTransChoiceChildrenAttribute()
+    public function getValueForTransChoiceChildrenAttribute(): int
     {
-        if( substr($this->countChildren(), -2, 1) === '1' ) {
-            return substr($this->countChildren(), -2);
-        } else {
-            return substr($this->countChildren(), -1);
+        if( substr($this->children->count(), -2, 1) === '1' ) {
+            return substr($this->children->count(), -2);
         }
+
+        return substr($this->children->count(), -1);
     }
 
     /**
@@ -74,22 +96,33 @@ class Category extends Model
      *
      * in controller or blade using snake-case: $category->value_for_trans_choice_products
      */
-    public function getValueForTransChoiceProductsAttribute()
+    public function getValueForTransChoiceProductsAttribute(): int
     {
-        if( substr($this->countProducts(), -2, 1) === '1' ) {
-            return substr($this->countProducts(), -2);
-        } else {
-            return substr($this->countProducts(), -1);
+        if( substr($this->products->count(), -2, 1) === '1' ) {
+            return substr($this->products->count(), -2);
         }
+
+        return substr($this->products->count(), -1);
     }
 
+    /**
+     * Accessor
+     * @return string
+     */
+    public function getFullImagePathAttribute(): string
+    {
+        if ($this->imagepath) {
+            return '/images/categories/' . $this->uuid . $this->imagepath;
+        }
+
+        return config('imageyo.default_img');
+    }
 
 
     /**
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
      * и обновляет запись в базе данных.
      *
-     * @return Category
      */
     public function attachSingleImage () {
         if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
@@ -125,7 +158,7 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function createCustomevent()
+    public function createCustomevent(): Category
     {
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
@@ -158,9 +191,9 @@ class Category extends Model
     /**
      * Create event notification.
      *
-     * @return Category $comment
+     * @return Category $category
      */
-    public function sendEmailNotification()
+    public function sendEmailNotification(): Category
     {
         info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
@@ -192,7 +225,7 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setFlashMess()
+    public function setFlashMess(): Category
     {
         info(__METHOD__);
         $message = __('Category__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
@@ -205,7 +238,8 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setCreator () {
+    public function setCreator (): Category
+    {
         info(__METHOD__);
         $this->added_by_user_id = auth()->user()->id;
         return $this;
@@ -216,7 +250,8 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setEditor () {
+    public function setEditor (): Category
+    {
         info(__METHOD__);
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
@@ -228,7 +263,8 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setSlug () {
+    public function setSlug (): Category
+    {
         info(__METHOD__);
         if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
@@ -243,7 +279,8 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setTitle () {
+    public function setTitle (): Category
+    {
         info(__METHOD__);
         if ( !$this->title ) { $this->title = $this->name; }
         return $this;
@@ -254,7 +291,8 @@ class Category extends Model
      *
      * @return  Category $category
      */
-    public function setUuid () {
+    public function setUuid (): Category
+    {
         info(__METHOD__);
         $this->uuid = Str::uuid();
         return $this;

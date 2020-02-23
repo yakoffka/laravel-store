@@ -7,15 +7,22 @@ use App\Category;
 
 class NavigationComposer
 {
-
-    public function compose (View $view)
+    /**
+     * @param View $view
+     * @return View
+     */
+    public function compose(View $view): View
     {
-        $categories = Category::all()
-            ->where('id', '<>', 1)
-            ->where('parent_id', '=', 1)
-            ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        $categories = Category::with(['parent', 'children'])
+            ->get()
+            ->where('parent.id', '=', 1)
+            ->where('parent.seeable', '=', 'on')
+            ->where('id', '>', 1)
+            ->filter(static function ($value, $key) {
+                return $value->hasDescendant() && $value->fullSeeable();
+            })
             ->sortBy('sort_order');
+
         return $view->with('categories', $categories);
     }
 }

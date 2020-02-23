@@ -26,7 +26,7 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
             <h2>Сводная информация</h2>
-                
+
             <table class="blue_table overflow_x_auto">
                 <tr><td class="th ta_r">{{ __('__id') }}</td><td class="td ta_l">{{ $category->id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('__name') }}</td><td class="td ta_l">{{ $category->name }}</td></tr>
@@ -44,9 +44,9 @@
                 <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
             </table>
 
-            @if ( $category->countChildren() )
+            @if ( $category->children->count() )
                 {{-- table categories --}}
-                <h2>В категории '{{ $category->title }}' находятся {{ $category->countChildren() }} подкатегорий:</h2>
+                <h2>В категории '{{ $category->title }}' находятся {{ $category->children->count() }} подкатегорий:</h2>
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
@@ -69,18 +69,18 @@
                 </table>
                 {{-- /table categories --}}
 
-            @elseif ( $category->countProducts() )
+            @elseif ( $category->products->count() )
                 {{-- table products --}}
-                <h2>Категория содержит {{ $category->countProducts() }} товаров:</h2>
+                <h2>Категория содержит {{ $category->products->count() }} товаров:</h2>
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
                         <th class="ta_c left_stylized_checkbox">
-                            <input 
-                                form="products_massupdate" 
-                                type="checkbox" 
-                                name="check_total" 
-                                value="" 
+                            <input
+                                form="products_massupdate"
+                                type="checkbox"
+                                name="check_total"
+                                value=""
                                 id="checkbox_total"
                                 onClick="check_all_products(this.form,this.checked)"
                             >
@@ -120,7 +120,7 @@
                 @formProductsMassupdate
                 {{-- /massupdate --}}
 
-            @elseif ( !$category->countProducts() and !$category->countChildren() )
+            @elseif ( !$category->products->count() and !$category->children->count() )
                 <h2 class="blue center">Категория пуста</h2>
 
                 <div class="row justify-content-center">

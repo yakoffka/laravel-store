@@ -19,36 +19,42 @@
 
     <div class="row">
 
-        
+
         @include('dashboard.layouts.partials.aside')
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-                
+
             <form method="POST" action="{{ route('categories.update', ['category' => $category->id]) }}" enctype="multipart/form-data">
                 @csrf
 
                 @method('PATCH')
 
                 {{-- image --}}
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card-img-top b_image" style="background-image: url(
-                                @if($category->image)                    
-                                    {{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}}
-                                @else
-                                    {{ asset('storage') }}{{ config('imageyo.default_img') }}
-                                @endif
-                                );">
-                                <div class="dummy"></div><div class="element"></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            @lfmImageButton(['id' => 'lfm_category_' . $category->id, 'name' => 'imagepath', 'value' => old('imagepath') ?? $category->imagepath ?? ''])
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card-img-top b_image" style="background-image: url(
+                            @if($category->image)
+                                {{ asset('storage') }}/images/categories/{{$category->id}}/{{$category->image}}
+                            @else
+                                {{ asset('storage') }}{{ config('imageyo.default_img') }}
+                            @endif
+                            );">
+                            <div class="dummy"></div><div class="element"></div>
                         </div>
                     </div>
+                    <div class="col-sm-9">
+                        @lfmImageButton(
+                            [
+                                'id' => 'lfm_category_' . $category->id,
+                                'name' => 'imagepath',
+                                'value' => old('imagepath') ?? $category->imagepath ?? ''
+                            ]
+                        )
+                    </div>
+                </div>
                 {{-- /image --}}
-                
+
 
                 <div class="row">
                     {{-- name --}}
@@ -85,7 +91,7 @@
                 <div class="form-group">
                     <label for="description">{{ __('description') }}</label>
                     <textarea id="description" name="description" cols="30" rows="4" class="form-control"
-                        placeholder="{{ __('description') }}">{{ old('description') ?? $category->description }}</textarea>                       
+                        placeholder="{{ __('description') }}">{{ old('description') ?? $category->description }}</textarea>
                 </div>
 
 
@@ -113,8 +119,8 @@
                             <label for="description">{{ __('category') }}</label>
                             <select name="parent_id" id="parent_id">
                                 @foreach ( $categories as $parent_category )
-                                    @if ( !$parent_category->countProducts() )
-                                        <option 
+                                    @if ( !$parent_category->products->count() )
+                                        <option
                                             value="{{ $parent_category->id }}"
                                             {{ $parent_category->id == $category->parent_id ? ' selected' : ''}}
                                             >{{ $parent_category->title }}</option>

@@ -1,5 +1,6 @@
 
-    <tr class="{{ (!$category->seeable or !$category->parent_seeable) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">
+    {{--<tr class="{{ (!$category->seeable or !$category->parent_seeable) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">--}}
+    <tr class="{{ ($category->fullSeeable()) ? '' : 'gray' }}{{ $category->parent_id === 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
         <td class="ta_l{{ $category->parent_id == 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
         <td>{{ $category->parent->id ?? '-' }}</td>
@@ -14,9 +15,9 @@
             @endif
         </td>
 
-        {{-- parent_seeable --}}
+        {{-- parent seeable --}}
         <td>
-            @if ( $category->parent_seeable )
+            @if ( $category->parent->seeable )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>
@@ -36,14 +37,14 @@
             </div>
         </td>
 
-        <td>{{ $category->countChildren() }}</td>
-        <td>{{ $category->countProducts() }}</td>
+        <td>{{ $category->children->count() }}</td>
+        <td>{{ $category->products->count() }}</td>
 
         {{-- actions --}}
         <td>
             {{-- view --}}
             <a href="{{ route('categories.adminshow', $category) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
-        
+
             {{-- edit --}}
             <a href="{{ route('categories.edit', ['category' => $category->id]) }}"
                 class="btn btn-outline-success">
@@ -51,9 +52,9 @@
             </a>
 
             {{-- delete --}}
-            @if ( $category->countProducts() or $category->countChildren() )
-                <button type="button" 
-                    class="btn btn-outline-secondary align-self-center" 
+            @if ( $category->products->count() or $category->children->count() )
+                <button type="button"
+                    class="btn btn-outline-secondary align-self-center"
                     title="Категория {{ $category->name }} не может быть удалена, пока в ней находятся товары или подкатегории."
                 >
                     <i class="fas fa-trash"></i>
@@ -65,7 +66,7 @@
                         'cssId' => 'delele_',
                         'item' => $category,
                         'type_item' => 'категорию',
-                        'action' => route('categories.destroy', $category), 
+                        'action' => route('categories.destroy', $category),
                     ])
                 @endpermission
             @endif

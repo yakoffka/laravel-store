@@ -21,7 +21,7 @@
 
     <div class="row">
 
-    
+
         @include('dashboard.layouts.partials.aside')
 
 
@@ -71,7 +71,7 @@
                     </div>
                     {{-- /slug --}}
                 </div>
-    
+
                 {{-- manufacturer, materials, date_manufactured, price --}}
                 <div class="row">
                     <div class="col-12 col-md-3">
@@ -110,9 +110,9 @@
                 @elseif ( config('settings.description_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'description', 'label' => 'Описание (редактор tinymce)', 'value' => old('description') ?? $product->description])
                 @else
-                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description') ?? $product->description])                
+                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description') ?? $product->description])
                 @endif
-                {{-- /description --}}                  
+                {{-- /description --}}
 
 
                 {{-- modification --}}
@@ -123,12 +123,12 @@
                 @elseif ( config('settings.modification_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор tinymce)', 'value' => old('modification') ?? $product->modification])
                 @elseif ( config('settings.modification_wysiwyg') == 'srctablecode' )
-                    @textarea(['name' => 'modification', 'label' => 'Модификации (режим исходного кода таблицы)', 'value' => old('modification') ?? $product->modification])                
+                    @textarea(['name' => 'modification', 'label' => 'Модификации (режим исходного кода таблицы)', 'value' => old('modification') ?? $product->modification])
                 @else
-                    @textarea(['name' => 'modification', 'label' => 'Модификации (обычный режим)', 'value' => old('modification') ?? $product->modification])                
+                    @textarea(['name' => 'modification', 'label' => 'Модификации (обычный режим)', 'value' => old('modification') ?? $product->modification])
                 @endif
-                {{-- /modification --}}                 
-                
+                {{-- /modification --}}
+
 
                 {{-- workingconditions --}}
                 @if ( config('settings.workingconditions_wysiwyg') == 'ckeditor' )
@@ -140,7 +140,7 @@
                 @else
                     @textarea(['name' => 'workingconditions', 'label' => 'Условия работы (обычный режим)',  'value' => old('workingconditions') ?? $product->workingconditions])
                 @endif
-                {{-- /workingconditions --}}                  
+                {{-- /workingconditions --}}
 
 
                 <div class="row">
@@ -167,7 +167,7 @@
                             <label for="description">{{ __('category') }}</label>
                             <select name="category_id" id="category_id">
                                 @foreach ( $categories as $category )
-                                    @if ( $category->countProducts() )
+                                    @if ( $category->products->count() )
                                         <option value="{{ $category->id }}"
                                             @if ( $product->category_id == $category->id )
                                                 selected
@@ -196,7 +196,7 @@
                     {{-- /seeable --}}
                 </div>
 
-                
+
                 <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>
 
             </form>

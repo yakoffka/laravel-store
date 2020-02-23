@@ -26,7 +26,7 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
             <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
-                
+
                 @csrf
 
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
@@ -98,9 +98,9 @@
                 @elseif ( config('settings.description_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'description', 'label' => 'Описание (редактор tinymce)', 'value' => old('description')])
                 @else
-                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description')])                
+                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description')])
                 @endif
-                {{-- /description --}}                  
+                {{-- /description --}}
 
 
                 {{-- modification --}}
@@ -112,12 +112,12 @@
                 @elseif ( config('settings.modification_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор tinymce)', 'value' => old('modification')])
                 @elseif ( config('settings.modification_wysiwyg') == 'srctablecode' )
-                    @textarea(['name' => 'modification', 'label' => 'Модификации (режим исходного кода таблицы)', 'value' => old('modification')])                
+                    @textarea(['name' => 'modification', 'label' => 'Модификации (режим исходного кода таблицы)', 'value' => old('modification')])
                 @else
-                    @textarea(['name' => 'modification', 'label' => 'Модификации (обычный режим)', 'value' => old('modification')])                
+                    @textarea(['name' => 'modification', 'label' => 'Модификации (обычный режим)', 'value' => old('modification')])
                 @endif
-                {{-- /modification --}}                 
-                
+                {{-- /modification --}}
+
 
                 {{-- workingconditions --}}
                 {{ old('workingconditions') }}
@@ -157,11 +157,11 @@
                             <label for="description">{{ __('category') }}</label>
                             <select name="category_id" id="category_id">
                                 @foreach ( $categories as $category )
-                                    @if ( !$category->countChildren() )
+                                    @if ( !$category->children->count() )
                                         <option value="{{ $category->id }}"
                                             @if ( request('parent_id') == $category->id )
                                                 selected
-                                            @endif    
+                                            @endif
                                         >
                                             {{ $category->parent->name }} > {{ $category->title }}
                                         </option>

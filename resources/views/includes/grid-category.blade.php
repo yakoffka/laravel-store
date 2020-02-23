@@ -4,25 +4,19 @@
         {{-- <div class="title_green"><h3 title="{{ $category->title }}">{{ $category->name }}</h3></div> --}}
 
         <div class="block_number block_number_right">
-            @if ($category->countProducts())
-                {{ str_pad($category->countProducts(), 2, "0", STR_PAD_LEFT) }}
-            @elseif ($category->countChildren())
-                {{ str_pad($category->countChildren(), 2, "0", STR_PAD_LEFT) }}
+            @if ($category->products->count())
+                {{ str_pad($category->products->count(), 2, '0', STR_PAD_LEFT) }}
+            @elseif ($category->children->count())
+                {{ str_pad($category->children->count(), 2, '0', STR_PAD_LEFT) }}
             @else
                 00
             @endif
         </div>
 
         <a href="{{ route('categories.show', ['category' => $category->id]) }}">
-            @if($category->imagepath)
-                <div class="card-img-top b_image"
-                    style="background-image: url({{ asset('storage') }}/images/categories/{{$category->uuid}}/{{$category->imagepath}});">
-            @else
-                <div class="card-img-top b_image"
-                    style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});">
-            @endif
+            <div class="card-img-top b_image"
+                 style="background-image: url({{ asset('storage') }}{{$category->full_image_path}});">
 
-                {{-- <div class="dummy perc50"></div> --}}
                 <div class="dummy perc100"></div>
                 <div class="element"></div>
             </div>
@@ -31,10 +25,10 @@
         <a data-ripple href="{{ route('categories.show', ['category' => $category->id]) }}" class="btn ta_l" title="{{ $category->title }}">
             {{ $category->name }}
             <br><span>
-                @if ($category->countProducts())
-                    {{ trans_choice('categories.numproducts', $category->value_for_trans_choice_products, ['value' => $category->countProducts()]) }}
-                @elseif ($category->countChildren())
-                    {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_children, ['value' => $category->countChildren()]) }}
+                @if ($category->products->count())
+                    {{ trans_choice('categories.numproducts', $category->value_for_trans_choice_products, ['value' => $category->products->count()]) }}
+                @elseif ($category->children->count())
+                    {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_children, ['value' => $category->children->count()]) }}
                 @else
                     категория пуста
                 @endif

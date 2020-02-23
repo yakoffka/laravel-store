@@ -19,12 +19,12 @@
 
     <div class="row">
 
-        
+
         @include('dashboard.layouts.partials.aside')
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-                
+
             <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
                 @csrf
 
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 {{-- /image --}}
-                
+
 
                 <div class="row">
                     {{-- name --}}
@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label for="description">{{ __('description') }}</label>
                     <textarea id="description" name="description" cols="30" rows="4" class="form-control"
-                        placeholder="{{ __('description') }}">{{ old('description') }}</textarea>                       
+                        placeholder="{{ __('description') }}">{{ old('description') }}</textarea>
                 </div>
 
 
@@ -106,11 +106,11 @@
                             <label for="description">{{ __('category') }}</label>
                             <select name="parent_id" id="parent_id">
                                 @foreach ( $categories as $parent_category )
-                                    @if ( !$parent_category->countProducts() )
+                                    @if ( !$parent_category->products->count() )
                                         <option value="{{ $parent_category->id }}"
                                             @if ( request('parent_id') == $parent_category->id )
                                                 selected
-                                            @endif    
+                                            @endif
                                         >{{ $parent_category->title }}</option>
                                     @endif
                                 @endforeach

@@ -1,7 +1,11 @@
-EXEC_QUEUE_WORK
-    Adding to the .env.example setting EXEC_QUEUE_WORK forced queue start (for hosting)
-    Replace "use Str;" => "use Illuminate\Support\Str;";
 
-    Добавление в .env.example настройки EXEC_QUEUE_WORK принудительного запуска очереди (для хостинга);
-    Replace "use Str;" => "use Illuminate\Support\Str;";
+Refactoring Category: part 1
+    использование жадной загрузки категорий (->with('parent')) при получении коллекции категорий в CategoryController, FilterCategoryComposer и в NavigationComposer
+    попытка уйти от читателя getParentSeeableAttribute (parent_seeable) (после применения жадной загрузки использую ->where('parent.seeable', 'on')
+    добавление читателя Category@getFullImagePathAttribute() (full_image_path) и упрощение кода в шаблоне resources/views/includes/grid-category.blade.php
+    получение уже загруженных данных отношения -
+        замена $category->countProducts() на $category->products->count() (! 'products' без скобок!)
+        замена $category->countChildren() на $category->children->count() (! 'products' без скобок!)
+    чистка nav.blade.php, filter-category.blade.php, category-row.blade.php;
+    добавление метода fullSeeable() и подготовка к удалению поля parent_seeable;
 

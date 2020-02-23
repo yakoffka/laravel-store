@@ -12,18 +12,21 @@ class CategoryController extends Controller
 
 
     /**
-     * Display a listing of the resource (parent categories). 
+     * Display a listing of the resource (parent categories).
      *
-     * @return \Illuminate\Http\Response
      */
-    public function index() {
-        // $categories = Category::with('products') // whithout empty categories
-        $categories = Category::all()
-            ->where('parent_id', '=', 1)
-            ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+    public function index()
+    {
+        $categories = Category::with(['parent', 'children'])
+            ->get()
+            ->where('parent.id', '=', 1)
+            ->where('parent.seeable', '=', 'on')
             ->where('id', '>', 1)
+            ->filter(static function ($value, $key) {
+                return $value->hasDescendant() && $value->fullSeeable();
+            })
             ->sortBy('sort_order');
+
         return view('categories.index', compact('categories'));
     }
 
@@ -31,7 +34,6 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -44,7 +46,6 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
      */
     public function store()
     {
@@ -83,10 +84,16 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category) {
-        abort_if( !$category->seeable or !$category->parent_seeable, 404);
-        if ( $category->id === 1 ) { return redirect()->route('categories.index'); }
+        // abort_if( !$category->seeable or !$category->parent_seeable, 404);
+        dd($category->fullSeeable());
 
-        if ( $category->countChildren() ) {
+        abort_if($category->fullSeeable(), 404);
+
+        if ( $category->id === 1 ) {
+            return redirect()->route('categories.index');
+        }
+
+        if ($category->children->count()) {
             $categories = Category::all()
                 ->where('parent_id', $category->id)
                 ->where('seeable', '=', 'on')
@@ -94,7 +101,10 @@ class CategoryController extends Controller
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
 
-        } elseif ( $category->countProducts() ) {
+        }
+
+        if ($category->products->count()) {
+            // $categories = Category::with(['parent', 'products'])
             $products = Product::where('category_id', $category->id)
                 ->where('seeable', '=', 'on')
                 ->orderBy('price')
@@ -108,8 +118,8 @@ class CategoryController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Category $category)
     {
@@ -170,7 +180,7 @@ class CategoryController extends Controller
         }
 
         // запрет удаления непустой категории
-        if ( $category->countProducts() or $category->countChildren() ) {
+        if ( $category->products->count() or $category->children->count() ) {
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
@@ -180,7 +190,7 @@ class CategoryController extends Controller
 
 
     /**
-     * Display a listing of the resource (all categories) for admin side. 
+     * Display a listing of the resource (all categories) for admin side.
      *
      * @return \Illuminate\Http\Response
      */

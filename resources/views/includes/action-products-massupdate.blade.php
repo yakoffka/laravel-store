@@ -20,13 +20,13 @@
                                 <select name="category_id" id="category_id">
                                     @foreach ( $categories as $category )
                                         @if ( $category->id == 1 )
-                                        @elseif ( $category->countChildren() )
+                                        @elseif ( $category->children->count() )
                                             @foreach ( $categories as $subcategory )
                                                 @if ( $subcategory->parent_id == $category->id )
                                                     <option value="{{ $subcategory->id }}">{{ $subcategory->parent->name }} > {{ $subcategory->title }}</option>
                                                 @endif
                                             @endforeach
-                                        @elseif ( !$category->countProducts() )
+                                        @elseif ( !$category->products->count() )
                                             <option value="{{ $category->id }}">{{ $category->title }}</option>
                                         @endif
                                     @endforeach
