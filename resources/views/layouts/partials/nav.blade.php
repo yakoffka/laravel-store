@@ -23,7 +23,7 @@
                 </ul>
             @else
                 <a href="/products?categories[]={{ $category->id }}" class="nav-link">
-                    {{ $category->title }} 666 ({{ $category->products->count() }})
+                    {{ $category->title }} ({{ $category->products->count() }})
                 </a>
             @endif
         </li>
