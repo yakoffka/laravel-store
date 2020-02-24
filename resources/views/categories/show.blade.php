@@ -27,7 +27,7 @@
                         @continue
                     @endif
 
-                    @gridCategory(compact('category'))
+                    @categoryGrid(compact('category'))
 
                 @endforeach
             </div>

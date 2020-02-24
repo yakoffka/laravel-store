@@ -42,7 +42,7 @@
             @endif
             {{-- /hide empty categories --}}
 
-            @gridCategory(compact('category'))
+            @categoryGrid(compact('category'))
 
         @endforeach
     </div>

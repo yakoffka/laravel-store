@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.modal-textarea', 'modalTextarea');
         Blade::include('includes.category-row', 'categoryRow');
         Blade::include('includes.product-row', 'productRow');
-        Blade::include('includes.grid-category', 'gridCategory');
+        Blade::include('includes.category-grid', 'categoryGrid');
         Blade::include('includes.lfm-image-button', 'lfmImageButton');
         Blade::include('includes.form-products-massupdate', 'formProductsMassupdate');
         Blade::include('includes.action-products-massupdate', 'actionProductsMassupdate');
