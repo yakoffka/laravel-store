@@ -1,8 +1,7 @@
 
-    {{--<tr class="{{ (!$category->seeable or !$category->parent_seeable) ? 'gray' : '' }}{{ $category->parent_id == 1 ? ' main_category' : '' }}">--}}
     <tr class="{{ ($category->fullSeeable()) ? '' : 'gray' }}{{ $category->parent_id === 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
-        <td class="ta_l{{ $category->parent_id == 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
+        <td class="ta_l{{ $category->parent_id === 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
         <td>{{ $category->parent->id ?? '-' }}</td>
         <td>{{ $category->sort_order }}</td>
 
@@ -25,7 +24,7 @@
         </td>
 
         <td>
-            @if($category->imagepath)
+            @if ( $category->imagepath )
                 <div class="card-img-top b_image"
                     style="background-image: url({{ asset('storage') }}/images/categories/{{$category->uuid}}/{{$category->imagepath}});">
             @else

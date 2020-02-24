@@ -16,14 +16,14 @@ h2{
     color: #3490dc;
 }
 
-/* 
+/*
 .col-xs-0, .col-sm-0, .col-md-0, .col-lg-0 {
     width: 0;
     height: 0;
     display: none !important;
 }
 .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-auto, .col-lg, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-auto, .col-md, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md-auto, .col-sm, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-auto {
-    display: block !important; 
+    display: block !important;
 } */
 
 .pointer {
@@ -53,6 +53,9 @@ textarea,
     box-shadow: none;
 }
 
+
+.w30{width: 30px;}
+.w60{width: 60px;}
 
 
 /* toTop */
@@ -133,8 +136,8 @@ button.ripplebutton {
 .max_w30px {max-width: 30px;}
 
 a, button {outline: none;} /* Убираем границу вокруг ссылок  */
- 
-  
+
+
 
 .nowrap {
     white-space: nowrap;
@@ -181,7 +184,7 @@ h1.hide, h1.hide a, h5.hide a {
         background: linear-gradient(to right, #3490dc, #09f);
         /* background: #882200; */
     }
-     
+
 }
 
 
@@ -625,11 +628,11 @@ table.param tr th{padding:10px;background-color:#f7f7f7;color:#09c;font-style:ob
 
 
 
-/* settings */ 
+/* settings */
 select.on_select {
     color: #09f;
 }
-/* /settings */ 
+/* /settings */
 
 
 
@@ -637,10 +640,10 @@ select.on_select {
 
 
 
-/* users */ 
-.tabs table.param tr th, 
+/* users */
+.tabs table.param tr th,
 .tabs table.param thead tr td,
-table.blue_table tr th, 
+table.blue_table tr th,
 table.blue_table thead tr td
     {padding:10px;background-color:#f7f7f7;color:#09c;font-style:oblique;font-weight:400;}
 
@@ -960,7 +963,7 @@ form.searchform  {
     color: #6c757d;
 }
 .searchform button {
-    position: absolute; 
+    position: absolute;
     top: 0;
     right: 0px;
     width: 28px;
@@ -1014,7 +1017,7 @@ form.searchform  {
 } */
 
 /* li.complete, li.incomplete {
-    
+
 } */
 li.incomplete.active {
     color:#3490dc;
@@ -1087,7 +1090,7 @@ h5.grey {
         -ms-transform: rotate(180deg);
         -o-transform: rotate(180deg);
         transform: rotate(180deg);
-    
+
         background-color: transparent;
         position: relative;
         /* left: -.5em; */
@@ -1108,7 +1111,7 @@ h5.grey {
     table.blue_table caption {
         caption-side: top;
         text-align: center;
-        padding: 10px 0; 
+        padding: 10px 0;
         font-size: 14px;
     }
 
@@ -1165,9 +1168,9 @@ h5.grey {
 }
 
 
-form.contact_us input, 
-form.contact_us select, 
-form.contact_us textarea, 
+form.contact_us input,
+form.contact_us select,
+form.contact_us textarea,
 form.contact_us button {
     border-radius: 0px;
 }
@@ -1494,7 +1497,7 @@ hr.ellipsis::before{
   -o-transform: rotate(3deg);
   -ms-transform: rotate(3deg);
   transform: rotate(3deg);
-}  
+}
 
 /*==================================================
  * ShadowEffect 5
@@ -1539,7 +1542,7 @@ hr.ellipsis::before{
  * ===============================================*/
 .shadoweffect6
 {
-  	position:relative;       
+  	position:relative;
     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -1547,7 +1550,7 @@ hr.ellipsis::before{
 .shadoweffect6:before, .shadoweffect6:after
 {
 	content:"";
-    position:absolute; 
+    position:absolute;
     z-index:-1;
     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
@@ -1558,15 +1561,15 @@ hr.ellipsis::before{
     right:10px;
     -moz-border-radius:100px / 10px;
     border-radius:100px / 10px;
-} 
+}
 .shadoweffect6:after
 {
-	right:10px; 
+	right:10px;
     left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg); 
-       -moz-transform:skew(8deg) rotate(3deg);     
-        -ms-transform:skew(8deg) rotate(3deg);     
-         -o-transform:skew(8deg) rotate(3deg); 
+    -webkit-transform:skew(8deg) rotate(3deg);
+       -moz-transform:skew(8deg) rotate(3deg);
+        -ms-transform:skew(8deg) rotate(3deg);
+         -o-transform:skew(8deg) rotate(3deg);
             transform:skew(8deg) rotate(3deg);
 }
 
@@ -1575,7 +1578,7 @@ hr.ellipsis::before{
  * ===============================================*/
 .shadoweffect7
 {
-  	position:relative;       
+  	position:relative;
     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -1583,7 +1586,7 @@ hr.ellipsis::before{
 .shadoweffect7:before, .shadoweffect7:after
 {
 	content:"";
-    position:absolute; 
+    position:absolute;
     z-index:-1;
     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
@@ -1594,15 +1597,15 @@ hr.ellipsis::before{
     right:10px;
     -moz-border-radius:100px / 10px;
     border-radius:100px / 10px;
-} 
+}
 .shadoweffect7:after
 {
-	right:10px; 
+	right:10px;
     left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg); 
-       -moz-transform:skew(8deg) rotate(3deg);     
-        -ms-transform:skew(8deg) rotate(3deg);     
-         -o-transform:skew(8deg) rotate(3deg); 
+    -webkit-transform:skew(8deg) rotate(3deg);
+       -moz-transform:skew(8deg) rotate(3deg);
+        -ms-transform:skew(8deg) rotate(3deg);
+         -o-transform:skew(8deg) rotate(3deg);
             transform:skew(8deg) rotate(3deg);
 }
 
@@ -1611,7 +1614,7 @@ hr.ellipsis::before{
  * ===============================================*/
 .shadoweffect8
 {
-  	position:relative;       
+  	position:relative;
     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
@@ -1619,7 +1622,7 @@ hr.ellipsis::before{
 .shadoweffect8:before, .shadoweffect8:after
 {
 	content:"";
-    position:absolute; 
+    position:absolute;
     z-index:-1;
     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
@@ -1630,15 +1633,15 @@ hr.ellipsis::before{
     right:0;
     -moz-border-radius:100px / 10px;
     border-radius:100px / 10px;
-} 
+}
 .shadoweffect8:after
 {
-	right:10px; 
+	right:10px;
     left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg); 
-       -moz-transform:skew(8deg) rotate(3deg);     
-        -ms-transform:skew(8deg) rotate(3deg);     
-         -o-transform:skew(8deg) rotate(3deg); 
+    -webkit-transform:skew(8deg) rotate(3deg);
+       -moz-transform:skew(8deg) rotate(3deg);
+        -ms-transform:skew(8deg) rotate(3deg);
+         -o-transform:skew(8deg) rotate(3deg);
             transform:skew(8deg) rotate(3deg);
 }
 

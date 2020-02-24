@@ -15,41 +15,35 @@
         </div>
     </div>
 
-
     <h1>{{ __('__list_categories') }}</h1>
 
-
     <div class="row">
-           
-            
-        @include('dashboard.layouts.partials.aside')
 
+        @include('dashboard.layouts.partials.aside')
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
            <div class="row">
 
-
                 <table class="blue_table overflow_x_auto">
                     <tr>
-                        <th width="30">{{ __('__id') }}</th>
+                        <th class='w30'>{{ __('__id') }}</th>
                         <th>{{ __('__name') }}</th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
-                        <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
-                        <th width="30"><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
+                        <th class='w60'><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('__count_subcategories') }}</div></th>
+                        <th class='w30'><div class="verticalTableHeader ta_c">{{ __('__count_products') }}</div></th>
                         <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 
                     @foreach($categories as $category)
-                        {{-- {{ $category }} --}}
-                        @if ( $category->parent->id == 1 and $category->id != 1)
+                        @if ( $category->parent->id === 1 && $category->id !== 1)
                             @categoryRow(['category' =>  $category, 'maincategory' => true])
                             @foreach($categories as $subcategory)
-                                @if ( $subcategory->parent->id == $category->id )
+                                @if ( $subcategory->parent->id === $category->id )
                                     @categoryRow(['category' =>  $subcategory,])
                                 @endif
                             @endforeach
@@ -66,7 +60,7 @@
 
             </div>
         </div>
-        
+
     </div>{{-- <div class="row"> --}}
-    
+
 @endsection

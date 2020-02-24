@@ -35,7 +35,7 @@ class ComposerServiceProvider extends ServiceProvider
             Category::with(['parent', 'children'])
                 ->get()
                 ->where('parent.id', '=', 1)
-                ->where('parent.seeable', '=', 'on')
+//                ->where('parent.seeable', '=', 'on')
                 ->where('id', '>', 1)
                 ->filter(static function ($value, $key) {
                     return $value->hasDescendant() && $value->fullSeeable();

@@ -86,12 +86,27 @@ class Category extends Model
     }
 
     /**
+     * @return int
+     */
+    public function countChildren(): int
+    {
+        return $this->children()->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function countProducts(): int
+    {
+        return $this->products()->count();
+    }
+
+    /**
      * @return bool
      */
     public function hasChildren(): bool
     {
-        /*return $this->children()->count();*/
-        return $this->children()->count() > 0;
+        return $this->countChildren() > 0;
     }
 
     /**
@@ -99,8 +114,7 @@ class Category extends Model
      */
     public function hasProducts(): bool
     {
-        /*return $this->products()->count();*/
-        return $this->products()->count() > 0;
+        return $this->countProducts() > 0;
     }
 
     /**

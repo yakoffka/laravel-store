@@ -1,10 +1,4 @@
-Install laravel-ide-helper
-    composer require --dev barryvdh/laravel-ide-helper
+Refactoring Category: part 3
 
-    php artisan clear-compiled
-    php artisan ide-helper:generate
-    php artisan optimize
-
-    php artisan ide-helper:models
 
 

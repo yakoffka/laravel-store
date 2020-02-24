@@ -75,23 +75,25 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        abort_if( !$category->fullSeeable(), 404);
+        abort_if ( !$category->fullSeeable(), 404 );
 
         if ( $category->id === 1 ) {
             return redirect()->route('categories.index');
         }
 
-        if ($category->children->count()) {
-            $categories = Category::all()
+        if ( $category->children->count() ) {
+            $categories = Category::with(['parent', 'products', 'children'])
+                ->get()
                 ->where('parent_id', $category->id)
-                ->where('seeable', '=', 'on')
-                ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+                ->filter(static function ($value, $key) {
+                    return $value->hasDescendant() && $value->fullSeeable();
+                })
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
 
         }
 
-        if ($category->products->count()) {
+        if ( $category->products->count() ) {
             // $categories = Category::with(['parent', 'products'])
             $products = Product::where('category_id', $category->id)
                 ->where('seeable', '=', 'on')
@@ -166,7 +168,7 @@ class CategoryController extends Controller
         }
 
         // запрет удаления непустой категории
-        if ( $category->products->count() or $category->children->count() ) {
+        if ( $category->hasDescendant() ) {
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
@@ -196,5 +198,4 @@ class CategoryController extends Controller
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.adminshow', compact('categories', 'category'));
     }
-
 }
