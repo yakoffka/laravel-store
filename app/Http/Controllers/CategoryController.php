@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\{Category, Product};
+use Exception as ExceptionAlias;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -10,26 +13,14 @@ class CategoryController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-
     /**
      * Display a listing of the resource (parent categories).
      *
      */
     public function index()
     {
-        $categories = Category::with(['parent', 'children'])
-            ->get()
-            ->where('parent.id', '=', 1)
-            ->where('parent.seeable', '=', 'on')
-            ->where('id', '>', 1)
-            ->filter(static function ($value, $key) {
-                return $value->hasDescendant() && $value->fullSeeable();
-            })
-            ->sortBy('sort_order');
-
-        return view('categories.index', compact('categories'));
+        return view('categories.index');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -42,12 +33,12 @@ class CategoryController extends Controller
         return view('dashboard.adminpanel.categories.create', compact('categories'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
+     * @return RedirectResponse
      */
-    public function store()
+    public function store(): RedirectResponse
     {
         abort_if( auth()->user()->cannot('create_categories'), 403);
 
@@ -76,18 +67,15 @@ class CategoryController extends Controller
         return redirect()->route('categories.adminindex');
     }
 
-
     /**
      * Display the specified resource.
      *
-     * @param  Category $category
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return RedirectResponse|View
      */
-    public function show(Category $category) {
-        // abort_if( !$category->seeable or !$category->parent_seeable, 404);
-        dd($category->fullSeeable());
-
-        abort_if($category->fullSeeable(), 404);
+    public function show(Category $category)
+    {
+        abort_if( !$category->fullSeeable(), 404);
 
         if ( $category->id === 1 ) {
             return redirect()->route('categories.index');
@@ -115,27 +103,25 @@ class CategoryController extends Controller
         abort(404);
     }
 
-
     /**
      * Show the form for creating a new resource.
      * @param Category $category
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function edit(Category $category)
+    public function edit(Category $category): View
     {
         abort_if (auth()->user()->cannot('edit_categories'), 403);
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.edit', compact('category', 'categories'));
     }
 
-
     /**
      * Update the specified resource in storage.
      *
      * @param  Category $category
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Category $category)
+    public function update(Category $category): RedirectResponse
     {
         abort_if( auth()->user()->cannot('edit_categories'), 403);
 
@@ -164,14 +150,14 @@ class CategoryController extends Controller
         return redirect()->route('categories.adminindex');
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Category $category
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return RedirectResponse
+     * @throws ExceptionAlias
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
         abort_if ( auth()->user()->cannot('delete_categories'), 403 );
 
@@ -188,25 +174,25 @@ class CategoryController extends Controller
         return redirect()->route('categories.adminindex');
     }
 
-
     /**
      * Display a listing of the resource (all categories) for admin side.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function adminIndex() {
+    public function adminIndex(): View
+    {
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.adminindex', compact('categories'));
     }
-
 
     /**
      * Display the specified resource for admin side.
      *
      * @param  Category $category
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function adminShow(Category $category) {
+    public function adminShow(Category $category): View
+    {
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.adminshow', compact('categories', 'category'));
     }

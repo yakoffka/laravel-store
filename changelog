@@ -1,11 +1,13 @@
 
-Refactoring Category: part 1
-    использование жадной загрузки категорий (->with('parent')) при получении коллекции категорий в CategoryController, FilterCategoryComposer и в NavigationComposer
-    попытка уйти от читателя getParentSeeableAttribute (parent_seeable) (после применения жадной загрузки использую ->where('parent.seeable', 'on')
-    добавление читателя Category@getFullImagePathAttribute() (full_image_path) и упрощение кода в шаблоне resources/views/includes/grid-category.blade.php
-    получение уже загруженных данных отношения -
-        замена $category->countProducts() на $category->products->count() (! 'products' без скобок!)
-        замена $category->countChildren() на $category->children->count() (! 'products' без скобок!)
-    чистка nav.blade.php, filter-category.blade.php, category-row.blade.php;
+Refactoring Category: part 2
+    удаление NavigationComposer и NavigationComposer;
     добавление метода fullSeeable() и подготовка к удалению поля parent_seeable;
+    upd: при попытке выполнить консольную команду на локальной машине стал выдавать ошибку:
+    yo@yo-Lenovo-G510:~/projects/laravel_store $ php artisan
+        In Connection.php line 664:
+          could not find driver (SQL: select * from `categories`)
+        In Connector.php line 70:
+          could not find driver
+
+
 

@@ -1,23 +1,18 @@
 <div class="filter_block left_stylized_checkbox">
     <div class="filter_block_header">ПО КАТЕГОРИЯМ</div>
 
-    @if($categories->count())
+    @if( $globalCategories->count() > 0 )
         @php
             $oForms = '';
         @endphp
 
-        @foreach( $categories as $category )
-
-{{--            --}}{{-- hide empty categories --}}
-{{--            @if ( /*!config('settings.show_empty_category') and*/ !$category->products->count() and !$category->children->count() )--}}
-{{--                @continue--}}
-{{--            @endif--}}
+        @foreach( $globalCategories as $category )
 
             @if ($category->id === 1)
                 @continue;
             @endif
 
-            @if ($category->children->count()){{-- parent categories --}}
+            @if ($category->children->count()){{-- parent categories whith subcategories --}}
                 <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1"
                     onClick="check_{{ $category->id }}(this.form,this.checked)"
                     id="filter_categories_{{ $category->id }}"
@@ -32,13 +27,8 @@
                     {{ $category->name }}
                 </label>
 
-                @foreach ( $categories as $i => $subcategory )
-{{--                    --}}{{-- hide empty subcategory --}}
-{{--                    @if ( /*!config('settings.show_empty_category') and*/ !$subcategory->products->count() and !$subcategory->children->count() )--}}
-{{--                        @continue--}}
-{{--                    @endif--}}
-
-                    @if ( $subcategory->parent_id === $category->id )
+                @foreach ( $globalCategories as $i => $subcategory )
+                    @if ( $subcategory->parent_id === $category->id ){{-- subcategories --}}
                         @php
                             if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
                                 // $inputs = '';
@@ -48,8 +38,6 @@
                             $oForms .= 'oForm[\'categories[' . $subcategory->id . ']\'].checked = checked;';
                             $parent_category_id = $category->id;
                         @endphp
-
-                        {{-- subcategory --}}
                         <input
                             class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
                             type="checkbox"
