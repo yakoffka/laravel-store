@@ -17,6 +17,66 @@ use Artisan;
 use App\{Category, Image, Manufacturer};
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * App\Product
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $title
+ * @property string|null $slug
+ * @property int $sort_order
+ * @property int|null $manufacturer_id
+ * @property int $category_id
+ * @property string|null $seeable
+ * @property string|null $materials
+ * @property string|null $description
+ * @property string|null $modification
+ * @property string|null $workingconditions
+ * @property string|null $date_manufactured
+ * @property float|null $price
+ * @property int $added_by_user_id
+ * @property int|null $edited_by_user_id
+ * @property int $views
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \App\User $creator
+ * @property-read \App\User|null $editor
+ * @property-read mixed $category_seeable
+ * @property-read mixed $parent_category_seeable
+ * @property-read mixed $short_description
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \App\Manufacturer|null $manufacturer
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product filter(\Illuminate\Http\Request $request, $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product search($search, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product searchRestricted($search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereAddedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDateManufactured($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereManufacturerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereMaterials($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereModification($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSeeable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereViews($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereWorkingconditions($value)
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     use SearchableTrait;

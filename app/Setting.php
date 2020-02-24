@@ -7,6 +7,40 @@ use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\SettingNotification;
 
+/**
+ * App\Setting
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $name_group
+ * @property string $display_name
+ * @property string $description
+ * @property string $slug
+ * @property string $group
+ * @property string $type
+ * @property string $permissible_values
+ * @property string|null $value
+ * @property int|null $edited_by_user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereDisplayName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereNameGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting wherePermissibleValues($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereValue($value)
+ * @mixin \Eloquent
+ */
 class Setting extends Model
 {
     protected $guarded = [];

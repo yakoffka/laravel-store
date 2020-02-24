@@ -8,6 +8,40 @@ use App\Customevent;
 use App\Mail\OrderNotification;
 use Session;
 
+/**
+ * App\Order
+ *
+ * @property int $id
+ * @property int $customer_id
+ * @property int $total_qty
+ * @property int $total_payment
+ * @property string $cart
+ * @property int $status_id
+ * @property string|null $comment
+ * @property string|null $address
+ * @property int|null $manager_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $customer
+ * @property-read mixed $name
+ * @property-read \App\User|null $manager
+ * @property-read \App\Status $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereManagerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereTotalPayment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereTotalQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
     protected $guarded = [];

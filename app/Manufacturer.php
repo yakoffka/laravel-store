@@ -9,6 +9,42 @@ use App\Mail\ManufacturerNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * App\Manufacturer
+ *
+ * @property int $id
+ * @property string $uuid
+ * @property string $name
+ * @property string $slug
+ * @property int $sort_order
+ * @property string|null $title
+ * @property string|null $description
+ * @property string|null $imagepath
+ * @property int $added_by_user_id
+ * @property int|null $edited_by_user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $creator
+ * @property-read \App\User|null $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereAddedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereImagepath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Manufacturer whereUuid($value)
+ * @mixin \Eloquent
+ */
 class Manufacturer extends Model
 {
     protected $guarded = [];

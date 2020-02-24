@@ -9,6 +9,36 @@ use App\Customevent;
 use App\Permission;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Role
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $display_name
+ * @property string|null $description
+ * @property int $added_by_user_id
+ * @property int|null $edited_by_user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $creator
+ * @property-read \App\User|null $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Permission[] $perms
+ * @property-read int|null $perms_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereAddedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereDisplayName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Role extends EntrustRole
 {
     /*

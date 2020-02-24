@@ -10,6 +10,52 @@ use App\Mail\CategoryNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * App\Category
+ *
+ * @property int $id
+ * @property string $uuid
+ * @property string $name
+ * @property string $slug
+ * @property int $sort_order
+ * @property string $title
+ * @property string|null $description
+ * @property string|null $imagepath
+ * @property string|null $seeable
+ * @property int|null $parent_id
+ * @property int $added_by_user_id
+ * @property int|null $edited_by_user_id
+ * @property string|null $parent_seeable
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $children
+ * @property-read int|null $children_count
+ * @property-read string $full_image_path
+ * @property-read int $value_for_trans_choice_children
+ * @property-read int $value_for_trans_choice_products
+ * @property-read \App\Category|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereAddedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereImagepath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereParentSeeable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSeeable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUuid($value)
+ * @mixin \Eloquent
+ */
 class Category extends Model
 {
     protected $guarded = [];

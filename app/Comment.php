@@ -8,6 +8,32 @@ use App\Customevent;
 use App\Mail\CommentNotification;
 use Artisan;
 
+/**
+ * App\Comment
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property int $product_id
+ * @property int $user_id
+ * @property string $user_name
+ * @property string $body
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $creator
+ * @property-read \App\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserName($value)
+ * @mixin \Eloquent
+ */
 class Comment extends Model
 {
     protected $guarded = [];
@@ -63,10 +89,10 @@ class Comment extends Model
         $details = [];
         foreach ( $attr as $property => $value ) {
             if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
-                    $dirty[$property] ?? FALSE, 
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
+                    $dirty[$property] ?? FALSE,
                 ];
             }
         }
@@ -86,7 +112,7 @@ class Comment extends Model
 
     /**
      * Create event notification.
-     * 
+     *
      * @return Comment $comment
      */
     public function sendEmailNotification() // !!! Possible execution as a guest
@@ -104,8 +130,8 @@ class Comment extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new CommentNotification($this->getTable(), $this->id, $this->name, $this->user_name, $this->event_type, $this->product_id, $this->body)
             );
 
@@ -117,7 +143,10 @@ class Comment extends Model
         return $this;
     }
 
-    public function setFlashMess()
+    /**
+     * @return Comment
+     */
+    public function setFlashMess(): Comment
     {
         info(__METHOD__);
         $message = __('Comment__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);

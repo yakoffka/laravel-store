@@ -99,7 +99,7 @@ Breadcrumbs::for('dashboard', function ($trail) {
         $trail->parent('dashboard');
         $trail->push('Категории', route('categories.adminindex'));
     });
-    
+
     // Home > Dashboard > Categories > [Category]
     Breadcrumbs::for('categories.adminshow', function ($trail, $category) {
         $trail->parent('categories.adminindex');

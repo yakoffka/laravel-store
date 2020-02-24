@@ -1,13 +1,10 @@
+Install laravel-ide-helper
+    composer require --dev barryvdh/laravel-ide-helper
 
-Refactoring Category: part 2
-    удаление NavigationComposer и NavigationComposer;
-    добавление метода fullSeeable() и подготовка к удалению поля parent_seeable;
-    upd: при попытке выполнить консольную команду на локальной машине стал выдавать ошибку:
-    yo@yo-Lenovo-G510:~/projects/laravel_store $ php artisan
-        In Connection.php line 664:
-          could not find driver (SQL: select * from `categories`)
-        In Connector.php line 70:
-          could not find driver
+    php artisan clear-compiled
+    php artisan ide-helper:generate
+    php artisan optimize
 
+    php artisan ide-helper:models
 
 

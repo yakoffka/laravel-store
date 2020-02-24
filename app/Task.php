@@ -9,6 +9,45 @@ use Illuminate\Support\Carbon;
 use App\Customevent;
 use App\Mail\TaskNotification;
 
+/**
+ * App\Task
+ *
+ * @property int $id
+ * @property int $master_user_id
+ * @property int $slave_user_id
+ * @property string $name
+ * @property string $description
+ * @property int $tasksstatus_id
+ * @property int $taskspriority_id
+ * @property string|null $comment_slave
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $added_by_user_id
+ * @property int|null $edited_by_user_id
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Task onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereAddedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereCommentSlave($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereEditedByUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereMasterUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereSlaveUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereTaskspriorityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereTasksstatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Task withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Task withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Task extends Model
 {
     use SoftDeletes;
