@@ -54,11 +54,11 @@
                     <tr>
                         {{-- <th width="30">id</th> --}}
                         <th class="ta_c left_stylized_checkbox">
-                            <input 
-                                form="products_massupdate" 
-                                type="checkbox" 
-                                name="check_total" 
-                                value="" 
+                            <input
+                                form="products_massupdate"
+                                type="checkbox"
+                                name="check_total"
+                                value=""
                                 id="checkbox_total"
                                 onClick="check_all_products(this.form,this.checked)"
                             >

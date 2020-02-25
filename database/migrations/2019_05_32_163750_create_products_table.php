@@ -8,11 +8,11 @@ class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
-     * change name file 
+     * change name file
      * 2019_05_17_163750_create_products_table -> 2019_05_32_163750_create_products_table
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->float('price', 8, 2)->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
-            $table->unsignedInteger('views');                           // кол-во просмотров товара
+            $table->unsignedInteger('count_views')->default(0);                           // кол-во просмотров товара
             $table->timestamps();
         });
     }
@@ -41,7 +41,7 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

@@ -21,7 +21,7 @@ class ProductsTableSeeder extends Seeder
         <p>При строповке груза и его подъеме рекомендуется избегать рывков и ударов/ При работе с максимальной нагрузкой допускается удлинение стропа не более 6%, вне зависимости от грузоподъемности.</p>
         <p>Для предохранения лент стропа от истирания они могут быть обшиты защитными оболочками, обеспечивающими дополнительную защиту лент, но не оказывающего влияния на разрывное усилие стропа. Строп может дополнительно комплектоваться защитными чехлами для транспортировки грузов с острой кромкой.</p>
         <p>При строповке груза со сложной геометрией необходимо учитывать расположение центра тяжести.</p>
-        
+
         <h2 class="ta_c">Запрещается:</h2>
         <p>завязывать узлы и перекручивать стропы при эксплуатации</p>
         <p>работы в щелочных средах</p>
@@ -53,7 +53,7 @@ class ProductsTableSeeder extends Seeder
                     . ' '
                     . $a[rand(0, strlen($a)-1)]
                     . $a[rand(0, strlen($a)-1)]
-                    . '-' 
+                    . '-'
                     . rand(10, 215);
                 $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
                 $modification = !rand(0, 1) ? '' : '<table class="param"><tbody><tr><th>Г/п, т</th><th>Ширина ленты, мм</th><th>Минимальная длина L, м</th><th>Длина петли l, мм</th></tr><tr><td>1,0</td><td>30</td><td>1,0</td><td>250</td></tr><tr><td>2,0</td><td>60</td><td>1,0</td><td>350</td></tr><tr><td>3,0</td><td>90</td><td>1,0</td><td>400</td></tr><tr><td>4,0</td><td>120</td><td>1,5</td><td>450</td></tr><tr><td>5,0</td><td>150</td><td>1,5</td><td>450</td></tr><tr><td>6,0</td><td>180</td><td>1,5</td><td>500</td></tr><tr><td>8,0</td><td>240</td><td>2,0</td><td>500</td></tr><tr><td>10,0</td><td>300</td><td>2,0</td><td>550</td></tr><tr><td>12,0</td><td>300</td><td>2,0</td><td>600</td></tr><tr><td>15,0</td><td>300</td><td>2,5</td><td>600</td></tr><tr><td>20,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>25,0</td><td>300/600</td><td>2,5</td><td>600</td></tr><tr><td>30,0</td><td>300/600</td><td>6,0</td><td>600</td></tr></tbody></table>';
@@ -71,7 +71,7 @@ class ProductsTableSeeder extends Seeder
                     'date_manufactured' => date('Y-m-d'),
                     'price' => rand(1000,35000),
                     'added_by_user_id' => 2,
-                    'views' => 0,
+                    'count_views' => 0,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);

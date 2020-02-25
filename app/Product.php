@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
 use Nicolaslopezj\Searchable\SearchableTrait;
@@ -104,48 +106,70 @@ class Product extends Model
     protected $guarded = [];
     protected $perPage = 12;
     private $event_type = '';
-    // shared accessors
-    // public $appends = [
-    //     'category_seeable', // getCategorySeeableAttribute
-    //     'parent_category_seeable', // getParentCategorySeeableAttribute
-    //     // 'blogs:id,title' // пример добавления ТОЛЬКО id and title from relation blogs
-    // ];
 
 
-    public function comments() {
-        // return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+    /**
+     * @return HasMany
+     */
+    public function comments(): HasMany
+    {
         return $this->hasMany(Comment::class)->orderBy('created_at');
     }
 
-    public function category() {
-        // return $this->belongsTo(Category::class, 'category_id');
+    /**
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function creator() {
+    /**
+     * @return BelongsTo
+     */
+    public function creator(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'added_by_user_id')->withDefault([
             'name' => 'no author'
         ]);
     }
 
-    public function editor() {
-        // return $this->belongsTo(User::class, 'edited_by_user_id');
+    /**
+     * @return BelongsTo
+     */
+    public function editor(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'edited_by_user_id')->withDefault([
             'name' => 'no editor'
         ]);
     }
 
-    public function manufacturer() {
+    /**
+     * @return BelongsTo
+     */
+    public function manufacturer(): BelongsTo
+    {
         return $this->belongsTo(Manufacturer::class)->withDefault([
             'name' => 'noname'
         ]);
     }
 
-    public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
+    /**
+     * @param Builder $builder
+     * @param Request $request
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $builder, Request $request, array $filters = []): Builder
+    { // https://coursehunters.net/course/filtry-v-laravel
         return (new ProductFilters($request))->add($filters)->filter($builder);
     }
 
-    public function images() {
+    /**
+     * @return HasMany
+     */
+    public function images(): HasMany
+    {
         return $this->hasMany(Image::class)->orderBy('sort_order');
     }
 
@@ -153,7 +177,7 @@ class Product extends Model
      * Accessor
      * in blade using snake-case: $product->short_description!!!
      */
-    public function getShortDescriptionAttribute()
+    public function getShortDescriptionAttribute(): string
     {
         return Str::limit(strip_tags($this->description), 80);
     }
@@ -161,6 +185,8 @@ class Product extends Model
     /**
      * Accessor возвращает видимость родительской категории товара
      * in controller using snake-case: $category->parent_seeable!!!
+     *
+     * @deprecated
      */
     public function getCategorySeeableAttribute()
     {
@@ -170,6 +196,8 @@ class Product extends Model
     /**
      * Accessor возвращает видимость прародительской категории товара
      * in controller using snake-case: $category->parent_seeable!!!
+     *
+     * @deprecated
      */
     public function getParentCategorySeeableAttribute()
     {
@@ -180,12 +208,12 @@ class Product extends Model
     /**
      * Increment number of views.
      *
-     * @param  Product $product
      * @return void
      */
-    public function incrementViews() {
+    public function incrementViews(): void
+    {
         if ( !auth()->user() or auth()->user()->hasRole('user') ) {
-            $this->increment('views');
+            $this->increment('count_views');
         }
     }
 
@@ -193,10 +221,10 @@ class Product extends Model
     /**
      * set setCreator from auth user
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function setCreator () {
+    public function setCreator (): Product
+    {
         info(__METHOD__);
         $this->added_by_user_id = auth()->user()->id;
         return $this;
@@ -205,10 +233,10 @@ class Product extends Model
     /**
      * set setCreator from auth user
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function setEditor () {
+    public function setEditor (): Product
+    {
         info(__METHOD__);
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
@@ -217,23 +245,23 @@ class Product extends Model
     /**
      * set title from dirty title or name fields
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function setTitle () {
+    public function setTitle (): Product
+    {
         info(__METHOD__);
         if ( !$this->title ) { $this->title = $this->name; }
         return $this;
     }
 
     /**
-     * set slug from dirty fiedl slug or title
+     * set slug from dirty field slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function setSlug () {
+    public function setSlug (): Product
+    {
         info(__METHOD__);
         if ( $this->isDirty('slug') and $this->slug ) {
             $this->slug = Str::slug($this->slug, '-');
@@ -246,10 +274,9 @@ class Product extends Model
     /**
      * Create records in table events.
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function createCustomevent()
+    public function createCustomevent(): Product
     {
         info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
@@ -275,8 +302,8 @@ class Product extends Model
             'model_id' => $this->id,
             'model_name' => $this->name,
             'type' => $this->event_type,
-            'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'description' => $this->event_description ?? '',
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
@@ -285,10 +312,9 @@ class Product extends Model
     /**
      * Create event notification.
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function sendEmailNotification()
+    public function sendEmailNotification(): Product
     {
         info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
@@ -323,10 +349,9 @@ class Product extends Model
      *  и копирует в неё комплект превью с наложением водяных знаков.
      * Добавляет запись о каждом изображении в таблицу images
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function attachImages ()
+    public function attachImages (): Product
     {
         info(__METHOD__);
         if ( !request('imagespath') ) {
@@ -368,10 +393,9 @@ class Product extends Model
     /**
      * метод очистки исходного украденного исходного кода таблиц
      *
-     * @param  Product $product
      * @return  Product $product
      */
-    public function cleanSrcCodeTables ()
+    public function cleanSrcCodeTables (): Product
     {
         info(__METHOD__);
         if ( !$this->isDirty('modification') or empty($this->modification) ) {
@@ -382,21 +406,21 @@ class Product extends Model
         $res = strip_tags($this->modification, '<table><caption><thead><tbody><th><tr><td>');
 
         $arr_replace = [
-            ["~</table>.*?<table[^>]*?>~u",         "REPLACE_THIS"],                    // если таблиц несколько
-            ["~.*?<table[^>]*?>~u",     "<table class=\"blue_table\">"],                // обрезка до таблицы
-            ["~</table>.*?~u",          "</table>"],                                    // обрезка после таблицы
-            ["~<caption[^>]*?>~u",      "<caption>"],                                   // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<thead[^>]*?>~u",        "<thead>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<tbody[^>]*?>~u",        "<tbody>"],                                     // чистка нужных тегов от классов, стилей и атрибутов
-            ["~<th[\s]{1}[^>]*?>~u",    "<th>"],                                        // не зацепить <thead>!!
-            ["~<tr[^>]*?>~u",           "<tr>"],
-            ["~<td[^>]*?>~u",           "<td>"],
-            ["~>[\s]*~",                ">"],
-            ["~[\s]*>~",                ">"],
-            ["~<[\s]*~",                "<"],
-            ["~[\s]*<~",                "<"],
-            ["~REPLACE_THIS~u",         "</table>\n<table class=\"blue_table\">"],
-
+            /*['~</table>.*?<table[^>]*?>~u', 'REPLACE_THIS'],       // если таблиц несколько*/
+            ['~</table>.*?<table[^>]*?>~u', 'REPLACE_THIS'],       // если таблиц несколько
+            ['~.*?<table[^>]*?>~u', '<table class="blue_table">'], // обрезка до таблицы
+            ['~</table>.*?~u', '</table>'],                        // обрезка после таблицы
+            ['~<caption[^>]*?>~u', '<caption>'],                   // чистка нужных тегов от классов, стилей и атрибутов
+            ['~<thead[^>]*?>~u', '<thead>'],                       // чистка нужных тегов от классов, стилей и атрибутов
+            ['~<tbody[^>]*?>~u', '<tbody>'],                       // чистка нужных тегов от классов, стилей и атрибутов
+            ["~<th[\s]{1}[^>]*?>~u", '<th>'],                      // не зацепить <thead>!!
+            ['~<tr[^>]*?>~u', '<tr>'],
+            ['~<td[^>]*?>~u', '<td>'],
+            ['~>[\s]*~', '>'],
+            ['~[\s]*>~', '>'],
+            ['~<[\s]*~', '<'],
+            ['~[\s]*<~', '<'],
+            ['~REPLACE_THIS~u', "</table>\n<table class=\"blue_table\">"],
         ];
 
         foreach($arr_replace as $replace) {
@@ -414,8 +438,8 @@ class Product extends Model
         // опционально: если последним столбцом таблицы идет цена, то вырезаем последний столбец
         if ( strpos($res,'<td>Цена</td></tr>') or strpos($res,'<th>Цена</th></tr>') ) {
             $arr_replace = [
-                ["~<td>[^<]+?</td></tr>~u","</tr>"],
-                ["~<th>[^<]+?</th></tr>~u","</tr>"],
+                ['~<td>[^<]+?</td></tr>~u', '</tr>'],
+                ['~<th>[^<]+?</th></tr>~u', '</tr>'],
             ];
             foreach($arr_replace as $replace) {
                 $res = preg_replace( $replace[0], $replace[1], $res );
@@ -425,8 +449,8 @@ class Product extends Model
         // опционально: удаление столбца <tr><td>Код товара</td>
         if ( strpos($res,'<tr><td>Код товара</td>') or strpos($res,'<tr><th>Код товара</th>') ) {
             $arr_replace = [
-                ["~<tr><td>[^<]+?</td>~u","<tr>"],
-                ["~<tr><th>[^<]+?</th>~u","<tr>"],
+                ['~<tr><td>[^<]+?</td>~u', '<tr>'],
+                ['~<tr><th>[^<]+?</th>~u', '<tr>'],
             ];
             foreach($arr_replace as $replace) {
                 $res = preg_replace( $replace[0], $replace[1], $res );
@@ -441,10 +465,9 @@ class Product extends Model
     /**
      * Copying all donor images and creating an entry in the image table.
      *
-     * @param  Product $product
-     * @return  Product $product
+     * @return  self $this
      */
-    public function additionallyIfCopy ()
+    public function additionallyIfCopy (): self
     {
         info(__METHOD__);
         if ( !request('copy_img') ) {
@@ -453,7 +476,7 @@ class Product extends Model
 
         $donor_id = request('copy_img');
         // $donor = Product::find($donor_id);
-        $d_images = Product::find($donor_id)->images;
+        $d_images = self::find($donor_id)->images;
 
         // copy all entries from the image table related to this product
         foreach ( $d_images as $d_image ) {
@@ -491,10 +514,9 @@ class Product extends Model
     /**
      * Delete relative images
      *
-     * @param  Product $product
-     * @return  Product $product
+     * @return  self $this
      */
-    public function deleteImages()
+    public function deleteImages(): self
     {
         if ($this->images) {
             // delete public directory (converted images)
@@ -510,16 +532,18 @@ class Product extends Model
     /**
      * Delete relative comments
      *
-     * @param  Product $product
-     * @return  Product $product
+     * @return  self $this
      */
-    public function deleteComments()
+    public function deleteComments(): self
     {
         $this->comments()->delete();
         return $this;
     }
 
-    public function setFlashMess()
+    /**
+     * @return  self $this
+     */
+    public function setFlashMess(): self
     {
         info(__METHOD__);
         $message = __('Product__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);

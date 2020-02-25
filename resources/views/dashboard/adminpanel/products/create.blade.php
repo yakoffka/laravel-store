@@ -172,14 +172,14 @@
                     </div>
                     {{-- /parent category --}}
 
-                    {{-- seeable --}}
+                    {{-- product_visible --}}
                     <div class="form-group col-12 col-md-2">
                         <div class="right_stylized_checkbox">
-                            <input type="checkbox" id="seeable" name="seeable" checked>
-                            <label for="seeable">{{ __('seeable') }}</label>
+                            <input type="checkbox" id="product_visible" name="product_visible" checked>
+                            <label for="product_visible">{{ __('product_visible') }}</label>
                         </div>
                     </div>
-                    {{-- /seeable --}}
+                    {{-- /product_visible --}}
                 </div>
 
                 <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>

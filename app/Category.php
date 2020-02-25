@@ -318,7 +318,7 @@ class Category extends Model
     }
 
     /**
-     * set slug from dirty fiedl slug or title
+     * set slug from dirty field slug or title
      * while changing slug and title transforms the slug field.
      *
      * @return  Category $category

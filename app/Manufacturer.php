@@ -107,7 +107,7 @@ class Manufacturer extends Model
     }
 
     /**
-     * set slug from dirty fiedl slug or title
+     * set slug from dirty field slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      *
      * @return  Manufacturer

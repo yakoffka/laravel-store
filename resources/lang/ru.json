@@ -99,7 +99,7 @@
 
   "edit_profile": "редактировать профиль",
   "editing_profile": "редактирование профиля :Name",
-  
+
   "model_create": "создание ",
   "model_update": "изменение ",
   "model_delete": "удаление ",
@@ -117,7 +117,7 @@
 
 
   "show_customevent": "просмотреть",
-  
+
   "category": "категория",
   "date_manufactured": "дата производства",
   "description": "описание",
@@ -196,7 +196,7 @@
   "users_filter": "по инициатору",
 
 
-  "Category": "категории", 
+  "Category": "категории",
   "Comment": "комментарии",
   "Image": "изображения",
   "Manufacturer": "производители",
@@ -270,7 +270,7 @@
   "Setting__success": "Настройка ':Name' успешно :type_act. ",
   "Task__success": "Задача ':Name' успешно :type_act. ",
   "User__success": "Профиль пользователя ':Name' успешно :type_act. ",
-  
+
   "Success_adding__to_cart": "Товар ':Name' успешно добавлен в корзину. ",
 
 

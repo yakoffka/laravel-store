@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\{Category, Manufacturer, Product};
+use App\{Category, Http\Requests\ProductRequest, Manufacturer, Product};
 use App\Jobs\RewatermarkJob;
 use Artisan;
+use Illuminate\View\View;
 
 class ProductsController extends Controller
 {
@@ -13,17 +15,18 @@ class ProductsController extends Controller
         $this->middleware('auth')->except(['index', 'show', 'search']);
     }
 
-
     /**
-     * Only for filters!
      * Display a listing of the resource for filters. Only for filters!
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse|View
      */
-    public function index(Request $request) {
+    public function index(Request $request): RedirectResponse
+    {
         if ( !$request->query->count() ){
             return redirect()->route('categories.index');
         }
+
         $appends = $request->query->all();
         $array_seeable_categories = Category::all()
             ->where('seeable', '=', 'on')
@@ -35,119 +38,88 @@ class ProductsController extends Controller
             ->orderBy('price')
             ->filter($request)
             ->paginate();
+
         return view('products.index', compact('products', 'appends'));
     }
 
-
     /**
-     * Display a listing of the resource (all products) for admin side. 
+     * Display a listing of the resource (all products) for admin side.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function adminIndex() {
+    public function adminIndex(): View
+    {
         $appends = request()->query->all();
-        $products = Product::filter(request())
-            // ->orderBy('category_id')
-            ->paginate();
+        $products = Product::filter(request())->paginate();
         $categories = Category::all();
+
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
-
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         abort_if ( !auth()->user()->can('create_products'), 403 );
         $categories = Category::all();
         $manufacturers = Manufacturer::all();
+
         return view('dashboard.adminpanel.products.create', compact('categories', 'manufacturers'));
     }
-
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @param ProductRequest $request
+     * @return RedirectResponse
      */
-    public function store(Product $product)
+    public function store(ProductRequest $request): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('create_products'), 403 );
-
-        request()->validate([
-            'name'              => 'required|string|unique:products,name',
-            'title'             => 'nullable|string',
-            'slug'              => 'nullable|string',
-            'manufacturer_id'   => 'required|integer',
-            'category_id'       => 'required|integer',
-            'seeable'           => 'nullable|string|in:on',
-            'materials'         => 'nullable|string',
-            'description'       => 'nullable|string',
-            'modification'      => 'nullable|string',
-            'workingconditions' => 'nullable|string',
-            'imagespath'        => 'nullable|string',
-            'date_manufactured' => 'nullable|string|min:10|max:10',
-            'price'             => 'nullable|integer',
-            'copy_img'          => 'nullable|integer',
-        ]);
-
-        $product = Product::create([
-            'name' => request('name'),
-            'title' => request('title'),
-            'slug' => request('slug'),
-            'manufacturer_id' => request('manufacturer_id'),
-            'category_id' => request('category_id'),
-            'seeable' => request('seeable') ,
-            'materials' => request('materials'),
-            'description' => request('description'),
-            'modification' => request('modification'),
-            'workingconditions' => request('workingconditions'),
-            'date_manufactured' => request('date_manufactured'),
-            'price' => request('price'),
-            'views' => 0,
-        ]);
-
+//        dd($request->validated());
+        $fields = $request->validated();
+        $imagePath = $fields['imagespath'];
+        unset($fields['imagespath']);
+        $product = Product::create($fields);
         $product->attachImages();
 
         return redirect()->route('categories.show', $product->category_id);
     }
 
-
     /**
      * Display the specified resource.
      *
      * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function show(Product $product) {
+    public function show(Product $product): View
+    {
         abort_if( !$product->seeable or !$product->category_seeable or !$product->parent_category_seeable, 404);
         $product->incrementViews();
+
         return view('products.show', compact('product'));
     }
-
 
     /**
      * Display the specified resource for admin side.
      *
      * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function adminShow(Product $product) {
+    public function adminShow(Product $product): View
+    {
         return view('dashboard.adminpanel.products.adminshow', compact('product'));
     }
-
 
     /**
      * Show the form for creating a new resource.
      *
      * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function edit(Product $product)
+    public function edit(Product $product): View
     {
         abort_if (!auth()->user()->can('edit_products'), 403);
         $categories = Category::all();
@@ -155,13 +127,13 @@ class ProductsController extends Controller
         return view('dashboard.adminpanel.products.edit', compact('product', 'categories', 'manufacturers'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return View
      */
-    public function copy(Product $product)
+    public function copy(Product $product): View
     {
         abort_if (!auth()->user()->can('edit_products'), 403);
         $categories = Category::all();
@@ -171,15 +143,13 @@ class ProductsController extends Controller
         return view('dashboard.adminpanel.products.copy', compact('product', 'categories', 'manufacturers'));
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  request()
-     * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return RedirectResponse
      */
-    public function update(Product $product)
+    public function update(Product $product): RedirectResponse
     {
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
@@ -220,14 +190,14 @@ class ProductsController extends Controller
         return redirect()->route('products.adminshow', $product->id);
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Product $product
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
         abort_if ( auth()->user()->cannot('delete_products'), 403 );
 
@@ -236,13 +206,15 @@ class ProductsController extends Controller
         // возврат на предыдущую страницу, если удаление было инициировано не со страницы товара
         if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
             return redirect()->route('products.adminindex');
-        } else {
-            return back();
         }
+
+        return back();
     }
 
-
-    public function rewatermark()
+    /**
+     * @return RedirectResponse
+     */
+    public function rewatermark(): RedirectResponse
     {
         $products = Product::has('images')->get();
 
@@ -259,8 +231,11 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-
-    public function search(Request $request) 
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function search(Request $request): View
     {
         $validator = request()->validate([
             'query' => 'required|string|min:3|max:100',
@@ -285,8 +260,11 @@ class ProductsController extends Controller
         return view('products.index', compact('query', 'products', 'appends'));
     }
 
-
-    public function massupdate() {
+    /**
+     * @return RedirectResponse
+     */
+    public function massupdate(): RedirectResponse
+    {
         abort_if ( auth()->user()->cannot('edit_products'), 403 );
 
         request()->validate([
@@ -349,13 +327,12 @@ class ProductsController extends Controller
             return back()->withErrors(['Выбранной операции не существует!'])->withInput();
         }
 
-
         if ( !empty($err) ) {
             $message = 'Операция не удалась или удалась неполностью.';
         } else {
-            $message = 'Операция прошла успешно.';                
+            $message = 'Операция прошла успешно.';
         }
-    
+
         session()->flash('message', $message);
         return back();
     }

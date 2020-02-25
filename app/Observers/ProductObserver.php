@@ -14,7 +14,6 @@ class ProductObserver
      */
     public function creating(Product $product)
     {
-        info(__METHOD__);
         $product->setTitle()->setSlug()->cleanSrcCodeTables()->setCreator();
     }
 
@@ -26,7 +25,6 @@ class ProductObserver
      */
     public function created(Product $product)
     {
-        info(__METHOD__);
         $product->additionallyIfCopy()->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -39,7 +37,6 @@ class ProductObserver
      */
     public function updating(Product $product)
     {
-        info(__METHOD__);
         $product->setTitle()->setSlug()->cleanSrcCodeTables()->setEditor();
     }
 
@@ -51,7 +48,6 @@ class ProductObserver
      */
     public function updated(Product $product)
     {
-        info(__METHOD__);
         $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -64,7 +60,6 @@ class ProductObserver
      */
     public function deleting(Product $product)
     {
-        info(__METHOD__);
         $product->deleteComments()->deleteImages();
     }
 
@@ -76,7 +71,6 @@ class ProductObserver
      */
     public function deleted(Product $product)
     {
-        info(__METHOD__);
         $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -89,7 +83,7 @@ class ProductObserver
      */
     public function restored(Product $product)
     {
-        info(__METHOD__);
+        //
     }
 
     /**
@@ -100,6 +94,6 @@ class ProductObserver
      */
     public function forceDeleted(Product $product)
     {
-        info(__METHOD__);
+        //
     }
 }
