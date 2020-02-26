@@ -212,7 +212,7 @@ class Product extends Model
      */
     public function incrementViews(): void
     {
-        if ( !auth()->user() or auth()->user()->hasRole('user') ) {
+        if ( !auth()->user() || auth()->user()->hasRole('user') ) {
             $this->increment('count_views');
         }
     }
@@ -406,7 +406,6 @@ class Product extends Model
         $res = strip_tags($this->modification, '<table><caption><thead><tbody><th><tr><td>');
 
         $arr_replace = [
-            /*['~</table>.*?<table[^>]*?>~u', 'REPLACE_THIS'],       // если таблиц несколько*/
             ['~</table>.*?<table[^>]*?>~u', 'REPLACE_THIS'],       // если таблиц несколько
             ['~.*?<table[^>]*?>~u', '<table class="blue_table">'], // обрезка до таблицы
             ['~</table>.*?~u', '</table>'],                        // обрезка после таблицы

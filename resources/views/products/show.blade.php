@@ -31,15 +31,15 @@
                     @if ( $product->images->count() > 1 )
                         @carousel(compact('product'))
                     @elseif ( $product->images->count() === 1)
-                        <div 
-                            class="card-img-top b_image" 
+                        <div
+                            class="card-img-top b_image"
                             style="background-image: url({{ asset('storage') . $product->images->first()->path . '/' . $product->images->first()->name . '-l' . $product->images->first()->ext }});"
                         >
                             <div class="dummy"></div><div class="element"></div>
                         </div>
                     @else
-                        <div 
-                            class="card-img-top b_image" 
+                        <div
+                            class="card-img-top b_image"
                             style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});"
                         >
                             <div class="dummy"></div><div class="element"></div>
@@ -88,7 +88,7 @@
 
                 @if ($product->description)
                     <li class="nav-item">
-                        <a title="{{ __('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab" 
+                        <a title="{{ __('__Description') }} {{ $product->name }}" class="nav-link active" id="home-tab"
                             data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                             {{ __('__Description') }}
                         </a>
@@ -97,7 +97,7 @@
 
                 @if ($product->modification)
                     <li class="nav-item">
-                        <a title="{{ __('__Modification') }} {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab" 
+                        <a title="{{ __('__Modification') }} {{ $product->name }}" class="nav-link{{ !$product->description ? ' active' : '' }}" id="profile-tab"
                             data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                             {{ __('__Modification') }}
                         </a>
@@ -106,7 +106,7 @@
 
                 @if ($product->workingconditions)
                     <li class="nav-item">
-                        <a title="{{ __('__Workingconditions') }} {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab" 
+                        <a title="{{ __('__Workingconditions') }} {{ $product->name }}" class="nav-link{{ (!$product->description and !$product->modification) ? ' active' : '' }}" id="contact-tab"
                             data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
                             {{ __('__Workingconditions') }}
                         </a>
@@ -114,7 +114,7 @@
                 @endif
 
             </ul>
-            
+
             <div class="tab-content" id="myTabContent">
 
                 {{-- description --}}
@@ -194,7 +194,7 @@
                                         <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
 
                                             <!-- button edit -->
-                                            <button type="button" class="btn btn-outline-success edit" data-toggle="collapse" 
+                                            <button type="button" class="btn btn-outline-success edit" data-toggle="collapse"
                                                 data-target="#collapse_{{ $comment->id }}" aria-expanded="false" aria-controls="coll"
                                             >
                                                 <i class="fas fa-pen-nib"></i>
@@ -226,16 +226,16 @@
                                         опубликовано {{ $comment->created_at }} (обновлено: {{ $comment->updated_at }}):
                                     @endif
                                 </div>
-                                        
+
                                 <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
                                     <!-- form edit -->
                                     <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
 
                                         @method("PATCH")
-                                        
+
                                         @csrf
 
-                                        <textarea id="body_{{ $comment->id }}" name="body" cols="30" rows="4" 
+                                        <textarea id="body_{{ $comment->id }}" name="body" cols="30" rows="4"
                                             class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->body); ?></textarea>
                                         <button type="submit" class="btn btn-success">редактировать</button>
                                     </form>
@@ -280,7 +280,7 @@
 
                         <div class="form-group">
                             <!-- <label for="body">Add a comment</label> -->
-                            <textarea id="body" name="body" cols="30" rows="4" class="form-control" placeholder="{{ __('Add a your comment')}} " required>{{ old('body') }}</textarea>                       
+                            <textarea id="body" name="body" cols="30" rows="4" class="form-control" placeholder="{{ __('Add a your comment')}} " required>{{ old('body') }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">отправить</button>
                     </form>
@@ -289,7 +289,7 @@
             </div>
             <!-- /comment on -->
         </div>
-        
+
     </div>{{-- <div class="row"> --}}
 
 @endsection

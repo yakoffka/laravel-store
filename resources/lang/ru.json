@@ -148,7 +148,7 @@
   "__seeable": "видимость",
   "__parent_seeable": "видимость родителя",
   "__grand_parent_seeable": "видимость прародителя",
-  "__views": "просмотров",
+  "__count_views": "просмотров",
   "__parent_category_id": "id род. категории",
   "__priority": "приоритет",
   "__slave": "исполнитель",

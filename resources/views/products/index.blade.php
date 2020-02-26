@@ -75,8 +75,8 @@
     <div class="grey ta_r">всего товаров: {{ $products->total() }}</div>
 
     <div class="row">
-           
-            
+
+
         @include('layouts.partials.aside')
 
 
@@ -91,22 +91,22 @@
                     <div class="card">
 
                         <h2 class="product_card_h2<?php if(!$product->seeable){echo ' hide';}?>"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></h2>
-                        
+
                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                             @if($product->images->count())
-                                @php 
+                                @php
                                     $img = $product->images->first();
                                 @endphp
 
-                                <div 
-                                    class="card-img-top b_image" 
+                                <div
+                                    class="card-img-top b_image"
                                     style="background-image: url({{
                                         asset('storage') . $img->path . '/' . $img->name . '-m' . $img->ext
                                     }});"
                                 >
                             @else
-                                <div 
-                                    class="card-img-top b_image" 
+                                <div
+                                    class="card-img-top b_image"
                                     style="background-image: url({{ asset('storage') }}{{ config('imageyo.default_img') }});"
                                 >
                             @endif
@@ -115,17 +115,16 @@
                         </a>
 
                         <div class="card-body p-1">
-                            @if ( config('settings.display_prices') and $product->price)
+                            @if ( config('settings.display_prices') && $product->price > 0 )
                                 <div class="card-text col-sm-12">
                                     <span class="grey">
-                                        @if($product->price)
+                                        @if ( $product->price )
                                             price: {{ $product->price }} &#8381;
                                         @else
                                             priceless
                                         @endif
                                     </span>
-                                    <?php if(!$product->seeable){echo '<span class="red">inseeable</span>';}?>
-                                    <br>
+                                    <?php if ( !$product->seeable ) {echo '<span class="red">inseeable</span>';}?><br>
                                 </div>
                             @endif
 
@@ -138,11 +137,11 @@
                                             <i class="fas fa-eye" title="view"></i>
                                         </a>
                                     </div>
-                                        
+
                                     @if ( config('settings.display_cart') )
                                         <div class="col-sm-6">
                                             <a href="{{ route('cart.add-item', ['product' => $product->id]) }}" class="btn btn-outline-success">
-                                                <i class="fas fa-cart-plus" title="to cart"></i> 
+                                                <i class="fas fa-cart-plus" title="to cart"></i>
                                             </a>
                                         </div>
                                     @endif
@@ -160,14 +159,14 @@
                                             <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
                                                 <i class="fas fa-pen-nib"></i>
                                             </a>
-                                        </div>                                       
+                                        </div>
 
                                         <div class="col-sm-3 p-1">
                                             @modalConfirmDestroy([
                                                 'btn_class' => 'btn btn-outline-danger form-control',
                                                 'cssId' => 'delele_',
                                                 'item' => $product,
-                                                'action' => route('products.destroy', ['product' => $product->id]), 
+                                                'action' => route('products.destroy', ['product' => $product->id]),
                                             ])
                                         </div>
 
@@ -184,7 +183,7 @@
                                                 <i class="fas fa-pen-nib"></i>
                                             </a>
                                         </div>
-                                        
+
                                     @else
 
                                         <div class="col-sm-6 p-1">
@@ -192,7 +191,7 @@
                                                 <i class="fas fa-eye"></i> view
                                             </a>
                                         </div>
-                                        
+
                                         @if ( config('settings.display_cart') )
                                             <div class="col-sm-6 p-1">
                                                 @addToCart(['product_id' => $product->id])
@@ -225,7 +224,7 @@
 
             </div>
         </div>
-        
+
     </div>{{-- <div class="row"> --}}
-    
+
 @endsection

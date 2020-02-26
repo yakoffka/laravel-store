@@ -15,7 +15,13 @@
         </div>
     </div>
 
-    <h1 class="<?php if(!$product->seeable){echo 'hide';}?>">{{ $product->name }}</h1>
+    <h1 class="
+        @if ( !$product->seeable )
+         hide
+        @endif
+    ">
+        {{ $product->name }}
+    </h1>
 
     <div class="row">
 
@@ -69,11 +75,11 @@
                     @permission('edit_products')
                         <span class="grey">{{__('added_by_user_id')}}: </span>{{ $product->creator->name }}<br>
                         <span class="grey">{{__('created_at')}}: </span>{{ $product->created_at }}<br>
-                        @if($product->updated_at != $product->created_at)
+                        @if($product->updated_at !== $product->created_at)
                             <span class="grey">{{__('edited_by_user_id')}}: </span>{{ $product->editor->name }}<br>
                             <span class="grey">{{__('updated_at')}}: </span>{{ $product->updated_at }}<br>
                         @endif
-                        <span class="grey">{{__('__views')}}: </span>{{ $product->views }}<br>
+                        <span class="grey">{{__('__count_views')}}: </span>{{ $product->count_views }}<br>
                     @endpermission
 
 
