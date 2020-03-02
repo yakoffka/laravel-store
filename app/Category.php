@@ -134,6 +134,14 @@ class Category extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function parentSeeable(): bool
+    {
+        return (bool)$this->parent->seeable;
+    }
+
+    /**
      * Accessor
      *
      * @return integer [^1]{1}\d or [1]{1}\d

@@ -24,8 +24,8 @@
 
 
     <div class="row">
-           
-            
+
+
         @include('dashboard.layouts.partials.aside')
 
 
@@ -61,8 +61,8 @@
                             <td class="ta_l">
                                 @modalSelect([
                                     'id' => $task->id,
-                                    'item' => $task->getStatus, 
-                                    'options' => $tasksstatuses, 
+                                    'item' => $task->getStatus,
+                                    'options' => $tasksstatuses,
                                     'action' => route('tasks.update', ['task' => $task]),
                                     'select_name' => 'tasksstatus_id',
                                 ])
@@ -75,8 +75,8 @@
                                 @else
                                     @modalSelect([
                                         'id' => $task->id,
-                                        'item' => $task->getPriority, 
-                                        'options' => $taskspriorities, 
+                                        'item' => $task->getPriority,
+                                        'options' => $taskspriorities,
                                         'action' => route('tasks.update', ['task' => $task]),
                                         'select_name' => 'taskspriority_id',
                                     ])
@@ -92,10 +92,10 @@
                                 @else
                                     @modalConfirmDestroy([
                                         'btn_class' => 'btn btn-outline-danger align-self-center',
-                                        'cssId' => 'delele_',
+                                        'cssId' => 'delete_',
                                         'item' => $task,
                                         'type_item' => 'задачу',
-                                        'action' => route('tasks.destroy', $task), 
+                                        'action' => route('tasks.destroy', $task),
                                     ])
                                 @endif
 
@@ -124,7 +124,7 @@
 
             </div>
         </div>
-        
+
     </div>{{-- <div class="row"> --}}
-    
+
 @endsection

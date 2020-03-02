@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,13 +12,9 @@ use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Illuminate\Support\Carbon;
-use App\Customevent;
 use App\Mail\ProductNotification;
 use Illuminate\Support\Str;
 use App\Traits\Yakoffka\ImageYoTrait;
-use App\Jobs\RewatermarkJob;
-use Artisan;
-use App\{Category, Image, Manufacturer};
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -39,45 +37,45 @@ use Illuminate\Support\Facades\Storage;
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
  * @property int $views
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Category $category
+ * @property-read Collection|Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \App\User $creator
- * @property-read \App\User|null $editor
+ * @property-read User $creator
+ * @property-read User|null $editor
  * @property-read mixed $category_seeable
  * @property-read mixed $parent_category_seeable
  * @property-read mixed $short_description
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Image[] $images
+ * @property-read Collection|Image[] $images
  * @property-read int|null $images_count
- * @property-read \App\Manufacturer|null $manufacturer
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product filter(\Illuminate\Http\Request $request, $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product search($search, $threshold = null, $entireText = false, $entireTextOnly = false)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product searchRestricted($search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereAddedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDateManufactured($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereEditedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereManufacturerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereMaterials($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereModification($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSeeable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereViews($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereWorkingconditions($value)
- * @mixin \Eloquent
+ * @property-read Manufacturer|null $manufacturer
+ * @method static Builder|Product filter(Request $request, $filters = [])
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product search($search, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static Builder|Product searchRestricted($search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static Builder|Product whereAddedByUserId($value)
+ * @method static Builder|Product whereCategoryId($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereDateManufactured($value)
+ * @method static Builder|Product whereDescription($value)
+ * @method static Builder|Product whereEditedByUserId($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereManufacturerId($value)
+ * @method static Builder|Product whereMaterials($value)
+ * @method static Builder|Product whereModification($value)
+ * @method static Builder|Product whereName($value)
+ * @method static Builder|Product wherePrice($value)
+ * @method static Builder|Product whereSeeable($value)
+ * @method static Builder|Product whereSlug($value)
+ * @method static Builder|Product whereSortOrder($value)
+ * @method static Builder|Product whereTitle($value)
+ * @method static Builder|Product whereUpdatedAt($value)
+ * @method static Builder|Product whereViews($value)
+ * @method static Builder|Product whereWorkingconditions($value)
+ * @mixin Eloquent
  */
 class Product extends Model
 {
@@ -88,7 +86,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $searchable = [
+    protected array $searchable = [
         /**
          * Columns and their priority in search results.
          * Columns with higher values are more important.
@@ -105,7 +103,7 @@ class Product extends Model
 
     protected $guarded = [];
     protected $perPage = 12;
-    private $event_type = '';
+    private string $event_type = '';
 
 
     /**
@@ -548,5 +546,13 @@ class Product extends Model
         $message = __('Product__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
         session()->flash('message', $message);
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllVisible(): bool
+    {
+        return $this->seeable && $this->category->fullSeeable();
     }
 }

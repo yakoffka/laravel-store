@@ -164,7 +164,7 @@
                                         <div class="col-sm-3 p-1">
                                             @modalConfirmDestroy([
                                                 'btn_class' => 'btn btn-outline-danger form-control',
-                                                'cssId' => 'delele_',
+                                                'cssId' => 'delete_',
                                                 'item' => $product,
                                                 'action' => route('products.destroy', ['product' => $product->id]),
                                             ])

@@ -60,7 +60,7 @@
                             </div>
                         </td>
                         {{-- image --}}
-                    
+
                         <td>{{ $manufacturer->sort_order }}</td>
                         <td title="{{ $manufacturer->creator->name }}">{{ $manufacturer->creator->id }}</td>
                         <td title="{{ $manufacturer->editor->name ?? '' }}">{{ $manufacturer->editor->id ?? '-' }}</td>
@@ -69,7 +69,7 @@
                         <td>
                             {{-- view --}}
                             <a href="{{ route('manufacturers.show', $manufacturer) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
-                        
+
                             {{-- edit --}}
                             <a href="{{ route('manufacturers.edit', $manufacturer) }}"
                                 class="btn btn-outline-success">
@@ -80,10 +80,10 @@
                             @permission('delete_manufacturers')
                                 @modalConfirmDestroy([
                                     'btn_class' => 'btn btn-outline-danger align-self-center',
-                                    'cssId' => 'delele_',
+                                    'cssId' => 'delete_',
                                     'item' => $manufacturer,
                                     'type_item' => 'категорию',
-                                    'action' => route('manufacturers.destroy', $manufacturer), 
+                                    'action' => route('manufacturers.destroy', $manufacturer),
                                 ])
                             @endpermission
                         </td>

@@ -1,4 +1,4 @@
-<tr class="{{ (!$product->seeable or !$product->category_seeable or !$product->parent_category_seeable) ? 'gray' : ''}}">
+<tr class="{{ (!$product->isAllVisible()) ? 'gray' : ''}}">
     <td class="ta_c left_stylized_checkbox">
         <input
             form="products_massupdate"
@@ -14,7 +14,7 @@
     {{-- <td class="ta_c">{{ $product->manufacturer_id }}</td> --}}
 
     {{-- seeable --}}
-    <td class="ta_c" width="30px">
+    <td class="ta_c w30">
         @if ( $product->seeable )
             <i class="far fa-eye"></i>
         @else
@@ -23,8 +23,8 @@
     </td>
 
     {{-- category_seeable --}}
-    <td class="ta_c" width="30px">
-        @if ( $product->category_seeable )
+    <td class="ta_c w30">
+        @if ( $product->category->seeable )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>
@@ -32,8 +32,8 @@
     </td>
 
     {{-- parent_category_seeable --}}
-    <td class="ta_c" width="30px">
-        @if ( $product->parent_category_seeable )
+    <td class="ta_c w30">
+        @if ( $product->category->parentSeeable() )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>
@@ -84,7 +84,7 @@
         @permission('delete_products')
             @modalConfirmDestroy([
                 'btn_class' => 'btn btn-outline-danger align-self-center',
-                'cssId' => 'delele_action',
+                'cssId' => 'delete_action',
                 'item' => $product,
                 'type_item' => 'товар',
                 'action' => route('products.destroy', $product),

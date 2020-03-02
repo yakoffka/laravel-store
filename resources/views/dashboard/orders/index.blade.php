@@ -110,7 +110,7 @@
                         @if ( auth()->user()->can('delete_orders') )
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
-                                'cssId' => 'delele_',
+                                'cssId' => 'delete_',
                                 'item' => $order,
                                 'action' => route('orders.destroy', ['order' => $order->id]),
                                 'name_item' => 'order #' . $order->id,

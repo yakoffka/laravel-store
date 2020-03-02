@@ -101,7 +101,7 @@
                         @permission('delete_users')
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
-                                'cssId' => 'delele_',
+                                'cssId' => 'delete_',
                                 'item' => $user,
                                 'action' => route('users.destroy', ['user' => $user->id]),
                             ])

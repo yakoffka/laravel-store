@@ -139,7 +139,7 @@
     delete this order
     @modalConfirmDestroy([
         'btn_class' => 'btn btn-outline-danger form-group',
-        'cssId' => 'delele_',
+        'cssId' => 'delete_',
         'item' => $order,
         'action' => route('orders.destroy', ['order' => $order->id]),
     ])

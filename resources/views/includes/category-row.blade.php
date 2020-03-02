@@ -62,7 +62,7 @@
                 @permission('delete_categories')
                     @modalConfirmDestroy([
                         'btn_class' => 'btn btn-outline-danger align-self-center',
-                        'cssId' => 'delele_',
+                        'cssId' => 'delete_',
                         'item' => $category,
                         'type_item' => 'категорию',
                         'action' => route('categories.destroy', $category),

@@ -9,6 +9,11 @@ use App\Jobs\RewatermarkJob;
 use Artisan;
 use Illuminate\View\View;
 
+
+/**
+ * Class ProductsController
+ * @package App\Http\Controllers
+ */
 class ProductsController extends Controller
 {
     public function __construct() {
@@ -16,21 +21,23 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display a listing of the resource for filters. Only for filters!
+     * Display a listing of the resource with filters. Only for FILTERS!
      *
      * @param Request $request
      * @return RedirectResponse|View
      */
-    public function index(Request $request): RedirectResponse
+    public function index(Request $request)
     {
-        if ( !$request->query->count() ){
+        if ( $request->query->count() === 0 ){
             return redirect()->route('categories.index');
         }
 
         $appends = $request->query->all();
-        $array_seeable_categories = Category::all()
-            ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        $array_seeable_categories = Category::with('parent')
+            ->get()
+            ->filter(static function (Category $value) {
+                return $value->hasDescendant() && $value->fullSeeable();
+            })
             ->pluck('id')
             ->toArray();
         $products = Product::where('seeable', '=', 'on')
@@ -50,7 +57,9 @@ class ProductsController extends Controller
     public function adminIndex(): View
     {
         $appends = request()->query->all();
-        $products = Product::filter(request())->paginate();
+//        $products = Product::filter(request())->paginate(config('custom.pagination_product_admin'));
+        $products = Product::with(['category'])
+            ->paginate(config('custom.pagination_product_admin'));
         $categories = Category::all();
 
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
@@ -78,9 +87,7 @@ class ProductsController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-//        dd($request->validated());
         $fields = $request->validated();
-        $imagePath = $fields['imagespath'];
         unset($fields['imagespath']);
         $product = Product::create($fields);
         $product->attachImages();
@@ -96,7 +103,7 @@ class ProductsController extends Controller
      */
     public function show(Product $product): View
     {
-        abort_if( !$product->seeable or !$product->category_seeable or !$product->parent_category_seeable, 404);
+        abort_if( !$product->isAllVisible(), 404);
         $product->incrementViews();
 
         return view('products.show', compact('product'));
@@ -257,7 +264,7 @@ class ProductsController extends Controller
             $appends[$key] = $val;
         }
 
-        return view('products.index', compact('query', 'products', 'appends'));
+        return view('products.index', compact(['query', 'products', 'appends']));
     }
 
     /**

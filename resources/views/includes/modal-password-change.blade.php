@@ -1,7 +1,7 @@
 {{--
   @modalConfirmDestroy([
     'btn_class' => 'btn btn-outline-danger del_btn',
-    'cssId' => 'delele_',
+    'cssId' => 'delete_',
     'item' => $role,
     'action' => route('roles.destroy', ['role' => $role->id]),
   ])
@@ -27,7 +27,7 @@
       <div class="modal-footer">
 
         <!-- form delete item -->
-        <form class="ta_c" 
+        <form class="ta_c"
           action="{{ route('users.password-change', ['user' => auth()->user()->id]) }}" method="POST" style="width: 100%">
 
             @csrf

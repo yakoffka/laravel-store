@@ -73,12 +73,12 @@
                         @if( auth()->user()->can('delete_users') or auth()->user()->id == $user->id )
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
-                                'cssId' => 'delele_',
+                                'cssId' => 'delete_',
                                 'item' => $user,
                                 'action' => route('users.destroy', ['user' => $user->id]),
                             ])
 
-                        @endif                
+                        @endif
 
                     </td>
                 </tr>
@@ -89,12 +89,12 @@
             @modalPasswordChange()
 
 
-            
+
             @permission('view_roles')
                 <h2 id="roles">Roles of {{ $user->name }}:</h2>
                 @foreach ($user->roles as $role)
                     @if($loop->last){{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>.
-                    @else{{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>, 
+                    @else{{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>,
                     @endif
                 @endforeach
             @endpermission

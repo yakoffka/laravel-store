@@ -45,9 +45,9 @@
                             @else
                             <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg-l.png);">
                             @endif
-        
+
                                 <div class="dummy"></div><div class="element"></div>
-                            </div>       
+                            </div>
                         </td>
                         <td>
                             <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">
@@ -78,11 +78,11 @@
 
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger form-control',
-                                'cssId' => 'delele_',
+                                'cssId' => 'delete_',
                                 'item' => $item['item'],
                                 'type_item' => 'товар',
-                                'action' => route('cart.delete-item', ['product' => $item['item']->id]), 
-                            ]) 
+                                'action' => route('cart.delete-item', ['product' => $item['item']->id]),
+                            ])
 
                         </td>
                         <td>{{ $item['item']->price }}</td>
@@ -109,7 +109,7 @@
         @guest
             @alert(['type' => 'primary', 'title' => 'Achtung!'])
                 Для оформления заказа необходима авторизация
-            @endalert 
+            @endalert
         @endguest
 
         <div class="row justify-content-center">

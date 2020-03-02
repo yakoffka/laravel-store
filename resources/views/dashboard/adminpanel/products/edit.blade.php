@@ -100,11 +100,11 @@
                 {{-- manufacturer, materials, date_manufactured, price --}}
 
                 {{-- description --}}
-                @if ( config('settings.description_wysiwyg') == 'ckeditor' )
+                @if ( config('settings.description_wysiwyg') === 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'description', 'label' => 'Описание (редактор ckeditor)', 'value' => old('description') ?? $product->description])
-                @elseif ( config('settings.description_wysiwyg') == 'summernote' )
+                @elseif ( config('settings.description_wysiwyg') === 'summernote' )
                     @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'description', 'label' => 'Описание (редактор summernote)', 'value' => old('description') ?? $product->description])
-                @elseif ( config('settings.description_wysiwyg') == 'tinymce' )
+                @elseif ( config('settings.description_wysiwyg') === 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'description', 'label' => 'Описание (редактор tinymce)', 'value' => old('description') ?? $product->description])
                 @else
                     @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description') ?? $product->description])
@@ -113,13 +113,13 @@
 
 
                 {{-- modification --}}
-                @if ( config('settings.modification_wysiwyg') == 'ckeditor' )
+                @if ( config('settings.modification_wysiwyg') === 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор ckeditor)', 'value' => old('modification') ?? $product->modification])
-                @elseif ( config('settings.modification_wysiwyg') == 'summernote' )
+                @elseif ( config('settings.modification_wysiwyg') === 'summernote' )
                     @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор summernote)', 'value' => old('modification') ?? $product->modification])
-                @elseif ( config('settings.modification_wysiwyg') == 'tinymce' )
+                @elseif ( config('settings.modification_wysiwyg') === 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'modification', 'label' => 'Модификации (редактор tinymce)', 'value' => old('modification') ?? $product->modification])
-                @elseif ( config('settings.modification_wysiwyg') == 'srctablecode' )
+                @elseif ( config('settings.modification_wysiwyg') === 'srctablecode' )
                     @textarea(['name' => 'modification', 'label' => 'Модификации (режим исходного кода таблицы)', 'value' => old('modification') ?? $product->modification])
                 @else
                     @textarea(['name' => 'modification', 'label' => 'Модификации (обычный режим)', 'value' => old('modification') ?? $product->modification])
@@ -128,11 +128,11 @@
 
 
                 {{-- workingconditions --}}
-                @if ( config('settings.workingconditions_wysiwyg') == 'ckeditor' )
+                @if ( config('settings.workingconditions_wysiwyg') === 'ckeditor' )
                     @include('layouts.partials.wysiwyg.ckeditor-textarea', ['name' => 'workingconditions', 'label' => 'Условия работы (редактор ckeditor)', 'value' => old('workingconditions') ?? $product->workingconditions])
-                @elseif ( config('settings.workingconditions_wysiwyg') == 'summernote' )
+                @elseif ( config('settings.workingconditions_wysiwyg') === 'summernote' )
                     @include('layouts.partials.wysiwyg.summernote-textarea', ['name' => 'workingconditions', 'label' => 'Условия работы (редактор summernote)', 'value' => old('workingconditions') ?? $product->workingconditions])
-                @elseif ( config('settings.workingconditions_wysiwyg') == 'tinymce' )
+                @elseif ( config('settings.workingconditions_wysiwyg') === 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'workingconditions', 'label' => 'Условия работы (редактор tinymce)', 'value' => old('workingconditions') ?? $product->workingconditions])
                 @else
                     @textarea(['name' => 'workingconditions', 'label' => 'Условия работы (обычный режим)',  'value' => old('workingconditions') ?? $product->workingconditions])

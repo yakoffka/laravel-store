@@ -133,7 +133,7 @@
                             </form> --}}
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
-                                'cssId' => 'delele_',
+                                'cssId' => 'delete_',
                                 'item' => $role,
                                 'action' => route('roles.destroy', ['role' => $role->id]),
                             ])
