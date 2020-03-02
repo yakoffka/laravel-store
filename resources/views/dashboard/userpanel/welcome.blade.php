@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Кабинет пользователя <?php echo Auth::user()->name; ?></h1>
+    <h1>Кабинет пользователя <?php echo auth()->user()->name; ?></h1>
 
 
     <div class="row">
@@ -28,7 +28,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-            
+
         </div>
     </div>
 @endsection

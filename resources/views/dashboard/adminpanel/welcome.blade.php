@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>Кабинет сотрудника <?php echo Auth::user()->name; ?></h1>
+    <h1>Кабинет сотрудника <?php echo auth()->user()->name; ?></h1>
 
 
     <div class="row">
@@ -59,7 +59,7 @@
 
             {{-- developer --}}
             @role('developer')
-                
+
                 <h4>Code Review</h4>
                 <ol class="numlist">
                     <li>* Безопасность:
@@ -260,7 +260,7 @@ laravel-worker: added process group
                     </li>
 
                     <li>
-                        Для интеграции wysiwyg-редактора выбрал 
+                        Для интеграции wysiwyg-редактора выбрал
                         <a href="https://github.com/UniSharp/laravel-filemanager">UniSharp/laravel-filemanager</a>.
                         Дальше надеюсь заменить ImageYoTrait на intervention/image, который стоит в зависимостях.
                         <a href="https://unisharp.github.io/laravel-filemanager/installation">installation</a>
@@ -273,13 +273,13 @@ Publishing complete.
 vagrant@homestead:~/projects/kk$ php artisan vendor:publish --tag=lfm_public
 Copied Directory [/vendor/unisharp/laravel-filemanager/public] To [/public/vendor/laravel-filemanager]
 Publishing complete.
-vagrant@homestead:~/projects/kk$ 
+vagrant@homestead:~/projects/kk$
 php artisan route:clear
 php artisan config:clear
                             </pre>
                         </code>
                     </li>
-                    
+
                     {{-- <li></li>
                     <li></li>
                     <li></li>

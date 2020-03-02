@@ -63,7 +63,7 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            @if ( Auth::user()->can('edit_roles') and $role->creator->id > 1 )
+                            @if ( auth()->user()->can('edit_roles') and $role->creator->id > 1 )
                                 <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
@@ -72,7 +72,7 @@
                             @endif
 
 
-                            @if ( Auth::user()->can('delete_roles') and $role->creator->id > 1 )
+                            @if ( auth()->user()->can('delete_roles') and $role->creator->id > 1 )
                                 @modalConfirmDestroy([
                                     'btn_class' => 'btn btn-outline-danger del_btn',
                                     'cssId' => 'delele_',
@@ -97,13 +97,13 @@
 
 
             @foreach($roles as $role)
-                
+
                 @permission('view_users')
                     <h2 class="blue" id="users_{{ $role->name }}">Список пользователей, имеющих роль '{{ $role->name }}':</h2>
                     @if($role->users->count())
                         @foreach($role->users as $user)
                             @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
-                            @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>, 
+                            @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>,
                             @endif
                         @endforeach
                     @else

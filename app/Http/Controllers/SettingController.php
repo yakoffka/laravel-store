@@ -20,7 +20,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        abort_if ( !Auth::user()->can('edit_settings'), 403 );
+        abort_if ( !auth()->user()->can('edit_settings'), 403 );
         $settings = Setting::all();
         $groups = Setting::pluck('name_group', 'group');
         return view('dashboard.adminpanel.settings.index', compact('settings', 'groups'));
@@ -88,7 +88,7 @@ class SettingController extends Controller
                 'value' => 'string',
             ]);
             $value = !empty(request('value')) ? 1 : 0;
-    
+
         } elseif( $setting->type === 'select' or $setting->type === 'text' ) {
             request()->validate([
                 'value' => 'required|string',

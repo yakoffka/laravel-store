@@ -18,7 +18,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        abort_if ( Auth::user()->cannot('view_users'), 403 );
+        abort_if ( auth()->user()->cannot('view_users'), 403 );
         $users = User::paginate();
         $permissions = Permission::all();
 
@@ -34,7 +34,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        abort_if ( Auth::user()->cannot('view_users') and Auth::user()->id !== $user->id , 403 );
+        abort_if ( auth()->user()->cannot('view_users') and auth()->user()->id !== $user->id , 403 );
         $permissions = Permission::all();
         $customevents = Customevent::where('user_id', $user->id)->get();// last 50!
 
@@ -49,7 +49,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        abort_if ( !Auth::user()->can('edit_users') and Auth::user()->id !== $user->id, 403 );
+        abort_if ( !auth()->user()->can('edit_users') and auth()->user()->id !== $user->id, 403 );
         $roles = Role::get();
         $permissions = Permission::all();
 
@@ -66,7 +66,7 @@ class UsersController extends Controller
      */
     public function update(User $user)
     {
-        abort_if ( Auth::user()->cannot('edit_users') and Auth::user()->id !== $user->id, 403 );
+        abort_if ( auth()->user()->cannot('edit_users') and auth()->user()->id !== $user->id, 403 );
 
         request()->validate([
             'name' => 'required|string|max:255',
@@ -76,13 +76,13 @@ class UsersController extends Controller
             'password' => 'nullable|string|min:8|max:255',
         ]);
 
-        if ( ( request('role' ) or request( 'take_role' ) ) and Auth::user()->cannot('edit_roles') ) {
+        if ( ( request('role' ) or request( 'take_role' ) ) and auth()->user()->cannot('edit_roles') ) {
             return back()->withErrors(__('You can not attach and take roles!'))->withInput();
         }
 
 
         // self edit
-        if ( Auth::user()->id === $user->id ) {
+        if ( auth()->user()->id === $user->id ) {
             if ( !Hash::check(request('password'), $user->password )) {
                 return back()->withErrors(['failed password'])->withInput();
             }
@@ -90,7 +90,7 @@ class UsersController extends Controller
             $user->email = request('email');
 
         // edit other user without input password
-        } elseif ( Auth::user()->can('edit_users') ) {
+        } elseif ( auth()->user()->can('edit_users') ) {
             $user->name = request('name');
             $user->email = request('email');
 
@@ -138,7 +138,7 @@ class UsersController extends Controller
      */
     public function passwordChange(User $user)
     {
-        abort_if ( Auth::user()->cannot('edit_users') and Auth::user()->id !== $user->id, 403 );
+        abort_if ( auth()->user()->cannot('edit_users') and auth()->user()->id !== $user->id, 403 );
 
         request()->validate([
             // 'new_password' => 'string|min:8|max:255|
@@ -172,7 +172,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        abort_if ( !Auth::user()->can('delete_users'), 403 );
+        abort_if ( !auth()->user()->can('delete_users'), 403 );
 
         // dont destroy last owner!
         if ( $user->roles->first()->id === 1 and DB::table('role_user')->where('role_id', '=', 1)->get()->count() === 1 ) {

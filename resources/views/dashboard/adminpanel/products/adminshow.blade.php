@@ -96,7 +96,7 @@
 
                         @else
 
-                            @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
+                            @if ( auth()->user()->can( ['edit_products', 'delete_products'], true ) )
 
                                 <div class="col-sm-4">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
@@ -119,7 +119,7 @@
                                     </a>
                                 </div>
 
-                            @elseif ( Auth::user()->can('edit_products') )
+                            @elseif ( auth()->user()->can('edit_products') )
 
                                 <div class="col-sm-12">
                                     <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-outline-success">
@@ -244,23 +244,16 @@
                         @foreach ($product->comments as $num_comment => $comment)
                             <li class="list-group-item" id="comment_{{ $comment->id }}" >
                                 <div class="comment_header">
-
-                                    @if ( $comment->user_id === 0 )
-                                        Гость {{ $comment->user_name }}
-                                    @else
-                                        {{ $comment->creator ? $comment->creator->name : 'RIP' }}
-                                    @endif
-
-
+                                    <span class="commentator_name">{{ $comment->user_name }}</span>
                                     <!-- created_at/updated_at -->
                                     @if ( $comment->updated_at === $comment->created_at )
-                                        опубликвано {{ $comment->created_at }}:
+                                        опубликовано {{ $comment->created_at }}:
                                     @else
-                                        опубликвано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
+                                        опубликовано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
                                     @endif
 
                                     @auth
-                                        @if ( $comment->creator && $comment->creator->id === Auth::user()->id )
+                                        @if ( $comment->creator && $comment->creator->id === auth()->user()->id )
                                         <span class="blue">Ваш комментарий</span>
                                         @endif
                                     @endauth
@@ -270,7 +263,7 @@
                                         <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
 
                                         <!-- button edit -->
-                                        @if ( (Auth::user()->id === $comment->user_id) || Auth::user()->can('create_products') )
+                                        @if ( (auth()->user()->id === $comment->user_id) || auth()->user()->can('create_products') )
                                             <button type="button" class="btn btn-outline-success edit" data-toggle="collapse"
                                                 data-target="#collapse_{{ $comment->id }}" aria-expanded="false" aria-controls="coll"
                                             >
@@ -293,7 +286,7 @@
                                 <div class="comment_str">{!! $comment->body !!}</div>{{-- @deprecated! enable html entities!! --}}
 
                                 <!-- form edit -->
-                                @if ( Auth::user()->id === $comment->user_id && Auth::user()->can('create_products') ))
+                                @if ( auth()->user()->id === $comment->user_id && auth()->user()->can('create_products') )
                                     <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
                                         @method('PATCH')
                                         @csrf

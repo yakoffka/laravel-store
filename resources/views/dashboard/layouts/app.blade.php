@@ -20,7 +20,7 @@
     <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-  
+
     <!-- Fonts -->
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
     <link href="{{ asset('fonts/proxima-nova/style.css') }}" rel="stylesheet" type="text/css">
@@ -82,14 +82,14 @@
                 file_browser_callback : function(field_name, url, type, win) {
                     var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
                     var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-        
+
                     var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
                     if (type == 'image') {
                         cmsURL = cmsURL + "&type=Images";
                     } else {
                         cmsURL = cmsURL + "&type=Files";
                     }
-        
+
                     tinyMCE.activeEditor.windowManager.open({
                         file : cmsURL,
                         title : 'Filemanager',
@@ -100,7 +100,7 @@
                     });
                 }
             };
-        
+
             tinymce.init(editor_config);
         </script>
         {{-- <script src="{{ asset('wysiwyg/tinymce/4/tinymce.min.js') }}"></script> --}}
@@ -119,7 +119,7 @@
                 <a class="logo d-none d-md-block" href="{{ url('/') }}">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                     {{-- <img src="/laravel_white.png" alt="logo"> --}}
                     <img src="{{ asset('storage') }}/images/common/logo_{{ config('custom.store_theme') }}.png" alt="logo">
-                    
+
                 </a>
             </div>
         </div>
@@ -127,7 +127,7 @@
         <nav class="navbar navbar-expand-md navbar-dark">
         {{-- <nav class="navbar navbar-expand-md navbar-dark d-md-none">d-md-none - Скрыто на экранах шире md --}}
             <div class="container">
-                
+
                 {{-- logo --}}
                     <div class="logo_mob d-md-none">{{-- d-md-none - Скрыто на экранах шире md --}}
                         <img src="/laravel_white.png" width="40" height="40" alt="logo">
@@ -144,7 +144,7 @@
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
 
-                
+
                 {{-- main_menu --}}{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
                 <ul class="main_menu d-none d-md-block">
                     @include('menu.main')
@@ -211,7 +211,7 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-                            
+
                             @if (Route::has('register') and config('settings.display_registration'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -221,17 +221,17 @@
                         @else
 
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" 
-                                    class="nav-link dropdown-toggle" 
-                                    href="#" 
-                                    role="button" 
-                                    data-toggle="dropdown" 
+                                <a id="navbarDropdown"
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    data-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false" 
+                                    aria-expanded="false"
                                     v-pre
                                 >
-                                    {{-- {{ Auth::user()->roles->first()->name }} --}}
-                                    {{ Auth::user()->name }}<span class="caret"></span>
+                                    {{-- {{ auth()->user()->roles->first()->name }} --}}
+                                    {{ auth()->user()->name }}<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -242,8 +242,8 @@
                                     @else
                                         <a class="dropdown-item" href="{{ route('orders.index') }}">{{__('Orders')}}</a>
                                     @endpermission
-                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">{{__('Profile')}}</a>
-                
+                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => auth()->user()->id]) }}">{{__('Profile')}}</a>
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -268,11 +268,11 @@
                         {{-- search --}}{{-- d-md-none - Скрыто на экранах шире md --}}
                         <li class="nav-item d-md-none">
                             {{-- <form class="search" action="{{ route('search') }}" method="GET" role="search">
-                                <input 
-                                    style="width:100%; margin-top:5px; height:2em;" 
-                                    type="search" 
-                                    class="input-sm form-control" 
-                                    name="query" 
+                                <input
+                                    style="width:100%; margin-top:5px; height:2em;"
+                                    type="search"
+                                    class="input-sm form-control"
+                                    name="query"
                                     placeholder="Search products"
                                     value="{{ $query ?? '' }}"
                                 >
@@ -289,7 +289,7 @@
         </nav>
 
         {{-- <div class="height2em"></div> --}}
-       
+
         @if ($errors->any())
             <div class="container">
                 {{-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -332,7 +332,7 @@
                     width: 100%;
                     overflow: hidden;
                 }
-            
+
                 header video {
                     position: absolute;
                     top: 50%;
@@ -347,12 +347,12 @@
                     -webkit-transform: translateX(-50%) translateY(-50%);
                     transform: translateX(-50%) translateY(-50%);
                 }
-            
+
                 header .container {
                     position: relative;
                     z-index: 2;
                 }
-            
+
                 header .overlay {
                     position: absolute;
                     top: 0;
@@ -364,7 +364,7 @@
                     opacity: 0.5;
                     /* z-index: 1; */
                 }
-            
+
                 @media (pointer: coarse) and (hover: none) {
                     header {
                         background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
@@ -375,7 +375,7 @@
                 }
 
                 /* yo */
-            
+
                 header {
                     position: relative;
                     z-index: -2;
@@ -385,7 +385,7 @@
                     z-index: 1;
                 }
             </style>
-            
+
             <header>
                 <div class="overlay">
                     <div class="container h-100">
@@ -393,7 +393,7 @@
                             <div class="w-100 text-white">
                             </div>
                         </div>
-                    </div>            
+                    </div>
                 </div>
                 <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
                     <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
@@ -428,7 +428,7 @@
                                 <div class="h1"><i class="blue fas fa-chevron-circle-down"></i></div>
                             </div>
                         </div>
-                    </div>            
+                    </div>
                 </div>
                 <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
                     <source src="{{ asset('videos/futaj.mp4') }}" type="video/mp4">
@@ -437,7 +437,7 @@
         @else
         @endif
         {{-- /videobackground --}}
- 
+
         <main class="py-4">
 
             {{-- @alert(['type' => 'primary', 'title' => 'roles/create'])
@@ -472,7 +472,7 @@
 
             @include('layouts.partials.separator')
 
-            <div class="grey denial_responsibility">                
+            <div class="grey denial_responsibility">
                 settings.email_categories_created = '{{ config('settings.email_categories_created') }}'. Администрация Сайта не несет ответственности за размещённые Пользователями материалы (в т.ч. информацию и изображения), их содержание и качество.
             </div>
         </div>
@@ -498,7 +498,7 @@
                     </a>
 
                 </div>
-                
+
             </div>
 
             <div class="skew"></div>

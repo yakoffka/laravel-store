@@ -34,7 +34,7 @@
                 @endif
             @endif
             {{-- /pagination block --}}
-    
+
             <table class="blue_table overflow_x_auto">
                 <tr>
                     {{-- <th>#</th> --}}
@@ -90,7 +90,7 @@
                                 <i class="fas fa-pen-nib"></i>
                             </a>
                         @else
-                            @if ( Auth::user()->id == $user->id )
+                            @if ( auth()->user()->id == $user->id )
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-outline-success">
                                     <i class="fas fa-pen-nib"></i>
                                 </a>
@@ -117,13 +117,13 @@
 
             {{-- Permissions --}}
             {{-- добавить условие для входа в цикл? --}}
-            @foreach ( $users as $user ) 
-            
+            @foreach ( $users as $user )
+
                 @permission('view_roles')
                     <h2 id="roles_{{ $user->name }}">Roles of {{ $user->name }}:</h2>
                     @foreach ($user->roles as $role)
                         @if($loop->last){{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>.
-                        @else{{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>, 
+                        @else{{ $loop->iteration }} <a href="{{ route('roles.show', ['role' => $role->id]) }}">{{ $role->display_name }}</a>,
                         @endif
                     @endforeach
                 @endpermission

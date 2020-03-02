@@ -70,7 +70,7 @@ class Comment extends Model
             $this->user_name = auth()->user()->name;
         } else {
             $this->user_id = 7; // 7 - id for Undefined user.
-            $this->user_name = request('user_name') ?? (__('Guest ') . 'Anonimous');
+            $this->user_name = __('Guest ') . request('user_name') ?? 'Anonimous';
         }
         return $this;
     }

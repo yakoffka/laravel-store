@@ -56,7 +56,7 @@
                     @if ($product->date_manufactured)<span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
                     @if ($product->id)<span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
 
-                    @if ( config('settings.display_prices') and $product->price)
+                    @if ( $product->price > 0 && config('settings.display_prices'))
                         <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
@@ -173,16 +173,9 @@
                         @foreach ($product->comments as $num_comment => $comment)
                             <li class="list-group-item" id="comment_{{ $comment->id }}" >
                                 <div class="comment_header">
-
-                                    {{-- @if($comment->user_id == 7)
-                                        Гость {{ $comment->user_name }}
-                                    @else
-                                        {{ $comment->creator ? $comment->creator->name : 'RIP' }}
-                                    @endif --}}
-                                    {{ $comment->user_name }}
-
+                                    <span class="commentator_name">{{ $comment->user_name }}</span>
                                     @auth
-                                        @if( $comment->creator and $comment->creator->id == Auth::user()->id )
+                                        @if( $comment->creator && $comment->creator->id === auth()->user()->id )
                                         <span class="blue">Ваш комментарий</span>
                                         @endif
                                     @endauth
@@ -191,7 +184,7 @@
 
                                         <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
 
-                                        <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
+                                        <?php if ( (auth()->user() and auth()->user()->can('create_products') or auth()->user() and auth()->user()->id == $comment->user_id )) { ?>
 
                                             <!-- button edit -->
                                             <button type="button" class="btn btn-outline-success edit" data-toggle="collapse"
@@ -227,7 +220,7 @@
                                     @endif
                                 </div>
 
-                                <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
+                                <?php if ( (auth()->user() and auth()->user()->can('create_products') or auth()->user() and auth()->user()->id == $comment->user_id )) { ?>
                                     <!-- form edit -->
                                     <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
 

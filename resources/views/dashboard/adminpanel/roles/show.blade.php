@@ -55,7 +55,7 @@
                         {{-- <div class="td role_buttons row"> --}}
 
 
-                            @if ( Auth::user()->can( ['edit_roles', 'delete_roles'], true ) )
+                            @if ( auth()->user()->can( ['edit_roles', 'delete_roles'], true ) )
 
                                 {{-- <div class="col-sm-6"> --}}
                                     @if ( $role->id < 5 )
@@ -85,7 +85,7 @@
                                 {{-- </div> --}}
 
 
-                            @elseif ( Auth::user()->can( ['edit_roles'], true ) )
+                            @elseif ( auth()->user()->can( ['edit_roles'], true ) )
 
                                 {{-- <div class="col-sm-12"> --}}
                                     @if ( $role->id < 5 )
@@ -106,7 +106,7 @@
                     </td-->
                     <td>
 
-                        @if ( Auth::user()->can('edit_roles') and $role->id > 4 )
+                        @if ( auth()->user()->can('edit_roles') and $role->id > 4 )
                             <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-outline-success">
                                 <i class="fas fa-pen-nib"></i>
                             </a>
@@ -115,8 +115,8 @@
                         @endif
 
 
-                        @if ( Auth::user()->can('delete_roles') and $role->id > 4 )
-                        
+                        @if ( auth()->user()->can('delete_roles') and $role->id > 4 )
+
                             {{-- <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" class="del_btn">
                                 @csrf
 
@@ -154,7 +154,7 @@
                 @if($role->users->count())
                     @foreach($role->users as $user)
                         @if($loop->last){{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>.
-                        @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>, 
+                        @else{{ $loop->iteration }} <a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>,
                         @endif
                     @endforeach
                 @else

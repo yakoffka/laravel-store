@@ -5,7 +5,7 @@
             <th>№</th>
             <th>Дата</th>
             <th>Описание</th>
-            @if ( Auth::user()->can('view_orders') )
+            @if ( auth()->user()->can('view_orders') )
                 <th>Инициатор</th>
             @endif
         </tr>
@@ -21,10 +21,10 @@
                 {{-- {{ $customevent->description }} --}}
                 <span title="{{ $customevent->description }}">{{ str_limit($customevent->description, 50) }}</span>
             </td>
-            @if ( Auth::user()->can('view_orders') )
+            @if ( auth()->user()->can('view_orders') )
                 <td>
-                    <a 
-                        href="{{ route('customevents.index') }}?users[]={{ $customevent->getInitiator->id }}" 
+                    <a
+                        href="{{ route('customevents.index') }}?users[]={{ $customevent->getInitiator->id }}"
                         title="view all events {{ $customevent->getInitiator->name }}"
                     >
                         {{ $customevent->getInitiator->name }}

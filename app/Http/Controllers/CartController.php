@@ -19,14 +19,14 @@ class CartController extends Controller
      */
     public function store(Cart $cart)
     {
-        // abort_if ( Auth::user()->cannot('create_products'), 403 );
+        // abort_if ( auth()->user()->cannot('create_products'), 403 );
         return redirect()->route('products.index');
     }
 
     /**
-     * 
      *
-     * 
+     *
+     *
      */
     public function confirmation()
     {
@@ -39,7 +39,7 @@ class CartController extends Controller
          * Add to cart the specified resource.
          *
          * @param  Product $product
-         * @return 
+         * @return
          */
     public function addToCart(Product $product)
     {
@@ -55,7 +55,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
@@ -67,7 +67,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from cart.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function deleteItem(Product $product)
@@ -84,7 +84,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function changeItem(Product $product)

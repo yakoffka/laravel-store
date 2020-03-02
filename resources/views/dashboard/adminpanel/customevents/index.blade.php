@@ -22,7 +22,7 @@
         @include('dashboard.layouts.partials.aside')
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-    
+
             {{-- Events --}}
             @if( $customevents->count() )
 
@@ -38,7 +38,7 @@
                             {{-- <th>{{ __('__Model')}}</th> --}}
                             <th>{{ __('__Date')}}</th>
                             <th>{{ __('__Description') }}</th>
-                            @if ( Auth::user()->can('view_orders') )
+                            @if ( auth()->user()->can('view_orders') )
                                 <th>{{ __('__Initiator')}}</th>
                             @endif
                             <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
@@ -59,21 +59,21 @@
                                 {{-- <span title="{{ $customevent->description }}">{{ str_limit($customevent->description, 50) }}</span> --}}
                                 {{ __($customevent->type . '_' . $customevent->model) }} '{{ $customevent->model_name }}' (id={{ $customevent->model_id }})
                             </td>
-                            @if ( Auth::user()->can('view_orders') )
+                            @if ( auth()->user()->can('view_orders') )
                                 <td>
                                     {{-- {{ $customevent->getInitiator->name }} --}}
-                                    <a href="{{ route('customevents.index') }}?users[]={{ $customevent->getInitiator->id }}" 
+                                    <a href="{{ route('customevents.index') }}?users[]={{ $customevent->getInitiator->id }}"
                                         title="view all events {{ $customevent->getInitiator->name }}"
                                     >
                                         {{ $customevent->getInitiator->name }}
                                     </a>
                                 </td>
                             @endif
-            
+
                             <td>
                                 <a href="{{ route('customevents.show', $customevent) }}" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
                             </td>
-            
+
                         </tr>
                     @endforeach
                 </table>

@@ -39,7 +39,7 @@
                 <th>created</th>
                 <th>updated</th>
                 <th>comment</th>
-                @if ( Auth::user()->can('delete_orders') )
+                @if ( auth()->user()->can('delete_orders') )
                     <th class="actions2">action</th>
                 @else
                     <th class="actions1">action</th>
@@ -52,8 +52,8 @@
                     <td>{{ __('Order_name_#', ['name' => $order->name]) }}</td>
                     @permission('edit_orders')
                         @selectStatusOrder([
-                            'statuses' => $statuses, 
-                            'order' => $order, 
+                            'statuses' => $statuses,
+                            'order' => $order,
                         ])
                     @else
                         <td>{{ __($order->status->name) }}</td>
@@ -82,14 +82,14 @@
                     </td>
                     <td>
 
-                        {{-- @if ( Auth::user()->can('view_orders') or auth()->user()->id == $order->customer_id )
+                        {{-- @if ( auth()->user()->can('view_orders') or auth()->user()->id == $order->customer_id )
                             <a href="{{ route('orders.adminshow', ['order' => $order->id]) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-eye"></i>
                             </a>
                         @else
                             <button class="btn btn-outline-secondary"><i class="fas fa-eye"></i></button>
                         @endif --}}
-                        @if ( Auth::user()->can('view_orders') )
+                        @if ( auth()->user()->can('view_orders') )
                             <a href="{{ route('orders.adminshow', ['order' => $order->id]) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-eye"></i>
                             </a>
@@ -99,7 +99,7 @@
                             </a>
                         @endif
 
-                        {{-- @if ( Auth::user()->can('edit_orders') )
+                        {{-- @if ( auth()->user()->can('edit_orders') )
                             <a href="{{ route('orders.edit', ['order' => $order->id]) }}" class="btn btn-outline-success">
                                 <i class="fas fa-pen-nib"></i>
                             </a>
@@ -107,15 +107,15 @@
                             <button class="btn btn-outline-secondary"><i class="fas fa-pen-nib"></i></button>
                         @endif --}}
 
-                        @if ( Auth::user()->can('delete_orders') )
+                        @if ( auth()->user()->can('delete_orders') )
                             @modalConfirmDestroy([
                                 'btn_class' => 'btn btn-outline-danger del_btn',
                                 'cssId' => 'delele_',
                                 'item' => $order,
                                 'action' => route('orders.destroy', ['order' => $order->id]),
-                                'name_item' => 'order #' . $order->id, 
+                                'name_item' => 'order #' . $order->id,
                             ])
-    
+
                         @else
                         @endif
 
@@ -128,7 +128,7 @@
     @else
 
         <h1>Your list of orders is empty</h1>
-    
+
     @endif
 
 @endsection

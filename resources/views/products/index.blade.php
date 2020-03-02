@@ -148,7 +148,7 @@
 
                                 @else
 
-                                    @if ( Auth::user()->can( ['edit_products', 'delete_products'], true ) )
+                                    @if ( auth()->user()->can( ['edit_products', 'delete_products'], true ) )
                                         <div class="col-sm-3 p-1">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i>
@@ -170,7 +170,7 @@
                                             ])
                                         </div>
 
-                                    @elseif ( Auth::user()->can('edit_products') )
+                                    @elseif ( auth()->user()->can('edit_products') )
 
                                         <div class="col-sm-6 p-1">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}" class="btn btn-outline-info">

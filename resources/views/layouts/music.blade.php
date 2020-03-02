@@ -143,8 +143,8 @@
                                     aria-expanded="false"
                                     v-pre
                                 >
-                                    {{-- {{ Auth::user()->roles->first()->name }} --}}
-                                    {{ Auth::user()->name }}<span class="caret"></span>
+                                    {{-- {{ auth()->user()->roles->first()->name }} --}}
+                                    {{ auth()->user()->name }}<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -155,7 +155,7 @@
                                     @else
                                         <a class="dropdown-item" href="{{ route('orders.index') }}">{{__('Orders')}}</a>
                                     @endpermission
-                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => Auth::user()->id]) }}">{{__('Profile')}}</a>
+                                    <a class="dropdown-item" href="{{ route('users.show', ['user' => auth()->user()->id]) }}">{{__('Profile')}}</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

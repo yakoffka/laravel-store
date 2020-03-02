@@ -26,7 +26,7 @@
 
         <span class="grey">created:</span> {{ $order->created_at }}
         <span class="grey">updated:</span> {{ $order->updated_at }}<br>
-    
+
         @permission('view_users')
             <span class="grey">customer:</span> {{ $order->customer->name }}<br>
         @endpermission
@@ -34,8 +34,8 @@
         <span class="grey">status of order:</span>
         @permission('edit_orders')
             @selectStatusOrder([
-                'statuses' => $statuses, 
-                'order' => $order, 
+                'statuses' => $statuses,
+                'order' => $order,
             ])
         @endpermission
         {{ $order->status->description }}<br>
@@ -65,9 +65,9 @@
                         @else
                             <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg-l.png);">
                         @endif
-    
+
                             <div class="dummy"></div><div class="element"></div>
-                        </div>       
+                        </div>
                     </td>
                     <td>
                         <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">
@@ -124,7 +124,7 @@
         <div class="row justify-content-center">
             <h1>Youre cart is empty</h1>
         </div>
-       
+
         <div class="row justify-content-center">
             <div class="col-sm-6">
                 <a href="{{ route('products.index') }}" class="btn btn-success">shopping</a>
@@ -135,8 +135,8 @@
 
     {{-- <h2>chat</h2>
 
-    @if ( Auth::user()->can('delete_orders') )
-    delete this order 
+    @if ( auth()->user()->can('delete_orders') )
+    delete this order
     @modalConfirmDestroy([
         'btn_class' => 'btn btn-outline-danger form-group',
         'cssId' => 'delele_',
