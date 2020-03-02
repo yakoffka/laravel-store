@@ -102,6 +102,23 @@ class Comment extends Model
     }
 
     /**
+     * @return string
+     */
+    public function formattedCreatedAt(): string
+    {
+        return $this->created_at->format('Y.m.d H:i');
+    }
+
+    /**
+     * @return string
+     */
+    public function formattedUpdatedAt(): string
+    {
+//        Carbon::gettime
+        return $this->created_at->format('Y.m.d H:i');
+    }
+
+    /**
      * Create records in table events.
      *
      * @return Comment $comment

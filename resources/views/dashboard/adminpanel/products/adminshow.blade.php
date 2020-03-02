@@ -217,7 +217,6 @@
             </div>
 
 
-
             {{-- информация о доставке на экранах уже lg --}}
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 mb-2 shipping">
                 <div class="d-lg-none .d-xl-block">{{-- d-none d-lg-block - Скрыт только на lg --}}
@@ -226,125 +225,10 @@
             </div>
             {{-- /информация о доставке на экранах lg --}}
 
-
-            <!-- /product -->
             @include('layouts.partials.separator')
-
-
-
-            <!-- comments -->
-            <div class="row">
-                <div class="col-md-12">
-
-                    @if($product->comments->count())
-
-                        <h2>Комментарии к товару {{ $product->name }} ({{ $product->comments->count() }})</h2>
-                        <ul class='content list-group'>
-
-                        @foreach ($product->comments as $num_comment => $comment)
-                            <li class="list-group-item" id="comment_{{ $comment->id }}" >
-                                <div class="comment_header">
-                                    <span class="commentator_name">{{ $comment->user_name }}</span>
-                                    <!-- created_at/updated_at -->
-                                    @if ( $comment->updated_at === $comment->created_at )
-                                        опубликовано {{ $comment->created_at }}:
-                                    @else
-                                        опубликовано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
-                                    @endif
-
-                                    @auth
-                                        @if ( $comment->creator && $comment->creator->id === auth()->user()->id )
-                                        <span class="blue">Ваш комментарий</span>
-                                        @endif
-                                    @endauth
-
-                                    <div class="comment_buttons">
-
-                                        <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
-
-                                        <!-- button edit -->
-                                        @if ( (auth()->user()->id === $comment->user_id) || auth()->user()->can('create_products') )
-                                            <button type="button" class="btn btn-outline-success edit" data-toggle="collapse"
-                                                data-target="#collapse_{{ $comment->id }}" aria-expanded="false" aria-controls="coll"
-                                            >
-                                                <i class="fas fa-pen-nib"></i>
-                                            </button>
-                                        @endif
-
-                                        <!-- delete comment -->
-                                        @permission('delete_comments')
-                                        <form action="{{ route('comments.destroy', ['comment' => $comment->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                        @endpermission
-                                    </div>
-
-                                </div>
-
-                                <div class="comment_str">{!! $comment->body !!}</div>{{-- @deprecated! enable html entities!! --}}
-
-                                <!-- form edit -->
-                                @if ( auth()->user()->id === $comment->user_id && auth()->user()->can('create_products') )
-                                    <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
-                                        @method('PATCH')
-                                        @csrf
-                                        <label for="body_{{ $comment->id }}"></label>
-                                        <textarea id="body_{{ $comment->id }}" name="body" cols="30" rows="4"
-                                                  class="form-control card" placeholder="Add a comment"
-                                        >{{$comment->breakBody()}}</textarea>
-                                        <button type="submit" class="btn btn-success">редактировать</button>
-                                    </form>
-                                @endif
-
-                            </li>
-                        @endforeach
-                        </ul>
-
-                    @else
-
-                        <h2>Отзывы к товару {{ $product->name }}</h2>
-                        <p class="grey">Отзывов ещё нет — ваш может стать первым.</p>
-
-                    @endif
-
-                </div>
-            </div>
-            <!-- /comments -->
-
-
-            <!-- comment on -->
-            <div class="row">
-                <div class="col-md-12">
-
-                    <h2>оставьте свой комментарий</h2>
-
-                    <form method="POST" action="/products/{{ $product->id }}/comments">
-                        @csrf
-
-                        @auth
-                        @else
-
-                            <div class="form-group">
-                                <!-- <label for="user_name">Your name</label> -->
-                                <label for="user_name"></label>
-                                <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Your name" value="{{ old('user_name') }}" required>
-                            </div>
-
-                        @endauth
-
-                        <div class="form-group">
-                            <!-- <label for="body">Add a comment</label> -->
-                            <label for="body"></label>
-                            <textarea id="body" name="body" cols="30" rows="4" class="form-control" placeholder="Add a your comment" required>{{ old('body') }}</textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">отправить</button>
-                    </form>
-
-                </div>
-            </div>
-            <!-- /comment on -->
+            @include('layouts.partials.comment')
+            @include('layouts.partials.separator')
+            @include('layouts.partials.comment_on')
         </div>
 
     </div>{{-- <div class="row"> --}}
