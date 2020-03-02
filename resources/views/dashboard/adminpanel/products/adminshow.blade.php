@@ -65,7 +65,8 @@
                     <span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 
 
-                    @if ( config('settings.display_prices') and $product->price)
+                    {{-- @if ( config('settings.display_prices') && $product->price > 0 )--}}
+                    @if ( $product->price > 0 && config('settings.display_prices') )
                         <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
@@ -244,7 +245,7 @@
                             <li class="list-group-item" id="comment_{{ $comment->id }}" >
                                 <div class="comment_header">
 
-                                    @if($comment->user_id == 0)
+                                    @if ( $comment->user_id === 0 )
                                         Гость {{ $comment->user_name }}
                                     @else
                                         {{ $comment->creator ? $comment->creator->name : 'RIP' }}
@@ -252,14 +253,14 @@
 
 
                                     <!-- created_at/updated_at -->
-                                    @if($comment->updated_at == $comment->created_at)
+                                    @if ( $comment->updated_at === $comment->created_at )
                                         опубликвано {{ $comment->created_at }}:
                                     @else
                                         опубликвано {{ $comment->created_at }} (редактировано: {{ $comment->updated_at }}):
                                     @endif
 
                                     @auth
-                                        @if( $comment->creator and $comment->creator->id == Auth::user()->id )
+                                        @if ( $comment->creator && $comment->creator->id === Auth::user()->id )
                                         <span class="blue">Ваш комментарий</span>
                                         @endif
                                     @endauth
@@ -268,24 +269,20 @@
 
                                         <div class="comment_num">#{{-- $comment->id --}}{{ $num_comment+1 }}</div>
 
-                                        <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
-
-                                            <!-- button edit -->
+                                        <!-- button edit -->
+                                        @if ( (Auth::user()->id === $comment->user_id) || Auth::user()->can('create_products') )
                                             <button type="button" class="btn btn-outline-success edit" data-toggle="collapse"
                                                 data-target="#collapse_{{ $comment->id }}" aria-expanded="false" aria-controls="coll"
                                             >
                                                 <i class="fas fa-pen-nib"></i>
                                             </button>
+                                        @endif
 
-                                        <?php } ?>
-
-                                        @permission('delete_comments')
                                         <!-- delete comment -->
+                                        @permission('delete_comments')
                                         <form action="{{ route('comments.destroy', ['comment' => $comment->id]) }}" method="POST">
                                             @csrf
-
-                                            @method("DELETE")
-
+                                            @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </form>
                                         @endpermission
@@ -293,27 +290,23 @@
 
                                 </div>
 
-                                <div class="comment_str">{!! $comment->body !!}</div>{{-- enable html entities!! --}}
+                                <div class="comment_str">{!! $comment->body !!}</div>{{-- @deprecated! enable html entities!! --}}
 
-                                <?php if ( (Auth::user() and Auth::user()->can('create_products') or Auth::user() and Auth::user()->id == $comment->user_id )) { ?>
-
-                                    <!-- form edit -->
+                                <!-- form edit -->
+                                @if ( Auth::user()->id === $comment->user_id && Auth::user()->can('create_products') ))
                                     <form action="/comments/{{ $comment->id }}" method="POST" class="collapse" id="collapse_{{ $comment->id }}">
-
-                                        @method("PATCH")
-
+                                        @method('PATCH')
                                         @csrf
-
+                                        <label for="body_{{ $comment->id }}"></label>
                                         <textarea id="body_{{ $comment->id }}" name="body" cols="30" rows="4"
-                                            class="form-control card" placeholder="Add a comment"><?php echo str_replace('<br>', "\r\n", $comment->body); ?></textarea>
+                                                  class="form-control card" placeholder="Add a comment"
+                                        >{{$comment->breakBody()}}</textarea>
                                         <button type="submit" class="btn btn-success">редактировать</button>
                                     </form>
-                                <?php } ?>
+                                @endif
 
                             </li>
-
                         @endforeach
-
                         </ul>
 
                     @else
@@ -342,6 +335,7 @@
 
                             <div class="form-group">
                                 <!-- <label for="user_name">Your name</label> -->
+                                <label for="user_name"></label>
                                 <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Your name" value="{{ old('user_name') }}" required>
                             </div>
 
@@ -349,6 +343,7 @@
 
                         <div class="form-group">
                             <!-- <label for="body">Add a comment</label> -->
+                            <label for="body"></label>
                             <textarea id="body" name="body" cols="30" rows="4" class="form-control" placeholder="Add a your comment" required>{{ old('body') }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">отправить</button>

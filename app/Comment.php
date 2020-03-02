@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use App\Customevent;
 use App\Mail\CommentNotification;
-use Artisan;
+use Mail;
+use Str;
 
 /**
  * App\Comment
@@ -17,59 +20,85 @@ use Artisan;
  * @property int $user_id
  * @property string $user_name
  * @property string $body
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\User $creator
- * @property-read \App\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserName($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $creator
+ * @property-read Product $product
+ * @method static Builder|Comment newModelQuery()
+ * @method static Builder|Comment newQuery()
+ * @method static Builder|Comment query()
+ * @method static Builder|Comment whereBody($value)
+ * @method static Builder|Comment whereCreatedAt($value)
+ * @method static Builder|Comment whereId($value)
+ * @method static Builder|Comment whereName($value)
+ * @method static Builder|Comment whereProductId($value)
+ * @method static Builder|Comment whereUpdatedAt($value)
+ * @method static Builder|Comment whereUserId($value)
+ * @method static Builder|Comment whereUserName($value)
+ * @mixin Eloquent
  */
 class Comment extends Model
 {
     protected $guarded = [];
     protected $perPage = 15;
-    private $event_type = '';
+    private string $event_type = '';
 
 
-    public function product() {
+    /**
+     * @return BelongsTo
+     */
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class);
     }
 
-    public function creator() {
+    /**
+     * @return BelongsTo
+     */
+    public function creator(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-
-    public function setAuthor()
+    /**
+     * @return Comment
+     */
+    public function setAuthor(): Comment
     {
-        info(__METHOD__);
-        $this->user_id = auth()->user() ? auth()->user()->id : 7; // 7 - id for Undefined user.
-        $this->user_name = auth()->user() ? auth()->user()->name : (request('user_name') ? __('Guest ') . request('user_name') : __('Guest ') . 'Anonimous');
+        if ( auth()->user() ) {
+            $this->user_id = auth()->id();
+            $this->user_name = auth()->user()->name;
+        } else {
+            $this->user_id = 7; // 7 - id for Undefined user.
+            $this->user_name = request('user_name') ?? (__('Guest ') . 'Anonimous');
+        }
         return $this;
     }
 
-    public function setName()
+    /**
+     * @return Comment
+     */
+    public function setName(): Comment
     {
-        info(__METHOD__);
-        $this->name = \Str::limit($this->body, 20);
+        $this->name = Str::limit($this->body, 20);
         return $this;
     }
 
-    public function transformBody()
+    /**
+     * @return Comment
+     */
+    public function transformBody(): Comment
     {
-        info(__METHOD__);
         $this->body = str_replace(["\r\n", "\r", "\n"], '<br>', $this->body);
         return $this;
+    }
+
+    /**
+     * @return Comment
+     */
+    public function breakBody(): string
+    {
+        return str_replace('<br>', "\r\n", $this->body);
     }
 
     /**
@@ -77,18 +106,16 @@ class Comment extends Model
      *
      * @return Comment $comment
      */
-    public function createCustomevent()
+    public function createCustomevent(): Comment
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
         $original = $this->getOriginal();
-        // dd($attr, $dirty, $original);
 
         $details = [];
         foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+            if ( array_key_exists( $property, $dirty ) && !$dirty ) {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,
@@ -104,7 +131,7 @@ class Comment extends Model
             'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
@@ -115,13 +142,10 @@ class Comment extends Model
      *
      * @return Comment $comment
      */
-    public function sendEmailNotification() // !!! Possible execution as a guest
+    public function sendEmailNotification(): Comment
     {
-        info(__METHOD__);
-
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
             $to = auth()->user() ?? config('mail.from.address');
@@ -130,7 +154,7 @@ class Comment extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later(
+            Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new CommentNotification($this->getTable(), $this->id, $this->name, $this->user_name, $this->event_type, $this->product_id, $this->body)
             );
@@ -148,7 +172,6 @@ class Comment extends Model
      */
     public function setFlashMess(): Comment
     {
-        info(__METHOD__);
         $message = __('Comment__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
         session()->flash('message', $message);
         return $this;
