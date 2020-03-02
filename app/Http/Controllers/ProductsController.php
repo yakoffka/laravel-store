@@ -57,10 +57,9 @@ class ProductsController extends Controller
     public function adminIndex(): View
     {
         $appends = request()->query->all();
-//        $products = Product::filter(request())->paginate(config('custom.pagination_product_admin'));
-        $products = Product::with(['category'])
+        $products = Product::with(['category', 'images'])
             ->paginate(config('custom.pagination_product_admin'));
-        $categories = Category::all();
+        $categories = Category::with(['children', 'products'])->get();
 
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }

@@ -55,7 +55,7 @@
                 </tr>
 
                 @foreach ( $products as $product )
-                    @productRow(['products' =>  $product, 'category' => true])
+                    @productRow(['product' =>  $product])
                     @php
                         $oForms .= 'oForm[\'products[' . $product->id . ']\'].checked = checked;';
                     @endphp
