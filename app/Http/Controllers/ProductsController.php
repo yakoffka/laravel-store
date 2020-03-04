@@ -86,8 +86,7 @@ class ProductsController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-        $fields = $request->validated();
-        unset($fields['imagespath']);
+        $fields = $this->prepareFields($request->validated());
         $product = Product::create($fields);
         $product->attachImages();
 
@@ -152,48 +151,32 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param ProductRequest $request
      * @param Product $product
      * @return RedirectResponse
      */
-    public function update(Product $product): RedirectResponse
+    public function update(ProductRequest $request, Product $product): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('edit_products'), 403 );
-
-        request()->validate([
-            'name'              => 'required|max:255|unique:products,name,'.$product->id.',id',
-            'title'             => 'nullable|string',
-            'slug'              => 'nullable|string',
-            'manufacturer_id'   => 'required|integer',
-            'category_id'       => 'required|integer',
-            'seeable'           => 'nullable|string|in:on',
-            'materials'         => 'nullable|string',
-            'description'       => 'nullable|string',
-            'modification'      => 'nullable|string',
-            'workingconditions' => 'nullable|string',
-            'imagespath'        => 'nullable|string',
-            'date_manufactured' => 'nullable|string|min:10|max:10',
-            'price'             => 'nullable|integer',
-        ]);
-
-        $product->update([
-            'name' => request('name'),
-            'title' => request('title'),
-            'slug' => request('slug'),
-            'manufacturer_id' => request('manufacturer_id'),
-            'category_id' => request('category_id'),
-            'seeable' => request('seeable') ,
-            'materials' => request('materials'),
-            'description' => request('description'),
-            'modification' => request('modification'),
-            'workingconditions' => request('workingconditions'),
-            'date_manufactured' => request('date_manufactured'),
-            'price' => request('price'),
-            'views' => 0,
-        ]);
-
+        $fields = $this->prepareFields($request->validated());
+        $product->update($fields);
         $product->attachImages();
 
-        return redirect()->route('products.adminshow', $product->id);
+        return redirect()->route('categories.adminshow', $product->category_id);
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    private function prepareFields(array $fields): array
+    {
+        unset(
+            $fields['imagespath'],
+            $fields['copy_img'],
+        );
+        $fields['seeable'] = $fields['seeable'] ?? '';
+
+        return $fields;
     }
 
     /**

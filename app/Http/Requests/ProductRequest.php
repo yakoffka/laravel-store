@@ -9,7 +9,11 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'              => 'required|string|unique:products,name',
+            'name'              => [
+                'required',
+                'string',
+                isset( $this->product ) ? 'unique:products,name,'.$this->product->id : 'unique:products,name',
+            ],
             'title'             => 'nullable|string',
             'slug'              => 'nullable|string',
             'manufacturer_id'   => 'required|integer',
@@ -28,6 +32,10 @@ class ProductRequest extends FormRequest
 
     public function authorize(): bool
     {
+        if ( isset( $this->product ) ) {
+            return auth()->user()->can('edit_products');
+        }
+
         return auth()->user()->can('create_products');
     }
 }
