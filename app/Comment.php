@@ -61,40 +61,40 @@ class Comment extends Model
     }
 
     /**
-     * @return Comment
+     * : @return $this
      */
-    public function setAuthor(): Comment
+    public function setAuthor(): self
     {
-        if ( auth()->user() ) {
+        if (auth()->user()) {
             $this->user_id = auth()->id();
             $this->user_name = auth()->user()->name;
         } else {
-            $this->user_id = 7; // 7 - id for Undefined user.
-            $this->user_name = __('Guest ') . request('user_name') ?? 'Anonimous';
+            $this->user_id = User::URUID; // unregistered user id
+            $this->user_name = __('Guest ') . request('user_name') ?? 'Anonimous'; // @todo
         }
         return $this;
     }
 
     /**
-     * @return Comment
+     * : @return $this
      */
-    public function setName(): Comment
+    public function setName(): self
     {
         $this->name = Str::limit($this->body, 20);
         return $this;
     }
 
     /**
-     * @return Comment
+     * : @return $this
      */
-    public function transformBody(): Comment
+    public function transformBody(): self
     {
         $this->body = str_replace(["\r\n", "\r", "\n"], '<br>', $this->body);
         return $this;
     }
 
     /**
-     * @return Comment
+     * : @return $this
      */
     public function breakBody(): string
     {
@@ -121,9 +121,9 @@ class Comment extends Model
     /**
      * Create records in table events.
      *
-     * @return Comment $comment
+     * : @return $this $comment
      */
-    public function createCustomevent(): Comment
+    public function createCustomevent(): self
     {
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
@@ -131,8 +131,8 @@ class Comment extends Model
         $original = $this->getOriginal();
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) && !$dirty ) {
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) && !$dirty) {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,
@@ -157,9 +157,9 @@ class Comment extends Model
     /**
      * Create event notification.
      *
-     * @return Comment $comment
+     * : @return $this $comment
      */
-    public function sendEmailNotification(): Comment
+    public function sendEmailNotification(): self
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
@@ -167,7 +167,7 @@ class Comment extends Model
         if ( $setting === '1' ) {
             $to = auth()->user() ?? config('mail.from.address');
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
@@ -177,7 +177,7 @@ class Comment extends Model
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
+            if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
@@ -185,11 +185,11 @@ class Comment extends Model
     }
 
     /**
-     * @return Comment
+     * : @return $this
      */
-    public function setFlashMess(): Comment
+    public function setFlashMess(): self
     {
-        $message = __('Comment__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        $message = __('Comment__success', ['name' => $this->name, 'type_act' => __('masculine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
     }

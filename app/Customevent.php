@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use App\Filters\Customevent\CustomeventFilters;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Customevent
@@ -18,23 +21,23 @@ use App\Filters\Customevent\CustomeventFilters;
  * @property mixed $type
  * @property string|null $description
  * @property string|null $details
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent filter(\Illuminate\Http\Request $request, $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereDetails($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereModel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereModelName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Customevent whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Customevent filter(Request $request, $filters = [])
+ * @method static Builder|Customevent newModelQuery()
+ * @method static Builder|Customevent newQuery()
+ * @method static Builder|Customevent query()
+ * @method static Builder|Customevent whereCreatedAt($value)
+ * @method static Builder|Customevent whereDescription($value)
+ * @method static Builder|Customevent whereDetails($value)
+ * @method static Builder|Customevent whereId($value)
+ * @method static Builder|Customevent whereModel($value)
+ * @method static Builder|Customevent whereModelId($value)
+ * @method static Builder|Customevent whereModelName($value)
+ * @method static Builder|Customevent whereType($value)
+ * @method static Builder|Customevent whereUpdatedAt($value)
+ * @method static Builder|Customevent whereUserId($value)
+ * @mixin Eloquent
  */
 class Customevent extends Model
 {
@@ -42,11 +45,23 @@ class Customevent extends Model
     protected $guarded = [];
     protected $perPage = 50;
 
-    public function getInitiator () {
+    /**
+     * @return BelongsTo
+     */
+    public function getInitiator (): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function scopeFilter(Builder $builder, Request $request, array $filters = []) { // https://coursehunters.net/course/filtry-v-laravel
+    /**
+     * @param Builder $builder
+     * @param Request $request
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $builder, Request $request, array $filters = []): Builder
+    {
+        // https://coursehunters.net/course/filtry-v-laravel
         return (new CustomeventFilters($request))->add($filters)->filter($builder);
     }
 

@@ -14,7 +14,6 @@ class OrderObserver
      */
     public function creating(Order $order)
     {
-        info(__METHOD__);
         $order->createFromCart()->setCustomer();
     }
 
@@ -26,7 +25,6 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        info(__METHOD__);
         $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -39,7 +37,6 @@ class OrderObserver
      */
     public function updating(Order $order)
     {
-        info(__METHOD__);
         $order->setCustomer();
     }
 
@@ -51,7 +48,6 @@ class OrderObserver
      */
     public function updated(Order $order)
     {
-        info(__METHOD__);
         $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -64,7 +60,6 @@ class OrderObserver
      */
     public function deleting(Order $order)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -75,7 +70,6 @@ class OrderObserver
      */
     public function deleted(Order $order)
     {
-        info(__METHOD__);
         $order->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -88,7 +82,6 @@ class OrderObserver
      */
     public function restored(Order $order)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -99,6 +92,5 @@ class OrderObserver
      */
     public function forceDeleted(Order $order)
     {
-        info(__METHOD__);
     }
 }

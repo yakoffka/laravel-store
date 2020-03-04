@@ -2,7 +2,11 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Image
@@ -16,30 +20,34 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $alt
  * @property int $sort_order
  * @property string $orig_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereAlt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereExt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereOrigName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Product $product
+ * @method static Builder|Image newModelQuery()
+ * @method static Builder|Image newQuery()
+ * @method static Builder|Image query()
+ * @method static Builder|Image whereAlt($value)
+ * @method static Builder|Image whereCreatedAt($value)
+ * @method static Builder|Image whereExt($value)
+ * @method static Builder|Image whereId($value)
+ * @method static Builder|Image whereName($value)
+ * @method static Builder|Image whereOrigName($value)
+ * @method static Builder|Image wherePath($value)
+ * @method static Builder|Image whereProductId($value)
+ * @method static Builder|Image whereSlug($value)
+ * @method static Builder|Image whereSortOrder($value)
+ * @method static Builder|Image whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Image extends Model
 {
     protected $guarded = [];
 
-    public function product() {
+    /**
+     * @return BelongsTo
+     */
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class);
     }
 }

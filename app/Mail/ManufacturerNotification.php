@@ -29,7 +29,6 @@ class ManufacturerNotification extends Mailable
      */
     public function __construct($model, $model_id, $model_name, $username, $event_type)
     {
-        info(__METHOD__);
         $this->model = $model;
         $this->model_id = $model_id;
         $this->model_name = $model_name;
@@ -37,12 +36,12 @@ class ManufacturerNotification extends Mailable
         $this->event_type = $event_type;
 
         $this->subject = __('subject_notification', [
-            'descr' => __($event_type.'_'.$model), 
+            'descr' => __($event_type.'_'.$model),
             'name' => $model_name
         ]);
         $this->body = __('body_notification', [
-            'descr' => __($event_type.'_'.$model), 
-            'name' => $model_name, 
+            'descr' => __($event_type.'_'.$model),
+            'name' => $model_name,
             'username' => $username
         ]);
 
@@ -59,7 +58,6 @@ class ManufacturerNotification extends Mailable
      */
     public function build()
     {
-        info(__METHOD__);
         $markdown = 'emails.'.$this->model;
 
         return $this // markdown, from, subject, view, attach

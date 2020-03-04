@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Tasksstatus
@@ -14,21 +17,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property string $title
  * @property string $class
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereClass($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereDisplayName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Tasksstatus whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Tasksstatus newModelQuery()
+ * @method static Builder|Tasksstatus newQuery()
+ * @method static Builder|Tasksstatus query()
+ * @method static Builder|Tasksstatus whereClass($value)
+ * @method static Builder|Tasksstatus whereCreatedAt($value)
+ * @method static Builder|Tasksstatus whereDescription($value)
+ * @method static Builder|Tasksstatus whereDisplayName($value)
+ * @method static Builder|Tasksstatus whereId($value)
+ * @method static Builder|Tasksstatus whereName($value)
+ * @method static Builder|Tasksstatus whereSlug($value)
+ * @method static Builder|Tasksstatus whereTitle($value)
+ * @method static Builder|Tasksstatus whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Tasksstatus extends Model
 {

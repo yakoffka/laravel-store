@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,9 +16,9 @@ class createCustomeventsTable extends Migration
     {
         Schema::create('customevents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->default(7); // default unregistered user
+            $table->unsignedBigInteger('user_id')->default(User::URUID); // unregistered user id
             $table->set('model', [
-                'categories', 
+                'categories',
                 'comments',
                 'images',
                 'manufacturers',

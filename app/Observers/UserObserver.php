@@ -14,7 +14,6 @@ class UserObserver
      */
     public function creating(User $user)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -25,7 +24,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        info(__METHOD__);
         $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -38,7 +36,6 @@ class UserObserver
      */
     public function updating(User $user)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -49,7 +46,6 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        info(__METHOD__);
         $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -62,7 +58,6 @@ class UserObserver
      */
     public function deleting(User $user)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -73,7 +68,6 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        info(__METHOD__);
         $user->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -86,7 +80,6 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -97,7 +90,6 @@ class UserObserver
      */
     public function forceDeleting(User $user)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -108,6 +100,5 @@ class UserObserver
      */
     public function forceDeleted(User $user)
     {
-        info(__METHOD__);
     }
 }

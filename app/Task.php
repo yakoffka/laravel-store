@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\{Taskspriority, Tasksstatus};
 use Illuminate\Support\Carbon;
-use App\Customevent;
 use App\Mail\TaskNotification;
+use Mail;
 
 /**
  * App\Task
@@ -20,79 +22,94 @@ use App\Mail\TaskNotification;
  * @property int $tasksstatus_id
  * @property int $taskspriority_id
  * @property string|null $comment_slave
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $deleted_at
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Task onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task query()
+ * @method static Builder|Task newModelQuery()
+ * @method static Builder|Task newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Task onlyTrashed()
+ * @method static Builder|Task query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereAddedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereCommentSlave($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereEditedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereMasterUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereSlaveUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereTaskspriorityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereTasksstatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Task whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Task withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Task withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|Task whereAddedByUserId($value)
+ * @method static Builder|Task whereCommentSlave($value)
+ * @method static Builder|Task whereCreatedAt($value)
+ * @method static Builder|Task whereDeletedAt($value)
+ * @method static Builder|Task whereDescription($value)
+ * @method static Builder|Task whereEditedByUserId($value)
+ * @method static Builder|Task whereId($value)
+ * @method static Builder|Task whereMasterUserId($value)
+ * @method static Builder|Task whereName($value)
+ * @method static Builder|Task whereSlaveUserId($value)
+ * @method static Builder|Task whereTaskspriorityId($value)
+ * @method static Builder|Task whereTasksstatusId($value)
+ * @method static Builder|Task whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Task withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Task withoutTrashed()
+ * @mixin Eloquent
  */
 class Task extends Model
 {
     use SoftDeletes;
-    
+
     protected $guarded = [];
     protected $perPage = 30;
-    private $event_type = '';
-    
-    public function getMaster () {
+    private string $event_type = '';
+
+    /**
+     * @return BelongsTo
+     */
+    public function getMaster(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'master_user_id');
     }
 
-    public function getSlave () {
+    /**
+     * @return BelongsTo
+     */
+    public function getSlave(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'slave_user_id');
     }
 
-    public function getPriority () {
+    /**
+     * @return BelongsTo
+     */
+    public function getPriority(): BelongsTo
+    {
         return $this->belongsTo(Taskspriority::class, 'taskspriority_id');
     }
-    
-    public function getStatus () {
+
+    /**
+     * @return BelongsTo
+     */
+    public function getStatus(): BelongsTo
+    {
         return $this->belongsTo(Tasksstatus::class, 'tasksstatus_id');
     }
 
 
     /**
      * set setCreator from auth user
-     * 
-     * @param  Task $task
+     *
      * @return  Task $task
      */
-    public function setCreator () {
-        info(__METHOD__);
+    public function setCreator(): self
+    {
         $this->added_by_user_id = auth()->user()->id;
         return $this;
     }
 
     /**
      * set setCreator from auth user
-     * 
-     * @param  Task $task
+     *
+     * @param Task $task
      * @return  Task $task
      */
-    public function setEditor () {
-        info(__METHOD__);
+    public function setEditor(): self
+    {
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
     }
@@ -100,11 +117,10 @@ class Task extends Model
     /**
      * Create records in table events.
      *
-     * @return Task $task
+     *  @return $this $task
      */
-    public function createCustomevent()
+    public function createCustomevent(): self
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -112,11 +128,11 @@ class Task extends Model
         // dd($attr, $dirty, $original);
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) or !$dirty) {
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -129,7 +145,7 @@ class Task extends Model
             'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
@@ -137,40 +153,41 @@ class Task extends Model
 
     /**
      * Create event notification.
-     * 
-     * @return Task $task
+     *
+     *  @return $this $task
      */
-    public function sendEmailNotification()
+    public function sendEmailNotification(): self
     {
-        info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-        if ( $setting === '1' ) {
+        if ($setting === '1') {
             $to = auth()->user();
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new TaskNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
+            if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
         return $this;
     }
 
-    public function setFlashMess()
+    /**
+     *  @return $this
+     */
+    public function setFlashMess(): self
     {
-        info(__METHOD__);
-        $message = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        $message = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
     }

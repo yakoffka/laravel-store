@@ -14,7 +14,6 @@ class TaskObserver
      */
     public function creating(Task $task)
     {
-        info(__METHOD__);
         $task->setCreator();
     }
 
@@ -26,7 +25,6 @@ class TaskObserver
      */
     public function created(Task $task)
     {
-        info(__METHOD__);
         $task->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -39,7 +37,6 @@ class TaskObserver
      */
     public function updating(Task $task)
     {
-        info(__METHOD__);
         $task->setEditor();
     }
 
@@ -51,7 +48,6 @@ class TaskObserver
      */
     public function updated(Task $task)
     {
-        info(__METHOD__);
         $task->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -64,7 +60,6 @@ class TaskObserver
      */
     public function deleting(Task $task)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -75,7 +70,6 @@ class TaskObserver
      */
     public function deleted(Task $task)
     {
-        info(__METHOD__);
         $task->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -88,7 +82,6 @@ class TaskObserver
      */
     public function restored(Task $task)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -99,6 +92,5 @@ class TaskObserver
      */
     public function forceDeleted(Task $task)
     {
-        info(__METHOD__);
     }
 }

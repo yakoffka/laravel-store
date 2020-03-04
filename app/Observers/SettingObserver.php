@@ -14,7 +14,6 @@ class SettingObserver
      */
     public function updating(Setting $setting)
     {
-        info(__METHOD__);
         $setting->setEditor();
     }
 
@@ -26,7 +25,6 @@ class SettingObserver
      */
     public function updated(Setting $setting)
     {
-        info(__METHOD__);
         $setting->writeConfig()->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 }

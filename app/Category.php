@@ -186,7 +186,7 @@ class Category extends Model
      */
     public function getValueForTransChoiceChildrenAttribute(): int
     {
-        if( substr($this->children->count(), -2, 1) === '1' ) {
+        if (substr($this->children->count(), -2, 1) === '1') {
             return substr($this->children->count(), -2);
         }
 
@@ -202,7 +202,7 @@ class Category extends Model
      */
     public function getValueForTransChoiceProductsAttribute(): int
     {
-        if( substr($this->products->count(), -2, 1) === '1' ) {
+        if (substr($this->products->count(), -2, 1) === '1') {
             return substr($this->products->count(), -2);
         }
 
@@ -228,20 +228,21 @@ class Category extends Model
      * и обновляет запись в базе данных.
      *
      */
-    public function attachSingleImage () {
-        if ( !$this->isDirty('imagepath') or !$this->imagepath ) {
+    public function attachSingleImage()
+    {
+        if (!$this->isDirty('imagepath') or !$this->imagepath) {
             return $this;
         }
 
         // смена файловой системы.
         // переделать. WORKAROUND #0... не совсем разобрался с тонкостями Filesystem
-        $src = str_replace( config('filesystems.disks.lfm.url'), '', $this->imagepath );
+        $src = str_replace(config('filesystems.disks.lfm.url'), '', $this->imagepath);
         $dst_dir = 'images/categories/' . $this->uuid;
         $basename = basename($src);
         $dst = $dst_dir . '/' . $basename;
 
         // избыточная? проверка на существование исходного файла. так как config('filesystems.disks.lfm.root') === config('filesystems.disks.public.root'), использую не 'Storage::disk(config('lfm.disk'))->exists($src)', а 'Storage::disk('public')->exists($src)'
-        if ( !Storage::disk('public')->exists($src) ) {
+        if (!Storage::disk('public')->exists($src)) {
             return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
@@ -249,7 +250,7 @@ class Category extends Model
         Storage::disk('public')->deleteDirectory($dst_dir);
 
         // копирование файла
-        if ( !Storage::disk('public')->copy($src, $dst) ) {
+        if (!Storage::disk('public')->copy($src, $dst)) {
             return back()->withErrors(['something wrong. err' . __LINE__])->withInput();
         }
 
@@ -260,9 +261,9 @@ class Category extends Model
     /**
      * Create records in table events.
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function createCustomevent(): Category
+    public function createCustomevent(): self
     {
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
@@ -270,8 +271,8 @@ class Category extends Model
         $original = $this->getOriginal();
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) or !$dirty) {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,
@@ -287,7 +288,7 @@ class Category extends Model
             'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
@@ -297,9 +298,8 @@ class Category extends Model
      *
      * @return Category $category
      */
-    public function sendEmailNotification(): Category
+    public function sendEmailNotification(): self
     {
-        info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -307,7 +307,7 @@ class Category extends Model
         if ( $setting === '1' ) {
             $to = auth()->user();
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
@@ -317,8 +317,8 @@ class Category extends Model
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
-                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
+            if (!empty(config('custom.exec_queue_work'))) {
+                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
         return $this;
@@ -327,12 +327,11 @@ class Category extends Model
     /**
      * sets message the variable for the next request only
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setFlashMess(): Category
+    public function setFlashMess(): self
     {
-        info(__METHOD__);
-        $message = __('Category__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        $message = __('Category__success', ['name' => $this->name, 'type_act' => __('feminine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
     }
@@ -340,11 +339,10 @@ class Category extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setCreator (): Category
+    public function setCreator(): self
     {
-        info(__METHOD__);
         $this->added_by_user_id = auth()->user()->id;
         return $this;
     }
@@ -352,11 +350,10 @@ class Category extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setEditor (): Category
+    public function setEditor(): self
     {
-        info(__METHOD__);
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
     }
@@ -365,14 +362,13 @@ class Category extends Model
      * set slug from dirty field slug or title
      * while changing slug and title transforms the slug field.
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setSlug (): Category
+    public function setSlug(): self
     {
-        info(__METHOD__);
-        if ( $this->isDirty('slug') and $this->slug ) {
+        if ($this->slug && $this->isDirty('slug')) {
             $this->slug = Str::slug($this->slug, '-');
-        } elseif ( $this->isDirty('title') ) {
+        } elseif ($this->isDirty('title')) {
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;
@@ -381,23 +377,23 @@ class Category extends Model
     /**
      * set title from dirty title or name fields
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setTitle (): Category
+    public function setTitle(): self
     {
-        info(__METHOD__);
-        if ( !$this->title ) { $this->title = $this->name; }
+        if (!$this->title) {
+            $this->title = $this->name;
+        }
         return $this;
     }
 
     /**
      * set uuid for naming source category
      *
-     * @return  Category $category
+     * @return  $this
      */
-    public function setUuid (): Category
+    public function setUuid(): self
     {
-        info(__METHOD__);
         $this->uuid = Str::uuid();
         return $this;
     }

@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Taskspriority
@@ -14,21 +17,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property string $title
  * @property string $class
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereClass($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereDisplayName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Taskspriority whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Taskspriority newModelQuery()
+ * @method static Builder|Taskspriority newQuery()
+ * @method static Builder|Taskspriority query()
+ * @method static Builder|Taskspriority whereClass($value)
+ * @method static Builder|Taskspriority whereCreatedAt($value)
+ * @method static Builder|Taskspriority whereDescription($value)
+ * @method static Builder|Taskspriority whereDisplayName($value)
+ * @method static Builder|Taskspriority whereId($value)
+ * @method static Builder|Taskspriority whereName($value)
+ * @method static Builder|Taskspriority whereSlug($value)
+ * @method static Builder|Taskspriority whereTitle($value)
+ * @method static Builder|Taskspriority whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Taskspriority extends Model
 {

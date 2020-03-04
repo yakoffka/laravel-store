@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use App\Permission;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class RolesController extends Controller
 {
@@ -14,7 +20,6 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -26,7 +31,6 @@ class RolesController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -39,14 +43,13 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Redirector|RedirectResponse
      */
-    public function store(Role $role)
+    public function store(Request $request)
     {
         abort_if ( auth()->user()->cannot('create_roles'), 403 );
 
-        // validate main fields
         request()->validate([
             'name' => 'required|string|max:255|unique:roles',
             'display_name' => 'required|string|max:255|unique:roles',
@@ -64,7 +67,6 @@ class RolesController extends Controller
             'name' => request('name'),
             'display_name' => request('display_name'),
             'description' => request('description'),
-            // 'added_by_user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('roles.show', compact('role'));
@@ -73,8 +75,8 @@ class RolesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return Response
      */
     public function show(Role $role)
     {
@@ -85,8 +87,8 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return Factory|View
      */
     public function edit(Role $role)
     {
@@ -98,9 +100,8 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return Redirector|RedirectResponse
      */
     public function update(Role $role)
     {
@@ -120,7 +121,7 @@ class RolesController extends Controller
         }
         request()->validate($arrToValidate);
 
-        $role->setAviablePermissions();
+        $role->setPermissions();
 
         $role->update([
             'name' => request('name'),
@@ -134,8 +135,8 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return Redirector|RedirectResponse
      */
     public function destroy(Role $role)
     {

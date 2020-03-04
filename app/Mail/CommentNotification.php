@@ -37,7 +37,6 @@ class CommentNotification extends Mailable
      */
     public function __construct($model, $model_id, $model_name, $username, $event_type, $product_id, $comment_body)
     {
-        info(__METHOD__);
         $this->model = $model;
         $this->model_id = $model_id;
         $this->model_name = $model_name;
@@ -69,7 +68,6 @@ class CommentNotification extends Mailable
      */
     public function build()
     {
-        info(__METHOD__);
         $markdown = 'emails.'.$this->model;
 
         return $this // markdown, from, subject, view, attach

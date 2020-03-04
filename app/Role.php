@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Zizaco\Entrust\EntrustRole;
 use Illuminate\Support\Carbon;
 use App\Mail\RoleNotification;
-use App\Customevent;
-use App\Permission;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -18,119 +21,118 @@ use Illuminate\Support\Facades\DB;
  * @property string|null $description
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\User $creator
- * @property-read \App\User|null $editor
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Permission[] $perms
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $creator
+ * @property-read User|null $editor
+ * @property-read Collection|Permission[] $perms
  * @property-read int|null $perms_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read Collection|User[] $users
  * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereAddedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereDisplayName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereEditedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|Role newModelQuery()
+ * @method static Builder|Role newQuery()
+ * @method static Builder|Role query()
+ * @method static Builder|Role whereAddedByUserId($value)
+ * @method static Builder|Role whereCreatedAt($value)
+ * @method static Builder|Role whereDescription($value)
+ * @method static Builder|Role whereDisplayName($value)
+ * @method static Builder|Role whereEditedByUserId($value)
+ * @method static Builder|Role whereId($value)
+ * @method static Builder|Role whereName($value)
+ * @method static Builder|Role whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Role extends EntrustRole
 {
     /*
     *  The Role model has three main attributes:
-    *  
+    *
     *  name — Unique name for the Role, used for looking up role information in the application layer. For example: "admin", "owner", "employee".
     *  display_name — Human readable name for the Role. Not necessarily unique and optional. For example: "User Administrator", "Project Owner", "Widget Co. Employee".
     *  description — A more detailed explanation of what the Role does. Also optional.
     */
 
     protected $guarded = [];
-    private $event_description = '';
+    private string $event_description = '';
 
     /**
-    * Many-to-Many relations with the user model.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
-    public function users()
+     * Many-to-Many relations with the user model.
+     *
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
     /**
-    * Many-to-One relations with the user model.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
-    */
-    public function creator() {
+     * Many-to-One relations with the user model.
+     *
+     * @return belongsTo
+     */
+    public function creator(): belongsTo
+    {
         return $this->belongsTo(User::class, 'added_by_user_id');
     }
 
     /**
-    * Many-to-One relations with the user model.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
-    */
-    public function editor() {
+     * Many-to-One relations with the user model.
+     *
+     * @return belongsTo
+     */
+    public function editor(): belongsTo
+    {
         return $this->belongsTo(User::class, 'edited_by_user_id');
     }
 
-
     /**
      * set setCreator from auth user
-     * 
-     * @param  Role $role
+     *
      * @return  Role $role
      */
-    public function setCreator () {
-        info(__METHOD__);
+    public function setCreator(): self
+    {
         $this->added_by_user_id = auth()->user()->id;
         return $this;
     }
 
     /**
      * set setCreator from auth user
-     * 
-     * @param  Role $role
+     *
      * @return  Role $role
      */
-    public function setEditor () {
-        info(__METHOD__);
+    public function setEditor(): self
+    {
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
     }
 
     /**
-     * Attaches the permissions to the role that are transferred in the request, 
+     * Attaches the permissions to the role that are transferred in the request,
      * provided that the authorized user has them
-     * 
-     * @param  Role $role
+     *
      * @return  Role $role
      */
-    public function setAviablePermissions () {
-        info(__METHOD__);
+    public function setPermissions(): self
+    {
         $permissions = Permission::all()->toArray();
         $attach_roles = [];
-        foreach ( $permissions as $permission ) {
+        foreach ($permissions as $permission) {
+
             // attach Permission
             if (
-                request($permission['name']) === 'on' 
-                and !$this->perms->contains('name', $permission['name']) 
-                and auth()->user()->can($permission['name']) 
+                request($permission['name']) === 'on'
+                && !$this->perms->contains('name', $permission['name'])
+                && auth()->user()->can($permission['name'])
             ) {
                 $this->attachPermission($permission['id']);
                 $attach_roles[] = $permission['description'];
 
-            // take Permission
-            } elseif ( 
-                empty(request($permission['name'])) 
-                and $this->perms->contains('name', $permission['name']) 
-                and auth()->user()->can($permission['name']) 
+                // take Permission
+            } elseif (
+                empty(request($permission['name']))
+                && $this->perms->contains('name', $permission['name'])
+                && auth()->user()->can($permission['name'])
             ) {
                 $take_role = DB::table('permission_role')->where([
                     ['permission_id', '=', $permission['id']],
@@ -139,11 +141,11 @@ class Role extends EntrustRole
                 $take_roles[] = $permission['description'];
             }
         }
-        $this->event_description = 
-              (!empty($attach_roles) ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode('; ', $attach_roles) . '.' : '')
+        $this->event_description =
+            (!empty($attach_roles) ? ' Добавлены разрешения (' . count($attach_roles) . '): ' . implode('; ', $attach_roles) . '.' : '')
             . (!empty($take_roles) ? ' Удалены разрешения (' . count($take_roles) . '): ' . implode('; ', $take_roles) . '.' : '');
-        
-        if ( !$this->isDirty() and (!empty($attach_roles) or !empty($take_roles)) ) {
+
+        if ((!empty($attach_roles) || !empty($take_roles)) && !$this->isDirty()) {
             $this->touch();
         }
 
@@ -153,11 +155,10 @@ class Role extends EntrustRole
     /**
      * Create records in table events.
      *
-     * @return Role $role
+     * @return $this
      */
-    public function createCustomevent()
+    public function createCustomevent(): self
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -165,11 +166,11 @@ class Role extends EntrustRole
         // dd($attr, $dirty, $original);
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
-                $details[] = [ 
-                    $property, 
-                    $original[$property] ?? FALSE, 
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) or !$dirty) {
+                $details[] = [
+                    $property,
+                    $original[$property] ?? FALSE,
                     $dirty[$property] ?? FALSE,
                 ];
             }
@@ -182,20 +183,18 @@ class Role extends EntrustRole
             'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
 
-
     /**
      * Create event notification.
-     * 
-     * @return Role $role
+     *
+     * @return $this
      */
-    public function sendEmailNotification()
+    public function sendEmailNotification(): self
     {
-        info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -203,27 +202,29 @@ class Role extends EntrustRole
         if ( $setting === '1' ) {
             $to = auth()->user();
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later( 
-                Carbon::now()->addMinutes(config('mail.email_send_delay')), 
+            \Mail::to($to)->bcc($bcc)->later(
+                Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new RoleNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
+            if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
         return $this;
     }
 
-    public function setFlashMess()
+    /**
+     * @return $this
+     */
+    public function setFlashMess(): self
     {
-        info(__METHOD__);
-        $message = __('Role__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->event_type)]);
+        $message = __('Role__success', ['name' => $this->name, 'type_act' => __('feminine_' . $this->event_type)]);
         session()->flash('message', $message . $this->event_description);
         return $this;
     }

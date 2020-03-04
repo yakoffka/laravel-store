@@ -16,7 +16,8 @@ use Illuminate\View\View;
  */
 class ProductsController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth')->except(['index', 'show', 'search']);
     }
 
@@ -28,7 +29,7 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        if ( $request->query->count() === 0 ){
+        if ($request->query->count() === 0) {
             return redirect()->route('categories.index');
         }
 
@@ -71,7 +72,7 @@ class ProductsController extends Controller
      */
     public function create(): View
     {
-        abort_if (!auth()->user()->can('create_products'), 403);
+        abort_if(!auth()->user()->can('create_products'), 403);
         $actions = [
             'type' => 'create',
             'action' => route('products.store'),
@@ -83,7 +84,8 @@ class ProductsController extends Controller
             ->get();
 
         return view('dashboard.adminpanel.products.create_copy_edit',
-            compact('actions', 'manufacturers', 'catalog'));    }
+            compact('actions', 'manufacturers', 'catalog'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -103,12 +105,12 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Product $product
+     * @param Product $product
      * @return View
      */
     public function show(Product $product): View
     {
-        abort_if( !$product->isAllVisible(), 404);
+        abort_if(!$product->isAllVisible(), 404);
         $product->incrementViews();
 
         return view('products.show', compact('product'));
@@ -117,7 +119,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource for admin side.
      *
-     * @param  Product $product
+     * @param Product $product
      * @return View
      */
     public function adminShow(Product $product): View
@@ -128,12 +130,12 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  Product $product
+     * @param Product $product
      * @return View
      */
     public function edit(Product $product): View
     {
-        abort_if (!auth()->user()->can('edit_products'), 403);
+        abort_if(!auth()->user()->can('edit_products'), 403);
         $actions = [
             'type' => 'edit',
             'action' => route('products.update', ['product' => $product->id]),
@@ -156,7 +158,7 @@ class ProductsController extends Controller
      */
     public function copy(Product $product): View
     {
-        abort_if (!auth()->user()->can('create_products'), 403);
+        abort_if(!auth()->user()->can('create_products'), 403);
         $actions = [
             'type' => 'copy',
             'action' => route('products.store'),
@@ -212,12 +214,12 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('delete_products'), 403 );
+        abort_if(auth()->user()->cannot('delete_products'), 403);
 
         $product->delete();
 
         // возврат на предыдущую страницу, если удаление было инициировано не со страницы товара
-        if ( preg_match( '~products/[^/]+$~' , back()->headers->get('location') ) ) {
+        if (preg_match('~products/[^/]+$~', back()->headers->get('location'))) {
             return redirect()->route('products.adminindex');
         }
 
@@ -231,7 +233,7 @@ class ProductsController extends Controller
     {
         $products = Product::has('images')->get();
 
-        if ( $products->count() ) {
+        if ($products->count()) {
             Artisan::call('queue:restart');
             foreach ($products as $product) {
                 $job = new RewatermarkJob($product->id);
@@ -263,10 +265,9 @@ class ProductsController extends Controller
         $products = Product::where('seeable', 'on')
             ->whereIn('category_id', $array_seeable_categories)
             ->search($query)
-            ->paginate(15)
-            ;
+            ->paginate(15);
         $appends = [];
-        foreach($request->query as $key => $val){
+        foreach ($request->query as $key => $val) {
             $appends[$key] = $val;
         }
 
@@ -278,7 +279,7 @@ class ProductsController extends Controller
      */
     public function massupdate(): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('edit_products'), 403 );
+        abort_if(auth()->user()->cannot('edit_products'), 403);
 
         request()->validate([
             'action' => 'required|string|in:delete,replace,inseeable,seeable',
@@ -286,61 +287,69 @@ class ProductsController extends Controller
             'category_id' => 'nullable|string',
         ]);
 
-        if ( !count(request('products')) ) {
+        if (!count(request('products'))) {
             return back()->withErrors(['Не выбран ни один товар!'])->withInput();
         }
 
         $products = Product::find(request('products'));
-        if ( !$products->count() ) {
+        if (!$products->count()) {
             return back()->withErrors(['Выбранные товары не существуют!'])->withInput();
         }
 
         // delete
         if (request('action') === 'delete') {
-            abort_if ( auth()->user()->cannot('delete_products'), 403 );
+            abort_if(auth()->user()->cannot('delete_products'), 403);
             $products->each(function ($product) {
-                if (!$this->destroy($product)) { $err = true; }
+                if (!$this->destroy($product)) {
+                    $err = true;
+                }
             });
 
-        // replace
+            // replace
         } elseif (request('action') === 'replace') {
             $products->each(function ($product) {
                 if (
-                    $product->update([
-                        'category_id' => request('category_id'),
-                        'edited_by_user_id' => auth()->user()->id,
-                    ])
-                ) { $err = true; }
+                $product->update([
+                    'category_id' => request('category_id'),
+                    'edited_by_user_id' => auth()->user()->id,
+                ])
+                ) {
+                    $err = true;
+                }
             });
 
-        // inseeable
+            // inseeable
         } elseif (request('action') === 'inseeable') {
             $products->each(function ($product) {
                 if (
-                    $product->update([
-                        'seeable' => false,
-                        'edited_by_user_id' => auth()->user()->id,
-                    ])
-                ) { $err = true; }
+                $product->update([
+                    'seeable' => false,
+                    'edited_by_user_id' => auth()->user()->id,
+                ])
+                ) {
+                    $err = true;
+                }
             });
 
-        // seeable
+            // seeable
         } elseif (request('action') === 'seeable') {
             $products->each(function ($product) {
                 if (
-                    $product->update([
-                        'seeable' => true,
-                        'edited_by_user_id' => auth()->user()->id,
-                    ])
-                ) { $err = true; }
+                $product->update([
+                    'seeable' => true,
+                    'edited_by_user_id' => auth()->user()->id,
+                ])
+                ) {
+                    $err = true;
+                }
             });
 
-        // unknown action
+            // unknown action
         } else {
             return back()->withErrors(['Выбранной операции не существует!'])->withInput();
         }
 
-        if ( !empty($err) ) {
+        if (!empty($err)) {
             $message = 'Операция не удалась или удалась неполностью.';
         } else {
             $message = 'Операция прошла успешно.';

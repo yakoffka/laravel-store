@@ -2,8 +2,15 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Mail;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -16,53 +23,53 @@ use App\Mail\UserNotification;
  * @property string $uuid
  * @property string $name
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property int $status
  * @property string|null $verify_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $orders
+ * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static Builder|User query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUuid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereVerifyToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\User withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\User withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereStatus($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereUuid($value)
+ * @method static Builder|User whereVerifyToken($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {
-    // use Notifiable, EntrustUserTrait;
+    use Notifiable, EntrustUserTrait;
+    use SoftDeletes {
+        SoftDeletes::restore insteadof EntrustUserTrait;
+    }
 
-     use Notifiable, EntrustUserTrait;
-     use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
-
-    const STATUS_INACTIVE = 0;
-    const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 1;
+    public const URUID = 7;
     // const STATUS_DELETED = 9;
-
 
     /**
      * The attributes that are mass assignable.
@@ -90,24 +97,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    private $event_type = '';
+    private string $event_type = '';
 
-    public function orders()
+    /**
+     * @return HasMany
+     */
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-
     /**
      * Create records in table events.
      *
-     * @return User $user
+     * @return $this $user
      */
-    public function createCustomevent()
+    public function createCustomevent(): self
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
-        if ( $this->isDirty('status') and $this->status === User::STATUS_ACTIVE ) {
+        if ($this->isDirty('status') and $this->status === User::STATUS_ACTIVE) {
             $this->event_type = 'verify';
         }
         $attr = $this->getAttributes();
@@ -116,8 +124,8 @@ class User extends Authenticatable
         // dd($attr, $dirty, $original);
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) or !$dirty) {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,
@@ -127,13 +135,13 @@ class User extends Authenticatable
         }
 
         Customevent::create([
-            'user_id' => auth()->user() ? auth()->user()->id : 7, // 7 - id for Undefined user.
+            'user_id' => auth()->user() ? auth()->user()->id : self::URUID, // unregistered user id
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
             'type' => $this->event_type,
             'description' => $this->event_description ?? FALSE,
-            'details' => serialize($details) ?? FALSE,
+            'details' => serialize($details) ?? '',
         ]);
         return $this;
     }
@@ -142,40 +150,41 @@ class User extends Authenticatable
     /**
      * Create event notification.
      *
-     * @return User $user
+     * @return $this $user
      */
-    public function sendEmailNotification()
+    public function sendEmailNotification(): self
     {
-        info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-        if ( $setting === '1' ) {
+        if ($setting === '1') {
             $to = auth()->user() ?? config('mail.from.address');
             $user_name = auth()->user() ? auth()->user()->name : 'Unregistered';
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later(
+            Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new UserNotification($this->getTable(), $this->id, $this->name, $user_name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
+            if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
         return $this;
     }
 
-    public function setFlashMess()
+    /**
+     * @return $this
+     */
+    public function setFlashMess(): self
     {
-        info(__METHOD__);
-        $message = __('User__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        $message = __('User__success', ['name' => $this->name, 'type_act' => __('masculine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
     }

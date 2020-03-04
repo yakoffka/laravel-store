@@ -210,7 +210,7 @@ class Product extends Model
      */
     public function incrementViews(): void
     {
-        if ( !auth()->user() || auth()->user()->hasRole('user') ) {
+        if (!auth()->user() || auth()->user()->hasRole('user')) {
             $this->increment('count_views');
         }
     }
@@ -221,9 +221,8 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function setCreator (): Product
+    public function setCreator(): Product
     {
-        info(__METHOD__);
         $this->added_by_user_id = auth()->user()->id;
         return $this;
     }
@@ -233,9 +232,8 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function setEditor (): Product
+    public function setEditor(): Product
     {
-        info(__METHOD__);
         $this->edited_by_user_id = auth()->user()->id;
         return $this;
     }
@@ -245,10 +243,11 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function setTitle (): Product
+    public function setTitle(): Product
     {
-        info(__METHOD__);
-        if ( !$this->title ) { $this->title = $this->name; }
+        if (!$this->title) {
+            $this->title = $this->name;
+        }
         return $this;
     }
 
@@ -258,12 +257,11 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function setSlug (): Product
+    public function setSlug(): Product
     {
-        info(__METHOD__);
-        if ( $this->isDirty('slug') and $this->slug ) {
+        if ($this->isDirty('slug') and $this->slug) {
             $this->slug = Str::slug($this->slug, '-');
-        } elseif ( $this->isDirty('title') ) {
+        } elseif ($this->isDirty('title')) {
             $this->slug = Str::slug($this->title, '-');
         }
         return $this;
@@ -276,7 +274,6 @@ class Product extends Model
      */
     public function createCustomevent(): Product
     {
-        info(__METHOD__);
         $this->event_type = debug_backtrace()[1]['function'];
         $attr = $this->getAttributes();
         $dirty = $this->getDirty();
@@ -284,8 +281,8 @@ class Product extends Model
         // dd($attr, $dirty, $original);
 
         $details = [];
-        foreach ( $attr as $property => $value ) {
-            if ( array_key_exists( $property, $dirty ) or !$dirty ) {
+        foreach ($attr as $property => $value) {
+            if (array_key_exists($property, $dirty) or !$dirty) {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,
@@ -314,7 +311,6 @@ class Product extends Model
      */
     public function sendEmailNotification(): Product
     {
-        info(__METHOD__);
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
@@ -322,7 +318,7 @@ class Product extends Model
         if ( $setting === '1' ) {
             $to = auth()->user();
 
-            $bcc = array_merge( config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
+            $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
@@ -332,7 +328,7 @@ class Product extends Model
             );
 
             // restarting the queue to make sure they are started
-            if( !empty(config('custom.exec_queue_work')) ) {
+            if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
             }
         }
@@ -349,24 +345,23 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function attachImages (): Product
+    public function attachImages(): Product
     {
-        info(__METHOD__);
-        if ( !request('imagespath') ) {
+        if (!request('imagespath')) {
             return $this;
         }
 
         $imagepaths = explode(',', request('imagespath'));
 
-        foreach( $imagepaths as $imagepath) {
+        foreach ($imagepaths as $imagepath) {
 
-            $image = storage_path('app/public') . str_replace( config('filesystems.disks.lfm.url'), '', $imagepath );
+            $image = storage_path('app/public') . str_replace(config('filesystems.disks.lfm.url'), '', $imagepath);
 
             // info('$image = ' . $image);
             // image re-creation
             $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
             $originalName = basename($image_name);
-            $path  = '/images/products/' . $this->id;
+            $path = '/images/products/' . $this->id;
 
             // create record
             $images[] = Image::create([
@@ -375,13 +370,13 @@ class Product extends Model
                 'path' => $path,
                 'name' => $image_name,
                 'ext' => config('imageyo.res_ext'),
-                'alt' => str_replace( strrchr($originalName, '.'), '', $originalName),
+                'alt' => str_replace(strrchr($originalName, '.'), '', $originalName),
                 'sort_order' => 9,
                 'orig_name' => $originalName,
             ]);
         }
 
-        if ( !$this->isDirty() and !empty($images) ) {
+        if (!$this->isDirty() and !empty($images)) {
             $this->touch();
         }
 
@@ -393,10 +388,9 @@ class Product extends Model
      *
      * @return  Product $product
      */
-    public function cleanSrcCodeTables (): Product
+    public function cleanSrcCodeTables(): Product
     {
-        info(__METHOD__);
-        if ( !$this->isDirty('modification') or empty($this->modification) ) {
+        if (!$this->isDirty('modification') or empty($this->modification)) {
             return $this;
         }
 
@@ -420,37 +414,37 @@ class Product extends Model
             ['~REPLACE_THIS~u', "</table>\n<table class=\"blue_table\">"],
         ];
 
-        foreach($arr_replace as $replace) {
-            $res = preg_replace( $replace[0], $replace[1], $res );
+        foreach ($arr_replace as $replace) {
+            $res = preg_replace($replace[0], $replace[1], $res);
         }
 
         // удаление прочего мусора
         $arr_delete = [
             '&nbsp;',
         ];
-        foreach($arr_delete as $delete) {
-            $res = str_replace( $delete, '', $res );
+        foreach ($arr_delete as $delete) {
+            $res = str_replace($delete, '', $res);
         }
 
         // опционально: если последним столбцом таблицы идет цена, то вырезаем последний столбец
-        if ( strpos($res,'<td>Цена</td></tr>') or strpos($res,'<th>Цена</th></tr>') ) {
+        if (strpos($res, '<td>Цена</td></tr>') or strpos($res, '<th>Цена</th></tr>')) {
             $arr_replace = [
                 ['~<td>[^<]+?</td></tr>~u', '</tr>'],
                 ['~<th>[^<]+?</th></tr>~u', '</tr>'],
             ];
-            foreach($arr_replace as $replace) {
-                $res = preg_replace( $replace[0], $replace[1], $res );
+            foreach ($arr_replace as $replace) {
+                $res = preg_replace($replace[0], $replace[1], $res);
             }
         }
 
         // опционально: удаление столбца <tr><td>Код товара</td>
-        if ( strpos($res,'<tr><td>Код товара</td>') or strpos($res,'<tr><th>Код товара</th>') ) {
+        if (strpos($res, '<tr><td>Код товара</td>') or strpos($res, '<tr><th>Код товара</th>')) {
             $arr_replace = [
                 ['~<tr><td>[^<]+?</td>~u', '<tr>'],
                 ['~<tr><th>[^<]+?</th>~u', '<tr>'],
             ];
-            foreach($arr_replace as $replace) {
-                $res = preg_replace( $replace[0], $replace[1], $res );
+            foreach ($arr_replace as $replace) {
+                $res = preg_replace($replace[0], $replace[1], $res);
             }
         }
 
@@ -464,10 +458,9 @@ class Product extends Model
      *
      * @return  self $this
      */
-    public function additionallyIfCopy (): self
+    public function additionallyIfCopy(): self
     {
-        info(__METHOD__);
-        if ( !request('copy_img') ) {
+        if (!request('copy_img')) {
             return $this;
         }
 
@@ -476,7 +469,7 @@ class Product extends Model
         $d_images = self::find($donor_id)->images;
 
         // copy all entries from the image table related to this product
-        foreach ( $d_images as $d_image ) {
+        foreach ($d_images as $d_image) {
             $image = new Image;
             $image->product_id = $this->id;
             $image->slug = $d_image->slug;
@@ -492,16 +485,16 @@ class Product extends Model
         // copy all files from public directory images of products
         $pathToDir = 'public/images/products/'; // TODO!!!
         $files = Storage::files($pathToDir . $donor_id);
-        foreach ( $files as $src ) {
-            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$this->id, $src);
+        foreach ($files as $src) {
+            $dst = str_replace($pathToDir . $donor_id, $pathToDir . $this->id, $src);
             Storage::copy($src, $dst);
         }
 
         // copy all files from uploads directory images of products
         $pathToDir = 'uploads/images/products/'; // TODO!!!
         $files = Storage::files($pathToDir . $donor_id);
-        foreach ( $files as $src ) {
-            $dst = str_replace($pathToDir.$donor_id, $pathToDir.$this->id, $src);
+        foreach ($files as $src) {
+            $dst = str_replace($pathToDir . $donor_id, $pathToDir . $this->id, $src);
             Storage::copy($src, $dst);
         }
 
@@ -542,8 +535,7 @@ class Product extends Model
      */
     public function setFlashMess(): self
     {
-        info(__METHOD__);
-        $message = __('Product__success', ['name' => $this->name, 'type_act' => __('masculine_'.$this->event_type)]);
+        $message = __('Product__success', ['name' => $this->name, 'type_act' => __('masculine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
     }

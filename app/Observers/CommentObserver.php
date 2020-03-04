@@ -14,7 +14,6 @@ class CommentObserver
      */
     public function creating(Comment $comment)
     {
-        info(__METHOD__);
         $comment->setAuthor()->setName()->transformBody();
     }
 
@@ -26,7 +25,6 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        info(__METHOD__);
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -39,7 +37,6 @@ class CommentObserver
      */
     public function updating(Comment $comment)
     {
-        info(__METHOD__);
         $comment->transformBody();
     }
 
@@ -51,7 +48,6 @@ class CommentObserver
      */
     public function updated(Comment $comment)
     {
-        info(__METHOD__);
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 
@@ -64,7 +60,6 @@ class CommentObserver
      */
     public function deleting(Comment $comment)
     {
-        info(__METHOD__);
     }
 
     /**
@@ -75,7 +70,6 @@ class CommentObserver
      */
     public function deleted(Comment $comment)
     {
-        info(__METHOD__);
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
 }

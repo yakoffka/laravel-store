@@ -5,12 +5,12 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CategoryNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    // @todo type hinting
     public $model;
     public $model_id;
     public $model_name;
@@ -20,7 +20,7 @@ class CategoryNotification extends Mailable
     public $subject;
     public $body;
     public $url;
-    
+
 
     /**
      * Create a new message instance.
@@ -29,7 +29,6 @@ class CategoryNotification extends Mailable
      */
     public function __construct($model, $model_id, $model_name, $username, $event_type)
     {
-        info(__METHOD__);
         $this->model = $model;
         $this->model_id = $model_id;
         $this->model_name = $model_name;
@@ -37,12 +36,12 @@ class CategoryNotification extends Mailable
         $this->event_type = $event_type;
 
         $this->subject = __('subject_notification', [
-            'descr' => __($event_type.'_'.$model), 
+            'descr' => __($event_type.'_'.$model),
             'name' => $model_name
         ]);
         $this->body = __('body_notification', [
-            'descr' => __($event_type.'_'.$model), 
-            'name' => $model_name, 
+            'descr' => __($event_type.'_'.$model),
+            'name' => $model_name,
             'username' => $username
         ]);
 
@@ -59,7 +58,6 @@ class CategoryNotification extends Mailable
      */
     public function build()
     {
-        info(__METHOD__);
         $markdown = 'emails.'.$this->model;
 
         return $this // markdown, from, subject, view, attach

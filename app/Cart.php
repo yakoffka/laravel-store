@@ -2,33 +2,27 @@
 
 namespace App;
 
-// use Illuminate\Database\Eloquent\Model;
-
-class Cart // extends Model
+class Cart
 {
     public $items = null;
-    public $total_qty = 0;
-    public $total_payment = 0;
-    private $event_description = '';
+    public int $total_qty = 0;
+    public int $total_payment = 0;
+    private string $event_description = '';
 
     /**
-     *
-     * 
+     * Cart constructor.
+     * @param Cart|null $oldCart
      */
-    public function __construct( $oldCart = null )
+    public function __construct(Cart $oldCart = null)
     {
-        if ( $oldCart ) {
+        if ($oldCart) {
             $this->items = $oldCart->items;
             $this->total_qty = $oldCart->total_qty;
             $this->total_payment = $oldCart->total_payment;
         }
     }
 
-    /**
-     *
-     * 
-     */
-    public function add($item)
+    public function add($item): void
     {
         $storedItem = [
             'qty' => 0,
@@ -36,27 +30,21 @@ class Cart // extends Model
             'item' => $item,
         ];
 
-        if ( $this->items ) {
-            if ( array_key_exists($item->id, $this->items) ) {
-                $storedItem = $this->items[$item->id];
-            }
+        if ($this->items && array_key_exists($item->id, $this->items)) {
+            $storedItem = $this->items[$item->id];
         }
 
-        $storedItem['qty'] ++;
+        $storedItem['qty']++;
         $storedItem['amount'] = $item->price * $storedItem['qty'];
 
         $this->items[$item->id] = $storedItem;
-        $this->total_qty ++;
+        $this->total_qty++;
         $this->total_payment += $item->price;
         $this->event_description = __('Success_adding__to_cart', ['name' => $item->name]);
         session()->flash('message', $this->event_description);
     }
 
-    /**
-     *
-     * 
-     */
-    public function remove($item)
+    public function remove($item): void
     {
         $removedItem = [
             'qty' => 0,
@@ -64,24 +52,22 @@ class Cart // extends Model
             'item' => $item,
         ];
 
-        if ( $this->items ) {
-            if ( array_key_exists($item->id, $this->items) ) {
-                $removedItem = $this->items[$item->id];
+        if ($this->items && array_key_exists($item->id, $this->items)) {
+            $removedItem = $this->items[$item->id];
 
-                $removedItem['amount'] = $item->price * $removedItem['qty'];
+            $removedItem['amount'] = $item->price * $removedItem['qty'];
 
-                unset($this->items[$item->id]);
-                $this->total_qty -= $removedItem['qty'];
-                $this->total_payment -= $removedItem['amount'];
-            }
+            unset($this->items[$item->id]);
+            $this->total_qty -= $removedItem['qty'];
+            $this->total_payment -= $removedItem['amount'];
         }
     }
 
     /**
-     *
-     * 
+     * @param $item
+     * @param $qty
      */
-    public function change($item, $qty)
+    public function change($item, $qty): void
     {
         $changedItem = [
             'qty' => 0,
@@ -89,8 +75,8 @@ class Cart // extends Model
             'item' => $item,
         ];
 
-        if ( $this->items ) {
-            if ( array_key_exists($item->id, $this->items) ) {
+        if ($this->items) {
+            if (array_key_exists($item->id, $this->items)) {
                 $old_qty = $this->items[$item->id]['qty'];
                 $new_qty = $qty;
 
@@ -104,10 +90,14 @@ class Cart // extends Model
         }
     }
 
-    public function setFlashMess()
+    /**
+     *
+     */
+    public function setFlashMess(): void
     {
-        $this->event_description = __('Task__success', ['name' => $this->name, 'type_act' => __('feminine_'.$this->type)]);
+        $this->event_description = __('Task__success', [
+            'name' => $this->name, 'type_act' => __('feminine_' . $this->type)
+        ]);
         session()->flash('message', $this->event_description);
     }
-    
 }
