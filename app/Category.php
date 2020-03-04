@@ -166,6 +166,9 @@ class Category extends Model
      */
     public function fullSeeable(): bool
     {
+        if ( $this->parent_id === null ) {
+            return $this->seeable;
+        }
         return $this->seeable && $this->parent->seeable;
     }
 
