@@ -17,7 +17,8 @@ class CategoriesTableSeeder extends Seeder
             $categories = [
 
                 // catalog
-                ['name' => 'catalog',          'parent_id' => 1  ],
+                ['name' => 'catalog',          'parent_id' => null  ],
+
                 // category
                 ['name' => 'guitars',          'parent_id' => 1  ],
                 ['name' => 'keys',             'parent_id' => 1  ],
@@ -29,11 +30,11 @@ class CategoriesTableSeeder extends Seeder
                 ['name' => 'bass guitars',             'parent_id' => 2 ],
                 ['name' => 'electric guitars',         'parent_id' => 2 ],
                 ['name' => 'acoustic guitars',         'parent_id' => 2 ],
-                
+
                 ['name' => 'acoustic pianos',  'parent_id' => 3 ],
                 ['name' => 'grand pianos',     'parent_id' => 3 ],
                 ['name' => 'digital pianos',   'parent_id' => 3 ],
-                
+
                 ['name' => 'strings',          'parent_id' => 6 ],
                 ['name' => 'mediators',        'parent_id' => 6 ],
                 ['name' => 'tools',            'parent_id' => 6 ],
@@ -130,7 +131,7 @@ class CategoriesTableSeeder extends Seeder
                 ['parent_id' => 11, 'slug' => 'mech_hoists_mobile', 'name' => 'Тавровые подвески подвижные',],
                 ['parent_id' => 11, 'slug' => 'mech_hoists_still',  'name' => 'Тавровые подвески неподвижные',],
                 ['parent_id' => 11, 'slug' => 'trolleys_for_hoists','name' => 'Тележки для тали GCL GCT',],
-                
+
             ];
 
         }

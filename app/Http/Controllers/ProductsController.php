@@ -71,12 +71,19 @@ class ProductsController extends Controller
      */
     public function create(): View
     {
-        abort_if ( !auth()->user()->can('create_products'), 403 );
-        $categories = Category::all();
+        abort_if (!auth()->user()->can('create_products'), 403);
+        $actions = [
+            'type' => 'create',
+            'action' => route('products.store'),
+            'method' => 'POST'
+        ];
         $manufacturers = Manufacturer::all();
+        $catalog = Category::where('parent_id', null)
+            ->with('childrenCategories')
+            ->get();
 
-        return view('dashboard.adminpanel.products.create', compact('categories', 'manufacturers'));
-    }
+        return view('dashboard.adminpanel.products.create_copy_edit',
+            compact('actions', 'manufacturers', 'catalog'));    }
 
     /**
      * Store a newly created resource in storage.
@@ -127,9 +134,18 @@ class ProductsController extends Controller
     public function edit(Product $product): View
     {
         abort_if (!auth()->user()->can('edit_products'), 403);
-        $categories = Category::all();
+        $actions = [
+            'type' => 'edit',
+            'action' => route('products.update', ['product' => $product->id]),
+            'method' => 'PATCH'
+        ];
         $manufacturers = Manufacturer::all();
-        return view('dashboard.adminpanel.products.edit', compact('product', 'categories', 'manufacturers'));
+        $catalog = Category::where('parent_id', null)
+            ->with('childrenCategories')
+            ->get();
+
+        return view('dashboard.adminpanel.products.create_copy_edit',
+            compact('actions', 'product', 'manufacturers', 'catalog'));
     }
 
     /**
@@ -140,12 +156,20 @@ class ProductsController extends Controller
      */
     public function copy(Product $product): View
     {
-        abort_if (!auth()->user()->can('edit_products'), 403);
-        $categories = Category::all();
+        abort_if (!auth()->user()->can('create_products'), 403);
+        $actions = [
+            'type' => 'copy',
+            'action' => route('products.store'),
+            'method' => 'POST'
+        ];
         $manufacturers = Manufacturer::all();
+        $catalog = Category::where('parent_id', null)
+            ->with('childrenCategories')
+            ->get();
         session()->flash('message', 'When copying an item, you must change its name!');
 
-        return view('dashboard.adminpanel.products.copy', compact('product', 'categories', 'manufacturers'));
+        return view('dashboard.adminpanel.products.create_copy_edit',
+            compact('actions', 'product', 'manufacturers', 'catalog'));
     }
 
     /**

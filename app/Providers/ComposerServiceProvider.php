@@ -30,12 +30,11 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('layouts.partials.filter-manufacturer', FilterManufacturerComposer::class);
         view()->composer('dashboard.adminpanel.partials.filters.filter-customevent', FilterCustomeventsComposer::class);
 
-        // Sharing categories Data With All Views
+        // Sharing data categories for all views
         View::share('globalCategories',
             Category::with(['parent', 'children'])
                 ->get()
                 ->where('parent.id', '=', 1)
-//                ->where('parent.seeable', '=', 'on')
                 ->where('id', '>', 1)
                 ->filter(static function ($value, $key) {
                     return $value->hasDescendant() && $value->fullSeeable();

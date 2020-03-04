@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +12,7 @@ use Illuminate\Support\Carbon;
 use App\Mail\CategoryNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Mail;
 
 /**
  * App\Category
@@ -26,35 +30,35 @@ use Illuminate\Support\Str;
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
  * @property string|null $parent_seeable
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $children
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Category[] $children
  * @property-read int|null $children_count
  * @property-read string $full_image_path
  * @property-read int $value_for_trans_choice_children
  * @property-read int $value_for_trans_choice_products
- * @property-read \App\Category|null $parent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read Category|null $parent
+ * @property-read Collection|Product[] $products
  * @property-read int|null $products_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereAddedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereEditedByUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereImagepath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereParentSeeable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSeeable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUuid($value)
- * @mixin \Eloquent
+ * @method static Builder|Category newModelQuery()
+ * @method static Builder|Category newQuery()
+ * @method static Builder|Category query()
+ * @method static Builder|Category whereAddedByUserId($value)
+ * @method static Builder|Category whereCreatedAt($value)
+ * @method static Builder|Category whereDescription($value)
+ * @method static Builder|Category whereEditedByUserId($value)
+ * @method static Builder|Category whereId($value)
+ * @method static Builder|Category whereImagepath($value)
+ * @method static Builder|Category whereName($value)
+ * @method static Builder|Category whereParentId($value)
+ * @method static Builder|Category whereParentSeeable($value)
+ * @method static Builder|Category whereSeeable($value)
+ * @method static Builder|Category whereSlug($value)
+ * @method static Builder|Category whereSortOrder($value)
+ * @method static Builder|Category whereTitle($value)
+ * @method static Builder|Category whereUpdatedAt($value)
+ * @method static Builder|Category whereUuid($value)
+ * @mixin Eloquent
  */
 class Category extends Model
 {
@@ -80,9 +84,41 @@ class Category extends Model
     /**
      * @return HasMany
      */
+    public function categories(): hasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function childrenCategories(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id')->with('categories');
+    }
+
+    /**
+     * @return HasMany
+     */
     public function children(): hasMany
     {
-        return $this->hasMany(__CLASS__, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function getAllParents(): BelongsTo
+    {
+        return $this->parent()->with($this->getAllParents());
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function allChildren(): HasMany
+    {
+        return $this->hasMany(self::class)->with($this->children());
     }
 
     /**
@@ -275,7 +311,7 @@ class Category extends Model
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later(
+            Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new CategoryNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );

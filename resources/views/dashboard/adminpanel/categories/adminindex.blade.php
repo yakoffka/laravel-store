@@ -39,13 +39,11 @@
                         <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 
-                    @foreach($categories as $category)
-                        @if ( $category->parent->id === 1 && $category->id !== 1)
+                    @foreach ( $categories as $category )
+                        @if ( isset($category->parent) && $category->parent->id === 1 && $category->id !== 1)
                             @categoryRow(['category' =>  $category, 'maincategory' => true])
-                            @foreach($categories as $subcategory)
-                                @if ( $subcategory->parent->id === $category->id )
-                                    @categoryRow(['category' =>  $subcategory,])
-                                @endif
+                            @foreach($category->children as $subcategory)
+                                @categoryRow(['category' =>  $subcategory,])
                             @endforeach
                         @endif
                     @endforeach

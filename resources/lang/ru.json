@@ -131,6 +131,12 @@
   "seeable": "видимость",
 
   "Copy_product": "Копирование товара",
+  "Edit_product": "Редактирование товара",
+  "Create_product": "Создание товара",
+  "copy_product": "копирование товара",
+  "edit_product": "редактирование товара",
+  "create_product": "создание товара",
+
   "Copy_images_product_donor": "Копировать изображения товара",
 
 

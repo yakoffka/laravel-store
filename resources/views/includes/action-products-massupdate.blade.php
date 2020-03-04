@@ -15,6 +15,7 @@
                         <p>Запрошенная Вами операция требует подтверждения.</p>
                         @if( $value === 'replace' )
                             <div class="form-group">
+
                                 <label for="category_id">{{ $mess }}</label>
                                 <select name="category_id" id="category_id">
                                     @foreach ( $categories as $category )
@@ -24,6 +25,22 @@
                                                 <option value="{{ $subcategory->id }}">{{ $category->name }} > {{ $subcategory->title }}</option>
                                             @endforeach
                                         @elseif ( !$category->products->count() )
+                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
+                               {{-- mass update products->category_id --}}
+                                <label for="category_id">{{ $mess }} 2</label>
+                                <select name="category_id" id="category_id">
+                                    @foreach ( $categories as $category )
+                                        @if ( $category->children->count() !== 0 ){{-- категории с подкатегориями --}}
+                                            @foreach ( $category->children as $subcategory )
+                                                @if ( $subcategory->children->count() === 0 ){{-- подкатегории без подкатегорий --}}
+                                                    <option value="{{ $subcategory->id }}">{{ $category->name }} > {{ $subcategory->title }}</option>
+                                                @endif
+                                            @endforeach
+                                        @elseif ( $category->products->count() === 0 ){{-- категории без товаров (и без подкатегорий) --}}
                                             <option value="{{ $category->id }}">{{ $category->title }}</option>
                                         @endif
                                     @endforeach
