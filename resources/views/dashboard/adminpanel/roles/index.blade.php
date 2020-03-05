@@ -29,10 +29,10 @@
                     <th>{{ __('id') }}</th>
                     <th>{{ __('display_name') }}</th>
                     <th>{{ __('description') }}</th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('num_permissions') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('num_users') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('creator') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('editor') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('num_permissions') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('num_users') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('creator') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('editor') }}</div></th>
                     {{-- <th>created</th> --}}
                     {{-- <th>updated</th> --}}
                     <th class="actions3">actions</th>

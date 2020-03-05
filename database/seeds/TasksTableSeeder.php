@@ -398,13 +398,6 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'name' => 'Проверить видимость товара',
-                'description' => 'Проверить видимость товара перед выводом в products.show.',
-                'tasksstatus_id' => 6,
-                'taskspriority_id' => 4,
-            ],
-
-            [
                 'name' => 'Продумать отображение описания товара',
                 'description' => 'Продумать отображение описания товара, содержащего теги на странице результатов поиска.',
                 'tasksstatus_id' => 6,
@@ -597,7 +590,7 @@ class TasksTableSeeder extends Seeder
                     <li>amount: unsignedinteger - количество</li>
                 </ol>
                 <br>
-                Заменить все вхождения "seeable" на "published".
+                Заменить все вхождения "publish" на "published".
                 ',
                 'tasksstatus_id' => 1,
                 'taskspriority_id' => 2,

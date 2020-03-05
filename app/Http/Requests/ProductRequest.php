@@ -36,7 +36,7 @@ class ProductRequest extends FormRequest
             'slug'              => 'nullable|string',
             'manufacturer_id'   => 'required|integer',
             'category_id'       => 'required|integer',
-            'seeable'           => 'nullable|string|in:on',
+            'publish'           => 'nullable|string|in:on',
             'materials'         => 'nullable|string',
             'description'       => 'nullable|string',
             'modification'      => 'nullable|string',

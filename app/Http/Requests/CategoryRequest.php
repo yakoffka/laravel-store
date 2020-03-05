@@ -41,7 +41,7 @@ class CategoryRequest extends FormRequest
             'imagepath'     => 'nullable|string|max:255',
             'parent_id'     => 'required|integer|max:255',
             'sort_order'    => 'required|string|max:1',
-            'seeable'       => 'nullable|string|in:on',
+            'publish'       => 'nullable|string|in:on',
         ];
     }
 }

@@ -28,14 +28,14 @@
             {{-- table manufacturers --}}
             <table class="blue_table overflow_x_auto">
                 <tr>
-                    <th width="30">{{ __('__id') }}</th>
+                    <th class="w30">{{ __('__id') }}</th>
                     <th>{{ __('__name') }}</th>
                     <th>{{ __('title') }}</th>
                     <th>{{ __('__description') }}</th>
-                    <th width="60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</div></th>
+                    <th class="w60"><div class="verticalTableHeader ta_c">{{ __('__img') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('sort_order') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('added_by_user_id') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('edited_by_user_id') }}</div></th>
                     <th class="actions3">{{ __('__actions') }}</th>
                 </tr>
 

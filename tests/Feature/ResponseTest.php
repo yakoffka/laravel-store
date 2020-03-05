@@ -23,13 +23,13 @@ class ResponseTest extends TestCase
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function ($value, $key) {
-                return $value->hasProducts() && $value->fullSeeable();
+                return $value->hasProducts() && $value->isPublish();
             })
             ->random();
 
         $product = Product::where('category_id', '=', $category->id)
             ->get()
-            ->where('seeable', '=', true)
+            ->where('publish', '=', true)
             ->random();
 
         $manufacturer = Manufacturer::get()->random();
@@ -69,7 +69,7 @@ class ResponseTest extends TestCase
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function ($value, $key) {
-                return $value->hasProducts() && $value->fullSeeable();
+                return $value->hasProducts() && $value->isPublish();
             })
             ->random();
 
@@ -77,7 +77,7 @@ class ResponseTest extends TestCase
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function ($value, $key) {
-                return $value->hasProducts() && !$value->parent->seeable;
+                return $value->hasProducts() && !$value->parent->publish;
             })
             ->random();
 
@@ -85,23 +85,23 @@ class ResponseTest extends TestCase
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function ($value, $key) {
-                return $value->hasProducts() && !$value->seeable;
+                return $value->hasProducts() && !$value->publish;
             })
             ->random();
 
         $invisibleProduct1 = Product::where('category_id', '=', $invisibleCategory->id)
             ->get()
-            ->where('seeable', '=', true)
+            ->where('publish', '=', true)
             ->random();
 
-       $invisibleProduct2 = Product::where('category_id', '=', $invisibleSubCategory->id)
+        $invisibleProduct2 = Product::where('category_id', '=', $invisibleSubCategory->id)
             ->get()
-            ->where('seeable', '=', true)
+            ->where('publish', '=', true)
             ->random();
 
-       $invisibleProduct3 = Product::where('category_id', '=', $category->id)
+        $invisibleProduct3 = Product::where('category_id', '=', $category->id)
             ->get()
-            ->where('seeable', '=', false)
+            ->where('publish', '=', false)
             ->random();
 
 
@@ -112,12 +112,12 @@ class ResponseTest extends TestCase
             '/categories/' . $invisibleCategory->id,
         ];
 
-        echo  "\n";
-        foreach ( $getRequests404 as $route ) {
+        echo "\n";
+        foreach ($getRequests404 as $route) {
             $response = $this->get($route);
             echo '    GET \'' . $route . '\': ';
             $response->assertStatus(404);
-            echo  "404 - OK!\n";
+            echo "404 - OK!\n";
         }
     }
 }

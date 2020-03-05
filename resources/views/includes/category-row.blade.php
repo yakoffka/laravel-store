@@ -1,22 +1,22 @@
 
-    <tr class="{{ ($category->fullSeeable()) ? '' : 'gray' }}{{ $category->parent_id === 1 ? ' main_category' : '' }}">
+    <tr class="{{ ($category->isPublish()) ? '' : 'gray' }}{{ $category->parent_id === 1 ? ' main_category' : '' }}">
         <td>{{ $category->id }}</td>
         <td class="ta_l{{ $category->parent_id === 1 ? '' : ' subcategory' }}">{{ $category->name }}</td>
         <td>{{ $category->parent->id ?? '-' }}</td>
         <td>{{ $category->sort_order }}</td>
 
-        {{-- seeable --}}
+        {{-- publish --}}
         <td>
-            @if ( $category->seeable )
+            @if ( $category->publish )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>
             @endif
         </td>
 
-        {{-- parent seeable --}}
+        {{-- parent publish --}}
         <td>
-            @if ( $category->parent->seeable )
+            @if ( $category->parent->publish )
                 <i class="far fa-eye"></i>
             @else
                 <i class="far fa-eye-slash"></i>

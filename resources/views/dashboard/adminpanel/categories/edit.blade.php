@@ -131,16 +131,16 @@
                     </div>
                     {{-- /parent category --}}
 
-                    {{-- seeable --}}
+                    {{-- publish --}}
                     <div class="form-group right_stylized_checkbox">
-                        <input type="checkbox" id="seeable" name="seeable"
-                            @if ( $category->seeable )
+                        <input type="checkbox" id="publish" name="publish"
+                            @if ( $category->publish )
                                 checked
                             @endif
                         >
-                        <label for="seeable">{{ __('seeable') }}</label>
+                        <label for="publish">{{ __('publish') }}</label>
                     </div>
-                    {{-- /seeable --}}
+                    {{-- /publish --}}
                 </div>
 
                 <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>

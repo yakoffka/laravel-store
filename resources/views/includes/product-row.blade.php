@@ -1,4 +1,4 @@
-<tr class="{{ (!$product->isAllVisible()) ? 'gray' : ''}}">
+<tr class="{{ (!$product->isPublish()) ? 'gray' : ''}}">
     <td class="ta_c left_stylized_checkbox">
         <input
             form="products_massupdate"
@@ -13,25 +13,25 @@
     {{-- <td>{{ $product->slug }}</td> --}}
     {{-- <td class="ta_c">{{ $product->manufacturer_id }}</td> --}}
 
-    {{-- seeable --}}
+    {{-- publish --}}
     <td class="ta_c w30">
-        @if ( $product->seeable )
+        @if ( $product->publish )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>
         @endif
     </td>
 
-    {{-- category_seeable --}}
+    {{-- category publish --}}
     <td class="ta_c w30">
-        @if ( $product->category->seeable )
+        @if ( $product->category->publish )
             <i class="far fa-eye"></i>
         @else
             <i class="far fa-eye-slash"></i>
         @endif
     </td>
 
-    {{-- parent_category_seeable --}}
+    {{-- parent category publish --}}
     <td class="ta_c w30">
         @if ( $product->category->parentSeeable() )
             <i class="far fa-eye"></i>

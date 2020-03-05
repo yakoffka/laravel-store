@@ -38,9 +38,9 @@ class ComposerServiceProvider extends ServiceProvider
                 ->where('id', '>', 1)
                 ->filter(static function ($value, $key) {
                     if ( !config('settings.show_empty_category') ) {
-                        return $value->hasDescendant() && $value->fullSeeable();
+                        return $value->hasDescendant() && $value->isPublish();
                     }
-                    return $value->fullSeeable();
+                    return $value->isPublish();
                 })
                 ->sortBy('sort_order')
         );

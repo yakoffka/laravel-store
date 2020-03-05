@@ -25,7 +25,7 @@ use Mail;
  * @property string $title
  * @property string|null $description
  * @property string|null $imagepath
- * @property string|null $seeable
+ * @property boolean $publish
  * @property int|null $parent_id
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
@@ -163,12 +163,12 @@ class Category extends Model
     /**
      * @return bool
      */
-    public function fullSeeable(): bool
+    public function isPublish(): bool
     {
         if ( $this->parent_id === null ) {
-            return $this->seeable;
+            return $this->publish;
         }
-        return $this->seeable && $this->parent->seeable;
+        return $this->publish && $this->parent->publish;
     }
 
     /**
@@ -176,7 +176,7 @@ class Category extends Model
      */
     public function parentSeeable(): bool
     {
-        return $this->parent->seeable;
+        return $this->parent->publish;
     }
 
     /**
@@ -225,14 +225,14 @@ class Category extends Model
     }
 
     /**
-     * Mutator for format 'seeable' field values
+     * Mutator for format 'publish' field values
      *
      * @param $value
      * @return void
      */
     public function setSeeableAttribute($value): void
     {
-        $this->attributes['seeable'] = ($value === 'on');
+        $this->attributes['publish'] = ($value === 'on');
     }
 
     /**

@@ -187,19 +187,19 @@
                     </div>
                     {{-- /parent category --}}
 
-                    {{-- seeable --}}
+                    {{-- publish --}}
                     <div class="form-group col-12 col-md-2">
                         <div class="right_stylized_checkbox">
-                            <input type="checkbox" id="seeable" name="seeable"
-                                @if ( isset($product) && !$product->seeable )
+                            <input type="checkbox" id="publish" name="publish"
+                                @if ( isset($product) && !$product->publish )
                                 @else
                                     checked
                                 @endif
                             >
-                            <label for="seeable">{{ __('seeable') }}</label>
+                            <label for="publish">{{ __('publish') }}</label>
                         </div>
                     </div>
-                    {{-- /seeable --}}
+                    {{-- /publish --}}
                 </div>
 
                 <button type="submit" class="btn btn-primary form-control">{{ __('apply') }}</button>

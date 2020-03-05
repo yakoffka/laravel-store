@@ -57,7 +57,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        abort_if ( !$category->fullSeeable(), 404 );
+        abort_if ( !$category->isPublish(), 404 );
 
         if ( $category->id === 1 ) {
             return redirect()->route('categories.index');
@@ -68,7 +68,7 @@ class CategoryController extends Controller
                 ->get()
                 ->where('parent_id', $category->id)
                 ->filter(static function ($value, $key) {
-                    return $value->hasDescendant() && $value->fullSeeable();
+                    return $value->hasDescendant() && $value->isPublish();
                 })
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
@@ -76,7 +76,7 @@ class CategoryController extends Controller
 
         if ( $category->products->count() ) {
             $products = Product::where('category_id', $category->id)
-                ->where('seeable', '=', true)
+                ->where('publish', '=', true)
                 ->orderBy('price')
                 ->paginate();
             return view('products.index', compact('category', 'products'));
@@ -141,7 +141,7 @@ class CategoryController extends Controller
      */
     private function prepareFields(array $fields): array
     {
-        $fields['seeable'] = $fields['seeable'] ?? false;
+        $fields['publish'] = $fields['publish'] ?? false;
         return $fields;
     }
 

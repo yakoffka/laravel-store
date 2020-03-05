@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Storage;
  * @property int $sort_order
  * @property int|null $manufacturer_id
  * @property int $category_id
- * @property string|null $seeable
+ * @property boolean $publish
  * @property string|null $materials
  * @property string|null $description
  * @property string|null $modification
@@ -44,8 +44,6 @@ use Illuminate\Support\Facades\Storage;
  * @property-read int|null $comments_count
  * @property-read User $creator
  * @property-read User|null $editor
- * @property-read mixed $category_seeable
- * @property-read mixed $parent_category_seeable
  * @property-read mixed $short_description
  * @property-read Collection|Image[] $images
  * @property-read int|null $images_count
@@ -181,14 +179,14 @@ class Product extends Model
     }
 
     /**
-     * Mutator for format 'seeable' field values
+     * Mutator for format 'publish' field values
      *
      * @param $value
      * @return void
      */
     public function setSeeableAttribute($value): void
     {
-        $this->attributes['seeable'] = ($value === 'on');
+        $this->attributes['publish'] = ($value === 'on');
     }
 
     /**
@@ -531,8 +529,8 @@ class Product extends Model
     /**
      * @return bool
      */
-    public function isAllVisible(): bool
+    public function isPublish(): bool
     {
-        return $this->seeable && $this->category->fullSeeable();
+        return $this->publish && $this->category->isPublish();
     }
 }

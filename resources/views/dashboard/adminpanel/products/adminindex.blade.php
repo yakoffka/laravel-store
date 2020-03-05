@@ -45,12 +45,12 @@
                         @endphp
                     </th>
                     <th>{{ __('__name') }}</th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__seeable') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_seeable') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_seeable') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
-                    <th width="60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
-                    <th width="30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('publish') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('parent_publish') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('__grand_parent_publish') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('__parent_category_id') }}</div></th>
+                    <th class="w60"><div class="verticalTableHeader ta_c">{{ __('__count_img') }}</div></th>
+                    <th class="w30"><div class="verticalTableHeader ta_c">{{ __('__price') }}</div></th>
                     <th class="actions4">{{ __('__actions') }}</th>
                 </tr>
 

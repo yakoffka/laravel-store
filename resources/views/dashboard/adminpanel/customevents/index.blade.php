@@ -33,7 +33,7 @@
                 <table class="table blue_table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th width="30">{{ __('id') }}</th>
+                            <th class="w30">{{ __('id') }}</th>
                             {{-- <th>{{ __('__Type')}}</th> --}}
                             {{-- <th>{{ __('__Model')}}</th> --}}
                             <th>{{ __('__Date')}}</th>
@@ -41,7 +41,7 @@
                             @if ( auth()->user()->can('view_orders') )
                                 <th>{{ __('__Initiator')}}</th>
                             @endif
-                            <th width="30"><div class="verticalTableHeader ta_c">actions</div></th>
+                            <th class="w30"><div class="verticalTableHeader ta_c">actions</div></th>
                         </tr>
                     </thead>
                     @foreach ( $customevents as $customevent )

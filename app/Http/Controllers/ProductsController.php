@@ -35,15 +35,15 @@ class ProductsController extends Controller
         }
 
         $appends = $request->query->all();
-        $array_seeable_categories = Category::with('parent')
+        $array_publish_categories = Category::with('parent')
             ->get()
             ->filter(static function (Category $value) {
-                return $value->hasDescendant() && $value->fullSeeable();
+                return $value->hasDescendant() && $value->isPublish();
             })
             ->pluck('id')
             ->toArray();
-        $products = Product::where('seeable', '=', true)
-            ->whereIn('category_id', $array_seeable_categories)
+        $products = Product::where('publish', '=', true)
+            ->whereIn('category_id', $array_publish_categories)
             ->orderBy('price')
             ->filter($request)
             ->paginate();
@@ -111,7 +111,7 @@ class ProductsController extends Controller
      */
     public function show(Product $product): View
     {
-        abort_if(!$product->isAllVisible(), 404);
+        abort_if(!$product->isPublish(), 404);
         $product->incrementViews();
 
         return view('products.show', compact('product'));
@@ -201,7 +201,7 @@ class ProductsController extends Controller
             $fields['imagespath'],
             $fields['copy_img'],
         );
-        $fields['seeable'] = $fields['seeable'] ?? false;
+        $fields['publish'] = $fields['publish'] ?? false;
 
         return $fields;
     }
@@ -258,15 +258,15 @@ class ProductsController extends Controller
         ]);
 
         $query = request('query');
-        $array_seeable_categories = Category::with(['parent', 'children'])
+        $array_publish_categories = Category::with(['parent', 'children'])
             ->get()
             ->filter(static function ($value, $key) {
-                return $value->hasDescendant() && $value->fullSeeable();
+                return $value->hasDescendant() && $value->isPublish();
             })
             ->pluck('id')
             ->toArray();
-        $products = Product::where('seeable', '=', true)
-            ->whereIn('category_id', $array_seeable_categories)
+        $products = Product::where('publish', '=', true)
+            ->whereIn('category_id', $array_publish_categories)
             ->search($query)
             ->paginate(15);
         $appends = [];
@@ -285,7 +285,7 @@ class ProductsController extends Controller
         abort_if(auth()->user()->cannot('edit_products'), 403);
 
         request()->validate([
-            'action' => 'required|string|in:delete,replace,inseeable,seeable',
+            'action' => 'required|string|in:delete,replace,un_publish,publish',
             'products' => 'required|array',
             'category_id' => 'nullable|string',
         ]);
@@ -321,12 +321,12 @@ class ProductsController extends Controller
                 }
             });
 
-        // inseeable
-        } elseif (request('action') === 'inseeable') {
+        // un_publish
+        } elseif (request('action') === 'un_publish') {
             $products->each(function ($product) {
                 if (
                 $product->update([
-                    'seeable' => false,
+                    'publish' => false,
                     'edited_by_user_id' => auth()->user()->id,
                 ])
                 ) {
@@ -334,12 +334,12 @@ class ProductsController extends Controller
                 }
             });
 
-        // seeable
-        } elseif (request('action') === 'seeable') {
+        // publish
+        } elseif (request('action') === 'publish') {
             $products->each(function ($product) {
                 if (
                 $product->update([
-                    'seeable' => true,
+                    'publish' => true,
                     'edited_by_user_id' => auth()->user()->id,
                 ])
                 ) {
