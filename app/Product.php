@@ -181,13 +181,14 @@ class Product extends Model
     }
 
     /**
-     * Accessor возвращает видимость родительской категории товара
+     * Mutator for format 'seeable' field values
      *
-     * @deprecated
+     * @param $value
+     * @return void
      */
-    public function getCategorySeeableAttribute()
+    public function setSeeableAttribute($value): void
     {
-        return $this->belongsTo(Category::class, 'category_id')->get()->max('seeable');
+        $this->attributes['seeable'] = ($value === 'on');
     }
 
     /**

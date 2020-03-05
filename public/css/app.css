@@ -2512,7 +2512,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-outline-info:hover {
-    color: #212529;
+    /*color: #212529;*/
+    color: #fff;
     background-color: #6cb2eb;
     border-color: #6cb2eb
 }

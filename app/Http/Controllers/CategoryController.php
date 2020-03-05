@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\{Category, Product};
+use App\{Category, Http\Requests\CategoryRequest, Product};
 use Exception as ExceptionAlias;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    /**
+     * CategoryController constructor.
+     */
     public function __construct() {
         $this->middleware('auth')->except(['index', 'show']);
     }
@@ -36,34 +39,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param CategoryRequest $request
      * @return RedirectResponse
      */
-    public function store(): RedirectResponse
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        abort_if( auth()->user()->cannot('create_categories'), 403);
-
-        request()->validate([
-            'name'          => 'required|string|max:255|unique:categories,name',
-            'title'         => 'nullable|string|max:255',
-            'slug'          => 'nullable|string|max:255',
-            'description'   => 'nullable|string|max:65535',
-            'imagepath'     => 'nullable|string|max:255',
-            'parent_id'     => 'required|integer|max:255',
-            'sort_order'    => 'required|string|max:1',
-            'seeable'       => 'nullable|string|in:on',
-        ]);
-
-        $category = Category::create([
-            'name'              => request('name'),
-            'title'             => request('title'),
-            'slug'              => request('slug'),
-            'description'       => request('description'),
-            'imagepath'         => request('imagepath'),
-            'parent_id'         => request('parent_id'),
-            'sort_order'        => request('sort_order'),
-            'seeable'           => request('seeable') === 'on',
-        ]);
-
+        $fields = $this->prepareFields($request->validated());
+        Category::create($fields);
         return redirect()->route('categories.adminindex');
     }
 
@@ -90,11 +72,9 @@ class CategoryController extends Controller
                 })
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
-
         }
 
         if ( $category->products->count() ) {
-            // $categories = Category::with(['parent', 'products'])
             $products = Product::where('category_id', $category->id)
                 ->where('seeable', '=', true)
                 ->orderBy('price')
@@ -120,35 +100,14 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Category $category
+     * @param CategoryRequest $request
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function update(Category $category): RedirectResponse
+    public function update(CategoryRequest $request, Category $category): RedirectResponse
     {
-        abort_if( auth()->user()->cannot('edit_categories'), 403);
-
-        request()->validate([
-            'name'          => 'required|string|max:255|unique:categories,name,'.$category->id.',id',
-            'title'         => 'nullable|string|max:255',
-            'slug'          => 'nullable|string|max:255',
-            'description'   => 'nullable|string|max:65535',
-            'imagepath'     => 'nullable|string|max:255',
-            'parent_id'     => 'required|integer|max:255',
-            'sort_order'    => 'required|string|max:1',
-            'seeable'       => 'nullable|string|in:on',
-        ]);
-
-        $category->update([
-            'name'              => request('name'),
-            'slug'              => request('slug'),
-            'title'             => request('title'),
-            'description'       => request('description'),
-            'imagepath'         => request('imagepath'),
-            'parent_id'         => request('parent_id'),
-            'sort_order'        => request('sort_order'),
-            'seeable'           => request('seeable') === 'on',
-        ]);
-
+        $fields = $this->prepareFields($request->validated());
+        $category->update($fields);
         return redirect()->route('categories.adminindex');
     }
 
@@ -174,6 +133,16 @@ class CategoryController extends Controller
 
         $category->delete();
         return redirect()->route('categories.adminindex');
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    private function prepareFields(array $fields): array
+    {
+        $fields['seeable'] = $fields['seeable'] ?? false;
+        return $fields;
     }
 
     /**

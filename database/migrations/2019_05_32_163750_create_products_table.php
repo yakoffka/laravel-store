@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('sort_order')->default(5);
             $table->unsignedInteger('manufacturer_id')->nullable();
             $table->unsignedInteger('category_id');
-            $table->boolean('seeable')->default(true);
+            $table->boolean('seeable')->default(false);
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
             $table->text('modification')->nullable();

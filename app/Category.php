@@ -224,6 +224,16 @@ class Category extends Model
         return config('imageyo.default_img');
     }
 
+    /**
+     * Mutator for format 'seeable' field values
+     *
+     * @param $value
+     * @return void
+     */
+    public function setSeeableAttribute($value): void
+    {
+        $this->attributes['seeable'] = ($value === 'on');
+    }
 
     /**
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории

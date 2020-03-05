@@ -6,7 +6,25 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
 {
-    public function rules(): array
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        if ( isset( $this->product ) ) {
+            return auth()->user()->can('edit_products');
+        }
+
+        return auth()->user()->can('create_products');
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */   public function rules(): array
     {
         return [
             'name'              => [
@@ -28,14 +46,5 @@ class ProductRequest extends FormRequest
             'price'             => 'nullable|integer',
             'copy_img'          => 'nullable|integer',
         ];
-    }
-
-    public function authorize(): bool
-    {
-        if ( isset( $this->product ) ) {
-            return auth()->user()->can('edit_products');
-        }
-
-        return auth()->user()->can('create_products');
     }
 }

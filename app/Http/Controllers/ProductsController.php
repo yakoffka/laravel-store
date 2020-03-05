@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\{Category, Http\Requests\ProductRequest, Manufacturer, Product};
@@ -79,8 +80,8 @@ class ProductsController extends Controller
             'method' => 'POST'
         ];
         $manufacturers = Manufacturer::all();
-        $catalog = Category::where('parent_id', null)
-            ->with('childrenCategories')
+        $catalog = Category::where('id', '=', 1)
+            ->with('childrenCategories') // recursive relation
             ->get();
 
         return view('dashboard.adminpanel.products.create_copy_edit',
@@ -200,7 +201,7 @@ class ProductsController extends Controller
             $fields['imagespath'],
             $fields['copy_img'],
         );
-        $fields['seeable'] = $fields['seeable'] === 'on';
+        $fields['seeable'] = $fields['seeable'] ?? false;
 
         return $fields;
     }
@@ -210,11 +211,11 @@ class ProductsController extends Controller
      *
      * @param Product $product
      * @return RedirectResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Product $product): RedirectResponse
     {
-        abort_if(auth()->user()->cannot('delete_products'), 403);
+        abort_if( auth()->user()->cannot('delete_products'), 403 );
 
         $product->delete();
 

@@ -48,12 +48,12 @@ class ResponseTest extends TestCase
             '/products?manufacturers[]=' . $manufacturer->id . '&categories[' . $category->id . ']=' . $category->id,
         ];
 
-        echo "\nReport from " . __FILE__ . "\n";
+        echo "\nReport from " . __CLASS__ . "\ni: Для успешного прохождения необходимо наличие скрытых директорий и товаров\n";
         foreach ($getRequests200 as $route) {
             $response = $this->get($route);
-            echo '    GET ' . $route;
+            echo '    GET \'' . $route . '\': ';
             $response->assertStatus(200);
-            echo " 200 - OK!\n";
+            echo "200 - OK!\n";
         }
     }
 
@@ -115,9 +115,9 @@ class ResponseTest extends TestCase
         echo  "\n";
         foreach ( $getRequests404 as $route ) {
             $response = $this->get($route);
-            echo '    GET ' . $route;
+            echo '    GET \'' . $route . '\': ';
             $response->assertStatus(404);
-            echo  " 404 - OK!\n";
+            echo  "404 - OK!\n";
         }
     }
 }

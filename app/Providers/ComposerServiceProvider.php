@@ -34,10 +34,13 @@ class ComposerServiceProvider extends ServiceProvider
         View::share('globalCategories',
             Category::with(['parent', 'children'])
                 ->get()
-                ->where('parent.id', '=', 1) // @todo: what???
+                ->where('parent.id', '=', 1)
                 ->where('id', '>', 1)
                 ->filter(static function ($value, $key) {
-                    return $value->hasDescendant() && $value->fullSeeable();
+                    if ( !config('settings.show_empty_category') ) {
+                        return $value->hasDescendant() && $value->fullSeeable();
+                    }
+                    return $value->fullSeeable();
                 })
                 ->sortBy('sort_order')
         );
