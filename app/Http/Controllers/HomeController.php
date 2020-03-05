@@ -34,19 +34,10 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function home()
     {
-        $categories = Category::all()
-            ->where('parent_id', '=', 1)
-            ->where('id', '>', 1)
-            ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on'); // getParentSeeableAttribute
-
-        $videobackground = true;
-
-        return view('home', compact('categories', 'videobackground'));
+        return view('home');
     }
 
     public function contactUs(Request $request)

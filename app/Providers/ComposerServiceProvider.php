@@ -34,7 +34,7 @@ class ComposerServiceProvider extends ServiceProvider
         View::share('globalCategories',
             Category::with(['parent', 'children'])
                 ->get()
-                ->where('parent.id', '=', 1)
+                ->where('parent.id', '=', 1) // @todo: what???
                 ->where('id', '>', 1)
                 ->filter(static function ($value, $key) {
                     return $value->hasDescendant() && $value->fullSeeable();

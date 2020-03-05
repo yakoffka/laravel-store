@@ -182,7 +182,6 @@ class Product extends Model
 
     /**
      * Accessor возвращает видимость родительской категории товара
-     * in controller using snake-case: $category->parent_seeable!!!
      *
      * @deprecated
      */
@@ -190,18 +189,6 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id')->get()->max('seeable');
     }
-
-    /**
-     * Accessor возвращает видимость прародительской категории товара
-     * in controller using snake-case: $category->parent_seeable!!!
-     *
-     * @deprecated
-     */
-    public function getParentCategorySeeableAttribute()
-    {
-        return $this->belongsTo(Category::class, 'category_id')->get()->max('parent_seeable');
-    }
-
 
     /**
      * Increment number of views.

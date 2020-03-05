@@ -257,9 +257,11 @@ class ProductsController extends Controller
         ]);
 
         $query = request('query');
-        $array_seeable_categories = Category::all()
-            ->where('seeable', '=', 'on')
-            ->where('parent_seeable', '=', 'on') // getParentSeeableAttribute
+        $array_seeable_categories = Category::with(['parent', 'children'])
+            ->get()
+            ->filter(static function ($value, $key) {
+                return $value->hasDescendant() && $value->fullSeeable();
+            })
             ->pluck('id')
             ->toArray();
         $products = Product::where('seeable', 'on')

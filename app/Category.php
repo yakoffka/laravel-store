@@ -29,7 +29,6 @@ use Mail;
  * @property int|null $parent_id
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
- * @property string|null $parent_seeable
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection|Category[] $children
