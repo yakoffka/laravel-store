@@ -153,6 +153,7 @@
   "__price": "цена",
   "__seeable": "видимость",
   "__parent_seeable": "видимость родителя",
+  "__grand_parent_seeable": "видимость прародителя",
   "__count_views": "просмотров",
   "__parent_category_id": "id род. категории",
   "__priority": "приоритет",
@@ -323,10 +324,6 @@
     "comment_published_at: ": " ",
     "comment_updated_at: ": " upd: ",
     "Your_comment": "Ваш комментарий",
-    "eeeeeeeeee": "eeeeeeeeeeee",
-    "eeeeeeeeee": "eeeeeeeeeeee",
-    "eeeeeeeeee": "eeeeeeeeeeee",
-    "eeeeeeeeee": "eeeeeeeeeeee",
 
 
 
