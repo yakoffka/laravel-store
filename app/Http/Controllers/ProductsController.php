@@ -41,7 +41,7 @@ class ProductsController extends Controller
             })
             ->pluck('id')
             ->toArray();
-        $products = Product::where('seeable', '=', 'on')
+        $products = Product::where('seeable', '=', true)
             ->whereIn('category_id', $array_seeable_categories)
             ->orderBy('price')
             ->filter($request)
@@ -200,7 +200,7 @@ class ProductsController extends Controller
             $fields['imagespath'],
             $fields['copy_img'],
         );
-        $fields['seeable'] = $fields['seeable'] ?? '';
+        $fields['seeable'] = $fields['seeable'] === 'on';
 
         return $fields;
     }
@@ -264,7 +264,7 @@ class ProductsController extends Controller
             })
             ->pluck('id')
             ->toArray();
-        $products = Product::where('seeable', 'on')
+        $products = Product::where('seeable', '=', true)
             ->whereIn('category_id', $array_seeable_categories)
             ->search($query)
             ->paginate(15);
@@ -307,7 +307,7 @@ class ProductsController extends Controller
                 }
             });
 
-            // replace
+        // replace
         } elseif (request('action') === 'replace') {
             $products->each(function ($product) {
                 if (
@@ -320,7 +320,7 @@ class ProductsController extends Controller
                 }
             });
 
-            // inseeable
+        // inseeable
         } elseif (request('action') === 'inseeable') {
             $products->each(function ($product) {
                 if (
@@ -333,7 +333,7 @@ class ProductsController extends Controller
                 }
             });
 
-            // seeable
+        // seeable
         } elseif (request('action') === 'seeable') {
             $products->each(function ($product) {
                 if (
@@ -346,7 +346,7 @@ class ProductsController extends Controller
                 }
             });
 
-            // unknown action
+        // unknown action
         } else {
             return back()->withErrors(['Выбранной операции не существует!'])->withInput();
         }

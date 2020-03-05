@@ -22,7 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('imagepath')->nullable()->charset('utf8');
-            $table->string('seeable')->nullable()->default('on');
+            $table->boolean('seeable')->default(true);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();

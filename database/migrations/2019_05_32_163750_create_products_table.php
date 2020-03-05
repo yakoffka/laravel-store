@@ -22,16 +22,16 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('sort_order')->default(5);
             $table->unsignedInteger('manufacturer_id')->nullable();
             $table->unsignedInteger('category_id');
-            $table->string('seeable')->nullable()->default('on');
+            $table->boolean('seeable')->default(true);
             $table->string('materials')->nullable();
             $table->text('description')->nullable();
-            $table->text('modification')->nullable();                   // modification table
+            $table->text('modification')->nullable();
             $table->text('workingconditions')->nullable();
             $table->string('date_manufactured', 10)->nullable();
             $table->float('price', 8, 2)->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
-            $table->unsignedInteger('count_views')->default(0);                           // кол-во просмотров товара
+            $table->unsignedInteger('count_views')->default(0); // кол-во просмотров товара
             $table->timestamps();
         });
     }

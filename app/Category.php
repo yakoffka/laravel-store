@@ -176,7 +176,7 @@ class Category extends Model
      */
     public function parentSeeable(): bool
     {
-        return (bool)$this->parent->seeable;
+        return $this->parent->seeable;
     }
 
     /**

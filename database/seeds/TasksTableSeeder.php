@@ -335,13 +335,6 @@ class TasksTableSeeder extends Seeder
             ],
 
             [
-                'name' => 'Accessor getParentSeeableAttribute',
-                'description' => 'Попытаться улучшить метод getParentSeeableAttribute в модели Category (max(\'seeable\')).',
-                'tasksstatus_id' => 1,
-                'taskspriority_id' => 4,
-            ],
-
-            [
                 'name' => 'Проверить вывод истории',
                 'description' => 'Проверить вывод истории для различных категорий. Добавить события для занесения в историю.',
                 'tasksstatus_id' => 6,
@@ -531,7 +524,7 @@ class TasksTableSeeder extends Seeder
             [
                 'name' => 'Добавить подтверждение удаления товаров из корзины',
                 'description' => 'Добавить подтверждение удаления товаров из корзины. Затронуть файлы
-                <ul> 
+                <ul>
                     <li>resources/views/cart/confirmation.blade.php
                     </li><li>resources/views/cart/show.blade.php
                     </li>
@@ -911,7 +904,7 @@ class TasksTableSeeder extends Seeder
 
         ];
 
-// (`master_user_id`, `slave_user_id`, `title`, `slug`, `description`, `tasksstatus_id`, `taskspriority_id`, `created_at`, `updated_at`) values 
+// (`master_user_id`, `slave_user_id`, `title`, `slug`, `description`, `tasksstatus_id`, `taskspriority_id`, `created_at`, `updated_at`) values
 // (2,  2,   Изменить обновление записи, title-test-task-4, Делать изменение записи только при изменении., opened, 1, 2019-08-28 16:45:26, 2019-08-28 16:45:26)
 
 

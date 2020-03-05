@@ -63,7 +63,7 @@ class ProductsTableSeeder extends Seeder
                     'name' => $name,
                     'slug' => Str::slug($name, '-'),
                     'manufacturer_id' => $manufacturer->id,
-                    'seeable' => rand(0, 5) ? 'on' : NULL,
+                    'seeable' => rand(0, 5) ? true : false,
                     'category_id' => $category['id'],
                     'materials' => $materials,
                     'description' => $description,

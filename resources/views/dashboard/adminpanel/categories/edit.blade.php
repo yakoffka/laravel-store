@@ -134,7 +134,7 @@
                     {{-- seeable --}}
                     <div class="form-group right_stylized_checkbox">
                         <input type="checkbox" id="seeable" name="seeable"
-                            @if($category->seeable)
+                            @if ( $category->seeable )
                                 checked
                             @endif
                         >

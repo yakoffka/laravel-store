@@ -60,7 +60,7 @@
                     <span class="grey">{{__('__manufacturer')}}: </span>{{ $product->manufacturer->title ?? '-' }}<br>
                     <span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>
                     <span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>
-                    <span class="grey">{{ __('__seeable') }}: </span>{{ $product->seeable ? 'seeable' : 'inseeable' }}<br>
+                    <span class="grey">{{ __('__seeable') }}: </span>{{ $product->seeable ? 'on' : 'off' }}<br>
                     <span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>
                     <span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>
 

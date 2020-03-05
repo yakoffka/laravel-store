@@ -31,7 +31,7 @@ class ResponseTest extends TestCase
 
         $product = Product::where('category_id', '=', $category->id)
             ->get()
-            ->where('seeable', '=', 'on')
+            ->where('seeable', '=', true)
             ->random();
 
         $manufacturer = Manufacturer::get()->random();

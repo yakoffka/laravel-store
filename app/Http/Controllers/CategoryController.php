@@ -61,7 +61,7 @@ class CategoryController extends Controller
             'imagepath'         => request('imagepath'),
             'parent_id'         => request('parent_id'),
             'sort_order'        => request('sort_order'),
-            'seeable'           => request('seeable'),
+            'seeable'           => request('seeable') === 'on',
         ]);
 
         return redirect()->route('categories.adminindex');
@@ -96,7 +96,7 @@ class CategoryController extends Controller
         if ( $category->products->count() ) {
             // $categories = Category::with(['parent', 'products'])
             $products = Product::where('category_id', $category->id)
-                ->where('seeable', '=', 'on')
+                ->where('seeable', '=', true)
                 ->orderBy('price')
                 ->paginate();
             return view('products.index', compact('category', 'products'));
@@ -146,7 +146,7 @@ class CategoryController extends Controller
             'imagepath'         => request('imagepath'),
             'parent_id'         => request('parent_id'),
             'sort_order'        => request('sort_order'),
-            'seeable'           => request('seeable'),
+            'seeable'           => request('seeable') === 'on',
         ]);
 
         return redirect()->route('categories.adminindex');
