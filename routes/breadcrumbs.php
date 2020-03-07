@@ -67,6 +67,15 @@ use App\Category;
 
 
 
+// filter
+    // Home > Catalog > [Filter]
+    Breadcrumbs::for('filter', function ($trail) {
+        $trail->parent('catalog');
+        $trail->push('Фильтр товаров');
+    });
+
+
+
 // Home > Cart
     Breadcrumbs::for('cart', function ($trail) {
         $trail->parent('home');

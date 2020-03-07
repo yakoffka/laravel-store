@@ -5,8 +5,9 @@
 {{-- filters --}}
 @if ( !empty($appends['manufacturers']) || !empty($appends['categories']) )
     @php
-        $h1 = 'Фильтрация товаров';
-        $title = 'Фильтрация товаров';
+        $h1 = 'Фильтр товаров';
+        $title = 'Фильтр товаров';
+        $filter = true;
         if ( $products->total() === 0 ) {
             $mess_null = 'нет товаров, удовлетворяющих заданным условиям';
         }
@@ -59,7 +60,9 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            @if ( !empty($category) )
+            @if ( isset( $filter ) && $filter )
+                {{ Breadcrumbs::render('filter') }}
+            @elseif ( !empty($category) )
                 {{ Breadcrumbs::render('categories.show', $category) }}
             @else
                 {{ Breadcrumbs::render('catalog') }}
