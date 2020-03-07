@@ -41,7 +41,7 @@ class ProductRequest extends FormRequest
             'description'       => 'nullable|string',
             'modification'      => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            'imagespath'        => 'nullable|string',
+            'images_path'        => 'nullable|string',
             'date_manufactured' => 'nullable|string|min:10|max:10',
             'price'             => 'nullable|integer',
             'copy_img'          => 'nullable|integer',

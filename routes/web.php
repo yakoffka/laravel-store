@@ -72,11 +72,11 @@ Route::post('/contact_us', 'HomeController@contactUs')->name('home.contact_us');
 
 
 /* comments*/
-Route::get('/comments', 'ProductCommentsController@index');
-Route::get('/comments/create', 'ProductCommentsController@create');
-Route::get('/comments/{comment}', 'ProductCommentsController@show');
+//Route::get('/comments', 'ProductCommentsController@index');
+//Route::get('/comments/create', 'ProductCommentsController@create');
+//Route::get('/comments/{comment}', 'ProductCommentsController@show');
 Route::post('/products/{product}/comments', 'ProductCommentsController@store');
-Route::get('/comments/edit/{comment}', 'ProductCommentsController@edit');
+//Route::get('/comments/edit/{comment}', 'ProductCommentsController@edit');
 Route::patch('/comments/{comment}', 'ProductCommentsController@update');
 Route::delete('/comments/{comment}', 'ProductCommentsController@destroy')->name('comments.destroy');
 
@@ -120,7 +120,7 @@ Route::patch('cart/change/{product}', 'CartController@changeItem')->name('cart.c
 Route::delete('cart/delete/{product}', 'CartController@deleteItem')->name('cart.delete-item');
 
 // orders
-    Route::resource('orders',           'OrderController')->except(['edit']);
+    Route::resource('orders',      'OrderController')->except(['edit']);
     Route::get('admin/orders',          'OrderController@adminIndex')->name('orders.adminindex'  )->middleware('auth');
     Route::get('admin/orders/{order}',  'OrderController@adminShow' )->name('orders.adminshow'   )->middleware('auth');
 

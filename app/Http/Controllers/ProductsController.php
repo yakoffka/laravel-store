@@ -42,7 +42,7 @@ class ProductsController extends Controller
             })
             ->pluck('id')
             ->toArray();
-        $products = Product::where('publish', '=', true)
+        $products = Product::where('publish', '=', true)// @todo with images
             ->whereIn('category_id', $array_publish_categories)
             ->orderBy('price')
             ->filter($request)
@@ -58,10 +58,16 @@ class ProductsController extends Controller
      */
     public function adminIndex(): View
     {
+        /*$appends = request()->query->all();
+        $products = Product::with(['category', 'images'])
+            ->paginate(config('custom.pagination_product_admin'));
+        $categories = Category::with(['children', 'products'])->get();*/
+
+        // @todo! Maximum function nesting level of '512' reached, aborting!
         $appends = request()->query->all();
         $products = Product::with(['category', 'images'])
             ->paginate(config('custom.pagination_product_admin'));
-        $categories = Category::with(['children', 'products'])->get();
+        $categories = Category::with(['children'])->get();
 
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
@@ -198,7 +204,7 @@ class ProductsController extends Controller
     private function prepareFields(array $fields): array
     {
         unset(
-            $fields['imagespath'],
+            $fields['images_path'],
             $fields['copy_img'],
         );
         $fields['publish'] = $fields['publish'] ?? false;

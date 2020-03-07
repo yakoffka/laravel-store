@@ -47,7 +47,15 @@
     <td class="ta_c" title="{{ $product->category->title }}">{{ $product->category_id }}</td>
 
 
-    <td>{{ $product->images->count() }}</td>
+    <td>
+        <a href="{{ route('products.show', ['product' => $product->id]) }}">
+            <div class="card-img-top b_image"
+                 style="background-image: url({{ asset('storage') }}{{$product->full_image_path_s}});">
+                <div class="dummy perc100"></div>
+                <div class="element"></div>
+            </div>
+        </a>
+    </td>
 
     {{-- <td>{{ $product->materials }}</td> --}}
     {{-- <td>{{ $product->description }}</td> --}}
@@ -64,31 +72,31 @@
 
         {{-- view --}}
         <a href="{{ route('products.adminshow', $product) }}"
-            class="btn btn-outline-primary" title="{{ __('show_action') }}">
+           class="btn btn-outline-primary" title="{{ __('show_action') }}">
             <i class="fas fa-eye"></i>
         </a>
 
         {{-- edit --}}
         <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-            class="btn btn-outline-success" title="{{ __('edit_action') }}">
+           class="btn btn-outline-success" title="{{ __('edit_action') }}">
             <i class="fas fa-pen-nib"></i>
         </a>
 
         {{-- copy --}}
         <a href="{{ route('products.copy', ['product' => $product->id]) }}"
-            class="btn btn-outline-primary" title="{{ __('copy_action') }}">
+           class="btn btn-outline-primary" title="{{ __('copy_action') }}">
             <i class="fas fa-copy"></i>
         </a>
 
         {{-- delete --}}
         @permission('delete_products')
-            @modalConfirmDestroy([
-                'btn_class' => 'btn btn-outline-danger align-self-center',
-                'cssId' => 'delete_action',
-                'item' => $product,
-                'type_item' => 'товар',
-                'action' => route('products.destroy', $product),
-            ])
+        @modalConfirmDestroy([
+        'btn_class' => 'btn btn-outline-danger align-self-center',
+        'cssId' => 'delete_action',
+        'item' => $product,
+        'type_item' => 'товар',
+        'action' => route('products.destroy', $product),
+        ])
         @endpermission
 
     </td>

@@ -298,12 +298,12 @@ Breadcrumbs::for('dashboard', function ($trail) {
     // Home > Dashboard > Customevents
     Breadcrumbs::for('customevents.index', function ($trail) {
         $trail->parent('dashboard');
-        $trail->push(__('customevents_index_title'), route('customevents.index'));
+        $trail->push(__('custom_events_index_title'), route('customevents.index'));
     });
     // Home > Dashboard > Users > Customevents > [Customevent]
     Breadcrumbs::for('customevents.show', function ($trail, $customevent) {
         $trail->parent('customevents.index');
-        $trail->push(__('customevents_show_title') . ' #' . $customevent->id, route('customevents.show', $customevent));
+        $trail->push(__('custom_events_show_title') . ' #' . $customevent->id, route('customevents.show', $customevent));
     });
 
 

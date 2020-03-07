@@ -11,10 +11,9 @@
             @endif
         </div>
 
-        <a href="{{ route('categories.show', ['category' => $category->id]) }}">
+        <a class="card_link" href="{{ route('categories.show', ['category' => $category->id]) }}">
             <div class="card-img-top b_image"
                  style="background-image: url({{ asset('storage') }}{{$category->full_image_path}});">
-
                 <div class="dummy perc100"></div>
                 <div class="element"></div>
             </div>

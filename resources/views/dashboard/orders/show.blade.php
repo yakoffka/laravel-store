@@ -18,7 +18,7 @@
     </div>
 
 
-    @if( !empty($order->cart) and !empty($order->cart->total_qty) )
+    @if( !empty($order->cart) && !empty($order->cart->total_qty) )
 
         <div class="row justify-content-center">
             <h1>Detail of order #{{ $order->id }}</h1>
@@ -60,14 +60,13 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>
-                        @if($item['item']->image)
-                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/products/{{$item['item']->id}}/{{$item['item']->image}});">
-                        @else
-                            <div class="cart_image b_image" style="background-image: url({{ asset('storage') }}/images/default/noimg-l.png);">
-                        @endif
-
-                            <div class="dummy"></div><div class="element"></div>
-                        </div>
+                        <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">
+                            <div class="card-img-top b_image"
+                                 style="background-image: url({{ asset('storage') }}{{$item['item']->full_image_path_s}});">
+                                <div class="dummy perc100"></div>
+                                <div class="element"></div>
+                            </div>
+                        </a>
                     </td>
                     <td>
                         <a href="{{ route('products.show', ['product' => $item['item']->id]) }}">

@@ -1,6 +1,6 @@
 @extends('layouts.theme_switch')
 
-@section('title', __('customevents_show_title'))
+@section('title', __('custom_events_show_title'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>{{ __('customevents_show_title') }} №{{ $customevent->id }}</h1>
+    <h1>{{ __('custom_events_show_title') }} №{{ $customevent->id }}</h1>
 
 
     <div class="row">
@@ -44,7 +44,7 @@
                         <th>новое значение</th>
                     </tr>
 
-                    @foreach ( unserialize($customevent->details) as $property ) 
+                    @foreach ( unserialize($customevent->details) as $property )
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td class="ta_l">{{ $property[0] }}</td>
@@ -56,7 +56,7 @@
             @else
                 <br>детали события отсутствуют.
             @endif
-            
+
             <div class="center">
                 <a class="btn btn-outline-primary form-control col-5" href="{{ route('customevents.show', $customevent->id-1) }}">prew event</a>
                 <a class="btn btn-outline-primary form-control col-5" href="{{ route('customevents.show', $customevent->id+1) }}">next event</a>

@@ -179,12 +179,54 @@ class Product extends Model
     }
 
     /**
+     * Accessor
+     * @return string
+     */
+    public function getFullImagePathLAttribute(): string
+    {
+        if ($this->images->count()) {
+            $img = $this->images->first();
+            return '/images/products/' . $this->id . '/' . $img->name . '-l' . $img->ext;
+        }
+
+        return config('imageyo.default_img');
+    }
+
+    /**
+     * Accessor
+     * @return string
+     */
+    public function getFullImagePathMAttribute(): string
+    {
+        if ($this->images->count()) {
+            $img = $this->images->first();
+            return '/images/products/' . $this->id . '/' . $img->name . '-m' . $img->ext;
+        }
+
+        return config('imageyo.default_img');
+    }
+
+    /**
+     * Accessor
+     * @return string
+     */
+    public function getFullImagePathSAttribute(): string
+    {
+        if ($this->images->count()) {
+            $img = $this->images->first();
+            return '/images/products/' . $this->id . '/' . $img->name . '-s' . $img->ext;
+        }
+
+        return config('imageyo.default_img');
+    }
+
+    /**
      * Mutator for format 'publish' field values
      *
      * @param $value
      * @return void
      */
-    public function setSeeableAttribute($value): void
+    public function setPublishAttribute($value): void
     {
         $this->attributes['publish'] = ($value === 'on');
     }
@@ -333,13 +375,13 @@ class Product extends Model
      */
     public function attachImages(): Product
     {
-        if (!request('imagespath')) {
+        if (!request('images_path')) {
             return $this;
         }
 
-        $imagepaths = explode(',', request('imagespath'));
+        $image_paths = explode(',', request('images_path'));
 
-        foreach ($imagepaths as $imagepath) {
+        foreach ($image_paths as $imagepath) {
 
             $image = storage_path('app/public') . str_replace(config('filesystems.disks.lfm.url'), '', $imagepath);
 
@@ -494,7 +536,7 @@ class Product extends Model
      */
     public function deleteImages(): self
     {
-        if ($this->images) {
+        if ($this->images->count()) {
             // delete public directory (converted images)
             $directory_pub = 'public/images/products/' . $this->id;
             Storage::deleteDirectory($directory_pub);

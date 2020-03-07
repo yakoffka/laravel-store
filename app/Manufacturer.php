@@ -53,7 +53,7 @@ use Mail;
 class Manufacturer extends Model
 {
     protected $guarded = [];
-    private $event_type = '';
+    private string $event_type = '';
 
     /**
      * @return HasMany

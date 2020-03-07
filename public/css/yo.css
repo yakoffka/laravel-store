@@ -5,19 +5,11 @@ body {
 */
 
 
-body {
-    color: #3b4144;
-}
+body {color: #3b4144;}
 
 
-h1 {
-    text-align: center;
-    color: #636b6f;
-}
-
-h2 {
-    color: #3490dc;
-}
+h1 {text-align: center;color: #636b6f;}
+h2 {color: #3490dc;}
 
 /*
 .col-xs-0, .col-sm-0, .col-md-0, .col-lg-0 {
@@ -41,9 +33,7 @@ h2 {
 }
 
 
-.invisible {
-    display: none;
-}
+.invisible {display: none;}
 
 /* видимый мерцающий индикатор в поле ввода */
 input,
@@ -57,13 +47,8 @@ textarea,
 }
 
 
-.w30 {
-    width: 30px;
-}
-
-.w60 {
-    width: 60px;
-}
+.w30 {width: 30px;}
+.w60 {width: 60px;}
 
 
 /* toTop */
@@ -94,7 +79,6 @@ textarea,
     animation: 2s cubic-bezier(0, 0, 0.2, 1) 0s normal forwards 1 running ripple;
     background-color: rgba(255, 255, 255, 0.4);
 }
-
 @keyframes ripple {
     0% {
         opacity: 1;
@@ -107,7 +91,6 @@ textarea,
         opacity: 0;
     }
 }
-
 button.ripplebutton {
     background-color: dodgerblue;
     color: white;
@@ -117,8 +100,34 @@ button.ripplebutton {
     cursor: pointer;
     margin: 20px;
 }
-
 /* /ripple */
+
+
+
+ol.breadcrumb a {
+    text-decoration: none;
+    font-size: 1em;
+    position: relative;
+    transition: all 0.6s;
+}
+ol.breadcrumb a:before {
+     content: "";
+     width: 0;
+     height: 0.1em;
+     position: absolute;
+     bottom: 0;
+     left: 50%;
+     background: #3490dc;
+     transition: all 0.3s;
+ }
+ol.breadcrumb a:hover:before {
+     width: 100%;
+     left: 0;
+     background: #3490dc;
+}
+
+
+
 
 
 .grey {
@@ -700,7 +709,6 @@ table.param tr th {
     left: 0;
     right: 0;
 }
-
 /* b_image */
 
 .dummy.perc50 {
@@ -1518,7 +1526,19 @@ hr.ellipsis::before {
     left: 0;
 }
 
+/*.category.grid .btn:hover {
+    opacity: 1;
+    background: #69b1de;
+    border-color: #69b1de;
+    color: #fefefe;
+}*/
 .category.grid .btn:hover {
+    opacity: 1;
+    background: #69b1de;
+    border-color: #69b1de;
+    color: #fefefe;
+}
+.category.grid .card_link:hover~.btn { /* sister! */
     opacity: 1;
     background: #69b1de;
     border-color: #69b1de;

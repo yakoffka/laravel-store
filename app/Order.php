@@ -48,7 +48,7 @@ use Session;
 class Order extends Model
 {
     protected $guarded = [];
-    private $event_type = '';
+    private string $event_type = '';
 
     /**
      * @return BelongsTo
@@ -80,7 +80,7 @@ class Order extends Model
      */
     public function getNameAttribute(): string
     {
-        return str_pad($this->id, 5, '0', STR_PAD_LEFT);
+        return str_pad($this->id, 7, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -98,7 +98,7 @@ class Order extends Model
 
         $details = [];
         foreach ($attr as $property => $value) {
-            if ((array_key_exists($property, $dirty) or !$dirty) and $property !== 'cart') {
+            if ((array_key_exists($property, $dirty) || !$dirty) && $property !== 'cart') {
                 $details[] = [
                     $property,
                     $original[$property] ?? FALSE,

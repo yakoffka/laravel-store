@@ -40,7 +40,7 @@
                     </div>
                 @endif
 
-                @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagespath', 'value' => old('imagespath') ?? ''])
+                @lfmImageButton(['id' => 'lfm_images', 'name' => 'images_path', 'value' => old('images_path') ?? ''])
 
                 <div class="row">
 

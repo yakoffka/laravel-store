@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -9,10 +10,10 @@ class CategoriesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
 
-        if ( config('custom.store_theme') == 'MUSIC' ) {
+        if ( config('custom.store_theme') === 'MUSIC' ) {
 
             $categories = [
 
@@ -137,15 +138,27 @@ class CategoriesTableSeeder extends Seeder
         }
 
 
-        $key = 1;
         foreach ($categories as $category) {
+
+            $slug = $category['slug'] ?? Str::slug($category['name'], '-');
+            $uuid = Str::uuid();
+
+            $imagepath = $slug . '.png';
+            $src = 'images/default/category/' . $imagepath;
+            $dst = 'images/categories/' . $uuid . '/' . $imagepath;
+            if (!Storage::disk('public')->exists($src) || !Storage::disk('public')->copy($src, $dst)) {
+                echo __LINE__ . ': error copy image;'."\n";
+                $imagepath = '';
+            }
+
             DB::table('categories')->insert([
-                'uuid' => Str::uuid(),
+                'uuid' => $uuid,
                 'name' => $category['name'],
-                'slug' => $category['slug'] ?? Str::slug($category['name'], '-'),
+                'slug' => $slug,
                 'sort_order' => 5,
                 'title' => $category['title'] ?? ucwords($category['name']),
                 'description' => 'Description ' . ucwords($category['name']),
+                'imagepath' => $imagepath,
                 'publish' => true,
                 'parent_id' => $category['parent_id'],
                 'added_by_user_id' => 1,

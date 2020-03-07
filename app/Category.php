@@ -62,7 +62,7 @@ use Mail;
 class Category extends Model
 {
     protected $guarded = [];
-    private $event_type = '';
+    private string $event_type = '';
 
     /**
      * @return BelongsTo
@@ -78,6 +78,14 @@ class Category extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function publishedProducts(): HasMany
+    {
+        return $this->hasMany(Product::class)->where('publish', '=', true);
     }
 
     /**
@@ -165,7 +173,7 @@ class Category extends Model
      */
     public function isPublish(): bool
     {
-        if ( $this->parent_id === null ) {
+        if ($this->parent_id === null) {
             return $this->publish;
         }
         return $this->publish && $this->parent->publish;
@@ -218,7 +226,7 @@ class Category extends Model
     public function getFullImagePathAttribute(): string
     {
         if ($this->imagepath) {
-            return '/images/categories/' . $this->uuid . $this->imagepath;
+            return '/images/categories/' . $this->uuid . '/' . $this->imagepath;
         }
 
         return config('imageyo.default_img');
@@ -230,7 +238,7 @@ class Category extends Model
      * @param $value
      * @return void
      */
-    public function setSeeableAttribute($value): void
+    public function setPublishAttribute($value): void
     {
         $this->attributes['publish'] = ($value === 'on');
     }
@@ -242,7 +250,7 @@ class Category extends Model
      */
     public function attachSingleImage()
     {
-        if (!$this->isDirty('imagepath') or !$this->imagepath) {
+        if (!$this->imagepath || !$this->isDirty('imagepath')) {
             return $this;
         }
 
@@ -316,7 +324,7 @@ class Category extends Model
         $setting = config($namesetting);
         info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-        if ( $setting === '1' ) {
+        if ($setting === '1') {
             $to = auth()->user();
 
             $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));

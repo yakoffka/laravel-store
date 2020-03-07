@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder
             ImagesTableSeeder::class,
         ]);
 
-        // factory(App\Comment::class, (config('custom.num_products_seed') * 2) )->create();
+         factory(App\Comment::class, (config('custom.num_products_seed') * 2) )->create();
     }
 }

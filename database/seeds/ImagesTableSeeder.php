@@ -11,14 +11,14 @@ class ImagesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
 
         // only for 'MUSIC' template
-        if ( config('custom.store_theme') == 'MUSIC' ) {
+        if ( config('custom.store_theme') === 'MUSIC' ) {
 
             $products = Product::all();
-            
+
             foreach ( $products as $i => $product ) {
 
                 $images = [

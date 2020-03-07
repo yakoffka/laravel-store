@@ -1,6 +1,6 @@
 @extends('layouts.theme_switch')
 
-@section('title', __('customevents_index_title'))
+@section('title', __('custom_events_index_title'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
     </div>
 
 
-    <h1>{{ __('customevents_index_title') }}</h1>
+    <h1>{{ __('custom_events_index_title') }}</h1>
 
 
     <div class="row">

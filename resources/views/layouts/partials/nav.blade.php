@@ -7,14 +7,14 @@
         <li class="nav-item" title="{{ $category->title }}">
             @if ($category->children->count())
                 <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="nav-link" id="hasSub-{{ $category->id }}" data-toggle="collapse" data-target="#subnav-{{ $category->id }}" aria-controls="subnav-{{ $category->id }}" aria-expanded="false">
-                    {{ $category->name }} >
+                    {{ $category->title }} >
                 </a>
                 <ul class="navbar-collapse collapse" id="subnav-{{ $category->id }}" data-parent="#mainMenu" aria-labelledby="hasSub-{{ $category->id }}">
                     @foreach ($category->children as $subcategory)
                         <li title="{{ $subcategory->title }}">
                             <a href="{{ route('categories.show', ['category' => $subcategory->id]) }}"
                                class="nav-link">
-                                {{ $subcategory->name }}
+                                {{ $subcategory->title }} ({{ $subcategory->publishedProducts->count() }})
                             </a>
                         </li>
                     @endforeach
@@ -23,7 +23,7 @@
                 </ul>
             @else
                 <a href="/products?categories[]={{ $category->id }}" class="nav-link">
-                    {{ $category->title }} ({{ $category->products->count() }})
+                    {{ $category->title }} ({{ $category->publishedProducts->count() }})
                 </a>
             @endif
         </li>

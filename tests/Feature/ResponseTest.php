@@ -46,14 +46,28 @@ class ResponseTest extends TestCase
             '/products?manufacturers[]=' . $manufacturer->id,
             '/products?&categories[' . $category->id . ']=' . $category->id,
             '/products?manufacturers[]=' . $manufacturer->id . '&categories[' . $category->id . ']=' . $category->id,
+
+            '/cart',
+        ];
+
+        $getRequests302 = [
+            '/cart/add/' . $product->id,
         ];
 
         echo "\nReport from " . __CLASS__ . "\ni: Для успешного прохождения необходимо наличие скрытых директорий и товаров\n";
+
         foreach ($getRequests200 as $route) {
             $response = $this->get($route);
             echo '    GET \'' . $route . '\': ';
             $response->assertStatus(200);
             echo "200 - OK!\n";
+        }
+
+        foreach ($getRequests302 as $route) {
+            $response = $this->get($route);
+            echo '    GET \'' . $route . '\': ';
+            $response->assertStatus(302);
+            echo "302 - OK!\n";
         }
     }
 
