@@ -8,6 +8,9 @@ use Illuminate\Routing\Redirector;
 
 class ProductCommentsController extends Controller
 {
+    /**
+     * ProductCommentsController constructor.
+     */
     public function __construct() {
         $this->middleware('auth')->except(['store']);
     }

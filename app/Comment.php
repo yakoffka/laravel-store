@@ -70,7 +70,7 @@ class Comment extends Model
             $this->user_name = auth()->user()->name;
         } else {
             $this->user_id = User::URUID; // unregistered user id
-            $this->user_name = __('Guest ') . request('user_name') ?? 'Anonimous'; // @todo
+            $this->user_name = request('user_name') ?? 'Anonimous'; // @todo
         }
         return $this;
     }

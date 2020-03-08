@@ -316,7 +316,7 @@ class Category extends Model
     /**
      * Create event notification.
      *
-     * @return Category $category
+     * @return $this
      */
     public function sendEmailNotification(): self
     {

@@ -9,10 +9,10 @@ class CommentObserver
     /**
      * Handle the comment "creating" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function creating(Comment $comment)
+    public function creating(Comment $comment): void
     {
         $comment->setAuthor()->setName()->transformBody();
     }
@@ -20,10 +20,10 @@ class CommentObserver
     /**
      * Handle the comment "created" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function created(Comment $comment)
+    public function created(Comment $comment): void
     {
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
@@ -32,10 +32,10 @@ class CommentObserver
     /**
      * Handle the comment "updating" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function updating(Comment $comment)
+    public function updating(Comment $comment): void
     {
         $comment->transformBody();
     }
@@ -43,10 +43,10 @@ class CommentObserver
     /**
      * Handle the comment "updated" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function updated(Comment $comment)
+    public function updated(Comment $comment): void
     {
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
@@ -55,20 +55,20 @@ class CommentObserver
     /**
      * Handle the comment "deleting" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function deleting(Comment $comment)
+    public function deleting(Comment $comment): void
     {
     }
 
     /**
      * Handle the comment "deleted" event.
      *
-     * @param  \App\Comment  $comment
+     * @param Comment $comment
      * @return void
      */
-    public function deleted(Comment $comment)
+    public function deleted(Comment $comment): void
     {
         $comment->createCustomevent()->sendEmailNotification()->setFlashMess();
     }

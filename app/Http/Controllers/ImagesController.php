@@ -2,37 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ImageRequest;
 use App\Image;
-use Auth;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 
 class ImagesController extends Controller
 {
+    /**
+     * ImagesController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function destroy(Image $image)
+    /**
+     * @param Image $image
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function destroy(Image $image): RedirectResponse
     {
         abort_if (auth()->user()->cannot('edit_products'), 403);
         $image->delete();
         return redirect()->back();
     }
 
-    public function update(Image $image)
+    /**
+     * @param ImageRequest $request
+     * @param Image $image
+     * @return RedirectResponse
+     */
+    public function update(ImageRequest $request, Image $image): RedirectResponse
     {
-        abort_if (auth()->user()->cannot('edit_products'), 403);
-
-        $validator = request()->validate([
-            'sort_order' => 'required|integer|min:1|max:9',
-        ]);
-
-        $image->update([
-            'sort_order' => request('sort_order'),
-        ]);
-
+        $image->update($request->validated());
         return redirect()->back();
-
     }
 }

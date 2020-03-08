@@ -2,73 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use App\{Category, Manufacturer};
+use App\{Category, Http\Requests\ManufacturerRequest, Manufacturer};
+use Illuminate\View\View;
 
 class ManufacturerController extends Controller
 {
-    public function __construct() {$this->middleware(['auth', 'permission:view_manufacturers']);}
-
+    /**
+     * ManufacturerController constructor.
+     */
+    public function __construct() {
+        $this->middleware(['auth', 'permission:view_manufacturers']);
+    }
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
-    public function index()
+    public function index(): View
     {
         $manufacturers = Manufacturer::all();
         return view('dashboard.adminpanel.manufacturers.index', compact('manufacturers'));
     }
 
-
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
-    public function create()
+    public function create(): View
     {
         abort_if ( auth()->user()->cannot('create_manufacturers'), 403 );
         return view('dashboard.adminpanel.manufacturers.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
-     *
-     * @param
-     * @return \Illuminate\Http\Response
+     * @param ManufacturerRequest $request
+     * @return RedirectResponse
      */
-    public function store(Manufacturer $manufacturer)
+    public function store(ManufacturerRequest $request): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('create_manufacturers'), 403 );
-
-        request()->validate([
-            'name'              => 'required|max:255|unique:manufacturers,name',
-            'description'       => 'nullable|string',
-            'imagepath'         => 'nullable|string',
-            'sort_order'        => 'required|string|max:1',
-            'title'             => 'nullable|string',
-        ]);
-
-        $manufacturer = Manufacturer::create([
-            'name'              => request('name'),
-            'description'       => request('description'),
-            'imagepath'         => request('imagepath'),
-            'sort_order'        => request('sort_order'),
-            'title'             => request('title'),
-        ]);
-
+        Manufacturer::create($request->validated());
         return redirect()->route('manufacturers.index');
     }
 
-
     /**
-     * Display the specified resource.
-     *
      * @param Manufacturer $manufacturer
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function show(Manufacturer $manufacturer)
     {
@@ -76,57 +59,37 @@ class ManufacturerController extends Controller
         return view('dashboard.adminpanel.manufacturers.show', compact('manufacturer', 'categories'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
-     *
      * @param Manufacturer $manufacturer
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
-    public function edit(Manufacturer $manufacturer)
+    public function edit(Manufacturer $manufacturer): View
     {
         abort_if ( auth()->user()->cannot('edit_manufacturers'), 403 );
         return view('dashboard.adminpanel.manufacturers.edit', compact('manufacturer'));
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  Manufacturer $manufacturer
-     * @return \Illuminate\Http\Response
+     * @param ManufacturerRequest $request
+     * @param Manufacturer $manufacturer
+     * @return RedirectResponse
      */
-    public function update(Manufacturer $manufacturer)
+    public function update(ManufacturerRequest $request, Manufacturer $manufacturer)
     {
-        abort_if ( auth()->user()->cannot('edit_manufacturers'), 403 );
-
-        request()->validate([
-            'name'              => 'required|max:255|unique:manufacturers,name,'.$manufacturer->id.',id',
-            'description'       => 'nullable|string',
-            'imagepath'         => 'nullable|string',
-            'sort_order'        => 'required|string|max:1',
-            'title'             => 'nullable|string',
-        ]);
-
-        $manufacturer->update([
-            'name'          => request('name'),
-            'description'   => request('description'),
-            'imagepath'     => request('imagepath'),
-            'sort_order'    => request('sort_order'),
-            'title'         => request('title'),
-        ]);
-
+        $manufacturer->update($request->validated());
         return redirect()->route('manufacturers.index');
     }
 
-
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Manufacturer $manufacturer
-     * @return \Illuminate\Http\Response
+     * @param Manufacturer $manufacturer
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function destroy(Manufacturer $manufacturer)
+    public function destroy(Manufacturer $manufacturer): RedirectResponse
     {
         abort_if ( auth()->user()->cannot('delete_manufacturers'), 403 );
 

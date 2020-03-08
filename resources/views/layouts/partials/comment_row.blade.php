@@ -1,5 +1,6 @@
 <li class="list-group-item" id="comment_{{ $comment->id }}">
     <div class="comment_header">
+        {{__($comment->creator->roles->first()->name )}}
         <span class="commentator_name">{{ $comment->user_name }}</span>
 
         <!-- created_at/updated_at -->

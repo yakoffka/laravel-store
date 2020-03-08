@@ -13,7 +13,6 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-//        return false;
         if ( isset( $this->category ) ) {
             return auth()->user()->can('edit_categories');
         }
