@@ -114,7 +114,6 @@ class Comment extends Model
      */
     public function formattedUpdatedAt(): string
     {
-//        Carbon::gettime
         return $this->created_at->format('Y.m.d H:i');
     }
 

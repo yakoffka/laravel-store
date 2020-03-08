@@ -4,33 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Session;
 use App\Product;
 use App\Cart;
-use App\Order;
 
 class CartController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     * @param Cart $cart @todo! зачем здесь передаётся параметр?
-     * @return RedirectResponse
-     */
-    public function store(Cart $cart)
-    {
-        // abort_if ( auth()->user()->cannot('create_products'), 403 );
-        return redirect()->route('products.index');
-    }
-
     /**
      * @return Factory|View
      */
     public function confirmation()
     {
-        // dd(__METHOD__);
-        $cart = Session::has('cart') ? Session::get('cart') : '';
+        $cart = Session::has('cart') ? Session::get('cart') : null;
         abort_if ( !$cart, 404 );
         return view('cart.confirmation', compact('cart'));
     }
@@ -53,12 +39,11 @@ class CartController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     *
+     * @return Factory|View
      */
     public function show()
     {
-        $cart = Session::has('cart') ? Session::get('cart') : '';
+        $cart = Session::has('cart') ? Session::get('cart') : null;
         return view('cart.show', compact('cart'));
     }
 
@@ -67,16 +52,14 @@ class CartController extends Controller
      * @param Product $product
      * @return RedirectResponse
      */
-    public function deleteItem(Product $product)
+    public function deleteItem(Product $product): RedirectResponse
     {
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->remove($product);
         session(['cart' => $cart]);
-        $success = 'item is deleted from your cart';
 
-        // return view('cart.index', compact('cart', 'success'));
-        return redirect()->route('cart.show'); // $success!!!
+        return redirect()->route('cart.show');
     }
 
     /**

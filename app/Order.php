@@ -161,9 +161,6 @@ class Order extends Model
         $this->cart = serialize($cart);
         $this->total_qty = $cart->total_qty;
         $this->total_payment = $cart->total_payment;
-
-        Session::forget('cart');
-
         $this->status_id = 1;
 
         return $this;

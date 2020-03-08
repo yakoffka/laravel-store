@@ -75,18 +75,16 @@ class Cart
             'item' => $item,
         ];
 
-        if ($this->items) {
-            if (array_key_exists($item->id, $this->items)) {
-                $old_qty = $this->items[$item->id]['qty'];
-                $new_qty = $qty;
+        if ($this->items && array_key_exists($item->id, $this->items)) {
+            $old_qty = $this->items[$item->id]['qty'];
+            $new_qty = $qty;
 
-                $changedItem['qty'] = $new_qty;
-                $changedItem['amount'] = $item->price * $changedItem['qty'];
+            $changedItem['qty'] = $new_qty;
+            $changedItem['amount'] = $item->price * $changedItem['qty'];
 
-                $this->items[$item->id] = $changedItem;
-                $this->total_qty = $this->total_qty + $changedItem['qty'] - $old_qty;
-                $this->total_payment = $this->total_payment + $changedItem['amount'] - $item->price * $old_qty;
-            }
+            $this->items[$item->id] = $changedItem;
+            $this->total_qty = $this->total_qty + $changedItem['qty'] - $old_qty;
+            $this->total_payment = $this->total_payment + $changedItem['amount'] - $item->price * $old_qty;
         }
     }
 

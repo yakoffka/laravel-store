@@ -234,7 +234,7 @@
     "Setting__success": "Настройка ':Name' успешно :type_act. ",
     "Task__success": "Задача ':Name' успешно :type_act. ",
     "User__success": "Профиль пользователя ':Name' успешно :type_act. ",
-    "Success_adding__to_cart": "Товар ':Name' успешно добавлен в корзину. ",
+    "Success_adding__to_cart": "Товар ':Name' успешно добавлен в <a href=\"/cart\">корзину</a>. ",
     "___localisation for email-notification": "Локализация email-уведомлений",
     "Category__email_notification": ":Type_act категория ':Name'. ",
     "Comment__email_notification": ":Type_act комментарий ':Name'. ",
