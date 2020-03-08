@@ -1,4 +1,3 @@
-        {{-- {{ $value }} --}}
         <button type="button" class="btn btn-outline-{{ $b_class }} col-sm-2" data-toggle="modal" data-target="#modal_mass_{{ $value }}">
             <i class="fas {{ $i_class }}"></i> {{ $b_label }}
         </button>
@@ -15,22 +14,6 @@
                         <p>Запрошенная Вами операция требует подтверждения.</p>
                         @if( $value === 'replace' )
                             <div class="form-group">
-
-                                <label for="category_id">{{ $mess }}</label>
-                                <select name="category_id" id="category_id">
-                                    @foreach ( $categories as $category )
-                                        @if ( $category->id === 1 )
-                                        @elseif ( $category->children->count() )
-                                            @foreach ( $category->children as $subcategory )
-                                                <option value="{{ $subcategory->id }}">{{ $category->name }} > {{ $subcategory->title }}</option>
-                                            @endforeach
-                                        @elseif ( !$category->products->count() )
-                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-
-                               {{-- mass update products->category_id --}}
                                 <label for="category_id">{{ $mess }} 2</label>
                                 <select name="category_id" id="category_id">
                                     @foreach ( $categories as $category )

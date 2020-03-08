@@ -17,6 +17,9 @@ use Illuminate\View\View;
  */
 class ProductsController extends Controller
 {
+    /**
+     * ProductsController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show', 'search']);
@@ -58,16 +61,10 @@ class ProductsController extends Controller
      */
     public function adminIndex(): View
     {
-        /*$appends = request()->query->all();
-        $products = Product::with(['category', 'images'])
-            ->paginate(config('custom.pagination_product_admin'));
-        $categories = Category::with(['children', 'products'])->get();*/
-
-        // @todo! Maximum function nesting level of '512' reached, aborting!
         $appends = request()->query->all();
         $products = Product::with(['category', 'images'])
             ->paginate(config('custom.pagination_product_admin'));
-        $categories = Category::with(['children'])->get();
+        $categories = Category::with(['children', 'products'])->get();
 
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
@@ -317,12 +314,10 @@ class ProductsController extends Controller
         // replace
         } elseif (request('action') === 'replace') {
             $products->each(function ($product) {
-                if (
-                $product->update([
+                if ( $product->update([
                     'category_id' => request('category_id'),
                     'edited_by_user_id' => auth()->user()->id,
-                ])
-                ) {
+                ]) ) {
                     $err = true;
                 }
             });
@@ -330,12 +325,10 @@ class ProductsController extends Controller
         // un_publish
         } elseif (request('action') === 'un_publish') {
             $products->each(function ($product) {
-                if (
-                $product->update([
+                if ( $product->update([
                     'publish' => false,
                     'edited_by_user_id' => auth()->user()->id,
-                ])
-                ) {
+                ]) ) {
                     $err = true;
                 }
             });
@@ -343,12 +336,10 @@ class ProductsController extends Controller
         // publish
         } elseif (request('action') === 'publish') {
             $products->each(function ($product) {
-                if (
-                $product->update([
-                    'publish' => true,
+                if ( $product->update([
+                    'publish' => 'on',
                     'edited_by_user_id' => auth()->user()->id,
-                ])
-                ) {
+                ]) ) {
                     $err = true;
                 }
             });
