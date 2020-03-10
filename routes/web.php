@@ -45,8 +45,8 @@ if ( !empty(config('settings.display_registration')) ) {
     Route::get      ('search',                       'ProductsController@search'     )->name('search');
 
 /* comments */
-    Route::post('/products/{product}/comments', 'ProductCommentsController@store');
-    Route::patch('/comments/{comment}', 'ProductCommentsController@update');
+    Route::post('/products/{product}/comments', 'ProductCommentsController@store')->name('comments.store');
+    Route::patch('/comments/{comment}', 'ProductCommentsController@update')->name('comments.update');
     Route::delete('/comments/{comment}', 'ProductCommentsController@destroy')->name('comments.destroy');
 
 /* users */

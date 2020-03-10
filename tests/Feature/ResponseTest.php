@@ -5,12 +5,23 @@ namespace Tests\Feature;
 use App\Category;
 use App\Manufacturer;
 use App\Product;
+use App\User;
 use Exception;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ResponseTest extends TestCase
 {
+    /*private User $developer;
+    private User $user;
+
+    protected function setUp(): void
+    {
+        // parent::setUp();
+        $this->developer = User::where('id', '=', 3)->get()->first();
+        $this->user = User::where('id', '=', 8)->get()->first();
+    }*/
+
     /**
      * @test
      *
@@ -54,20 +65,20 @@ class ResponseTest extends TestCase
             '/cart/add/' . $product->id,
         ];
 
-        echo "\nReport from " . __CLASS__ . "\ni: Для успешного прохождения необходимо наличие скрытых директорий и товаров\n";
+//        echo "\nReport from " . __CLASS__ . "\ni: Для успешного прохождения необходимо наличие скрытых директорий и товаров\n";
 
         foreach ($getRequests200 as $route) {
             $response = $this->get($route);
-            echo '    GET \'' . $route . '\': ';
+//            echo '    GET \'' . $route . '\': ';
             $response->assertStatus(200);
-            echo "200 - OK!\n";
+//            echo "200 - OK!\n";
         }
 
         foreach ($getRequests302 as $route) {
             $response = $this->get($route);
-            echo '    GET \'' . $route . '\': ';
+//            echo '    GET \'' . $route . '\': ';
             $response->assertStatus(302);
-            echo "302 - OK!\n";
+//            echo "302 - OK!\n";
         }
     }
 
@@ -129,9 +140,9 @@ class ResponseTest extends TestCase
         echo "\n";
         foreach ($getRequests404 as $route) {
             $response = $this->get($route);
-            echo '    GET \'' . $route . '\': ';
+//            echo '    GET \'' . $route . '\': ';
             $response->assertStatus(404);
-            echo "404 - OK!\n";
+//            echo "404 - OK!\n";
         }
     }
 }
