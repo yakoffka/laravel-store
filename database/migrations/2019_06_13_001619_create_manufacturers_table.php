@@ -15,7 +15,7 @@ class CreateManufacturersTable extends Migration
     {
         Schema::create('manufacturers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('uuid'); // for naming source category
+            $table->uuid('uuid')->default(Str::uuid()); // for naming source category
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->unsignedInteger('sort_order')->default(5);
