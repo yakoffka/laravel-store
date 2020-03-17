@@ -123,3 +123,6 @@ if ( !empty(config('settings.display_registration')) ) {
     Route::group(['prefix' => 'lfm', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
+
+
+    Route::get('export/products', 'Export\ExportProductController')->name('export.products');

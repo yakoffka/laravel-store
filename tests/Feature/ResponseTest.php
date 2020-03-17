@@ -28,7 +28,7 @@ class ResponseTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function getUnauthorizedRequests200Test(): void
+    public function getRequests200Test(): void
     {
         $category = Category::with(['parent', 'children', 'products'])
             ->get()
@@ -89,7 +89,7 @@ class ResponseTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function getUnauthorizedRequests404Test(): void
+    public function getRequests404Test(): void
     {
         $category = Category::with(['parent', 'children', 'products'])
             ->get()
