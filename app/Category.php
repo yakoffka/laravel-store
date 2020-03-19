@@ -240,7 +240,7 @@ class Category extends Model
      */
     public function setPublishAttribute($value): void
     {
-        $this->attributes['publish'] = ($value === 'on');
+        $this->attributes['publish'] = ($value === 'on' || $value === true );
     }
 
     /**

@@ -338,3 +338,12 @@ Breadcrumbs::for('dashboard', function ($trail) {
         $trail->push(__('Manufacturers_edit'), route('manufacturers.edit', $manufacturer));
     });
 
+
+
+
+// Import
+    // Home > Dashboard > Import
+    Breadcrumbs::for('products.import', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push(__('Import_products'));
+    });

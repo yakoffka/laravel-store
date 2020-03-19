@@ -21,7 +21,7 @@ class ExportProductController extends Controller
      */
     public function __invoke(Request $request)
     {
-        abort_if ( auth()->user()->cannot('view_users'), 403 );
+        abort_if ( auth()->user()->cannot('view_products'), 403 );
         // return Excel::download(new ProductsExport, 'export_products.xlsx');
         return (new ProductsExport())->download('export_products_' . date('Y-m-d_H-i') . '.xlsx');
         // return (new ProductsExport())->download('export_products.csv');

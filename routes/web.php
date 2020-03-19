@@ -126,3 +126,5 @@ if ( !empty(config('settings.display_registration')) ) {
 
 
     Route::get('export/products', 'Export\ExportProductController')->name('export.products');
+    Route::get('import/products', 'Import\ImportProductController@showForm')->name('import.show_form');
+    Route::post('import/products', 'Import\ImportProductController@import')->name('import.products');

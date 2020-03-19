@@ -21,7 +21,7 @@ return [
     // 'url_prefix' => 'laravel-filemanager',
     'url_prefix' => 'lfm',
 
-    // yo 
+    // yo
     'prefix' => 'lfm',
 
 
@@ -93,6 +93,29 @@ return [
                 // 'text/plain',
             ],
         ],
+
+        // yo
+        'import_file' => [
+            'folder_name' => 'import/' . date('Y_m_d'),
+            'startup_view' => 'list',
+            'max_size'     => 50000000, // size in KB
+            'valid_mime' => [
+                'text/csv',
+                'application/csv',
+            ],
+        ],
+        // yo
+        'import_archive' => [
+            'folder_name' => 'import/' . date('Y_m_d'),
+            'startup_view' => 'list',
+            'max_size'     => 500000000, // size in KB
+            'valid_mime' => [
+                'application/zip',
+                'application/gzip',
+                'text/plain',
+            ],
+
+        ]
     ],
 
     /*
@@ -103,16 +126,10 @@ return [
 
     // 'disk'                     => 'public',
     'disk'                     => 'lfm',
-
-
     'rename_file'              => false,
-
     'alphanumeric_filename'    => false,
-
     'alphanumeric_directory'   => false,
-
     'should_validate_size'     => false,
-
     'should_validate_mime'     => false,
 
     // permissions to be set when create a new folder or when it creates automatically with thumbnails

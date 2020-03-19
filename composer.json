@@ -17,7 +17,8 @@
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "nicolaslopezj/searchable": "^1.11",
-        "unisharp/laravel-filemanager": "v2.0.0-alpha8"
+        "unisharp/laravel-filemanager": "v2.0.0-alpha8",
+      "ext-zip": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

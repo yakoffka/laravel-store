@@ -13,7 +13,6 @@ class ImagesTableSeeder extends Seeder
      */
     public function run(): void
     {
-
         // only for 'MUSIC' template
         if ( config('custom.store_theme') === 'MUSIC' ) {
 
@@ -54,18 +53,18 @@ class ImagesTableSeeder extends Seeder
                     $str_progress = (string)$progress;
 
                     if (!strpos($str_progress, '.')) {
-                        $str_progress = $str_progress . '.00';
-                    } elseif ( strpos($str_progress, '.') == 2 and strlen($str_progress) == 4 ) {
-                        $str_progress = str_pad($str_progress, 5, "0");
+                        $str_progress .= '.00';
+                    } elseif ( strpos($str_progress, '.') === 2 && strlen($str_progress) === 4 ) {
+                        $str_progress = str_pad($str_progress, 5, '0');
                     } else {
-                        $str_progress = str_pad($str_progress, 4, "0");
+                        $str_progress = str_pad($str_progress, 4, '0');
                     }
 
-                    $str_progress = str_pad($str_progress, 5, "0", STR_PAD_LEFT);
+                    $str_progress = str_pad($str_progress, 5, '0', STR_PAD_LEFT);
                     echo '    image conversion: ' . $str_progress . "% completed\n";
                 }
             }
+            echo '    exit from ' . __method__ . ";\n";
         }
-        echo "    exit from " . __method__ . ";\n";
     }
 }

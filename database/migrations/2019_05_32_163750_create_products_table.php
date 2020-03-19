@@ -8,8 +8,7 @@ class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
-     * change name file
-     * 2019_05_17_163750_create_products_table -> 2019_05_32_163750_create_products_table
+     *
      * @return void
      */
     public function up(): void
@@ -17,10 +16,12 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('title')->nullable();
-            $table->string('slug')->unique()->nullable();
+            $table->string('title');
+            $table->string('slug');
             $table->unsignedInteger('sort_order')->default(5);
             $table->unsignedInteger('manufacturer_id')->nullable();
+            $table->string('vendor_code')->nullable();
+            $table->string('code_1c')->nullable();
             $table->unsignedInteger('category_id');
             $table->boolean('publish')->default(false);
             $table->string('materials')->nullable();
@@ -29,6 +30,13 @@ class CreateProductsTable extends Migration
             $table->text('workingconditions')->nullable();
             $table->string('date_manufactured', 10)->nullable();
             $table->float('price', 8, 2)->nullable();
+            $table->float('promotional_price', 8, 2)->nullable();
+            $table->unsignedInteger('promotional_percentage')->nullable();
+            $table->string('length')->nullable();
+            $table->string('width')->nullable();
+            $table->string('height')->nullable();
+            $table->string('diameter')->nullable();
+            $table->unsignedInteger('remaining')->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->unsignedInteger('count_views')->default(0); // кол-во просмотров товара

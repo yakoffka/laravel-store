@@ -12,8 +12,12 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run(): void
     {
+        if ( config('custom.num_products_seed') === '0' ) {
+            $categories = [
+                ['name' => 'catalog',          'parent_id' => null  ],
+            ];
 
-        if ( config('custom.store_theme') === 'MUSIC' ) {
+        } elseif ( config('custom.store_theme') === 'MUSIC' ) {
 
             $categories = [
 
@@ -134,7 +138,6 @@ class CategoriesTableSeeder extends Seeder
                 ['parent_id' => 11, 'slug' => 'trolleys_for_hoists','name' => 'Тележки для тали GCL GCT',],
 
             ];
-
         }
 
 

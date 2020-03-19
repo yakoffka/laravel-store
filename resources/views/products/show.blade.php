@@ -1,9 +1,6 @@
 @extends('layouts.theme_switch')
-
 @section('title', $product->name . config('custom.product_title_append'))
-
 @section('description', $product->name . config('custom.product_description_append'))
-
 @section('content')
 
     <div class="row searchform_breadcrumbs">
@@ -54,7 +51,9 @@
                     @if ($product->materials)<span class="grey">{{__('__materials')}}: </span>{{ $product->materials ?? '-' }}<br>@endif
                     @if ($product->category->id)<span class="grey">{{__('__category')}}: </span><a href="{{ route('categories.show', ['category' => $product->category->id]) }}">{{ $product->category->name}}</a><br>@endif
                     @if ($product->date_manufactured)<span class="grey">{{__('__date_manufactured')}}: </span>{{ $product->date_manufactured ?? '-' }}<br>@endif
-                    @if ($product->id)<span class="grey">{{__('__vendor_code')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
+                    @if ($product->id)<span class="grey">{{__('__product_id')}}: </span>{{ str_pad($product->id, 6, '0', STR_PAD_LEFT) }}<br>@endif
+                    @if ($product->vendor_code)<span class="grey">{{__('__vendor_code')}}: </span>{{ $product->vendor_code }}<br>@endif
+                    @if ($product->code_1с)<span class="grey">{{__('__code_1с')}}: </span>{{ $product->code_1с }}<br>@endif
 
                     @if ( $product->price > 0 && config('settings.display_prices'))
                         <span class="grey">{{__('__price')}}: </span>{{ $product->price }} &#8381;<br>
