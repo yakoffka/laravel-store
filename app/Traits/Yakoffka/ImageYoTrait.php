@@ -11,8 +11,6 @@ trait ImageYoTrait
 
     public static function saveImgSet($image, $product_id, $mode = false)
     {
-        // info(__method__ . '@' . __line__);
-        // info(config('imageyo.watermark'));
         $name_img = false;
 
         if ( $mode === 'rewatermark' ) {
@@ -51,13 +49,7 @@ trait ImageYoTrait
             $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
             $name_dst_image_without_ext = str_replace('-origin' , '', $name_dst_image_without_ext);
 
-        } elseif ( $mode === 'seed' ) {
-            $src_img_name = pathinfo($image)['basename'];
-            $src_path = $image;
-            $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
-            $name_dst_image_without_ext = str_replace( strrchr($src_img_name, '.'), '', $src_img_name); // удаляем расширение
-
-        } elseif ( $mode === 'lfm-mode' ) {
+        } elseif ( $mode === 'seed' ||  $mode === 'lfm-mode' || $mode === 'import' ) {
             $src_img_name = pathinfo($image)['basename'];
             $src_path = $image;
             $type = strtolower(substr($src_size['mime'], strpos($src_size['mime'], '/')+1)); //определяем тип файла
@@ -72,6 +64,7 @@ trait ImageYoTrait
 
         // преобразование имени в slug (и попутно в латиницу)
         $name_dst_image_without_ext = Str::slug($name_dst_image_without_ext, '-');
+        // dd('$name_dst_image_without_ext: ', $name_dst_image_without_ext);
 
         // получение параметров из конфигурационного файла
         if ( $type_preview === 'origin' ) {
@@ -88,16 +81,24 @@ trait ImageYoTrait
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
         $color_fill = config('imageyo.color_fill');
 
+        // @todo! досрочный выход при наличии изображения.. не всегда.. например при rewatermark
+        dump($path_dst_image);
+        if ( $mode !== 'rewatermark' && is_file($path_dst_image) ) {
+            dump('exit');
+            return $name_dst_image_without_ext;
+        }
 
         // создание директории при необходимости
-        if ( !is_dir($dst_dir) ) {
+        /*if ( !is_dir($dst_dir) ) {
             if ( !mkdir($dst_dir, 0777, true) ) {return false;}
+        }*/
+        if (!is_dir($dst_dir) && !mkdir($dst_dir, 0777, true) && !is_dir($dst_dir)) {
+            return false;
         }
 
         //определение функции, соответствующей типу загруженного файла
-        $icfunc = "imagecreatefrom".$type;
-        if(!function_exists($icfunc)){//если нет такой функции - прекращаем работу скрипта
-            // err
+        $icfunc = 'imagecreatefrom' . $type;
+        if ( !function_exists($icfunc) ) {//если нет такой функции - прекращаем работу скрипта
             return false;
         }
 

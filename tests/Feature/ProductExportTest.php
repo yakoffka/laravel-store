@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProductsExportTest extends TestCase
+class ProductExportTest extends TestCase
 {
     /**
      * @test
@@ -36,7 +36,7 @@ class ProductsExportTest extends TestCase
         $response->assertStatus(200);
 
         // Excel::assertDownloaded('export_products_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}.xlsx',
-        //     function(ProductsExport $export) {
+        //     function(ProductExport $export) {
         //         // Assert that the correct export is downloaded.
         //         dd($export);
         //         // return $export->query()->contains('#2018-01');

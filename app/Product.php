@@ -352,7 +352,7 @@ class Product extends Model
 
             \Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
-                new ProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+                new phpProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
@@ -374,7 +374,7 @@ class Product extends Model
      * @return  Product $product
      */
     public function attachImages(): Product
-    {
+    {// @todo: вынести в сервисный слой. использовать метод из App\Imports\ProductImport@processingImages
         if (!request('images_path')) {
             return $this;
         }
@@ -388,7 +388,7 @@ class Product extends Model
             // info('$image = ' . $image);
             // image re-creation
             $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
-            $originalName = basename($image_name);
+            $basename = basename($image_name);
             $path = '/images/products/' . $this->id;
 
             // create record
@@ -398,13 +398,13 @@ class Product extends Model
                 'path' => $path,
                 'name' => $image_name,
                 'ext' => config('imageyo.res_ext'),
-                'alt' => str_replace(strrchr($originalName, '.'), '', $originalName),
+                'alt' => str_replace(strrchr($basename, '.'), '', $basename),
                 'sort_order' => 9,
-                'orig_name' => $originalName,
+                'orig_name' => $imagepath,
             ]);
         }
 
-        if (!$this->isDirty() and !empty($images)) {
+        if ( !empty($images) && !$this->isDirty() ) {
             $this->touch();
         }
 

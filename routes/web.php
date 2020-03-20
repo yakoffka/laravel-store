@@ -36,13 +36,13 @@ if ( !empty(config('settings.display_registration')) ) {
     Route::post('/contact_us', 'HomeController@contactUs')->name('home.contact_us');
 
 /* products */
-    Route::resource ('/products',               'ProductsController');
-    Route::get      ('admin/products/rewatermark',   'ProductsController@rewatermark')->name('products.rewatermark')->middleware('auth');
-    Route::get      ('admin/products/{product}/copy','ProductsController@copy'       )->name('products.copy')->middleware('auth');
-    Route::get      ('admin/products',               'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
-    Route::get      ('admin/products/{product}',     'ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
-    Route::post     ('admin/products/massupdate',    'ProductsController@massupdate' )->name('products.massupdate'  )->middleware('auth');
-    Route::get      ('search',                       'ProductsController@search'     )->name('search');
+    Route::resource ('/products',               'ProductController');
+    Route::get      ('admin/products/rewatermark',   'ProductController@rewatermark')->name('products.rewatermark')->middleware('auth');
+    Route::get      ('admin/products/{product}/copy','ProductController@copy'       )->name('products.copy')->middleware('auth');
+    Route::get      ('admin/products',               'ProductController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
+    Route::get      ('admin/products/{product}',     'ProductController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
+    Route::post     ('admin/products/massupdate',    'ProductController@massupdate' )->name('products.massupdate'  )->middleware('auth');
+    Route::get      ('search',                       'ProductController@search'     )->name('search');
 
 /* comments */
     Route::post('/products/{product}/comments', 'ProductCommentsController@store')->name('comments.store');
@@ -125,6 +125,9 @@ if ( !empty(config('settings.display_registration')) ) {
     });
 
 
-    Route::get('export/products', 'Export\ExportProductController')->name('export.products');
-    Route::get('import/products', 'Import\ImportProductController@showForm')->name('import.show_form');
-    Route::post('import/products', 'Import\ImportProductController@import')->name('import.products');
+// export/import
+    Route::get('export/products', 'Export\ProductExportController')->name('export.products');
+    Route::get('import/products', 'Import\ProductImportController@showForm')->name('import.show_form');
+
+    Route::post('products/import/from_form', 'Import\ProductImportController@fromForm')->name('products.import.from_form');
+    Route::get('products/import/from_ftp', 'Import\ProductImportController@fromFtp')->name('products.import.from_ftp');

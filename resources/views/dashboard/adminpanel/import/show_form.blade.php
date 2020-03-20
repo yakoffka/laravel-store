@@ -22,7 +22,7 @@
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
-            <form method="POST" action="{{ route('import.products') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('products.import.from_form') }}" enctype="multipart/form-data">
                 @csrf
 
 

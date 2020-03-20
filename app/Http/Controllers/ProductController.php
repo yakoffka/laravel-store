@@ -12,13 +12,13 @@ use Illuminate\View\View;
 
 
 /**
- * Class ProductsController
+ * Class ProductController
  * @package App\Http\Controllers
  */
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
-     * ProductsController constructor.
+     * ProductController constructor.
      */
     public function __construct()
     {
