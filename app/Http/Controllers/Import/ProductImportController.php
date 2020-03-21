@@ -15,8 +15,8 @@ use ZipArchive;
 
 class ProductImportController extends Controller
 {
-    private string $ftpImportArchPath;
-    private string $ftpImportFilePath;
+    private string $ftpImportArch = 'images_20.zip';
+    private string $ftpImportFile = 'export_products_20.csv';
 
     /**
      * ProductImportController constructor.
@@ -24,8 +24,6 @@ class ProductImportController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->ftpImportArchPath = Storage::disk('import')->path('images_20.zip');
-        $this->ftpImportFilePath = Storage::disk('import')->path('export_products_20.csv');
     }
 
     /**
@@ -48,9 +46,6 @@ class ProductImportController extends Controller
 
         $this->import($importArchPath, $importFilePath);
 
-        dd('stop');
-
-        $this->deleteImportFiles();
         return redirect('/')->with('success', 'ProductImportController: All good!');
     }
 
@@ -59,12 +54,11 @@ class ProductImportController extends Controller
      */
     public function fromFtp()
     {
-        info(__METHOD__ . ' ');
-        $this->import($this->ftpImportArchPath, $this->ftpImportFilePath);
+        $ftpImportArchPath = Storage::disk('import')->path($this->ftpImportArch);
+        $ftpImportFilePath = Storage::disk('import')->path($this->ftpImportFile);
 
-        dd('stop');
+        $this->import($ftpImportArchPath, $ftpImportFilePath);
 
-        $this->deleteImportFiles();
         return redirect('/')->with('success', 'ProductImportController: All good!');
     }
 
@@ -74,19 +68,18 @@ class ProductImportController extends Controller
      */
     private function import(string $importArchPath, string $importFilePath): void
     {
-        info(__METHOD__ . ' ');
-        $this->unpackImportArch($importArchPath);
+        $this->processingImportArch($importArchPath);
         Excel::import(new ProductImport, $importFilePath);
-        info(__METHOD__ . ' EXIT' . "\n");
+        $this->deleteImportFiles();
     }
 
     /**
      * @param string $archPath
      * @return bool|RedirectResponse
      */
-    private function unpackImportArch(string $archPath)
+    private function processingImportArch(string $archPath)
     {
-        if ( $archPath === '' ) {
+        if ( $archPath === '' || !is_file($archPath) ) {
             return true;
         }
 
@@ -94,11 +87,8 @@ class ProductImportController extends Controller
         if ( $zip->open(public_path($archPath)) === true ) {
             $zip->extractTo(Storage::disk('import')->path('temp'));
             $zip->close();
-
-            // @todo: delete $archPath file!
             return true;
         }
-
         return back()->withErrors(['something wrong. err' . __LINE__]);
     }
 

@@ -2,10 +2,9 @@
 
 namespace App\Imports;
 
-use Artisan;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{Jobs\ProductImportJob, Product, Category, Image, Traits\Yakoffka\ImageYoTrait};
+use App\{Jobs\ProductImportJob, Product, Category};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
@@ -18,10 +17,7 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     public function model(array $row): Product
     {
-        info(__METHOD__ . ' ');
-//        $this->runQueueWork();
-
-        $categoryId = $this->getCategoryId(explode(';', $row['categories']));
+        $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
         $product = $this->getProduct($row, $categoryId);
         $this->processingImages($product->id, $row['images'] ?? '');
 
@@ -35,7 +31,6 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     private function getCategoryId(array $categoryChain, int $parentId = 1): int
     {
-        info(__METHOD__ . ' ');
         $category = Category::firstOrCreate([
             'name' => array_shift($categoryChain),
             'parent_id' => $parentId,
@@ -57,7 +52,6 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     private function getProduct(array $row, int $categoryId): Product
     {
-        info(__METHOD__ . ' ');
         // @todo: проверить наличие товара в базе по code_1c;
         // @todo: при отсутствии - создать, при наличии - обновить!
         return Product::firstOrCreate([
@@ -85,7 +79,6 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     public function processingImages(int $productId, string $imageNames): bool
     {
-        info(__METHOD__ . ' $productId = ' . $productId );
         $arrayImageNames = explode(';', $imageNames);
 
         foreach ($arrayImageNames as $srcImageName) {
@@ -102,41 +95,4 @@ class ProductImport implements ToModel, WithHeadingRow
 
         return true;
     }
-
-    /**
-     * restarting the queue to make sure they are started
-     */
-    private function runQueueWork(): void
-    {
-        info(__METHOD__ . ' before');
-        /*if ( !empty(config('custom.exec_queue_work')) ) {
-            info(
-                __METHOD__ . ' '
-                . config('custom.exec_queue_work') . ': '
-                . exec(config('custom.exec_queue_work'))
-            );
-        }*/
-        // exec(config('custom.exec_queue_work'));
-        Artisan::call('queue:work');
-        info(__METHOD__ . ' after');
-    }
-
-    /*
-     * @param int $productId
-     * @param $nameWithoutExtension
-     * @param $srcImageName
-     */
-    /*private function attachImage(int $productId, $nameWithoutExtension, $srcImageName): void
-    {
-        Image::firstOrCreate([
-            'product_id' => $productId,
-            'slug' => $nameWithoutExtension,
-            'path' => '/images/products/' . $productId,
-            'name' => $nameWithoutExtension,
-            'ext' => config('imageyo.res_ext'),
-            'alt' => $nameWithoutExtension,
-            'sort_order' => 9,
-            'orig_name' => $srcImageName,
-        ]);
-    }*/
 }
