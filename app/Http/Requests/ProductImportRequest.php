@@ -24,7 +24,7 @@ class ProductImportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'import_file' => 'nullable|string',
+            'import_file' => 'required|string',
             'import_archive' => 'nullable|string',
         ];
     }

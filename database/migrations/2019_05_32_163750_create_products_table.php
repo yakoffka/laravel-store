@@ -29,8 +29,8 @@ class CreateProductsTable extends Migration
             $table->text('modification')->nullable();
             $table->text('workingconditions')->nullable();
             $table->string('date_manufactured', 10)->nullable();
-            $table->float('price', 8, 2)->nullable();
-            $table->float('promotional_price', 8, 2)->nullable();
+            $table->decimal('price', 16, 4)->nullable();
+            $table->decimal('promotional_price', 16, 4)->nullable();
             $table->unsignedInteger('promotional_percentage')->nullable();
             $table->string('length')->nullable();
             $table->string('width')->nullable();

@@ -32,7 +32,7 @@ trait ImageYoTrait
     public static function saveImg($image, $product_id, $type_preview, $mode)
     {
 
-        if (!is_file($image)) {
+        if ( !is_file($image) ) {
             info(__method__ . '@' . __line__ . ' No such file ' . $image);
             return false;
         }
@@ -82,9 +82,9 @@ trait ImageYoTrait
         $color_fill = config('imageyo.color_fill');
 
         // @todo! досрочный выход при наличии изображения.. не всегда.. например при rewatermark
-        dump($path_dst_image);
+        //dump($path_dst_image);
         if ( $mode !== 'rewatermark' && is_file($path_dst_image) ) {
-            dump('exit');
+            //dump('exit');
             return $name_dst_image_without_ext;
         }
 

@@ -2,13 +2,17 @@
 
 namespace App\Imports;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\{Jobs\ProductImportJob, Product, Category};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class ProductImport implements ToModel, WithHeadingRow
+class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, WithChunkReading, ShouldQueue*//*, WithEvents*/
 {
     /**
      * @param array $row
@@ -54,10 +58,12 @@ class ProductImport implements ToModel, WithHeadingRow
     {
         // @todo: проверить наличие товара в базе по code_1c;
         // @todo: при отсутствии - создать, при наличии - обновить!
-        return Product::firstOrCreate([
+        return Product::updateOrCreate(
+        [
+            'code_1c' => $row['code_1c'],
+        ],[
             'name' => $row['name'],
             'vendor_code' => $row['vendor_code'],
-            'code_1c' => $row['code_1c'],
             'category_id' => $categoryId,
             'publish' => true,
             'length' => $row['length'],
@@ -85,14 +91,35 @@ class ProductImport implements ToModel, WithHeadingRow
             $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
 
             if ( is_file($srcImgPath) ) {
-                /*$nameWithoutExtension = ImageYoTrait::saveImgSet($srcImgPath, $productId, 'lfm-mode');
-                $this->attachImage($productId, $nameWithoutExtension, $srcImageName);*/
                 dispatch(new ProductImportJob($srcImgPath, $productId));
-                // $this->runQueueWork();
-                info(__METHOD__ . ' exit.' . "\n");
+            } else {
+                dump($srcImgPath . ' не существует!');
             }
         }
 
         return true;
+    }
+
+
+    public function batchSize(): int
+    {
+        return 10;
+    }
+
+    public function chunkSize(): int
+    {
+        return 10;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function registerEvents(): array
+    {
+        return [
+            // ImportFailed::class => function(ImportFailed $event) {
+            //     $this->importedBy->notify(new ImportHasFailedNotification);
+            // },
+        ];
     }
 }

@@ -287,5 +287,9 @@
     "Your_comment": "Ваш комментарий",
     "Profile": "Профиль",
     "AllOrders": "Заказы",
-    "Orders": "Мои Заказы"
+    "Orders": "Мои Заказы",
+
+    ": Failed to process image archive": ": Не удалось обработать архив с изображениями.",
+
+    "e": "e"
 }

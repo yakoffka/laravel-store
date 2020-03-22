@@ -26,7 +26,6 @@ class ProductImportJob implements ShouldQueue
      */
     public function __construct(string $srcImgPath, int $productId)
     {
-        info(__METHOD__ . ' ');
         $this->srcImgPath = $srcImgPath;
         $this->productId = $productId;
     }
@@ -38,7 +37,6 @@ class ProductImportJob implements ShouldQueue
      */
     public function handle()
     {
-        info(__METHOD__ . ' ');
         $nameWithoutExtension = ImageYoTrait::saveImgSet($this->srcImgPath, $this->productId, 'import');
         $this->attachImage($this->productId, $nameWithoutExtension, $this->srcImgPath);
     }
@@ -50,7 +48,6 @@ class ProductImportJob implements ShouldQueue
      */
     private function attachImage(int $productId, $nameWithoutExtension, $srcImageName): void
     {
-        info(__METHOD__ . ' ');
         Image::firstOrCreate([
             'product_id' => $productId,
             'slug' => $nameWithoutExtension,

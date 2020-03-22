@@ -29,6 +29,17 @@ if ( !empty(config('settings.display_registration')) ) {
     Auth::routes(['register' => false]);
 }
 
+
+
+
+// export/import
+    Route::get('products/export', 'Export\ProductExportController')->name('products.export');
+    Route::get('products/import', 'Import\ProductImportController@showForm')->name('products.import.show_form');
+    Route::post('products/import/from_form', 'Import\ProductImportController@fromForm')->name('products.import.from_form');
+    Route::get('products/import/from_ftp', 'Import\ProductImportController@fromFtp')->name('products.import.from_ftp');
+
+
+
 /* main */
     Route::get('/', 'HomeController@home')->name('home');
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
@@ -123,11 +134,3 @@ if ( !empty(config('settings.display_registration')) ) {
     Route::group(['prefix' => 'lfm', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
-
-
-// export/import
-    Route::get('export/products', 'Export\ProductExportController')->name('export.products');
-    Route::get('import/products', 'Import\ProductImportController@showForm')->name('import.show_form');
-
-    Route::post('products/import/from_form', 'Import\ProductImportController@fromForm')->name('products.import.from_form');
-    Route::get('products/import/from_ftp', 'Import\ProductImportController@fromFtp')->name('products.import.from_ftp');

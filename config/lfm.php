@@ -80,35 +80,30 @@ return [
         'image' => [
             'folder_name'  => 'lfm_img',
             'startup_view' => 'list',
-            // 'max_size'     => 50000, // size in KB
-            'max_size'     => 5000, // size in KB
+            'max_size'     => 15000, // size in KB
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',
                 'image/png',
                 'image/gif',
                 'image/svg+xml',
-                // yo
-                // 'application/pdf',
-                // 'text/plain',
             ],
         ],
 
         // yo
         'import_file' => [
-            'folder_name' => 'import/' . date('Y_m_d'),
+            'folder_name' => 'import/',
             'startup_view' => 'list',
-            'max_size'     => 50000000, // size in KB
+            'max_size'     => 5000, // size in KB
             'valid_mime' => [
                 'text/csv',
                 'application/csv',
             ],
         ],
-        // yo
         'import_archive' => [
-            'folder_name' => 'import/' . date('Y_m_d'),
+            'folder_name' => 'import/' ,
             'startup_view' => 'list',
-            'max_size'     => 500000000, // size in KB
+            'max_size'     => 5000000, // size in KB
             'valid_mime' => [
                 'application/zip',
                 'application/gzip',

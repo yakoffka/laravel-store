@@ -15,8 +15,8 @@ use ZipArchive;
 
 class ProductImportController extends Controller
 {
-    private string $ftpImportArch = 'images_20.zip';
-    private string $ftpImportFile = 'export_products_20.csv';
+    private string $archImagesName = 'photo_20.zip';
+    private string $csvName = 'export_products_20.csv';
 
     /**
      * ProductImportController constructor.
@@ -31,6 +31,7 @@ class ProductImportController extends Controller
      */
     public function showForm()
     {
+        dd('Данная страница находится в разработке.');
         return view('dashboard.adminpanel.import.show_form');
     }
 
@@ -41,8 +42,10 @@ class ProductImportController extends Controller
     public function fromForm(ProductImportRequest $request)
     {
         $validated = $request->validated();
-        $importArchPath = $validated['import_archive'];
-        $importFilePath = $validated['import_file'];
+        $importArchPath = public_path($validated['import_archive']);
+        $importFilePath = public_path($validated['import_file']);
+
+        $this->moveToImportDisk($importArchPath);
 
         $this->import($importArchPath, $importFilePath);
 
@@ -54,51 +57,71 @@ class ProductImportController extends Controller
      */
     public function fromFtp()
     {
-        $ftpImportArchPath = Storage::disk('import')->path($this->ftpImportArch);
-        $ftpImportFilePath = Storage::disk('import')->path($this->ftpImportFile);
+        $archImagesPath = Storage::disk('import')->path($this->archImagesName);
+        $csvPath = Storage::disk('import')->path($this->csvName);
+        $this->import($archImagesPath, $csvPath);
 
-        $this->import($ftpImportArchPath, $ftpImportFilePath);
-
-        return redirect('/')->with('success', 'ProductImportController: All good!');
+        return redirect()->back()->with('success', 'ProductImportController: All good!');
     }
 
     /**
-     * @param string $importArchPath
-     * @param string $importFilePath
+     * @param string $archImagesPath
+     * @param string $csvPath
      */
-    private function import(string $importArchPath, string $importFilePath): void
+    private function import(string $archImagesPath, string $csvPath): void
     {
-        $this->processingImportArch($importArchPath);
-        Excel::import(new ProductImport, $importFilePath);
-        $this->deleteImportFiles();
+        $this->prepareImages($archImagesPath);
+        Excel::import(new ProductImport, $csvPath);
+        $this->cleanUp();
     }
 
     /**
      * @param string $archPath
      * @return bool|RedirectResponse
      */
-    private function processingImportArch(string $archPath)
+    private function prepareImages(string $archPath)
     {
-        if ( $archPath === '' || !is_file($archPath) ) {
+        if (!Storage::disk('import')->exists($this->archImagesName)) {
             return true;
         }
 
+        // @todo: после тестирования вернуть переименование! copy->move
+        Storage::disk('import')->copy($this->archImagesName, 'images.zip');
+
         $zip = new ZipArchive();
-        if ( $zip->open(public_path($archPath)) === true ) {
-            $zip->extractTo(Storage::disk('import')->path('temp'));
+        if ($zip->open(Storage::disk('import')->path('images.zip')) === true) {
+            $zip->extractTo(Storage::disk('import')->path('temp/images'));
             $zip->close();
+            Storage::disk('import')->delete('images.zip');
             return true;
         }
-        return back()->withErrors(['something wrong. err' . __LINE__]);
+        return back()->withErrors([' err' . __LINE__ . __(': Failed to process image archive')]);
+    }
+
+    /**
+     * @param string $importArchPath
+     */
+    private function moveToImportDisk(string $importArchPath): void
+    {
+        if (
+            copy($importArchPath, Storage::disk('import')->path('images.zip'))
+            && unlink($importArchPath)
+        ) {
+            dd("file...\n");
+        }
+        dd("не удалось скопировать file...\n");
+
+        // $r = Storage::disk('import')->put('Photo.N.zip', Storage::disk('public')->get($importArchPath));
+        // $r = Storage::disk('import')->put('Photo.N.zip', $importArchPath);
     }
 
     /**
      * @return bool
      */
-    private function deleteImportFiles(): bool
+    private function cleanUp(): bool
     {
         // @todo: убраться за собой после выполнения всех операций.. тоже в очередь?
-        if ( true ) {
+        if (true) {
             return true;
         }
         return false;
