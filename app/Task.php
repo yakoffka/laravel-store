@@ -94,11 +94,11 @@ class Task extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Task $task
+     * @return Task $task
      */
     public function setCreator(): self
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
@@ -106,11 +106,11 @@ class Task extends Model
      * set setCreator from auth user
      *
      * @param Task $task
-     * @return  Task $task
+     * @return Task $task
      */
     public function setEditor(): self
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
@@ -139,7 +139,7 @@ class Task extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,

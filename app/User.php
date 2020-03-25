@@ -68,7 +68,8 @@ class User extends Authenticatable
 
     public const STATUS_INACTIVE = 0;
     public const STATUS_ACTIVE = 1;
-    public const URUID = 7;
+    public const URUID = 7;  // unregister user id
+    public const SYSUID = 1; // system user id
     // const STATUS_DELETED = 9;
 
     /**
@@ -156,7 +157,6 @@ class User extends Authenticatable
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ($setting === '1') {
             $to = auth()->user() ?? config('mail.from.address');
@@ -172,9 +172,9 @@ class User extends Authenticatable
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }

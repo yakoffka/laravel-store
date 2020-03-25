@@ -13,7 +13,7 @@ trait ImageYoTrait
     {
         $name_img = false;
 
-        if ( $mode === 'rewatermark' ) {
+        if ( $mode === 'rewatermark' || $mode === 'import' ) {
             $previews = config('imageyo.rwm_previews');
         } else {
             $previews = config('imageyo.previews');
@@ -33,7 +33,6 @@ trait ImageYoTrait
     {
 
         if ( !is_file($image) ) {
-            info(__method__ . '@' . __line__ . ' No such file ' . $image);
             return false;
         }
 
@@ -81,7 +80,7 @@ trait ImageYoTrait
         $path_dst_image  = $dst_dir . '/' . $name_dst_image;
         $color_fill = config('imageyo.color_fill');
 
-        // @todo! досрочный выход при наличии изображения.. не всегда.. например при rewatermark
+        // @todo! досрочный выход при наличии изображения.. не всегда.. не выходим, например, при rewatermark
         //dump($path_dst_image);
         if ( $mode !== 'rewatermark' && is_file($path_dst_image) ) {
             //dump('exit');
@@ -172,9 +171,9 @@ trait ImageYoTrait
                     $b = $colorat & 0xFF;
 
                     if (
-                        ($r == 252 && $g == 252 && $b == 252) ||
-                        ($r == 253 && $g == 253 && $b == 253) ||
-                        ($r == 254 && $g == 254 && $b ==254)
+                        ($r === 252 && $g === 252 && $b === 252) ||
+                        ($r === 253 && $g === 253 && $b === 253) ||
+                        ($r === 254 && $g === 254 && $b ===254)
                     ) {
                         imagesetpixel($dst_image, $x, $y, $color_fill);
                     }

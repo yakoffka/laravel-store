@@ -88,22 +88,22 @@ class Role extends EntrustRole
     /**
      * set setCreator from auth user
      *
-     * @return  Role $role
+     * @return Role $role
      */
     public function setCreator(): self
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set setCreator from auth user
      *
-     * @return  Role $role
+     * @return Role $role
      */
     public function setEditor(): self
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
@@ -111,7 +111,7 @@ class Role extends EntrustRole
      * Attaches the permissions to the role that are transferred in the request,
      * provided that the authorized user has them
      *
-     * @return  Role $role
+     * @return Role $role
      */
     public function setPermissions(): self
     {
@@ -177,7 +177,7 @@ class Role extends EntrustRole
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -212,9 +212,9 @@ class Role extends EntrustRole
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }

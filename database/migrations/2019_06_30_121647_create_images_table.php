@@ -57,7 +57,7 @@ class CreateImagesTable extends Migration
                 echo '    deleted $directory = "' . $directory . '"' . "\n";
             } else {
                 echo '    not deleted $directory = "' . $directory . '"' . "\n";
-            };
+            }
         }
 
         Schema::dropIfExists('images');

@@ -281,7 +281,7 @@ class Category extends Model
     /**
      * Create records in table events.
      *
-     * @return  $this
+     * @return $this
      */
     public function createCustomevent(): self
     {
@@ -302,7 +302,7 @@ class Category extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -322,7 +322,6 @@ class Category extends Model
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ($setting === '1') {
             $to = auth()->user();
@@ -337,9 +336,9 @@ class Category extends Model
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }
@@ -347,7 +346,7 @@ class Category extends Model
     /**
      * sets message the variable for the next request only
      *
-     * @return  $this
+     * @return $this
      */
     public function setFlashMess(): self
     {
@@ -359,22 +358,22 @@ class Category extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  $this
+     * @return $this
      */
     public function setCreator(): self
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set setCreator from auth user
      *
-     * @return  $this
+     * @return $this
      */
     public function setEditor(): self
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
@@ -382,7 +381,7 @@ class Category extends Model
      * set slug from dirty field slug or title
      * while changing slug and title transforms the slug field.
      *
-     * @return  $this
+     * @return $this
      */
     public function setSlug(): self
     {
@@ -397,7 +396,7 @@ class Category extends Model
     /**
      * set title from dirty title or name fields
      *
-     * @return  $this
+     * @return $this
      */
     public function setTitle(): self
     {
@@ -410,7 +409,7 @@ class Category extends Model
     /**
      * set uuid for naming source category
      *
-     * @return  $this
+     * @return $this
      */
     public function setUuid(): self
     {

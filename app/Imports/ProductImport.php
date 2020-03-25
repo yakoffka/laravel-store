@@ -2,17 +2,13 @@
 
 namespace App\Imports;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{Jobs\ProductImportJob, Product, Category};
+use App\{Image, Jobs\ImageAttachImportJob, Product, Category, Traits\Yakoffka\ImageYoTrait};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, WithChunkReading, ShouldQueue*//*, WithEvents*/
+class ProductImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -23,7 +19,8 @@ class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, 
     {
         $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
         $product = $this->getProduct($row, $categoryId);
-        $this->processingImages($product->id, $row['images'] ?? '');
+        //$this->processingImages($product->id, $row['images'] ?? '');
+        dispatch(new ImageAttachImportJob($product->id, $row['images'] ?? ''));
 
         return $product;
     }
@@ -35,11 +32,19 @@ class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, 
      */
     private function getCategoryId(array $categoryChain, int $parentId = 1): int
     {
-        $category = Category::firstOrCreate([
-            'name' => array_shift($categoryChain),
-            'parent_id' => $parentId,
-            'publish' => true,
-        ]);
+        $categoryName = array_shift($categoryChain);
+        $category = Category::all()
+            ->where('name', '=', $categoryName)
+            ->where('parent_id', '=', $parentId)
+            ->first();
+        if ($category === null) {
+            $category = Category::create([
+                'name' => $categoryName,
+                'parent_id' => $parentId,
+                'publish' => true,
+            ]);
+            info(__METHOD__ . '@' . __LINE__ . ': created category #' . $category->id . ' ' . $category->name);
+        }
         $category_id = $category->id;
 
         if (count($categoryChain) > 0) {
@@ -58,7 +63,7 @@ class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, 
     {
         // @todo: проверить наличие товара в базе по code_1c;
         // @todo: при отсутствии - создать, при наличии - обновить!
-        return Product::updateOrCreate(
+        $product = Product::updateOrCreate(
         [
             'code_1c' => $row['code_1c'],
         ],[
@@ -76,6 +81,8 @@ class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, 
             'remaining' => $row['remaining'],
             'description' => $row['description'],
         ]);
+        info(__METHOD__ . '@' . __LINE__ . ': created product #' . $product->id . ' ' . $product->name);
+        return $product;
     }
 
     /**
@@ -91,35 +98,30 @@ class ProductImport implements ToModel, WithHeadingRow/*, WithBatchInserts*//*, 
             $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
 
             if ( is_file($srcImgPath) ) {
-                dispatch(new ProductImportJob($srcImgPath, $productId));
-            } else {
-                dump($srcImgPath . ' не существует!');
+                $nameWithoutExtension = ImageYoTrait::saveImgSet($srcImgPath, $productId, 'import');
+                $this->attachImage($productId, $nameWithoutExtension, $srcImageName);
             }
         }
 
         return true;
     }
 
-
-    public function batchSize(): int
-    {
-        return 10;
-    }
-
-    public function chunkSize(): int
-    {
-        return 10;
-    }
-
     /**
-     * @inheritDoc
+     * @param int $productId
+     * @param $nameWithoutExtension
+     * @param $srcImageName
      */
-    public function registerEvents(): array
+    private function attachImage(int $productId, $nameWithoutExtension, $srcImageName): void
     {
-        return [
-            // ImportFailed::class => function(ImportFailed $event) {
-            //     $this->importedBy->notify(new ImportHasFailedNotification);
-            // },
-        ];
+        Image::firstOrCreate([
+            'product_id' => $productId,
+            'slug' => $nameWithoutExtension,
+            'path' => '/images/products/' . $productId,
+            'name' => $nameWithoutExtension,
+            'ext' => config('imageyo.res_ext'),
+            'alt' => $nameWithoutExtension,
+            'sort_order' => 9,
+            'orig_name' => $srcImageName,
+        ]);
     }
 }

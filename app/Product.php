@@ -247,29 +247,29 @@ class Product extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setCreator(): Product
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set setCreator from auth user
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setEditor(): Product
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set title from dirty title or name fields
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setTitle(): Product
     {
@@ -283,7 +283,7 @@ class Product extends Model
      * set slug from dirty field slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setSlug(): Product
     {
@@ -298,7 +298,7 @@ class Product extends Model
     /**
      * Create records in table events.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function createCustomevent(): Product
     {
@@ -320,7 +320,7 @@ class Product extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -335,13 +335,13 @@ class Product extends Model
     /**
      * Create event notification.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function sendEmailNotification(): Product
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+        // info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
             $to = auth()->user();
@@ -352,13 +352,13 @@ class Product extends Model
 
             \Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
-                new phpProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
+                new ProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }
@@ -371,7 +371,7 @@ class Product extends Model
      *  и копирует в неё комплект превью с наложением водяных знаков.
      * Добавляет запись о каждом изображении в таблицу images
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function attachImages(): Product
     {// @todo: вынести в сервисный слой. использовать метод из App\Imports\ProductImport@processingImages
@@ -414,7 +414,7 @@ class Product extends Model
     /**
      * метод очистки исходного украденного исходного кода таблиц
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function cleanSrcCodeTables(): Product
     {
@@ -484,7 +484,7 @@ class Product extends Model
     /**
      * Copying all donor images and creating an entry in the image table.
      *
-     * @return  self $this
+     * @return self $this
      */
     public function additionallyIfCopy(): self
     {
@@ -532,7 +532,7 @@ class Product extends Model
     /**
      * Delete relative images
      *
-     * @return  self $this
+     * @return self $this
      */
     public function deleteImages(): self
     {
@@ -550,7 +550,7 @@ class Product extends Model
     /**
      * Delete relative comments
      *
-     * @return  self $this
+     * @return self $this
      */
     public function deleteComments(): self
     {
@@ -559,7 +559,7 @@ class Product extends Model
     }
 
     /**
-     * @return  self $this
+     * @return self $this
      */
     public function setFlashMess(): self
     {

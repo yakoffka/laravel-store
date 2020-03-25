@@ -31,12 +31,12 @@ class CreateProductsTable extends Migration
             $table->string('date_manufactured', 10)->nullable();
             $table->decimal('price', 16, 4)->nullable();
             $table->decimal('promotional_price', 16, 4)->nullable();
-            $table->unsignedInteger('promotional_percentage')->nullable();
-            $table->string('length')->nullable();
-            $table->string('width')->nullable();
-            $table->string('height')->nullable();
-            $table->string('diameter')->nullable();
-            $table->unsignedInteger('remaining')->nullable();
+            $table->decimal('promotional_percentage', 6,3)->nullable();
+            $table->unsignedInteger('length')->nullable();
+            $table->unsignedInteger('width')->nullable();
+            $table->unsignedInteger('height')->nullable();
+            $table->unsignedInteger('diameter')->nullable();
+            $table->decimal('remaining', 15, 3)->nullable();
             $table->unsignedInteger('added_by_user_id');
             $table->unsignedInteger('edited_by_user_id')->nullable();
             $table->unsignedInteger('count_views')->default(0); // кол-во просмотров товара

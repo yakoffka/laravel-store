@@ -9,25 +9,25 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Storage;
 
-class ProductImportJob implements ShouldQueue
+class ImageAttachImportJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private int $productId;
-    private string $srcImgPath;
-    // @todo: добавить параметры очереди: имя, задержку, кол-во попыток и прочие
+    private string $imageNames;
 
     /**
      * Create a new job instance.
      *
      * @param int $productId
-     * @param string $srcImgPath
+     * @param string $imageNames
      */
-    public function __construct(string $srcImgPath, int $productId)
+    public function __construct(int $productId, string $imageNames)
     {
-        $this->srcImgPath = $srcImgPath;
         $this->productId = $productId;
+        $this->imageNames = $imageNames;
     }
 
     /**
@@ -35,10 +35,18 @@ class ProductImportJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
-        $nameWithoutExtension = ImageYoTrait::saveImgSet($this->srcImgPath, $this->productId, 'import');
-        $this->attachImage($this->productId, $nameWithoutExtension, $this->srcImgPath);
+        $arrayImageNames = explode(';', $this->imageNames);
+
+        foreach ($arrayImageNames as $srcImageName) {
+            $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
+
+            if ( is_file($srcImgPath) ) {
+                $nameWithoutExtension = ImageYoTrait::saveImgSet($srcImgPath, $this->productId, 'import');
+                $this->attachImage($this->productId, $nameWithoutExtension, $srcImageName);
+            }
+        }
     }
 
     /**
@@ -58,5 +66,6 @@ class ProductImportJob implements ShouldQueue
             'sort_order' => 9,
             'orig_name' => $srcImageName,
         ]);
+        info(__METHOD__ . '@' . __LINE__ . ': image ' . $srcImageName . ' attached to product #' . $productId . '. ');
     }
 }
