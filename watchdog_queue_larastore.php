@@ -11,7 +11,8 @@
      */
 
     // $php = 'php74'; // hosting
-    $php = 'php'; // vagrant machine
+    // $php = 'php'; // vagrant machine
+    $php = config('custom.namePHP');
 
     if (shell_exec('ps -ef|grep -v grep|grep "' . $php . ' ' . __DIR__ . '/artisan queue:work"') === null) {
         exec($php .' ' . __DIR__ . '/artisan queue:work > /dev/null &');
