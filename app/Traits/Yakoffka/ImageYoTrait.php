@@ -159,6 +159,7 @@ trait ImageYoTrait
 
             // получаем ресурс изображения водяного знака
             $src_image = $icfunc($path_watermark);
+            // создаем новое изображение
             imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
 
@@ -193,6 +194,26 @@ trait ImageYoTrait
         // Очищаем память после выполнения скрипта
         imagedestroy($dst_image);
         imagedestroy($src_image);
+
+
+
+
+
+
+        // todo: переделать все на .jpeg!
+        $j_dst_image = imagecreatetruecolor($dstimage_w, $dstimage_h);
+        // получаем ресурс png-изображения
+        $j_src_image = $icfunc($path_dst_image); // исправить $icfunc, конечно-же!
+        imagecopyresampled($j_dst_image, $j_src_image, 0, 0, 0, 0, $dst_w, $dst_h, $dst_w, $dst_h);
+        imagejpeg($j_dst_image, $path_dst_image . '.jpg');
+        // Очищаем память после выполнения скрипта
+        imagedestroy($j_dst_image);
+        imagedestroy($j_src_image);
+
+
+
+
+
 
         // dd(__METHOD__ . '/' . $name_dst_image_without_ext);
         return $name_dst_image_without_ext;

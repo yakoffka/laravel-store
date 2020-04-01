@@ -33,10 +33,10 @@ if ( !empty(config('settings.display_registration')) ) {
 
 
 // export/import
-    Route::get('products/export', 'Export\ProductExportController')->name('products.export');
-    Route::get('products/import', 'Import\ProductImportController@showForm')->name('products.import.show_form');
-    Route::post('products/import/from_form', 'Import\ProductImportController@fromForm')->name('products.import.from_form');
-    Route::get('products/import/from_ftp', 'Import\ProductImportController@fromFtp')->name('products.import.from_ftp');
+    Route::get('admin/export', 'Export\ExportController')->name('admin.export');
+    Route::get('admin/import', 'Import\ImportController@showForm')->name('admin.import.show_form');
+    Route::post('admin/import/from_form', 'Import\ImportController@fromForm')->name('admin.import.from_form');
+    Route::get('admin/import/from_ftp', 'Import\ImportController@queuingImportJob')->name('admin.import.from_ftp');
 
 
 
@@ -116,6 +116,7 @@ if ( !empty(config('settings.display_registration')) ) {
 
 
     Route::get('/clear', function() {
+        info(__METHOD__ . '@' . __LINE__ );
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         // Artisan::call('config:cache'); // erased session()->flash!

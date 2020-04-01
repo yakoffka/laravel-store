@@ -233,6 +233,14 @@ class Category extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getUcTitleAttribute(): string
+    {
+        return mb_convert_case(mb_strtolower($this->title), MB_CASE_TITLE, 'UTF-8');
+    }
+
+    /**
      * Mutator for format 'publish' field values
      *
      * @param $value

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Exports\ProductExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class ProductExportController extends Controller
+class ExportController extends Controller
 {
     public function __construct()
     {

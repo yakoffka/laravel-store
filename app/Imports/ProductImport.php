@@ -19,7 +19,6 @@ class ProductImport implements ToModel, WithHeadingRow
     {
         $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
         $product = $this->getProduct($row, $categoryId);
-        //$this->processingImages($product->id, $row['images'] ?? '');
         dispatch(new ImageAttachImportJob($product->id, $row['images'] ?? ''));
 
         return $product;
@@ -115,7 +114,7 @@ class ProductImport implements ToModel, WithHeadingRow
     {
         Image::firstOrCreate([
             'product_id' => $productId,
-            'slug' => $nameWithoutExtension,
+            'slug' => $nameWithoutExtension, // @todo: добавить проверку на уникальность!
             'path' => '/images/products/' . $productId,
             'name' => $nameWithoutExtension,
             'ext' => config('imageyo.res_ext'),

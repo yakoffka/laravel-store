@@ -3,20 +3,18 @@
 namespace App\Services;
 
 use App\Imports\ProductImport;
-use Illuminate\Http\RedirectResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
-use ZipArchive;
 
 class ImportServiceInterfaceImpl implements ImportServiceInterface
 {
 
-    /**
+    /*
      * @param string $archImagesName
      * @return bool|RedirectResponse
      * @todo: заменить return back()->withErrors() на through/catch
      */
-	public function prepareImages(string $archImagesName)
+	/*public function prepareImages(string $archImagesName)
 	{
         if (!Storage::disk('import')->exists($archImagesName)) {
             info(__METHOD__ . '@' . __LINE__ . ': архив с изображениями не обнаружен.');
@@ -37,16 +35,14 @@ class ImportServiceInterfaceImpl implements ImportServiceInterface
         $mess = __(': Failed to process image archive');
         info(__METHOD__ . '@' . __LINE__ . $mess);
         return back()->withErrors([' err' . __LINE__ . $mess]);
-    }
+    }*/
 
     /**
      * @param string $csvPath
      */
 	public function import(string $csvPath)
 	{
-        info(__METHOD__ . '@' . __LINE__);
         Excel::import(new ProductImport, Storage::disk('import')->path($csvPath));
-        info(__METHOD__ . '@' . __LINE__);
 	}
 
     /**

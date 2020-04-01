@@ -18,7 +18,8 @@
         "maatwebsite/excel": "^3.1",
         "nicolaslopezj/searchable": "^1.11",
         "unisharp/laravel-filemanager": "v2.0.0-alpha8",
-      "ext-zip": "*"
+      "ext-zip": "*",
+      "ext-gd": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

@@ -15,7 +15,6 @@ class ImportJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private ImportServiceInterface $importService;
-    private string $archImagesName;
     private string $csvName;
 
     // @todo: добавить параметры очереди: имя, задержку, кол-во попыток и прочие
@@ -25,13 +24,11 @@ class ImportJob implements ShouldQueue
      * Create a new job instance.
      *
      * @param ImportServiceInterface $importService
-     * @param string $archImagesName
      * @param string $csvName
      */
-    public function __construct(ImportServiceInterface $importService, string $archImagesName, string $csvName)
+    public function __construct(ImportServiceInterface $importService, string $csvName)
     {
         $this->importService = $importService;
-        $this->archImagesName = $archImagesName;
         $this->csvName = $csvName;
     }
 
@@ -42,9 +39,8 @@ class ImportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // $this->importService->prepareImages($this->archImagesName);
         $this->importService->import($this->csvName);
-        $this->importService->cleanUp();
+        // $this->importService->cleanUp();
     }
 
     /**
@@ -56,5 +52,6 @@ class ImportJob implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
+        info($exception->getMessage());
     }
 }

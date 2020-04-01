@@ -3,25 +3,21 @@
 return [
 
     /*
-    *
+    * Configuration for AdaptationImageService
     */
 
-    'previews'      => [
-        'origin',
-        'l',
-        'm',
-        's',
-    ],
-
-    'rwm_previews'  => [
-        'l',
-        'm',
-        's',
+    'set' => [
+        'store_product' => ['origin', 'l', 'm', 's',],
+        'seed'          => ['origin', 'l', 'm', 's',],
+        'previews'      => ['origin', 'l', 'm', 's',],
+        'import'        => ['l', 'm', 's',],
+        'rwm_previews'  => ['l', 'm', 's',],
+        'rewatermark'   => ['l', 'm', 's',],
     ],
 
     'rel_path_category_img'        => env('REL_PATH_CATEGORY_IMG', '/images/categories'),
 
-    'dirdst'        => env('IMG_YO_DIR_DESTINATION', '/app/public/images/products'),
+    'dir_dst'        => env('IMG_YO_DIR_DESTINATION', '/app/public/images/products'),
     'dirdst_origin' => env('IMG_YO_DIR_DESTINATION_ORIGIN', '/app/uploads/images/products'),
     'color_fill'    => env('IMG_YO_FILLCOLOR', 0xffffff),
 

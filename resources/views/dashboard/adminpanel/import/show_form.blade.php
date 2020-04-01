@@ -5,7 +5,7 @@
 
     <div class="row searchform_breadcrumbs">
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
-            {{ Breadcrumbs::render('products.import') }}
+            {{ Breadcrumbs::render('admin.import') }}
         </div>
         <div
             class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
@@ -22,7 +22,7 @@
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
 
-            <form method="POST" action="{{ route('products.import.from_form') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.import.from_form') }}" enctype="multipart/form-data">
                 @csrf
 
 

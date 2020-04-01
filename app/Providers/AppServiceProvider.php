@@ -4,7 +4,19 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
-use App\{Category, Comment, Manufacturer, Order, Product, Role, Services\ImportServiceInterface, Services\ImportServiceInterfaceImpl, Setting, Task, User};
+use App\{Category,
+    Comment,
+    Manufacturer,
+    Order,
+    Product,
+    Role,
+    Services\AdaptationImageService,
+    Services\AdaptationImageServiceInterface,
+    Services\ImportServiceInterface,
+    Services\ImportServiceInterfaceImpl,
+    Setting,
+    Task,
+    User};
 use App\Observers\{CategoryObserver, CommentObserver, ManufacturerObserver, OrderObserver, ProductObserver, RoleObserver, SettingObserver, TaskObserver, UserObserver};
 
 use Illuminate\Support\Facades\Schema; // https://laravel-news.com/laravel-5-4-key-too-long-error part 1/2
@@ -21,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ImportServiceInterface::class, static function () {
             return new ImportServiceInterfaceImpl();
         });
+        /*$this->app->bind(AdaptationImageServiceInterface::class, static function () {
+            return new AdaptationImageService();
+        });*/
     }
 
     /**

@@ -210,9 +210,9 @@
     </h5>
     <div class="collapse" id="collapseExport">
         @permission('view_products')
-        <div class="submenuitem">- <a href="{{ route('products.export') }}">экспорт товаров</a></div>
-        <div class="submenuitem">- <a href="{{ route('products.import.show_form') }}">http-импорт товаров</a></div>
-        <div class="submenuitem">- <a href="{{ route('products.import.from_ftp') }}">ftp-импорт товаров</a></div>
+        <div class="submenuitem">- <a href="{{ route('admin.export') }}">экспорт товаров</a></div>
+        <div class="submenuitem">- <a href="{{ route('admin.import.show_form') }}">http-импорт товаров</a></div>
+        <div class="submenuitem">- <a href="{{ route('admin.import.from_ftp') }}">ftp-импорт товаров</a></div>
         @endpermission
     </div>
     @endpermission
