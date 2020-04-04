@@ -2,9 +2,10 @@
 
 namespace App\Imports;
 
+use Carbon\Carbon;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{Image, Jobs\ImageAttachImportJob, Product, Category, Traits\Yakoffka\ImageYoTrait};
+use App\{Image, Jobs\ImagesAttachJob, Product, Category, Traits\Yakoffka\ImageYoTrait};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 
@@ -19,7 +20,14 @@ class ProductImport implements ToModel, WithHeadingRow
     {
         $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
         $product = $this->getProduct($row, $categoryId);
-        dispatch(new ImageAttachImportJob($product->id, $row['images'] ?? ''));
+        dispatch(new ImagesAttachJob($product->id, $row['images'] ?? ''));
+
+        $mess = sprintf(
+            'dispatched ImagesAttachJob() for $product->id =%d (%s)',
+            $product->id,
+            $row['images'] ?? '',
+        );
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
 
         return $product;
     }
@@ -42,7 +50,9 @@ class ProductImport implements ToModel, WithHeadingRow
                 'parent_id' => $parentId,
                 'publish' => true,
             ]);
-            info(__METHOD__ . '@' . __LINE__ . ': created category #' . $category->id . ' ' . $category->name);
+            // info(__METHOD__ . '@' . __LINE__ . ': created category #' . $category->id . ' ' . $category->name);
+            $mess = sprintf('created category %s ($category->id = %d)', $category->name, $category->id);
+            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
         }
         $category_id = $category->id;
 

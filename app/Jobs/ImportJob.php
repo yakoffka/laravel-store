@@ -3,12 +3,14 @@
 namespace App\Jobs;
 
 use App\Services\ImportServiceInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Storage;
 
 class ImportJob implements ShouldQueue
 {
@@ -39,6 +41,7 @@ class ImportJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'start ImportJob');
         $this->importService->import($this->csvName);
         // $this->importService->cleanUp();
     }
@@ -52,6 +55,8 @@ class ImportJob implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
+        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
         info($exception->getMessage());
     }
 }

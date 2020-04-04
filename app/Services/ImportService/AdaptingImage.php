@@ -24,7 +24,6 @@ class AdaptingImage
     private int $dst_x; // x-координата результирующего изображения
     private int $dst_y; // y-координата результирующего изображения
 
-
     /**
      * AdaptingImage constructor.
      * @param string $srcImagePath

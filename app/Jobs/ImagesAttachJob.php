@@ -4,19 +4,20 @@ namespace App\Jobs;
 
 use App\Image;
 use App\Services\AdaptationImageService;
-use App\Services\AdaptationImageServiceInterface;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use RuntimeException;
 use Storage;
 
-class ImageAttachImportJob implements ShouldQueue
+class ImagesAttachJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // private AdaptationImageServiceInterface $imageService;
     private int $productId;
     private string $imageNames;
 
@@ -33,7 +34,6 @@ class ImageAttachImportJob implements ShouldQueue
     {
         $this->productId = $productId;
         $this->imageNames = $imageNames;
-        // $this->imageService = $adaptationImageService;
     }
 
     /**
@@ -50,11 +50,33 @@ class ImageAttachImportJob implements ShouldQueue
             $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
 
             if ( is_file($srcImgPath) ) {
-                // $imageNameWE = ImageYoTrait::saveImgSet($srcImgPath, $this->productId, 'import');
                 $imageNameWE = $adaptationImageService->createSet($srcImgPath, $this->productId, 'import');
                 $this->attachImage($this->productId, $imageNameWE, $srcImageName);
+
+                $mess = sprintf(
+                    'success createSet() and attach() image %s to product #%d',
+                    $srcImageName,
+                    $this->productId
+                );
+                Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+            } else {
+                $mess = sprintf('ERROR! Изображение "%s" для товара #%d отсутствует!', $srcImgPath, $this->productId);
+                throw new RuntimeException($mess);
             }
         }
+    }
+
+    /**
+     * Неудачная обработка задачи.
+     *
+     * @param  Exception  $exception
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        // Send user notification of failure, etc...
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
+        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
     }
 
     /**

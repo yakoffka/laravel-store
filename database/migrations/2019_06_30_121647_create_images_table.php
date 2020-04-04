@@ -47,13 +47,13 @@ class CreateImagesTable extends Migration
         // удаление директорий с изображениями!!!
         // @todo: добавить еще директории, вынести куда-нибудь.
         foreach ([
-            '/public/images/products',
-            '/uploads/images',
-            '/public/images/manufacturers',
-            '/public/images/categories',
-            'public/lfm_img',
-        ] as $directory) {
-            if ( Storage::deleteDirectory($directory) ) {
+                     '/public/images/products',
+                     '/uploads/images',
+                     '/public/images/manufacturers',
+                     '/public/images/categories',
+                     'public/lfm_img',
+                 ] as $directory) {
+            if (Storage::deleteDirectory($directory)) {
                 echo '    deleted $directory = "' . $directory . '"' . "\n";
             } else {
                 echo '    not deleted $directory = "' . $directory . '"' . "\n";

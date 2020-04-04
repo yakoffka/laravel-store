@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Imports\ProductImport;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
@@ -42,6 +43,7 @@ class ImportServiceInterfaceImpl implements ImportServiceInterface
      */
 	public function import(string $csvPath)
 	{
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'running Excel::import()');
         Excel::import(new ProductImport, Storage::disk('import')->path($csvPath));
 	}
 

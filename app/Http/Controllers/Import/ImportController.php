@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Import;
 
 use App\Jobs\ImportJob;
 use App\Services\ImportServiceInterface;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ImportController extends Controller
@@ -30,6 +32,7 @@ class ImportController extends Controller
      */
     public function queuingImportJob()
     {
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'Start process');
         dispatch(new ImportJob($this->importService, $this->csvName));
         session()->flash('message', __('Job successfully submitted to queue'));
         return redirect()->back();
