@@ -48,7 +48,7 @@ class ImagesAttachJob implements ShouldQueue
         $arrayImageNames = explode(';', $this->imageNames);
 
         foreach ($arrayImageNames as $srcImageName) {
-            $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
+            $srcImgPath = Storage::disk('import')->path('images/' . $srcImageName);
 
             if (is_file($srcImgPath)) {
                 $imageNameWE = $adaptationImageService->createSet($srcImgPath, $this->productId, 'import');
