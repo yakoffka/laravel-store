@@ -20,8 +20,7 @@ class ImagesAttachJob implements ShouldQueue
 
     private int $productId;
     private string $imageNames;
-
-    // @todo: добавить параметры очереди: имя, задержку, кол-во попыток и прочие
+    private string $productCode1C;
     public int $tries = 3;
 
     /**
@@ -29,11 +28,13 @@ class ImagesAttachJob implements ShouldQueue
      *
      * @param int $productId
      * @param string $imageNames
+     * @param string $productCode1C
      */
-    public function __construct(int $productId, string $imageNames)
+    public function __construct(int $productId, string $imageNames, string $productCode1C)
     {
         $this->productId = $productId;
         $this->imageNames = $imageNames;
+        $this->productCode1C = $productCode1C;
     }
 
     /**
@@ -49,18 +50,22 @@ class ImagesAttachJob implements ShouldQueue
         foreach ($arrayImageNames as $srcImageName) {
             $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
 
-            if ( is_file($srcImgPath) ) {
+            if (is_file($srcImgPath)) {
                 $imageNameWE = $adaptationImageService->createSet($srcImgPath, $this->productId, 'import');
                 $this->attachImage($this->productId, $imageNameWE, $srcImageName);
 
-                $mess = sprintf(
-                    'success createSet() and attach() image %s to product #%d',
+                $mess = sprintf('Успешная обработка изображения %s для товара #%d. 1С-код товара: \'%s\';',
                     $srcImageName,
-                    $this->productId
+                    $this->productId,
+                    $this->productCode1C
                 );
                 Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
             } else {
-                $mess = sprintf('ERROR! Изображение "%s" для товара #%d отсутствует!', $srcImgPath, $this->productId);
+                $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара #%d. 1С-код товара: \'%s\');',
+                    $srcImageName,
+                    $this->productId,
+                    $this->productCode1C
+                );
                 throw new RuntimeException($mess);
             }
         }
@@ -69,7 +74,7 @@ class ImagesAttachJob implements ShouldQueue
     /**
      * Неудачная обработка задачи.
      *
-     * @param  Exception  $exception
+     * @param Exception $exception
      * @return void
      */
     public function failed(Exception $exception)
@@ -96,6 +101,6 @@ class ImagesAttachJob implements ShouldQueue
             'sort_order' => 9,
             'orig_name' => $srcImageName,
         ]);
-        info(__METHOD__ . '@' . __LINE__ . ': image ' . $srcImageName . ' attached to product #' . $productId . '. ');
+        // info(__METHOD__ . '@' . __LINE__ . ': image ' . $srcImageName . ' attached to product #' . $productId . '. ');
     }
 }

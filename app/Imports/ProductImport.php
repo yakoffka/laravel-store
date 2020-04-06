@@ -3,13 +3,22 @@
 namespace App\Imports;
 
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Validators\Failure;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{Image, Jobs\ImagesAttachJob, Product, Category, Traits\Yakoffka\ImageYoTrait};
+use App\{
+        Jobs\ImagesAttachJob,
+        Product,
+        Category,
+    };
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Throwable;
 
-class ProductImport implements ToModel, WithHeadingRow
+class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure, SkipsOnError
 {
     /**
      * @param array $row
@@ -20,14 +29,8 @@ class ProductImport implements ToModel, WithHeadingRow
     {
         $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
         $product = $this->getProduct($row, $categoryId);
-        dispatch(new ImagesAttachJob($product->id, $row['images'] ?? ''));
 
-        $mess = sprintf(
-            'dispatched ImagesAttachJob() for $product->id =%d (%s)',
-            $product->id,
-            $row['images'] ?? '',
-        );
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+        dispatch((new ImagesAttachJob($product->id, $row['images'] ?? '', $row['code_1c'] ?? ''))->onQueue('high'));
 
         return $product;
     }
@@ -39,19 +42,20 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     private function getCategoryId(array $categoryChain, int $parentId = 1): int
     {
-        $categoryName = array_shift($categoryChain);
+        $categoryName = array_shift($categoryChain) ?? __('No name category');
         $category = Category::all()
             ->where('name', '=', $categoryName)
             ->where('parent_id', '=', $parentId)
             ->first();
+
         if ($category === null) {
             $category = Category::create([
                 'name' => $categoryName,
                 'parent_id' => $parentId,
                 'publish' => true,
             ]);
-            // info(__METHOD__ . '@' . __LINE__ . ': created category #' . $category->id . ' ' . $category->name);
-            $mess = sprintf('created category %s ($category->id = %d)', $category->name, $category->id);
+
+            $mess = sprintf('Успешное создание категории %s (id = %d)', $category->name, $category->id);
             Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
         }
         $category_id = $category->id;
@@ -70,12 +74,10 @@ class ProductImport implements ToModel, WithHeadingRow
      */
     private function getProduct(array $row, int $categoryId): Product
     {
-        // @todo: проверить наличие товара в базе по code_1c;
-        // @todo: при отсутствии - создать, при наличии - обновить!
-        $product = Product::updateOrCreate(
-        [
-            'code_1c' => $row['code_1c'],
-        ],[
+        return Product::updateOrCreate(
+            [
+                'code_1c' => $row['code_1c'],
+            ], [
             'name' => $row['name'],
             'vendor_code' => $row['vendor_code'],
             'category_id' => $categoryId,
@@ -90,47 +92,70 @@ class ProductImport implements ToModel, WithHeadingRow
             'remaining' => $row['remaining'],
             'description' => $row['description'],
         ]);
-        info(__METHOD__ . '@' . __LINE__ . ': created product #' . $product->id . ' ' . $product->name);
-        return $product;
     }
 
     /**
-     * @param int $productId
-     * @param string $imageNames
-     * @return bool
+     * @inheritDoc
      */
-    public function processingImages(int $productId, string $imageNames): bool
+    public function rules(): array
     {
-        $arrayImageNames = explode(';', $imageNames);
+        return [
+            'code_1c' => 'required|string',
+            'name' => 'required|string',
+            'vendor_code' => 'nullable',
+            'category_chain' => 'required|string',
+            'length' => 'nullable|integer',
+            'width' => 'nullable|integer',
+            'height' => 'nullable|integer',
+            'diameter' => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'promotional_price' => 'nullable|numeric',
+            'promotional_percentage' => 'nullable|integer',
+            'remaining' => 'nullable|integer',
+            'images' => 'nullable|string',
+            'description' => 'nullable|string',
+        ];
+    }
 
-        foreach ($arrayImageNames as $srcImageName) {
-            $srcImgPath = Storage::disk('import')->path('temp/images/' . $srcImageName);
-
-            if ( is_file($srcImgPath) ) {
-                $nameWithoutExtension = ImageYoTrait::saveImgSet($srcImgPath, $productId, 'import');
-                $this->attachImage($productId, $nameWithoutExtension, $srcImageName);
-            }
+    /**
+     * @inheritDoc
+     *
+     * $failure->row(); // row that went wrong
+     * $failure->attribute(); // either heading key (if using heading row concern) or column index
+     * $failure->errors(); // Actual error messages from Laravel validator
+     * $failure->values(); // The values of the row that has failed.
+     */
+    public function onFailure(Failure ...$failures)
+    {
+        foreach ($failures as $failure) {
+            $mess = $this->getMessagesWithValues($failure);
+            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
         }
-
-        return true;
     }
 
     /**
-     * @param int $productId
-     * @param $nameWithoutExtension
-     * @param $srcImageName
+     * @inheritDoc
      */
-    private function attachImage(int $productId, $nameWithoutExtension, $srcImageName): void
+    public function onError(Throwable $e)
     {
-        Image::firstOrCreate([
-            'product_id' => $productId,
-            'slug' => $nameWithoutExtension, // @todo: добавить проверку на уникальность!
-            'path' => '/images/products/' . $productId,
-            'name' => $nameWithoutExtension,
-            'ext' => config('imageyo.res_ext'),
-            'alt' => $nameWithoutExtension,
-            'sort_order' => 9,
-            'orig_name' => $srcImageName,
-        ]);
+        $mess = __METHOD__ . ' ERROR: ' . $e->getMessage();
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
+    }
+
+    /**
+     * @param Failure $failure
+     * @return string
+     */
+    private function getMessagesWithValues(Failure $failure): string
+    {
+        $value = $failure->values()[$failure->attribute()];
+        $code1C = $failure->values()['code_1c'];
+        $arrMess = array_map(static function ($m) use ($value, $code1C) {
+            return $m . " Переданное значение: '$value'. 1С-код товара: '$code1C';";
+        }, $failure->toArray());
+
+        return implode(PHP_EOL, $arrMess);
     }
 }

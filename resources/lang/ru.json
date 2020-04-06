@@ -290,8 +290,11 @@
     "Orders": "Мои Заказы",
 
     "Job successfully submitted to queue": "Задание успешно отправлено в очередь",
+    "Import file ':name' not found.": "Файл импорта ':name' не найден.",
     ": Failed to process image archive": ": Не удалось обработать архив с изображениями.",
     ": Failed to create directory for product images": ": Не удалось создать директорию для изображений товара",
+    "There was an error on row :row. :message": "FAILURE: Произошла ошибка в строке: :row. :message",
+    "No name category": "Безымянная категория",
 
     "e": "e"
 }

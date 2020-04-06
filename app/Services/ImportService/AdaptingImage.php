@@ -116,12 +116,6 @@ class AdaptingImage
         $this->dst_y = round(($this->dstImageH - $this->dst_h) / 2);    // y-координата результирующего изображения.
         $this->src_x = 0;    // x-координата исходного изображения.
         $this->src_y = 0;    // y-координата исходного изображения.
-
-        /*if ( $srcImagePath === ){
-            info("\$this->dstImageW = '$this->dstImageW', \$this->dstImageH = '$this->dstImageH'");
-            info("\$this->dstImageW = '$this->dstImageW', \$this->dstImageH = '$this->dstImageH'");
-            die();
-        }*/
     }
 
     /**

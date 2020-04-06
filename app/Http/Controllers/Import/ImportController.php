@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Import;
 
 use App\Jobs\ImportJob;
+use App\Jobs\SendImportReportJob;
 use App\Services\ImportServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +15,12 @@ use Illuminate\View\View;
 
 class ImportController extends Controller
 {
+    // @todo: добавить описание процесса импорта
+    // @todo: удалить/спрятать killQueueWorker.php, restartWithClean.php
+    // @todo: отправить отчет
+    // @todo: почистить за собой после импорта
+    // @todo: продумать уникальный slug
+
     private ImportServiceInterface $importService;
     private string $csvName = 'products.csv';
 
@@ -32,10 +39,20 @@ class ImportController extends Controller
      */
     public function queuingImportJob()
     {
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'Start process');
-        dispatch(new ImportJob($this->importService, $this->csvName));
-        session()->flash('message', __('Job successfully submitted to queue'));
+        abort_if( !auth()->user()->can(['create_categories', 'create_products', 'create_manufacturers']), 403);
+        if ( Storage::disk('import')->exists($this->csvName) ) {
+            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'Start import process');
+
+            dispatch((new ImportJob($this->importService, $this->csvName))->onQueue('high'));
+            dispatch((new SendImportReportJob())->onQueue('low'));
+
+            session()->flash('message', __('Job successfully submitted to queue ' . $this->csvName));
+            return redirect()->back();
+        }
+        session()->flash('message', __("Import file ':name' not found.",
+            ['name' => Storage::disk('import')->path($this->csvName)]));
         return redirect()->back();
+
     }
 
     /**
@@ -43,36 +60,7 @@ class ImportController extends Controller
      */
     public function showForm()
     {
-        dd('Данная страница находится в разработке.');
+        dd('Данная функциональность находится в разработке.');
         return view('dashboard.adminpanel.import.show_form');
     }
-
-//    /**
-//     * @param ProductImportRequest $request
-//     * @return RedirectResponse|Redirector
-//     */
-//    public function fromForm(ProductImportRequest $request)
-//    {
-//        $validated = $request->validated();
-//        $importArchPath = public_path($validated['import_archive']);
-//        $importFilePath = public_path($validated['import_file']);
-//
-//        $this->moveToImportDisk($importArchPath);
-//
-//        $this->import($importArchPath, $importFilePath);
-//
-//        return redirect('/')->with('success', 'ImportController: All good!');
-//    }
-
-//    /**
-//     * @return bool
-//     */
-//    private function cleanUp(): bool
-//    {
-//        // @todo: убраться за собой после выполнения всех операций.. тоже в очередь?
-//        if (true) {
-//            return true;
-//        }
-//        return false;
-//    }
 }

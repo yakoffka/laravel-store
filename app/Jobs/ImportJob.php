@@ -18,8 +18,6 @@ class ImportJob implements ShouldQueue
 
     private ImportServiceInterface $importService;
     private string $csvName;
-
-    // @todo: добавить параметры очереди: имя, задержку, кол-во попыток и прочие
     public int $tries = 3;
 
     /**
@@ -41,9 +39,7 @@ class ImportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'start ImportJob');
         $this->importService->import($this->csvName);
-        // $this->importService->cleanUp();
     }
 
     /**
@@ -52,11 +48,11 @@ class ImportJob implements ShouldQueue
      * @param  Exception  $exception
      * @return void
      */
-    public function failed(Exception $exception)
+    public function failed(Exception $exception): void
     {
-        // Send user notification of failure, etc...
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
-        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
-        info($exception->getMessage());
+        $mess = __METHOD__ . ': ' . $exception->getMessage();
+        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
+        // info($exception->getMessage());
     }
 }
