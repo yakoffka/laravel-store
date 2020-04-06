@@ -22,7 +22,7 @@ class ImportController extends Controller
     // @todo: продумать уникальный slug
 
     private ImportServiceInterface $importService;
-    private string $csvName = 'products.csv';
+    private string $csvName = 'goods.csv';
 
     /**
      * ImportController constructor.

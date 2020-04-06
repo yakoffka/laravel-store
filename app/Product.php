@@ -228,7 +228,7 @@ class Product extends Model
      */
     public function setPublishAttribute($value): void
     {
-        $this->attributes['publish'] = ($value === 'on' || $value === true );
+        $this->attributes['publish'] = ($value === 'on' || $value === true);
     }
 
     /**
@@ -343,7 +343,7 @@ class Product extends Model
         $setting = config($namesetting);
         // info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-        if ( $setting === '1' ) {
+        if ($setting === '1') {
             $to = auth()->user();
 
             $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
@@ -404,7 +404,7 @@ class Product extends Model
             ]);
         }
 
-        if ( !empty($images) && !$this->isDirty() ) {
+        if (!empty($images) && !$this->isDirty()) {
             $this->touch();
         }
 

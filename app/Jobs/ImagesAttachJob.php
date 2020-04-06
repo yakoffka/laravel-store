@@ -61,7 +61,7 @@ class ImagesAttachJob implements ShouldQueue
                 );
                 Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
             } else {
-                $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара #%d. 1С-код товара: \'%s\');',
+                $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара с id = \'%d\'. 1С-код товара: \'%s\';',
                     $srcImageName,
                     $this->productId,
                     $this->productCode1C
