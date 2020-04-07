@@ -45,29 +45,12 @@ class ImagesAttachJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $adaptationImageService = new AdaptationImageService();
-        $arrayImageNames = explode(';', $this->imageNames);
+        if ( $this->imageNames !== '' ) {
+            $adaptationImageService = new AdaptationImageService();
+            $arrayImageNames = explode(';', $this->imageNames);
 
-        foreach ($arrayImageNames as $srcImageName) {
-            $srcImgPath = Storage::disk('import')->path('images/' . $srcImageName);
-
-            if (is_file($srcImgPath)) {
-                $imageNameWE = $adaptationImageService->createSet($srcImgPath, $this->productId, 'import');
-                $this->attachImage($this->productId, $imageNameWE, $srcImageName);
-
-                $mess = sprintf('Успешная обработка изображения %s для товара #%d. 1С-код товара: \'%s\';',
-                    $srcImageName,
-                    $this->productId,
-                    $this->productCode1C
-                );
-                Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
-            } else {
-                $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара с id = \'%d\'. 1С-код товара: \'%s\';',
-                    $srcImageName,
-                    $this->productId,
-                    $this->productCode1C
-                );
-                throw new RuntimeException($mess);
+            foreach ($arrayImageNames as $srcImageName) {
+                $this->handleImage($srcImageName, $adaptationImageService);
             }
         }
     }
@@ -102,6 +85,33 @@ class ImagesAttachJob implements ShouldQueue
             'sort_order' => 9,
             'orig_name' => $srcImageName,
         ]);
-        // info(__METHOD__ . '@' . __LINE__ . ': image ' . $srcImageName . ' attached to product #' . $productId . '. ');
+    }
+
+    /**
+     * @param $srcImageName
+     * @param AdaptationImageService $adaptationImageService
+     */
+    private function handleImage($srcImageName, AdaptationImageService $adaptationImageService): void
+    {
+        $srcImgPath = Storage::disk('import')->path('images/' . $srcImageName);
+
+        if (is_file($srcImgPath)) {
+            $imageNameWE = $adaptationImageService->createSet($srcImgPath, $this->productId, 'import');
+            $this->attachImage($this->productId, $imageNameWE, $srcImageName);
+
+            $mess = sprintf('Успешная обработка изображения %s для товара #%d. 1С-код товара: \'%s\';',
+                $srcImageName,
+                $this->productId,
+                $this->productCode1C
+            );
+            Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        } else {
+            $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара с id = \'%d\'. 1С-код товара: \'%s\';',
+                $srcImageName,
+                $this->productId,
+                $this->productCode1C
+            );
+            throw new RuntimeException($mess);
+        }
     }
 }

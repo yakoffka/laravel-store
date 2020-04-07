@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Http\Controllers\Import\ImportController;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
@@ -16,20 +17,23 @@ class ImportNotification extends Notification
     use Queueable;
 
     private string $filesPath;
+    private Carbon $started_at;
 
     /**
      * Create a new notification instance.
      * @param $filesPath
+     * @param $started_at
      */
-    public function __construct($filesPath)
+    public function __construct($filesPath, $started_at)
     {
         $this->filesPath = $filesPath;
+        $this->started_at = $started_at;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable): array
@@ -40,21 +44,21 @@ class ImportNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable): array
@@ -67,7 +71,7 @@ class ImportNotification extends Notification
     /**
      * Получить Slack-представление уведомления.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return SlackMessage
      */
     public function toSlack(User $notifiable): SlackMessage
@@ -85,6 +89,15 @@ class ImportNotification extends Notification
 
         Storage::allFiles($this->filesPath);
         return (new SlackMessage)
-            ->content("$notifiable->name осуществил импорт товаров из программы 1С." . $log . $e_log);
+            ->content("$notifiable->name "
+                . ' осуществил импорт товаров из программы 1С.'
+                . "\nНачало импорта: "
+                . $this->started_at->format('Y.m.d H:i:s')
+                . "\nОкончание импорта: "
+                . now()->format('Y.m.d H:i:s')
+                . "\nВремя выполнения импорта: "
+                . $this->started_at->diffAsCarbonInterval(now())->__toString()
+                . $log . $e_log
+            );
     }
 }

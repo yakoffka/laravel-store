@@ -22,6 +22,7 @@ class SendImportReportJob implements ShouldQueue
 
     public int $tries = 3;
     private int $initiatorId;
+    private Carbon $started_at;
 
     /**
      * Create a new job instance.
@@ -31,6 +32,7 @@ class SendImportReportJob implements ShouldQueue
     public function __construct($initiatorId)
     {
         $this->initiatorId = $initiatorId;
+        $this->started_at = now();
     }
 
     /**
@@ -47,7 +49,7 @@ class SendImportReportJob implements ShouldQueue
         User::all()
             ->where('id', '=', $this->initiatorId)
             ->first()
-            ->notify(new ImportNotification($this->getDirPathMovedReportFiles()));
+            ->notify(new ImportNotification($this->getDirPathMovedReportFiles(), $this->started_at));
     }
 
     /**

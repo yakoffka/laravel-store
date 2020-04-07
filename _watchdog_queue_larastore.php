@@ -3,16 +3,16 @@
 /*
  * in crontab:
  *     MAILTO="recipient@mail.ru"
- *     25 09 * * * php74 /path/to/watchdog_queue_larastore.php
+ *     25 09 * * * php74 /path/to/_watchdog_queue_larastore.php
  *     MAILTO=""
- *     00 * * * * php74 /path/to/watchdog_queue_larastore.php
- *     20 * * * * php74 /path/to/watchdog_queue_larastore.php
- *     40 * * * * php74 /path/to/watchdog_queue_larastore.php
+ *     00 * * * * php74 /path/to/_watchdog_queue_larastore.php
+ *     20 * * * * php74 /path/to/_watchdog_queue_larastore.php
+ *     40 * * * * php74 /path/to/_watchdog_queue_larastore.php
  */
 
 $s = 'Watchdog: ';
-// $php = 'php74'; // hosting
-$php = 'php'; // vagrant machine
+$php = 'php74'; // hosting
+// $php = 'php'; // vagrant machine
 
 $command = $php . ' ' . __DIR__ . '/artisan queue:work --queue=high,low';
 

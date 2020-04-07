@@ -6,9 +6,9 @@ $php = 'php74'; // hosting
 
 $commands = [
     $php . ' artisan migrate:refresh --seed',
-    $php . ' ' . __DIR__ . '/killQueueWorker.php',
+    $php . ' ' . __DIR__ . '/_killQueueWorker.php',
     $php . ' artisan queue:restart',
-    $php . ' ' . __DIR__ . '/watchdog_queue_larastore.php',
+    $php . ' ' . __DIR__ . '/_watchdog_queue_larastore.php',
 ];
 
 foreach ($commands as $command) {
