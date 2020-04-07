@@ -9,11 +9,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Validators\Failure;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{
-        Jobs\ImagesAttachJob,
-        Product,
-        Category,
-    };
+use App\{Http\Controllers\Import\ImportController, Jobs\ImagesAttachJob, Product, Category};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Throwable;
@@ -56,7 +52,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
             ]);
 
             $mess = sprintf('Успешное создание категории %s (id = %d)', $category->name, $category->id);
-            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
         }
         $category_id = $category->id;
 
@@ -129,8 +125,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     {
         foreach ($failures as $failure) {
             $mess = $this->getMessagesWithValues($failure);
-            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
-            Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
         }
     }
 
@@ -140,8 +136,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     public function onError(Throwable $e)
     {
         $mess = __METHOD__ . ' ERROR: ' . $e->getMessage();
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
-        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 
     /**

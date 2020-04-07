@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Http\Controllers\Import\ImportController;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,7 +20,7 @@ class SendEmailImportNotification
     {
         //
         $mess = '__construct end import. thanks.';
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 
     /**
@@ -36,6 +37,6 @@ class SendEmailImportNotification
         } else {
             $mess = 'success end import. thanks.';
         }
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\Import\ImportController;
 use App\Services\ImportServiceInterface;
 use Carbon\Carbon;
 use Exception;
@@ -51,8 +52,8 @@ class ImportJob implements ShouldQueue
     public function failed(Exception $exception): void
     {
         $mess = __METHOD__ . ': ' . $exception->getMessage();
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
-        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
         // info($exception->getMessage());
     }
 }

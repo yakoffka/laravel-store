@@ -15,6 +15,7 @@ use Illuminate\View\View;
 
 class ImportController extends Controller
 {
+    // @todo: решить, кому отправлять уведомления
     // @todo: добавить описание процесса импорта
     // @todo: удалить/спрятать killQueueWorker.php, restartWithClean.php
     // @todo: отправить отчет
@@ -23,6 +24,8 @@ class ImportController extends Controller
 
     private ImportServiceInterface $importService;
     private string $csvName = 'goods.csv';
+    public const LOG = 'log.txt';
+    public const E_LOG = 'err_log.txt';
 
     /**
      * ImportController constructor.
@@ -41,10 +44,10 @@ class ImportController extends Controller
     {
         abort_if( !auth()->user()->can(['create_categories', 'create_products', 'create_manufacturers']), 403);
         if ( Storage::disk('import')->exists($this->csvName) ) {
-            Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . 'Start import process');
+            Storage::disk('import')->append(self::LOG, '[' . Carbon::now() . '] ' . 'Start import process');
 
             dispatch((new ImportJob($this->importService, $this->csvName))->onQueue('high'));
-            dispatch((new SendImportReportJob())->onQueue('low'));
+            dispatch((new SendImportReportJob(auth()->user()->id))->onQueue('low'));
 
             session()->flash('message', __('Job successfully submitted to queue ' . $this->csvName));
             return redirect()->back();

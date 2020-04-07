@@ -188,4 +188,19 @@ class User extends Authenticatable
         session()->flash('message', $message);
         return $this;
     }
+
+    /*
+     * Направление уведомлений для Slack-канала.
+     *
+     * @return string
+     */
+    /*public function routeNotificationForSlack(): string
+    {
+        return config('custom.slack_webhook');
+    }*/
+
+    public function routeNotificationFor($driver, $notification = null)
+    {
+        return config('custom.slack_webhook');
+    }
 }

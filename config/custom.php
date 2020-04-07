@@ -34,4 +34,6 @@
         'smanager_user_passw' => ENV('SMANAGER_USER_PASSW', '11111111'),
         'unregistered_user_passw' => ENV('UNREGISTERED_USER_PASSW', '11111111'),
         'pagination_product_admin' => ENV('PAGINATION_PRODUCT_ADMIN', 50),
+
+        'slack_webhook' => env('SLACK_WEBHOOK', ''),
     ];

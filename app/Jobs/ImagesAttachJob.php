@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\Import\ImportController;
 use App\Image;
 use App\Services\AdaptationImageService;
 use Carbon\Carbon;
@@ -59,7 +60,7 @@ class ImagesAttachJob implements ShouldQueue
                     $this->productId,
                     $this->productCode1C
                 );
-                Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $mess);
+                Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
             } else {
                 $mess = sprintf('WARNING: Отсутствует изображение "%s" для товара с id = \'%d\'. 1С-код товара: \'%s\';',
                     $srcImageName,
@@ -80,8 +81,8 @@ class ImagesAttachJob implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
-        Storage::disk('import')->append('log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
-        Storage::disk('import')->append('err_log.txt', '[' . Carbon::now() . '] ' . $exception->getMessage());
+        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $exception->getMessage());
+        Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $exception->getMessage());
     }
 
     /**

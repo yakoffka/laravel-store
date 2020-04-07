@@ -11,8 +11,8 @@
  */
 
 $s = 'Watchdog: ';
-$php = 'php74'; // hosting
-// $php = 'php'; // vagrant machine
+// $php = 'php74'; // hosting
+$php = 'php'; // vagrant machine
 
 $command = $php . ' ' . __DIR__ . '/artisan queue:work --queue=high,low';
 
