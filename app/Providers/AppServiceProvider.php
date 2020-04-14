@@ -4,8 +4,30 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
-use App\{Category, Comment, Manufacturer, Order, Product, Role, Setting, Task, User};
-use App\Observers\{CategoryObserver, CommentObserver, ManufacturerObserver, OrderObserver, ProductObserver, RoleObserver, SettingObserver, TaskObserver, UserObserver};
+use App\{Category,
+    Comment,
+    Image,
+    Manufacturer,
+    Order,
+    Product,
+    Role,
+    Services\ImportServiceInterface,
+    Services\ImportService,
+    Setting,
+    Task,
+    User
+};
+use App\Observers\{CategoryObserver,
+    CommentObserver,
+    ImageObserver,
+    ManufacturerObserver,
+    OrderObserver,
+    ProductObserver,
+    RoleObserver,
+    SettingObserver,
+    TaskObserver,
+    UserObserver
+};
 
 use Illuminate\Support\Facades\Schema; // https://laravel-news.com/laravel-5-4-key-too-long-error part 1/2
 
@@ -16,9 +38,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        //
+        $this->app->bind(ImportServiceInterface::class, static function () {
+            return new ImportService();
+        });
     }
 
     /**
@@ -26,12 +50,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        // Blade::component
         Blade::component('components.alert', 'alert');
 
-        // Blade::include
         Blade::include('includes.input', 'input');
         Blade::include('includes.textarea', 'textarea');
         Blade::include('includes.select', 'select');
@@ -39,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.tablePermissions', 'tablePermissions');
         Blade::include('includes.modalChangeItem', 'modalChangeItem');
         Blade::include('includes.addToCart', 'addToCart');
-        Blade::include('includes.select-status-order', 'selectStatusOrder'); // depricated
+        Blade::include('includes.select-status-order', 'selectStatusOrder');
         Blade::include('includes.modal-select', 'modalSelect');
         Blade::include('includes.modal-message', 'modalMessage');
         Blade::include('includes.modal-confirm-destroy', 'modalConfirmDestroy');
@@ -59,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
 
         Comment::observe(CommentObserver::class);
+        Image::observe(ImageObserver::class);
         Category::observe(CategoryObserver::class);
         Manufacturer::observe(ManufacturerObserver::class);
         Order::observe(OrderObserver::class);

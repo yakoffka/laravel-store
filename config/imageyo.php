@@ -31,7 +31,8 @@ return [
     'watermark'     => env('IMG_YO_WATERMARK', '/app/public/images/default/watermark_100.png'),
     'default_img'   => env('DEFAULT_IMG', '/images/default/noimg_l.png'),
 
-    'res_ext'       => env('IMG_YO_RES_EXT', '.png'), // only '.png'!!!
+    // 'res_ext'       => env('IMG_YO_RES_EXT', '.png'), // only '.png'!!!
+    'res_ext'       => env('IMG_YO_RES_EXT', '.jpeg'), // only '.png'!!!
 
     'is_origin'          => env('IMG_YO_IS_ORIGIN', true),
     'origin_is_watermark'=> env('IMG_YO_ORIGIN_IS_WM', false),

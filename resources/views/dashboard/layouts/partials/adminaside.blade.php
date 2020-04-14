@@ -81,7 +81,7 @@
                 <div class="submenuitem">- <a href="{{ route('products.create') }}">Создание</a></div>
             @endpermission
             @permission('edit_products')
-                <div class="submenuitem">- 
+                <div class="submenuitem">-
                     <a href="{{ route('products.rewatermark') }}" title="Resave all image with new Watermark">ReWaterMark</a>
                 </div>
             @endpermission
@@ -151,7 +151,7 @@
     @endpermission
 </div>
 {{-- /Users --}}
-    
+
 
 {{-- Roles --}}
 <div class="admin_menu_block">
@@ -200,6 +200,23 @@
     @endpermission
 </div>
 {{-- /History --}}
+
+
+{{--Export--}}
+<div class="admin_menu_block">
+    @permission('view_products')
+    <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseExport" role="button" aria-expanded="false" aria-controls="collapseExport">
+			<i class="fas fa-export"></i> импорт/экспорт</span>
+    </h5>
+    <div class="collapse" id="collapseExport">
+        @permission('view_products')
+        <div class="submenuitem">- <a href="{{ route('admin.import.from_ftp') }}">импорт товаров</a></div>
+        <div class="submenuitem">- <a href="{{ route('admin.export') }}">экспорт товаров</a></div>
+        @endpermission
+    </div>
+    @endpermission
+</div>
+{{--/Export--}}
 
 
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use App\Filters\Product\ProductFilters;
+use Mail;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Illuminate\Support\Carbon;
 use App\Mail\ProductNotification;
@@ -26,6 +27,15 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $slug
  * @property int $sort_order
  * @property int|null $manufacturer_id
+ * @property string|null $vendor_code
+ * @property number $promotional_price
+ * @property  $promotional_percentage
+ * @property int|null $length
+ * @property int|null $width
+ * @property int|null $height
+ * @property int|null $diameter
+ * @property number $remaining
+ * @property string|null $code_1c
  * @property int $category_id
  * @property boolean $publish
  * @property string|null $materials
@@ -36,6 +46,7 @@ use Illuminate\Support\Facades\Storage;
  * @property float|null $price
  * @property int $added_by_user_id
  * @property int|null $edited_by_user_id
+ * @property int|null $count_views
  * @property int $views
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -228,7 +239,7 @@ class Product extends Model
      */
     public function setPublishAttribute($value): void
     {
-        $this->attributes['publish'] = ($value === 'on');
+        $this->attributes['publish'] = ($value === 'on' || $value === true);
     }
 
     /**
@@ -247,29 +258,29 @@ class Product extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setCreator(): Product
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set setCreator from auth user
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setEditor(): Product
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set title from dirty title or name fields
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setTitle(): Product
     {
@@ -283,7 +294,7 @@ class Product extends Model
      * set slug from dirty field slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function setSlug(): Product
     {
@@ -298,7 +309,7 @@ class Product extends Model
     /**
      * Create records in table events.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function createCustomevent(): Product
     {
@@ -320,7 +331,7 @@ class Product extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -335,30 +346,25 @@ class Product extends Model
     /**
      * Create event notification.
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function sendEmailNotification(): Product
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
+        // info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
-        if ( $setting === '1' ) {
+        if ($setting === '1') {
             $to = auth()->user();
 
             $bcc = array_merge(config('mail.mail_bcc'), explode(', ', config('settigs.additional_email_bcc')));
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later(
+            Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new ProductNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
-
-            // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
-                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
         }
         return $this;
     }
@@ -371,10 +377,10 @@ class Product extends Model
      *  и копирует в неё комплект превью с наложением водяных знаков.
      * Добавляет запись о каждом изображении в таблицу images
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function attachImages(): Product
-    {
+    {// @todo: вынести в сервисный слой. использовать метод из App\Imports\ProductImport@processingImages
         if (!request('images_path')) {
             return $this;
         }
@@ -388,7 +394,7 @@ class Product extends Model
             // info('$image = ' . $image);
             // image re-creation
             $image_name = ImageYoTrait::saveImgSet($image, $this->id, 'lfm-mode');
-            $originalName = basename($image_name);
+            $basename = basename($image_name);
             $path = '/images/products/' . $this->id;
 
             // create record
@@ -398,13 +404,13 @@ class Product extends Model
                 'path' => $path,
                 'name' => $image_name,
                 'ext' => config('imageyo.res_ext'),
-                'alt' => str_replace(strrchr($originalName, '.'), '', $originalName),
+                'alt' => str_replace(strrchr($basename, '.'), '', $basename),
                 'sort_order' => 9,
-                'orig_name' => $originalName,
+                'orig_name' => $imagepath,
             ]);
         }
 
-        if (!$this->isDirty() and !empty($images)) {
+        if (!empty($images) && !$this->isDirty()) {
             $this->touch();
         }
 
@@ -414,11 +420,11 @@ class Product extends Model
     /**
      * метод очистки исходного украденного исходного кода таблиц
      *
-     * @return  Product $product
+     * @return Product $product
      */
     public function cleanSrcCodeTables(): Product
     {
-        if (!$this->isDirty('modification') or empty($this->modification)) {
+        if (empty($this->modification) || !$this->isDirty('modification')) {
             return $this;
         }
 
@@ -455,7 +461,7 @@ class Product extends Model
         }
 
         // опционально: если последним столбцом таблицы идет цена, то вырезаем последний столбец
-        if (strpos($res, '<td>Цена</td></tr>') or strpos($res, '<th>Цена</th></tr>')) {
+        if (strpos($res, '<td>Цена</td></tr>') || strpos($res, '<th>Цена</th></tr>')) {
             $arr_replace = [
                 ['~<td>[^<]+?</td></tr>~u', '</tr>'],
                 ['~<th>[^<]+?</th></tr>~u', '</tr>'],
@@ -466,7 +472,7 @@ class Product extends Model
         }
 
         // опционально: удаление столбца <tr><td>Код товара</td>
-        if (strpos($res, '<tr><td>Код товара</td>') or strpos($res, '<tr><th>Код товара</th>')) {
+        if (strpos($res, '<tr><td>Код товара</td>') || strpos($res, '<tr><th>Код товара</th>')) {
             $arr_replace = [
                 ['~<tr><td>[^<]+?</td>~u', '<tr>'],
                 ['~<tr><th>[^<]+?</th>~u', '<tr>'],
@@ -484,7 +490,7 @@ class Product extends Model
     /**
      * Copying all donor images and creating an entry in the image table.
      *
-     * @return  self $this
+     * @return self $this
      */
     public function additionallyIfCopy(): self
     {
@@ -532,7 +538,7 @@ class Product extends Model
     /**
      * Delete relative images
      *
-     * @return  self $this
+     * @return self $this
      */
     public function deleteImages(): self
     {
@@ -550,7 +556,7 @@ class Product extends Model
     /**
      * Delete relative comments
      *
-     * @return  self $this
+     * @return self $this
      */
     public function deleteComments(): self
     {
@@ -559,7 +565,7 @@ class Product extends Model
     }
 
     /**
-     * @return  self $this
+     * @return self $this
      */
     public function setFlashMess(): self
     {
@@ -574,5 +580,101 @@ class Product extends Model
     public function isPublish(): bool
     {
         return $this->publish && $this->category->isPublish();
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductProperties(): array
+    {
+        $properties['store_article'] = str_pad($this->id, 7, '0', STR_PAD_LEFT);
+        if ($this->manufacturer->title) {
+            $properties['manufacturer_title'] = $this->manufacturer->title;
+        }
+        if ($this->materials) {
+            $properties['materials'] = $this->materials;
+        }
+        if ($this->date_manufactured) {
+            $properties['date_manufactured'] = $this->date_manufactured;
+        }
+        if ($this->vendor_code) {
+            $properties['vendor_code'] = $this->vendor_code;
+        }
+        if ($this->code_1c) {
+            $properties['manufacturer_title'] = $this->code_1c;
+        }
+        if ($this->promotional_percentage) {
+            $properties['promotional_percentage'] =
+                ((string)number_format($this->promotional_percentage, 0, ',', ' ')) . ' %';
+        }
+        if ($this->price !== null && config('settings.display_prices')) {
+            $properties['price'] = $this->getFormatterPrice();
+        }
+        if ($this->promotional_price) {
+            $properties['promotional_price'] = $this->getFormatterPromoPrice();
+        }
+        if ($this->length) {
+            $properties['length'] = (string)$this->length . ' мм.';
+        }
+        if ($this->width) {
+            $properties['width'] = (string)$this->width . ' мм.';
+        }
+        if ($this->height) {
+            $properties['height'] = (string)$this->height . ' мм.';
+        }
+        if ($this->diameter) {
+            $properties['diameter'] = (string)$this->diameter . ' мм.';
+        }
+        if ($this->remaining) {
+            $properties['remaining'] =
+                ((string)number_format($this->remaining, 0, ',', ' ')) . ' шт.';
+        }
+        if ($this->count_views) {
+            $properties['count_views'] = $this->count_views;
+        }
+        return $properties;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatterPrice(): string
+    {
+        $fPrice = $this->formattingPrice($this->price);
+        if ($this->promotional_price === null) {
+            return $fPrice;
+        }
+        return "<span class='strike_price'>$fPrice</span>";
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormatterPromoPrice(): string
+    {
+        return $this->formattingPrice($this->promotional_price);
+    }
+
+    /**
+     * @param $val
+     * @return string
+     */
+    private function formattingPrice($val): string
+    {
+        return (string)number_format($val, 0, ', ', ' ') . ' <span class="currency">&#8381;</span>';
+    }
+
+    /**
+     * @return string
+     */
+    public function getActualPrice(): string
+    {
+        $fPrice = $this->formattingPrice($this->price);
+        if ($this->promotional_price === null) {
+            return $fPrice;
+        }
+
+        $fPromoPrice = $this->formattingPrice($this->promotional_price);
+        return '<span class="strike_price">' . $fPrice . "</span> <span class='promo_price'>" . $fPromoPrice . '</span>';
     }
 }

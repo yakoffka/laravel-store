@@ -9,9 +9,14 @@ class ManufacturersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        if ( config('custom.store_theme') == 'MUSIC' ) {
+        if ( config('custom.num_products_seed') === '0' ) {
+            echo '    custom.num_products_seed === 0; skip' . "\n";
+            return;
+        }
+
+        if ( config('custom.store_theme') === 'MUSIC' ) {
 
             $manufacturers = [
                 ['name' => 'noname',    'title' => 'NoName',    'description' => 'description for NoName',   ],
@@ -22,7 +27,7 @@ class ManufacturersTableSeeder extends Seeder
             ];
 
         } else {
-            
+
             $manufacturers = [
                 ['name' => 'noname',    'title' => 'NoName',     'description' => 'description for NoName',           ],
                 ['name' => 'Еврокран',  'title' => 'Еврокран',   'description' => 'description for Еврокран',         ],

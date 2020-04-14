@@ -29,7 +29,7 @@
         @include('dashboard.layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
             <div class="row">
 
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2 wrap_b_image">
@@ -226,7 +226,7 @@
             {{-- /информация о доставке на экранах lg --}}
 
             @include('layouts.partials.separator')
-            @include('layouts.partials.comment')
+            @include('layouts.partials.comments')
             @include('layouts.partials.separator')
             @include('layouts.partials.comment_on')
         </div>

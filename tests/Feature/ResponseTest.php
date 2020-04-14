@@ -28,12 +28,12 @@ class ResponseTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function getUnauthorizedRequests200Test(): void
+    public function getRequests200Test(): void
     {
         $category = Category::with(['parent', 'children', 'products'])
             ->get()
             ->where('id', '<>', 1)
-            ->filter(static function ($value, $key) {
+            ->filter(static function (Category $value) {
                 return $value->hasProducts() && $value->isPublish();
             })
             ->random();
@@ -65,21 +65,14 @@ class ResponseTest extends TestCase
             '/cart/add/' . $product->id,
         ];
 
-        // echo "\nReport from " . __CLASS__ . "\ni: Для успешного прохождения необходимо наличие скрытых директорий и товаров\n";
-        // accessories -> unpublished; drums -> unpublished.
-
         foreach ($getRequests200 as $route) {
             $response = $this->get($route);
-            // echo '    GET \'' . $route . '\': ';
             $response->assertStatus(200);
-            // echo "200 - OK!\n";
         }
 
         foreach ($getRequests302 as $route) {
             $response = $this->get($route);
-            // echo '    GET \'' . $route . '\': ';
             $response->assertStatus(302);
-            // echo "302 - OK!\n";
         }
     }
 
@@ -89,61 +82,76 @@ class ResponseTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function getUnauthorizedRequests404Test(): void
+    public function getRequests404Test(): void
     {
-        $category = Category::with(['parent', 'children', 'products'])
+        $getRequests404 = [];
+
+        $categories = Category::with(['parent', 'children', 'products'])
             ->get()
             ->where('id', '<>', 1)
-            ->filter(static function ($value, $key) {
+            ->filter(static function (Category $value) {
                 return $value->hasProducts() && $value->isPublish();
-            })
-            ->random();
+            });
+        if ($categories->count() > 0) {
+            $category = $categories->random();
 
-        $invisibleCategory = Category::with(['parent', 'children', 'products'])
+            $invisibleProducts3 = Product::where('category_id', '=', $category->id)
+                ->get()
+                ->where('publish', '=', false);
+            if ($invisibleProducts3->count() > 0) {
+                $invisibleProduct3 = $invisibleProducts3->random();
+                $getRequests404[] = '/products/' . $invisibleProduct3->id;
+            }
+        }
+
+        $invisibleCategories = Category::with(['parent', 'children', 'products'])
             ->get()
             ->where('id', '<>', 1)
-            ->filter(static function ($value, $key) {
+            ->filter(static function (Category $value) {
                 return $value->hasProducts() && !$value->parent->publish;
-            })
-            ->random();
+            });
+        if ($invisibleCategories->count() > 0) {
+            $invisibleCategory = $invisibleCategories->random();
+            $getRequests404[] = '/categories/' . $invisibleCategory->id;
 
-        $invisibleSubCategory = Category::with(['parent', 'children', 'products'])
+            $invisibleProducts1 = Product::where('category_id', '=', $invisibleCategory->id)
+                ->get()
+                ->where('publish', '=', true);
+            if ($invisibleProducts1->count() > 0) {
+                $invisibleProduct1 = $invisibleProducts1->random();
+                $getRequests404[] = '/products/' . $invisibleProduct1->id;
+            }
+
+        }
+
+        $invisibleSubCategories = Category::with(['parent', 'children', 'products'])
             ->get()
             ->where('id', '<>', 1)
-            ->filter(static function ($value, $key) {
+            ->filter(static function (Category $value) {
                 return $value->hasProducts() && !$value->publish;
-            })
-            ->random();
+            });
+        if ($invisibleSubCategories->count() > 0) {
+            $invisibleSubCategory = $invisibleSubCategories->random();
 
-        $invisibleProduct1 = Product::where('category_id', '=', $invisibleCategory->id)
-            ->get()
-            ->where('publish', '=', true)
-            ->random();
+            $invisibleProducts2 = Product::where('category_id', '=', $invisibleSubCategory->id)
+                ->get()
+                ->where('publish', '=', true);
+            if ($invisibleProducts2->count() > 0) {
+                $invisibleProduct2 = $invisibleProducts2->random();
+                $getRequests404[] = '/products/' . $invisibleProduct2->id;
+            }
+        }
 
-        $invisibleProduct2 = Product::where('category_id', '=', $invisibleSubCategory->id)
-            ->get()
-            ->where('publish', '=', true)
-            ->random();
-
-        $invisibleProduct3 = Product::where('category_id', '=', $category->id)
-            ->get()
-            ->where('publish', '=', false)
-            ->random();
-
-
-        $getRequests404 = [
-            '/products/' . $invisibleProduct1->id,
-            '/products/' . $invisibleProduct2->id,
-            '/products/' . $invisibleProduct3->id,
-            '/categories/' . $invisibleCategory->id,
-        ];
+        if (count($getRequests404) === 0) {
+            $this->markTestSkipped(
+                'Для успешного прохождения теста необходимо наличие скрытых директорий и/или товаров'
+            );
+        }
 
         echo "\n";
         foreach ($getRequests404 as $route) {
             $response = $this->get($route);
-            // echo '    GET \'' . $route . '\': ';
             $response->assertStatus(404);
-            // echo "404 - OK!\n";
         }
     }
 }

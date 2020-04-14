@@ -9,7 +9,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             CategoriesTableSeeder::class,
@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             TasksprioritiesTableSeeder::class,
             TasksstatusesTableSeeder::class,
             ProductsTableSeeder::class,
-            // CategoryProductTableSeeder::class,
             RolesTableSeeder::class,            // for Zizaco/entrust
             PermissionsTableSeeder::class,      // for Zizaco/entrust
             RoleUserTableSeeder::class,         // for Zizaco/entrust

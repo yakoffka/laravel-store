@@ -86,29 +86,29 @@ class Manufacturer extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  $this
+     * @return self $this
      */
     public function setCreator(): self
     {
-        $this->added_by_user_id = auth()->user()->id;
+        $this->added_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set setCreator from auth user
      *
-     * @return  $this
+     * @return self $this
      */
     public function setEditor(): self
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
     /**
      * set title from dirty title or name fields
      *
-     * @return  $this
+     * @return self $this
      */
     public function setTitle(): self
     {
@@ -122,7 +122,7 @@ class Manufacturer extends Model
      * set slug from dirty field slug or title
      * при одновременном изменении slug и title трансформирует поле slug.
      *
-     * @return  $this
+     * @return self $this
      */
     public function setSlug(): self
     {
@@ -137,7 +137,7 @@ class Manufacturer extends Model
     /**
      * Create records in table events.
      *
-     * @return  $this
+     * @return self $this
      */
     public function createCustomevent(): self
     {
@@ -158,7 +158,7 @@ class Manufacturer extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -172,7 +172,7 @@ class Manufacturer extends Model
     /**
      * Create event notification.
      *
-     * @return  $this
+     * @return self $this
      */
     public function sendEmailNotification(): self
     {
@@ -193,9 +193,9 @@ class Manufacturer extends Model
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }
@@ -204,9 +204,9 @@ class Manufacturer extends Model
      * Копирует файл изображения, загруженный с помощью laravel-filemanager в директорию категории
      * и обновляет запись в базе данных.
      *
-     * @return  string $imagepath
+     * @return self $imagepath
      */
-    public function attachSingleImage(): string
+    public function attachSingleImage(): self
     {
         if (!$this->isDirty('imagepath') or !$this->imagepath) {
             return $this;
@@ -237,7 +237,7 @@ class Manufacturer extends Model
     }
 
     /**
-     * @return $this
+     * @return self $this
      */
     public function setFlashMess(): self
     {
@@ -249,7 +249,7 @@ class Manufacturer extends Model
     /**
      * set uuid for naming source category
      *
-     * @return $this
+     * @return self $this
      */
     public function setUuid(): self
     {

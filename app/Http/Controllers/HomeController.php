@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class   HomeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        if ( auth()->user() and auth()->user()->can('view_adminpanel') ) {
+        if ( auth()->user() && auth()->user()->can('view_adminpanel') ) {
             return view('dashboard.adminpanel.welcome');
         } else {
             return view('dashboard.userpanel.welcome');
@@ -42,7 +42,7 @@ class HomeController extends Controller
 
     public function contactUs(Request $request)
     {
-        $message = 'Только что Вы отправили форму в Никуда. Лучше позвоните, если телефоны верные..';
+        $message = 'Err#887s: Message not sent!';
         session()->flash('message', $message);
         return back();
     }

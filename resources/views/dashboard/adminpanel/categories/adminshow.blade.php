@@ -23,9 +23,9 @@
         @include('dashboard.layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
 
-            <h2>Сводная информация</h2>
+            {{--<h2>Сводная информация</h2>
 
             <table class="blue_table overflow_x_auto">
                 <tr><td class="th ta_r">{{ __('__id') }}</td><td class="td ta_l">{{ $category->id }}</td></tr>
@@ -42,7 +42,7 @@
                 <tr><td class="th ta_r">{{ __('edited_by_user_id') }}</td><td class="td ta_l">{{ $category->edited_by_user_id }}</td></tr>
                 <tr><td class="th ta_r">{{ __('created_at') }}</td><td class="td ta_l">{{ $category->created_at }}</td></tr>
                 <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
-            </table>
+            </table>--}}
 
             @if ( $category->children->count() )
                 {{-- table categories --}}

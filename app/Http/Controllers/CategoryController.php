@@ -55,7 +55,7 @@ class CategoryController extends Controller
      * @param Category $category
      * @return RedirectResponse|View
      */
-    public function show(Category $category)
+    public function show(Category $category): View
     {
         abort_if ( !$category->isPublish(), 404 );
 
@@ -67,7 +67,7 @@ class CategoryController extends Controller
             $categories = Category::with(['parent', 'products', 'children'])
                 ->get()
                 ->where('parent_id', $category->id)
-                ->filter(static function ($value, $key) {
+                ->filter(static function (Category $value) {
                     return $value->hasDescendant() && $value->isPublish();
                 })
                 ->sortBy('sort_order');

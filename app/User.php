@@ -3,6 +3,7 @@
 namespace App;
 
 use Eloquent;
+use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -68,7 +69,8 @@ class User extends Authenticatable
 
     public const STATUS_INACTIVE = 0;
     public const STATUS_ACTIVE = 1;
-    public const URUID = 7;
+    public const URUID = 7;  // unregister user id
+    public const SYSUID = 1; // system user id
     // const STATUS_DELETED = 9;
 
     /**
@@ -156,7 +158,6 @@ class User extends Authenticatable
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ($setting === '1') {
             $to = auth()->user() ?? config('mail.from.address');
@@ -170,11 +171,6 @@ class User extends Authenticatable
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new UserNotification($this->getTable(), $this->id, $this->name, $user_name, $this->event_type)
             );
-
-            // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
-                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
         }
         return $this;
     }
@@ -187,5 +183,26 @@ class User extends Authenticatable
         $message = __('User__success', ['name' => $this->name, 'type_act' => __('masculine_' . $this->event_type)]);
         session()->flash('message', $message);
         return $this;
+    }
+
+    /**
+     * Направление уведомлений для Slack-канала.
+     *
+     * @return string
+     */
+    /*public function routeNotificationForSlack(): string
+    {
+        return config('custom.slack_webhook');
+    }*/
+
+
+    /**
+     * @param $driver
+     * @param null $notification
+     * @return Repository|mixed
+     */
+    public function routeNotificationFor($driver, $notification = null)
+    {
+        return config('custom.slack_webhook');
     }
 }

@@ -108,7 +108,7 @@ class Order extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -143,9 +143,9 @@ class Order extends Model
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }

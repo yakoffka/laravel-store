@@ -51,11 +51,11 @@ class Setting extends Model
     /**
      * set setCreator from auth user
      *
-     * @return  Setting $setting
+     * @return Setting $setting
      */
     public function setEditor(): self
     {
-        $this->edited_by_user_id = auth()->user()->id;
+        $this->edited_by_user_id = auth()->user() ? auth()->user()->id : User::SYSUID;
         return $this;
     }
 
@@ -107,7 +107,7 @@ class Setting extends Model
         }
 
         Customevent::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : User::SYSUID,
             'model' => $this->getTable(),
             'model_id' => $this->id,
             'model_name' => $this->name,
@@ -127,7 +127,6 @@ class Setting extends Model
     {
         $namesetting = 'settings.email_' . $this->getTable() . '_' . $this->event_type;
         $setting = config($namesetting);
-        info(__METHOD__ . ' ' . $namesetting . ' = ' . $setting);
 
         if ( $setting === '1' ) {
             $to = auth()->user();
@@ -142,9 +141,9 @@ class Setting extends Model
             );
 
             // restarting the queue to make sure they are started
-            if (!empty(config('custom.exec_queue_work'))) {
+            /*if (!empty(config('custom.exec_queue_work'))) {
                 info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }
+            }*/
         }
         return $this;
     }

@@ -71,6 +71,11 @@ return [
             'url' => '/storage',                    // relative url
             'visibility' => 'public',
         ],
+
+        'import' => [
+            'driver' => 'local',
+            'root' => storage_path('import'),
+        ],
     ],
 
 ];

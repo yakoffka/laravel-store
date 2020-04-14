@@ -29,6 +29,16 @@ if ( !empty(config('settings.display_registration')) ) {
     Auth::routes(['register' => false]);
 }
 
+
+
+
+// export/import
+    Route::get('admin/export', 'Export\ExportController')->name('admin.export');
+    Route::post('admin/import/from_form', 'Import\ImportController@fromForm')->name('admin.import.from_form');
+    Route::get('admin/import/from_ftp', 'Import\ImportController@queuingImportJob')->name('admin.import.from_ftp');
+
+
+
 /* main */
     Route::get('/', 'HomeController@home')->name('home');
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
@@ -36,13 +46,13 @@ if ( !empty(config('settings.display_registration')) ) {
     Route::post('/contact_us', 'HomeController@contactUs')->name('home.contact_us');
 
 /* products */
-    Route::resource ('/products',               'ProductsController');
-    Route::get      ('admin/products/rewatermark',   'ProductsController@rewatermark')->name('products.rewatermark')->middleware('auth');
-    Route::get      ('admin/products/{product}/copy','ProductsController@copy'       )->name('products.copy')->middleware('auth');
-    Route::get      ('admin/products',               'ProductsController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
-    Route::get      ('admin/products/{product}',     'ProductsController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
-    Route::post     ('admin/products/massupdate',    'ProductsController@massupdate' )->name('products.massupdate'  )->middleware('auth');
-    Route::get      ('search',                       'ProductsController@search'     )->name('search');
+    Route::resource ('/products',               'ProductController');
+    Route::get      ('admin/products/rewatermark',   'ProductController@rewatermark')->name('products.rewatermark')->middleware('auth');
+    Route::get      ('admin/products/{product}/copy','ProductController@copy'       )->name('products.copy')->middleware('auth');
+    Route::get      ('admin/products',               'ProductController@adminIndex' )->name('products.adminindex'  )->middleware('auth');
+    Route::get      ('admin/products/{product}',     'ProductController@adminShow'  )->name('products.adminshow'   )->middleware('auth');
+    Route::post     ('admin/products/massupdate',    'ProductController@massupdate' )->name('products.massupdate'  )->middleware('auth');
+    Route::get      ('search',                       'ProductController@search'     )->name('search');
 
 /* comments */
     Route::post('/products/{product}/comments', 'ProductCommentsController@store')->name('comments.store');
@@ -105,6 +115,7 @@ if ( !empty(config('settings.display_registration')) ) {
 
 
     Route::get('/clear', function() {
+        info(__METHOD__ . '@' . __LINE__ );
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         // Artisan::call('config:cache'); // erased session()->flash!

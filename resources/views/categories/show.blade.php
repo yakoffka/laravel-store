@@ -19,7 +19,7 @@
 
     <div class="row">
         @include('layouts.partials.aside')
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
            <div class="row">
                 @foreach ( $categories as $category )
                     @if ( !config('settings.show_empty_category') && !$category->products->count() && !$category->children->count() )

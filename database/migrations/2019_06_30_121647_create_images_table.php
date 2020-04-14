@@ -19,12 +19,18 @@ class CreateImagesTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('slug');
             $table->string('path');
-            $table->string('name');
-            $table->string('ext');
-            $table->string('alt');
+            $table->string('name');       // basename
+            $table->string('ext');        // extension
+            $table->string('alt');        // === slug?
+            $table->string('orig_name');  // original_name
             $table->unsignedInteger('sort_order')->default(9);
-            $table->string('orig_name');
             $table->timestamps();
+
+            /*@todo:
+             * удалить alt;
+             * переименовать поля
+             * добавить l_name, s_name and m_name?
+             */
 
             $table->foreign('product_id')->references('id')->on('products')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -39,18 +45,19 @@ class CreateImagesTable extends Migration
     public function down()
     {
         // удаление директорий с изображениями!!!
+        // @todo: добавить еще директории, вынести куда-нибудь.
         foreach ([
-            '/public/images/products',
-            '/uploads/images',
-            '/public/images/manufacturers',
-            '/public/images/categories',
-            'public/lfm_img',
-        ] as $directory) {
-            if ( Storage::deleteDirectory($directory) ) {
+                     '/public/images/products',
+                     '/uploads/images',
+                     '/public/images/manufacturers',
+                     '/public/images/categories',
+                     'public/lfm_img',
+                 ] as $directory) {
+            if (Storage::deleteDirectory($directory)) {
                 echo '    deleted $directory = "' . $directory . '"' . "\n";
             } else {
-                echo '    not deleted $directory = "' . $directory . '"' . "\n"; 
-            };
+                echo '    not deleted $directory = "' . $directory . '"' . "\n";
+            }
         }
 
         Schema::dropIfExists('images');

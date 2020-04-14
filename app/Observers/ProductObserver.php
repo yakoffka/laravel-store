@@ -9,10 +9,10 @@ class ProductObserver
     /**
      * Handle the product "creating" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function creating(Product $product)
+    public function creating(Product $product): void
     {
         $product->setTitle()->setSlug()->cleanSrcCodeTables()->setCreator();
     }
@@ -20,10 +20,10 @@ class ProductObserver
     /**
      * Handle the product "created" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function created(Product $product)
+    public function created(Product $product): void
     {
         $product->additionallyIfCopy()->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
@@ -32,10 +32,10 @@ class ProductObserver
     /**
      * Handle the product "updating" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function updating(Product $product)
+    public function updating(Product $product): void
     {
         $product->setTitle()->setSlug()->cleanSrcCodeTables()->setEditor();
     }
@@ -43,10 +43,10 @@ class ProductObserver
     /**
      * Handle the product "updated" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function updated(Product $product)
+    public function updated(Product $product): void
     {
         $product->createCustomevent()->sendEmailNotification()->setFlashMess();
     }
@@ -55,10 +55,10 @@ class ProductObserver
     /**
      * Handle the product "deleting" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function deleting(Product $product)
+    public function deleting(Product $product): void
     {
         $product->deleteComments()->deleteImages();
     }
@@ -66,34 +66,11 @@ class ProductObserver
     /**
      * Handle the product "deleted" event.
      *
-     * @param  \App\Product  $product
+     * @param Product $product
      * @return void
      */
-    public function deleted(Product $product)
+    public function deleted(Product $product): void
     {
         $product->createCustomevent()->sendEmailNotification()->setFlashMess();
-    }
-
-
-    /**
-     * Handle the product "restored" event.
-     *
-     * @param  \App\Product  $product
-     * @return void
-     */
-    public function restored(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Handle the product "force deleted" event.
-     *
-     * @param  \App\Product  $product
-     * @return void
-     */
-    public function forceDeleted(Product $product)
-    {
-        //
     }
 }

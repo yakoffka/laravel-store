@@ -21,9 +21,13 @@ use App\Category;
 
 
 // catalog
-    // Home > Catalog
+    /*// Home > Catalog
     Breadcrumbs::for('catalog', function ($trail) {
         $trail->parent('home');
+        $trail->push('Каталог', route('categories.index'));
+    });*/
+    // Catalog
+    Breadcrumbs::for('catalog', function ($trail) {
         $trail->push('Каталог', route('categories.index'));
     });
 
@@ -43,7 +47,7 @@ use App\Category;
         $arr_parents = array_reverse($arr_parents);
         // get breadcrumbs for all parents:
         foreach ( $arr_parents as $parent ) {
-            $trail->push($parent->title, route('categories.show', $parent->id));
+            $trail->push($parent->uc_title, route('categories.show', $parent->id));
         }
     });
 
@@ -122,7 +126,7 @@ Breadcrumbs::for('dashboard', function ($trail) {
         $arr_parents = array_reverse($arr_parents);
         // get breadcrumbs for all parents:
         foreach ( $arr_parents as $parent ) {
-            $trail->push($parent->title, route('categories.adminshow', $parent->id));
+            $trail->push($parent->uc_title, route('categories.adminshow', $parent->id));
         }
     });
     // Home > Dashboard > Categories > Create Categories
@@ -338,3 +342,12 @@ Breadcrumbs::for('dashboard', function ($trail) {
         $trail->push(__('Manufacturers_edit'), route('manufacturers.edit', $manufacturer));
     });
 
+
+
+
+// Import
+    // Home > Dashboard > Import
+    Breadcrumbs::for('admin.import', function ($trail) {
+        $trail->parent('dashboard');
+        $trail->push(__('Import_products'));
+    });

@@ -23,7 +23,19 @@
         @include('dashboard.layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+
+            {{-- pagination block --}}
+            @if ( empty($appends) )
+                @if($products->links())
+                    <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+                @endif
+            @else
+                @if($products->appends($appends)->links())
+                    <div class="row col-sm-12 pagination">{{ $products->links() }}</div>
+                @endif
+            @endif
+            {{-- /pagination block --}}
 
             {{-- table products --}}
             <table class="blue_table overflow_x_auto">

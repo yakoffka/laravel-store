@@ -84,7 +84,7 @@
         @include('layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
             <div class="row">
 
                 {{ $mess_null ?? '' }}
@@ -96,7 +96,7 @@
 
                             <h2 class="product_card_h2
                                 @if(!$product->publish)
-                                    hide
+                                hide
                                 @endif
                                 ">
                                 <a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
@@ -112,17 +112,17 @@
 
                             <div class="card-body p-1">
                                 @if ( $product->price > 0 && config('settings.display_prices') )
-                                    <div class="card-text col-sm-12">
+                                    <div class="card-text col-sm-12 center">
                                     <span class="grey">
                                         @if ( $product->price )
-                                            price: {{ $product->price }} &#8381;
+                                            {!! $product->getActualPrice() !!}
                                         @else
                                             priceless
                                         @endif
                                     </span>
-                                        <?php if (!$product->publish) {
-                                            echo '<span class="red">un_publish</span>';
-                                        }?><br>
+                                        @if (!$product->publish) {
+                                        <span class="red">un_publish</span>
+                                        }@endif<br>
                                     </div>
                                 @endif
 
@@ -130,18 +130,25 @@
 
                                     @guest
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-3">
                                             <a href="{{ route('products.show', ['product' => $product->id]) }}"
                                                class="btn btn-outline-info">
-                                                <i class="fas fa-eye" title="view"></i>
+                                                <i class="fas fa-layer-group" title="{{__('compare')}}"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <a href="{{ route('products.show', ['product' => $product->id]) }}"
+                                               class="btn btn-outline-info">
+                                                <i class="fas fa-heart" title="{{__('to favorite')}}"></i>
                                             </a>
                                         </div>
 
                                         @if ( config('settings.display_cart') )
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-3">
                                                 <a href="{{ route('cart.add-item', ['product' => $product->id]) }}"
                                                    class="btn btn-outline-success">
-                                                    <i class="fas fa-cart-plus" title="to cart"></i>
+                                                    <i class="fas fa-cart-plus" title="{{__('to cart')}}"></i>
                                                 </a>
                                             </div>
                                         @endif

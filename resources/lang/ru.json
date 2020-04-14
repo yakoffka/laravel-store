@@ -125,6 +125,7 @@
     "copy_product": "копирование товара",
     "edit_product": "редактирование товара",
     "create_product": "создание товара",
+    "Import_products": "Импорт товаров",
     "Copy_images_product_donor": "Копировать изображения товара",
     "__id": "id",
     "__name": "наименование",
@@ -135,7 +136,9 @@
     "__category": "категория",
     "__date_manufactured": "опубликовано",
     "__description": "описание",
-    "__vendor_code": "артикул",
+    "__vendor_code": "артикул производителя",
+    "__code_1с": "код в 1С",
+    "__product_id": "артикул магазина",
     "__price": "цена",
     "parent_publish": "отображение родителя",
     "__grand_parent_publish": "отображение прародителя",
@@ -284,5 +287,27 @@
     "Your_comment": "Ваш комментарий",
     "Profile": "Профиль",
     "AllOrders": "Заказы",
-    "Orders": "Мои Заказы"
+    "Orders": "Мои Заказы",
+
+    "Job successfully submitted to queue": "Задание успешно отправлено в очередь",
+    "Job successfully submitted to queue. Import file ':name'": "Задание успешно отправлено в очередь. Файл импорта: ':name'",
+    "Import file ':name' not found.": "Файл импорта ':name' не обнаружен.",
+    ": Failed to process image archive": ": Не удалось обработать архив с изображениями.",
+    ": Failed to create directory for product images": ": Не удалось создать директорию для изображений товара",
+    "There was an error on row :row. :message": "FAILURE: Произошла ошибка в строке: :row. :message",
+    "No name category": "Безымянная категория",
+
+    "store_article": "артикул магазина",
+    "category_name": "категория",
+    "vendor_code": "артикул изготовителя",
+    "manufacturer_title": "изготовитель",
+    "promotional_price": "акционная цена",
+    "promotional_percentage": "скидка",
+    "length": "длина",
+    "width": "ширина",
+    "height": "высота",
+    "remaining": "остаток",
+    "count_views": "просмотров",
+
+    "e": "e"
 }

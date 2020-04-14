@@ -21,7 +21,7 @@
 
         @include('dashboard.layouts.partials.aside')
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
 
             <h2 class="blue">Таблица ролей:</h2>
             <table class="blue_table">
