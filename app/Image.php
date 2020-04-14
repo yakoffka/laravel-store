@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Http\Controllers\Import\ImportController;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Storage;
 
 /**
  * App\Image
@@ -49,5 +51,15 @@ class Image extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function deleteImageFile(): void
+    {
+        $aImageSet = config('adaptation_image_service.set.store_product');
+        foreach ($aImageSet as $imageType) {
+            $imagePath = config('adaptation_image_service.product_images_path')
+                . '/' . $this->product_id . '/' . $this->name . '-' . $imageType . $this->ext;
+            Storage::disk('public')->delete($imagePath);
+        }
     }
 }

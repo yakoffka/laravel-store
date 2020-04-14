@@ -206,13 +206,12 @@
 <div class="admin_menu_block">
     @permission('view_products')
     <h5 class="grey"><span class="pointer" data-toggle="collapse" href="#collapseExport" role="button" aria-expanded="false" aria-controls="collapseExport">
-			<i class="fas fa-export"></i> Обмен 1С</span>
+			<i class="fas fa-export"></i> импорт/экспорт</span>
     </h5>
     <div class="collapse" id="collapseExport">
         @permission('view_products')
+        <div class="submenuitem">- <a href="{{ route('admin.import.from_ftp') }}">импорт товаров</a></div>
         <div class="submenuitem">- <a href="{{ route('admin.export') }}">экспорт товаров</a></div>
-        <div class="submenuitem">- <a href="{{ route('admin.import.show_form') }}">http-импорт товаров</a></div>
-        <div class="submenuitem">- <a href="{{ route('admin.import.from_ftp') }}">ftp-импорт товаров</a></div>
         @endpermission
     </div>
     @endpermission

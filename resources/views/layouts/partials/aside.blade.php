@@ -1,4 +1,4 @@
-    <div class="col-xs-0 col-sm-4 col-md-3 col-lg-2 aside">
+    <div class="col-xs-0 col-sm-4 col-md-3 col-lg-3 aside">
         <div class="d-none d-sm-block">
             @include('layouts.partials.nav')
             @include('layouts.partials.separator')

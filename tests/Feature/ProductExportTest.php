@@ -18,7 +18,7 @@ class ProductExportTest extends TestCase
     public function simple_user_cannot_download_products_export(): void
     {
         $response = $this->actingAs($this->getSimpleUser())
-            ->get(route('export.products'));
+            ->get(route('admin.export'));
 
         $response->assertStatus(403);
     }
@@ -31,7 +31,7 @@ class ProductExportTest extends TestCase
     public function privileged_user_can_download_products_export(): void
     {
         $response = $this->actingAs($this->getPrivilegedUser())
-            ->get(route('export.products'));
+            ->get(route('admin.export'));
 
         $response->assertStatus(200);
 

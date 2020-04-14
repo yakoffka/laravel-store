@@ -8,8 +8,13 @@ body {
 body {color: #3b4144;}
 
 
-h1 {text-align: center;color: #636b6f;}
-h2 {color: #3490dc;}
+h1 {
+    text-align: center;color: #636b6f;
+}
+h2 {
+    color: #3490dc;
+    font-size: 1.5em;
+}
 
 /*
 .col-xs-0, .col-sm-0, .col-md-0, .col-lg-0 {
@@ -231,7 +236,7 @@ h1.hide, h1.hide a, h5.hide a {
 }
 
 
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
     nav.navbar.navbar-dark {
         background: linear-gradient(to right, #3490dc, #09f);
         /* background: #882200; */
@@ -286,8 +291,8 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 }
 
 
-/* products */
 
+/* products */
 .card .row.product_buttons .col-sm-4 {
     padding: 2%;
 }
@@ -299,16 +304,57 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 .product_card_bm .card {
     padding: 1em;
     min-height: 5em;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
+    border: solid 1px transparent;
+}
+
+.product_card_bm .card .grey {
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.product_card_bm .card .strike_price {
+    text-decoration:line-through
+}
+.product_card_bm .card .currency {
+    font-weight: 200;
+}
+
+.product_card_bm .card:hover .grey {
+    color: #1d68a7;
+}
+
+.product_card_bm .card:hover {
+    box-shadow: 0 1px 2px 0 rgba(0,0,50,0.26);
+    transition: all 0.5s ease-out 0s;
 }
 
 .product_card_bm .card h5 {
     text-align: center;
 }
 
-.product_card_bm .card h5 a:hover {
-    color: #3490dc;
+.product_card_bm:hover .card a {
     text-decoration: none;
+    color: #1d68a7;
 }
+
+.product_card_bm .btn {
+    color: #6c757d;
+    border-color: transparent;
+    border-radius: 50%;
+}
+/*.product_card_bm a.btn i {*/
+    /*width: 2.4em;*/
+    /*height: 2.4em;*/
+/*}*/
+.product_card_bm a.btn:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #1d68a7;
+}
+
+/*#bbcf54;*/
+/*#e0b0ff*/
 
 .pagination {
     padding: 1em;
@@ -329,6 +375,21 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     text-decoration: none;
 }
 
+table.product_properties {
+    width: 100%;
+    border: none;
+    margin-bottom: 2em;
+}
+table.product_properties tr {
+    border-bottom: dotted 1px rgba(0, 0, 0, .125);
+}
+
+table.product_properties .key {
+    text-align: left;
+}
+table.product_properties .val {
+    text-align: right;
+}
 /* /products */
 
 
@@ -422,7 +483,7 @@ form.collapse textarea {
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
-    padding: 1em;
+    /*padding: 1em;*/
 }
 
 
@@ -1520,7 +1581,7 @@ hr.ellipsis::before {
     text-decoration: none;
     margin-right: 1rem;
     /* transition: all 0.5s ease-out 0s; */
-    transition: all 0.3s ease-out 0s;
+    transition: all 150ms ease-out 0s;
     opacity: 0.9;
     position: absolute;
     bottom: 0;
@@ -1586,7 +1647,7 @@ hr.ellipsis::before {
     background-color: #43a6dd;
     position: absolute;
     left: 0;
-    top: 0.1px;
+    top: 0;
 }
 
 .attention_block_text::after {

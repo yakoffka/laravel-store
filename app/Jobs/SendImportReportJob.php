@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Import\ImportController;
 use App\Notifications\ImportNotification;
+use App\Services\ImportServiceInterface;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -12,7 +12,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Notification;
 use Storage;
 use Str;
 
@@ -43,8 +42,8 @@ class SendImportReportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $mess = __METHOD__ . ' l' .  __LINE__ . PHP_EOL . 'cleanUp() and sendNotification()';
-        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        $mess = 'End import process';
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
 
         User::all()
             ->where('id', '=', $this->initiatorId)
@@ -60,18 +59,20 @@ class SendImportReportJob implements ShouldQueue
     {
         $dirDstPath = 'import_results/' . Str::random(42) . '/';
         $fileNames = [
-            'log' => ImportController::LOG,
-            'e_log' => ImportController::E_LOG,
+            'csv_file' => ImportServiceInterface::CSV_NAME,
+            'log' => ImportServiceInterface::LOG,
+            'e_log' => ImportServiceInterface::E_LOG,
         ];
 
         foreach ($fileNames as $fileName) {
             if ( !Storage::disk('import')->exists($fileName) ) {
                 continue;
             }
-            $file = Storage::disk('import')->get($fileName);
-            Storage::disk('public')->put($dirDstPath.$fileName, $file);
+            $fileContents = Storage::disk('import')->get($fileName);
+            Storage::disk('public')->put($dirDstPath.$fileName, $fileContents);
             Storage::disk('import')->delete($fileName);
         }
+        Storage::disk('import')->append(ImportServiceInterface::LOG, ''); // @todo: проверить корректное создание файла!
 
         return $dirDstPath;
     }

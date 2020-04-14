@@ -23,7 +23,7 @@
         @include('dashboard.layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
 
             {{-- ?? $manufacturer->imagepath --}}
             <form method="POST" action="{{ route('manufacturers.update', $manufacturer) }}" enctype="multipart/form-data">
@@ -73,9 +73,9 @@
                 @elseif ( config('settings.description_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'description', 'label' => 'Описание (редактор tinymce)', 'value' => old('description') ?? $manufacturer->description])
                 @else
-                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description') ?? $manufacturer->description])                
+                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description') ?? $manufacturer->description])
                 @endif
-                {{-- /description --}}                  
+                {{-- /description --}}
 
 
                 <div class="row">

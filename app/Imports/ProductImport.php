@@ -9,7 +9,11 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Validators\Failure;
 use Storage;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use App\{Http\Controllers\Import\ImportController, Jobs\ImagesAttachJob, Product, Category};
+use App\{Jobs\ImagesAttachJob,
+    Manufacturer,
+    Product,
+    Category,
+    Services\ImportServiceInterface};
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Throwable;
@@ -24,7 +28,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     public function model(array $row): Product
     {
         $categoryId = $this->getCategoryId(explode(';', $row['category_chain']));
-        $product = $this->getProduct($row, $categoryId);
+        $manufacturerId = $this->getManufacturerId($row);
+        $product = $this->getProduct($row, $categoryId, $manufacturerId);
 
         dispatch((new ImagesAttachJob($product->id, $row['images'] ?? '', $row['code_1c'] ?? ''))->onQueue('high'));
 
@@ -52,7 +57,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
             ]);
 
             $mess = sprintf('Успешное создание категории %s (id = %d)', $category->name, $category->id);
-            Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
         }
         $category_id = $category->id;
 
@@ -64,29 +69,48 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     }
 
     /**
+     * @param $row
+     * @return null | int
+     */
+    private function getManufacturerId($row): ?int
+    {
+        if (!empty($row['manufacturer'])) {
+            return Manufacturer::firstOrCreate(['name' => $row['manufacturer']],)->id;
+
+        }
+        return null;
+    }
+
+    /**
      * @param array $row
      * @param int $categoryId
+     * @param $manufacturerId
      * @return Product|Model
      */
-    private function getProduct(array $row, int $categoryId): Product
+    private function getProduct(array $row, int $categoryId, $manufacturerId): Product
     {
         return Product::updateOrCreate(
             [
                 'code_1c' => $row['code_1c'],
             ], [
             'name' => $row['name'],
-            'vendor_code' => $row['vendor_code'],
+            'manufacturer_id' => $manufacturerId,
+            'vendor_code' => $row['vendor_code'] ?? null,
             'category_id' => $categoryId,
+            'materials' => $row['materials'] ?? null,
             'publish' => true,
-            'length' => $row['length'],
-            'width' => $row['width'],
-            'height' => $row['height'],
-            'diameter' => $row['diameter'],
-            'price' => $row['price'],
-            'promotional_price' => $row['promotional_price'],
-            'promotional_percentage' => $row['promotional_percentage'],
-            'remaining' => $row['remaining'],
-            'description' => $row['description'],
+            'length' => $row['length'] ?? null,
+            'width' => $row['width'] ?? null,
+            'height' => $row['height'] ?? null,
+            'diameter' => $row['diameter'] ?? null,
+            'price' => $row['price'] ?? null,
+            'promotional_price' => $row['promotional_price'] ?? null,
+            'promotional_percentage' => $row['promotional_percentage'] ?? null,
+            'remaining' => $row['remaining'] ?? null,
+            'description' => $row['description'] ?? null,
+            'modification' => $row['modification'] ?? null,
+            'workingconditions' => $row['workingconditions'] ?? null,
+            'date_manufactured' => $row['date_manufactured'] ?? null,
         ]);
     }
 
@@ -110,6 +134,11 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
             'remaining' => 'nullable|integer',
             'images' => 'nullable|string',
             'description' => 'nullable|string',
+            'manufacturer' => 'nullable|string',
+            'materials' => 'nullable|string',
+            'workingconditions' => 'nullable|string',
+            'modification' => 'nullable|string',
+            'date_manufactured' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -124,9 +153,9 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
-            $mess = $this->getMessagesWithValues($failure);
-            Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
-            Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
+            $mess = __METHOD__ . ': ' . $this->getMessagesWithValues($failure);
+            Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+            Storage::disk('import')->append(ImportServiceInterface::E_LOG, '[' . Carbon::now() . '] ' . $mess);
         }
     }
 
@@ -136,8 +165,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     public function onError(Throwable $e)
     {
         $mess = __METHOD__ . ' ERROR: ' . $e->getMessage();
-        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
-        Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportServiceInterface::E_LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 
     /**
@@ -149,7 +178,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
         $value = $failure->values()[$failure->attribute()];
         $code1C = $failure->values()['code_1c'];
         $arrMess = array_map(static function ($m) use ($value, $code1C) {
-            return $m . " Переданное значение: '$value'. 1С-код товара: '$code1C';";
+            return $m . " Невалидное значение: '$value'. 1С-код товара: '$code1C';";
         }, $failure->toArray());
 
         return implode(PHP_EOL, $arrMess);

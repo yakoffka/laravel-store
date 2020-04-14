@@ -34,7 +34,6 @@ if ( !empty(config('settings.display_registration')) ) {
 
 // export/import
     Route::get('admin/export', 'Export\ExportController')->name('admin.export');
-    Route::get('admin/import', 'Import\ImportController@showForm')->name('admin.import.show_form');
     Route::post('admin/import/from_form', 'Import\ImportController@fromForm')->name('admin.import.from_form');
     Route::get('admin/import/from_ftp', 'Import\ImportController@queuingImportJob')->name('admin.import.from_ftp');
 

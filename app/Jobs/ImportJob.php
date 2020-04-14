@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Import\ImportController;
 use App\Services\ImportServiceInterface;
 use Carbon\Carbon;
 use Exception;
@@ -18,19 +17,16 @@ class ImportJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private ImportServiceInterface $importService;
-    private string $csvName;
     public int $tries = 3;
 
     /**
      * Create a new job instance.
      *
      * @param ImportServiceInterface $importService
-     * @param string $csvName
      */
-    public function __construct(ImportServiceInterface $importService, string $csvName)
+    public function __construct(ImportServiceInterface $importService)
     {
         $this->importService = $importService;
-        $this->csvName = $csvName;
     }
 
     /**
@@ -40,20 +36,19 @@ class ImportJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->importService->import($this->csvName);
+        $this->importService->import();
     }
 
     /**
      * Неудачная обработка задачи.
      *
-     * @param  Exception  $exception
+     * @param Exception $exception
      * @return void
      */
     public function failed(Exception $exception): void
     {
-        $mess = __METHOD__ . ': ' . $exception->getMessage();
-        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
-        Storage::disk('import')->append(ImportController::E_LOG, '[' . Carbon::now() . '] ' . $mess);
-        // info($exception->getMessage());
+        $mess = __METHOD__ . ': ' . $exception->getMessage() . ' in file "' . $exception->getFile() . '" line:' . $exception->getLine();
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportServiceInterface::E_LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 }

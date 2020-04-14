@@ -2,13 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Http\Controllers\Import\ImportController;
+use App\Services\ImportServiceInterface;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Storage;
 
@@ -76,10 +75,14 @@ class ImportNotification extends Notification
      */
     public function toSlack(User $notifiable): SlackMessage
     {
-        $logPath = $this->filesPath . ImportController::LOG;
-        $e_logPath = $this->filesPath . ImportController::E_LOG;
+        $csvPath = $this->filesPath . ImportServiceInterface::CSV_NAME;
+        $logPath = $this->filesPath . ImportServiceInterface::LOG;
+        $e_logPath = $this->filesPath . ImportServiceInterface::E_LOG;
         $log = $e_log = '';
 
+        if (Storage::disk('public')->exists($logPath)) {
+            $log = "\n\tфайл импорта: <" . config('app.url') . Storage::url($csvPath) . '|Click>';
+        }
         if (Storage::disk('public')->exists($logPath)) {
             $log = "\n\tдетали импорта: <" . config('app.url') . Storage::url($logPath) . '|Click>';
         }

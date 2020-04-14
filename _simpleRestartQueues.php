@@ -1,8 +1,8 @@
 <?php
 
 $s = 'restartWithClean:';
-$php = 'php74'; // hosting
-// $php = 'php'; // vagrant machine
+// $php = 'php74'; // hosting
+$php = 'php'; // vagrant machine
 
 $commands = [
     $php . ' ' . __DIR__ . '/_killQueueWorker.php',

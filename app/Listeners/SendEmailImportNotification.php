@@ -2,11 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Http\Controllers\Import\ImportController;
+use App\Services\ImportServiceInterface;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Storage;
 
 class SendEmailImportNotification
@@ -18,9 +16,8 @@ class SendEmailImportNotification
      */
     public function __construct()
     {
-        //
         $mess = '__construct end import. thanks.';
-        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 
     /**
@@ -37,6 +34,6 @@ class SendEmailImportNotification
         } else {
             $mess = 'success end import. thanks.';
         }
-        Storage::disk('import')->append(ImportController::LOG, '[' . Carbon::now() . '] ' . $mess);
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
     }
 }

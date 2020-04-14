@@ -43,13 +43,13 @@ class AdaptingImage
      */
     public function remake(string $imageType): string
     {
-        if ( !is_file($this->srcImagePath) ) {
+        if (!is_file($this->srcImagePath)) {
             return '';
         }
 
         $icFunc = $this->checkICFunc($this->srcImagePath);
         $this->setDstName($imageType);
-        if ( $this->mode !== 'rewatermark' && is_file($this->dstImageName) ) {
+        if ($this->mode !== 'rewatermark' && is_file($this->dstImageName)) {
             return $this->dstImageNameWE;
         }
         $this->setAttribute($this->srcImagePath, $imageType);
@@ -165,7 +165,8 @@ class AdaptingImage
      */
     private function createdDstDir(): string
     {
-        $dst_dir = storage_path() . config('adaptation_image_service.dir_dst') . '/' . $this->productId;
+        // $dst_dir = storage_path() . config('adaptation_image_service.dir_dst') . '/' . $this->productId;
+        $dst_dir = \Storage::disk('public')->path(config('adaptation_image_service.product_images_path') . '/' . $this->productId);
 
         if (!is_dir($dst_dir) && !mkdir($dst_dir, 0777, true) && !is_dir($dst_dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dst_dir));
@@ -182,7 +183,6 @@ class AdaptingImage
     {
         $watermarkPath = storage_path() . config('adaptation_image_service.watermark');
         $icFunc = $this->checkICFunc($watermarkPath);
-        // $this->setAttribute($this->srcImagePath, $imageType); // @todo: и как быть?
         $this->setAttribute($watermarkPath, $imageType); // @todo: и как быть?
 
         $src_image = $icFunc($watermarkPath);
@@ -190,7 +190,7 @@ class AdaptingImage
         imagecopyresampled($dst_image, $src_image, $this->dst_x, $this->dst_y, $this->src_x, $this->src_y,
             $this->dst_w, $this->dst_h, $this->src_w, $this->src_h);
         $dst_image = $this->deleteArtifacts($dst_image, $color_fill);
-        return  $dst_image;
+        return $dst_image;
     }
 
     /**

@@ -23,10 +23,10 @@
         @include('dashboard.layouts.partials.aside')
 
 
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
 
             <form method="POST" action="{{ route('manufacturers.store') }}" enctype="multipart/form-data">
-                
+
                 @csrf
 
                 @lfmImageButton(['id' => 'lfm_images', 'name' => 'imagepath', 'value' => old('imagepath')])
@@ -78,9 +78,9 @@
                 @elseif ( config('settings.description_wysiwyg') == 'tinymce' )
                     @include('layouts.partials.wysiwyg.tinymce-textarea', ['name' => 'description', 'label' => 'Описание (редактор tinymce)', 'value' => old('description')])
                 @else
-                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description')])                
+                    @textarea(['name' => 'description', 'label' => 'Описание (обычный режим)', 'value' => old('description')])
                 @endif
-                {{-- /description --}}                  
+                {{-- /description --}}
 
 
                 <div class="row">

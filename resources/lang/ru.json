@@ -138,7 +138,7 @@
     "__description": "описание",
     "__vendor_code": "артикул производителя",
     "__code_1с": "код в 1С",
-    "__product_id": "артикул",
+    "__product_id": "артикул магазина",
     "__price": "цена",
     "parent_publish": "отображение родителя",
     "__grand_parent_publish": "отображение прародителя",
@@ -290,11 +290,24 @@
     "Orders": "Мои Заказы",
 
     "Job successfully submitted to queue": "Задание успешно отправлено в очередь",
-    "Import file ':name' not found.": "Файл импорта ':name' не найден.",
+    "Job successfully submitted to queue. Import file ':name'": "Задание успешно отправлено в очередь. Файл импорта: ':name'",
+    "Import file ':name' not found.": "Файл импорта ':name' не обнаружен.",
     ": Failed to process image archive": ": Не удалось обработать архив с изображениями.",
     ": Failed to create directory for product images": ": Не удалось создать директорию для изображений товара",
     "There was an error on row :row. :message": "FAILURE: Произошла ошибка в строке: :row. :message",
     "No name category": "Безымянная категория",
+
+    "store_article": "артикул магазина",
+    "category_name": "категория",
+    "vendor_code": "артикул изготовителя",
+    "manufacturer_title": "изготовитель",
+    "promotional_price": "акционная цена",
+    "promotional_percentage": "скидка",
+    "length": "длина",
+    "width": "ширина",
+    "height": "высота",
+    "remaining": "остаток",
+    "count_views": "просмотров",
 
     "e": "e"
 }

@@ -24,6 +24,7 @@ class ImagesController extends Controller
      */
     public function destroy(Image $image): RedirectResponse
     {
+        // @todo: удалить не только запись, но и само изображение!
         abort_if (auth()->user()->cannot('edit_products'), 403);
         $image->delete();
         return redirect()->back();
