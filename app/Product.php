@@ -603,14 +603,14 @@ class Product extends Model
         if ($this->code_1c) {
             $properties['manufacturer_title'] = $this->code_1c;
         }
-        if ($this->promotional_percentage) {
+        if ($this->promotional_percentage && config('settings.display_prices')) {
             $properties['promotional_percentage'] =
                 ((string)number_format($this->promotional_percentage, 0, ',', ' ')) . ' %';
         }
-        if ($this->price !== null && config('settings.display_prices')) {
+        if (config('settings.display_prices')) {
             $properties['price'] = $this->getFormatterPrice();
         }
-        if ($this->promotional_price) {
+        if ($this->promotional_price && config('settings.display_prices')) {
             $properties['promotional_price'] = $this->getFormatterPromoPrice();
         }
         if ($this->length) {
@@ -661,6 +661,9 @@ class Product extends Model
      */
     private function formattingPrice($val): string
     {
+        if ($val === null) {
+            return __('Price not specified');
+        }
         return (string)number_format($val, 0, ', ', ' ') . ' <span class="currency">&#8381;</span>';
     }
 

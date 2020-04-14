@@ -22,9 +22,9 @@
             >
             <label class="filters main_category" for="filter_categories_{{ $category->id }}"
                    onClick="check_{{ $category->id }}(this.form,['total_{{ $category->id }}'].checked)"
-                   title="{{ $category->title }}"
+                   title="{{ $category->uc_title }}"
             >
-                {{ $category->name }}
+                {{ $category->uc_title }}
             </label>
 
             @foreach ( $category->children as $subcategory )
@@ -51,9 +51,9 @@
                     <label
                         class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
                         for="filter_categories_{{ $subcategory->id }}"
-                        title="{{ $subcategory->title }}"
+                        title="{{ $subcategory->uc_title }}"
                     >
-                        {{ $subcategory->name }}
+                        {{ $subcategory->uc_title }}
                     </label>
                 @endif
             @endforeach
@@ -70,9 +70,9 @@
                 >
                 <label class="filters main_category"
                        for="filter_categories_{{ $category->id }}"
-                       title="{{ $category->title }}"
+                       title="{{ $category->uc_title }}"
                 >
-                    {{ $category->name }}
+                    {{ $category->uc_title }}
                 </label>
             @endif
         @endforeach

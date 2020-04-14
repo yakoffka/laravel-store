@@ -6,7 +6,7 @@ use App\Category;
 
 // Home
     Breadcrumbs::for('home', function ($trail) {
-        $trail->push('Главная', route('home'));
+        $trail->push('home_icon', route('home'));
     });
 
 
@@ -21,15 +21,15 @@ use App\Category;
 
 
 // catalog
-    /*// Home > Catalog
+    // Home > Catalog
     Breadcrumbs::for('catalog', function ($trail) {
         $trail->parent('home');
         $trail->push('Каталог', route('categories.index'));
-    });*/
-    // Catalog
-    Breadcrumbs::for('catalog', function ($trail) {
-        $trail->push('Каталог', route('categories.index'));
     });
+    // Catalog
+    /*Breadcrumbs::for('catalog', function ($trail) {
+        $trail->push('Каталог', route('categories.index'));
+    });*/
 
 
 

@@ -91,6 +91,9 @@
     "developer": "Разработчик ",
     "system": "Гость ",
 
+
+    "Price not specified": "Цена не указана",
+
     "SuccessOperationMessage": "Операция выполнена успешно",
     "custom_events_show_title": "Просмотр события",
     "custom_events_index_title": "Просмотр событий",

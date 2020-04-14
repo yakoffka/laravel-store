@@ -22,7 +22,7 @@
 
 
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-            <div class="row">
+            <div class="row product_show">
 
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5 mb-2">
                     <div class="wrap_b_image">
@@ -48,8 +48,8 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
 
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 mb-2 specification">
 
                     <table class="product_properties">
                         @foreach($product->getProductProperties() as $key => $val)
@@ -61,27 +61,32 @@
                     </table>
 
 
-                    @if ( $product->price > 0 && config('settings.display_prices'))
-                        {{--<span class="grey">{{__('__price')}}: </span>{!! $product->getFormatterPrice() !!}<br>--}}
+                    {{--@if ( $product->price > 0 && config('settings.display_prices'))
+                        --}}{{--<span class="grey">{{__('__price')}}: </span>{!! $product->getFormatterPrice() !!}<br>--}}{{--
                     @else
                         <span class="grey">{{ config('settings.priceless_text') }}</span><br>
-                    @endif
+                    @endif--}}
+                    <div class="price card-text">{!! $product->getActualPrice() !!}</div>
 
-                    <div class="row product_buttons">
 
+                    {{--<div class="row product_buttons">
                         @if ( config('settings.display_cart') )
                             <div class="col-sm-12">
                                 @addToCart(['product_id' => $product->id])
                             </div>
                         @endif
-                    </div>
+                    </div>--}}
                 </div>
+
 
                 {{-- информация о доставке на экранах lg --}}
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 mb-2 shipping">
                     <div class="d-none d-lg-block">{{-- d-none d-lg-block - Скрыто на экранах меньше lg --}}
                         @include('layouts.partials.shipping')
                     </div>
+
+                    @include('layouts.partials.product_button')
+
                 </div>
                 {{-- /информация о доставке на экранах lg --}}
 

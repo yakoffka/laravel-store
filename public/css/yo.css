@@ -8,13 +8,20 @@ body {
 body {color: #3b4144;}
 
 
+h1, h2, h3, h4, h5, h6 {
+    color: #636b6f;
+    text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+}
 h1 {
-    text-align: center;color: #636b6f;
+    text-align: center;
 }
 h2 {
     color: #3490dc;
     font-size: 1.5em;
 }
+
+
+
 
 /*
 .col-xs-0, .col-sm-0, .col-md-0, .col-lg-0 {
@@ -58,17 +65,20 @@ textarea,
 .f3em {font-size: 3em;}
 
 /* toTop */
+#toTop:hover {
+    color: #3490dc;
+    transition: all 0.5s ease-out 0s;
+}
 #toTop {
     position: fixed;
     bottom: 1em;
     right: 1em;
     cursor: pointer;
     display: none;
-    /* color:#09f; */
-    color: #3490dc;
+    color: #69b1de;
     font-size: 3em;
-    /* opacity: .7; */
     z-index: 2;
+    transition: all 0.5s ease-out 0s;
 }
 /* /toTop */
 
@@ -277,12 +287,6 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     text-decoration: none;
     text-transform: uppercase;
 }
-
-
-/* .dropdown-menu.dropdown-menu-right.show {
-    background-color:#3490dc;
-    background: linear-gradient(to right, #3490dc, #09f);
-} */
 /* /main menu */
 
 
@@ -293,10 +297,6 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 
 
 /* products */
-.card .row.product_buttons .col-sm-4 {
-    padding: 2%;
-}
-
 .product_card_bm {
     margin-bottom: 2em;
 }
@@ -308,22 +308,6 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     border: solid 1px transparent;
 }
 
-.product_card_bm .card .grey {
-    font-size: 1.3em;
-    font-weight: 600;
-}
-
-.product_card_bm .card .strike_price {
-    text-decoration:line-through
-}
-.product_card_bm .card .currency {
-    font-weight: 200;
-}
-
-.product_card_bm .card:hover .grey {
-    color: #1d68a7;
-}
-
 .product_card_bm .card:hover {
     box-shadow: 0 1px 2px 0 rgba(0,0,50,0.26);
     transition: all 0.5s ease-out 0s;
@@ -333,35 +317,49 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     text-align: center;
 }
 
-.product_card_bm:hover .card a {
+.product_card_bm:hover a,
+.product_card_bm:hover .row.product_buttons a.btn {
     text-decoration: none;
     color: #1d68a7;
 }
 
-.product_card_bm .btn {
-    color: #6c757d;
-    border-color: transparent;
-    border-radius: 50%;
+.row.product_buttons {
+    height: 2em;
+    width: 100%;
+    z-index: 2;
+    justify-content: center;
+    top: 0.2em;
 }
-/*.product_card_bm a.btn i {*/
-    /*width: 2.4em;*/
-    /*height: 2.4em;*/
-/*}*/
-.product_card_bm a.btn:hover {
-    text-decoration: none;
+.card .row.product_buttons {
+    height: 1em;
+}
+.product_card_bm .row.product_buttons a.btn:hover {
     color: #fff;
+    transition: all 0.5s ease-out 0s;
+}
+.row.product_buttons a.btn {
+    color: transparent;
+    text-decoration: none;
+    border-color: transparent;
+    background: transparent;
+    margin: 0;
+}
+
+.row.product_buttons a.btn:hover i:before {
     background-color: #1d68a7;
+    transition: all 0.5s ease-out 0s;
+}
+.row.product_buttons a.btn i:before {
+    display: block;
+    padding: .7em;
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 50%;
+    transition: all 0.5s ease-out 0s;
 }
 
-/*#bbcf54;*/
-/*#e0b0ff*/
-
-.pagination {
-    padding: 1em;
-}
-
-.row.product_buttons a.btn,
-.row.product_buttons form button {
+.product_buttons a.btn,
+.product_buttons form button {
     width: 100%;
 }
 
@@ -373,15 +371,53 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 
 .product_card_h2 a {
     text-decoration: none;
+    color: #1d68a7;
+}
+
+.product_card_bm .price.card-text {
+    position: absolute;
+}
+.product_show .price.card-text {
+    border-top: 1px solid #3490dc;
+    font-size: 2em;
+    width: 100%;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.product_card_bm .price.card-text,
+.product_show .price.card-text {
+    color: #1d68a7;
+    bottom: 1em;
+    text-align: center;
+    width: calc( 100% - 2em ); /*минус паддинги родителя*/
+    font-weight: 600;
+}
+.product_card_bm .card:hover .price.card-text .grey,
+.product_show:hover .price.card-text .grey {
+    color: #1d68a7;
+}
+.product_card_bm .card .price.card-text .strike_price,
+.product_show .price.card-text .strike_price {
+    text-decoration:line-through;
+}
+.product_card_bm .card .price.card-text .grey {
+    font-size: 1.3em;
+}
+.product_card_bm .card .price.card-text .currency,
+.product_show .price.card-text .currency {
+    font-weight: 200;
 }
 
 table.product_properties {
     width: 100%;
     border: none;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 table.product_properties tr {
     border-bottom: dotted 1px rgba(0, 0, 0, .125);
+}
+table.product_properties :last-child {
+    border-bottom: dotted 0 #fff;
 }
 
 table.product_properties .key {
@@ -390,7 +426,12 @@ table.product_properties .key {
 table.product_properties .val {
     text-align: right;
 }
+
+.pagination {
+    padding: 1em;
+}
 /* /products */
+
 
 
 /* product */
@@ -399,16 +440,19 @@ table.product_properties .val {
     max-height: 280px;
 }
 
-/* .product_buttons .col-sm-4{
-    padding-left: 0;
-} */
-.product_buttons a.btn,
 .product_buttons button.btn,
 .product_buttons form button {
-    width: 100%;
     padding-left: 0;
     padding-right: 0;
     margin: .25em 0;
+}
+
+.product_show .product_buttons a.btn {
+    color: #1d68a7;
+}
+
+.product_show .product_buttons a.btn:hover {
+    color: #fff;
 }
 
 .comment_str {
@@ -639,7 +683,7 @@ table.param tr th {
 .left_stylized_checkbox input[type="checkbox"] + label {
     display: block;
     position: relative;
-    padding-left: 35px;
+    padding-left: 25px;
     /* margin-bottom: 20px; */
     margin: 5px;
     /* font: 14px/20px 'Open Sans', Arial, sans-serif; */
@@ -1120,6 +1164,22 @@ div.skew-bg {
 }
 
 
+
+
+/* #mainMenu*/
+ul#mainMenu ul {
+    padding-left: 10px;
+    list-style: none;
+}
+
+ul#mainMenu ul.subnav a:hover {
+    color: #1d68a7;
+    transition: all 150ms ease-out 0s;
+}
+ul#mainMenu ul.subnav a {
+    color: #636b6f;
+}
+
 ul.navbar-nav {
     margin-bottom: 1em;
 }
@@ -1130,10 +1190,8 @@ ul.navbar-nav {
 /* .aside {
     margin-top: 3em;
 } */
-ul#mainMenu ul {
-    padding-left: 10px;
-    list-style: none;
-}
+/* #mainMenu*/
+
 
 
 .carousel-indicators li.active {
@@ -1987,6 +2045,17 @@ hr.ellipsis::before {
 /*======================================================================================================*/
 
 
-
-
+/*======================================================================================================*/
+/* */
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: #69b1de;
+    border-color: #69b1de;
+}
+.btn-outline-success {
+    color: #69b1de;
+    background-color: transparent;
+    border-color: #69b1de;
+}
+/*======================================================================================================*/
 

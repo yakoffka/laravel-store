@@ -94,13 +94,10 @@
                     <div class="col-lg-4 col-md-6 product_card_bm">
                         <div class="card">
 
-                            <h2 class="product_card_h2
-                                @if(!$product->publish)
-                                hide
-                                @endif
-                                ">
-                                <a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
-                            </h2>
+                            @include('layouts.partials.product_button')
+
+                            <div class="price card-text">{!! $product->getActualPrice() !!}</div>
+
 
                             <a href="{{ route('products.show', $product) }}">
                                 <div class="card-img-top b_image"
@@ -110,112 +107,12 @@
                                 </div>
                             </a>
 
-                            <div class="card-body p-1">
-                                @if ( $product->price > 0 && config('settings.display_prices') )
-                                    <div class="card-text col-sm-12 center">
-                                    <span class="grey">
-                                        @if ( $product->price )
-                                            {!! $product->getActualPrice() !!}
-                                        @else
-                                            priceless
-                                        @endif
-                                    </span>
-                                        @if (!$product->publish) {
-                                        <span class="red">un_publish</span>
-                                        }@endif<br>
-                                    </div>
-                                @endif
 
-                                <div class="row product_buttons center">
+                            <h2 class="product_card_h2">
+                                <a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
+                            </h2>
 
-                                    @guest
 
-                                        <div class="col-sm-3">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                               class="btn btn-outline-info">
-                                                <i class="fas fa-layer-group" title="{{__('compare')}}"></i>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-sm-3">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                               class="btn btn-outline-info">
-                                                <i class="fas fa-heart" title="{{__('to favorite')}}"></i>
-                                            </a>
-                                        </div>
-
-                                        @if ( config('settings.display_cart') )
-                                            <div class="col-sm-3">
-                                                <a href="{{ route('cart.add-item', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-success">
-                                                    <i class="fas fa-cart-plus" title="{{__('to cart')}}"></i>
-                                                </a>
-                                            </div>
-                                        @endif
-
-                                    @else
-
-                                        @if ( auth()->user()->can( ['edit_products', 'delete_products'], true ) )
-                                            <div class="col-sm-3 p-1">
-                                                <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </div>
-
-                                            <div class="col-sm-3 p-1">
-                                                <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-success">
-                                                    <i class="fas fa-pen-nib"></i>
-                                                </a>
-                                            </div>
-
-                                            <div class="col-sm-3 p-1">
-                                                @modalConfirmDestroy([
-                                                'btn_class' => 'btn btn-outline-danger form-control',
-                                                'cssId' => 'delete_',
-                                                'item' => $product,
-                                                'action' => route('products.destroy', ['product' => $product->id]),
-                                                ])
-                                            </div>
-
-                                        @elseif ( auth()->user()->can('edit_products') )
-
-                                            <div class="col-sm-6 p-1">
-                                                <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </div>
-
-                                            <div class="col-sm-6 p-1">
-                                                <a href="{{ route('products.edit', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-success">
-                                                    <i class="fas fa-pen-nib"></i>
-                                                </a>
-                                            </div>
-
-                                        @else
-
-                                            <div class="col-sm-6 p-1">
-                                                <a href="{{ route('products.show', ['product' => $product->id]) }}"
-                                                   class="btn btn-outline-info">
-                                                    <i class="fas fa-eye"></i> view
-                                                </a>
-                                            </div>
-
-                                            @if ( config('settings.display_cart') )
-                                                <div class="col-sm-6 p-1">
-                                                    @addToCart(['product_id' => $product->id])
-                                                </div>
-                                            @endif
-
-                                        @endif
-
-                                    @endguest
-
-                                </div>
-                            </div>
                         </div>
                     </div>
 
