@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Notifications\ImportNotification;
+use App\Notifications\ImportReportNotification;
 use App\Services\ImportServiceInterface;
 use App\User;
 use Carbon\Carbon;
@@ -28,7 +28,7 @@ class SendImportReportJob implements ShouldQueue
      *
      * @param int $initiatorId
      */
-    public function __construct($initiatorId)
+    public function __construct(int $initiatorId = 1)
     {
         $this->initiatorId = $initiatorId;
         $this->started_at = now();
@@ -45,10 +45,8 @@ class SendImportReportJob implements ShouldQueue
         $mess = 'End import process';
         Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
 
-        User::all()
-            ->where('id', '=', $this->initiatorId)
-            ->first()
-            ->notify(new ImportNotification($this->getDirPathMovedReportFiles(), $this->started_at));
+        $sysUser = User::all()->where('id', '=', $this->initiatorId)->first();
+        $sysUser->notify(new ImportReportNotification($this->getDirPathMovedReportFiles(), $this->started_at));
     }
 
     /**
@@ -72,7 +70,7 @@ class SendImportReportJob implements ShouldQueue
             Storage::disk('public')->put($dirDstPath.$fileName, $fileContents);
             Storage::disk('import')->delete($fileName);
         }
-        Storage::disk('import')->append(ImportServiceInterface::LOG, ''); // @todo: проверить корректное создание файла!
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '');
 
         return $dirDstPath;
     }

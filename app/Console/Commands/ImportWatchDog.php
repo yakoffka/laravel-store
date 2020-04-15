@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Jobs\ImportJob;
 use App\Jobs\SendImportReportJob;
+use App\Notifications\ImportNotification;
 use App\Services\ImportServiceInterface;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -44,16 +46,35 @@ class ImportWatchDog extends Command
      */
     public function handle(): void
     {
-        if (Storage::disk('import')->exists(ImportServiceInterface::CSV_NAME)) {
-            $mess = 'Discovered file "' . ImportServiceInterface::CSV_NAME . '". Start import process';
-            Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+        // @todo: добавить отправку уведомления о начале импорта (успешном либо неуспешном)
 
-            dispatch((new ImportJob($this->importService ))->onQueue('high'));
-            dispatch((new SendImportReportJob(1))->onQueue('low'));
+        if ($this->isSuccessImportStart()) {
+
+            dispatch((new ImportJob($this->importService))->onQueue('high'));
+            dispatch((new SendImportReportJob())->onQueue('low'));
 
             $this->line(__("Job successfully submitted to queue. Import file ':name'", ['name' => ImportServiceInterface::CSV_NAME]));
             return;
         }
-        $this->line(__("Import file ':name' not found.", ['name' => ImportServiceInterface::CSV_NAME]));
+        $this->line(__("Import file ':name' not found.", ['name' => ImportServiceInterface::CSV_SRC_NAME]));
+    }
+
+    /**
+     * @return bool
+     */
+    private function isSuccessImportStart(): bool
+    {
+        if (Storage::disk('import')->exists(ImportServiceInterface::CSV_SRC_NAME)) {
+            $mess = 'Discovered file "' . ImportServiceInterface::CSV_SRC_NAME . '". Start import process';
+            Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+
+            $sysUser = User::all()->where('id', '=', 1)->first();
+            $sysUser->notify(new ImportNotification($mess));
+
+            // @todo: поймать ошибки!
+            Storage::disk('import')->move(ImportServiceInterface::CSV_SRC_NAME, ImportServiceInterface::CSV_NAME);
+            return true;
+        }
+        return false;
     }
 }
