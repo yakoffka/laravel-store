@@ -57,6 +57,7 @@ class SendImportReportJob implements ShouldQueue
     {
         $dirDstPath = 'import_results/' . Str::random(42) . '/';
         $fileNames = [
+            'csv_src_file' => ImportServiceInterface::CSV_SRC_NAME,
             'csv_file' => ImportServiceInterface::CSV_NAME,
             'log' => ImportServiceInterface::LOG,
             'e_log' => ImportServiceInterface::E_LOG,

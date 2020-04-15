@@ -46,8 +46,6 @@ class ImportWatchDog extends Command
      */
     public function handle(): void
     {
-        // @todo: добавить отправку уведомления о начале импорта (успешном либо неуспешном)
-
         if ($this->isSuccessImportStart()) {
 
             dispatch((new ImportJob($this->importService))->onQueue('high'));
@@ -64,17 +62,45 @@ class ImportWatchDog extends Command
      */
     private function isSuccessImportStart(): bool
     {
-        if (Storage::disk('import')->exists(ImportServiceInterface::CSV_SRC_NAME)) {
-            $mess = 'Discovered file "' . ImportServiceInterface::CSV_SRC_NAME . '". Start import process';
-            Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+        // @todo: переделать отлов ошибок, используя try/catch
+        $csvSrcName = ImportServiceInterface::CSV_SRC_NAME;
+        $csvName = ImportServiceInterface::CSV_NAME;
 
-            $sysUser = User::all()->where('id', '=', 1)->first();
-            $sysUser->notify(new ImportNotification($mess));
+        if (Storage::disk('import')->exists($csvSrcName)) {
+            $this->sendMessage("Discovered file '$csvSrcName'. Start import process");
 
-            // @todo: поймать ошибки!
-            Storage::disk('import')->move(ImportServiceInterface::CSV_SRC_NAME, ImportServiceInterface::CSV_NAME);
-            return true;
+            if (!Storage::disk('import')->exists($csvName)) {
+                if (Storage::disk('import')->move($csvSrcName, $csvName)) {
+                    $this->sendMessage("File '$csvSrcName' moved");
+                    return true;
+                }
+
+                $this->sendError("Error moved file '$csvSrcName'! Abort import process");
+            } else {
+                $this->sendError("File '$csvName' already exists! Abort import process");
+            }
+            dispatch((new SendImportReportJob())->onQueue('high'));
         }
         return false;
+    }
+
+    /**
+     * @param $mess
+     */
+    private function sendMessage($mess): void
+    {
+        Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
+
+        $sysUser = User::all()->where('id', '=', 1)->first();
+        $sysUser->notify(new ImportNotification($mess));
+    }
+
+    /**
+     * @param $mess
+     */
+    private function sendError($mess): void
+    {
+        Storage::disk('import')->append(ImportServiceInterface::E_LOG, '[' . Carbon::now() . '] ' . $mess);
+        $this->sendMessage($mess);
     }
 }

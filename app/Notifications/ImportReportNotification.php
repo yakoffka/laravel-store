@@ -78,6 +78,7 @@ class ImportReportNotification extends Notification
         $csvPath = $this->filesPath . ImportServiceInterface::CSV_NAME;
         $logPath = $this->filesPath . ImportServiceInterface::LOG;
         $e_logPath = $this->filesPath . ImportServiceInterface::E_LOG;
+        $csvSrcName = ImportServiceInterface::CSV_SRC_NAME;
         $log = $e_log = '';
 
         if (Storage::disk('public')->exists($logPath)) {
@@ -88,6 +89,9 @@ class ImportReportNotification extends Notification
         }
         if (Storage::disk('public')->exists($e_logPath)) {
             $e_log = "\n\tошибки импорта: <" . config('app.url') . Storage::url($e_logPath) . '|Click>';
+        }
+        if (Storage::disk('public')->exists($e_logPath)) {
+            $e_log = "\n\tудалён файл: <" . config('app.url') . Storage::url($csvSrcName) . '|Click>';
         }
 
         Storage::allFiles($this->filesPath);
