@@ -79,19 +79,19 @@ class ImportReportNotification extends Notification
         $logPath = $this->filesPath . ImportServiceInterface::LOG;
         $e_logPath = $this->filesPath . ImportServiceInterface::E_LOG;
         $csvSrcName = ImportServiceInterface::CSV_SRC_NAME;
-        $log = $e_log = '';
+        $log = '';
 
-        if (Storage::disk('public')->exists($logPath)) {
-            $log = "\n\tфайл импорта: <" . config('app.url') . Storage::url($csvPath) . '|Click>';
+        if (Storage::disk('public')->exists($csvPath)) {
+            $log .= "\n\tфайл импорта: <" . config('app.url') . Storage::url($csvPath) . '|Click>';
         }
         if (Storage::disk('public')->exists($logPath)) {
-            $log = "\n\tдетали импорта: <" . config('app.url') . Storage::url($logPath) . '|Click>';
+            $log .= "\n\tдетали импорта: <" . config('app.url') . Storage::url($logPath) . '|Click>';
         }
         if (Storage::disk('public')->exists($e_logPath)) {
-            $e_log = "\n\tошибки импорта: <" . config('app.url') . Storage::url($e_logPath) . '|Click>';
+            $log .= "\n\tошибки импорта: <" . config('app.url') . Storage::url($e_logPath) . '|Click>';
         }
-        if (Storage::disk('public')->exists($e_logPath)) {
-            $e_log = "\n\tудалён файл: <" . config('app.url') . Storage::url($csvSrcName) . '|Click>';
+        if (Storage::disk('public')->exists($csvSrcName)) {
+            $log .= "\n\tудалён файл: <" . config('app.url') . Storage::url($csvSrcName) . '|Click>';
         }
 
         Storage::allFiles($this->filesPath);
@@ -104,7 +104,7 @@ class ImportReportNotification extends Notification
                 . now()->format('Y.m.d H:i:s')
                 . "\nВремя выполнения импорта: "
                 . $this->started_at->diffAsCarbonInterval(now())->__toString()
-                . $log . $e_log
+                . $log
             );
     }
 }
