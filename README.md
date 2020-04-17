@@ -26,3 +26,13 @@ passw: 11111111<br>
 
 1. Настраиваем планировщик Cron (импорт, очереди)
 
+```
+MAILTO="recipient@mail.ru"
+25 09 * * * php /home/vagrant/projects/laravel_store/_watchdog_queue_larastore.php
+MAILTO=""
+00 * * * * php /home/vagrant/projects/laravel_store/_watchdog_queue_larastore.php
+20 * * * * php /home/vagrant/projects/laravel_store/_watchdog_queue_larastore.php
+40 * * * * php /home/vagrant/projects/laravel_store/_watchdog_queue_larastore.php
+
+* * * * * php /home/vagrant/projects/laravel_store/artisan import:check
+```
