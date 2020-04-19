@@ -80,9 +80,9 @@ class AppServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(191); // https://laravel-news.com/laravel-5-4-key-too-long-error part 2/2
 
+        Category::observe(CategoryObserver::class);
         Comment::observe(CommentObserver::class);
         Image::observe(ImageObserver::class);
-        Category::observe(CategoryObserver::class);
         Manufacturer::observe(ManufacturerObserver::class);
         Order::observe(OrderObserver::class);
         Product::observe(ProductObserver::class);
