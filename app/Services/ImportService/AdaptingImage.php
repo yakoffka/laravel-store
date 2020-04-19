@@ -4,6 +4,7 @@ namespace App\Services\ImportService;
 
 use Illuminate\Support\Str;
 use RuntimeException;
+use Storage;
 
 class AdaptingImage
 {
@@ -47,12 +48,12 @@ class AdaptingImage
             return '';
         }
 
-        $icFunc = $this->checkICFunc($this->srcImagePath);
-        $this->setDstName($imageType);
+        $icFunc = $this->getNameFunc($this->srcImagePath);
+        $this->setDstImageAttributes($imageType);
         if ($this->mode !== 'rewatermark' && is_file($this->dstImageName)) {
             return $this->dstImageNameWE;
         }
-        $this->setAttribute($this->srcImagePath, $imageType);
+        $this->setReSampleAttributes($this->srcImagePath, $imageType);
         $this->createImage($imageType, $icFunc);
 
         return $this->dstImageNameWE;
@@ -62,7 +63,7 @@ class AdaptingImage
      * @param $srcImagePath
      * @return string
      */
-    private function checkICFunc($srcImagePath): string
+    private function getNameFunc($srcImagePath): string
     {
         $icFunc = 'imagecreatefrom' . pathinfo(getimagesize($srcImagePath)['mime'], PATHINFO_FILENAME);
         if (!function_exists($icFunc)) {
@@ -75,7 +76,7 @@ class AdaptingImage
      * @param string $imageType
      * @return void
      */
-    private function setDstName(string $imageType): void
+    private function setDstImageAttributes(string $imageType): void
     {
         $dst_dir = $this->createdDstDir();
         $this->dstImageNameWE = Str::slug(pathinfo($this->srcImagePath, PATHINFO_FILENAME), '-');
@@ -91,7 +92,7 @@ class AdaptingImage
      * @param string $imageType
      * @return void
      */
-    private function setAttribute(string $srcImagePath, string $imageType): void
+    private function setReSampleAttributes(string $srcImagePath, string $imageType): void
     {
         // получение параметров исходного изображения
         $src_size = getimagesize($srcImagePath);
@@ -124,16 +125,19 @@ class AdaptingImage
      */
     private function createImage(string $imageType, string $icFunc): void
     {
+        $pngPath = $this->dstImagePath . '.png';
+        $jpegPath = $this->dstImagePath . '.jpeg';
+
         if (config('adaptation_image_service.' . $imageType . '_is_watermark')) {
-            $this->createJpegThroughPng($imageType, $icFunc);
+            $this->createJpegThroughPng($imageType, $icFunc, $pngPath, $jpegPath);
         } else {
-            $this->createJpeg($imageType, $icFunc);
+            $this->createJpeg($icFunc, $jpegPath);
         }
     }
 
     /**
      * удаление артефактов GD, образующихся при наложении прозрачного фона с частичной потерей качества:
-     * fefefe -> ffffff; fdfdfd -> ffffff; fcfcfc -> ffffff;
+     * fefefe(16711422) -> ffffff; ???fdfdfd(16645629) -> ffffff; fcfcfc(16579836) -> ffffff;
      *
      * @param $dst_image
      * @param int $color_fill
@@ -144,15 +148,7 @@ class AdaptingImage
         for ($y = 0; $y < ($this->dstImageH); ++$y) {
             for ($x = 0; $x < ($this->dstImageW); ++$x) {
                 $rgb = imagecolorat($dst_image, $x, $y);
-                $r = ($rgb >> 16) & 0xFF;
-                $g = ($rgb >> 8) & 0xFF;
-                $b = $rgb & 0xFF;
-
-                if (
-                    ($r === 252 && $g === 252 && $b === 252) ||
-                    ($r === 253 && $g === 253 && $b === 253) ||
-                    ($r === 254 && $g === 254 && $b === 254)
-                ) {
+                if ($rgb === 16711422 || $rgb === 16579836) {
                     imagesetpixel($dst_image, $x, $y, $color_fill);
                 }
             }
@@ -165,8 +161,7 @@ class AdaptingImage
      */
     private function createdDstDir(): string
     {
-        // $dst_dir = storage_path() . config('adaptation_image_service.dir_dst') . '/' . $this->productId;
-        $dst_dir = \Storage::disk('public')->path(config('adaptation_image_service.product_images_path') . '/' . $this->productId);
+        $dst_dir = Storage::disk('public')->path(config('adaptation_image_service.product_images_path') . '/' . $this->productId);
 
         if (!is_dir($dst_dir) && !mkdir($dst_dir, 0777, true) && !is_dir($dst_dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dst_dir));
@@ -182,8 +177,8 @@ class AdaptingImage
     private function overlayWatermark(string $imageType, $dst_image)
     {
         $watermarkPath = storage_path() . config('adaptation_image_service.watermark');
-        $icFunc = $this->checkICFunc($watermarkPath);
-        $this->setAttribute($watermarkPath, $imageType); // @todo: и как быть?
+        $icFunc = $this->getNameFunc($watermarkPath);
+        $this->setReSampleAttributes($watermarkPath, $imageType); // @todo: и как быть?
 
         $src_image = $icFunc($watermarkPath);
         $color_fill = imagecolorallocate($dst_image, 255, 255, 255);
@@ -198,12 +193,11 @@ class AdaptingImage
      *
      * @param string $imageType
      * @param string $icFunc
+     * @param string $pngPath
+     * @param string $jpegPath
      */
-    private function createJpegThroughPng(string $imageType, string $icFunc): void
+    private function createJpegThroughPng(string $imageType, string $icFunc, string $pngPath, string $jpegPath): void
     {
-        $pngPath = $this->dstImagePath . '.png';
-        $jpegPath = $this->dstImagePath . '.jpeg';
-
         $this->createPng($imageType, $icFunc, $pngPath);
         $this->conversionPngToJpeg($pngPath, $jpegPath);
     }
@@ -216,10 +210,7 @@ class AdaptingImage
      */
     private function createPng(string $imageType, string $icFunc, string $pngPath): void
     {
-        $dst_image = imagecreatetruecolor($this->dstImageW, $this->dstImageH);
-        $color_fill = imagecolorallocate($dst_image, 255, 255, 255);
-        imagefill($dst_image, 0, 0, $color_fill);
-        $src_image = $icFunc($this->srcImagePath);
+        list($dst_image, $src_image) = $this->createAndFillImage($icFunc);
         imagecopyresampled($dst_image, $src_image, $this->dst_x, $this->dst_y, $this->src_x, $this->src_y,
             $this->dst_w, $this->dst_h, $this->src_w, $this->src_h);
         $dst_image = $this->overlayWatermark($imageType, $dst_image);
@@ -245,20 +236,30 @@ class AdaptingImage
     }
 
     /**
-     * @param string $imageType
      * @param string $icFunc
+     * @param string $jpegPath
      */
-    private function createJpeg(string $imageType, string $icFunc): void
+    private function createJpeg(string $icFunc, string $jpegPath): void
+    {
+        list($dst_image, $src_image) = $this->createAndFillImage($icFunc);
+        imagecopyresampled($dst_image, $src_image, $this->dst_x, $this->dst_y, $this->src_x, $this->src_y,
+            $this->dst_w, $this->dst_h, $this->src_w, $this->src_h);
+        imagejpeg($dst_image, $jpegPath); // @todo: добавить проверку!
+        imagedestroy($dst_image);
+        imagedestroy($src_image);
+    }
+
+    /**
+     * @param string $icFunc
+     * @return array
+     */
+    private function createAndFillImage(string $icFunc): array
     {
         $dst_image = imagecreatetruecolor($this->dstImageW, $this->dstImageH);
         $color_fill = imagecolorallocate($dst_image, 255, 255, 255);
         imagefill($dst_image, 0, 0, $color_fill);
         $src_image = $icFunc($this->srcImagePath);
-        imagecopyresampled($dst_image, $src_image, $this->dst_x, $this->dst_y, $this->src_x, $this->src_y,
-            $this->dst_w, $this->dst_h, $this->src_w, $this->src_h);
-        imagejpeg($dst_image, $this->dstImagePath . '.jpeg', 1); // @todo: добавить проверку!
-        imagedestroy($dst_image);
-        imagedestroy($src_image);
+        return array($dst_image, $src_image);
     }
 
 }
