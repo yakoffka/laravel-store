@@ -66,7 +66,11 @@ textarea,
 
 /* toTop */
 #toTop:hover {
-    color: #3490dc;
+    color: #1d68a7;
+    transition: all 0.5s ease-out 0s;
+}
+#toTop:hover i {
+    border: 1px solid #1d68a7;
     transition: all 0.5s ease-out 0s;
 }
 #toTop {
@@ -75,10 +79,18 @@ textarea,
     right: 1em;
     cursor: pointer;
     display: none;
-    color: #69b1de;
+    color: #3490dc;
     font-size: 3em;
     z-index: 2;
     transition: all 0.5s ease-out 0s;
+}
+#toTop i {
+    text-align: center;
+    height: 1.2em;
+    width: 1.2em;
+    transition: all 0.5s ease-out 0s;
+    border-radius: 50%;
+    border: 1px solid #3490dc;
 }
 /* /toTop */
 
