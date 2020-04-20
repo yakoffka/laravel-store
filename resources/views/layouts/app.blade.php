@@ -490,7 +490,7 @@
     </div>
 
     {{-- toTop --}}
-    <div id='toTop'><i class="fas fa-chevron-circle-up"></i></div>
+    <div id='toTop'><i class="fas fa-chevron-up"></i></div>
 
     <script type="text/javascript">
 		$(function(){
