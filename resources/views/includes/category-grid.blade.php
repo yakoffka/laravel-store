@@ -4,8 +4,8 @@
         <div class="block_number block_number_right">
             @if ($category->products->count())
                 {{ str_pad($category->products->count(), 2, '0', STR_PAD_LEFT) }}
-            @elseif ($category->children->count())
-                {{ str_pad($category->children->count(), 2, '0', STR_PAD_LEFT) }}
+            @elseif ($category->subcategories->count())
+                {{ str_pad($category->subcategories->count(), 2, '0', STR_PAD_LEFT) }}
             @else
                 00
             @endif
@@ -24,8 +24,8 @@
             <br><span>
                 @if ($category->products->count())
                     {{ trans_choice('categories.numproducts', $category->value_for_trans_choice_products, ['value' => $category->products->count()]) }}
-                @elseif ($category->children->count())
-                    {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_children, ['value' => $category->children->count()]) }}
+                @elseif ($category->subcategories->count())
+                    {{ trans_choice('categories.numpcategories', $category->value_for_trans_choice_subcategories, ['value' => $category->subcategories->count()]) }}
                 @else
                     категория пуста
                 @endif

@@ -245,6 +245,10 @@ h1.hide, h1.hide a, h5.hide a {
     color: rgb(117, 16, 16);
 }
 
+.green {
+    color:  #27ae60 ;
+}
+
 
 @media (max-width: 768px) {
     nav.navbar.navbar-dark {
@@ -288,6 +292,124 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
     text-transform: uppercase;
 }
 /* /main menu */
+
+
+
+
+/* left_menu accordion-menu-with-submenus */
+#left_menu {
+    box-shadow: 0 1px 2px 0 rgba(0,0,50,0.26);
+}
+#left_menu a.list-group-item {
+    position: relative;
+    color: #3490dc;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    background: #fff;
+    padding: 10px 12px;
+    border-radius: 0;
+}
+#left_menu a.list-group-item i.right{
+    position: absolute;
+    right: 1em;
+    top: calc( 50% - .5em );
+}
+
+#left_menu .category a.list-group-item:hover {
+    background: #f0f0f0;
+}
+#left_menu .category .b_bottom {
+    display: block;
+    border-bottom: solid 1px #f0f0f0;
+}
+#left_menu .category a.list-group-item[aria-expanded=true] + .b_bottom {
+    border-bottom: solid 1px #ccc;
+}
+#left_menu .category a.list-group-item[aria-expanded=true],
+#left_menu .category a.list-group-item[aria-expanded=true]:hover {
+    background: #f0f0f0;
+}
+
+#left_menu .list-group-item,
+#left_menu .list-group.panel > .list-group-item {
+    padding: 0px 0px 0px 0px;
+    margin-bottom: 0;
+    background-color: transparent;
+    border: none;
+}
+
+#left_menu .sub_category .b_bottom {
+    display: block;
+    border-bottom: solid 1px #ccc;
+}
+#left_menu .sub_category a.list-group-item[aria-expanded=true],
+#left_menu .sub_category a.list-group-item[aria-expanded=true]:hover {
+    background: #d8d8d8;
+}
+#left_menu .sub_category {
+    /*padding: 0px 0px 0px 5px;*/
+    /*background: #909090;*/
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+#left_menu .sub_category .list-group-item {
+    background: #ddd;
+    border-left:5px solid transparent;
+}
+#left_menu .sub_category .list-group-item:hover {
+    background: #d8d8d8;
+    border-left:5px solid #1f6fb2;
+}
+
+#left_menu .sub_sub_category .b_bottom {
+    display: block;
+    border-bottom: solid 1px #bbb;
+}
+#left_menu .sub_sub_category .list-group-item {
+    border-left:5px solid #1f6fb2;
+    background: #ccc;
+}
+#left_menu .sub_sub_category .list-group-item:hover {
+    border-left:5px solid #3490dc;
+}
+#left_menu .sub_sub_category a.list-group-item[aria-expanded=true],
+#left_menu .sub_sub_category a.list-group-item[aria-expanded=true]:hover {
+    background: #f0f0f0;
+}
+
+#left_menu .category a.list-group-item[aria-expanded=true],
+#left_menu .sub_category a.list-group-item[aria-expanded=true],
+#left_menu .sub_category a.list-group-item[aria-expanded=true] {
+    color: #1d68a7;
+}
+
+
+#left_menu .category a.list-group-item[aria-expanded=false] i.right,
+#left_menu .sub_category a.list-group-item[aria-expanded=false] i.right,
+#left_menu .sub_category a.list-group-item[aria-expanded=false] i.right {
+    rotate: 0deg;
+    transition: all 0.2s ease-out 0s;
+    /*transition: all 0.1s;*/
+}
+#left_menu .category a.list-group-item[aria-expanded=true] i.right,
+#left_menu .sub_category a.list-group-item[aria-expanded=true] i.right,
+#left_menu .sub_category a.list-group-item[aria-expanded=true] i.right {
+    rotate: -180deg;
+    transition: all 0.2s ease-out 0s;
+    /*transition: all 0.1s;*/
+}
+
+#left_menu .ripple {
+    animation: 1s cubic-bezier(0, 0, 0.2, 1) 0s normal forwards 1 running ripple;
+    background-color: #1f6fb2;
+}
+/* left_menu accordion-menu-with-submenus */
+
+
 
 
 #myCarousel {
@@ -379,7 +501,7 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 }
 .product_show .price.card-text {
     border-top: 1px solid #3490dc;
-    font-size: 2em;
+    font-size: 1.7em;
     width: 100%;
     margin-left: 1em;
     margin-right: 1em;
@@ -1593,7 +1715,6 @@ hr.ellipsis::before {
     background-color: #fff;
     padding: 0;
     margin-bottom: 10px;
-    margin-top: 10px;
     position: relative;
 }
 

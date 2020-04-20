@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.8.36 on 2020-02-24 18:52:49.
+ * Generated for Laravel 5.8.38 on 2020-04-20 22:48:10.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -334,10 +334,10 @@ namespace Illuminate\Support\Facades {
          * @return string|bool
          * @static
          */
-        public static function environment($environments = null)
+        public static function environment(...$environments)
         {
             /** @var \Illuminate\Foundation\Application $instance */
-            return $instance->environment($environments);
+            return $instance->environment(...$environments);
         }
 
         /**
@@ -2377,10 +2377,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function check($name, $parameters = null)
+        public static function check($name, ...$parameters)
         {
             /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
-            return $instance->check($name, $parameters);
+            return $instance->check($name, ...$parameters);
         }
 
         /**
@@ -3652,10 +3652,10 @@ namespace Illuminate\Support\Facades {
          * @return void
          * @static
          */
-        public static function queue($parameters = null)
+        public static function queue(...$parameters)
         {
             /** @var \Illuminate\Cookie\CookieJar $instance */
-            $instance->queue($parameters);
+            $instance->queue(...$parameters);
         }
 
         /**
@@ -8408,10 +8408,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function is($patterns = null)
+        public static function is(...$patterns)
         {
             /** @var \Illuminate\Http\Request $instance */
-            return $instance->is($patterns);
+            return $instance->is(...$patterns);
         }
 
         /**
@@ -8421,10 +8421,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function routeIs($patterns = null)
+        public static function routeIs(...$patterns)
         {
             /** @var \Illuminate\Http\Request $instance */
-            return $instance->routeIs($patterns);
+            return $instance->routeIs(...$patterns);
         }
 
         /**
@@ -8434,10 +8434,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function fullUrlIs($patterns = null)
+        public static function fullUrlIs(...$patterns)
         {
             /** @var \Illuminate\Http\Request $instance */
-            return $instance->fullUrlIs($patterns);
+            return $instance->fullUrlIs(...$patterns);
         }
 
         /**
@@ -9745,7 +9745,9 @@ namespace Illuminate\Support\Facades {
          * Gets the preferred format for the response by inspecting, in the following order:
          *   * the request format set using setRequestFormat
          *   * the values of the Accept HTTP header
-         *   * the content type of the body of the request.
+         *
+         * Note that if you use this method, you should send the "Vary: Accept" header
+         * in the response to prevent any issues with intermediary HTTP caches.
          *
          * @static
          */
@@ -10364,9 +10366,9 @@ namespace Illuminate\Support\Facades {
          *
          * @static
          */
-        public static function validate($rules, $params = null)
+        public static function validate($rules, ...$params)
         {
-            return \Illuminate\Http\Request::validate($rules, $params);
+            return \Illuminate\Http\Request::validate($rules, ...$params);
         }
 
         /**
@@ -11350,10 +11352,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function is($patterns = null)
+        public static function is(...$patterns)
         {
             /** @var \Illuminate\Routing\Router $instance */
-            return $instance->is($patterns);
+            return $instance->is(...$patterns);
         }
 
         /**
@@ -11363,10 +11365,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function currentRouteNamed($patterns = null)
+        public static function currentRouteNamed(...$patterns)
         {
             /** @var \Illuminate\Routing\Router $instance */
-            return $instance->currentRouteNamed($patterns);
+            return $instance->currentRouteNamed(...$patterns);
         }
 
         /**
@@ -11388,10 +11390,10 @@ namespace Illuminate\Support\Facades {
          * @return bool
          * @static
          */
-        public static function uses($patterns = null)
+        public static function uses(...$patterns)
         {
             /** @var \Illuminate\Routing\Router $instance */
-            return $instance->uses($patterns);
+            return $instance->uses(...$patterns);
         }
 
         /**
@@ -15573,10 +15575,10 @@ namespace DaveJamesMiller\Breadcrumbs\Facades {
          *     are) not registered.
          * @static
          */
-        public static function generate($name = null, $params = null)
+        public static function generate($name = null, ...$params)
         {
             /** @var \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager $instance */
-            return $instance->generate($name, $params);
+            return $instance->generate($name, ...$params);
         }
 
         /**
@@ -15591,10 +15593,10 @@ namespace DaveJamesMiller\Breadcrumbs\Facades {
          * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\ViewNotSetException if no view has been set.
          * @static
          */
-        public static function view($view, $name = null, $params = null)
+        public static function view($view, $name = null, ...$params)
         {
             /** @var \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager $instance */
-            return $instance->view($view, $name, $params);
+            return $instance->view($view, $name, ...$params);
         }
 
         /**
@@ -15608,10 +15610,10 @@ namespace DaveJamesMiller\Breadcrumbs\Facades {
          * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\ViewNotSetException if no view has been set.
          * @static
          */
-        public static function render($name = null, $params = null)
+        public static function render($name = null, ...$params)
         {
             /** @var \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager $instance */
-            return $instance->render($name, $params);
+            return $instance->render($name, ...$params);
         }
 
         /**
@@ -15638,10 +15640,10 @@ namespace DaveJamesMiller\Breadcrumbs\Facades {
          * @return void
          * @static
          */
-        public static function setCurrentRoute($name, $params = null)
+        public static function setCurrentRoute($name, ...$params)
         {
             /** @var \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager $instance */
-            $instance->setCurrentRoute($name, $params);
+            $instance->setCurrentRoute($name, ...$params);
         }
 
         /**
@@ -15695,6 +15697,245 @@ namespace DaveJamesMiller\Breadcrumbs\Facades {
         public static function hasMacro($name)
         {
             return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::hasMacro($name);
+        }
+
+    }
+
+}
+
+namespace Maatwebsite\Excel\Facades {
+
+    /**
+     *
+     *
+     */
+    class Excel
+    {
+
+        /**
+         *
+         *
+         * @param object $export
+         * @param string|null $fileName
+         * @param string $writerType
+         * @param array $headers
+         * @return \Maatwebsite\Excel\BinaryFileResponse
+         * @static
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         */
+        public static function download($export, $fileName, $writerType = null, $headers = [])
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->download($export, $fileName, $writerType, $headers);
+        }
+
+        /**
+         *
+         *
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
+         * @return bool
+         * @static
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         */
+        public static function store($export, $filePath, $diskName = null, $writerType = null, $diskOptions = [])
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->store($export, $filePath, $diskName, $writerType, $diskOptions);
+        }
+
+        /**
+         *
+         *
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
+         * @return \Maatwebsite\Excel\PendingDispatch
+         * @static
+         */
+        public static function queue($export, $filePath, $disk = null, $writerType = null, $diskOptions = [])
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->queue($export, $filePath, $disk, $writerType, $diskOptions);
+        }
+
+        /**
+         *
+         *
+         * @param object $export
+         * @param string $writerType
+         * @return string
+         * @static
+         */
+        public static function raw($export, $writerType)
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->raw($export, $writerType);
+        }
+
+        /**
+         *
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Maatwebsite\Excel\Reader|\Maatwebsite\Excel\PendingDispatch
+         * @static
+         */
+        public static function import($import, $filePath, $disk = null, $readerType = null)
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->import($import, $filePath, $disk, $readerType);
+        }
+
+        /**
+         *
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return array
+         * @static
+         */
+        public static function toArray($import, $filePath, $disk = null, $readerType = null)
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->toArray($import, $filePath, $disk, $readerType);
+        }
+
+        /**
+         *
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Maatwebsite\Excel\Collection
+         * @static
+         */
+        public static function toCollection($import, $filePath, $disk = null, $readerType = null)
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->toCollection($import, $filePath, $disk, $readerType);
+        }
+
+        /**
+         *
+         *
+         * @param \Maatwebsite\Excel\ShouldQueue $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string $readerType
+         * @return \Maatwebsite\Excel\PendingDispatch
+         * @static
+         */
+        public static function queueImport($import, $filePath, $disk = null, $readerType = null)
+        {
+            /** @var \Maatwebsite\Excel\Excel $instance */
+            return $instance->queueImport($import, $filePath, $disk, $readerType);
+        }
+
+        /**
+         *
+         *
+         * @param string $concern
+         * @param callable $handler
+         * @param string $event
+         * @static
+         */
+        public static function extend($concern, $handler, $event = 'Maatwebsite\Excel\Events\BeforeWriting')
+        {
+            return \Maatwebsite\Excel\Excel::extend($concern, $handler, $event);
+        }
+
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular expression
+         * to look for a matching file path.
+         *
+         * @return void
+         * @static
+         */
+        public static function matchByRegex()
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            $instance->matchByRegex();
+        }
+
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular string
+         * comparison for matching file path.
+         *
+         * @return void
+         * @static
+         */
+        public static function doNotMatchByRegex()
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            $instance->doNotMatchByRegex();
+        }
+
+        /**
+         *
+         *
+         * @param string $fileName
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertDownloaded($fileName, $callback = null)
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            return $instance->assertDownloaded($fileName, $callback);
+        }
+
+        /**
+         *
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertStored($filePath, $disk = null, $callback = null)
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            return $instance->assertStored($filePath, $disk, $callback);
+        }
+
+        /**
+         *
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertQueued($filePath, $disk = null, $callback = null)
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            return $instance->assertQueued($filePath, $disk, $callback);
+        }
+
+        /**
+         *
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertImported($filePath, $disk = null, $callback = null)
+        {
+            /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+            return $instance->assertImported($filePath, $disk, $callback);
         }
 
     }
@@ -17711,10 +17952,10 @@ namespace {
          * @return \Illuminate\Database\Query\Builder
          * @static
          */
-        public static function groupBy($groups = null)
+        public static function groupBy(...$groups)
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
-            return $instance->groupBy($groups);
+            return $instance->groupBy(...$groups);
         }
 
         /**
@@ -18575,6 +18816,10 @@ namespace {
     }
 
     class Breadcrumbs extends \DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs
+    {
+    }
+
+    class Excel extends \Maatwebsite\Excel\Facades\Excel
     {
     }
 

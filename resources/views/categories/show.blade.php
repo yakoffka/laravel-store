@@ -22,7 +22,7 @@
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
            <div class="row">
                 @foreach ( $categories as $category )
-                    @if ( !config('settings.show_empty_category') && !$category->products->count() && !$category->children->count() )
+                    @if ( !config('settings.show_empty_category') && !$category->products->count() && !$category->subcategories->count() )
                         @continue
                     @endif
                     @categoryGrid(compact('category'))

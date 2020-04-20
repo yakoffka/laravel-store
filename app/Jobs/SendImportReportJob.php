@@ -50,12 +50,12 @@ class SendImportReportJob implements ShouldQueue
     }
 
     /**
-     * @inheritDoc
+     *
      * @throws FileNotFoundException
      */
     public function getDirPathMovedReportFiles(): string
     {
-        $dirDstPath = 'import_results/' . Str::random(42) . '/';
+        $dirDstPath = 'import_results/' . time() . '_' . Str::random(42) . '/';
         $fileNames = [
             'csv_src_file' => ImportServiceInterface::CSV_SRC_NAME,
             'csv_file' => ImportServiceInterface::CSV_NAME,

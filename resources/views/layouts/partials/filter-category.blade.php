@@ -12,7 +12,7 @@
                 @continue;
             @endif
 
-            @if ($category->children->count()){{-- parent categories whith subcategories --}}
+            @if ($category->subcategories->count()){{-- parent categories whith subcategories --}}
             <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1"
                    onClick="check_{{ $category->id }}(this.form,this.checked)"
                    id="filter_categories_{{ $category->id }}"
@@ -27,7 +27,7 @@
                 {{ $category->uc_title }}
             </label>
 
-            @foreach ( $category->children as $subcategory )
+            @foreach ( $category->subcategories as $subcategory )
 
                 {{-- subcategories --}}
                 @if ( $subcategory->parent_id === $category->id )

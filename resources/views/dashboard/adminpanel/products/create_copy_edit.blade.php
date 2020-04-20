@@ -173,8 +173,8 @@
                             <label for="category_id">{{ __('category') }}</label>
                             <select name="category_id" id="category_id">
                                 @foreach ( $catalog as $child_category )
-                                    @if ( $child_category->categories )
-                                        @foreach ( $child_category->categories as $childCategory )
+                                    @if ( $child_category->subcategories )
+                                        @foreach ( $child_category->subcategories as $childCategory )
                                             @include('dashboard/adminpanel/include/child_category_option', [
                                                 'child_category' => $childCategory,
                                                 'prefix' => ''

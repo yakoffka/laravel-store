@@ -63,7 +63,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.index');
         }
 
-        if ( $category->children->count() ) {
+        if ( $category->subcategories->count() ) {
             $categories = Category::with(['parent', 'products', 'children'])
                 ->get()
                 ->where('parent_id', $category->id)

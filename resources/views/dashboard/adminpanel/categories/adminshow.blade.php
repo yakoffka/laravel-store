@@ -44,9 +44,9 @@
                 <tr><td class="th ta_r">{{ __('updated_at') }}</td><td class="td ta_l">{{ $category->updated_at }}</td></tr>
             </table>--}}
 
-            @if ( $category->children->count() )
+            @if ( $category->subcategories->count() )
                 {{-- table categories --}}
-                <h2>В категории '{{ $category->title }}' находятся {{ $category->children->count() }} подкатегорий:</h2>
+                <h2>В категории '{{ $category->title }}' находятся {{ $category->subcategories->count() }} подкатегорий:</h2>
 
                 <table class="blue_table overflow_x_auto">
                     <tr>
@@ -62,7 +62,7 @@
                         <th class="actions3">{{ __('__actions') }}</th>
                     </tr>
 
-                    @foreach ( $category->children as $subcategory)
+                    @foreach ( $category->subcategories as $subcategory)
                         @categoryRow(['category' =>  $subcategory,])
                     @endforeach
 
@@ -120,7 +120,7 @@
                 @formProductsMassupdate
                 {{-- /massupdate --}}
 
-            @elseif ( !$category->products->count() and !$category->children->count() )
+            @elseif ( !$category->products->count() and !$category->subcategories->count() )
                 <h2 class="blue center">Категория пуста</h2>
 
                 <div class="row justify-content-center">

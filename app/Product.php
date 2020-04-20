@@ -608,7 +608,7 @@ class Product extends Model
                 ((string)number_format($this->promotional_percentage, 0, ',', ' ')) . ' %';
         }
         if (config('settings.display_prices')) {
-            $properties['price'] = $this->getFormatterPrice();
+            $properties['price'] = $this->getFormatterPrice(true);
         }
         if ($this->promotional_price && config('settings.display_prices')) {
             $properties['promotional_price'] = $this->getFormatterPromoPrice();
@@ -636,11 +636,12 @@ class Product extends Model
     }
 
     /**
+     * @param bool $short
      * @return string
      */
-    public function getFormatterPrice(): string
+    public function getFormatterPrice($short = false): string
     {
-        $fPrice = $this->formattingPrice($this->price);
+        $fPrice = $this->formattingPrice($this->price, $short);
         if ($this->promotional_price === null) {
             return $fPrice;
         }
@@ -648,36 +649,39 @@ class Product extends Model
     }
 
     /**
+     * @param bool $short
      * @return string
      */
-    public function getFormatterPromoPrice(): string
+    public function getFormatterPromoPrice($short = false): string
     {
-        return $this->formattingPrice($this->promotional_price);
+        return $this->formattingPrice($this->promotional_price, $short);
     }
 
     /**
      * @param $val
+     * @param bool $short
      * @return string
      */
-    private function formattingPrice($val): string
+    private function formattingPrice($val, $short = false): string
     {
         if ($val === null) {
-            return __('Price not specified');
+            return $short ? __('not specified') : __('Price not specified');
         }
         return (string)number_format($val, 0, ', ', ' ') . ' <span class="currency">&#8381;</span>';
     }
 
     /**
+     * @param bool $short
      * @return string
      */
-    public function getActualPrice(): string
+    public function getActualPrice($short = false): string
     {
-        $fPrice = $this->formattingPrice($this->price);
+        $fPrice = $this->formattingPrice($this->price, $short);
         if ($this->promotional_price === null) {
             return $fPrice;
         }
 
-        $fPromoPrice = $this->formattingPrice($this->promotional_price);
+        $fPromoPrice = $this->formattingPrice($this->promotional_price, $short);
         return '<span class="strike_price">' . $fPrice . "</span> <span class='promo_price'>" . $fPromoPrice . '</span>';
     }
 }

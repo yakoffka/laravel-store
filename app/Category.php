@@ -31,14 +31,13 @@ use Mail;
  * @property int|null $edited_by_user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection|Category[] $children
- * @property-read int|null $children_count
+ * @property-read Collection|Category[] $subcategories
+ * @property-read int|null $subcategories_count
  * @property-read string $full_image_path
- * @property-read int $value_for_trans_choice_children
+ * @property-read int $value_for_trans_choice_subcategories
  * @property-read int $value_for_trans_choice_products
  * @property-read Category|null $parent
  * @property-read Collection|Product[] $products
- * @property-read int|null $products_count
  * @method static Builder|Category newModelQuery()
  * @method static Builder|Category newQuery()
  * @method static Builder|Category query()
@@ -69,7 +68,7 @@ class Category extends Model
      */
     public function parent(): belongsTo
     {
-        return $this->belongsTo(__CLASS__, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     /**
@@ -82,6 +81,7 @@ class Category extends Model
 
     /**
      * @return HasMany
+     * @deprecated заменить на scope
      */
     public function publishedProducts(): HasMany
     {
@@ -91,53 +91,33 @@ class Category extends Model
     /**
      * @return HasMany
      */
-    public function categories(): hasMany
+    public function subcategories(): hasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id')
+//            ->withCount('subcategories')
+            ->withCount('products');
     }
 
     /**
      * @return HasMany
      */
-    public function childrenCategories(): HasMany
+    public function recursiveSubcategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id')->with('categories');
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function children(): hasMany
-    {
-        return $this->hasMany(self::class, 'parent_id');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function getAllParents(): BelongsTo
-    {
-        return $this->parent()->with($this->getAllParents());
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function allChildren(): HasMany
-    {
-        return $this->hasMany(self::class)->with($this->children());
+        return $this->hasMany(self::class, 'parent_id')->with('subcategories');
     }
 
     /**
      * @return int
+     * @deprecated
      */
     public function countChildren(): int
     {
-        return $this->children()->count();
+        return $this->subcategories()->count();
     }
 
     /**
      * @return int
+     * @deprecated
      */
     public function countProducts(): int
     {
@@ -146,6 +126,7 @@ class Category extends Model
 
     /**
      * @return bool
+     * @deprecated
      */
     public function hasChildren(): bool
     {
@@ -154,6 +135,7 @@ class Category extends Model
 
     /**
      * @return bool
+     * @deprecated
      */
     public function hasProducts(): bool
     {
@@ -162,6 +144,7 @@ class Category extends Model
 
     /**
      * @return bool
+     * @deprecated
      */
     public function hasDescendant(): bool
     {
@@ -192,15 +175,15 @@ class Category extends Model
      *
      * @return integer [^1]{1}\d or [1]{1}\d
      *
-     * in controller or blade using snake-case: $category->value_for_trans_choice_children
+     * in controller or blade using snake-case: $category->value_for_trans_choice_subcategories
      */
-    public function getValueForTransChoiceChildrenAttribute(): int
+    public function getValueForTransChoiceSubcategoriesAttribute(): int
     {
-        if (substr($this->children->count(), -2, 1) === '1') {
-            return substr($this->children->count(), -2);
+        if (substr($this->subcategories->count(), -2, 1) === '1') {
+            return substr($this->subcategories->count(), -2);
         }
 
-        return substr($this->children->count(), -1);
+        return substr($this->subcategories->count(), -1);
     }
 
     /**
@@ -248,7 +231,7 @@ class Category extends Model
      */
     public function setPublishAttribute($value): void
     {
-        $this->attributes['publish'] = ($value === 'on' || $value === true );
+        $this->attributes['publish'] = ($value === 'on' || $value === true);
     }
 
     /**

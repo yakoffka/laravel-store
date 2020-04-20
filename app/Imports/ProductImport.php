@@ -153,7 +153,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure) {
-            $mess = __METHOD__ . ': ' . $this->getMessagesWithValues($failure);
+            $mess = __CLASS__ . ' ' . $this->getMessagesWithValues($failure);
             Storage::disk('import')->append(ImportServiceInterface::LOG, '[' . Carbon::now() . '] ' . $mess);
             Storage::disk('import')->append(ImportServiceInterface::E_LOG, '[' . Carbon::now() . '] ' . $mess);
         }
@@ -178,7 +178,7 @@ class ProductImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnF
         $value = $failure->values()[$failure->attribute()];
         $code1C = $failure->values()['code_1c'];
         $arrMess = array_map(static function ($m) use ($value, $code1C) {
-            return $m . " Невалидное значение: '$value'. 1С-код товара: '$code1C';";
+            return $m . " значение: '$value'; 1С-код: '$code1C';";
         }, $failure->toArray());
 
         return implode(PHP_EOL, $arrMess);

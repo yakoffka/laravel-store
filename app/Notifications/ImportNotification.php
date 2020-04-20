@@ -36,10 +36,12 @@ class ImportNotification extends Notification
     }
 
     /**
-     * @param User $notifiable
+     * @param User $user
      * @return SlackMessage
      */
-    public function toSlack(User $notifiable): SlackMessage {
-        return (new SlackMessage)->content($this->mess . ' [' . now()->format('Y.m.d H:i:s') . ']');
+    public function toSlack(User $user): SlackMessage
+    {
+        $mess = $this->mess . ' = ' . $user->name . ' = [' . now()->format('Y.m.d H:i:s') . ']';
+        return (new SlackMessage)->content($mess);
     }
 }

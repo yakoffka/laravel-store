@@ -17,9 +17,9 @@
                                 <label for="category_id">{{ $mess }} 2</label>
                                 <select name="category_id" id="category_id">
                                     @foreach ( $categories as $category )
-                                        @if ( $category->children->count() !== 0 ){{-- категории с подкатегориями --}}
-                                            @foreach ( $category->children as $subcategory )
-                                                @if ( $subcategory->children->count() === 0 ){{-- подкатегории без подкатегорий --}}
+                                        @if ( $category->subcategories->count() !== 0 ){{-- категории с подкатегориями --}}
+                                            @foreach ( $category->subcategories as $subcategory )
+                                                @if ( $subcategory->subcategories->count() === 0 ){{-- подкатегории без подкатегорий --}}
                                                     <option value="{{ $subcategory->id }}">{{ $category->name }} > {{ $subcategory->title }}</option>
                                                 @endif
                                             @endforeach

@@ -64,7 +64,7 @@ class ProductController extends Controller
         $appends = request()->query->all();
         $products = Product::with(['category', 'images'])
             ->paginate(config('custom.pagination_product_admin'));
-        $categories = Category::with(['children', 'products'])->get();
+        $categories = Category::with(['subcategories', 'products'])->get();// @todo: есть ли необходимость? см ComposerServiceProvider
 
         return view('dashboard.adminpanel.products.adminindex', compact('appends', 'categories', 'products'));
     }
@@ -84,8 +84,8 @@ class ProductController extends Controller
         ];
         $manufacturers = Manufacturer::all();
         $catalog = Category::where('id', '=', 1)
-            ->with('childrenCategories') // recursive relation
-            ->get();
+            ->with('recursiveSubcategories')
+            ->get();// @todo: это разве еще не получено? в ComposerServiceProvider
 
         return view('dashboard.adminpanel.products.create_copy_edit',
             compact('actions', 'manufacturers', 'catalog'));
@@ -147,8 +147,8 @@ class ProductController extends Controller
         ];
         $manufacturers = Manufacturer::all();
         $catalog = Category::where('parent_id', null)
-            ->with('childrenCategories')
-            ->get();
+            ->with('recursiveSubcategories')
+            ->get();// @todo: это разве еще не получено? в ComposerServiceProvider
 
         return view('dashboard.adminpanel.products.create_copy_edit',
             compact('actions', 'product', 'manufacturers', 'catalog'));
@@ -170,8 +170,8 @@ class ProductController extends Controller
         ];
         $manufacturers = Manufacturer::all();
         $catalog = Category::where('parent_id', null)
-            ->with('childrenCategories')
-            ->get();
+            ->with('recursiveSubcategories')
+            ->get();// @todo: это разве еще не получено? в ComposerServiceProvider
         session()->flash('message', 'When copying an item, you must change its name!');
 
         return view('dashboard.adminpanel.products.create_copy_edit',
@@ -261,9 +261,9 @@ class ProductController extends Controller
         ]);
 
         $query = request('query');
-        $array_publish_categories = Category::with(['parent', 'children'])
+        $array_publish_categories = Category::with(['parent', 'subcategories'])
             ->get()
-            ->filter(static function ($value, $key) {
+            ->filter(static function ($value) {
                 return $value->hasDescendant() && $value->isPublish();
             })
             ->pluck('id')

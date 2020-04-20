@@ -30,7 +30,7 @@ class ResponseTest extends TestCase
      */
     public function getRequests200Test(): void
     {
-        $category = Category::with(['parent', 'children', 'products'])
+        $category = Category::with(['parent', 'subcategories', 'products'])
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function (Category $value) {
@@ -43,7 +43,7 @@ class ResponseTest extends TestCase
             ->where('publish', '=', true)
             ->random();
 
-        $manufacturer = Manufacturer::get()->random();
+        // $manufacturer = Manufacturer::get()->random();
 
 
         $getRequests200 = [
@@ -53,10 +53,9 @@ class ResponseTest extends TestCase
             '/categories/' . $category->id,
 
             '/search?query=products',
-
-            '/products?manufacturers[]=' . $manufacturer->id,
+            // '/products?manufacturers[]=' . $manufacturer->id,
             '/products?&categories[' . $category->id . ']=' . $category->id,
-            '/products?manufacturers[]=' . $manufacturer->id . '&categories[' . $category->id . ']=' . $category->id,
+            // '/products?manufacturers[]=' . $manufacturer->id . '&categories[' . $category->id . ']=' . $category->id,
 
             '/cart',
         ];
@@ -66,13 +65,17 @@ class ResponseTest extends TestCase
         ];
 
         foreach ($getRequests200 as $route) {
+            echo "\$route = '$route'\n";
             $response = $this->get($route);
             $response->assertStatus(200);
+            echo "200 - OK!\n";
         }
 
         foreach ($getRequests302 as $route) {
+            echo "\$route = '$route'\n";
             $response = $this->get($route);
             $response->assertStatus(302);
+            echo "302 - OK!\n";
         }
     }
 
@@ -86,7 +89,7 @@ class ResponseTest extends TestCase
     {
         $getRequests404 = [];
 
-        $categories = Category::with(['parent', 'children', 'products'])
+        $categories = Category::with(['parent', 'subcategories', 'products'])
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function (Category $value) {
@@ -104,7 +107,7 @@ class ResponseTest extends TestCase
             }
         }
 
-        $invisibleCategories = Category::with(['parent', 'children', 'products'])
+        $invisibleCategories = Category::with(['parent', 'subcategories', 'products'])
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function (Category $value) {
@@ -124,7 +127,7 @@ class ResponseTest extends TestCase
 
         }
 
-        $invisibleSubCategories = Category::with(['parent', 'children', 'products'])
+        $invisibleSubCategories = Category::with(['parent', 'subcategories', 'products'])
             ->get()
             ->where('id', '<>', 1)
             ->filter(static function (Category $value) {

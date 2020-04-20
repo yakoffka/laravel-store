@@ -93,6 +93,7 @@
 
 
     "Price not specified": "Цена не указана",
+    "not specified": "не указана",
 
     "SuccessOperationMessage": "Операция выполнена успешно",
     "custom_events_show_title": "Просмотр события",

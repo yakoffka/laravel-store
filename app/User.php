@@ -186,22 +186,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Направление уведомлений для Slack-канала.
-     *
+     * @param null $notification
      * @return string
      */
-    /*public function routeNotificationForSlack(): string
-    {
-        return config('custom.slack_webhook');
-    }*/
-
-
-    /**
-     * @param $driver
-     * @param null $notification
-     * @return Repository|mixed
-     */
-    public function routeNotificationFor($driver, $notification = null)
+    public function routeNotificationForSlack($notification = null): string
     {
         return config('custom.slack_webhook');
     }

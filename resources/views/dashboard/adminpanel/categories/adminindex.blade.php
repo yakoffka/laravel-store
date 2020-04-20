@@ -42,7 +42,7 @@
                     @foreach ( $categories as $category )
                         @if ( isset($category->parent) && $category->parent->id === 1 && $category->id !== 1)
                             @categoryRow(['category' =>  $category, 'maincategory' => true])
-                            @foreach($category->children as $subcategory)
+                            @foreach($category->subcategories as $subcategory)
                                 @categoryRow(['category' =>  $subcategory,])
                             @endforeach
                         @endif
