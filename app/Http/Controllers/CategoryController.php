@@ -12,7 +12,8 @@ class CategoryController extends Controller
     /**
      * CategoryController constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth')->except(['index', 'show']);
     }
 
@@ -31,7 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        abort_if( auth()->user()->cannot('create_categories'), 403);
+        abort_if(auth()->user()->cannot('create_categories'), 403);
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.create', compact('categories'));
     }
@@ -57,24 +58,25 @@ class CategoryController extends Controller
      */
     public function show(Category $category): View
     {
-        abort_if ( !$category->isPublish(), 404 );
+        abort_if(!$category->isPublish(), 404);
 
-        if ( $category->id === 1 ) {
+        if ($category->id === 1) {
             return redirect()->route('categories.index');
         }
 
-        if ( $category->subcategories->count() ) {
-            $categories = Category::with(['parent', 'products', 'subcategories'])
+        if ($category->subcategories->count()) {
+            $categories = Category::where('parent_id', $category->id)
+                ->with(['parent', 'products', 'subcategories'])
+                ->withCount('subcategories', 'products')
                 ->get()
-                ->where('parent_id', $category->id)
                 ->filter(static function (Category $value) {
-                    return $value->hasDescendant() && $value->isPublish();
+                    return ($value->subcategories_count > 0 || $value->products_count > 0) && $value->isPublish();
                 })
                 ->sortBy('sort_order');
             return view('categories.show', compact('category', 'categories'));
         }
 
-        if ( $category->products->count() ) {
+        if ($category->products->count()) {
             $products = Product::where('category_id', $category->id)
                 ->where('publish', '=', true)
                 ->orderBy('price')
@@ -92,7 +94,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): View
     {
-        abort_if (auth()->user()->cannot('edit_categories'), 403);
+        abort_if(auth()->user()->cannot('edit_categories'), 403);
         $categories = Category::all();
         return view('dashboard.adminpanel.categories.edit', compact('category', 'categories'));
     }
@@ -120,14 +122,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
-        abort_if ( auth()->user()->cannot('delete_categories'), 403 );
+        abort_if(auth()->user()->cannot('delete_categories'), 403);
 
-        if ( $category->id === 1 ) {
+        if ($category->id === 1) {
             return back()->withErrors(['"' . $category->name . '" is basic category and can not be removed.']);
         }
 
         // запрет удаления непустой категории
-        if ( $category->hasDescendant() ) {
+        if ($category->hasDescendant()) {
             return back()->withErrors(['Категория "' . $category->name . '" не может быть удалена, пока в ней находятся товары или подкатегории.']);
         }
 
@@ -159,7 +161,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource for admin side.
      *
-     * @param  Category $category
+     * @param Category $category
      * @return View
      */
     public function adminShow(Category $category): View

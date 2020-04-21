@@ -46,6 +46,21 @@ class ComposerServiceProvider extends ServiceProvider
                 })
                 ->sortBy('sort_order')
         );
+        /*View::share('globalCategories',
+            Cache::remember('globalCategories', 3600, function () {
+                return Category::with(['parent', 'subcategories'])
+                    ->get()
+                    ->where('parent.id', '=', 1)
+                    ->where('id', '>', 1)
+                    ->filter(static function (Category $value) {
+                        if (!config('settings.show_empty_category')) {
+                            return $value->hasDescendant() && $value->isPublish();
+                        }
+                        return $value->isPublish();
+                    })
+                    ->sortBy('sort_order');
+            })
+        );*/
 
         View::share('sharedRecursiveCategories',
             Cache::remember('sharedRecursiveCategories', 3600, function () {

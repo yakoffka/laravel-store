@@ -2,7 +2,7 @@
 
 <h4 class="ta_c">фильтры</h4>
 
-<form class="formfilters" action="{{ route('customevents.index') }}">
+<form class="form_filters" action="{{ route('customevents.index') }}">
 
     {{-- {{dd($models)}} --}}
     @if ( $models->count() )
@@ -15,7 +15,7 @@
                         checked
                     @endif
                 >
-                <label class="filters main_category" 
+                <label class="filters main_category"
                     for="filter_models_{{ $model }}"
                     title="{{ $model }}"
                 >
@@ -37,7 +37,7 @@
                         checked
                     @endif
                 >
-                <label class="filters main_category" 
+                <label class="filters main_category"
                     for="filter_types_{{ $type }}"
                     title="{{ $type }}"
                 >
@@ -59,7 +59,7 @@
                         checked
                     @endif
                 >
-                <label class="filters main_category" 
+                <label class="filters main_category"
                     for="filter_users_{{ $user_id }}"
                     title="{{ $user_name }}"
                 >
@@ -78,7 +78,7 @@
 </form>
 
 @if ( !empty($appends['models']) or !empty($appends['types']) or !empty($appends['users']) )
-<form class="formfilters" action="{{ route('customevents.index') }}">
+<form class="form_filters" action="{{ route('customevents.index') }}">
     <button type="submit" class="btn btn-outline-danger form-control">
         <i class="fas fa-eraser"></i> cleare filter
     </button>

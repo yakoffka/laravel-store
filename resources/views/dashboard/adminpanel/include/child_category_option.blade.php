@@ -1,6 +1,4 @@
-{{ dd('wtf? $child_category->subcategories()->count()???') }}
-
- @if ( !($child_category->subcategories()->count()) )
+@if ( !($child_category->subcategories()->count()) )
     <option value="{{ $child_category->id }}"
             @if ( isset($product) && $product->category_id === $child_category->id ) selected @endif
     >

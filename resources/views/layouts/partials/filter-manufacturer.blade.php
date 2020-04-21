@@ -1,26 +1,20 @@
-
-
-{{-- <div class="filter_block right_stylized_checkbox"> --}}
-<div class="filter_block left_stylized_checkbox">
-    <div class="filter_block_header">ПО ПРОИЗВОДИТЕЛЯМ</div>
-    @if($manufacturers->count())
-
+@if($manufacturers->count())
+    <div class="filter_block left_stylized_checkbox">
+        <div class="filter_block_header">{{ __('manufacturer filter') }}</div>
         @foreach($manufacturers as $manufacturer)
-            <input 
+            <input
                 type="checkbox"
                 id="filter_manufacturers_{{ $manufacturer->id }}"
-                name="manufacturers[]" 
+                name="manufacturers[]"
                 value="{{ $manufacturer->id }}"
-                
+
                 @if ( !empty($appends['manufacturers']) and in_array($manufacturer->id, $appends['manufacturers']) )
-                    checked
+                checked
                 @endif
             >
             <label class="filters" for="filter_manufacturers_{{ $manufacturer->id }}">
                 {{ $manufacturer->title }}
             </label>
-
         @endforeach
-
-    @endif
-</div>
+    </div>
+@endif

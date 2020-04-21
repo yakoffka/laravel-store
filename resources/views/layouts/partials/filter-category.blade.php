@@ -1,7 +1,6 @@
-<div class="filter_block left_stylized_checkbox">
-    <div class="filter_block_header">ПО КАТЕГОРИЯМ</div>
-
-    @if( $globalCategories->count() > 0 )
+@if( $globalCategories->count() > 0 )
+    <div class="filter_block left_stylized_checkbox">
+        <div class="filter_block_header">{{ __('categories filter') }}</div>
         @php
             $oForms = '';
         @endphp
@@ -12,53 +11,52 @@
                 @continue;
             @endif
 
-            @if ($category->subcategories->count()){{-- parent categories whith subcategories --}}
-            <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1"
+            {{-- categories has subcategories --}}
+            @if ($category->subcategories->count())
+                <input class="filters category" type="checkbox" name="total_{{ $category->id }}" value="1"
                    onClick="check_{{ $category->id }}(this.form,this.checked)"
                    id="filter_categories_{{ $category->id }}"
                    @if ( !empty($appends['total_' . $category->id]) )
-                   checked
-                @endif
-            >
-            <label class="filters main_category" for="filter_categories_{{ $category->id }}"
-                   onClick="check_{{ $category->id }}(this.form,['total_{{ $category->id }}'].checked)"
-                   title="{{ $category->uc_title }}"
-            >
-                {{ $category->uc_title }}
-            </label>
+                       checked
+                   @endif
+                >
+                <label class="filters main_category" for="filter_categories_{{ $category->id }}"
+                       onClick="check_{{ $category->id }}(this.form,['total_{{ $category->id }}'].checked)"
+                       title="{{ $category->uc_title }}">
+                    {{ $category->uc_title }}
+                </label>
 
-            @foreach ( $category->subcategories as $subcategory )
+                @foreach ( $category->subcategories as $subcategory )
 
-                {{-- subcategories --}}
-                @if ( $subcategory->parent_id === $category->id )
-                    @php
-                        if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
-                            $oForms = '';
-                        }
-                        $oForms .= 'oForm[\'categories[' . $subcategory->id . ']\'].checked = checked;';
-                        $parent_category_id = $category->id;
-                    @endphp
-                    <input
-                        class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
-                        type="checkbox"
-                        name="categories[{{ $subcategory->id }}]"
-                        value="{{ $subcategory->id }}"
-                        id="filter_categories_{{ $subcategory->id }}"
-                        @if ( !empty($appends['categories']) && in_array($subcategory->id, $appends['categories'], false) )
-                        checked
-                        @endif
-                    >
-                    <label
-                        class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
-                        for="filter_categories_{{ $subcategory->id }}"
-                        title="{{ $subcategory->uc_title }}"
-                    >
-                        {{ $subcategory->uc_title }}
-                    </label>
-                @endif
-            @endforeach
-            <script
-                type="text/javascript"> function check_{{ $category->id }}(oForm, checked) { {!! $oForms !!} } </script>
+                    {{-- subcategories --}}
+                    @if ( $subcategory->parent_id === $category->id )
+                        @php
+                            if ( empty($parent_category_id) or $parent_category_id !== $category->id ) {
+                                $oForms = '';
+                            }
+                            $oForms .= 'oForm[\'categories[' . $subcategory->id . ']\'].checked = checked;';
+                            $parent_category_id = $category->id;
+                        @endphp
+                        <input
+                            class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
+                            type="checkbox"
+                            name="categories[{{ $subcategory->id }}]"
+                            value="{{ $subcategory->id }}"
+                            id="filter_categories_{{ $subcategory->id }}"
+                            @if ( !empty($appends['categories']) && in_array($subcategory->id, $appends['categories'], false) )
+                            checked
+                            @endif
+                        >
+                        <label
+                            class="filters subcategory{{ config('settings.filter_subcategories') ? '' : ' invisible' }}"
+                            for="filter_categories_{{ $subcategory->id }}"
+                            title="{{ $subcategory->uc_title }}"
+                        >
+                            {{ $subcategory->uc_title }}
+                        </label>
+                    @endif
+                @endforeach
+                <script type="text/javascript"> function check_{{ $category->id }}(oForm, checked) { {!! $oForms !!} } </script>
 
             {{-- categories without subcategories --}}
             @elseif ( $category->parent_id === 1 )
@@ -68,13 +66,11 @@
                        checked
                     @endif
                 >
-                <label class="filters main_category"
-                       for="filter_categories_{{ $category->id }}"
-                       title="{{ $category->uc_title }}"
-                >
+                <label class="filters main_category" for="filter_categories_{{ $category->id }}"
+                       title="{{ $category->uc_title }}">
                     {{ $category->uc_title }}
                 </label>
             @endif
         @endforeach
-    @endif
-</div>
+    </div>
+@endif

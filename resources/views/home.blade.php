@@ -36,17 +36,11 @@
     <h2 id="catalog">наша продукция</h2>
 
     <div class="row">
-
         @foreach ( $globalCategories as $category )
-
-            {{-- hide empty categories --}}
             @if ( !config('settings.show_empty_category') and !$category->products->count() and !$category->subcategories->count() )
                 @continue
             @endif
-            {{-- /hide empty categories --}}
-
-            @categoryGrid(compact('category'))
-
+            @include('includes.category-grid', compact('category'))
         @endforeach
     </div>
     {{-- catalog --}}

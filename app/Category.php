@@ -94,7 +94,7 @@ class Category extends Model
     public function subcategories(): hasMany
     {
         return $this->hasMany(self::class, 'parent_id')
-//            ->withCount('subcategories')
+            // ->withCount('subcategories')
             ->withCount('products');
     }
 
@@ -110,7 +110,7 @@ class Category extends Model
      * @return int
      * @deprecated
      */
-    public function countChildren(): int
+    public function countSubcategories(): int
     {
         return $this->subcategories()->count();
     }
@@ -130,7 +130,7 @@ class Category extends Model
      */
     public function hasChildren(): bool
     {
-        return $this->countChildren() > 0;
+        return $this->countSubcategories() > 0;
     }
 
     /**

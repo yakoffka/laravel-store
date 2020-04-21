@@ -312,6 +312,9 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 #left_menu {
     box-shadow: 0 1px 2px 0 rgba(0,0,50,0.26);
 }
+#left_menu .list-group {
+    margin-bottom: 1.5em;
+}
 #left_menu a.list-group-item {
     position: relative;
     color: #3490dc;
@@ -1508,11 +1511,11 @@ ul.navbar-nav {
     align-items: center;
     justify-content: space-between;
 } */
-.aside .formfilters {
+.aside .form_filters {
     margin: 0 0 1rem;
 }
 
-.aside .formfilters p {
+.aside .form_filters p {
     padding: .1rem;
     margin: 0;
     display: flex;

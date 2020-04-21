@@ -271,7 +271,7 @@
     "confirmation of an order": "Подтверждение заказа",
     "confirm order": "подтвердить заказ",
     "filter_out": "отфильтровать",
-    "cleare_filter": "сбросить фильтр",
+    "clear_filter": "сбросить фильтр",
     "__Your_Name_required": "Имя",
     "__Your_Email_required": "Адрес электронной почты",
     "Subject": "Выберите тему",
@@ -312,6 +312,9 @@
     "height": "высота",
     "remaining": "остаток",
     "count_views": "просмотров",
+
+    "categories filter": "фильтр по категориям",
+    "manufacturer filter": "фильтр по производителям",
 
     "e": "e"
 }

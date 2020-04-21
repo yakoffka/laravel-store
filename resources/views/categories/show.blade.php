@@ -9,7 +9,8 @@
         <div class="col-xs-12 col-sm-12 col-md-9 breadcrumbs">
             {{ Breadcrumbs::render('categories.show', $category) }}
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
+        <div
+            class="col-xs-12 col-sm-12 col-md-3 d-none d-md-block searchform">{{-- d-none d-md-block - Скрыто на экранах меньше md --}}
             @include('layouts.partials.searchform')
         </div>
     </div>
@@ -20,12 +21,15 @@
     <div class="row">
         @include('layouts.partials.aside')
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-           <div class="row">
+            <div class="row">
                 @foreach ( $categories as $category )
-                    @if ( !config('settings.show_empty_category') && !$category->products->count() && !$category->subcategories->count() )
+                    @if ( !config('settings.show_empty_category')
+                        && !$category->products_count
+                        && !$category->subcategories_count
+                    )
                         @continue
                     @endif
-                    @categoryGrid(compact('category'))
+                    @include('includes.category-grid', compact('category'))
                 @endforeach
             </div>
         </div>
