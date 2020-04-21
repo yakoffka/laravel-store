@@ -3,7 +3,8 @@
     @if ($sharedFlatCategories->find($category->id)->subcategories_count)
         <a href="#category_{{ $category->id }}" class="list-group-item" data-toggle="collapse"
            data-parent="#{{ $data_parent }}">
-            {{ ($category->uc_title) }} <i class="right fas fa-chevron-down"></i>
+            {{ ($category->uc_title) }}
+            <div class="animated-icon3"><span></span><span></span><span></span></div>
         </a>
         <div class="b_bottom"></div>
         <div class="collapse {{ $sub_class }}" id="category_{{ $category->id }}">
@@ -28,4 +29,3 @@
         <div class="b_bottom"></div>
     @endif
 @endforeach
-

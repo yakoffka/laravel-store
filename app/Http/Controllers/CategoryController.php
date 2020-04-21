@@ -64,7 +64,7 @@ class CategoryController extends Controller
         }
 
         if ( $category->subcategories->count() ) {
-            $categories = Category::with(['parent', 'products', 'children'])
+            $categories = Category::with(['parent', 'products', 'subcategories'])
                 ->get()
                 ->where('parent_id', $category->id)
                 ->filter(static function (Category $value) {
