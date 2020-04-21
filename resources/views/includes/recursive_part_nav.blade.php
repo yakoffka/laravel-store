@@ -3,7 +3,7 @@
     @if ($sharedFlatCategories->find($category->id)->subcategories_count)
         <a href="#category_{{ $category->id }}" class="list-group-item" data-toggle="collapse"
            data-parent="#{{ $data_parent }}">
-            {{ ($category->uc_title) }}
+            {{ ($category->uc_title) }} {{--[{{  }}]--}}
             <div class="animated-icon3"><span></span><span></span><span></span></div>
         </a>
         <div class="b_bottom"></div>
@@ -18,7 +18,9 @@
     @elseif ($sharedFlatCategories->find($category->id)->products_count)
         <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="list-group-item"
            data-parent="#{{ $data_parent }}">
-            {{$category->uc_title}} <i class="right fas fa-chevron-right"></i>
+            {{$category->uc_title}}
+            [{{ $sharedFlatCategories->find($category->id)->products_count }}]
+            <i class="right fas fa-chevron-right"></i>
         </a>
         <div class="b_bottom"></div>
 
