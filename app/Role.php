@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Mail;
 use Zizaco\Entrust\EntrustRole;
 use Illuminate\Support\Carbon;
 use App\Mail\RoleNotification;
@@ -206,15 +207,10 @@ class Role extends EntrustRole
             $bcc = array_diff($bcc, ['', auth()->user() ? auth()->user()->email : '', config('mail.email_send_delay')]);
             $bcc = array_unique($bcc);
 
-            \Mail::to($to)->bcc($bcc)->later(
+            Mail::to($to)->bcc($bcc)->later(
                 Carbon::now()->addMinutes(config('mail.email_send_delay')),
                 new RoleNotification($this->getTable(), $this->id, $this->name, auth()->user()->name, $this->event_type)
             );
-
-            // restarting the queue to make sure they are started
-            /*if (!empty(config('custom.exec_queue_work'))) {
-                info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-            }*/
         }
         return $this;
     }

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Str;
 use App\Mail\Auth\VerifyMail;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -91,15 +92,8 @@ class RegisterController extends Controller
         $user->attachRole(8); // user role
 
         // sending email notification with queue
-        \Mail::to($user->email)
-            // ->bcc(config('mail.mail_info'))!!! depricated setting
+        Mail::to($user->email)
             ->queue(new VerifyMail($user));
-
-        // restarting the queue to make sure they are started
-        if( !empty(config('custom.exec_queue_work')) ) {
-            info(__METHOD__ . ': ' . exec(config('custom.exec_queue_work')));
-        }
-
         return $user;
     }
 
@@ -111,7 +105,7 @@ class RegisterController extends Controller
     {
         $this->validator(request()->all())->validate();
         event(new Registered($user = $this->create(request()->all())));
-    
+
         // return redirect()->route('login')
         //     ->with('success', 'Check your email and click on the link to verify.');
 
