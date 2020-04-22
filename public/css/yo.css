@@ -306,6 +306,12 @@ a.navbar-brand.grey:hover, .navbar-dark .navbar-nav .nav-link:hover, .navbar-nav
 /* /main menu */
 
 
+.monogram {
+    margin-bottom: .5em;
+}
+
+
+
 
 
 /* left_menu accordion-menu-with-submenus */
@@ -631,9 +637,7 @@ a.list-group-item[aria-expanded=true] .animated-icon3 span:nth-child(3) {
     justify-content: center;
     top: 0.2em;
 }
-.card .row.product_buttons {
-    height: 1em;
-}
+
 .product_card_bm .row.product_buttons a.btn:hover {
     color: #fff;
     transition: all 0.5s ease-out 0s;

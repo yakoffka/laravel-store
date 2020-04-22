@@ -3,35 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{-- CSRF Token --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    {{-- https://connect.yandex.ru/pdd/ --}}
-    <meta name="yandex-verification" content="{{env('YANDEX_VERIFICATION', '')}}" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">{{-- CSRF Token --}}
+    <meta name="yandex-verification" content="{{env('YANDEX_VERIFICATION', '')}}" />{{-- https://connect.yandex.ru/pdd/ --}}
     <title>@yield('title')</title>
-
     <meta name="description" content="@yield('description')"/>
-
     {{-- Scripts part 1 --}}
     <script src="{{ asset('js/jquery/1.11.2/jquery.min.js') }}"></script>
-
     {{-- Fonts --}}
     {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
     <link href="{{ asset('fonts/proxima-nova/style.css') }}" rel="stylesheet" type="text/css">
-
     {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/yo.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
     {{-- Favicon --}}
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png">
 </head>
 <body>
-    {{-- <div id="app"> смотри resources/js/app.js закомментировал, тк не нашел лучшего решения для работы unisharp laravel-filemanager --}}
-    <div id="app_">
+    <div id="app_">{{-- <div id="app"> смотри resources/js/app.js закомментировал, тк не нашел лучшего решения для работы unisharp laravel-filemanager --}}
 
         <div class="fw-background">{{-- from https://datatables.net/examples/basic_init/table_sorting.html --}}
             <div class="container relative">
@@ -255,11 +244,8 @@
 
 
         <div class="footer relative">
-
             <div class="container">
-
                 <div class="copy">© Never trust yourself</div>
-
                 <div class="row m-0">
 
                     {{-- @include('menu.main') --}}
@@ -275,7 +261,6 @@
                     @endif
 
                 </div>
-
             </div>
 
             <div class="skew"></div>
@@ -320,9 +305,12 @@
 
     {{-- wysiwyg --}}
     @if (
-        config('settings.description_wysiwyg') == 'ckeditor' or
-        config('settings.modification_wysiwyg') == 'ckeditor' or
-        config('settings.workingconditions_wysiwyg') == 'ckeditor'
+        (auth()->user() && auth()->user()->can('view_adminpanel'))
+        && (
+            (config('settings.description_wysiwyg') === 'ckeditor')
+            or (config('settings.modification_wysiwyg') === 'ckeditor')
+            or (config('settings.workingconditions_wysiwyg') === 'ckeditor')
+        )
     )
         <script src="{{ asset('wysiwyg/ckeditor/4.5.11/ckeditor.js') }}"></script>
         <script src="{{ asset('wysiwyg/ckeditor/4.5.11/adapters/jquery.js') }}"></script>
@@ -330,9 +318,12 @@
 
     {{-- summernote --}}
     @if (
-        config('settings.description_wysiwyg') == 'summernote' or
-        config('settings.modification_wysiwyg') == 'summernote' or
-        config('settings.workingconditions_wysiwyg') == 'summernote'
+        (auth()->user() && auth()->user()->can('view_adminpanel'))
+        && (
+            (config('settings.description_wysiwyg') === 'summernote')
+            || (config('settings.modification_wysiwyg') === 'summernote')
+            || (config('settings.workingconditions_wysiwyg') === 'summernote')
+        )
     )
         <link href="{{ asset('wysiwyg/summernote/summernote.css') }}" rel="stylesheet">
         <script src="{{ asset('wysiwyg/summernote/summernote.js') }}"></script>
@@ -340,9 +331,12 @@
 
     {{-- tinymce --}}
     @if (
-        config('settings.description_wysiwyg') == 'tinymce' or
-        config('settings.modification_wysiwyg') == 'tinymce' or
-        config('settings.workingconditions_wysiwyg') == 'tinymce'
+        (auth()->user() && auth()->user()->can('view_adminpanel'))
+        && (
+            (config('settings.description_wysiwyg') === 'tinymce')
+            or (config('settings.modification_wysiwyg') === 'tinymce')
+            or (config('settings.workingconditions_wysiwyg') === 'tinymce')
+        )
     )
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         {{-- ?? проверить локальный <script src="{{ asset('wysiwyg/tinymce/4/tinymce.min.js') }}"></script> --}}
@@ -383,8 +377,6 @@
             tinymce.init(editor_config);
         </script>
     @endif
-
-
 
 </body>
 </html>
