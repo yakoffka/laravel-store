@@ -13,7 +13,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ( isset( $this->product ) ) {
+        if (isset($this->product)) {
             return auth()->user()->can('edit_products');
         }
 
@@ -24,27 +24,28 @@ class ProductRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     */   public function rules(): array
+     */
+    public function rules(): array
     {
         return [
-            'name'              => [
+            'name' => [
                 'required',
                 'string',
-                isset( $this->product ) ? 'unique:products,name,'.$this->product->id : 'unique:products,name',
+                isset($this->product) ? 'unique:products,name,' . $this->product->id : 'unique:products,name',
             ],
-            'title'             => 'nullable|string',
-            'slug'              => 'nullable|string',
-            'manufacturer_id'   => 'nullable|integer',
-            'category_id'       => 'required|integer',
-            'publish'           => 'nullable|string|in:on',
-            'materials'         => 'nullable|string',
-            'description'       => 'nullable|string',
-            'modification'      => 'nullable|string',
+            'title' => 'nullable|string',
+            'slug' => 'nullable|string',
+            'manufacturer_id' => 'nullable|integer',
+            'category_id' => 'required|integer',
+            'publish' => 'nullable|string|in:on',
+            'materials' => 'nullable|string',
+            'description' => 'nullable|string',
+            'modification' => 'nullable|string',
             'workingconditions' => 'nullable|string',
-            'images_path'       => 'nullable|string',
+            'images_path' => 'nullable|string',
             'date_manufactured' => 'nullable|date_format:Y-m-d',
-            'price'             => 'nullable|numeric',
-            'copy_img'          => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'copy_img' => 'nullable|integer',
         ];
     }
 }
