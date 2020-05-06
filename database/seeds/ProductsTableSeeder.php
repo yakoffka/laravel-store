@@ -38,21 +38,18 @@ class ProductsTableSeeder extends Seeder
 
                 $manufacturer = $manufacturers->random();
                 $category = $arr_categories[array_rand($arr_categories)];
-                $name = $category['name']
-                    . ' '
-                    .  $manufacturer->title
-                    . ' '
-                    . $a[rand(0, strlen($a)-1)]
-                    . $a[rand(0, strlen($a)-1)]
-                    . '-'
-                    . rand(10, 215);
+                $model_code = $a[rand(0, strlen($a)-1)] . $a[rand(0, strlen($a)-1)] . '-' . rand(10, 215);
+                $name = $category['name'] . ' ' .  $manufacturer->title . ' ' . $model_code;
                 $materials = $arrMaterial[rand(0, count($arrMaterial)-1)];
                 $description = $name . $faker->realText(rand(10, 500)) . $name;
 
                 DB::table('products')->insert([
                     'name' => $name,
+                    'title' => $name,
                     'slug' => Str::slug($name, '-'),
                     'manufacturer_id' => $manufacturer->id,
+                    'vendor_code' => $category['id'] . $model_code,
+                    'code_1c' => $category['id'] . $model_code,
                     'category_id' => $category['id'],
                     'publish' => rand(0, 5) > 0,
                     'materials' => $materials,

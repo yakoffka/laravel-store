@@ -28,7 +28,7 @@ class ImagesTableSeeder extends Seeder
                 ];
 
                 foreach($images as $j => $image) {
-                    $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . config('imageyo.res_ext');
+                    $def_pathname  = storage_path() . '/app/public/images/default/category/' . $image . '.png';
                     $path  = '/images/products/' . $product->id;
 
                     if ( is_file($def_pathname) ) {
