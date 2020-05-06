@@ -667,7 +667,7 @@ class Product extends Model
         if ($val === null) {
             return $short ? __('not specified') : __('Price not specified');
         }
-        return (string)number_format($val, 0, ', ', ' ') . ' <span class="currency">&#8381;</span>';
+        return (string)number_format($val, 0, ', ', ' ') . ' <span class="currency">' . config('custom.currency') . '</span>';
     }
 
     /**
